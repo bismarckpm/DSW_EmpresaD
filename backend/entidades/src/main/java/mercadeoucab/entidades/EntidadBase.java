@@ -6,6 +6,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.MappedSuperclass;
 import java.io.Serializable;
+import java.sql.Date;
 
 @MappedSuperclass
 public class EntidadBase implements Serializable
@@ -20,12 +21,44 @@ public class EntidadBase implements Serializable
     @Column( name = "estatus" )
     private String _estatus;
 
-    //endregion
+    @Column( name = "activo")
+    private int activo;
 
-    //region Method
+    @Column( name = "creado_el")
+    private Date creado_el;
 
+    @Column( name = "modificado_el")
+    private  Date modificado_el;
 
-    public EntidadBase( long id )
+    public void set_id(long _id) {
+        this._id = _id;
+    }
+
+    public int getActivo() {
+        return activo;
+    }
+
+    public void setActivo(int activo) {
+        this.activo = activo;
+    }
+
+    public Date getCreado_el() {
+        return creado_el;
+    }
+
+    public void setCreado_el(Date creado_el) {
+        this.creado_el = creado_el;
+    }
+
+    public Date getModificado_el() {
+        return modificado_el;
+    }
+
+    public void setModificado_el(Date modificado_el) {
+        this.modificado_el = modificado_el;
+    }
+
+    public EntidadBase(long id )
     {
         _id = id;
     }
@@ -33,7 +66,6 @@ public class EntidadBase implements Serializable
     public EntidadBase()
     {
     }
-
 
     public long get_id()
     {
