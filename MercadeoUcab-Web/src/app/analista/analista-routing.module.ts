@@ -9,12 +9,11 @@ const routes: Routes = [
   {
   path:'analist', component:AnalistaComponent,
   children:[
-    //ASIGNED, PROGRESS & DONE
-    {path: 'analist/tasks', component: AnalistaTasksComponent},
     //ESTUDIO PAGE
-    {path: 'analist/overview', component: AnalistaOverviewComponent},
+    {path: 'overview', component: AnalistaOverviewComponent, pathMatch:"full"},
     ]
-  }
+  },
+  {path:'analist',redirectTo:'/analist/overview', pathMatch:'prefix',}
 ];
 
 @NgModule({

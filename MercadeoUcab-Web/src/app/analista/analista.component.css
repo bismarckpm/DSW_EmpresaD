@@ -1,0 +1,20 @@
+.dasboard-container {
+    height: 100px;
+    width: 100vw;
+    display: flex;
+    flex-direction: row;
+}
+
+.dashborad-nav {
+    height: 100%;
+    background-color: aqua;
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+}
+
+.dashboard-section {
+    height: 100%;
+    width: 80%;
+    background-color: red;
+}

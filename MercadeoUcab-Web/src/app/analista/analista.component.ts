@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component,  OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 
 @Component({
@@ -6,9 +6,13 @@ import { Router, ActivatedRoute } from '@angular/router';
   templateUrl: './analista.component.html',
   styleUrls: ['./analista.component.css']
 })
-export class AnalistaComponent {
+export class AnalistaComponent implements OnInit {
   constructor(
     private route: ActivatedRoute,
     private router: Router,
   ){ }
+
+  ngOnInit(): void {
+    this.router.navigate(['analist/overview'],{relativeTo:this.route});
+  }
 }

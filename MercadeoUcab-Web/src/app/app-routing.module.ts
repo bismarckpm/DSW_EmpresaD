@@ -7,13 +7,8 @@ import {AnalistaTasksComponent} from './analista/analista-tasks/analista-tasks.c
 import { AppComponent } from './app.component';
 
 const routes: Routes = [
-  //{path:'home', component:AppComponent},
-  {path:'analist', 
-  //component:AnalistaComponent,
-  loadChildren: () => import(`./analista/analista.module`).then(m => m.AnalistaModule)},
-  { path: '', pathMatch: 'full', component:AppComponent },
-  //{path:'', component:AppComponent},
-
+  {path:'analist', loadChildren:() => import('./analista/analista.module').then(m => m.AnalistaModule)},
+  {path:'', redirectTo:'/analist', pathMatch:'full' }
 ];
 
 @NgModule({

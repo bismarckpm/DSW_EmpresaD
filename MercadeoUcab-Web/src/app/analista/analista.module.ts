@@ -6,7 +6,7 @@ import { AnalistaRoutingModule } from './analista-routing.module';
 import { LandingAnalistaComponent } from './landing-analista/landing-analista.component';
 import { AnalistaTasksComponent } from './analista-tasks/analista-tasks.component';
 import { AnalistaOverviewComponent } from './analista-overview/analista-overview.component';
-
+import { MatGridListModule } from '@angular/material/grid-list';
 
 @NgModule({
   declarations: [

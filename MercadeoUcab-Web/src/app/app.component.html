@@ -1,8 +1,11 @@
-<div>
+<!--<div>
   <h1>Prueba 1 - {{ title }}</h1>
   <nav>
-    <a [routerLink]="['analist']">TO ANALISTA</a>
+    <a [routerLink]="['/analist']" routerLinkActive="active">TO ANALISTA</a>
   </nav>
+</div>-->
+<div style="width: 100vw; height: 100vh;">
+<router-outlet>
+  <!--CONTENIDO APLICACION-->
+</router-outlet>
 </div>
-<router-outlet></router-outlet>
-
