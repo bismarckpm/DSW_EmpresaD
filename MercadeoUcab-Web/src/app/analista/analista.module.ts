@@ -1,22 +1,21 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { BrowserModule } from '@angular/platform-browser';
-
 import { AnalistaRoutingModule } from './analista-routing.module';
-import { LandingAnalistaComponent } from './landing-analista/landing-analista.component';
-import { AnalistaTasksComponent } from './analista-tasks/analista-tasks.component';
-import { AnalistaOverviewComponent } from './analista-overview/analista-overview.component';
+import { AnalistaTasksComponent } from './Pages/tasks/analista-tasks.component';
+import { AnalistaOverviewComponent } from './Pages/overview/analista-overview.component';
 import { MatGridListModule } from '@angular/material/grid-list';
+import { MatCardModule } from '@angular/material/card';
 
 @NgModule({
   declarations: [
-    LandingAnalistaComponent,
     AnalistaTasksComponent,
-    AnalistaOverviewComponent
+    AnalistaOverviewComponent,
   ],
   imports: [
     CommonModule,
     AnalistaRoutingModule,
+    MatGridListModule,
+    MatCardModule,
   ],
 })
 export class AnalistaModule { }
