@@ -1,11 +1,32 @@
-<!--<div>
+<div class="container">
+  <!--
   <h1>Prueba 1 - {{ title }}</h1>
-  <nav>
-    <a [routerLink]="['/analist']" routerLinkActive="active">TO ANALISTA</a>
-  </nav>
-</div>-->
-<div style="width: 100vw; height: 100vh;">
-<router-outlet>
-  <!--CONTENIDO APLICACION-->
-</router-outlet>
+  <ul>
+    <li>
+      <a 
+        routerLink="/encuestado" 
+        routerLinkActive="active"
+      > 
+        Encuestado
+      </a>
+    </li>
+    <li>
+      <a 
+        routerLink="/administrador" 
+        routerLinkActive="active"
+      >
+        Administrador
+      </a>
+    </li>
+    <li>
+      <a 
+        routerLink="/analist" 
+        routerLinkActive="active"
+      >
+        Analista
+      </a>
+    </li>
+  </ul>
+  -->
+  <router-outlet></router-outlet>
 </div>
