@@ -13,6 +13,5 @@ export class AnalistaComponent implements OnInit {
   ){ }
 
   ngOnInit(): void {
-    this.router.navigate(['analist/overview'],{relativeTo:this.route});
   }
 }

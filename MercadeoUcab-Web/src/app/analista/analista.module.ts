@@ -6,17 +6,20 @@ import { AnalistaRoutingModule } from './analista-routing.module';
 import { LandingAnalistaComponent } from './landing-analista/landing-analista.component';
 import { AnalistaTasksComponent } from './analista-tasks/analista-tasks.component';
 import { AnalistaOverviewComponent } from './analista-overview/analista-overview.component';
-import { MatGridListModule } from '@angular/material/grid-list';
+import { AnalistaComponent } from './analista.component';
+import { MaterialModule } from '../material.module';
 
 @NgModule({
   declarations: [
     LandingAnalistaComponent,
     AnalistaTasksComponent,
-    AnalistaOverviewComponent
+    AnalistaOverviewComponent,
+    AnalistaComponent
   ],
   imports: [
     CommonModule,
     AnalistaRoutingModule,
+    MaterialModule
   ],
 })
 export class AnalistaModule { }

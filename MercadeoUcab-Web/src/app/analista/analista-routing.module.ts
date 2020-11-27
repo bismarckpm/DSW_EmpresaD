@@ -7,10 +7,11 @@ import {LandingAnalistaComponent } from './landing-analista/landing-analista.com
 
 const routes: Routes = [
   {
-  path:'analist', component:AnalistaComponent,
-  children:[
-    //ESTUDIO PAGE
-    { path: 'overview', component: AnalistaOverviewComponent, pathMatch:"full"},
+    path:'analist', 
+    component:AnalistaComponent,
+    children:[
+      //ESTUDIO PAGE
+      { path: 'overview', component: AnalistaOverviewComponent, pathMatch:"full"},
     ]
   }
 ];
