@@ -3,6 +3,7 @@ import { Routes, RouterModule } from '@angular/router';
 import { AnalistaOverviewComponent } from './Pages/overview/analista-overview.component';
 import { AnalistaTasksComponent } from './Pages//tasks/analista-tasks.component';
 import { AnalistaComponent } from './Pages/dashboard/analista.component';
+import { EstudioRealizarComponent } from './Pages/estudio-realizar/estudio-realizar.component';
 
 
 const routes: Routes = [
@@ -11,6 +12,7 @@ const routes: Routes = [
   children:[
     {path: 'overview', component: AnalistaOverviewComponent, pathMatch:"full"},
     {path: 'tasks', component: AnalistaTasksComponent, pathMatch:"full"},
+    {path: 'estudio/:id', component: EstudioRealizarComponent, pathMatch:"full"},
     ]
   },
   {path:'analist',redirectTo:'/analist/overview', pathMatch:'prefix',}

@@ -1,1 +1,30 @@
-<p>analista-tasks works!</p>
+<mat-card class="app-analista-tasks" style="overflow-y: scroll;">
+    <table mat-table [dataSource]="data" class="mat-elevation-z8">
+        <!-- Name Column -->
+        <ng-container matColumnDef="nombre">
+            <th mat-header-cell *matHeaderCellDef> Nombre </th>
+            <td mat-cell *matCellDef="let element"> {{element.nombre}} </td>
+        </ng-container>
+        <!--fecha_asig-->
+        <ng-container matColumnDef="fecha_asig">
+            <th mat-header-cell *matHeaderCellDef> Fecha de asignación </th>
+            <td mat-cell *matCellDef="let element"> {{element.fecha_asig}} </td>
+        </ng-container>
+        <!-- state Column -->
+        <ng-container matColumnDef="estado">
+            <th mat-header-cell *matHeaderCellDef> Estado </th>
+            <td mat-cell *matCellDef="let element">
+                <a *ngIf="element.estado === 'I'; else message">
+                    {{element.estado}}
+                </a>
+                <ng-template #message>
+                    <h2>
+                        NOT
+                    </h2>
+                </ng-template> 
+            </td>
+        </ng-container>
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+    </table>
+</mat-card>

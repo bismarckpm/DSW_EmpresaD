@@ -1,0 +1,7 @@
+.app-analista-tasks {
+    width: 80vw;
+    height: 75vh;
+    display: flex;    
+    flex-direction: column;
+    background-color: white;
+}
