@@ -10,10 +10,9 @@ const routes: Routes = [
   path:'analist', component:AnalistaComponent,
   children:[
     //ESTUDIO PAGE
-    {path: 'overview', component: AnalistaOverviewComponent, pathMatch:"full"},
+    { path: 'overview', component: AnalistaOverviewComponent, pathMatch:"full"},
     ]
-  },
-  {path:'analist',redirectTo:'/analist/overview', pathMatch:'prefix',}
+  }
 ];
 
 @NgModule({
