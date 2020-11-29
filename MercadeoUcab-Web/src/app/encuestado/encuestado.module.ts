@@ -6,11 +6,13 @@ import { ToolbarComponent } from './components/toolbar/toolbar.component';
 import { HomeComponent } from './pages/Home/Home.component';
 import { MaterialModule } from '../material.module';
 import { CarrouselComponent } from './components/carrousel/carrousel.component';
+import { StudioCardComponent } from './components/studioCard/studioCard.component';
 
 
 @NgModule({
   declarations: [
     ToolbarComponent,
+    StudioCardComponent,
     CarrouselComponent,
     HomeComponent
   ],
