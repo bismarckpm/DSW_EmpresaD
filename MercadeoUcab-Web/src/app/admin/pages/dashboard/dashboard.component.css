@@ -1,0 +1,27 @@
+.dasboard-container {
+    height: 100px;
+    width: 100vw;
+    display: flex;
+    flex-direction: row;
+}
+
+.dashborad-nav {
+    height: 100%;
+    background-color: aqua;
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+}
+
+.dashboard-section {
+    height: 100%;
+    width: 80%;
+}
+
+.user-info {
+    width: 90%;
+    height: 65%;
+    background-color: white;
+    box-shadow:  0px 0.6px 0.5px 0.5px rgba(0, 0, 0, 0.132), 0px 1.8px 0.5px 0.5px rgba(0, 0, 0, 0.108);
+    padding: 8px !important;
+}
