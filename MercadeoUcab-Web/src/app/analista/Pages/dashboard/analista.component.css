@@ -16,5 +16,10 @@
 .dashboard-section {
     height: 100%;
     width: 80%;
-    background-color: red;
+}
+
+.user-info {
+    width: 90%;
+    height: 65%;
+    background-color: white;
 }

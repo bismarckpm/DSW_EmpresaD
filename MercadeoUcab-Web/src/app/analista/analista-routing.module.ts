@@ -13,9 +13,8 @@ const routes: Routes = [
     {path: 'overview', component: AnalistaOverviewComponent, pathMatch:"full"},
     {path: 'tasks', component: AnalistaTasksComponent, pathMatch:"full"},
     {path: 'estudio/:id', component: EstudioRealizarComponent, pathMatch:"full"},
-    ]
+  ]
   },
-  {path:'analist',redirectTo:'/analist/overview', pathMatch:'prefix',}
 ];
 
 @NgModule({

@@ -10,17 +10,32 @@
             <th mat-header-cell *matHeaderCellDef> Fecha de asignación </th>
             <td mat-cell *matCellDef="let element"> {{element.fecha_asig}} </td>
         </ng-container>
-        <!-- state Column -->
+        <!-- estado Column -->
         <ng-container matColumnDef="estado">
             <th mat-header-cell *matHeaderCellDef> Estado </th>
             <td mat-cell *matCellDef="let element">
-                <a *ngIf="element.estado === 'I'; else message">
-                    {{element.estado}}
-                </a>
+                <div 
+                class="estado-cell"
+                *ngIf="element.estado === 'I'; else message">
+                    <a>No iniciado</a>
+                    <button  mat-mini-fab 
+                    style="background-color: #00d8b4; color:white"
+                    aria-label="Example icon button with a filter list icon"
+                    (click)="onDirEstudio('analist/estudio',element.Id)">
+                        <mat-icon>more_time</mat-icon>
+                    </button>
+                </div>
                 <ng-template #message>
-                    <h2>
-                        NOT
-                    </h2>
+                <div
+                class="estado-cell">
+                    <a>En ejecución</a>
+                    <button 
+                    style="background-color: #00d8b4; color:white"
+                    mat-mini-fab  aria-label="Example icon button with a filter list icon"
+                    (click)="onDirEstudio('analist/estudio',element.Id)">
+                        <mat-icon>refresh</mat-icon>
+                    </button >
+                </div>
                 </ng-template> 
             </td>
         </ng-container>

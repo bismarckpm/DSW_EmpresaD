@@ -7,6 +7,10 @@ import { MatGridListModule } from '@angular/material/grid-list';
 import { MatCardModule } from '@angular/material/card';
 import { EstudioRealizarComponent } from './Pages/estudio-realizar/estudio-realizar.component';
 import {MatTableModule} from '@angular/material/table';
+import {MatRippleModule} from '@angular/material/core';
+import { MatIconModule } from '@angular/material/icon';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { EstudioService } from './../shared/Services/estudio/estudio.service';
 
 
 @NgModule({
@@ -20,7 +24,13 @@ import {MatTableModule} from '@angular/material/table';
     AnalistaRoutingModule,
     MatGridListModule,
     MatCardModule,
-    MatTableModule
+    MatTableModule,
+    MatRippleModule,
+    MatIconModule,
+    BrowserAnimationsModule
   ],
+  providers:[
+    EstudioService
+  ]
 })
 export class AnalistaModule { }

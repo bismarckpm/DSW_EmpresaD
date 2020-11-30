@@ -1,6 +1,6 @@
 import { Component,  OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
-
+import { EstudioService } from '../../../shared/Services/estudio/estudio.service';
 @Component({
   selector: 'app-analista',
   templateUrl: './analista.component.html',
@@ -11,9 +11,7 @@ export class AnalistaComponent implements OnInit {
     private route: ActivatedRoute,
     private router: Router,
   ){ }
-  ngOnInit(): void {
-    this.router.navigate(['analist/overview'],{relativeTo:this.route});
-  }
+  ngOnInit(): void {}
 
   onDir(_route:string):void {
     try{

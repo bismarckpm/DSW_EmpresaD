@@ -1,36 +1,34 @@
-import { Component, OnInit } from '@angular/core';
-import { EstudioModel } from '../../Models/Estudio.model';
+import { Component, EventEmitter, OnInit, Output } from '@angular/core';
+import { EstudioModel } from './../../../shared/Models/Estudio.model';
+import { Router, ActivatedRoute } from '@angular/router';
+import { EstudioService } from '../../../shared/Services/estudio/estudio.service';
 export interface PeriodicElement {
   name: string;
   state:string;
 }
 
-const ELEMENT_DATA: EstudioModel[] = [
-  { nombre: 'Hydrogen', fecha_asig:new Date(),estado:'I'},
-  { nombre: 'Helium', fecha_asig:new Date(),estado:'A'},
-  { nombre: 'Lithium',fecha_asig:new Date(),estado:'I'},
-  { nombre: 'Beryllium', fecha_asig:new Date(),estado:'A'},
-  { nombre: 'Boron', fecha_asig:new Date(),estado:'A'},
-  { nombre: 'Carbon',fecha_asig:new Date(),estado:'I'},
-  { nombre: 'Nitrogen', fecha_asig:new Date(),estado:'A'},
-  { nombre: 'Oxygen', fecha_asig:new Date(),estado:'I'},
-  { nombre: 'Fluorine', fecha_asig:new Date(),estado:'I'},
-  { nombre: 'Neon',fecha_asig:new Date(),estado:'I'},
-];
-
 @Component({
   selector: 'app-analista-tasks',
   templateUrl: './analista-tasks.component.html',
-  styleUrls: ['./analista-tasks.component.css']
+  styleUrls: ['./analista-tasks.component.css'],
 })
 export class AnalistaTasksComponent implements OnInit {
-  
   displayedColumns: string[] = ['nombre','fecha_asig','estado'];
   columnsToDisplay: string[] = this.displayedColumns.slice();
-  data: EstudioModel[] = ELEMENT_DATA;
+  data: EstudioModel[] = this.service.getEstudios();
+  
+  constructor( 
+    private route: ActivatedRoute,
+    private router: Router,
+    private service : EstudioService) {}
 
-  constructor() {}
-  ngOnInit(): void {
+  ngOnInit(): void {}
+
+  onDirEstudio(_route:string,Id:number):void {
+    try{
+    this.router.navigate([`analist/estudio/${Id}`]);
+    }catch(e){
+      console.log(e.message);
+    }
   }
-
 }

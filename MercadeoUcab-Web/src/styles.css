@@ -1,6 +1,9 @@
 /* You can add global styles to this file, and also import other style files */
 @import './app/analista/Pages/overview/analista-overview.component.css';
 @import './app/analista/Pages/tasks/analista-tasks.component.css';
+@import './app/analista/Pages/estudio-realizar/estudio-realizar.component.css';
+@import './app/analista/Pages/dashboard/analista.component.css';
+
 
 html, body { height: 100%; }
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
@@ -8,4 +11,9 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 .mat-card {
     box-shadow:  0px 0.6px 0.5px 0.5px rgba(0, 0, 0, 0.132), 0px 1.8px 0.5px 0.5px rgba(0, 0, 0, 0.108);
     padding: 8px !important;
+}
+
+.action-element {
+    background-color: #00d8b4; 
+    color:white;
 }
