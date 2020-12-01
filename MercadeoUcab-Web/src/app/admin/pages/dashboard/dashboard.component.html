@@ -7,7 +7,6 @@ style="background-color: #E5FFF7;"
     style="background-color:#5C9D8B;">
         <div class="dashboard-nav"
         style="
-        height: 35% !important;
         display: flex !important;
         flex-direction: column !important;
         width: 100% !important;
@@ -20,7 +19,7 @@ style="background-color: #E5FFF7;"
             >
             <button mat-fab color="primary" aria-label="Example icon button with a delete icon" 
             style="background-color: #00d8b4; color:white"
-            
+            (click)="onDir('administrador/usuarios')"
             >
                 <mat-icon>supervisor_account</mat-icon>
             </button>
@@ -31,7 +30,7 @@ style="background-color: #E5FFF7;"
             >
             <button mat-fab color="primary" aria-label="Example icon button with a delete icon" 
             style="background-color: #00d8b4; color:white"
-            
+            (click)="onDir('administrador/estudios')"
             >
                 <mat-icon>work</mat-icon>
             </button>
@@ -42,7 +41,18 @@ style="background-color: #E5FFF7;"
             >
             <button mat-fab color="primary" aria-label="Example icon button with a delete icon" 
             style="background-color: #00d8b4; color:white"
-           
+            (click)="onDir('administrador/home')"
+            >
+                <mat-icon>home</mat-icon>
+            </button>
+            </mat-grid-tile>
+            <mat-grid-tile
+            [colspan]="1"
+            [rowspan]="1"
+            >
+            <button mat-fab color="primary" aria-label="Example icon button with a delete icon" 
+            style="background-color: #00d8b4; color:white"
+            (click)="onDir('administrador/preguntas')"
             >
                 <mat-icon>help_center</mat-icon>
             </button>
@@ -52,7 +62,8 @@ style="background-color: #E5FFF7;"
             [rowspan]="1"
             >
             <button mat-fab color="primary" aria-label="Example icon button with a delete icon" 
-            style="background-color: #00d8b4; color:white">
+            style="background-color: #00d8b4; color:white"
+            (click)="onDir('administrador/categorias')">
                 <mat-icon>category</mat-icon>
             </button>
             </mat-grid-tile>

@@ -9,10 +9,11 @@ import { PresentacionComponent } from './pages/presentacion/presentacion.compone
 import { DashboardComponent } from './pages/dashboard/dashboard.component';
 import { DataTableComponent } from './components/data-table/data-table.component';
 import { MaterialModule } from '../material.module';
+import { BaseDialogComponent } from './components/base-dialog/base-dialog.component';
 
 
 @NgModule({
-  declarations: [EstudiosComponent, CategoriasComponent, UsuariosComponent, PresentacionComponent, DashboardComponent, DataTableComponent],
+  declarations: [EstudiosComponent, CategoriasComponent, UsuariosComponent, PresentacionComponent, DashboardComponent, DataTableComponent, BaseDialogComponent],
   imports: [
     CommonModule,
     AdminRoutingModule,
