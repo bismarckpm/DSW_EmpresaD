@@ -1,0 +1,6 @@
+.base-dialog{
+    position: absolute;
+    top: 50vh;
+    right: 50vw;
+    background-color: white;
+}

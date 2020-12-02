@@ -1,58 +1,121 @@
-<!--
-<app-data-table [_data]="users" [_displayedColumns]="displayedColumns" [_columnsToDisplay]="columnsToDisplay">
-    <ng-container matColumnDef="test">
-        <th mat-header-cell *matHeaderCellDef>Id</th>
-        <td mat-cell *matCellDef="let element"> {{element.id}} </td>
-    </ng-container>
-</app-data-table>
--->
 <app-data-table>
-    <table mat-table [dataSource]="users" class="mat-elevation-z8">
+    <table mat-table [dataSource]="dataSource" class="mat-elevation-z8" style="flex:1">
         <ng-container matColumnDef="id">
             <th mat-header-cell *matHeaderCellDef>Id</th>
             <td mat-cell *matCellDef="let element"> {{element.id}} </td>
         </ng-container>
-        <!--
-        <ng-container matColumnDef="nombre">
-            <th mat-header-cell *matHeaderCellDef> Nombre </th>
-            <td mat-cell *matCellDef="let element"> {{element.nombre}} </td>
-        </ng-container>
-       
-        <ng-container matColumnDef="fecha_asig">
-            <th mat-header-cell *matHeaderCellDef> Fecha de asignación </th>
-            <td mat-cell *matCellDef="let element"> {{element.fecha_asig}} </td>
-        </ng-container>
-        
-        <ng-container matColumnDef="estado">
-            <th mat-header-cell *matHeaderCellDef> Estado </th>
+        <ng-container matColumnDef="selector">
+            <th mat-header-cell *matHeaderCellDef>Selección</th>
             <td mat-cell *matCellDef="let element">
-                <div 
-                class="estado-cell"
-                *ngIf="element.estado === 'I'; else message">
-                    <a>No iniciado</a>
-                    <button  mat-mini-fab 
-                    style="background-color: #00d8b4; color:white"
-                    aria-label="Example icon button with a filter list icon"
-                    (click)="onDirEstudio('analist/estudio',element.Id)">
-                        <mat-icon>more_time</mat-icon>
-                    </button>
-                </div>
-                <ng-template #message>
-                <div
-                class="estado-cell">
-                    <a>En ejecución</a>
+                <mat-checkbox
+                  [checked]="isSelected(element.id)"
+                  (change)="selectUser(element.id)"
+                  >
+                </mat-checkbox>
+            </td>
+        </ng-container>
+        <ng-container matColumnDef="ops">
+            <th mat-header-cell *matHeaderCellDef>Operación</th>
+            <td mat-cell *matCellDef="let element">
+                <div  *ngIf="isSelected(element.id)">
                     <button 
                     style="background-color: #00d8b4; color:white"
                     mat-mini-fab  aria-label="Example icon button with a filter list icon"
-                    (click)="onDirEstudio('analist/estudio',element.Id)">
-                        <mat-icon>refresh</mat-icon>
+                    class="shadow-sm"
+                    (click)="openInfo(userinf)"
+                    >
+                        <mat-icon>info</mat-icon>
+                    </button>
+                    <button 
+                    style="background-color: #00d8b4; color:white; margin:0px 5px"
+                    mat-mini-fab  aria-label="Example icon button with a filter list icon"
+                    (click)="openInfo(userupd)"
+                    class="shadow-sm"
+                    >
+                        <mat-icon>autorenew</mat-icon>
                     </button >
+                    <button 
+                    style="background-color: #00d8b4; color:white"
+                    mat-mini-fab  aria-label="Example icon button with a filter list icon"
+                    (click)="openInfo(userdel)"
+                    class="shadow-sm"
+                    >
+                        <mat-icon>delete_forever</mat-icon>
+                    </button>
                 </div>
-                </ng-template> 
             </td>
         </ng-container>
-        -->
         <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
         <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
     </table>
 </app-data-table>
+
+<ng-template #userinf let-modal>
+    <div class="modal-header">
+        <h4 class="modal-title" id="modal-basic-title">Información de usuario #{{userSelection}}</h4>
+        <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form>
+            <!--
+            <div class="form-group">
+                <label for="exampleInputEmail1">Email address</label>
+                <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
+                <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>
+            </div>
+            --> 
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary" (click)="modal.close('Save click')">Cerrar</button>
+      </div>
+  </ng-template>
+  <ng-template #userupd let-modal>
+    <div class="modal-header">
+        <h4 class="modal-title" id="modal-basic-title">Modificar usuario #{{userSelection}}</h4>
+        <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+            <form [formGroup]="updForm" (submit)="checkValues()">
+            <div class="form-group">
+                <label for="exampleInputEmail1">Nombre de usuario</label>
+                <input type="text" formControlName="nombre" class="form-control" id="userNewName" aria-describedby="newNameHelp">
+                <small id="newNameHelp" class="form-text text-muted">WTV</small>
+            </div>
+            <button type="button" class="btn btn-danger" (click)="modal.close('Save click')">Cancelar</button>
+            <button type="submit" class="btn btn-primary">Modificar</button>
+            </form>
+      </div>
+      <!--
+      <div class="modal-footer">
+      </div>
+      -->
+  </ng-template>
+
+  <ng-template #userdel let-modal>
+    <div class="modal-header">
+        <h4 class="modal-title" id="modal-basic-title">Eliminar usuario #{{userSelection}}</h4>
+        <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <!--
+            <div class="form-group">
+                <label for="exampleInputEmail1">Email address</label>
+                <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
+                <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>
+            </div>
+            -->
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-outline-dark" 
+        (click)="modal.close('Save click')" class="btn btn-danger">Cancelar</button>
+        <button type="button" class="btn btn-primary" 
+        (click)="modal.close('Save click')" style="color: white;">Eliminar</button>
+      </div>
+  </ng-template>

@@ -7,6 +7,8 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatCardModule } from '@angular/material/card';
 import { MatButtonModule } from '@angular/material/button';
 import { MatDialogModule } from '@angular/material/dialog';
+import {MatCheckboxModule} from '@angular/material/checkbox';
+import {MatPaginatorModule} from '@angular/material/paginator';
 
 @NgModule({
   declarations: [],
@@ -18,7 +20,9 @@ import { MatDialogModule } from '@angular/material/dialog';
     MatTableModule,
     MatIconModule,
     MatButtonModule,
-    MatDialogModule
+    MatDialogModule,
+    MatCheckboxModule,
+    MatPaginatorModule
   ],
   exports: [
     BrowserAnimationsModule,
@@ -27,7 +31,9 @@ import { MatDialogModule } from '@angular/material/dialog';
     MatTableModule,
     MatIconModule,
     MatButtonModule,
-    MatDialogModule
+    MatDialogModule,
+    MatCheckboxModule,
+    MatPaginatorModule
   ]
 })
 export class MaterialModule { }

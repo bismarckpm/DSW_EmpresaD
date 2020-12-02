@@ -9,6 +9,7 @@ import { ClienteModule } from './cliente/cliente.module';
 import { EncuestadoModule } from './encuestado/encuestado.module';
 import { SharedModule } from './shared/shared.module';
 import { MaterialModule } from './material.module';
+import { LocalNgbModule } from './ngbootstrap.module';
 @NgModule({
   declarations: [
     AppComponent
@@ -24,7 +25,8 @@ import { MaterialModule } from './material.module';
     AnalistaModule,
     AdminModule,
     MaterialModule,
-    AppRoutingModule
+    AppRoutingModule,
+    LocalNgbModule,
   ],
   bootstrap: [AppComponent]
 })

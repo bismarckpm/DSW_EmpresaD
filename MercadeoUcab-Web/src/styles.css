@@ -2,3 +2,19 @@
 
 html, body { height: 100%; }
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+
+.mat-card{
+    box-shadow:  0px 0.6px 0.5px 0.5px rgba(0, 0, 0, 0.132), 0px 1.8px 0.5px 0.5px rgba(0, 0, 0, 0.108);
+}
+
+.modal-dialog {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+button:focus {
+    outline:none !important;
+}
