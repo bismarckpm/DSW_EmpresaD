@@ -6,7 +6,7 @@
     <groupId>mercadeoucab</groupId>
     <artifactId>mercadeoUcab</artifactId>
     <version>1.0-SNAPSHOT</version>
-    <name>mercadeoUcab</name>
+    <name>MercadeoUcab-back</name>
     <packaging>pom</packaging>
 
 
