@@ -13,13 +13,9 @@ public class EntidadBase implements Serializable
 {
 
     @Id
-    @Column( name = "Id" )
+    @Column( name = "id" )
     @GeneratedValue( strategy = GenerationType.IDENTITY )
     private long _id;
-
-
-    @Column( name = "estatus" )
-    private String _estatus;
 
     @Column( name = "activo")
     private int activo;
@@ -67,20 +63,10 @@ public class EntidadBase implements Serializable
     {
     }
 
+
     public long get_id()
     {
         return _id;
     }
-
-    public String get_estatus()
-    {
-        return _estatus;
-    }
-
-    public void set_estatus( String _estatus )
-    {
-        this._estatus = _estatus;
-    }
-
 
 }
