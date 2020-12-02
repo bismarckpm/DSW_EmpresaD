@@ -22,7 +22,7 @@ public class DaoHandler
         {
             try
             {
-                _emf = Persistence.createEntityManagerFactory( "ormprueba" );
+                _emf = Persistence.createEntityManagerFactory( "mercadoucab" );
             }
             catch ( PersistenceException e )
             {
