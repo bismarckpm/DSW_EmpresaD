@@ -1,8 +1,7 @@
-package mercadeoucab.servicio;
-
 import mercadeoucab.dtos.DtoEstado;
 import mercadeoucab.dtos.DtoMunicipio;
 import mercadeoucab.entidades.Municipio;
+import mercadeoucab.servicio.ServicioMunicipio;
 import org.junit.Assert;
 import org.junit.Test;
 
