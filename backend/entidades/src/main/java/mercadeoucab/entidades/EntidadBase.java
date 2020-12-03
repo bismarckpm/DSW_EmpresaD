@@ -7,6 +7,7 @@ import javax.persistence.Id;
 import javax.persistence.MappedSuperclass;
 import java.io.Serializable;
 import java.sql.Date;
+import java.sql.Timestamp;
 
 @MappedSuperclass
 public class EntidadBase implements Serializable
@@ -17,18 +18,14 @@ public class EntidadBase implements Serializable
     @GeneratedValue( strategy = GenerationType.IDENTITY )
     private long _id;
 
-
-    @Column( name = "estatus" )
-    private String _estatus;
-
     @Column( name = "activo")
     private int activo;
 
     @Column( name = "creado_el")
-    private Date creado_el;
+    private Timestamp creado_el;
 
     @Column( name = "modificado_el")
-    private  Date modificado_el;
+    private  Timestamp modificado_el;
 
     public void set_id(long _id) {
         this._id = _id;
@@ -37,24 +34,21 @@ public class EntidadBase implements Serializable
     public int getActivo() {
         return activo;
     }
-
     public void setActivo(int activo) {
         this.activo = activo;
     }
 
-    public Date getCreado_el() {
+    public Timestamp getCreado_el() {
         return creado_el;
     }
-
-    public void setCreado_el(Date creado_el) {
+    public void setCreado_el(Timestamp creado_el) {
         this.creado_el = creado_el;
     }
 
-    public Date getModificado_el() {
+    public Timestamp getModificado_el() {
         return modificado_el;
     }
-
-    public void setModificado_el(Date modificado_el) {
+    public void setModificado_el(Timestamp modificado_el) {
         this.modificado_el = modificado_el;
     }
 
@@ -70,16 +64,6 @@ public class EntidadBase implements Serializable
     public long get_id()
     {
         return _id;
-    }
-
-    public String get_estatus()
-    {
-        return _estatus;
-    }
-
-    public void set_estatus( String _estatus )
-    {
-        this._estatus = _estatus;
     }
 
 
