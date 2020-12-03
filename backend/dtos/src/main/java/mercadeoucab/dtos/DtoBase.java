@@ -3,14 +3,13 @@ package mercadeoucab.dtos;
 import mercadeoucab.excepciones.PruebaExcepcion;
 
 import java.sql.Date;
-import java.sql.Timestamp;
 
 public class DtoBase
 {
     private long _id;
     private int activo;
-    private Timestamp creado_el;
-    private Timestamp modificado_el;
+    private Date creado_el;
+    private Date modificado_el;
 
     public long get_id() {
         return _id;
@@ -28,19 +27,19 @@ public class DtoBase
         this.activo = activo;
     }
 
-    public Timestamp getCreado_el() {
+    public Date getCreado_el() {
         return creado_el;
     }
 
-    public void setCreado_el(Timestamp creado_el) {
+    public void setCreado_el(Date creado_el) {
         this.creado_el = creado_el;
     }
 
-    public Timestamp getModificado_el() {
+    public Date getModificado_el() {
         return modificado_el;
     }
 
-    public void setModificado_el(Timestamp modificado_el) {
+    public void setModificado_el(Date modificado_el) {
         this.modificado_el = modificado_el;
     }
 
