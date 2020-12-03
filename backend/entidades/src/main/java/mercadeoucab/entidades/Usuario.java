@@ -27,20 +27,6 @@ public class Usuario extends EntidadBase {
         super(id);
     }
 
-    public Usuario(){  }
-
-
-    public String getNombre() {return nombre;}
-    public void setNombre(String nombre) {this.nombre = nombre;}
-
-    public String getApellido() {return this.apellido;}
-    public void setApellido(String apellido) {this.apellido = apellido;}
-
-    public String getRol() { return rol;}
-    public void setRol(String rol) { this.rol = rol; }
-
-    public String getEstado() {return estado;}
-    public void setEstado(String estado) {this.estado = estado;}
-
-    public List<Pregunta> getPregunta() {return pregunta;}
-    public void setPregunta(List<Pregunta> pregunta) {this.pregunta = pregunta;}
+    public Usuario() {
+    }
+}

@@ -21,10 +21,10 @@ public class Pregunta extends EntidadBase{
     private Usuario fk_usuario;
 
     @OneToMany(mappedBy = "fk_pregunta", fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
-    private List<opcion> Opcion;
+    private List<Opcion> Opcion;
 
     @OneToMany(mappedBy = "fk_pregunta", fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
-    private List<esqueletoEncuesta_Estudio> encuesta_estudios;
+    private List<EncuestaEstudio> encuesta_estudios;
 
     public String getNombre_pregunta() {return nombre_pregunta;}
     public void setNombre_pregunta(String nombre_pregunta) {this.nombre_pregunta = nombre_pregunta;}
@@ -38,9 +38,19 @@ public class Pregunta extends EntidadBase{
     public Usuario getFk_usuario() { return fk_usuario; }
     public void setFk_usuario(Usuario fk_usuario) {this.fk_usuario = fk_usuario;}
 
-    public List<opcion> getOpcion() {return Opcion;}
-    public void setOpcion(List<opcion> opcion) {Opcion = opcion;}
+    public List<mercadeoucab.entidades.Opcion> getOpcion() {
+        return Opcion;
+    }
 
-    public List<esqueletoEncuesta_Estudio> getEncuesta_estudios() {return encuesta_estudios;}
-    public void setEncuesta_estudios(List<esqueletoEncuesta_Estudio> ES) {encuesta_estudios = ES;}
+    public void setOpcion(List<mercadeoucab.entidades.Opcion> opcion) {
+        Opcion = opcion;
+    }
+
+    public List<EncuestaEstudio> getEncuesta_estudios() {
+        return encuesta_estudios;
+    }
+
+    public void setEncuesta_estudios(List<EncuestaEstudio> encuesta_estudios) {
+        this.encuesta_estudios = encuesta_estudios;
+    }
 }
