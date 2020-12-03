@@ -2,13 +2,19 @@
 log/
 target/
 
-# Intellij
+# Compiled class file
+*.class
+
+# IDEs and editors
 .idea/
 *.iml
 *.iws
-
-# Compiled class file
-*.class
+.project
+.classpath
+.c9/
+*.launch
+.settings/
+*.sublime-workspace
 
 # Log file
 *.log
