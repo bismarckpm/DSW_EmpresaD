@@ -1,19 +1,23 @@
 package mercadeoucab.entidades;
 
-import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "dato_encuestado2")
-public class dato_encuestado extends EntidadBase {
+@Table( name = "dato_encuestado" )
+public class Dato_Encuestado extends EntidadBase{
 
-    @Column(name = "nombre")
-    private String nombre;
+    @ManyToOne
+    @JoinColumn( name = "fk_lugar")
+    private Parroquia fk_lugar_encuestado;
 
-    public dato_encuestado(){}
-    public dato_encuestado(long id){super(id);}
+    public Parroquia getFk_lugar() {
+        return fk_lugar_encuestado;
+    }
 
-    public String getNombre() { return nombre; }
-    public void setNombre(String nombre) { this.nombre = nombre; }
+    public void setFk_lugar(Parroquia fk_lugar) {
+        this.fk_lugar_encuestado = fk_lugar;
+    }
 }
