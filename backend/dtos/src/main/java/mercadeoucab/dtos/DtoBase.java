@@ -61,7 +61,7 @@ public class DtoBase
     {
         if ( id >= 0 )
         {
-            _id = id;
+            this._id = id;
         }
         else
         {

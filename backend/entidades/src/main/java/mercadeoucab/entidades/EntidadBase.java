@@ -7,14 +7,13 @@ import javax.persistence.Id;
 import javax.persistence.MappedSuperclass;
 import java.io.Serializable;
 import java.sql.Date;
-import java.sql.Timestamp;
 
 @MappedSuperclass
 public class EntidadBase implements Serializable
 {
 
     @Id
-    @Column( name = "Id" )
+    @Column( name = "id" )
     @GeneratedValue( strategy = GenerationType.IDENTITY )
     private long _id;
 
@@ -22,10 +21,10 @@ public class EntidadBase implements Serializable
     private int activo;
 
     @Column( name = "creado_el")
-    private Timestamp creado_el;
+    private Date creado_el;
 
     @Column( name = "modificado_el")
-    private  Timestamp modificado_el;
+    private  Date modificado_el;
 
     public void set_id(long _id) {
         this._id = _id;
@@ -34,21 +33,24 @@ public class EntidadBase implements Serializable
     public int getActivo() {
         return activo;
     }
+
     public void setActivo(int activo) {
         this.activo = activo;
     }
 
-    public Timestamp getCreado_el() {
+    public Date getCreado_el() {
         return creado_el;
     }
-    public void setCreado_el(Timestamp creado_el) {
+
+    public void setCreado_el(Date creado_el) {
         this.creado_el = creado_el;
     }
 
-    public Timestamp getModificado_el() {
+    public Date getModificado_el() {
         return modificado_el;
     }
-    public void setModificado_el(Timestamp modificado_el) {
+
+    public void setModificado_el(Date modificado_el) {
         this.modificado_el = modificado_el;
     }
 
@@ -65,6 +67,5 @@ public class EntidadBase implements Serializable
     {
         return _id;
     }
-
 
 }

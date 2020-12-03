@@ -5,6 +5,7 @@ import javax.persistence.*;
 import java.util.List;
 
 @Entity
+@Table( name = "usuario" )
 public class Usuario extends EntidadBase {
 
     @Column(name = "nombre")
@@ -43,4 +44,3 @@ public class Usuario extends EntidadBase {
 
     public List<Pregunta> getPregunta() {return pregunta;}
     public void setPregunta(List<Pregunta> pregunta) {this.pregunta = pregunta;}
-}
