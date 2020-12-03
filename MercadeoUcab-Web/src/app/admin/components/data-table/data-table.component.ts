@@ -8,16 +8,16 @@ import { Component, Input, OnInit } from '@angular/core';
 export class DataTableComponent implements OnInit {
 
   constructor() {}
-  @Input()
+  /*@Input()
   _data;
   @Input()
   _displayedColumns;
   @Input()
-  _columnsToDisplay;
+  _columnsToDisplay;*/
 
   ngOnInit(): void {
-    console.log(this._columnsToDisplay);
-    console.log(this._data);
+    /*console.log(this._columnsToDisplay);
+    console.log(this._data);*/
   }
 
 }

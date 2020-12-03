@@ -1,75 +1,57 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
-import {FormBuilder, NgForm} from '@angular/forms';
-import { MatPaginator } from '@angular/material/paginator';
+import {Component, OnInit} from '@angular/core';
+import {FormBuilder} from '@angular/forms';
 import {MatTableDataSource} from '@angular/material/table';
-import {MatDialog} from '@angular/material/dialog';
-import { DataTableComponent } from '../../components/data-table/data-table.component';
-import { BaseDialogComponent } from '../../components/base-dialog/base-dialog.component';
-import { UserInfoDialogComponent } from '../../components/user-info-dialog/user-info-dialog.component';
-import {NgbModal, ModalDismissReasons} from '@ng-bootstrap/ng-bootstrap';
-import { FormGroup, FormControl, Validators }  from '@angular/forms';
-import {FormsModule,ReactiveFormsModule} from '@angular/forms';
+import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
+import { Usuario } from '../../models/usuario';
+import { MatDatepickerModule } from '@angular/material/datepicker';
 
 class UserModel {
   id:number;
 }
-/*
-@Component({
-  selector: 'dialog-update-user-dialog',
-  templateUrl: '<app-base-dialog></app-base-dialog>',
-})
-class UserUpdateDialog {}
-
-@Component({
-  selector: 'dialog-delete-user-dialog',
-  templateUrl: '<app-base-dialog></app-base-dialog>',
-})
-class UserDeleteDialog {}
-*/
-/*
-@Component({
-  selector: 'dialog-info-user-dialog',
-  templateUrl: './user-info-dialog.component.html',
-})
-class UserInfoDialog {
-
-}*/
 
 @Component({
   selector: 'app-usuarios',
   templateUrl: './usuarios.component.html',
   styleUrls: ['./usuarios.component.css'],
+  providers:[MatDatepickerModule]
 })
 export class UsuariosComponent implements OnInit {
-  
+  op:string;
+  searchState:string;//U.I,D
+  searchModel:Usuario;
   users: UserModel[] = [];
   displayedColumns: string[] = ['id','selector','ops'];
   columnsToDisplay: string[] = this.displayedColumns.slice();
   userSelection:number = 0;
   dataSource : MatTableDataSource<UserModel>;
   updForm;
-  //activeDialog: MatDialog;
+  searchForm;
+  addForm;
+  
    constructor(private modalService: NgbModal,private formBuilder: FormBuilder) { 
     this.updForm = this.formBuilder.group({
       nombre:'',
     });
+    this.searchForm = this.formBuilder.group({
+      nombre:'',
+      apellido:'',
+      rol:'',//SELECT
+      estado:'',//SELECT
+      activo:true,//CHECKBOX O SELECT
+      creado_el:'',//DATE TO STRING
+      modificado_el:''//DATE TO STRING
+    })
    }
 
-  @ViewChild(MatPaginator) paginator: MatPaginator;
-  @ViewChild(UserInfoDialogComponent) userInfo:UserInfoDialogComponent;
-  /*@ViewChild(UserUpdateDialog) updateOperation:UserUpdateDialog;
-  @ViewChild(UserDeleteDialog) deleteOperation: UserDeleteDialog;
-  @ViewChild(UserInfoDialog) userInfo: UserInfoDialog;*/
- 
-  ngAfterViewInit() {
-    this.dataSource.paginator = this.paginator;
-  }
+  ngAfterViewInit() {}
 
   ngOnInit(): void {
     for (let i = 0; i < Math.floor(Math.random()*(100-1)+1); i++) {
       this.users.push({id:i+1});
     }
     this.dataSource = new MatTableDataSource<UserModel>(this.users);
+    this.setOperation('');
+    this.searchState="U";
   }
   selectUser(id: number){
     if(id === this.userSelection){
@@ -85,10 +67,31 @@ export class UsuariosComponent implements OnInit {
     }
     return false;
   }
-  checkValues(){
+  invokeSearch(){
+    console.log(this.searchForm.value);
+    setTimeout(()=>{
+      this.searchState="D";
+    },3000);
+  }
+  setOperation(chOp:string){
+    this.op=chOp;
+    if(chOp !== ''){
+      this.searchState="I";
+    }
+    else{
+      this.searchState="U";
+    }
+  }
+  doSearch(){
+    this.searchState="I";
+  }
+  checkUpdValues(){
     console.log(this.updForm.value);
   }
-  openInfo(content){
+  checkAddValues(){
+    console.log(this.updForm.value);
+  }
+  openModal(content){
     this.modalService.open(content, {ariaLabelledBy: 'modal-basic-title'});
   }
 }
