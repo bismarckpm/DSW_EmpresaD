@@ -7,7 +7,7 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name = "encuesta_estudio")
-public class esqueletoEncuesta_Estudio extends EntidadBase{
+public class EncuestaEstudio extends EntidadBase{
 
     @ManyToOne
     @JoinColumn(name="fk_pregunta")

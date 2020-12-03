@@ -8,7 +8,7 @@ import javax.persistence.Table;
 @Entity
 @Table(name ="Presentacion_Solicitud")
 
-public class Presentacion_Solicitud extends EntidadBase{
+public class PresentacionSolicitud extends EntidadBase{
 
     @ManyToOne
     @JoinColumn(name = "fk_presentacion")
@@ -18,8 +18,8 @@ public class Presentacion_Solicitud extends EntidadBase{
     @JoinColumn(name = "fk_solicitud")
     private Solicitud fk_solicitud;
 
-    public Presentacion_Solicitud(long id) { super(id); }
-    public Presentacion_Solicitud(){}
+    public PresentacionSolicitud(long id) { super(id); }
+    public PresentacionSolicitud(){}
 
     public Presentacion getFk_presentacion() {return fk_presentacion;}
     public void setFk_presentacion(Presentacion fk_presentacion) {this.fk_presentacion = fk_presentacion;}

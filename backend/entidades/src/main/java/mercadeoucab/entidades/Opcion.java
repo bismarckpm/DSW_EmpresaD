@@ -5,7 +5,7 @@ import java.util.List;
 
 @Entity
 @Table(name="Opcion")
-public class opcion extends EntidadBase {
+public class Opcion extends EntidadBase {
 
     @Column(name = "nombre_opcion")
     private String nombre_opcion;
