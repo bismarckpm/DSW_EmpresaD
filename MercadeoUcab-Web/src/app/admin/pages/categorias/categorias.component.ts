@@ -6,10 +6,22 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./categorias.component.css']
 })
 export class CategoriasComponent implements OnInit {
-
+  op:string;
+  searchState:string;
+  setOperation(chOp:string){
+    this.op=chOp;
+    if(chOp !== ''){
+      this.searchState="I";
+    }
+    else{
+      this.searchState="U";
+    }
+  }
   constructor() { }
 
   ngOnInit(): void {
+    this.setOperation('');
+    this.searchState="U";
   }
 
 }

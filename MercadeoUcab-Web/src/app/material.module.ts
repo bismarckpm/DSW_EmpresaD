@@ -14,6 +14,7 @@ import {MatDatepickerModule} from '@angular/material/datepicker';
 import {MatFormFieldModule} from '@angular/material/form-field';
 import { MatNativeDateModule } from '@angular/material/core';
 import {MatStepperModule} from '@angular/material/stepper';
+import {MatRadioModule} from '@angular/material/radio';
 @NgModule({
   declarations: [],
   imports: [
@@ -31,7 +32,8 @@ import {MatStepperModule} from '@angular/material/stepper';
     MatDatepickerModule,
     MatFormFieldModule,
     MatNativeDateModule,
-    MatStepperModule
+    MatStepperModule,
+    MatRadioModule
   ],
   exports: [
     BrowserAnimationsModule,
@@ -47,7 +49,8 @@ import {MatStepperModule} from '@angular/material/stepper';
     MatDatepickerModule,
     MatFormFieldModule,
     MatNativeDateModule,
-    MatStepperModule
+    MatStepperModule,
+    MatRadioModule
   ]
 })
 export class MaterialModule { }

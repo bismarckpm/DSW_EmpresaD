@@ -13,6 +13,14 @@ import { BaseDialogComponent } from './components/base-dialog/base-dialog.compon
 import { UserInfoDialogComponent } from './components/user-info-dialog/user-info-dialog.component';
 import { LocalNgbModule } from '../ngbootstrap.module';
 import {FormsModule,ReactiveFormsModule} from '@angular/forms';
+import { AddUserDialogComponent } from './components/dialogs/add-user-dialog/add-user-dialog.component';
+import { UpdateUserDialogComponent } from './components/dialogs/update-user-dialog/update-user-dialog.component';
+import { DeleteUserDialogComponent } from './components/dialogs/delete-user-dialog/delete-user-dialog.component';
+import { AddTipoDialogComponent } from './components/dialogs/add-tipo-dialog/add-tipo-dialog.component';
+import { UpdateTipoDialogComponent } from './components/dialogs/update-tipo-dialog/update-tipo-dialog.component';
+import { DeleteTipoDialogComponent } from './components/dialogs/delete-tipo-dialog/delete-tipo-dialog.component';
+import { AddPreguntaDialogComponent } from './components/dialogs/add-pregunta-dialog/add-pregunta-dialog.component';
+import { UpdatePreguntaDialogComponent } from './components/dialogs/update-pregunta-dialog/update-pregunta-dialog.component';
 
 @NgModule({
   declarations: [
@@ -22,7 +30,7 @@ import {FormsModule,ReactiveFormsModule} from '@angular/forms';
     PresentacionComponent,
     DashboardComponent, 
     DataTableComponent, 
-    BaseDialogComponent, UserInfoDialogComponent],
+    BaseDialogComponent, UserInfoDialogComponent, AddUserDialogComponent, UpdateUserDialogComponent, DeleteUserDialogComponent, AddTipoDialogComponent, UpdateTipoDialogComponent, DeleteTipoDialogComponent, AddPreguntaDialogComponent, UpdatePreguntaDialogComponent],
   imports: [
     CommonModule,
     AdminRoutingModule,

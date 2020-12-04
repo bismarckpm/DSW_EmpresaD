@@ -55,7 +55,7 @@ align-items: center;">
 <div *ngIf="op!=='add' && searchState==='I'" style="height: 75%;width: 75%;">
     <mat-card style="height: 100%;width: 100%;text-align: center;display: flex;flex-direction: column;">
         <h4>Asistente de búsqueda</h4>
-        <form [formGroup]="searchForm" (submit)="invokeSearch()" style="flex:1">
+        <form [formGroup]="searchForm" (submit)="invokeSearch()" class="cForm">
             <div style="width: 100%;height: 80%; display: flex; flex-direction: row;justify-content: space-around;">
                 <div style="width: 45%;height: 100%;">
                     <div class="form-group">
