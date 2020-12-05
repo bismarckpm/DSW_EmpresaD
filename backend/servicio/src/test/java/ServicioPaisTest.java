@@ -6,7 +6,7 @@ import org.junit.Test;
 
 import java.util.List;
 
-public class ServicioPais_Test {
+public class ServicioPaisTest {
 
     @Test
     public void registroPaisTest() throws Exception{

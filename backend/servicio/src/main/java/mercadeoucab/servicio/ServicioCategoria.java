@@ -67,7 +67,7 @@ public class ServicioCategoria extends AplicacionBase{
         DtoCategoria resultado = new DtoCategoria();
         try {
             DaoCategoria dao = new DaoCategoria();
-            Categoria categoria = dao.find(dtoCategoria.getId(), Categoria.class);
+            Categoria categoria = dao.find(dtoCategoria.get_id(), Categoria.class);
             categoria.setNombre(dtoCategoria.getNombre());
             categoria.setModificado_el(new Date(Calendar.getInstance().getTime().getTime()));
             Categoria resul = dao.update(categoria);

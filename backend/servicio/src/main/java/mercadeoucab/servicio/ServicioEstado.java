@@ -28,8 +28,8 @@ public class ServicioEstado extends AplicacionBase {
 
     @POST
     @Path("/")
-    public DtoEstado agregarEstado(DtoEstado dtoEstado){
-        DtoEstado resultado = new DtoEstado();
+    public Estado agregarEstado(DtoEstado dtoEstado){
+        Estado resultado = new Estado();
         try{
             DaoEstado dao = new DaoEstado();
             Estado estado = new Estado();
@@ -38,8 +38,7 @@ public class ServicioEstado extends AplicacionBase {
             estado.setNombre(dtoEstado.getNombre());
             Pais pais = new Pais(dtoEstado.getFk_pais().get_id());
             estado.setFk_pais( pais );
-            Estado resul = dao.insert( estado );
-            resultado.set_id(resul.get_id());
+            resultado = dao.insert( estado );
         }
         catch (Exception e){
             String problema = e.getMessage();
@@ -50,17 +49,14 @@ public class ServicioEstado extends AplicacionBase {
 
     @PUT
     @Path("/{id}")
-    public DtoEstado actualizarEstado(DtoEstado dtoEstado){
-        DtoEstado resultado = new DtoEstado();
+    public Estado actualizarEstado(@PathParam("id") long id, DtoEstado dtoEstado){
+        Estado resultado = new Estado();
         try{
             DaoEstado dao = new DaoEstado();
-            Estado estado = dao.find(dtoEstado.getId(), Estado.class);
+            Estado estado = dao.find(id, Estado.class);
             estado.setModificado_el(new Date(Calendar.getInstance().getTime().getTime()));
             estado.setNombre(dtoEstado.getNombre());
-            Pais pais = new Pais(dtoEstado.getFk_pais().get_id());
-            estado.setFk_pais( pais );
-            Estado resul = dao.update(estado);
-            resultado.set_id(resul.get_id());
+            resultado = dao.update(estado);
         }
         catch (Exception e){
             String problema = e.getMessage();
@@ -70,16 +66,14 @@ public class ServicioEstado extends AplicacionBase {
 
     @PUT
     @Path("/{id}/eliminar")
-    public DtoEstado eliminarEstado(DtoEstado dtoEstado){
-        DtoEstado resultado = new DtoEstado();
+    public Estado eliminarEstado(@PathParam("id") long id){
+        Estado resultado = new Estado();
         try{
             DaoEstado dao = new DaoEstado();
-            Estado estado = dao.find(dtoEstado.getId(), Estado.class);
+            Estado estado = dao.find(id, Estado.class);
             estado.setModificado_el(new Date(Calendar.getInstance().getTime().getTime()));
             estado.setActivo(0);
-            Estado resul = dao.update(estado);
-            resultado.set_id(resul.get_id());
-
+            resultado = dao.update(estado);
         }
         catch (Exception e){
             String problema = e.getMessage();
@@ -89,12 +83,11 @@ public class ServicioEstado extends AplicacionBase {
 
     @GET
     @Path("/{id}")
-    public DtoEstado consultarEstado(DtoEstado dtoEstado){
-        DtoEstado resultado = new DtoEstado();
+    public Estado consultarEstado(@PathParam("id") long id){
+        Estado resultado = new Estado();
         try{
             DaoEstado dao = new DaoEstado();
-            Estado resul = dao.find(dtoEstado.getId(), Estado.class);
-            resultado.set_id(resul.get_id());
+            resultado = dao.find(id, Estado.class);
         }
         catch (Exception e){
             String problema = e.getMessage();

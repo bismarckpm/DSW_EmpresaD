@@ -30,7 +30,7 @@ public class ServicioMunicipio extends AplicacionBase{
         DtoMunicipio resultado = new DtoMunicipio();
         try {
             DaoMunicipio dao = new DaoMunicipio();
-            Municipio resul = dao.find(dtoMunicipio.getId(), Municipio.class);
+            Municipio resul = dao.find(dtoMunicipio.get_id(), Municipio.class);
             resultado.set_id(resul.get_id());
         }
         catch (Exception e) {
@@ -49,7 +49,7 @@ public class ServicioMunicipio extends AplicacionBase{
             municipio.setActivo(1);
             municipio.setCreado_el(new Date(Calendar.getInstance().getTime().getTime()));
             municipio.setNombre(dtoMunicipio.getNombre());
-            Estado estado = new Estado(dtoMunicipio.getFk_estado().getId());
+            Estado estado = new Estado(dtoMunicipio.getFk_estado().get_id());
             municipio.setFk_estado( estado );
             Municipio resul = dao.insert(municipio);
             resultado.set_id(resul.get_id());
@@ -67,10 +67,10 @@ public class ServicioMunicipio extends AplicacionBase{
         DtoMunicipio resultado = new DtoMunicipio();
         try {
             DaoMunicipio dao = new DaoMunicipio();
-            Municipio municipio = dao.find(dtoMunicipio.getId(), Municipio.class);
+            Municipio municipio = dao.find(dtoMunicipio.get_id(), Municipio.class);
             municipio.setNombre(dtoMunicipio.getNombre());
             municipio.setModificado_el(new Date(Calendar.getInstance().getTime().getTime()));
-            Estado estado = new Estado(dtoMunicipio.getId());
+            Estado estado = new Estado(dtoMunicipio.get_id());
             municipio.setFk_estado( estado );
             Municipio resul = dao.update(municipio);
             resultado.set_id(resul.get_id());
@@ -87,7 +87,7 @@ public class ServicioMunicipio extends AplicacionBase{
         DtoMunicipio resultado = new DtoMunicipio();
         try {
             DaoMunicipio dao = new DaoMunicipio();
-            Municipio municipio = dao.find(dtoMunicipio.getId(), Municipio.class);
+            Municipio municipio = dao.find(dtoMunicipio.get_id(), Municipio.class);
             municipio.setActivo(0);
             municipio.setModificado_el(new Date(Calendar.getInstance().getTime().getTime()));
             Municipio resul = dao.update(municipio);
