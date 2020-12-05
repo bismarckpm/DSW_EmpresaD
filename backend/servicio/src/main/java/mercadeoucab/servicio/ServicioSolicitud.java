@@ -20,7 +20,7 @@ public class ServicioSolicitud extends AplicacionBase{
     @GET
     @Path("/{id}")
     // @PathParam("id") Long id
-    public DtoSolicitud obtenerSolicitud(long id){
+    public DtoSolicitud obtenerSolicitud(@PathParam("id") Long id){
         DtoSolicitud resultado = new DtoSolicitud();
         try{
             DaoSolicitud dao = new DaoSolicitud();
