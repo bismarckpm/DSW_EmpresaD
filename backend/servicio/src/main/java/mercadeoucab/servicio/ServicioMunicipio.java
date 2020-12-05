@@ -26,12 +26,11 @@ public class ServicioMunicipio extends AplicacionBase{
 
     @GET
     @Path("/{id}")
-    public DtoMunicipio obtenerMunicipio(DtoMunicipio dtoMunicipio){
-        DtoMunicipio resultado = new DtoMunicipio();
+    public Municipio obtenerMunicipio(@PathParam("id") long id){
+        Municipio resultado = new Municipio();
         try {
             DaoMunicipio dao = new DaoMunicipio();
-            Municipio resul = dao.find(dtoMunicipio.get_id(), Municipio.class);
-            resultado.set_id(resul.get_id());
+            resultado = dao.find(id , Municipio.class);
         }
         catch (Exception e) {
             String problema = e.getMessage();
@@ -63,17 +62,14 @@ public class ServicioMunicipio extends AplicacionBase{
 
     @PUT
     @Path("/{id}")
-    public DtoMunicipio actualizarMunicipio(DtoMunicipio dtoMunicipio){
-        DtoMunicipio resultado = new DtoMunicipio();
+    public Municipio actualizarMunicipio(@PathParam("id") long id, DtoMunicipio dtoMunicipio){
+        Municipio resultado = new Municipio();
         try {
             DaoMunicipio dao = new DaoMunicipio();
-            Municipio municipio = dao.find(dtoMunicipio.get_id(), Municipio.class);
+            Municipio municipio = dao.find(id, Municipio.class);
             municipio.setNombre(dtoMunicipio.getNombre());
             municipio.setModificado_el(new Date(Calendar.getInstance().getTime().getTime()));
-            Estado estado = new Estado(dtoMunicipio.get_id());
-            municipio.setFk_estado( estado );
-            Municipio resul = dao.update(municipio);
-            resultado.set_id(resul.get_id());
+            resultado = dao.update(municipio);
         }
         catch (Exception e) {
             String problema = e.getMessage();
@@ -83,15 +79,14 @@ public class ServicioMunicipio extends AplicacionBase{
 
     @PUT
     @Path("/{id}/eliminar")
-    public DtoMunicipio eliminarMunicipio(DtoMunicipio dtoMunicipio){
-        DtoMunicipio resultado = new DtoMunicipio();
+    public Municipio eliminarMunicipio(@PathParam("id") long id){
+        Municipio resultado = new Municipio();
         try {
             DaoMunicipio dao = new DaoMunicipio();
-            Municipio municipio = dao.find(dtoMunicipio.get_id(), Municipio.class);
+            Municipio municipio = dao.find(id, Municipio.class);
             municipio.setActivo(0);
             municipio.setModificado_el(new Date(Calendar.getInstance().getTime().getTime()));
-            Municipio resul = dao.update(municipio);
-            resultado.set_id(resul.get_id());
+            resultado = dao.update(municipio);
         }
         catch (Exception e) {
             String problema = e.getMessage();
