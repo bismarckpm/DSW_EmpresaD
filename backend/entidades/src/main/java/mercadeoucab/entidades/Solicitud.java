@@ -3,7 +3,7 @@ package mercadeoucab.entidades;
 import javax.persistence.*;
 
 @Entity
-@Table(name ="solicitude")
+@Table(name ="solicitud")
 public class Solicitud extends EntidadBase{
 
     @Column(name = "estado")
