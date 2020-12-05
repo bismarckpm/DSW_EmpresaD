@@ -13,6 +13,10 @@ public class DatoEncuestado extends EntidadBase{
     @JoinColumn( name = "fk_lugar")
     private Parroquia fk_lugar_encuestado;
 
+    @ManyToOne
+    @JoinColumn( name = "fk_usuario")
+    private Usuario usuario;
+
     public Parroquia getFk_lugar() {
         return fk_lugar_encuestado;
     }

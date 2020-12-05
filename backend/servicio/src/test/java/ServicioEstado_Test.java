@@ -30,8 +30,8 @@ public class ServicioEstado_Test {
     @Test
     public void actualizarEstadoTest() throws  Exception{
         ServicioEstado servicio = new ServicioEstado();
-        DtoEstado dtoEstado = new DtoEstado(1);
-        dtoEstado.setNombre("Guarico");
+        DtoEstado dtoEstado = new DtoEstado(2);
+        dtoEstado.setNombre("Cojedes");
         DtoEstado resultado = servicio.actualizarEstado(dtoEstado);
         Assert.assertEquals(resultado.get_id(), dtoEstado.get_id());
     }

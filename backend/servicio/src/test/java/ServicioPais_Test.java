@@ -12,7 +12,7 @@ public class ServicioPais_Test {
     public void registroPaisTest() throws Exception{
         ServicioPais servicio = new ServicioPais();
         DtoPais dtoPais = new DtoPais();
-        dtoPais.setNombre("Venecosuela");
+        dtoPais.setNombre("Argentina");
         DtoPais resultado = servicio.agregarPais(dtoPais);
         Assert.assertNotEquals(resultado.get_id(), 0);
     }
@@ -20,8 +20,8 @@ public class ServicioPais_Test {
     @Test
     public void actualizarPaisTest() throws Exception{
         ServicioPais servicio = new ServicioPais();
-        DtoPais dtoPais = new DtoPais(1);
-        dtoPais.setNombre("Venezuela");
+        DtoPais dtoPais = new DtoPais(2);
+        dtoPais.setNombre("Colombia");
         DtoPais resultado = servicio.actualizarPais(dtoPais);
         Assert.assertNotEquals(resultado.get_id(), 0);
     }

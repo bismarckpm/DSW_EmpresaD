@@ -23,7 +23,6 @@ backend\.idea
 *.launch
 .settings/
 *.sublime-workspace
-*.iml
 *.iws
 
 # IDE - VSCode
