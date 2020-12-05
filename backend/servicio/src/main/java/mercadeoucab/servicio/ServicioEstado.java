@@ -14,13 +14,13 @@ import java.sql.Date;
 import java.util.Calendar;
 import java.util.List;
 
-@Path( "/paises" )
+@Path( "/estados" )
 @Produces( MediaType.APPLICATION_JSON )
 @Consumes( MediaType.APPLICATION_JSON )
 public class ServicioEstado extends AplicacionBase {
 
     @GET
-    @Path("/list")
+    @Path("/")
     public List<Estado> listarEstador(){
         DaoEstado dao = new DaoEstado();
         return dao.findAll(Estado.class);

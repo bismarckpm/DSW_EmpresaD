@@ -18,7 +18,7 @@ import java.util.List;
 public class ServicioMunicipio extends AplicacionBase{
 
     @GET
-    @Path("/list")
+    @Path("/")
     public List<Municipio> listarMunicipios(){
         DaoMunicipio dao = new DaoMunicipio();
         return dao.findAll(Municipio.class);

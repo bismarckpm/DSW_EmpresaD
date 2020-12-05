@@ -20,7 +20,7 @@ import java.util.List;
 public class ServicioParroquia {
 
     @GET
-    @Path("/list")
+    @Path("/")
     public List<Parroquia> listarParroquias(){
         DaoParroquia dao = new DaoParroquia();
         return dao.findAll(Parroquia.class);
