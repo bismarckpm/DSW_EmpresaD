@@ -6,8 +6,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 @Entity
-@Table(name ="Presentacion_Solicitud")
-
+@Table( name ="presentacion_solicitud")
 public class PresentacionSolicitud extends EntidadBase{
 
     @ManyToOne
@@ -16,7 +15,7 @@ public class PresentacionSolicitud extends EntidadBase{
 
     @ManyToOne
     @JoinColumn(name = "fk_solicitud")
-    private Solicitud fk_solicitud;
+    private Solicitud solicitud;
 
     public PresentacionSolicitud(long id) { super(id); }
     public PresentacionSolicitud(){}
@@ -24,6 +23,11 @@ public class PresentacionSolicitud extends EntidadBase{
     public Presentacion getFk_presentacion() {return fk_presentacion;}
     public void setFk_presentacion(Presentacion fk_presentacion) {this.fk_presentacion = fk_presentacion;}
 
-    public Solicitud getFk_solicitud() {return fk_solicitud;}
-    public void setFk_solicitud(Solicitud fk_solicitud) {this.fk_solicitud = fk_solicitud;}
+    public Solicitud getSolicitud() {
+        return solicitud;
+    }
+
+    public void setSolicitud(Solicitud solicitud) {
+        this.solicitud = solicitud;
+    }
 }

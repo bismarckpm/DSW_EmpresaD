@@ -75,7 +75,7 @@ public class ServicioUsuario extends AplicacionBase{
                             .getInstance()
                             .getTime()
                             .getTime()));
-            Usuario resul = dao.insert( usuario);
+            Usuario resul = dao.update( usuario);
             resultado.set_id( resul.get_id());
         }catch (Exception e) {
             String problema = e.getMessage();
