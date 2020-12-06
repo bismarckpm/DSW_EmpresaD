@@ -16,7 +16,7 @@ import java.util.List;
 public class ServicioPais extends AplicacionBase{
 
     @GET
-    @Path("/list")
+    @Path("/")
     public List<Pais> listar_paises(){
         DaoPais dao = new DaoPais();
         return dao.findAll(Pais.class);
@@ -24,12 +24,16 @@ public class ServicioPais extends AplicacionBase{
 
     @GET
     @Path("/{id}")
-    public DtoPais obtenerPais(DtoPais dtoPais){
+    public DtoPais obtenerPais(@PathParam("id") long id){
         DtoPais resultado = new DtoPais();
         try{
             DaoPais dao = new DaoPais();
-            Pais encontrado = dao.find(dtoPais.getId(), Pais.class);
+            Pais encontrado = dao.find(id, Pais.class);
             resultado.set_id(encontrado.get_id());
+            resultado.setNombre(encontrado.getNombre());
+            resultado.setActivo(encontrado.getActivo());
+            resultado.setCreado_el(encontrado.getCreado_el());
+            resultado.setModificado_el(encontrado.getModificado_el());
         }
         catch (Exception e){
             String problema = e.getMessage();
@@ -49,6 +53,11 @@ public class ServicioPais extends AplicacionBase{
             pais.setNombre(dtoPais.getNombre());
             Pais resul = dao.insert( pais );
             resultado.setId( resul.get_id() );
+            resultado.set_id(resul.get_id());
+            resultado.setNombre(resul.getNombre());
+            resultado.setActivo(resul.getActivo());
+            resultado.setCreado_el(resul.getCreado_el());
+            resultado.setModificado_el(resul.getModificado_el());
         }
         catch(Exception e){
             String problema = e.getMessage();
@@ -59,15 +68,20 @@ public class ServicioPais extends AplicacionBase{
 
     @PUT
     @Path("/{id}")
-    public DtoPais actualizarPais(DtoPais dtoPais){
+    public DtoPais actualizarPais(@PathParam("id") long id,DtoPais dtoPais){
         DtoPais resultado = new DtoPais();
         try {
             DaoPais dao = new DaoPais();
-            Pais pais = dao.find(dtoPais.getId(), Pais.class);
+            Pais pais = dao.find(id, Pais.class);
             pais.setNombre(dtoPais.getNombre());
             pais.setModificado_el(new Date(Calendar.getInstance().getTime().getTime()));
             Pais resul = dao.update( pais );
             resultado.setId( resul.get_id() );
+            resultado.set_id(resul.get_id());
+            resultado.setNombre(resul.getNombre());
+            resultado.setActivo(resul.getActivo());
+            resultado.setCreado_el(resul.getCreado_el());
+            resultado.setModificado_el(resul.getModificado_el());
         }
         catch (Exception e){
             String problema = e.getMessage();
@@ -77,15 +91,19 @@ public class ServicioPais extends AplicacionBase{
 
     @PUT
     @Path("/{id}/eliminar")
-    public  DtoPais eliminarPais(DtoPais dtoPais){
+    public  DtoPais eliminarPais(@PathParam("id") long id){
         DtoPais resultado = new DtoPais();
         try {
             DaoPais dao = new DaoPais();
-            Pais pais = dao.find(dtoPais.getId(), Pais.class);
+            Pais pais = dao.find(id , Pais.class);
             pais.setActivo(0);
             pais.setModificado_el(new Date(Calendar.getInstance().getTime().getTime()));
             Pais resul = dao.update( pais );
             resultado.setId( resul.get_id() );
+            resultado.setNombre(resul.getNombre());
+            resultado.setActivo(resul.getActivo());
+            resultado.setCreado_el(resul.getCreado_el());
+            resultado.setModificado_el(resul.getModificado_el());
         }
         catch (Exception e){
             String problema = e.getMessage();

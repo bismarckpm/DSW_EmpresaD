@@ -29,11 +29,11 @@ public class DtoParroquia extends DtoBase{
         this.valor_socio_economico = valor_socio_economico;
     }
 
-    public DtoMunicipio getMunicipios() {
+    public DtoMunicipio getFk_municipio() {
         return fk_municipio;
     }
 
-    public void setMunicipios(DtoMunicipio fk_municipio) {
+    public void setFk_municipio(DtoMunicipio fk_municipio) {
         this.fk_municipio = fk_municipio;
     }
 }
