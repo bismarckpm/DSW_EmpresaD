@@ -1,21 +1,19 @@
 package mercadeoucab.entidades;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 @Entity
-@Table(name ="tipo")
-public class Tipo extends EntidadBase{
+@Table(name ="sub_categoria")
+public class SubCategoria extends EntidadBase {
 
-    @Column( name = "nombre")
+    @Column(name = "nombre")
     private String nombre;
 
-    public Tipo(long id) {
+    public SubCategoria(long id) {
         super(id);
     }
 
-    public Tipo() {
+    public SubCategoria() {
     }
 
     public String getNombre() {
@@ -25,4 +23,5 @@ public class Tipo extends EntidadBase{
     public void setNombre(String nombre) {
         this.nombre = nombre;
     }
+
 }

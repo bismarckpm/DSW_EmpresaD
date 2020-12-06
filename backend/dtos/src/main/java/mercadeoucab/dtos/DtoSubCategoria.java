@@ -1,14 +1,14 @@
 package mercadeoucab.dtos;
 
-public class DtoTipo extends DtoBase{
+public class DtoSubCategoria extends DtoBase{
 
     private String nombre;
 
-    public DtoTipo(long id) throws Exception {
+    public DtoSubCategoria(long id) throws Exception {
         super(id);
     }
 
-    public DtoTipo() {
+    public DtoSubCategoria() {
     }
 
     public String getNombre() {
@@ -18,4 +18,5 @@ public class DtoTipo extends DtoBase{
     public void setNombre(String nombre) {
         this.nombre = nombre;
     }
+
 }
