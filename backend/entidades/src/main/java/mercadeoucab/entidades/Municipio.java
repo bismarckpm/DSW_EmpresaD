@@ -17,7 +17,7 @@ public class Municipio extends EntidadBase{
     private String nombre;
 
     @ManyToOne
-    @JoinColumn( name = "Estado_idPais")
+    @JoinColumn( name = "fk_estado")
     private Estado fk_estado;
 
     public String getNombre() {

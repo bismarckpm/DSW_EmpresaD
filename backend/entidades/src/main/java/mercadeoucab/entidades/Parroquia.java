@@ -21,7 +21,7 @@ public class Parroquia extends EntidadBase {
     private int valor_socio_economico;
 
     @ManyToOne
-    @JoinColumn( name = "Municipio_idPais")
+    @JoinColumn( name = "fk_municipio")
     private Municipio fk_municipio;
 
     public String getNombre() {

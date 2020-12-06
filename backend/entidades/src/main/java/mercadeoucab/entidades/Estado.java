@@ -18,7 +18,7 @@ public class Estado extends EntidadBase{
     private String nombre;
 
     @ManyToOne
-    @JoinColumn( name = "Pais_idPais")
+    @JoinColumn( name = "fk_pais")
     private Pais fk_pais;
 
     public String getNombre() {
