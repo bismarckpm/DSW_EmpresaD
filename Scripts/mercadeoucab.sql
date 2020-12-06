@@ -151,7 +151,7 @@ CREATE TABLE IF NOT EXISTS `mercadeoucab`.`dato_encuestado` (
   `segundo_apellido` VARCHAR(45) NULL DEFAULT NULL,
   `cedula` VARCHAR(45) NOT NULL,
   `medio_conexion` ENUM('laptop', 'pc', 'tableta', 'telefono') NOT NULL,
-  `edad` INT NOT NULL,
+  `edad` TIMESTAMP NOT NULL,
   `genero` ENUM('masculino', 'femenino') NOT NULL,
   `nivel_economico` INT NOT NULL,
   `nivel_academico` VARCHAR(60) NOT NULL,
@@ -339,7 +339,7 @@ DROP TABLE IF EXISTS `mercadeoucab`.`hijo` ;
 CREATE TABLE IF NOT EXISTS `mercadeoucab`.`hijo` (
   `id` INT NOT NULL AUTO_INCREMENT,
   `genero` ENUM('masculino', 'femenino') NOT NULL,
-  `edad` INT NOT NULL,
+  `edad` TIMESTAMP NOT NULL,
   `activo` TINYINT NOT NULL,
   `creado_el` TIMESTAMP NOT NULL,
   `modificado_el` TIMESTAMP NULL DEFAULT NULL,
