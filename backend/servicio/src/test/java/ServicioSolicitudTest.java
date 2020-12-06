@@ -59,7 +59,7 @@ public class ServicioSolicitudTest {
         dtoSolicitud.setMarca( new DtoMarca(1));
         dtoSolicitud.setUsuario( new DtoUsuario( 1));
         DtoSolicitud paraConsultar = servicio.registrarSolicitud( dtoSolicitud);
-        DtoSolicitud resultado = servicio.eliminarSolicitud( paraConsultar.get_id());
+        DtoSolicitud resultado = servicio.obtenerSolicitud( paraConsultar.get_id());
         Assert.assertEquals( resultado.get_id(), paraConsultar.get_id());
     }
 

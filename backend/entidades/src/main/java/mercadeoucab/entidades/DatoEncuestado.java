@@ -17,6 +17,13 @@ public class DatoEncuestado extends EntidadBase{
     @JoinColumn( name = "fk_usuario")
     private Usuario usuario;
 
+    public DatoEncuestado(long id) {
+        super(id);
+    }
+
+    public DatoEncuestado() {
+    }
+
     public Parroquia getFk_lugar() {
         return fk_lugar_encuestado;
     }
