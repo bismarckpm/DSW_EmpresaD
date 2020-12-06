@@ -9,7 +9,7 @@ public class SubCategoria extends EntidadBase {
     @Column(name = "nombre")
     private String nombre;
 
-    @ManyToOne(cascade = CascadeType.PERSIST)
+    @ManyToOne()
     @JoinColumn(name = "fk_categoria")
     private Categoria categoria;
 
