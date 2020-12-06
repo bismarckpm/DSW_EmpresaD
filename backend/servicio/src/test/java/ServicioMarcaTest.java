@@ -4,6 +4,7 @@ import mercadeoucab.servicio.ServicioMarca;
 import org.junit.Assert;
 import org.junit.Test;
 
+import javax.ws.rs.core.Response;
 import java.util.List;
 
 public class ServicioMarcaTest {
@@ -16,6 +17,7 @@ public class ServicioMarcaTest {
         Marca resultado = servicio.registrarMarca(marca);
         Assert.assertNotEquals(0,resultado.get_id());
     }
+
 
     @Test
     public void consultarMarcaTest() throws Exception{

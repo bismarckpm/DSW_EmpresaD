@@ -339,7 +339,7 @@ DROP TABLE IF EXISTS `mercadeoucab`.`hijo` ;
 CREATE TABLE IF NOT EXISTS `mercadeoucab`.`hijo` (
   `id` INT NOT NULL AUTO_INCREMENT,
   `genero` ENUM('masculino', 'femenino') NOT NULL,
-  `edad` INT NOT NULL,
+  `edad` TIMESTAMP NOT NULL,
   `activo` TINYINT NOT NULL,
   `creado_el` TIMESTAMP NOT NULL,
   `modificado_el` TIMESTAMP NULL DEFAULT NULL,
