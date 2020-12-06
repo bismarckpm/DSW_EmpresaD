@@ -20,12 +20,6 @@ public class Pregunta extends EntidadBase{
     @JoinColumn(name = "fk_usuario")
     private Usuario usuario;
 
-    @OneToMany(mappedBy = "fk_pregunta", fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
-    private List<Opcion> Opcion;
-
-    @OneToMany(mappedBy = "fk_pregunta", fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
-    private List<EncuestaEstudio> encuestaEstudio;
-
     public Pregunta(long id) {
         super(id);
     }
@@ -65,19 +59,4 @@ public class Pregunta extends EntidadBase{
         this.usuario = usuario;
     }
 
-    public List<mercadeoucab.entidades.Opcion> getOpcion() {
-        return Opcion;
-    }
-
-    public void setOpcion(List<mercadeoucab.entidades.Opcion> opcion) {
-        Opcion = opcion;
-    }
-
-    public List<EncuestaEstudio> getEncuestaEstudio() {
-        return encuestaEstudio;
-    }
-
-    public void setEncuestaEstudio(List<EncuestaEstudio> encuestaEstudio) {
-        this.encuestaEstudio = encuestaEstudio;
-    }
 }
