@@ -9,6 +9,7 @@ public class DtoUsuario extends DtoBase{
     private String apellido;
     private String rol;
     private String estado;
+    private String correo;
 
     public DtoUsuario(){}
 
@@ -26,4 +27,11 @@ public class DtoUsuario extends DtoBase{
     public String getEstado() {return estado;}
     public void setEstado(String estado) {this.estado = estado;}
 
+    public String getCorreo() {
+        return correo;
+    }
+
+    public void setCorreo(String correo) {
+        this.correo = correo;
+    }
 }

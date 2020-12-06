@@ -49,6 +49,7 @@ public class ServicioUsuario extends AplicacionBase{
             usuario.setApellido( dtoUsuario.getApellido());
             usuario.setEstado( dtoUsuario.getEstado());
             usuario.setRol( dtoUsuario.getRol());
+            usuario.setCorreo( dtoUsuario.getCorreo());
             usuario.setActivo( 1);
             usuario.setCreado_el( new Date(Calendar.getInstance().getTime().getTime()));
             Usuario resul = dao.insert( usuario);

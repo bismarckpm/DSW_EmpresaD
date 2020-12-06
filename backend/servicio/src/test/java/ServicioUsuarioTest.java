@@ -16,6 +16,7 @@ public class ServicioUsuarioTest {
         dtoUsuario.setApellido( "Soteldo");
         dtoUsuario.setEstado( "activo");
         dtoUsuario.setRol( "encuestado");
+        dtoUsuario.setCorreo( "soteldios@gmail.com");
         DtoUsuario resultado = servicio.registrarUsuario( dtoUsuario);
         Assert.assertNotEquals( 0, resultado.get_id());
     }
@@ -28,6 +29,7 @@ public class ServicioUsuarioTest {
         dtoUsuario.setApellido( "Herrera");
         dtoUsuario.setEstado( "activo");
         dtoUsuario.setRol( "encuestado");
+        dtoUsuario.setCorreo( "sanYangel@gmail.com");
         DtoUsuario paraActualizar = servicio.registrarUsuario( dtoUsuario);
         paraActualizar.setNombre("Juan");
         paraActualizar.setApellido( "Ricardo");
@@ -44,6 +46,7 @@ public class ServicioUsuarioTest {
         dtoUsuario.setApellido( "Vidal");
         dtoUsuario.setEstado( "activo");
         dtoUsuario.setRol( "encuestado");
+        dtoUsuario.setCorreo( "elrey@gmail.com");
         DtoUsuario paraBorrar = servicio.registrarUsuario( dtoUsuario);
         DtoUsuario resultado = servicio.eliminarUsuario( paraBorrar.get_id());
         Assert.assertEquals( paraBorrar.get_id(), resultado.get_id());
@@ -57,6 +60,7 @@ public class ServicioUsuarioTest {
         dtoUsuario.setApellido( "Arango");
         dtoUsuario.setEstado( "activo");
         dtoUsuario.setRol( "encuestado");
+        dtoUsuario.setCorreo( "arangol@gmail.com");
         DtoUsuario paraConsultar = servicio.registrarUsuario( dtoUsuario);
         DtoUsuario resultado = servicio.obtenerUsuario( paraConsultar.get_id());
         Assert.assertEquals( paraConsultar.get_id(), resultado.get_id());

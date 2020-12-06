@@ -17,6 +17,9 @@ public class Usuario extends EntidadBase {
     @Column(name = "rol")
     private String rol;
 
+    @Column(name = "correo")
+    private String correo;
+
     @Column(name = "estado")
     private String estado;
 
@@ -59,4 +62,11 @@ public class Usuario extends EntidadBase {
         this.estado = estado;
     }
 
+    public String getCorreo() {
+        return correo;
+    }
+
+    public void setCorreo(String correo) {
+        this.correo = correo;
+    }
 }
