@@ -29,8 +29,8 @@ public class ServicioUsuarioTest {
         dtoUsuario.setEstado( "activo");
         dtoUsuario.setRol( "encuestado");
         DtoUsuario paraActualizar = servicio.registrarUsuario( dtoUsuario);
-        paraActualizar.setNombre("Hector");
-        paraActualizar.setApellido( "Herrera");
+        paraActualizar.setNombre("Juan");
+        paraActualizar.setApellido( "Ricardo");
         paraActualizar.setEstado( "activo");
         DtoUsuario resultado = servicio.actualizarUsuario( paraActualizar);
         Assert.assertNotEquals( 0, resultado.get_id());
