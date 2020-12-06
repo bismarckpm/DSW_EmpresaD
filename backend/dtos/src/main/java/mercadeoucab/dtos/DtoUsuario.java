@@ -9,9 +9,6 @@ public class DtoUsuario extends DtoBase{
     private String apellido;
     private String rol;
     private String estado;
-    private List<DtoPregunta> preguntas;
-    private List<DtoDatoEncuestado> datoEncuestado;
-    private List<DtoSolicitud> solicitudes;
 
     public DtoUsuario(){}
 
@@ -29,27 +26,4 @@ public class DtoUsuario extends DtoBase{
     public String getEstado() {return estado;}
     public void setEstado(String estado) {this.estado = estado;}
 
-    public List<DtoPregunta> getPreguntas() {
-        return preguntas;
-    }
-
-    public void setPreguntas(List<DtoPregunta> preguntas) {
-        this.preguntas = preguntas;
-    }
-
-    public List<DtoDatoEncuestado> getDatoEncuestado() {
-        return datoEncuestado;
-    }
-
-    public void setDatoEncuestado(List<DtoDatoEncuestado> datoEncuestado) {
-        this.datoEncuestado = datoEncuestado;
-    }
-
-    public List<DtoSolicitud> getSolicitudes() {
-        return solicitudes;
-    }
-
-    public void setSolicitudes(List<DtoSolicitud> solicitudes) {
-        this.solicitudes = solicitudes;
-    }
 }

@@ -18,30 +18,6 @@ public class Solicitud extends EntidadBase{
     @JoinColumn(name = "fk_marca")
     private Marca marca;
 
-    @OneToMany(
-            mappedBy = "solicitud",
-            fetch = FetchType.LAZY,
-            cascade = CascadeType.PERSIST)
-    private List<TipoSolicitud> tiposSolitud;
-
-    @OneToMany(
-            mappedBy = "solicitud",
-            fetch = FetchType.LAZY,
-            cascade = CascadeType.PERSIST)
-    private List<PresentacionSolicitud> presentacionesSolicitud;
-
-    @OneToMany(
-            mappedBy = "solicitud",
-            fetch = FetchType.LAZY,
-            cascade = CascadeType.PERSIST)
-    private List<SubCategoriaSolicitud> subCategoriasSolicitud;
-
-    @OneToMany(
-            mappedBy = "solicitud",
-            fetch = FetchType.LAZY,
-            cascade = CascadeType.PERSIST)
-    private List<Estudio> estudios;
-
     public Solicitud(long id) { super(id); }
     public Solicitud(){}
 
@@ -54,35 +30,4 @@ public class Solicitud extends EntidadBase{
     public Usuario getUsuario() {return usuario;}
     public void setUsuario(Usuario usuario) {this.usuario = usuario;}
 
-    public List<TipoSolicitud> getTiposSolitud() {
-        return tiposSolitud;
-    }
-
-    public void setTiposSolitud(List<TipoSolicitud> tiposSolitud) {
-        this.tiposSolitud = tiposSolitud;
-    }
-
-    public List<PresentacionSolicitud> getPresentacionesSolicitud() {
-        return presentacionesSolicitud;
-    }
-
-    public void setPresentacionesSolicitud(List<PresentacionSolicitud> presentacionesSolicitud) {
-        this.presentacionesSolicitud = presentacionesSolicitud;
-    }
-
-    public List<SubCategoriaSolicitud> getSubCategoriasSolicitud() {
-        return subCategoriasSolicitud;
-    }
-
-    public void setSubCategoriasSolicitud(List<SubCategoriaSolicitud> subCategoriasSolicitud) {
-        this.subCategoriasSolicitud = subCategoriasSolicitud;
-    }
-
-    public List<Estudio> getEstudios() {
-        return estudios;
-    }
-
-    public void setEstudios(List<Estudio> estudios) {
-        this.estudios = estudios;
-    }
 }
