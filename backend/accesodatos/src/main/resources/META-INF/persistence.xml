@@ -24,6 +24,7 @@
         <class>mercadeoucab.entidades.Estudio</class>
         <class>mercadeoucab.entidades.TipoSolicitud</class>
         <class>mercadeoucab.entidades.SubCategoriaSolicitud</class>
+        <class>mercadeoucab.entidades.Telefono</class>
         <properties>
             <property name="javax.persistence.jdbc.driver" value="com.mysql.cj.jdbc.Driver"/>
             <property name="javax.persistence.jdbc.url" value="jdbc:mysql://localhost:3306/mercadeoucab?serverTimezone=UTC"/>
