@@ -63,11 +63,11 @@ CREATE TABLE IF NOT EXISTS `mercadeoucab`.`estado` (
   `activo` TINYINT NOT NULL,
   `creado_el` TIMESTAMP NOT NULL,
   `modificado_el` TIMESTAMP NULL DEFAULT NULL,
-  `fk_pais` INT NOT NULL,
+  `Pais_idPais` INT NOT NULL,
   PRIMARY KEY (`id`),
-  INDEX `fk_Estado_Pais1_idx` (`fk_pais` ASC) VISIBLE,
+  INDEX `fk_Estado_Pais1_idx` (`Pais_idPais` ASC) VISIBLE,
   CONSTRAINT `fk_Estado_Pais1`
-    FOREIGN KEY (`fk_pais`)
+    FOREIGN KEY (`Pais_idPais`)
     REFERENCES `mercadeoucab`.`pais` (`id`))
 ENGINE = InnoDB
 AUTO_INCREMENT = 3
@@ -85,11 +85,11 @@ CREATE TABLE IF NOT EXISTS `mercadeoucab`.`municipio` (
   `activo` TINYINT NOT NULL,
   `creado_el` TIMESTAMP NOT NULL,
   `modificado_el` TIMESTAMP NULL DEFAULT NULL,
-  `fk_estado` INT NOT NULL,
+  `Estado_idPais` INT NOT NULL,
   PRIMARY KEY (`id`),
-  INDEX `fk_Municipio_Estado1_idx` (`fk_estado` ASC) VISIBLE,
+  INDEX `fk_Municipio_Estado1_idx` (`Estado_idPais` ASC) VISIBLE,
   CONSTRAINT `fk_Municipio_Estado1`
-    FOREIGN KEY (`fk_estado`)
+    FOREIGN KEY (`Estado_idPais`)
     REFERENCES `mercadeoucab`.`estado` (`id`))
 ENGINE = InnoDB
 AUTO_INCREMENT = 2
@@ -108,12 +108,12 @@ CREATE TABLE IF NOT EXISTS `mercadeoucab`.`parroquia` (
   `activo` TINYINT NOT NULL,
   `creado_el` TIMESTAMP NOT NULL,
   `modificado_el` TIMESTAMP NULL DEFAULT NULL,
-  `fk_municipio` INT NOT NULL,
+  `Municipio_idPais` INT NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE INDEX `id_lugar_UNIQUE` (`id` ASC) VISIBLE,
-  INDEX `fk_Parroquia_Municipio1_idx` (`fk_municipio` ASC) VISIBLE,
+  INDEX `fk_Parroquia_Municipio1_idx` (`Municipio_idPais` ASC) VISIBLE,
   CONSTRAINT `fk_Parroquia_Municipio1`
-    FOREIGN KEY (`fk_municipio`)
+    FOREIGN KEY (`Municipio_idPais`)
     REFERENCES `mercadeoucab`.`municipio` (`id`))
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8;
@@ -583,7 +583,6 @@ CREATE TABLE IF NOT EXISTS `mercadeoucab`.`telefono` (
   `fk_dato_encuestado` INT NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE INDEX `id_telefono_UNIQUE` (`id` ASC) VISIBLE,
-  UNIQUE INDEX `fk_dato_encuestado_UNIQUE` (`fk_dato_encuestado` ASC) VISIBLE,
   CONSTRAINT `fk_dato_encuestado1`
     FOREIGN KEY (`fk_dato_encuestado`)
     REFERENCES `mercadeoucab`.`dato_encuestado` (`id`))
