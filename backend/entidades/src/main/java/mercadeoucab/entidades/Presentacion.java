@@ -13,9 +13,6 @@ public class Presentacion extends EntidadBase {
     @Column(name = "tipo")
     private String tipo;
 
-    @OneToMany(mappedBy = "fk_presentacion", fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
-    private List<PresentacionSolicitud> presentacionSolicitud;
-
     public Presentacion(long id) { super(id); }
     public Presentacion(){}
 
@@ -24,7 +21,4 @@ public class Presentacion extends EntidadBase {
 
     public String getTipo() { return tipo; }
     public void setTipo(String tipo) { this.tipo = tipo; }
-
-    public List<PresentacionSolicitud> getPresentacionSolicitud() { return presentacionSolicitud; }
-    public void setPresentacionSolicitud(List<PresentacionSolicitud> presentacionSolicitud) { this.presentacionSolicitud = presentacionSolicitud; }
 }

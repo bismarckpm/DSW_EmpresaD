@@ -9,6 +9,10 @@ public class SubCategoria extends EntidadBase {
     @Column(name = "nombre")
     private String nombre;
 
+    @ManyToOne()
+    @JoinColumn(name = "fk_categoria")
+    private Categoria categoria;
+
     public SubCategoria(long id) {
         super(id);
     }
@@ -24,4 +28,11 @@ public class SubCategoria extends EntidadBase {
         this.nombre = nombre;
     }
 
+    public Categoria getCategoria() {
+        return categoria;
+    }
+
+    public void setCategoria(Categoria categoria) {
+        this.categoria = categoria;
+    }
 }
