@@ -21,6 +21,7 @@ import { UpdateTipoDialogComponent } from './components/dialogs/update-tipo-dial
 import { DeleteTipoDialogComponent } from './components/dialogs/delete-tipo-dialog/delete-tipo-dialog.component';
 import { AddPreguntaDialogComponent } from './components/dialogs/add-pregunta-dialog/add-pregunta-dialog.component';
 import { UpdatePreguntaDialogComponent } from './components/dialogs/update-pregunta-dialog/update-pregunta-dialog.component';
+import { LugaresComponent } from './pages/lugares/lugares.component';
 
 @NgModule({
   declarations: [
@@ -30,7 +31,7 @@ import { UpdatePreguntaDialogComponent } from './components/dialogs/update-pregu
     PresentacionComponent,
     DashboardComponent, 
     DataTableComponent, 
-    BaseDialogComponent, UserInfoDialogComponent, AddUserDialogComponent, UpdateUserDialogComponent, DeleteUserDialogComponent, AddTipoDialogComponent, UpdateTipoDialogComponent, DeleteTipoDialogComponent, AddPreguntaDialogComponent, UpdatePreguntaDialogComponent],
+    BaseDialogComponent, UserInfoDialogComponent, AddUserDialogComponent, UpdateUserDialogComponent, DeleteUserDialogComponent, AddTipoDialogComponent, UpdateTipoDialogComponent, DeleteTipoDialogComponent, AddPreguntaDialogComponent, UpdatePreguntaDialogComponent, LugaresComponent],
   imports: [
     CommonModule,
     AdminRoutingModule,

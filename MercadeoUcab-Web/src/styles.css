@@ -77,4 +77,5 @@ button:focus {
     display: flex;
     flex-direction:row;
     justify-content: center;
+    color: transparent;
 }

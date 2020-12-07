@@ -53,6 +53,17 @@ style="background-color: #E5FFF7;"
             >
             <button mat-fab color="primary" aria-label="Example icon button with a delete icon" 
             style="background-color: #00d8b4; color:white"
+            (click)="onDir('administrador/lugares')"
+            >
+                <mat-icon>location_on</mat-icon>
+            </button>
+            </mat-grid-tile>
+            <mat-grid-tile
+            [colspan]="1"
+            [rowspan]="1"
+            >
+            <button mat-fab color="primary" aria-label="Example icon button with a delete icon" 
+            style="background-color: #00d8b4; color:white"
             (click)="onDir('administrador/preguntas')"
             >
                 <mat-icon>help_center</mat-icon>

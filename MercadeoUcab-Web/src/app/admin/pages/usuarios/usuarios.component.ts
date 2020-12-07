@@ -16,17 +16,31 @@ class UserModel {
   providers:[MatDatepickerModule]
 })
 export class UsuariosComponent implements OnInit {
+  //CONTROL DE ESTADO DEL COMPONENTE
   op:string;
   searchState:string;//U.I,D
-  searchModel:Usuario;
   users: UserModel[] = [];
+  
+  //COLUMNAS DE TABLA DE RESULTADOS
   displayedColumns: string[] = ['id','selector','ops'];
   columnsToDisplay: string[] = this.displayedColumns.slice();
+  
+  //INDICE DE USUARIO SELECCIONADO
   userSelection:number = 0;
+  
+  //LISTA DE USUARIOS DEVUELTOS EN BÚSQUEDA
   dataSource : MatTableDataSource<UserModel>;
+  
+  //FORMULARIOS
   updForm;
   searchForm;
+  searchModel:Usuario;
   addForm;
+  opStatus:string;//S,P,D
+  userRole:string = "";
+  setTipoUsuario(tipo:string){
+    this.userRole=tipo;
+  }
   
    constructor(private modalService: NgbModal,private formBuilder: FormBuilder) { 
     this.updForm = this.formBuilder.group({
@@ -46,12 +60,14 @@ export class UsuariosComponent implements OnInit {
   ngAfterViewInit() {}
 
   ngOnInit(): void {
-    for (let i = 0; i < Math.floor(Math.random()*(100-1)+1); i++) {
-      this.users.push({id:i+1});
-    }
-    this.dataSource = new MatTableDataSource<UserModel>(this.users);
     this.setOperation('');
     this.searchState="U";
+  }
+  serviceInvoke(){
+    this.opStatus="P";
+    setTimeout(()=>{
+      this.opStatus="D";
+    },3000);
   }
   selectUser(id: number){
     if(id === this.userSelection){
@@ -70,6 +86,10 @@ export class UsuariosComponent implements OnInit {
   invokeSearch(){
     console.log(this.searchForm.value);
     setTimeout(()=>{
+      for (let i = 0; i < Math.floor(Math.random()*(100-1)+1); i++) {
+        this.users.push({id:i+1});
+      }
+      this.dataSource = new MatTableDataSource<UserModel>(this.users);
       this.searchState="D";
     },3000);
   }
@@ -77,6 +97,8 @@ export class UsuariosComponent implements OnInit {
     this.op=chOp;
     if(chOp !== ''){
       this.searchState="I";
+      this.opStatus="S";
+      this.setTipoUsuario('');
     }
     else{
       this.searchState="U";
