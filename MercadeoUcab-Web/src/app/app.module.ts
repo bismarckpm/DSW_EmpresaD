@@ -10,23 +10,23 @@ import { EncuestadoModule } from './encuestado/encuestado.module';
 import { SharedModule } from './shared/shared.module';
 import { MaterialModule } from './material.module';
 import { LocalNgbModule } from './ngbootstrap.module';
+import { CoreModule } from './core/core.module';
 @NgModule({
   declarations: [
     AppComponent
   ],
   imports: [
     BrowserModule,
-    AnalistaModule,
     HttpClientModule,
-    AppRoutingModule,
     SharedModule,
     EncuestadoModule,
     ClienteModule,
     AnalistaModule,
     AdminModule,
-    MaterialModule,
     AppRoutingModule,
+    MaterialModule,
     LocalNgbModule,
+    CoreModule
   ],
   bootstrap: [AppComponent]
 })

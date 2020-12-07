@@ -3,10 +3,10 @@ import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {MatTableDataSource} from '@angular/material/table';
 import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
 import {STEPPER_GLOBAL_OPTIONS} from '@angular/cdk/stepper';
-import { Marca } from '../../models/marca';
-import { Pregunta } from '../../models/pregunta';
-import { Presentacion } from '../../models/presentacion';
-import { Solicitud } from '../../models/solicitud';
+import { Marca } from '@models/marca';
+import { Pregunta } from '@models/pregunta';
+import { Presentacion } from '@models/presentacion';
+import { Solicitud } from '@models/solicitud';
 
 @Component({
   selector: 'app-estudios',

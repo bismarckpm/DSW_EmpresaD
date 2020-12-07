@@ -1,8 +1,8 @@
-import {Component, OnInit} from '@angular/core';
-import {FormBuilder} from '@angular/forms';
-import {MatTableDataSource} from '@angular/material/table';
-import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
-import { Usuario } from '../../models/usuario';
+import { Component, OnInit} from '@angular/core';
+import { FormBuilder} from '@angular/forms';
+import { MatTableDataSource} from '@angular/material/table';
+import { NgbModal} from '@ng-bootstrap/ng-bootstrap';
+import { Usuario } from '@models/usuario';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 
 class UserModel {
