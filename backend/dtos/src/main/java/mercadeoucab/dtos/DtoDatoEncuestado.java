@@ -23,6 +23,18 @@ public class DtoDatoEncuestado extends DtoBase {
     public DtoDatoEncuestado(){}
     public DtoDatoEncuestado(long id)throws Exception{super(id);}
 
+    public DtoDatoEncuestado(String segundoNombre, String segundoapellido, String cedula, String medioConexion, Date edad, String genero, int nive_economico, String nivelAcademico, int personasHogar) {
+        this.segundoNombre = segundoNombre;
+        this.segundoapellido = segundoapellido;
+        this.cedula = cedula;
+        this.medioConexion = medioConexion;
+        this.edad = edad;
+        this.genero = genero;
+        this.nive_economico = nive_economico;
+        this.nivelAcademico = nivelAcademico;
+        this.personasHogar = personasHogar;
+    }
+
     public String getSegundoNombre() {
         return segundoNombre;
     }

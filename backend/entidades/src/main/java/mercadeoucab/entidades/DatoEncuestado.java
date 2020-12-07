@@ -42,6 +42,20 @@ public class DatoEncuestado extends EntidadBase{
     @JoinColumn( name = "fk_usuario")
     private Usuario usuario;
 
+    public DatoEncuestado(String segundoNombre, String segundoapellido, String cedula, String medioConexion, Date edad, String genero, int nive_economico, String nivelAcademico, int personasHogar) {
+        this.segundoNombre = segundoNombre;
+        this.segundoapellido = segundoapellido;
+        this.cedula = cedula;
+        this.medioConexion = medioConexion;
+        this.edad = edad;
+        this.genero = genero;
+        this.nive_economico = nive_economico;
+        this.nivelAcademico = nivelAcademico;
+        this.personasHogar = personasHogar;
+    }
+
+
+
     public DatoEncuestado(long id) {
         super(id);
     }

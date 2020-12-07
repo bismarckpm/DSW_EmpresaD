@@ -13,6 +13,12 @@ public class DtoParroquia extends DtoBase{
     public DtoParroquia() {
     }
 
+    public DtoParroquia(String nombre, int valor_socio_economico, DtoMunicipio fk_municipio) {
+        this.nombre = nombre;
+        this.valor_socio_economico = valor_socio_economico;
+        this.fk_municipio = fk_municipio;
+    }
+
     public String getNombre() {
         return nombre;
     }
