@@ -15,6 +15,14 @@ public class DtoUsuario extends DtoBase{
 
     public DtoUsuario(long id) throws Exception {super(id);}
 
+    public DtoUsuario(String nombre, String apellido, String rol, String estado, String correo) {
+        this.nombre = nombre;
+        this.apellido = apellido;
+        this.rol = rol;
+        this.estado = estado;
+        this.correo = correo;
+    }
+
     public String getNombre() {return nombre;}
     public void setNombre(String nombre) {this.nombre = nombre;}
 

@@ -13,6 +13,11 @@ public class DtoMunicipio extends DtoBase{
     public DtoMunicipio() {
     }
 
+    public DtoMunicipio(String nombre, DtoEstado fk_estado) {
+        this.nombre = nombre;
+        this.fk_estado = fk_estado;
+    }
+
     public String getNombre() {
         return nombre;
     }

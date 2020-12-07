@@ -11,6 +11,11 @@ public class DtoEstado extends DtoBase{
     public DtoEstado() {
     }
 
+    public DtoEstado(String nombre, DtoPais fk_pais) {
+        this.nombre = nombre;
+        this.fk_pais = fk_pais;
+    }
+
     public String getNombre() {
         return nombre;
     }

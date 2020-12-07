@@ -30,6 +30,16 @@ public class EntidadBase implements Serializable
         this._id = _id;
     }
 
+    public EntidadBase(int activo, Date creado_el) {
+        this.activo = activo;
+        this.creado_el = creado_el;
+    }
+
+    public EntidadBase(long _id, Date modificado_el) {
+        this._id = _id;
+        this.modificado_el = modificado_el;
+    }
+
     public int getActivo() {
         return activo;
     }
