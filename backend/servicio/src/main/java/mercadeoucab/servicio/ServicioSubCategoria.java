@@ -46,7 +46,7 @@ public class ServicioSubCategoria extends AplicacionBase{
             SubCategoria subCategoria = new SubCategoria();
             subCategoria.setNombre( dtoSubCategoria.getNombre());
             Categoria categoria = new Categoria(
-                    dtoSubCategoria.get_id()
+                    dtoSubCategoria.getCategoria().get_id()
             );
             subCategoria.setCategoria( categoria);
             subCategoria.setActivo( 1);
