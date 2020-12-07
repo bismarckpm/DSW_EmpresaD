@@ -14,7 +14,11 @@
     "lib": [
       "es2018",
       "dom"
-    ]
+    ],
+    "paths": {
+      "@core/*" :["src/app/core/*"],
+      "@models/*" : ["src/app/core/models/*"]
+    }
   },
   "angularCompilerOptions": {
     "fullTemplateTypeCheck": true,
