@@ -4,7 +4,7 @@ import { MatTableDataSource } from '@angular/material/table';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { DelLugarDialogComponent } from '../../components/dialogs/del-lugar-dialog/del-lugar-dialog.component';
 import { UpdLugarDialogComponent } from '../../components/dialogs/upd-lugar-dialog/upd-lugar-dialog.component';
-import { Pregunta } from '../../models/pregunta';
+import { Pregunta } from '@models/pregunta';
 
 @Component({
   selector: 'app-lugares',

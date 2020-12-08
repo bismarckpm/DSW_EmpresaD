@@ -47,9 +47,9 @@ export class EstudiosComponent implements OnInit {
   userSelection:number = 0
 
   marcas: Marca[] = [
-    {_id:1,activo:true,creado_el:new Date(),modificado_el:new Date()},
+    /*{_id:1,activo:true,creado_el:new Date(),modificado_el:new Date()},
     {_id:2,activo:true,creado_el:new Date(),modificado_el:new Date()},
-    {_id:3,activo:true,creado_el:new Date(),modificado_el:new Date()},
+    {_id:3,activo:true,creado_el:new Date(),modificado_el:new Date()},*/
   ];
   preguntas:Pregunta[] = [
   {_id:1,nombre_pregunta:'Preg 1',tipo:'simple',rango:'',activo:true,creado_el:new Date(),modificado_el:new Date()},
