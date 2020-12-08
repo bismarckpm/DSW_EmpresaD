@@ -13,6 +13,15 @@ public class DtoMuestraPoblacion extends DtoBase{
     public DtoMuestraPoblacion(){}
     public DtoMuestraPoblacion(long id)throws Exception{super(id);}
 
+    public DtoMuestraPoblacion(String genero, int nivelEconomico, String nivelAcademico, int rangoEdadInicio, int rangoEdadFin, int cantidadHijos) {
+        this.genero = genero;
+        this.nivelEconomico = nivelEconomico;
+        this.nivelAcademico = nivelAcademico;
+        this.rangoEdadInicio = rangoEdadInicio;
+        this.rangoEdadFin = rangoEdadFin;
+        this.cantidadHijos = cantidadHijos;
+    }
+
     public String getGenero() {
         return genero;
     }
