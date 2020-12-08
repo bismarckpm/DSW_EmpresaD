@@ -3,6 +3,7 @@ import mercadeoucab.dtos.DtoSolicitud;
 import mercadeoucab.dtos.DtoUsuario;
 import mercadeoucab.entidades.Marca;
 import mercadeoucab.entidades.Solicitud;
+import mercadeoucab.servicio.ServicioMarca;
 import mercadeoucab.servicio.ServicioSolicitud;
 import org.junit.Assert;
 import org.junit.Test;
@@ -17,7 +18,11 @@ public class ServicioSolicitudTest {
         DtoSolicitud dtoSolicitud = new DtoSolicitud();
         dtoSolicitud.setEstado("solicitada");
         // Se debe tener una marca agregada a la BD
-        dtoSolicitud.setMarca( new DtoMarca(1));
+        ServicioMarca servicioMarca = new ServicioMarca();
+        DtoMarca marca = new DtoMarca();
+        marca.setNombre("Rexona");
+        Marca registrarMarca = servicioMarca.registrarMarca(marca);
+        dtoSolicitud.setMarca( new DtoMarca(registrarMarca.get_id()));
         dtoSolicitud.setUsuario( new DtoUsuario( 1));
         DtoSolicitud resultado = servicio.registrarSolicitud( dtoSolicitud);
         Assert.assertNotEquals(resultado.get_id(), 0);
@@ -28,8 +33,11 @@ public class ServicioSolicitudTest {
         ServicioSolicitud servicio = new ServicioSolicitud();
         DtoSolicitud dtoSolicitud = new DtoSolicitud();
         dtoSolicitud.setEstado("solicitada");
-        // Se debe tener una marca agregada a la BD
-        dtoSolicitud.setMarca( new DtoMarca(1));
+        ServicioMarca servicioMarca = new ServicioMarca();
+        DtoMarca marca = new DtoMarca();
+        marca.setNombre("Rexona");
+        Marca registrarMarca = servicioMarca.registrarMarca(marca);
+        dtoSolicitud.setMarca( new DtoMarca(registrarMarca.get_id()));
         dtoSolicitud.setUsuario( new DtoUsuario( 1));
         DtoSolicitud paraActualizar = servicio.registrarSolicitud( dtoSolicitud);
         paraActualizar.setEstado("aceptada");
@@ -42,8 +50,11 @@ public class ServicioSolicitudTest {
         ServicioSolicitud servicio = new ServicioSolicitud();
         DtoSolicitud dtoSolicitud = new DtoSolicitud();
         dtoSolicitud.setEstado("solicitada");
-        // Se debe tener una marca agregada a la BD
-        dtoSolicitud.setMarca( new DtoMarca(1));
+        ServicioMarca servicioMarca = new ServicioMarca();
+        DtoMarca marca = new DtoMarca();
+        marca.setNombre("Rexona");
+        Marca registrarMarca = servicioMarca.registrarMarca(marca);
+        dtoSolicitud.setMarca( new DtoMarca(registrarMarca.get_id()));
         dtoSolicitud.setUsuario( new DtoUsuario( 1));
         DtoSolicitud paraBorrar = servicio.registrarSolicitud( dtoSolicitud);
         DtoSolicitud resultado = servicio.eliminarSolicitud( paraBorrar.get_id());
@@ -55,8 +66,11 @@ public class ServicioSolicitudTest {
         ServicioSolicitud servicio = new ServicioSolicitud();
         DtoSolicitud dtoSolicitud = new DtoSolicitud();
         dtoSolicitud.setEstado("solicitada");
-        // Se debe tener una marca agregada a la BD
-        dtoSolicitud.setMarca( new DtoMarca(1));
+        ServicioMarca servicioMarca = new ServicioMarca();
+        DtoMarca marca = new DtoMarca();
+        marca.setNombre("Rexona");
+        Marca registrarMarca = servicioMarca.registrarMarca(marca);
+        dtoSolicitud.setMarca( new DtoMarca(registrarMarca.get_id()));
         dtoSolicitud.setUsuario( new DtoUsuario( 1));
         DtoSolicitud paraConsultar = servicio.registrarSolicitud( dtoSolicitud);
         DtoSolicitud resultado = servicio.obtenerSolicitud( paraConsultar.get_id());

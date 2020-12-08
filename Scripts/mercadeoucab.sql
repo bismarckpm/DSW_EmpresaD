@@ -262,14 +262,14 @@ CREATE TABLE IF NOT EXISTS `mercadeoucab`.`estudio` (
   `modificado_el` TIMESTAMP NULL DEFAULT NULL,
   `fk_solicitud` INT NOT NULL,
   `fk_usuario` INT NULL DEFAULT NULL,
-  `fk_muestra_problacion` INT NULL DEFAULT NULL,
+  `fk_muestra_poblacion` INT NULL DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE INDEX `id_estudio_UNIQUE` (`id` ASC) VISIBLE,
   INDEX `id_solicitud_idx` (`fk_solicitud` ASC) VISIBLE,
   INDEX `fk_usuario_idx` (`fk_usuario` ASC) VISIBLE,
-  INDEX `fk_muestra_poblacion_idx` (`fk_muestra_problacion` ASC) VISIBLE,
+  INDEX `fk_muestra_poblacion_idx` (`fk_muestra_poblacion` ASC) VISIBLE,
   CONSTRAINT `fk_muestra_poblacion`
-    FOREIGN KEY (`fk_muestra_problacion`)
+    FOREIGN KEY (`fk_muestra_poblacion`)
     REFERENCES `mercadeoucab`.`muestra_poblacion` (`id`),
   CONSTRAINT `fk_solicitud`
     FOREIGN KEY (`fk_solicitud`)
