@@ -124,7 +124,8 @@ export class UsuariosComponent implements OnInit {
     return false;
   }
   invokeSearch(){
-    console.log(this.searchForm.value);
+    //console.log(this.searchForm.value);
+    this.searchState="P";
     setTimeout(()=>{
       for (let i = 0; i < Math.floor(Math.random()*(100-1)+1); i++) {
         this.users.push({id:i+1});

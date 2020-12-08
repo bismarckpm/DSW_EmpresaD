@@ -23,5 +23,12 @@ export class CategoriasComponent implements OnInit {
     this.setOperation('');
     this.searchState="U";
   }
-
+  invokeSearch(){
+    this.searchState="P";
+    setTimeout(()=>{
+      //DATA SOURCE EDIT
+      //this.dataSource = new MatTableDataSource<UserModel>(this.users);
+      this.searchState="D";
+    },3000);
+  }
 }

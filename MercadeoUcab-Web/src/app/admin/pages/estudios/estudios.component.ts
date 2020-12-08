@@ -109,6 +109,7 @@ export class EstudiosComponent implements OnInit {
   invokeSearch(){
     //console.log('Search works');
     //console.log(this.searchForm.value);
+    this.searchState="P";
     setTimeout(()=>{
       this.dataSource = new MatTableDataSource<Estudio>(this.estudios);
       this.searchState="D";

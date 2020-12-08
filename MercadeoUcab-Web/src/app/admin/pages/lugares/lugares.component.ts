@@ -5,6 +5,10 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { DelLugarDialogComponent } from '../../components/dialogs/del-lugar-dialog/del-lugar-dialog.component';
 import { UpdLugarDialogComponent } from '../../components/dialogs/upd-lugar-dialog/upd-lugar-dialog.component';
 import { Pregunta } from '@models/pregunta';
+import { EstadoService } from '@core/services/estado/estado.service';
+import { PaisService } from '@core/services/pais/pais.service';
+import { MunicipioService } from '@core/services/municipio/municipio.service';
+import { ParroquiaService } from '@core/services/parroquia/parroquia.service';
 
 @Component({
   selector: 'app-lugares',
@@ -12,7 +16,14 @@ import { Pregunta } from '@models/pregunta';
   styleUrls: ['./lugares.component.css']
 })
 export class LugaresComponent implements OnInit {
-  constructor(private modalService: NgbModal,private formBuilder: FormBuilder) { }
+  constructor(
+    private modalService: NgbModal,
+    private formBuilder: FormBuilder,
+    private _paisService:PaisService,
+    private _estadoService:EstadoService,
+    private _municipioService:MunicipioService,
+    private _parroquiaService:ParroquiaService,
+    ) { }
   userSelection:number = 0;
   
   @ViewChild('updLugar') private updComponent:UpdLugarDialogComponent;
@@ -24,9 +35,9 @@ export class LugaresComponent implements OnInit {
     return await this.delComponent.open();
   }
   op:string = "";
-  searchState:string;
-  dataSource : MatTableDataSource<Pregunta>;
-  preguntas: Pregunta [];
+  searchState:string="U";
+  //dataSource : MatTableDataSource<Lugar>;
+  //preguntas: Pregunta [];
   //CHEQUEO DE OPERACION
   opCheck(comp:string){
     if(comp === this.op){
@@ -50,7 +61,7 @@ export class LugaresComponent implements OnInit {
   invokeSearch(){
     this.searchState="P";
     setTimeout(()=>{
-      this.dataSource = new MatTableDataSource<Pregunta>(this.preguntas);
+      //this.dataSource = new MatTableDataSource<Pregunta>(this.preguntas);
       this.searchState="D";
     },3000);
   }

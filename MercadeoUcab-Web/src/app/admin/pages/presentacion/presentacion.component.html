@@ -1,62 +1,91 @@
-<div class="container" style="
-height: 90vh;
-width: 85vw;
-display: flex;
-flex-direction: column;
-justify-content: center;
-align-items: center;">
-<div *ngIf="op===''" class="container" style="height: 100%;width: 100%;">
-    <div class="row" style="height: 50%;">
-        <div class="col-8">
-            <mat-card class="menu-card"
-            (click)="setOperation('add')">
-            <mat-icon class="menu-card-icon">
-                add_box
-            </mat-icon>
-            <h3>Registrar presentación</h3>
-            </mat-card>
+<div class="container menu-container">
+    <div *ngIf="op===''" class="container" style="height: 100%;width: 100%;">
+        <div class="row" style="height: 50%;">
+            <div class="col-8">
+                <mat-card class="menu-card" (click)="setOperation('add')">
+                    <mat-icon class="menu-card-icon">
+                        add_box
+                    </mat-icon>
+                    <h3>Registrar presentación</h3>
+                </mat-card>
+            </div>
+            <div class="col">
+                <mat-card class="menu-card" (click)="setOperation('del')">
+                    <mat-icon class="menu-card-icon">
+                        delete_outline
+                    </mat-icon>
+                    <h3>Eliminar presentación</h3>
+                </mat-card>
+            </div>
         </div>
-        <div class="col" >
-            <mat-card class="menu-card"
-            (click)="setOperation('del')">
-            <mat-icon class="menu-card-icon">
-                delete_outline
-            </mat-icon>
-            <h3>Eliminar presentación</h3>
-            </mat-card>
-        </div>
-    </div>
-    <div class="row" style="height: 50%;">
-        <div class="col" >
-            <mat-card class="menu-card"
-            (click)="setOperation('upd')">
-            <mat-icon class="menu-card-icon">
-                update
-            </mat-icon>
-            <h3>Modificar presentación</h3>
-            </mat-card>
-        </div>
-        <div class="col">
-            <mat-card class="menu-card"
-            (click)="setOperation('list')">
-            <mat-icon class="menu-card-icon">
-               zoom_in
-            </mat-icon>
-            <h3>Consultar presentaciones</h3>
-            </mat-card>
+        <div class="row" style="height: 50%;">
+            <div class="col">
+                <mat-card class="menu-card" (click)="setOperation('upd')">
+                    <mat-icon class="menu-card-icon">
+                        update
+                    </mat-icon>
+                    <h3>Modificar presentación</h3>
+                </mat-card>
+            </div>
+            <div class="col">
+                <mat-card class="menu-card" (click)="setOperation('list')">
+                    <mat-icon class="menu-card-icon">
+                        zoom_in
+                    </mat-icon>
+                    <h3>Consultar presentaciones</h3>
+                </mat-card>
+            </div>
         </div>
     </div>
-    <!--COMPONENTE DE BÚSQUEDA
+    <div *ngIf="op==='add'" style="height: 75%;width: 75%;">
+        <h4>Registrar</h4>
+    </div>
+    <!--COMPONENTE DE BÚSQUEDA-->
     <div *ngIf="op!=='add' && searchState==='I'" style="height: 75%;width: 75%;">
-    
+        <mat-card style="height: 100%;width: 100%;text-align: center;display: flex;flex-direction: column;">
+            <h4>Asistente de búsqueda</h4>
+            <form (submit)="invokeSearch()" style="flex:1">
+                <div style="width: 100%;height: 80%; display: flex; flex-direction: row;justify-content: space-around;">
+                    <!--
+                    <div style="width: 45%;height: 100%;">
+                        <div class="form-group">
+                            <label for="userNewName">Nombre de usuario</label>
+                            <input type="text" formControlName="nombre" class="form-control" id="userNewName" aria-describedby="newNameHelp">
+                        </div>
+                    </div>
+                    -->
+                </div>
+                <div class="cForm-actions">
+                    <button type="button" class="btn btn-outline-dark" (click)="setOperation('')">Cancelar</button>
+                    <mat-divider [vertical]="true" [inset]="true"></mat-divider>
+                    <button type="submit" class="btn btn-primary" style="color: white;">Buscar</button>
+                </div>
+                </form>
+            </mat-card>
     </div>
-     -->
-    <!--COMPONENTE DE MUESTRA DE RESULTADOS
-    <div *ngIf="searchState==='D'" style="width: 100%;height:100%; display: flex; flex-direction: column; justify-content: space-around; align-items: center;">
+    <!--COMPONENTE DE MUESTRA DE RESULTADOS-->
+    <div *ngIf="searchState!=='U' && searchState!=='I'"
+        style="width: 100%;height:100%; display: flex; flex-direction: column; justify-content: space-around; align-items: center;">
         <app-data-table>
-
+            <!--TABLA DE DATOS-->
+            <!--
+            <table mat-table [dataSource]="dataSource" class="mat-elevation-z8" style="flex:1; overflow-y: auto;" *ngIf="searchState==='D'">
+            </table>
+            -->
+            <div class="cForm-field-col" style="justify-content:center;align-items: center; align-self: center;" *ngIf="searchState==='P'">
+                <div class="text-center">
+                    <h3>Procesando búsqueda</h3>
+                </div>
+                <div class="text-center" style="flex: 1;
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                justify-content: center;">
+                    <div class="spinner-border" style="width: 7.5rem; height: 7.5rem;" role="status">
+                        <span class="sr-only">Loading...</span>
+                    </div>
+                </div>
+            </div>
         </app-data-table>
     </div>
-    -->
 </div>
-

@@ -3,15 +3,15 @@ import { FormBuilder } from '@angular/forms';
 import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
-  selector: 'app-update-pregunta-dialog',
-  templateUrl: './update-pregunta-dialog.component.html',
-  styleUrls: ['./update-pregunta-dialog.component.css']
+  selector: 'app-del-pregunta-dialog',
+  templateUrl: './del-pregunta-dialog.component.html',
+  styleUrls: ['./del-pregunta-dialog.component.css']
 })
-export class UpdatePreguntaDialogComponent implements OnInit {
+export class DelPreguntaDialogComponent implements OnInit {
 
   opStatus:string;//S,P,D
 
-  @ViewChild('updLugar') private modalContent: TemplateRef<UpdatePreguntaDialogComponent>;
+  @ViewChild('updLugar') private modalContent: TemplateRef<DelPreguntaDialogComponent>;
   private modalRef: NgbModalRef;
   constructor(private modalService: NgbModal,private formBuilder: FormBuilder){}
   @Input() _userSelection : number;
