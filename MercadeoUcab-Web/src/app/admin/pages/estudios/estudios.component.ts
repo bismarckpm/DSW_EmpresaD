@@ -3,13 +3,13 @@ import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {MatTableDataSource} from '@angular/material/table';
 import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
 import {STEPPER_GLOBAL_OPTIONS} from '@angular/cdk/stepper';
-import { Marca } from '../../models/marca';
-import { Pregunta } from '../../models/pregunta';
-import { Presentacion } from '../../models/presentacion';
-import { Solicitud } from '../../models/solicitud';
 import { DelEstudioDialogComponent } from '../../components/dialogs/del-estudio-dialog/del-estudio-dialog.component';
 import { UpdEstudioDialogComponent } from '../../components/dialogs/upd-estudio-dialog/upd-estudio-dialog.component';
-import { Estudio } from '../../models/estudio';
+import { Estudio } from '@models/estudio';
+import { Marca } from '@models/marca';
+import { Pregunta } from '@models/pregunta';
+import { Presentacion } from '@models/presentacion';
+import { Solicitud } from '@models/solicitud';
 
 @Component({
   selector: 'app-estudios',
@@ -28,39 +28,40 @@ export class EstudiosComponent implements OnInit {
   columnsToDisplay: string[] = this.displayedColumns.slice();
   userSelection:number = 0;
   dataSource : MatTableDataSource<UserModel>;*/
+  solicitudSelec: number;
+  solicitudes:Solicitud[]=[
+    /*{ _id:1, estado:'I', activo:false, creado_el:new Date(), modificado_el:new Date()},
+    { _id:2, estado:'I', activo:false, creado_el:new Date(), modificado_el:new Date()},
+    { _id:3, estado:'A', activo:false, creado_el:new Date(), modificado_el:new Date()},
+    { _id:4, estado:'I', activo:false, creado_el:new Date(), modificado_el:new Date()},
+    { _id:5, estado:'I', activo:false, creado_el:new Date(), modificado_el:new Date()},
+    { _id:6, estado:'I', activo:false, creado_el:new Date(), modificado_el:new Date()}*/
+  ];
   estudios: Estudio[] = [
-    {id_estudio:1,estado:'A',tipo:'A',encuestas_esperadas:98,activo:true,creado_el:new Date(),modificado_el:new Date()},
-    {id_estudio:2,estado:'A',tipo:'A',encuestas_esperadas:3,activo:true,creado_el:new Date(),modificado_el:new Date()},
-    {id_estudio:3,estado:'A',tipo:'A',encuestas_esperadas:16,activo:true,creado_el:new Date(),modificado_el:new Date()},
-    {id_estudio:4,estado:'A',tipo:'A',encuestas_esperadas:50,activo:true,creado_el:new Date(),modificado_el:new Date()},
+    {_id:1,estado:'A',tipo:'A',encuestas_esperadas:98,activo:true,creado_el:new Date(),modificado_el:new Date()},
+    {_id:2,estado:'A',tipo:'A',encuestas_esperadas:3,activo:true,creado_el:new Date(),modificado_el:new Date()},
+    {_id:3,estado:'A',tipo:'A',encuestas_esperadas:16,activo:true,creado_el:new Date(),modificado_el:new Date()},
+    {_id:4,estado:'A',tipo:'A',encuestas_esperadas:50,activo:true,creado_el:new Date(),modificado_el:new Date()},
   ];
   dataSource : MatTableDataSource<Estudio>;
-  userSelection:number = 0;
-  solicitudes:Solicitud[]=[
-    {id_solicitud:1,estado:'I',activo:false,creado_el:new Date(),modificado_el:new Date()},
-    {id_solicitud:2,estado:'I',activo:false,creado_el:new Date(),modificado_el:new Date()},
-    {id_solicitud:3,estado:'A',activo:false,creado_el:new Date(),modificado_el:new Date()},
-    {id_solicitud:4,estado:'I',activo:false,creado_el:new Date(),modificado_el:new Date()},
-    {id_solicitud:5,estado:'I',activo:false,creado_el:new Date(),modificado_el:new Date()},
-    {id_solicitud:6,estado:'I',activo:false,creado_el:new Date(),modificado_el:new Date()},
-  ];
+  userSelection:number = 0
 
   marcas: Marca[] = [
-    {id_marca:1,activo:true,creado_el:new Date(),modificado_el:new Date()},
-    {id_marca:2,activo:true,creado_el:new Date(),modificado_el:new Date()},
-    {id_marca:3,activo:true,creado_el:new Date(),modificado_el:new Date()}
+    {_id:1,activo:true,creado_el:new Date(),modificado_el:new Date()},
+    {_id:2,activo:true,creado_el:new Date(),modificado_el:new Date()},
+    {_id:3,activo:true,creado_el:new Date(),modificado_el:new Date()},
   ];
   preguntas:Pregunta[] = [
-  {id_pregunta:1,nombre_pregunta:'Preg 1',tipo:'simple',rango:'',activo:true,creado_el:new Date(),modificado_el:new Date()},
-  {id_pregunta:2,nombre_pregunta:'Preg 2',tipo:'simple',rango:'',activo:true,creado_el:new Date(),modificado_el:new Date()},
-  {id_pregunta:3,nombre_pregunta:'Preg 3',tipo:'simple',rango:'',activo:true,creado_el:new Date(),modificado_el:new Date()},
-  {id_pregunta:4,nombre_pregunta:'Preg 4',tipo:'simple',rango:'',activo:true,creado_el:new Date(),modificado_el:new Date()},
-  {id_pregunta:5,nombre_pregunta:'Preg 5',tipo:'simple',rango:'',activo:true,creado_el:new Date(),modificado_el:new Date()},
-  {id_pregunta:6,nombre_pregunta:'Preg 6',tipo:'simple',rango:'',activo:true,creado_el:new Date(),modificado_el:new Date()},
+  {_id:1,nombre_pregunta:'Preg 1',tipo:'simple',rango:'',activo:true,creado_el:new Date(),modificado_el:new Date()},
+  {_id:2,nombre_pregunta:'Preg 2',tipo:'simple',rango:'',activo:true,creado_el:new Date(),modificado_el:new Date()},
+  {_id:3,nombre_pregunta:'Preg 3',tipo:'simple',rango:'',activo:true,creado_el:new Date(),modificado_el:new Date()},
+  {_id:4,nombre_pregunta:'Preg 4',tipo:'simple',rango:'',activo:true,creado_el:new Date(),modificado_el:new Date()},
+  {_id:5,nombre_pregunta:'Preg 5',tipo:'simple',rango:'',activo:true,creado_el:new Date(),modificado_el:new Date()},
+  {_id:6,nombre_pregunta:'Preg 6',tipo:'simple',rango:'',activo:true,creado_el:new Date(),modificado_el:new Date()},
   ];
   pregAsoc:Pregunta[]=[];
   presentaciones: Presentacion[] = [{
-    id_presentacion:1,
+    _id:1,
     tipo:'empaque',
     cantidad:'1x16',
     activo:true,
@@ -87,16 +88,27 @@ export class EstudiosComponent implements OnInit {
   }
   ngOnInit(): void {
     this.searchForm = this.formBuilder.group({
-      
+
     });
     //FORMUALRIO PARA SOLICITUD
     this.addForm = this.formBuilder.group({
+      /*estado:'',
+      activo:1,
+      creado_el:'',
+      modificado_el:'',
+      fk_usuario:1,
+      fk_marca:0,
+      fk_subCategoria:0,
+      fk_presentacion:0,
+      fk_tipoSolicitud:0,
+      preguntas:[]*/
       fk_solicitud:0,
     })
     this.setOperation('');
   }
   invokeSearch(){
-    this.searchState="P";
+    //console.log('Search works');
+    //console.log(this.searchForm.value);
     setTimeout(()=>{
       this.dataSource = new MatTableDataSource<Estudio>(this.estudios);
       this.searchState="D";

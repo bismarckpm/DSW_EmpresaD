@@ -37,6 +37,7 @@ public class Dao<T>
             _daoHandler.beginTransaction();
             _em.persist( entity );
             _em.flush();
+            _em.clear();
             _daoHandler.finishTransaction();
         }
         catch ( Exception e )
@@ -56,6 +57,7 @@ public class Dao<T>
             _daoHandler.beginTransaction();
             _em.merge( entity );
             _em.flush();
+            _em.clear();
             _daoHandler.finishTransaction();
 
         }
@@ -83,6 +85,7 @@ public class Dao<T>
             _daoHandler.beginTransaction();
             _em.remove( entity );
             _em.flush();
+            _em.clear();
             _daoHandler.finishTransaction();
 
         }

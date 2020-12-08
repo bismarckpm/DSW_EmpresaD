@@ -2,10 +2,11 @@ import {Component, OnInit, ViewChild} from '@angular/core';
 import {FormBuilder} from '@angular/forms';
 import {MatTableDataSource} from '@angular/material/table';
 import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
-import { Usuario } from '../../models/usuario';
+import { Usuario } from '@models/usuario';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { UpdateUserDialogComponent } from '../../components/dialogs/update-user-dialog/update-user-dialog.component';
 import { DeleteUserDialogComponent } from '../../components/dialogs/delete-user-dialog/delete-user-dialog.component';
+import { UsuarioService } from '@core/services/usuario/usuario.service';
 
 class UserModel {
   id:number;
@@ -22,17 +23,17 @@ export class UsuariosComponent implements OnInit {
   op:string;
   searchState:string;//U.I,D
   users: UserModel[] = [];
-  
+
   //COLUMNAS DE TABLA DE RESULTADOS
   displayedColumns: string[] = ['id','selector','ops'];
   columnsToDisplay: string[] = this.displayedColumns.slice();
-  
+
   //INDICE DE USUARIO SELECCIONADO
   userSelection:number = 0;
-  
+
   //LISTA DE USUARIOS DEVUELTOS EN BÚSQUEDA
   dataSource : MatTableDataSource<UserModel>;
-  
+
   //FORMULARIOS
   updForm;
   searchForm;
@@ -43,8 +44,12 @@ export class UsuariosComponent implements OnInit {
   setTipoUsuario(tipo:string){
     this.userRole=tipo;
   }
-  
-   constructor(private modalService: NgbModal,private formBuilder: FormBuilder) { 
+
+   constructor(
+     private modalService: NgbModal,
+     private formBuilder: FormBuilder,
+     private _userService: UsuarioService,
+    ) {
     this.updForm = this.formBuilder.group({
       nombre:'',
     });
@@ -59,9 +64,22 @@ export class UsuariosComponent implements OnInit {
     })
    }
 
+  getUsers(){
+    this._userService.getUsers().subscribe(
+      response => {
+        console.log(response);
+      },
+      error => {
+        console.log(error);
+      }
+    )
+  }
+  ngAfterViewInit() {}
+
   ngOnInit(): void {
     this.setOperation('');
     this.searchState="U";
+    this.getUsers();
   }
   @ViewChild('updUser') private updComponent:UpdateUserDialogComponent;
   async openUpdModal() {
@@ -71,7 +89,7 @@ export class UsuariosComponent implements OnInit {
   async openDelModal() {
     return await this.delComponent.open();
   }
-  
+
   serviceInvoke(role:string){
     //MEDIO PARA DETERMINAR SERVICIO A INVOCAR SEGUN FORMULARIO DE CREACION DE USUARIO
     switch(role){

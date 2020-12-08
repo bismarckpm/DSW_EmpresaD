@@ -10,7 +10,6 @@
         <relativePath>../pom.xml</relativePath>
     </parent>
 
-    <groupId>mercadeoucab</groupId>
     <artifactId>excepciones</artifactId>
     <version>1.0-SNAPSHOT</version>
     <name>excepciones</name>

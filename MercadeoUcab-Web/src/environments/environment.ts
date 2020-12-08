@@ -8,7 +8,7 @@ export const environment = {
 
 export const GLOBAL = {
   url: '',
-  urlLocal: 'http://127.0.0.1:3334',
+  urlOscar: 'http://localhost:8080/servicio-1.0-SNAPSHOT/api/v1',
 };
 
 /*
