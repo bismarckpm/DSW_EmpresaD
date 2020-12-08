@@ -1,10 +1,10 @@
-import { Categoria } from './categoria';
+import { Pais } from './pais';
 
-export class SubCategoria{
+export class Estado{
     constructor(
-        public id_sub_categoria:number,
+        public _id::number,
         public nombre:string,
-        public categoria: Categoria, 
+        public fk_pais: Pais,
         public activo:boolean,
         public creado_el:any,
         public modificado_el:any

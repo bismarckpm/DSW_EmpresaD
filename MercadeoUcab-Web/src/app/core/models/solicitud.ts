@@ -1,8 +1,12 @@
+import { Marca } from './marca';
+import { Usuario } from './usuario';
+
 export class Solicitud{
     constructor(
-        public id_solicitud:number,
+        public _id:number,
         public estado:string,
-        // Faltan relaciones 
+        public usuario: Usuario,
+        public marca: Marca,
         public activo:boolean,
         public creado_el:any,
         public modificado_el:any

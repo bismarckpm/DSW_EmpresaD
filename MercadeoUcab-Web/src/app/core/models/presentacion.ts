@@ -1,6 +1,6 @@
 export class Presentacion{
     constructor(
-        public id_presentacion:number,
+        public _id:number,
         public cantidad:string,
         public tipo:string,
         public activo:boolean,

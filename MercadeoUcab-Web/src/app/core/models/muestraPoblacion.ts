@@ -1,6 +1,6 @@
-export class Muestra_Poblacion{
+export class MuestraPoblacion{
     constructor(
-        public id_muestra:number,
+        public _id:number,
         public genero:string,
         public nivel_economico:string,
         //Posible error

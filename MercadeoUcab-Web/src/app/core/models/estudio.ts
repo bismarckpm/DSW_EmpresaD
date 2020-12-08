@@ -1,6 +1,6 @@
 export class Estudio{
     constructor(
-        public id_estudio:number,
+        public _id:number,
         public estado:string,
         public tipo:string,
         public encuestas_esperadas:number,

@@ -1,6 +1,6 @@
 export class Pregunta{
     constructor(
-        public id_pregunta:number,
+        public _id:number,
         public nombre_pregunta:string,
         public tipo:string,
         public rango:string,

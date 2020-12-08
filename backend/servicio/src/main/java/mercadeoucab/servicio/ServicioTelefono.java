@@ -19,7 +19,7 @@ public class ServicioTelefono extends AplicacionBase {
     @GET
     @Path("/{id}")
     // @PathParam("id") Long id
-    public DtoTelefono obtenerTelefono( long id){
+    public DtoTelefono obtenerTelefono( @PathParam("id") Long id){
         DtoTelefono resultado = new DtoTelefono();
         try{
             DaoTelefono dao = new DaoTelefono();

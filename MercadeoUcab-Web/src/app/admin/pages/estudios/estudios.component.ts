@@ -27,30 +27,30 @@ export class EstudiosComponent implements OnInit {
   dataSource : MatTableDataSource<UserModel>;*/
   solicitudSelec: number;
   solicitudes:Solicitud[]=[
-    {id_solicitud:1,estado:'I',activo:false,creado_el:new Date(),modificado_el:new Date()},
-    {id_solicitud:2,estado:'I',activo:false,creado_el:new Date(),modificado_el:new Date()},
-    {id_solicitud:3,estado:'A',activo:false,creado_el:new Date(),modificado_el:new Date()},
-    {id_solicitud:4,estado:'I',activo:false,creado_el:new Date(),modificado_el:new Date()},
-    {id_solicitud:5,estado:'I',activo:false,creado_el:new Date(),modificado_el:new Date()},
-    {id_solicitud:6,estado:'I',activo:false,creado_el:new Date(),modificado_el:new Date()},
+    /*{ _id:1, estado:'I', activo:false, creado_el:new Date(), modificado_el:new Date()},
+    { _id:2, estado:'I', activo:false, creado_el:new Date(), modificado_el:new Date()},
+    { _id:3, estado:'A', activo:false, creado_el:new Date(), modificado_el:new Date()},
+    { _id:4, estado:'I', activo:false, creado_el:new Date(), modificado_el:new Date()},
+    { _id:5, estado:'I', activo:false, creado_el:new Date(), modificado_el:new Date()},
+    { _id:6, estado:'I', activo:false, creado_el:new Date(), modificado_el:new Date()}*/
   ];
 
   marcas: Marca[] = [
-    {id_marca:1,activo:true,creado_el:new Date(),modificado_el:new Date()},
-    {id_marca:2,activo:true,creado_el:new Date(),modificado_el:new Date()},
-    {id_marca:3,activo:true,creado_el:new Date(),modificado_el:new Date()}
+    {_id:1,activo:true,creado_el:new Date(),modificado_el:new Date()},
+    {_id:2,activo:true,creado_el:new Date(),modificado_el:new Date()},
+    {_id:3,activo:true,creado_el:new Date(),modificado_el:new Date()}
   ];
   preguntas:Pregunta[] = [
-  {id_pregunta:1,nombre_pregunta:'Preg 1',tipo:'simple',rango:'',activo:true,creado_el:new Date(),modificado_el:new Date()},
-  {id_pregunta:2,nombre_pregunta:'Preg 2',tipo:'simple',rango:'',activo:true,creado_el:new Date(),modificado_el:new Date()},
-  {id_pregunta:3,nombre_pregunta:'Preg 3',tipo:'simple',rango:'',activo:true,creado_el:new Date(),modificado_el:new Date()},
-  {id_pregunta:4,nombre_pregunta:'Preg 4',tipo:'simple',rango:'',activo:true,creado_el:new Date(),modificado_el:new Date()},
-  {id_pregunta:5,nombre_pregunta:'Preg 5',tipo:'simple',rango:'',activo:true,creado_el:new Date(),modificado_el:new Date()},
-  {id_pregunta:6,nombre_pregunta:'Preg 6',tipo:'simple',rango:'',activo:true,creado_el:new Date(),modificado_el:new Date()},
+  {_id:1,nombre_pregunta:'Preg 1',tipo:'simple',rango:'',activo:true,creado_el:new Date(),modificado_el:new Date()},
+  {_id:2,nombre_pregunta:'Preg 2',tipo:'simple',rango:'',activo:true,creado_el:new Date(),modificado_el:new Date()},
+  {_id:3,nombre_pregunta:'Preg 3',tipo:'simple',rango:'',activo:true,creado_el:new Date(),modificado_el:new Date()},
+  {_id:4,nombre_pregunta:'Preg 4',tipo:'simple',rango:'',activo:true,creado_el:new Date(),modificado_el:new Date()},
+  {_id:5,nombre_pregunta:'Preg 5',tipo:'simple',rango:'',activo:true,creado_el:new Date(),modificado_el:new Date()},
+  {_id:6,nombre_pregunta:'Preg 6',tipo:'simple',rango:'',activo:true,creado_el:new Date(),modificado_el:new Date()},
   ];
   pregAsoc:Pregunta[]=[];
   presentaciones: Presentacion[] = [{
-    id_presentacion:1,
+    _id:1,
     tipo:'empaque',
     cantidad:'1x16',
     activo:true,

@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { GLOBAL} from '../../../../environments/environment';
+import { GLOBAL} from '@env/environment';
 import { Observable } from 'rxjs';
 
 @Injectable({
@@ -8,6 +8,12 @@ import { Observable } from 'rxjs';
 })
 export class Muestra_poblacionService {
 
-constructor() { }
+  public url: string;
+
+  constructor(
+    public _http:HttpClient
+  ) { 
+    this.url = GLOBAL.urlOscar;
+  }
 
 }

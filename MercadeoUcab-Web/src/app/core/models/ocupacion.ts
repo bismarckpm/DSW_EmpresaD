@@ -1,6 +1,6 @@
 export class Ocupacion{
     constructor(
-        public id_ocupacion:number,
+        public _id:number,
         public nombre:string,
         // RELACIONES CON DATOS Y POBLACION MUESTRA
         public activo:boolean,

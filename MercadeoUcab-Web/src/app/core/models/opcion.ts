@@ -1,6 +1,6 @@
 export class Opcion{
     constructor(
-        public id_opcion:number,
+        public _id:number,
         public nombre_opcion:string,
         // Falta relacion con pregunta
         public activo:boolean,

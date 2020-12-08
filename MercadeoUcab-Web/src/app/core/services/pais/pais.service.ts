@@ -6,7 +6,7 @@ import { Observable } from 'rxjs';
 @Injectable({
   providedIn: 'root'
 })
-export class MarcaService {
+export class PaisService {
   public url: string;
 
   constructor(
@@ -15,41 +15,41 @@ export class MarcaService {
     this.url = GLOBAL.urlOscar;
   }
 
-  getMarcas(): Observable<any>{
-    return this._http.get( this.url + '/marcas');
+  getPaises(): Observable<any>{
+    return this._http.get( this.url + '/paises');
   }
 
-  getMarca(id): Observable<any>{
-    return this._http.get( this.url + '/marcas' + id);
+  getPais(id): Observable<any>{
+    return this._http.get( this.url + '/paises' + id);
   }
 
-  createMarca( data){
+  createPais( data){
     let json = JSON.stringify({
       "nombre": data.nombre
     });
     let params =json;
     return this._http.post( 
-      this.url + '/marcas/', 
+      this.url + '/paises/', 
       { params: params}
     );
   }
 
-  updateMarca( id, data){
+  updatePais( id, data){
     let json = JSON.stringify({
       "_id": data._id,
       "nombre": data.nombre
     });
     let params =json;
     return this._http.put( 
-      this.url + '/marcas/' + id, 
+      this.url + '/paises/' + id, 
       { params: params}
     );
   }
 
-  deleteMarca( id, data){
+  deletePais( id, data){
     // Ignorar data por los momentos
     return this._http.put( 
-      this.url + '/marcas/' + id + '/eliminar', 
+      this.url + '/paises/' + id + '/eliminar', 
       data
     );
   }

@@ -11,7 +11,7 @@ import java.sql.Date;
 import java.util.Calendar;
 import java.util.List;
 
-@Path( "/solicitudes" )
+@Path( "/subcategorias" )
 @Produces( MediaType.APPLICATION_JSON )
 @Consumes( MediaType.APPLICATION_JSON )
 public class ServicioSubCategoria extends AplicacionBase{

@@ -18,7 +18,7 @@ public class ServicioUsuario extends AplicacionBase{
     @GET
     @Path("/{id}")
     // @PathParam("id") Long id
-    public DtoUsuario obtenerUsuario(long id){
+    public DtoUsuario obtenerUsuario(@PathParam("id") Long id){
         DtoUsuario resultado = new DtoUsuario();
         try{
             DaoUsuario dao = new DaoUsuario();

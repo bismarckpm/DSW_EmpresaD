@@ -1,10 +1,10 @@
-import { Categoria } from './categoria';
+import { Estado } from './estado';
 
-export class SubCategoria{
+export class Municipio{
     constructor(
-        public id_sub_categoria:number,
+        public _id::number,
         public nombre:string,
-        public categoria: Categoria, 
+        public fk_estado: Estado,
         public activo:boolean,
         public creado_el:any,
         public modificado_el:any

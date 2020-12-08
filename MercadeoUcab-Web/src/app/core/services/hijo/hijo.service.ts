@@ -6,7 +6,7 @@ import { Observable } from 'rxjs';
 @Injectable({
   providedIn: 'root'
 })
-export class UsuarioService {
+export class HijoService {
   public url: string;
 
   constructor(
@@ -15,50 +15,47 @@ export class UsuarioService {
     this.url = GLOBAL.urlOscar;
   }
 
-  getUsers(): Observable<any>{
-    return this._http.get( this.url + '/usuarios');
+  getHijos(): Observable<any>{
+    return this._http.get( this.url + '/hijos');
   }
 
-  getUser(id): Observable<any>{
-    return this._http.get( this.url + '/usuarios' + id);
+  getHijo(id): Observable<any>{
+    return this._http.get( this.url + '/hijos' + id);
   }
 
-  createUser( data){
+  createHijo( data){
     let json = JSON.stringify({
-      "nombre": data.nombre,
-      "apellido": data.apellido,
-      "estado": data.estado,
-      "rol": data.rol,
+      "genero": data.genero,
+      "edad": data.edad,
+      "fk_dato_encuestado": {
+        "_id": data.fk_dato_encuestado._id
+      },
       "correo": data.correo
     });
     let params =json;
     return this._http.post( 
-      this.url + '/usuarios/', 
+      this.url + '/hijos/', 
       { params: params}
     );
   }
 
-  updateUser( id, data){
+  updateHijo( id, data){
     let json = JSON.stringify({
       "_id": data._id,
-      "nombre": data.nombre,
-      "apellido": data.apellido,
-      "estado": data.estado,
-      "activo": data.activo,
-      "creado_el": data.creado_el,
-      "modificado_el": data.modificado_el
+      "genero": data.genero,
+      "edad": data.edad,
     });
     let params =json;
     return this._http.put( 
-      this.url + '/usuarios/' + id, 
+      this.url + '/hijos/' + id, 
       { params: params}
     );
   }
 
-  deleteUser( id, data){
+  deleteHijo( id, data){
     // Ignorar data por los momentos
     return this._http.put( 
-      this.url + '/usuarios/' + id + '/eliminar', 
+      this.url + '/hijos/' + id + '/eliminar', 
       data
     );
   }

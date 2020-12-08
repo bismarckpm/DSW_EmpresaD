@@ -6,7 +6,7 @@ import { Observable } from 'rxjs';
 @Injectable({
   providedIn: 'root'
 })
-export class UsuarioService {
+export class MunicipioService {
   public url: string;
 
   constructor(
@@ -15,50 +15,44 @@ export class UsuarioService {
     this.url = GLOBAL.urlOscar;
   }
 
-  getUsers(): Observable<any>{
-    return this._http.get( this.url + '/usuarios');
+  getMunicipios(): Observable<any>{
+    return this._http.get( this.url + '/municipios');
   }
 
-  getUser(id): Observable<any>{
-    return this._http.get( this.url + '/usuarios' + id);
+  getMunicipio(id): Observable<any>{
+    return this._http.get( this.url + '/municipios' + id);
   }
 
-  createUser( data){
+  createMunicipio( data){
     let json = JSON.stringify({
       "nombre": data.nombre,
-      "apellido": data.apellido,
-      "estado": data.estado,
-      "rol": data.rol,
-      "correo": data.correo
+      "fk_estado": {
+        "_id": data.fk_estado._id
+      }
     });
     let params =json;
     return this._http.post( 
-      this.url + '/usuarios/', 
+      this.url + '/municipios/', 
       { params: params}
     );
   }
 
-  updateUser( id, data){
+  updateMunicipio( id, data){
     let json = JSON.stringify({
       "_id": data._id,
-      "nombre": data.nombre,
-      "apellido": data.apellido,
-      "estado": data.estado,
-      "activo": data.activo,
-      "creado_el": data.creado_el,
-      "modificado_el": data.modificado_el
+      "nombre": data.nombre
     });
     let params =json;
     return this._http.put( 
-      this.url + '/usuarios/' + id, 
+      this.url + '/municipios/' + id, 
       { params: params}
     );
   }
 
-  deleteUser( id, data){
+  deleteMunicipio( id, data){
     // Ignorar data por los momentos
     return this._http.put( 
-      this.url + '/usuarios/' + id + '/eliminar', 
+      this.url + '/municipios/' + id + '/eliminar', 
       data
     );
   }

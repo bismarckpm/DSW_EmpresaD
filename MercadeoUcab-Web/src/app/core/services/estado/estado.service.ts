@@ -6,7 +6,7 @@ import { Observable } from 'rxjs';
 @Injectable({
   providedIn: 'root'
 })
-export class UsuarioService {
+export class EstadoService {
   public url: string;
 
   constructor(
@@ -15,50 +15,44 @@ export class UsuarioService {
     this.url = GLOBAL.urlOscar;
   }
 
-  getUsers(): Observable<any>{
-    return this._http.get( this.url + '/usuarios');
+  getEstados(): Observable<any>{
+    return this._http.get( this.url + '/estados');
   }
 
-  getUser(id): Observable<any>{
-    return this._http.get( this.url + '/usuarios' + id);
+  getEstado(id): Observable<any>{
+    return this._http.get( this.url + '/estados' + id);
   }
 
-  createUser( data){
+  createEstado( data){
     let json = JSON.stringify({
       "nombre": data.nombre,
-      "apellido": data.apellido,
-      "estado": data.estado,
-      "rol": data.rol,
-      "correo": data.correo
+      "fk_pais": {
+        "_id": data.fk_pais._id
+      }
     });
     let params =json;
     return this._http.post( 
-      this.url + '/usuarios/', 
+      this.url + '/estados/', 
       { params: params}
     );
   }
 
-  updateUser( id, data){
+  updateEstado( id, data){
     let json = JSON.stringify({
       "_id": data._id,
-      "nombre": data.nombre,
-      "apellido": data.apellido,
-      "estado": data.estado,
-      "activo": data.activo,
-      "creado_el": data.creado_el,
-      "modificado_el": data.modificado_el
+      "nombre": data.nombre
     });
     let params =json;
     return this._http.put( 
-      this.url + '/usuarios/' + id, 
+      this.url + '/estados/' + id, 
       { params: params}
     );
   }
 
-  deleteUser( id, data){
+  deleteEstado( id, data){
     // Ignorar data por los momentos
     return this._http.put( 
-      this.url + '/usuarios/' + id + '/eliminar', 
+      this.url + '/estados/' + id + '/eliminar', 
       data
     );
   }

@@ -4,6 +4,7 @@ import { MatTableDataSource} from '@angular/material/table';
 import { NgbModal} from '@ng-bootstrap/ng-bootstrap';
 import { Usuario } from '@models/usuario';
 import { MatDatepickerModule } from '@angular/material/datepicker';
+import { UsuarioService } from '@core/services/usuario/usuario.service';
 
 class UserModel {
   id:number;
@@ -20,6 +21,7 @@ export class UsuariosComponent implements OnInit {
   op:string;
   searchState:string;//U.I,D
   users: UserModel[] = [];
+  public userTest: Array<Usuario>;
   
   //COLUMNAS DE TABLA DE RESULTADOS
   displayedColumns: string[] = ['id','selector','ops'];
@@ -42,7 +44,11 @@ export class UsuariosComponent implements OnInit {
     this.userRole=tipo;
   }
   
-   constructor(private modalService: NgbModal,private formBuilder: FormBuilder) { 
+   constructor(
+     private modalService: NgbModal,
+     private formBuilder: FormBuilder,
+     private _userService: UsuarioService,
+    ) { 
     this.updForm = this.formBuilder.group({
       nombre:'',
     });
@@ -57,11 +63,22 @@ export class UsuariosComponent implements OnInit {
     })
    }
 
+  getUsers(){
+    this._userService.getUsers().subscribe(
+      response => {
+        console.log(response);
+      },
+      error => {
+        console.log(error);
+      }
+    )
+  }
   ngAfterViewInit() {}
 
   ngOnInit(): void {
     this.setOperation('');
     this.searchState="U";
+    this.getUsers();
   }
   serviceInvoke(){
     this.opStatus="P";
