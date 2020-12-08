@@ -16,6 +16,12 @@ public class DtoHijo extends DtoBase{
     public DtoHijo() {
     }
 
+    public DtoHijo(String genero, Date edad, DtoDatoEncuestado fk_dato_encuestado) {
+        this.genero = genero;
+        this.edad = edad;
+        this.fk_dato_encuestado = fk_dato_encuestado;
+    }
+
     public String getGenero() {
         return genero;
     }
