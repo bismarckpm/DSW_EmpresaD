@@ -68,10 +68,54 @@
         style="width: 100%;height:100%; display: flex; flex-direction: column; justify-content: space-around; align-items: center;">
         <app-data-table>
             <!--TABLA DE DATOS-->
-            <!--
+            
             <table mat-table [dataSource]="dataSource" class="mat-elevation-z8" style="flex:1; overflow-y: auto;" *ngIf="searchState==='D'">
+                <ng-container matColumnDef="id">
+                    <th mat-header-cell *matHeaderCellDef>Id</th>
+                    <td mat-cell *matCellDef="let element"> ID </td>
+                </ng-container>
+                <ng-container matColumnDef="desc">
+                    <th mat-header-cell *matHeaderCellDef>Descripción</th>
+                    <td mat-cell *matCellDef="let element">
+                        DESC
+                    </td>
+                </ng-container>
+                <ng-container matColumnDef="selector">
+                    <th mat-header-cell *matHeaderCellDef>Selección</th>
+                    <td mat-cell *matCellDef="let element">
+                        <mat-checkbox [checked]="isSelected(element._id)" (change)="selectUser(element._id)">
+                        </mat-checkbox>
+                    </td>
+                </ng-container>
+                <ng-container matColumnDef="ops">
+                    <th mat-header-cell *matHeaderCellDef>Operación</th>
+                    <td mat-cell *matCellDef="let element">
+                        <div *ngIf="isSelected(element._id)">
+                            <button style="background-color: #00d8b4; color:white" mat-mini-fab
+                                aria-label="Example icon button with a filter list icon" class="shadow-sm"
+                                >
+                                <mat-icon>info</mat-icon>
+                            </button>
+                            <button *ngIf="op==='upd'" style="background-color: #00d8b4; color:white; margin:0px 5px"
+                                mat-mini-fab aria-label="Example icon button with a filter list icon"
+                               
+                                class="shadow-sm">
+                                <mat-icon>autorenew</mat-icon>
+                            </button>
+                            <button *ngIf="op==='del'" style="background-color: #00d8b4; color:white" mat-mini-fab
+                                aria-label="Example icon button with a filter list icon" 
+                                
+                                class="shadow-sm">
+                                <mat-icon>delete_forever</mat-icon>
+                            </button>
+                        </div>
+                    </td>
+                </ng-container>
+                <!--DEMÁS COLUMNAS REQUERIDAS-->
+                <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
             </table>
-            -->
+            
             <div class="cForm-field-col" style="justify-content:center;align-items: center; align-self: center;" *ngIf="searchState==='P'">
                 <div class="text-center">
                     <h3>Procesando búsqueda</h3>
@@ -87,5 +131,16 @@
                 </div>
             </div>
         </app-data-table>
+        <div style="display: flex;flex-direction:row">
+            <button mat-raised-button class="shadow-sm" (click)="doSearch()"
+                style="color: white;background-color:#00d8b4;">
+                <mat-icon>
+                    search
+                </mat-icon>
+            </button>
+            <mat-divider [vertical]="true" [inset]="true" style="color: transparent;"></mat-divider>
+            <button mat-raised-button class="shadow-sm" (click)="setOperation('')"
+                style="color: white;background-color:#00d8b4;">Ir a menu principal</button>
+        </div>
     </div>
 </div>

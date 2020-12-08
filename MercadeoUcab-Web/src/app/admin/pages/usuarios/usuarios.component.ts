@@ -9,7 +9,7 @@ import { DeleteUserDialogComponent } from '../../components/dialogs/delete-user-
 import { UsuarioService } from '@core/services/usuario/usuario.service';
 
 class UserModel {
-  id:number;
+  _id:number;
 }
 
 @Component({
@@ -128,7 +128,7 @@ export class UsuariosComponent implements OnInit {
     this.searchState="P";
     setTimeout(()=>{
       for (let i = 0; i < Math.floor(Math.random()*(100-1)+1); i++) {
-        this.users.push({id:i+1});
+        this.users.push({_id:i+1});
       }
       this.dataSource = new MatTableDataSource<UserModel>(this.users);
       this.searchState="D";
@@ -147,8 +147,5 @@ export class UsuariosComponent implements OnInit {
   }
   doSearch(){
     this.searchState="I";
-  }
-  openModal(content){
-    this.modalService.open(content, {ariaLabelledBy: 'modal-basic-title'});
   }
 }

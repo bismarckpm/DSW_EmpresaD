@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { FormBuilder } from '@angular/forms';
+import { FormBuilder,FormGroup, } from '@angular/forms';
 import { MatTableDataSource } from '@angular/material/table';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { DelLugarDialogComponent } from '../../components/dialogs/del-lugar-dialog/del-lugar-dialog.component';
@@ -9,6 +9,12 @@ import { EstadoService } from '@core/services/estado/estado.service';
 import { PaisService } from '@core/services/pais/pais.service';
 import { MunicipioService } from '@core/services/municipio/municipio.service';
 import { ParroquiaService } from '@core/services/parroquia/parroquia.service';
+
+
+interface SearchLug {
+  t:string;
+  do:number;
+}
 
 @Component({
   selector: 'app-lugares',
@@ -27,20 +33,38 @@ export class LugaresComponent implements OnInit {
   userSelection:number = 0;
   
   @ViewChild('updLugar') private updComponent:UpdLugarDialogComponent;
-  async openUpdModal() {
+  async openUpdModal(id:number,type:string) {
     return await this.updComponent.open();
   }
   @ViewChild('delLugar') private delComponent:DelLugarDialogComponent;
-  async openDelModal() {
+  async openDelModal(id:number,type:string) {
     return await this.delComponent.open();
   }
   op:string = "";
   searchState:string="U";
+  tipoLugar:string="";//PR,MU,ES,PA
+  opStatus:string;//S,P,D
+  searchForm:FormGroup;
+  //CONTROL DE BUSQUEDA
+  searchLugar: SearchLug[] = [];
+  searchResults ={
+    'PA':[],
+    'ES':[],
+    'MU':[],
+    'PR':[]
+  };
   //dataSource : MatTableDataSource<Lugar>;
-  //preguntas: Pregunta [];
   //CHEQUEO DE OPERACION
-  opCheck(comp:string){
-    if(comp === this.op){
+  checkForSearch(i:number){
+    if(this.searchLugar[i].do === 1){
+      this.searchLugar[i].do = 0;
+    }
+    else {
+      this.searchLugar[i].do = 1;
+    }
+  }
+  searchCheck(pos:number){
+    if(this.searchLugar[pos].do === 1){
       return true;
     }
     return false;
@@ -49,6 +73,8 @@ export class LugaresComponent implements OnInit {
     this.op=chOp;
     if(chOp !== ''){
       this.searchState="I";
+      this.opStatus="S"; 
+      this.setTipoLugar('');
     }
     else{
       this.searchState="U";
@@ -57,12 +83,27 @@ export class LugaresComponent implements OnInit {
   ngOnInit(): void {
     this.setOperation('');
     this.searchState="U";
+    this.searchLugar=[{t:'PA',do:0},{t:'ES',do:0},{t:'MU',do:0},{t:'PR',do:0}];
+    this.searchForm = this.formBuilder.group({
+      nombre:'',
+    })
+  }
+  filterData(byName:string){
+
   }
   invokeSearch(){
+    console.log(this.searchLugar,this.searchForm.value);
     this.searchState="P";
+    this.searchResults = {
+      'PA':(this.searchLugar[0].do === 1)?[{n:'test'}]:[],
+      'ES':(this.searchLugar[1].do === 1)?[{n:'test'}]:[],
+      'MU':(this.searchLugar[2].do === 1)?[{n:'test'}]:[],
+      'PR':(this.searchLugar[3].do === 1)?[{n:'test'}]:[],
+    }
     setTimeout(()=>{
       //this.dataSource = new MatTableDataSource<Pregunta>(this.preguntas);
       this.searchState="D";
+      console.log(this.searchResults);
     },3000);
   }
   selectUser(id: number){
@@ -78,5 +119,31 @@ export class LugaresComponent implements OnInit {
       return true;
     }
     return false;
+  }
+  doSearch(){
+    this.searchState="I";
+    this.searchLugar=[{t:'PA',do:0},{t:'ES',do:0},{t:'MU',do:0},{t:'PR',do:0}];
+  }
+  setTipoLugar(tipo:string){
+    this.tipoLugar=tipo;
+  }
+  serviceInvoke(role:string){
+    //MEDIO PARA DETERMINAR SERVICIO A INVOCAR SEGUN FORMULARIO DE CREACION DE USUARIO
+    switch(role){
+      case 'PA':
+        break;
+      case 'ES':
+        break;
+      case 'MU':
+        break;
+      case 'PR':
+        break;
+      default:
+        break;
+    }
+    this.opStatus="P";
+    setTimeout(()=>{
+      this.opStatus="D";
+    },3000);
   }
 }

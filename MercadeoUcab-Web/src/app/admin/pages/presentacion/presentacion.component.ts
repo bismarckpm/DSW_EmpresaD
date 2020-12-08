@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder } from '@angular/forms';
 import { PresentacionService } from '@core/services/presentacion/presentacion.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { MatTableDataSource } from '@angular/material/table';
+import { Presentacion } from '@core/models/presentacion';
 
 @Component({
   selector: 'app-presentacion',
@@ -13,6 +15,12 @@ export class PresentacionComponent implements OnInit {
   searchState:string;
   opStatus:string;//S,P,D
   userSelection:number = 0;
+
+  presentaciones: Presentacion [] = [];
+  dataSource : MatTableDataSource<Presentacion>;
+
+  displayedColumns: string[] = ['id','desc','selector','ops'];
+  columnsToDisplay: string[] = this.displayedColumns.slice();
 
   setOperation(chOp:string){
     this.op=chOp;
@@ -29,6 +37,15 @@ export class PresentacionComponent implements OnInit {
     private modalService: NgbModal,
     private formBuilder: FormBuilder,
     private _presentacionService: PresentacionService,){}
+  /*
+  @ViewChild('updLugar') private updComponent:UpdLugarDialogComponent;
+  async openUpdModal() {
+    return await this.updComponent.open();
+  }
+  @ViewChild('delLugar') private delComponent:DelLugarDialogComponent;
+  async openDelModal() {
+    return await this.delComponent.open();
+  }*/
 
   ngOnInit(): void {
     this.setOperation('');
@@ -52,8 +69,11 @@ export class PresentacionComponent implements OnInit {
     this.searchState="P";
     setTimeout(()=>{
       //DATA SOURCE EDIT
-      //this.dataSource = new MatTableDataSource<UserModel>(this.users);
+      this.dataSource = new MatTableDataSource<Presentacion>(this.presentaciones);
       this.searchState="D";
     },3000);
+  }
+  doSearch(){
+    this.searchState="I";
   }
 }

@@ -29,6 +29,9 @@ export class PreguntasComponent implements OnInit {
    preguntas: Pregunta [] = [];
    dataSource : MatTableDataSource<Pregunta>;
 
+   displayedColumns: string[] = ['id','desc','selector','ops'];
+   columnsToDisplay: string[] = this.displayedColumns.slice();
+
   setOperation(chOp:string){
     this.op=chOp;
     if(chOp !== ''){
@@ -71,5 +74,8 @@ export class PreguntasComponent implements OnInit {
       this.dataSource = new MatTableDataSource<Pregunta>(this.preguntas);
       this.searchState="D";
     },3000);
+  }
+  doSearch(){
+    this.searchState="I";
   }
 }
