@@ -22,6 +22,16 @@ import { DeleteTipoDialogComponent } from './components/dialogs/delete-tipo-dial
 import { AddPreguntaDialogComponent } from './components/dialogs/add-pregunta-dialog/add-pregunta-dialog.component';
 import { UpdatePreguntaDialogComponent } from './components/dialogs/update-pregunta-dialog/update-pregunta-dialog.component';
 import { LugaresComponent } from './pages/lugares/lugares.component';
+import { PreguntasComponent } from './pages/preguntas/preguntas.component';
+import { AddCategoriaDialogComponent } from './components/dialogs/add-categoria-dialog/add-categoria-dialog.component';
+import { DelCategoriaDialogComponent } from './components/dialogs/del-categoria-dialog/del-categoria-dialog.component';
+import { UpdCategoriaDialogComponent } from './components/dialogs/upd-categoria-dialog/upd-categoria-dialog.component';
+import { UpdLugarDialogComponent } from './components/dialogs/upd-lugar-dialog/upd-lugar-dialog.component';
+import { AddLugarDialogComponent } from './components/dialogs/add-lugar-dialog/add-lugar-dialog.component';
+import { DelLugarDialogComponent } from './components/dialogs/del-lugar-dialog/del-lugar-dialog.component';
+import { DelEstudioDialogComponent } from './components/dialogs/del-estudio-dialog/del-estudio-dialog.component';
+import { UpdEstudioDialogComponent } from './components/dialogs/upd-estudio-dialog/upd-estudio-dialog.component';
+import { AddSolicitudDialogComponent } from './components/dialogs/add-solicitud-dialog/add-solicitud-dialog.component';
 
 @NgModule({
   declarations: [
@@ -31,7 +41,27 @@ import { LugaresComponent } from './pages/lugares/lugares.component';
     PresentacionComponent,
     DashboardComponent, 
     DataTableComponent, 
-    BaseDialogComponent, UserInfoDialogComponent, AddUserDialogComponent, UpdateUserDialogComponent, DeleteUserDialogComponent, AddTipoDialogComponent, UpdateTipoDialogComponent, DeleteTipoDialogComponent, AddPreguntaDialogComponent, UpdatePreguntaDialogComponent, LugaresComponent],
+    BaseDialogComponent,
+    UserInfoDialogComponent, 
+    AddUserDialogComponent, 
+    UpdateUserDialogComponent, 
+    DeleteUserDialogComponent, 
+    AddTipoDialogComponent, 
+    UpdateTipoDialogComponent, 
+    DeleteTipoDialogComponent, 
+    AddPreguntaDialogComponent, 
+    UpdatePreguntaDialogComponent, 
+    LugaresComponent, 
+    PreguntasComponent, 
+    AddCategoriaDialogComponent, 
+    DelCategoriaDialogComponent, 
+    UpdCategoriaDialogComponent, 
+    UpdLugarDialogComponent, 
+    AddLugarDialogComponent, 
+    DelLugarDialogComponent, 
+    DelEstudioDialogComponent, 
+    UpdEstudioDialogComponent,
+    AddSolicitudDialogComponent],
   imports: [
     CommonModule,
     AdminRoutingModule,

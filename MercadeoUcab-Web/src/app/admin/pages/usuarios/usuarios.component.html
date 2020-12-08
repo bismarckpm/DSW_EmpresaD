@@ -54,30 +54,48 @@ align-items: center;">
                     flex-direction: row;
                     align-items: center;
                     justify-content: space-around;">
-                        <mat-icon 
-                        (click)="setTipoUsuario('Administrador')"
-                        style="width: 7.5rem; height: 7.5rem;font-size: 7.5rem;">assignment</mat-icon>
-                        <mat-icon
-                        (click)="setTipoUsuario('Analista')" 
-                        style="width: 7.5rem; height: 7.5rem;font-size: 7.5rem;">assignment</mat-icon>
+                        <div class="base-col">
+                            <mat-icon (click)="setTipoUsuario('Administrador')" style="width: 7.5rem; height: 7.5rem;font-size: 7.5rem;">
+                                supervisor_account</mat-icon>
+                            <a>
+                                Administrador
+                            </a>
+                        </div>
+                        <div class="base-col">
+                            <mat-icon (click)="setTipoUsuario('Analista')" style="width: 7.5rem; height: 7.5rem;font-size: 7.5rem;">
+                                person_search
+                            </mat-icon>
+                            <a>
+                                Analista
+                            </a>
+                        </div>
                     </div>
                     <div  style="height: 42.5%;width: 100%;display: flex;
                     flex-direction: row;
                     align-items: center;
                     justify-content: space-around;">
-                        <mat-icon
-                        (click)="setTipoUsuario('Cliente')" 
-                        style="width: 7.5rem; height: 7.5rem;font-size: 7.5rem;">assignment</mat-icon>
-                        <mat-icon 
-                        (click)="setTipoUsuario('Encuestado')"
-                        style="width: 7.5rem; height: 7.5rem;font-size: 7.5rem;">assignment</mat-icon>
+                        <div class="base-col">
+                            <mat-icon (click)="setTipoUsuario('Cliente')" style="width: 7.5rem; height: 7.5rem;font-size: 7.5rem;">
+                                contact_mail
+                            </mat-icon>
+                            <a>
+                                Cliente
+                            </a>
+                        </div>
+                        <div class="base-col">
+                            <mat-icon (click)="setTipoUsuario('Encuestado')" style="width: 7.5rem; height: 7.5rem;font-size: 7.5rem;">
+                                assignment_ind</mat-icon>
+                            <a>
+                                Encuestado
+                            </a>
+                        </div>
                     </div>
                 </div>
             </div>
-            <form class="cForm" *ngIf="opStatus==='S' && userRole!==''" (submit)="serviceInvoke()">
-                <div class="cForm-field-row">
-                    <h4>Nuevo {{userRole}}</h4>
-                    <div *ngIf="userRole==='Administrador'" style="flex:1">
+            <form class="cForm" *ngIf="opStatus==='S' && userRole!==''" (submit)="serviceInvoke(userRole)">
+                <h4 style="height: fit-content;width: 100%;">Nuevo {{userRole}}</h4>
+                <div class="cForm-field-row" style="flex: 1;">
+                    <div *ngIf="userRole==='Administrador'" class="base-row" style="flex:1">
                         <div class="cForm-field-col">
 
                         </div>
@@ -85,7 +103,7 @@ align-items: center;">
     
                         </div>
                     </div>
-                    <div *ngIf="userRole==='Analista'" style="flex:1">
+                    <div *ngIf="userRole==='Analista'" class="base-row" style="flex:1">
                         <div class="cForm-field-col">
 
                         </div>
@@ -93,7 +111,7 @@ align-items: center;">
     
                         </div>
                     </div>
-                    <div *ngIf="userRole==='Cliente'" style="flex:1">
+                    <div *ngIf="userRole==='Cliente'" class="base-row" style="flex:1">
                         <div class="cForm-field-col">
 
                         </div>
@@ -101,7 +119,7 @@ align-items: center;">
     
                         </div>
                     </div>
-                    <div *ngIf="userRole==='Encuestado'" style="flex:1">
+                    <div *ngIf="userRole==='Encuestado'" class="base-row" style="flex:1">
                         <div class="cForm-field-col">
 
                         </div>
@@ -216,16 +234,19 @@ align-items: center;">
                         <div *ngIf="isSelected(element.id)">
                             <button style="background-color: #00d8b4; color:white" mat-mini-fab
                                 aria-label="Example icon button with a filter list icon" class="shadow-sm"
-                                (click)="openModal(userinf)">
+                                
+                                >
                                 <mat-icon>info</mat-icon>
                             </button>
                             <button *ngIf="op==='upd'" style="background-color: #00d8b4; color:white; margin:0px 5px"
                                 mat-mini-fab aria-label="Example icon button with a filter list icon"
-                                (click)="openModal(userupd)" class="shadow-sm">
+                                (click)="openUpdModal()" 
+                                class="shadow-sm">
                                 <mat-icon>autorenew</mat-icon>
                             </button>
                             <button *ngIf="op==='del'" style="background-color: #00d8b4; color:white" mat-mini-fab
-                                aria-label="Example icon button with a filter list icon" (click)="openModal(userdel)"
+                                aria-label="Example icon button with a filter list icon" 
+                                (click)="openDelModal()" 
                                 class="shadow-sm">
                                 <mat-icon>delete_forever</mat-icon>
                             </button>
@@ -250,6 +271,9 @@ align-items: center;">
         </div>
     </div>
 </div>
+<app-update-user-dialog #updUser [_userSelection]="userSelection"></app-update-user-dialog>
+<app-delete-user-dialog #delUser [_userSelection]="userSelection"></app-delete-user-dialog>
+<!--
 <ng-template #userinf let-modal>
     <div class="modal-header">
         <h4 class="modal-title" id="modal-basic-title">Información de usuario #{{userSelection}}</h4>
@@ -267,64 +291,5 @@ align-items: center;">
             </div>
         </div>
     </div>
-    <!--
-      <div class="modal-footer">
-        <button type="button" class="btn btn-primary" (click)="modal.close('Save click')">Cerrar</button>
-      </div>
-      -->
 </ng-template>
-<ng-template #userupd let-modal>
-    <div class="modal-header">
-        <h4 class="modal-title" id="modal-basic-title">Modificar usuario #{{userSelection}}</h4>
-        <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
-            <span aria-hidden="true">&times;</span>
-        </button>
-    </div>
-    <div class="modal-body">
-        <form [formGroup]="updForm" (submit)="checkUpdValues()">
-            <div class="cForm-field-row">
-                <div class="cForm-field-col">
-                    <div class="form-group">
-                        <label for="exampleInputEmail1">Nombre de usuario</label>
-                        <input type="text" formControlName="nombre" class="form-control" id="userNewName"
-                            aria-describedby="newNameHelp">
-                        <small id="newNameHelp" class="form-text text-muted">WTV</small>
-                    </div>
-                </div>
-                <div class="cForm-field-col">
-
-                </div>
-            </div>
-            <div class="cForm-actions">
-                <button type="button" class="btn btn-danger" (click)="modal.close('Save click')">Cancelar</button>
-                <mat-divider [vertical]="true" [inset]="true"></mat-divider>
-                <button type="submit" class="btn btn-primary">Modificar</button>
-            </div>
-        </form>
-    </div>
-</ng-template>
-<ng-template #userdel let-modal>
-    <div class="modal-header">
-        <h4 class="modal-title" id="modal-basic-title">Eliminar usuario #{{userSelection}}</h4>
-        <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
-            <span aria-hidden="true">&times;</span>
-        </button>
-    </div>
-    <div class="modal-body">
-        <!--INFORMATIVO-->
-        <div class="cForm-field-row">
-            <div class="cForm-field-col">
-
-            </div>
-            <div class="cForm-field-col">
-
-            </div>
-        </div>
-    </div>
-    <div class="modal-footer">
-        <button type="button" class="btn btn-outline-dark" (click)="modal.close('Save click')"
-            class="btn btn-danger">Cancelar</button>
-        <button type="button" class="btn btn-primary" (click)="modal.close('Save click')"
-            style="color: white;">Eliminar</button>
-    </div>
-</ng-template>
+-->

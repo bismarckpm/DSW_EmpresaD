@@ -1,28 +1,25 @@
-<ng-template #updUser>
+<ng-template  #updLugar>
+    <!---->
     <div class="modal-header">
-        <h4 class="modal-title" id="modal-basic-title">Modificar usuario #{{_userSelection}}</h4>
+        <h4 class="modal-title" id="modal-basic-title">Modificar lugar #{{_userSelection}}</h4>
     </div>
     <div class="modal-body">
-        <form [formGroup]="updForm" (submit)="invokeService()" *ngIf="opStatus==='S'">
+        <!--INFORMATIVO-->
+        <div class="cForm"  *ngIf="opStatus==='S'">
             <div class="cForm-field-row">
                 <div class="cForm-field-col">
-                    <div class="form-group">
-                        <label for="exampleInputEmail1">Nombre de usuario</label>
-                        <input type="text" formControlName="nombre" class="form-control" id="userNewName"
-                            aria-describedby="newNameHelp">
-                        <small id="newNameHelp" class="form-text text-muted">WTV</small>
-                    </div>
+        
                 </div>
                 <div class="cForm-field-col">
-
+        
                 </div>
             </div>
             <div class="cForm-actions">
                 <button type="button" class="btn btn-danger" (click)="close()">Cancelar</button>
                 <mat-divider [vertical]="true" [inset]="true"></mat-divider>
-                <button type="submit" class="btn btn-primary">Modificar</button>
+                <button type="button" class="btn btn-primary" (click)="invokeService()">Modificar</button>
             </div>
-        </form>
+        </div>
         <div class="cForm" *ngIf="opStatus==='P'">
             <div class="cForm-field-row">
                 <div class="cForm-field-col">

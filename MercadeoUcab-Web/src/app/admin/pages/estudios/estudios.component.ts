@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {MatTableDataSource} from '@angular/material/table';
 import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
@@ -7,6 +7,9 @@ import { Marca } from '../../models/marca';
 import { Pregunta } from '../../models/pregunta';
 import { Presentacion } from '../../models/presentacion';
 import { Solicitud } from '../../models/solicitud';
+import { DelEstudioDialogComponent } from '../../components/dialogs/del-estudio-dialog/del-estudio-dialog.component';
+import { UpdEstudioDialogComponent } from '../../components/dialogs/upd-estudio-dialog/upd-estudio-dialog.component';
+import { Estudio } from '../../models/estudio';
 
 @Component({
   selector: 'app-estudios',
@@ -18,14 +21,21 @@ import { Solicitud } from '../../models/solicitud';
 })
 export class EstudiosComponent implements OnInit {
   op:string;
-  searchState:string;//U.I,D
+  searchState:string;//U,I,P,D
   /*searchModel:Usuario;
   users: UserModel[] = [];
   displayedColumns: string[] = ['id','selector','ops'];
   columnsToDisplay: string[] = this.displayedColumns.slice();
   userSelection:number = 0;
   dataSource : MatTableDataSource<UserModel>;*/
-  solicitudSelec: number;
+  estudios: Estudio[] = [
+    {id_estudio:1,estado:'A',tipo:'A',encuestas_esperadas:98,activo:true,creado_el:new Date(),modificado_el:new Date()},
+    {id_estudio:2,estado:'A',tipo:'A',encuestas_esperadas:3,activo:true,creado_el:new Date(),modificado_el:new Date()},
+    {id_estudio:3,estado:'A',tipo:'A',encuestas_esperadas:16,activo:true,creado_el:new Date(),modificado_el:new Date()},
+    {id_estudio:4,estado:'A',tipo:'A',encuestas_esperadas:50,activo:true,creado_el:new Date(),modificado_el:new Date()},
+  ];
+  dataSource : MatTableDataSource<Estudio>;
+  userSelection:number = 0;
   solicitudes:Solicitud[]=[
     {id_solicitud:1,estado:'I',activo:false,creado_el:new Date(),modificado_el:new Date()},
     {id_solicitud:2,estado:'I',activo:false,creado_el:new Date(),modificado_el:new Date()},
@@ -67,30 +77,28 @@ export class EstudiosComponent implements OnInit {
   secondFormGroup: FormGroup;
   constructor(private modalService: NgbModal,private formBuilder: FormBuilder) { }
 
+  @ViewChild('updEstudio') private updComponent:UpdEstudioDialogComponent;
+  async openUpdModal() {
+    return await this.updComponent.open();
+  }
+  @ViewChild('delEstudio') private delComponent:DelEstudioDialogComponent;
+  async openDelModal() {
+    return await this.delComponent.open();
+  }
   ngOnInit(): void {
     this.searchForm = this.formBuilder.group({
       
     });
     //FORMUALRIO PARA SOLICITUD
     this.addForm = this.formBuilder.group({
-      /*estado:'',
-      activo:1,
-      creado_el:'',
-      modificado_el:'',
-      fk_usuario:1,
-      fk_marca:0,
-      fk_subCategoria:0,
-      fk_presentacion:0,
-      fk_tipoSolicitud:0,
-      preguntas:[]*/
       fk_solicitud:0,
     })
     this.setOperation('');
   }
   invokeSearch(){
-    //console.log('Search works');
-    //console.log(this.searchForm.value);
+    this.searchState="P";
     setTimeout(()=>{
+      this.dataSource = new MatTableDataSource<Estudio>(this.estudios);
       this.searchState="D";
     },3000);
   }
@@ -103,19 +111,25 @@ export class EstudiosComponent implements OnInit {
       this.searchState="U";
     }
   }
+  //CONTROL DE SELECCIÓN EN TABLA DE DATOS
+  selectUser(id: number){
+    if(id === this.userSelection){
+      this.userSelection = 0;
+    }
+    else{
+      this.userSelection=id;
+    }
+  }
+  isSelected(id: number):boolean{
+    if(id === this.userSelection){
+      return true;
+    }
+    return false;
+  }
   doSearch(){
     this.searchState="I";
   }
   stepCheck () {
     console.log(this.addForm.value);
-  }
-  /*checkUpdValues(){
-    console.log(this.updForm.value);
-  }
-  checkAddValues(){
-    console.log(this.updForm.value);
-  }*/
-  openModal(content){
-    this.modalService.open(content, {ariaLabelledBy: 'modal-basic-title'});
   }
 }

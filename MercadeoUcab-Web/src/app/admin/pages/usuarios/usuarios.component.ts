@@ -1,9 +1,11 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnInit, ViewChild} from '@angular/core';
 import {FormBuilder} from '@angular/forms';
 import {MatTableDataSource} from '@angular/material/table';
 import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
 import { Usuario } from '../../models/usuario';
 import { MatDatepickerModule } from '@angular/material/datepicker';
+import { UpdateUserDialogComponent } from '../../components/dialogs/update-user-dialog/update-user-dialog.component';
+import { DeleteUserDialogComponent } from '../../components/dialogs/delete-user-dialog/delete-user-dialog.component';
 
 class UserModel {
   id:number;
@@ -57,13 +59,33 @@ export class UsuariosComponent implements OnInit {
     })
    }
 
-  ngAfterViewInit() {}
-
   ngOnInit(): void {
     this.setOperation('');
     this.searchState="U";
   }
-  serviceInvoke(){
+  @ViewChild('updUser') private updComponent:UpdateUserDialogComponent;
+  async openUpdModal() {
+    return await this.updComponent.open();
+  }
+  @ViewChild('delUser') private delComponent:DeleteUserDialogComponent;
+  async openDelModal() {
+    return await this.delComponent.open();
+  }
+  
+  serviceInvoke(role:string){
+    //MEDIO PARA DETERMINAR SERVICIO A INVOCAR SEGUN FORMULARIO DE CREACION DE USUARIO
+    switch(role){
+      case 'Admnistrador':
+        break;
+      case 'Analista':
+        break;
+      case 'Cliente':
+        break;
+      case 'Encuestado':
+        break;
+      default:
+        break;
+    }
     this.opStatus="P";
     setTimeout(()=>{
       this.opStatus="D";
@@ -106,12 +128,6 @@ export class UsuariosComponent implements OnInit {
   }
   doSearch(){
     this.searchState="I";
-  }
-  checkUpdValues(){
-    console.log(this.updForm.value);
-  }
-  checkAddValues(){
-    console.log(this.updForm.value);
   }
   openModal(content){
     this.modalService.open(content, {ariaLabelledBy: 'modal-basic-title'});

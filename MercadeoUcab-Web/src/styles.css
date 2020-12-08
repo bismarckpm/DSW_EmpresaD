@@ -50,6 +50,17 @@ button:focus {
     outline:none !important;
 }
 
+.base-col {
+    display: flex;
+    flex-direction: column;
+}
+
+.base-row {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+}
+
 .cForm {
     flex:1;
     display: flex;
@@ -78,4 +89,15 @@ button:focus {
     flex-direction:row;
     justify-content: center;
     color: transparent;
+}
+
+.modal-content{
+    min-height: 60vh;
+    min-width: 60vw;
+    height: 60vh;
+    width: 60vw;
+}
+
+.modal-body {
+    display: flex;
 }

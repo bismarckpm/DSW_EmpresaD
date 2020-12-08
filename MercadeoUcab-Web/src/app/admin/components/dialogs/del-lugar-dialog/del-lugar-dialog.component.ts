@@ -1,27 +1,23 @@
 import { Component, Input, OnInit, TemplateRef, ViewChild } from '@angular/core';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import { FormBuilder } from '@angular/forms';
 import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
-  selector: 'app-delete-user-dialog',
-  templateUrl: './delete-user-dialog.component.html',
-  styleUrls: ['./delete-user-dialog.component.css']
+  selector: 'app-del-lugar-dialog',
+  templateUrl: './del-lugar-dialog.component.html',
+  styleUrls: ['./del-lugar-dialog.component.css']
 })
-export class DeleteUserDialogComponent implements OnInit {
-  
-  opStatus:string;//S,P,D
-  updForm : FormGroup;
+export class DelLugarDialogComponent implements OnInit {
 
-  @ViewChild('delUser') private modalContent: TemplateRef<DeleteUserDialogComponent>;
+  opStatus:string;//S,P,D
+
+  @ViewChild('delLugar') private modalContent: TemplateRef<DelLugarDialogComponent>;
   private modalRef: NgbModalRef;
   constructor(private modalService: NgbModal,private formBuilder: FormBuilder){}
   @Input() _userSelection : number;
 
   ngOnInit(): void {
     this.opStatus="S";
-    this.updForm = this.formBuilder.group({
-      nombre:'',
-    });
   }
   open(){
     this.modalRef =this.modalService.open(this.modalContent);
@@ -37,4 +33,5 @@ export class DeleteUserDialogComponent implements OnInit {
       this.opStatus="D";
     },3000);
   }
+
 }

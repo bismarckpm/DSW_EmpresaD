@@ -1,4 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
+import { FormBuilder } from '@angular/forms';
+import { MatTableDataSource } from '@angular/material/table';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { DelLugarDialogComponent } from '../../components/dialogs/del-lugar-dialog/del-lugar-dialog.component';
+import { UpdLugarDialogComponent } from '../../components/dialogs/upd-lugar-dialog/upd-lugar-dialog.component';
+import { Pregunta } from '../../models/pregunta';
 
 @Component({
   selector: 'app-lugares',
@@ -6,10 +12,28 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./lugares.component.css']
 })
 export class LugaresComponent implements OnInit {
-
-  constructor() { }
-  op:string;
+  constructor(private modalService: NgbModal,private formBuilder: FormBuilder) { }
+  userSelection:number = 0;
+  
+  @ViewChild('updLugar') private updComponent:UpdLugarDialogComponent;
+  async openUpdModal() {
+    return await this.updComponent.open();
+  }
+  @ViewChild('delLugar') private delComponent:DelLugarDialogComponent;
+  async openDelModal() {
+    return await this.delComponent.open();
+  }
+  op:string = "";
   searchState:string;
+  dataSource : MatTableDataSource<Pregunta>;
+  preguntas: Pregunta [];
+  //CHEQUEO DE OPERACION
+  opCheck(comp:string){
+    if(comp === this.op){
+      return true;
+    }
+    return false;
+  }
   setOperation(chOp:string){
     this.op=chOp;
     if(chOp !== ''){
@@ -23,5 +47,25 @@ export class LugaresComponent implements OnInit {
     this.setOperation('');
     this.searchState="U";
   }
-
+  invokeSearch(){
+    this.searchState="P";
+    setTimeout(()=>{
+      this.dataSource = new MatTableDataSource<Pregunta>(this.preguntas);
+      this.searchState="D";
+    },3000);
+  }
+  selectUser(id: number){
+    if(id === this.userSelection){
+      this.userSelection = 0;
+    }
+    else{
+      this.userSelection=id;
+    }
+  }
+  isSelected(id: number):boolean{
+    if(id === this.userSelection){
+      return true;
+    }
+    return false;
+  }
 }
