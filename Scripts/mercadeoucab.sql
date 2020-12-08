@@ -184,7 +184,7 @@ DROP TABLE IF EXISTS `mercadeoucab`.`muestra_poblacion` ;
 CREATE TABLE IF NOT EXISTS `mercadeoucab`.`muestra_poblacion` (
   `id` INT NOT NULL AUTO_INCREMENT,
   `genero` ENUM('masculino', 'femenino') NOT NULL,
-  `nivel_economico` VARCHAR(45) NOT NULL,
+  `nivel_economico` INT NOT NULL,
   `nivel_academico` VARCHAR(60) NOT NULL,
   `rango_edad_inicio` INT NOT NULL,
   `rango_edad_fin` INT NOT NULL,
