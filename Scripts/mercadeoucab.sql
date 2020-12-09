@@ -550,9 +550,6 @@ DROP TABLE IF EXISTS `mercadeoucab`.`sub_categoria_solicitud` ;
 
 CREATE TABLE IF NOT EXISTS `mercadeoucab`.`sub_categoria_solicitud` (
   `id` INT NOT NULL AUTO_INCREMENT,
-  `activo` TINYINT NOT NULL,
-  `creado_el` TIMESTAMP NOT NULL,
-  `modificado_el` TIMESTAMP NULL DEFAULT NULL,
   `fk_sub_categoria` INT NOT NULL,
   `fk_solicitud` INT NOT NULL,
   PRIMARY KEY (`id`),
@@ -614,9 +611,6 @@ DROP TABLE IF EXISTS `mercadeoucab`.`tipo_solicitud` ;
 
 CREATE TABLE IF NOT EXISTS `mercadeoucab`.`tipo_solicitud` (
   `id` INT NOT NULL AUTO_INCREMENT,
-  `activo` TINYINT NOT NULL,
-  `creado_el` TIMESTAMP NOT NULL,
-  `modificado_el` TIMESTAMP NULL DEFAULT NULL,
   `fk_solicitud` INT NOT NULL,
   `fk_tipo` INT NOT NULL,
   PRIMARY KEY (`id`),
