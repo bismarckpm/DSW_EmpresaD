@@ -1,5 +1,5 @@
 import {Component, OnInit, ViewChild} from '@angular/core';
-import {FormBuilder, FormGroup} from '@angular/forms';
+import {FormBuilder, FormGroup, Validators, FormControl} from '@angular/forms';
 import {MatTableDataSource} from '@angular/material/table';
 import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
 import { Usuario } from '@models/usuario';
@@ -7,7 +7,6 @@ import { MatDatepickerModule } from '@angular/material/datepicker';
 import { UpdateUserDialogComponent } from '../../components/dialogs/update-user-dialog/update-user-dialog.component';
 import { DeleteUserDialogComponent } from '../../components/dialogs/delete-user-dialog/delete-user-dialog.component';
 import { UsuarioService } from '@core/services/usuario/usuario.service';
-import { DatePipe } from '@angular/common';
 
 @Component({
   selector: 'app-usuarios',
@@ -30,9 +29,8 @@ export class UsuariosComponent implements OnInit {
 
   //LISTA DE USUARIOS DEVUELTOS EN BÚSQUEDA
   dataSource : MatTableDataSource<Usuario>;
-
+  userTarget: Usuario;
   //FORMULARIOS
-  updForm:FormGroup;
   searchForm:FormGroup;
   searchModel:Usuario;
   addForm:FormGroup;
@@ -47,8 +45,12 @@ export class UsuariosComponent implements OnInit {
      private formBuilder: FormBuilder,
      private _userService: UsuarioService,
     ) {
-    this.updForm = this.formBuilder.group({
-      nombre:'',
+    this.addForm = this.formBuilder.group({
+      nombre: null,
+      apellido:null,
+      rol:null,
+      estado:'Activo',
+      correo:null,
     });
     this.searchForm = this.formBuilder.group({
       nombre:null,
@@ -60,7 +62,13 @@ export class UsuariosComponent implements OnInit {
       modificado_el:null//DATE TO STRING
     })
    }
+  /*getTarget(id:number){
+    this.users.forEach((user,ind) => {
+      if(user._id === id){
 
+      }
+    });
+  };*/
   getUsers(){
     this._userService.getUsers().subscribe(
       (response) => {
@@ -71,7 +79,17 @@ export class UsuariosComponent implements OnInit {
       }
     )
   }
-  ngAfterViewInit() {}
+
+  addUser(data){
+    this._userService.createUser(data).subscribe(
+      (response) => {
+        console.log(response);
+      },
+      (error) => {
+        console.log(error);
+      }
+    )
+  }
 
   ngOnInit(): void {
     this.setOperation('');
@@ -86,32 +104,37 @@ export class UsuariosComponent implements OnInit {
   async openDelModal() {
     return await this.delComponent.open();
   }
-
   serviceInvoke(role:string){
-    //MEDIO PARA DETERMINAR SERVICIO A INVOCAR SEGUN FORMULARIO DE CREACION DE USUARIO
-    switch(role){
-      case 'Admnistrador':
-        break;
-      case 'Analista':
-        break;
-      case 'Cliente':
-        break;
-      case 'Encuestado':
-        break;
-      default:
-        break;
-    }
+    /*
+    "nombre": data.nombre,
+    "apellido": data.apellido,
+    "estado": data.estado,
+    "rol": data.rol,
+    "correo": data.correo
+    */
+    //FALTA VALIDACION 
+    //console.log(this.addForm.value);
+    this.addUser(this.addForm.value);
     this.opStatus="P";
     setTimeout(()=>{
+      this.addForm = this.formBuilder.group({
+      nombre:null,
+      apellido:null,
+      rol:null,
+      estado:'Activo',
+      correo:null,
+      });
       this.opStatus="D";
     },3000);
   }
-  selectUser(id: number){
+  selectUser(id: number,data:Usuario){
     if(id === this.userSelection){
       this.userSelection = 0;
+      this.userTarget=null;
     }
     else{
       this.userSelection=id;
+      this.userTarget=data;
     }
   }
   isSelected(id: number):boolean{
@@ -119,9 +142,6 @@ export class UsuariosComponent implements OnInit {
       return true;
     }
     return false;
-  }
-  dateFormat(){
-
   }
   dataFilter(dataArray:Usuario[]): Usuario[]{
     console.log(this.searchForm.value);
@@ -166,9 +186,9 @@ export class UsuariosComponent implements OnInit {
          _id:Math.floor(Math.random()*(1000-1)+1),
          nombre:Math.random().toString(36).substr(2, 5),
          apellido:Math.random().toString(36).substr(2, 5),
-         rol:'A',
+         rol:'Administrador',
          correo:Math.random().toString(36).substr(2, 5),
-         estado:'',
+         estado:'Activo',
          activo:true,
          creado_el:new Date(),
          modificado_el:new Date(),
