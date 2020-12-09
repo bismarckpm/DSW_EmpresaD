@@ -1,5 +1,7 @@
 package mercadeoucab.dtos;
 
+import java.util.List;
+
 public class DtoTipo extends DtoBase{
 
     private String nombre;

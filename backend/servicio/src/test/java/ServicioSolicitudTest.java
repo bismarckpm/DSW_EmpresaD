@@ -1,5 +1,6 @@
 import mercadeoucab.dtos.DtoMarca;
 import mercadeoucab.dtos.DtoSolicitud;
+import mercadeoucab.dtos.DtoTipo;
 import mercadeoucab.dtos.DtoUsuario;
 import mercadeoucab.entidades.Marca;
 import mercadeoucab.entidades.Solicitud;
@@ -12,18 +13,20 @@ import java.util.List;
 
 public class ServicioSolicitudTest {
 
+
     @Test
     public void registrarSolicitudTest() throws Exception {
         ServicioSolicitud servicio = new ServicioSolicitud();
         DtoSolicitud dtoSolicitud = new DtoSolicitud();
         dtoSolicitud.setEstado("solicitada");
-        // Se debe tener una marca agregada a la BD
         ServicioMarca servicioMarca = new ServicioMarca();
         DtoMarca marca = new DtoMarca();
         marca.setNombre("Rexona");
         Marca registrarMarca = servicioMarca.registrarMarca(marca);
         dtoSolicitud.setMarca( new DtoMarca(registrarMarca.get_id()));
         dtoSolicitud.setUsuario( new DtoUsuario( 1));
+        DtoTipo dtoTipo = new DtoTipo(1);
+        dtoSolicitud.setTipo(dtoTipo);
         DtoSolicitud resultado = servicio.registrarSolicitud( dtoSolicitud);
         Assert.assertNotEquals(resultado.get_id(), 0);
     }
