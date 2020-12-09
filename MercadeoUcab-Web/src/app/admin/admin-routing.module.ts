@@ -25,7 +25,7 @@ const routes: Routes = [
       {path:'',redirectTo:'administrador/home', pathMatch:'prefix'},
     ]
   },
-  {path:'',redirectTo:'/administrador', pathMatch:'full'}
+  //{path:'',redirectTo:'/administrador', pathMatch:'full'}
 ];
 
 @NgModule({

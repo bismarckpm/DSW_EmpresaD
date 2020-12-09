@@ -7,7 +7,7 @@
             <mat-card class="estudio-poblacion">
                 <mat-card-header style="justify-content: space-around;">
                     <mat-card-title>Población de estudio</mat-card-title>
-                    <button mat-raised-button aria-label="poblacion explain button">
+                    <button class="btn btn-outline-dark shadow-sm">
                         <mat-icon>
                             more_horiz
                         </mat-icon>
@@ -15,6 +15,7 @@
                 </mat-card-header>
                 <mat-card-content class="card-content">
                     <!--ENCUESTADOS-->
+                    <!--
                     <div class="encuestado-content" *ngFor="let person of _Estudio.poblacion">
                         <mat-icon style="color: #00d8b4;">
                             account_box
@@ -29,6 +30,7 @@
                             </mat-icon>
                         </ng-template>
                     </div>
+                    -->
                 </mat-card-content>
             </mat-card>
         </mat-grid-tile>
@@ -42,6 +44,7 @@
                 </mat-card-header>
                 <mat-card-content class="card-content">
                     <!--PREGUNTAS ESTUDIO-->
+                    <!--
                     <div class="pregunta-content" *ngFor="let pregunta of _Estudio.preguntas">
                         <mat-icon style="
                         color: #00d8b4; 
@@ -58,12 +61,13 @@
                                 more_vert
                             </mat-icon>
                         </button>
-                        <!--
+                        
                         <a>{{pregunta.id}}</a>
                         <a>{{pregunta.descripcion}}</a>
                         <a>{{pregunta.estado}}</a>
-                        -->
+                        
                     </div>
+                -->
                 </mat-card-content>
             </mat-card>
         </mat-grid-tile>

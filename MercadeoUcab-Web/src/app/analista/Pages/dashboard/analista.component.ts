@@ -1,6 +1,7 @@
 import { Component,  OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { EstudioService } from '../../../shared/Services/estudio/estudio.service';
+
 @Component({
   selector: 'app-analista',
   templateUrl: './analista.component.html',

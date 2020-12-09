@@ -8,11 +8,13 @@ import { EstudioRealizarComponent } from './Pages/estudio-realizar/estudio-reali
 
 const routes: Routes = [
   {
-  path:'analist', component:AnalistaComponent,
+  path:'analist',
+  component:AnalistaComponent,
   children:[
-    {path: 'overview', component: AnalistaOverviewComponent, pathMatch:"full"},
-    {path: 'tasks', component: AnalistaTasksComponent, pathMatch:"full"},
-    {path: 'estudio/:id', component: EstudioRealizarComponent, pathMatch:"full"},
+    {path: 'overview', component: AnalistaOverviewComponent, pathMatch:'prefix'},
+    {path: 'tasks', component: AnalistaTasksComponent, pathMatch:'prefix'},
+    {path: 'estudio/:id', component: EstudioRealizarComponent, pathMatch:'prefix'},
+    {path:'',redirectTo:'analist/overview', pathMatch:'prefix'},
   ]
   },
 ];
@@ -21,6 +23,4 @@ const routes: Routes = [
   imports: [RouterModule.forChild(routes)],
   exports: [RouterModule]
 })
-export class AnalistaRoutingModule {
-  
-}
+export class AnalistaRoutingModule {}

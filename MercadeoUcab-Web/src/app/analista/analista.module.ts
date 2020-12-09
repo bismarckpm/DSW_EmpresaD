@@ -12,22 +12,24 @@ import { MatIconModule } from '@angular/material/icon';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { EstudioService } from './../shared/Services/estudio/estudio.service';
 
+import { MaterialModule } from '../material.module';
+import { LocalNgbModule } from '../ngbootstrap.module';
+import {FormsModule,ReactiveFormsModule} from '@angular/forms';
+import { AnalistaComponent } from './Pages/dashboard/analista.component';
 
 @NgModule({
   declarations: [
     AnalistaTasksComponent,
     AnalistaOverviewComponent,
     EstudioRealizarComponent,
+    AnalistaComponent
   ],
   imports: [
     CommonModule,
     AnalistaRoutingModule,
-    MatGridListModule,
-    MatCardModule,
-    MatTableModule,
-    MatRippleModule,
-    MatIconModule,
-    BrowserAnimationsModule
+    MaterialModule,
+    LocalNgbModule,
+    FormsModule,ReactiveFormsModule
   ],
   providers:[
     EstudioService
