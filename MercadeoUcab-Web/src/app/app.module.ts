@@ -3,29 +3,30 @@ import { NgModule } from '@angular/core';
 import { HttpClientModule } from '@angular/common/http';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { AnalistaComponent } from './analista/Pages/dashboard/analista.component';
 import { AnalistaModule } from './analista/analista.module';
 import { AdminModule } from './admin/admin.module';
 import { ClienteModule } from './cliente/cliente.module';
 import { EncuestadoModule } from './encuestado/encuestado.module';
 import { SharedModule } from './shared/shared.module';
-
+import { MaterialModule } from './material.module';
+import { LocalNgbModule } from './ngbootstrap.module';
+import { CoreModule } from './core/core.module';
 @NgModule({
   declarations: [
-    AppComponent,
-    AnalistaComponent
+    AppComponent
   ],
   imports: [
     BrowserModule,
-    AnalistaModule,
-    AppRoutingModule,
     HttpClientModule,
-    AppRoutingModule,
     SharedModule,
     EncuestadoModule,
     ClienteModule,
     AnalistaModule,
     AdminModule,
+    AppRoutingModule,
+    MaterialModule,
+    LocalNgbModule,
+    CoreModule
   ],
   bootstrap: [AppComponent]
 })

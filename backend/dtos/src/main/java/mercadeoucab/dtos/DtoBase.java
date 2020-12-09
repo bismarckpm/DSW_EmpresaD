@@ -11,6 +11,13 @@ public class DtoBase
     private Date creado_el;
     private Date modificado_el;
 
+    public DtoBase(long _id, int activo, Date creado_el, Date modificado_el) {
+        this._id = _id;
+        this.activo = activo;
+        this.creado_el = creado_el;
+        this.modificado_el = modificado_el;
+    }
+
     public long get_id() {
         return _id;
     }
@@ -52,16 +59,11 @@ public class DtoBase
     {
     }
 
-    public long getId()
-    {
-        return _id;
-    }
-
     public void setId( long id ) throws PruebaExcepcion
     {
         if ( id >= 0 )
         {
-            _id = id;
+            this._id = id;
         }
         else
         {

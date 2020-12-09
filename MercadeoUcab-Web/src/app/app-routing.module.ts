@@ -1,17 +1,13 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
-import { AnalistaRoutingModule } from './analista/analista-routing.module';
-import { AppComponent } from './app.component';
 
 const routes: Routes = [
-  {path:'analist', loadChildren:() => import('./analista/analista.module').then(m => m.AnalistaModule)},
-  {path:'', redirectTo:'/analist', pathMatch:'full' }
+  //{path:'', redirectTo:'administrador',pathMatch:'full'}
 ];
 
 @NgModule({
   imports: [
-    RouterModule.forRoot(routes),
-    AnalistaRoutingModule,
+    RouterModule.forRoot(routes)
   ],
   exports: [RouterModule]
 })
