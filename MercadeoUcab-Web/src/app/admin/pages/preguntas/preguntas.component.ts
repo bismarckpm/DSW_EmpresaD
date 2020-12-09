@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { FormBuilder } from '@angular/forms';
+import { FormBuilder, FormGroup } from '@angular/forms';
 import { MatTableDataSource } from '@angular/material/table';
 import { Pregunta } from '@core/models/pregunta';
 import { PreguntaService } from '@core/services/pregunta/pregunta.service';
@@ -24,7 +24,8 @@ export class PreguntasComponent implements OnInit {
   searchState:string;
    //INDICE DE USUARIO SELECCIONADO
    userSelection:number = 0;
-
+   searchForm: FormGroup;
+   addForm:FormGroup;
    //LISTA DE USUARIOS DEVUELTOS EN BÚSQUEDA
    preguntas: Pregunta [] = [];
    dataSource : MatTableDataSource<Pregunta>;
@@ -53,6 +54,11 @@ export class PreguntasComponent implements OnInit {
 
   ngOnInit(): void {
     this.setOperation('');
+    this.searchState="U";
+    this.searchForm = this.formBuilder.group({
+      tipo:null,
+      creado_el:null,
+    });
   }
   selectUser(id: number){
     if(id === this.userSelection){
@@ -69,11 +75,42 @@ export class PreguntasComponent implements OnInit {
     return false;
   }
   invokeSearch(){
+    if(this.searchForm.value['creado_el'] !== null){
+      this.searchForm.get('creado_el').setValue(new Date(this.searchForm.value['creado_el']));
+    }
     this.searchState="P";
     setTimeout(()=>{
-      this.dataSource = new MatTableDataSource<Pregunta>(this.preguntas);
+      this.dataSource = new MatTableDataSource<Pregunta>(this.dataFilter(this.preguntas));
       this.searchState="D";
     },3000);
+  }
+  dataFilter(dataArray:Pregunta[]): Pregunta[]{
+    console.log(this.searchForm.value);
+    let filtered: Pregunta[] = [];
+    dataArray.forEach((res,ind) => {
+      let inc = true;
+      Object.entries(this.searchForm.value).forEach(([key,field],_ind)=>{
+        if(inc === true && field !== null){
+          if(field instanceof Date && (res[key] >= field && res[key] <= Date.now())){
+            return;
+          }
+          else if(typeof(field)==='string' && res[key].startsWith(field)){
+            return;
+          }
+          else if(typeof(field)==='boolean' && res[key]===field){
+            return;
+          }
+          else{
+            inc = false;
+          }
+        }
+      })
+      if(inc === true){
+        filtered.push(res);
+      }
+    })
+    console.log(dataArray,filtered);
+    return filtered;
   }
   doSearch(){
     this.searchState="I";

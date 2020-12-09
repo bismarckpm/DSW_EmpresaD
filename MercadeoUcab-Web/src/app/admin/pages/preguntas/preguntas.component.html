@@ -44,8 +44,23 @@
     <div *ngIf="op!=='add' && searchState==='I'" style="height: 75%;width: 75%;">
         <mat-card style="height: 100%;width: 100%;text-align: center;display: flex;flex-direction: column;">
             <h4>Asistente de búsqueda</h4>
-            <form (submit)="invokeSearch()" style="flex:1">
-                <div style="width: 100%;height: 80%; display: flex; flex-direction: row;justify-content: space-around;">
+            <form (submit)="invokeSearch()" [formGroup]="searchForm" class="cForm">
+                <div class="cForm-field-row">
+                    <div class="cForm-field-col">
+                        <div class="form-group">
+                            <label for="reg-date">Fecha de registro</label>
+                            <input type="date" class="form-control" formControlName="creado_el" id="reg-date" />
+                        </div>
+                    </div>
+                    <div class="cForm-field-col">
+                        <div class="form-group">
+                            <label for="tipoSelect">Rol de usuario</label>
+                            <select class="form-control" id="tipoSelect" formControlName="tipo">
+                                <option value="TA">Adminsitrador</option>
+                                <option value="TB">Analista</option>
+                            </select>
+                        </div>
+                    </div>
                     <!--
                     <div style="width: 45%;height: 100%;">
                         <div class="form-group">

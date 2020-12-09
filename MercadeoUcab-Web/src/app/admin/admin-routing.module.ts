@@ -6,6 +6,7 @@ import { DashboardComponent } from './pages/dashboard/dashboard.component';
 import { EstudiosComponent } from './pages/estudios/estudios.component';
 import { LugaresComponent } from './pages/lugares/lugares.component';
 import { PreguntasComponent } from './pages/preguntas/preguntas.component';
+import { PresentacionComponent } from './pages/presentacion/presentacion.component';
 import { UsuariosComponent } from './pages/usuarios/usuarios.component';
 
 
@@ -18,6 +19,7 @@ const routes: Routes = [
       {path:'categorias',component:CategoriasComponent, pathMatch:'prefix'},
       {path:'lugares',component:LugaresComponent, pathMatch:'prefix'},
       {path:'preguntas',component:PreguntasComponent, pathMatch:'prefix'},
+      {path:'presentaciones',component:PresentacionComponent, pathMatch:'prefix'},
       {path:'usuarios',component:UsuariosComponent, pathMatch:'prefix'},
       {path:'home',component:AdminHomeComponent, pathMatch:'prefix'},
       {path:'',redirectTo:'administrador/home', pathMatch:'prefix'},

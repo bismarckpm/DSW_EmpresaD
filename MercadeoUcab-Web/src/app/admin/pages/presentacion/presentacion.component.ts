@@ -1,9 +1,11 @@
-import { Component, OnInit } from '@angular/core';
-import { FormBuilder } from '@angular/forms';
+import { Component, OnInit, ViewChild } from '@angular/core';
+import { FormBuilder, FormGroup } from '@angular/forms';
 import { PresentacionService } from '@core/services/presentacion/presentacion.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { MatTableDataSource } from '@angular/material/table';
 import { Presentacion } from '@core/models/presentacion';
+import { DelPresentacionDialogComponent } from '../../components/dialogs/del-presentacion-dialog/del-presentacion-dialog.component';
+import { UpdPresentacionDialogComponent } from '../../components/dialogs/upd-presentacion-dialog/upd-presentacion-dialog.component';
 
 @Component({
   selector: 'app-presentacion',
@@ -18,7 +20,10 @@ export class PresentacionComponent implements OnInit {
 
   presentaciones: Presentacion [] = [];
   dataSource : MatTableDataSource<Presentacion>;
-
+  
+  searchForm: FormGroup;
+  addForm:FormGroup;
+  
   displayedColumns: string[] = ['id','desc','selector','ops'];
   columnsToDisplay: string[] = this.displayedColumns.slice();
 
@@ -37,19 +42,23 @@ export class PresentacionComponent implements OnInit {
     private modalService: NgbModal,
     private formBuilder: FormBuilder,
     private _presentacionService: PresentacionService,){}
-  /*
-  @ViewChild('updLugar') private updComponent:UpdLugarDialogComponent;
+  
+  @ViewChild('updPresentacion') private updComponent:UpdPresentacionDialogComponent;
   async openUpdModal() {
     return await this.updComponent.open();
   }
-  @ViewChild('delLugar') private delComponent:DelLugarDialogComponent;
+  @ViewChild('delPresentacion') private delComponent:DelPresentacionDialogComponent;
   async openDelModal() {
     return await this.delComponent.open();
-  }*/
+  }
 
   ngOnInit(): void {
     this.setOperation('');
     this.searchState="U";
+    this.searchForm = this.formBuilder.group({
+      nombre:null,
+      creado_el:null,
+    });
   }
   selectUser(id: number){
     if(id === this.userSelection){
@@ -65,11 +74,42 @@ export class PresentacionComponent implements OnInit {
     }
     return false;
   }
+  dataFilter(dataArray:Presentacion[]): Presentacion[]{
+    console.log(this.searchForm.value);
+    let filtered: Presentacion[] = [];
+    dataArray.forEach((res,ind) => {
+      let inc = true;
+      Object.entries(this.searchForm.value).forEach(([key,field],_ind)=>{
+        if(inc === true && field !== null){
+          if(field instanceof Date && (res[key] >= field && res[key] <= Date.now())){
+            return;
+          }
+          else if(typeof(field)==='string' && res[key].startsWith(field)){
+            return;
+          }
+          else if(typeof(field)==='boolean' && res[key]===field){
+            return;
+          }
+          else{
+            inc = false;
+          }
+        }
+      })
+      if(inc === true){
+        filtered.push(res);
+      }
+    })
+    console.log(dataArray,filtered);
+    return filtered;
+  }
   invokeSearch(){
+    if(this.searchForm.value['creado_el'] !== null){
+      this.searchForm.get('creado_el').setValue(new Date(this.searchForm.value['creado_el']));
+    }
     this.searchState="P";
     setTimeout(()=>{
       //DATA SOURCE EDIT
-      this.dataSource = new MatTableDataSource<Presentacion>(this.presentaciones);
+      this.dataSource = new MatTableDataSource<Presentacion>(this.dataFilter(this.presentaciones));
       this.searchState="D";
     },3000);
   }

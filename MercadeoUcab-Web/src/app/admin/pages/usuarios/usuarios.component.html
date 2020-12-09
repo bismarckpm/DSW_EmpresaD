@@ -193,16 +193,17 @@ align-items: center;">
                         <div class="form-group">
                             <label for="rolSelect">Rol de usuario</label>
                             <select class="form-control" id="rolSelect" formControlName="rol">
-                                <option>A</option>
-                                <option>B</option>
-                                <option>C</option>
+                                <option value="Adminsitrador">Adminsitrador</option>
+                                <option value="Analista">Analista</option>
+                                <option value="Cliente">Cliente</option>
+                                <option value="Encuestado">Encuestado</option>
                             </select>
                         </div>
                         <div class="form-group">
                             <label for="estadoSelect">Estado de usuario</label>
-                            <select class="form-control" id="estadoSelect" formControlName="estado">
-                                <option>Activo</option>
-                                <option>Inactivo</option>
+                            <select class="form-control" id="estadoSelect" formControlName="activo">
+                                <option [ngValue]="true">Activo</option>
+                                <option [ngValue]="false">Inactivo</option>
                             </select>
                         </div>
                     </div>
@@ -222,7 +223,7 @@ align-items: center;">
             <table mat-table [dataSource]="dataSource" class="mat-elevation-z8" style="flex:1; overflow-y: auto;" *ngIf="searchState==='D'">
                 <ng-container matColumnDef="id">
                     <th mat-header-cell *matHeaderCellDef>Id</th>
-                    <td mat-cell *matCellDef="let element"> {{element._id}} </td>
+                    <td mat-cell *matCellDef="let element">{{element._id}} </td>
                 </ng-container>
                 <ng-container matColumnDef="selector">
                     <th mat-header-cell *matHeaderCellDef>Selección</th>
@@ -237,7 +238,6 @@ align-items: center;">
                         <div *ngIf="isSelected(element._id)">
                             <button style="background-color: #00d8b4; color:white" mat-mini-fab
                                 aria-label="Example icon button with a filter list icon" class="shadow-sm"
-                                
                                 >
                                 <mat-icon>info</mat-icon>
                             </button>

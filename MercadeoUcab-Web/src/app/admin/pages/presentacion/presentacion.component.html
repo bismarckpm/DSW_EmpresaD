@@ -44,16 +44,23 @@
     <div *ngIf="op!=='add' && searchState==='I'" style="height: 75%;width: 75%;">
         <mat-card style="height: 100%;width: 100%;text-align: center;display: flex;flex-direction: column;">
             <h4>Asistente de búsqueda</h4>
-            <form (submit)="invokeSearch()" style="flex:1">
-                <div style="width: 100%;height: 80%; display: flex; flex-direction: row;justify-content: space-around;">
-                    <!--
-                    <div style="width: 45%;height: 100%;">
+            <form (submit)="invokeSearch()"[formGroup]="searchForm" class="cForm">
+                <div class="cForm-field-row">
+                    <div class="cForm-field-col">
                         <div class="form-group">
-                            <label for="userNewName">Nombre de usuario</label>
-                            <input type="text" formControlName="nombre" class="form-control" id="userNewName" aria-describedby="newNameHelp">
+                            <label for="categoriaNewName">Nombre de Presentación</label>
+                            <input type="text" formControlName="nombre" class="form-control" id="categoriaNewName" aria-describedby="newNameCategoriaHelp">
                         </div>
                     </div>
-                    -->
+                    <div class="cForm-field-col">
+                        <div class="form-group">
+                            <label for="estadoSelect">Estado de Presentación</label>
+                            <select class="form-control" id="estadoSelect" formControlName="activo">
+                                <option [ngValue]="true">Activo</option>
+                                <option [ngValue]="false">Inactivo</option>
+                            </select>
+                        </div>
+                    </div>
                 </div>
                 <div class="cForm-actions">
                     <button type="button" class="btn btn-outline-dark" (click)="setOperation('')">Cancelar</button>
@@ -144,3 +151,5 @@
         </div>
     </div>
 </div>
+<app-upd-presentacion-dialog #updPresentacion [_userSelection]="userSelection"></app-upd-presentacion-dialog>
+<app-del-presentacion-dialog #delPresentacion [_userSelection]="userSelection"></app-del-presentacion-dialog>

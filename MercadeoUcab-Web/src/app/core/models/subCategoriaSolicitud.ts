@@ -3,7 +3,7 @@ import { SubCategoria } from './subcategoria';
 
 export class SubCategoriaSolicitud{
     constructor(
-        public _id::number,
+        public _id:number,
         public solicitud: Solicitud,
         public subCategoria: SubCategoria,
         public estado:string,

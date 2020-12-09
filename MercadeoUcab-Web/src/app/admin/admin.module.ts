@@ -33,6 +33,8 @@ import { DelEstudioDialogComponent } from './components/dialogs/del-estudio-dial
 import { UpdEstudioDialogComponent } from './components/dialogs/upd-estudio-dialog/upd-estudio-dialog.component';
 import { AddSolicitudDialogComponent } from './components/dialogs/add-solicitud-dialog/add-solicitud-dialog.component';
 import { DelPreguntaDialogComponent } from './components/dialogs/del-pregunta-dialog/del-pregunta-dialog.component';
+import { UpdPresentacionDialogComponent } from './components/dialogs/upd-presentacion-dialog/upd-presentacion-dialog.component';
+import { DelPresentacionDialogComponent } from './components/dialogs/del-presentacion-dialog/del-presentacion-dialog.component';
 
 @NgModule({
   declarations: [
@@ -63,7 +65,9 @@ import { DelPreguntaDialogComponent } from './components/dialogs/del-pregunta-di
     DelEstudioDialogComponent, 
     UpdEstudioDialogComponent,
     AddSolicitudDialogComponent,
-    DelPreguntaDialogComponent],
+    DelPreguntaDialogComponent,
+    UpdPresentacionDialogComponent,
+    DelPresentacionDialogComponent],
   imports: [
     CommonModule,
     AdminRoutingModule,
