@@ -13,6 +13,10 @@ public class DtoPregunta extends DtoBase{
 
     public DtoPregunta(){}
 
+    public DtoPregunta(long id) throws Exception {
+        super(id);
+    }
+
     public String getNombre_pregunta() {return nombre_pregunta;}
     public void setNombre_pregunta(String nombre_pregunta) {this.nombre_pregunta = nombre_pregunta;}
 
