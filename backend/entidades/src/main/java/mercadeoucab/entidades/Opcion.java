@@ -14,6 +14,9 @@ public class Opcion extends EntidadBase {
     @JoinColumn(name = "fk_pregunta")
     private Pregunta fk_pregunta;
 
+    public Opcion(){}
+    public Opcion(long id){super(id);}
+
 
     public String getNombre_opcion() {return nombre_opcion;}
     public void setNombre_opcion(String nombre_opcion) {this.nombre_opcion = nombre_opcion;}
