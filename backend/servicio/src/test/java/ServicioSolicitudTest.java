@@ -1,7 +1,4 @@
-import mercadeoucab.dtos.DtoMarca;
-import mercadeoucab.dtos.DtoSolicitud;
-import mercadeoucab.dtos.DtoTipo;
-import mercadeoucab.dtos.DtoUsuario;
+import mercadeoucab.dtos.*;
 import mercadeoucab.entidades.Marca;
 import mercadeoucab.entidades.Solicitud;
 import mercadeoucab.servicio.ServicioMarca;
@@ -27,6 +24,8 @@ public class ServicioSolicitudTest {
         dtoSolicitud.setUsuario( new DtoUsuario( 1));
         DtoTipo dtoTipo = new DtoTipo(1);
         dtoSolicitud.setTipo(dtoTipo);
+        DtoSubCategoria dtoSubCategoria = new DtoSubCategoria(1);
+        dtoSolicitud.setSubCategoria(dtoSubCategoria);
         DtoSolicitud resultado = servicio.registrarSolicitud( dtoSolicitud);
         Assert.assertNotEquals(resultado.get_id(), 0);
     }
