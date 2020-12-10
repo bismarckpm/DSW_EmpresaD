@@ -12,6 +12,7 @@ public class DtoSolicitud extends DtoBase{
     private DtoMarca marca;
     private DtoTipo tipo;
     private DtoSubCategoria subCategoria;
+    private DtoPresentacion presentacion;
 
     public DtoSolicitud(long id)throws Exception{ super(id); }
     public DtoSolicitud(){}
@@ -37,5 +38,12 @@ public class DtoSolicitud extends DtoBase{
     }
     public void setSubCategoria(DtoSubCategoria subCategoria) {
         this.subCategoria = subCategoria;
+    }
+
+    public DtoPresentacion getPresentacion() {
+        return presentacion;
+    }
+    public void setPresentacion(DtoPresentacion presentacion) {
+        this.presentacion = presentacion;
     }
 }

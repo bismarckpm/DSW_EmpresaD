@@ -63,8 +63,13 @@ public class ServicioSolicitud extends AplicacionBase{
             solicitud.setMarca( marca );
             Tipo tipo = new Tipo(dtoSolicitud.getTipo().get_id());
             solicitud.addTipo(tipo);
+
             SubCategoria subCategoria = new SubCategoria(dtoSolicitud.getSubCategoria().get_id());
             solicitud.addSubCategoria(subCategoria);
+
+            Presentacion presentacion = new Presentacion(dtoSolicitud.getPresentacion().get_id());
+            solicitud.addPresentacion( presentacion );
+
             Solicitud resul = dao.insert( solicitud );
             resultado.set_id( resul.get_id());
         }catch (Exception e) {

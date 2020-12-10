@@ -33,6 +33,14 @@ public class Solicitud extends EntidadBase{
     @ManyToMany()
     private List<SubCategoria> subCategorias;
 
+    @JoinTable(
+            name = "presentacion_solicitud",
+            joinColumns = @JoinColumn(name = "fk_solicitud", nullable = false),
+            inverseJoinColumns = @JoinColumn(name="fk_presentacion", nullable = false))
+    @ManyToMany()
+    private List<Presentacion> presentaciones;
+
+
     public Solicitud(long id) { super(id); }
     public Solicitud(){}
 
@@ -57,11 +65,33 @@ public class Solicitud extends EntidadBase{
         this.subCategorias.add(subCategoria);
     }
 
+    public void addPresentacion(Presentacion presentacion){
+        if(this.presentaciones == null)
+            this.presentaciones = new ArrayList<>();
+        this.presentaciones.add(presentacion);
+    }
+
     public List<Tipo> getTipos() {
         return tipos;
     }
 
     public void setTipos(List<Tipo> tipos) {
         this.tipos = tipos;
+    }
+
+    public List<SubCategoria> getSubCategorias() {
+        return subCategorias;
+    }
+
+    public void setSubCategorias(List<SubCategoria> subCategorias) {
+        this.subCategorias = subCategorias;
+    }
+
+    public List<Presentacion> getPresentaciones() {
+        return presentaciones;
+    }
+
+    public void setPresentaciones(List<Presentacion> presentaciones) {
+        this.presentaciones = presentaciones;
     }
 }

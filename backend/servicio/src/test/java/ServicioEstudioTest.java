@@ -53,6 +53,8 @@ public class ServicioEstudioTest {
         dtoSolicitud.setTipo(dtoTipo);
         DtoSubCategoria dtoSubCategoria = new DtoSubCategoria(1);
         dtoSolicitud.setSubCategoria(dtoSubCategoria);
+        DtoPresentacion dtoPresentacion = new DtoPresentacion(1);
+        dtoSolicitud.setPresentacion(dtoPresentacion);
         DtoSolicitud solicitud = servicioSolicitud.registrarSolicitud( dtoSolicitud);
         dtoEstudio.setSolicitud( solicitud );
         //Solicitud
@@ -103,6 +105,8 @@ public class ServicioEstudioTest {
         dtoSolicitud.setTipo(dtoTipo);
         DtoSubCategoria dtoSubCategoria = new DtoSubCategoria(1);
         dtoSolicitud.setSubCategoria(dtoSubCategoria);
+        DtoPresentacion dtoPresentacion = new DtoPresentacion(1);
+        dtoSolicitud.setPresentacion(dtoPresentacion);
         DtoSolicitud solicitud = servicioSolicitud.registrarSolicitud( dtoSolicitud);
         dtoEstudio.setSolicitud( solicitud );
         //Solicitud
@@ -161,6 +165,8 @@ public class ServicioEstudioTest {
         dtoSolicitud.setTipo(dtoTipo);
         DtoSubCategoria dtoSubCategoria = new DtoSubCategoria(1);
         dtoSolicitud.setSubCategoria(dtoSubCategoria);
+        DtoPresentacion dtoPresentacion = new DtoPresentacion(1);
+        dtoSolicitud.setPresentacion(dtoPresentacion);
         DtoSolicitud solicitud = servicioSolicitud.registrarSolicitud( dtoSolicitud);
         dtoEstudio.setSolicitud( solicitud );
         //Solicitud
@@ -212,6 +218,8 @@ public class ServicioEstudioTest {
         dtoSolicitud.setTipo(dtoTipo);
         DtoSubCategoria dtoSubCategoria = new DtoSubCategoria(1);
         dtoSolicitud.setSubCategoria(dtoSubCategoria);
+        DtoPresentacion dtoPresentacion = new DtoPresentacion(1);
+        dtoSolicitud.setPresentacion(dtoPresentacion);
         DtoSolicitud solicitud = servicioSolicitud.registrarSolicitud( dtoSolicitud);
         dtoEstudio.setSolicitud( solicitud );
         //Solicitud

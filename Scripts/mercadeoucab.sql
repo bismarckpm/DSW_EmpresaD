@@ -467,9 +467,6 @@ DROP TABLE IF EXISTS `mercadeoucab`.`presentacion_solicitud` ;
 
 CREATE TABLE IF NOT EXISTS `mercadeoucab`.`presentacion_solicitud` (
   `id` INT NOT NULL AUTO_INCREMENT,
-  `activo` TINYINT NOT NULL,
-  `creado_el` TIMESTAMP NOT NULL,
-  `modificado_el` TIMESTAMP NULL DEFAULT NULL,
   `fk_presentacion` INT NOT NULL,
   `fk_solicitud` INT NOT NULL,
   PRIMARY KEY (`id`),
