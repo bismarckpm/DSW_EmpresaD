@@ -21,6 +21,9 @@ public class Respuesta extends EntidadBase {
     @JoinColumn(name = "fk_usuario")
     private Usuario fk_usuario;
 
+    public Respuesta(){}
+    public Respuesta(long id){super(id);}
+
     public String getRespuesta() {return respuesta;}
     public void setRespuesta(String respuesta) {this.respuesta = respuesta;}
     public Usuario getFk_usuario() {return fk_usuario;}
