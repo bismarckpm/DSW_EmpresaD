@@ -62,4 +62,9 @@ export class UsuarioService {
       data
     );
   }
+
+  signup(data){
+    console.log('Usuario Services Signup');
+    return data;
+  }
 }

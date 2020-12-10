@@ -1,0 +1,38 @@
+<div class="container">
+  <div class="row">
+    <div class="col-md-6 offset-md3 mt-4">
+      <h3>Login</h3>
+      <form #f="ngForm" (ngSubmit)="onSubmit(f)">
+        <div class="mb-3">
+          <label for="loginEmail" class="form-label">Email address</label>
+          <input
+            type="email"
+            class="form-control"
+            id="loginEmail"
+            aria-describedby="emailHelp"
+            placeholder="Correo"
+            ngModel
+            required
+          />
+        </div>
+        <div class="mb-3">
+          <label for="loginPassword" class="form-label">Password</label>
+          <input
+            type="password"
+            class="form-control"
+            id="loginPassword"
+            placeholder="Password"
+          />
+        </div>
+        <div class="mb-3 form-check">
+          <a routerLink="/reset-password" routerLinkActive="active"
+            >Forgot Password</a
+          >
+        </div>
+        <button type="submit" class="btn btn-primary">
+          Login <i class="fas fa-sign-in-alt"></i>
+        </button>
+      </form>
+    </div>
+  </div>
+</div>
