@@ -11,7 +11,7 @@ public class ServicioDATest {
         user.setCorreo("muha30@gmail.com");
         user.setEstado("activo");
         user.setPassword("123");
-        DirectorioActivo ldap = new DirectorioActivo("administrador");
+        DirectorioActivo ldap = new DirectorioActivo("cliente");
         ldap.addEntryToLdap( user );
     }
 
@@ -28,9 +28,9 @@ public class ServicioDATest {
     public void updateUserLDAP()
     {
         DtoDirectorioAUser user = new DtoDirectorioAUser();
-        user.setCorreo( "b@k.com" );
+        user.setCorreo( "muha30@gmail.com" );
         DirectorioActivo ldap = new DirectorioActivo("administrador");
-        ldap.updateEntry( user,"C@k.com","hola2","bloqueado");
+        ldap.updateEntry( user,"C@k.com","123","bloqueado");
     }
 
     @Test
@@ -41,4 +41,15 @@ public class ServicioDATest {
         DirectorioActivo ldap = new DirectorioActivo("administrador");
         ldap.getEntry(user);
     }
+
+    @Test
+    public void userAuthentication()
+    {
+        DtoDirectorioAUser user = new DtoDirectorioAUser();
+        user.setCorreo( "muha30@gmail.com" );
+        user.setPassword( "123" );
+        DirectorioActivo ldap = new DirectorioActivo("cliente");
+        ldap.userAuthentication( user );
+    }
+
 }
