@@ -18,7 +18,7 @@ public class ServicioUsuario extends AplicacionBase{
     @GET
     @Path("/{id}")
     // @PathParam("id") Long id
-    public DtoUsuario obtenerUsuario(long id){
+    public DtoUsuario obtenerUsuario(@PathParam("id") Long id){
         DtoUsuario resultado = new DtoUsuario();
         try{
             DaoUsuario dao = new DaoUsuario();
@@ -63,11 +63,11 @@ public class ServicioUsuario extends AplicacionBase{
     @PUT
     @Path("/{id}")
     // @PathParam("id") Long id
-    public DtoUsuario actualizarUsuario(DtoUsuario dtoUsuario){
+    public DtoUsuario actualizarUsuario(@PathParam("id") Long id,DtoUsuario dtoUsuario){
         DtoUsuario resultado = new DtoUsuario();
         try{
             DaoUsuario dao = new DaoUsuario();
-            Usuario usuario = dao.find(dtoUsuario.get_id(), Usuario.class);
+            Usuario usuario = dao.find( id, Usuario.class);
             usuario.setNombre( dtoUsuario.getNombre());
             usuario.setApellido( dtoUsuario.getApellido());
             usuario.setEstado( dtoUsuario.getEstado());

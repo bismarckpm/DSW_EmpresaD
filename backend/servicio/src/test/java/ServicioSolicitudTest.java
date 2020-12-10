@@ -37,13 +37,17 @@ public class ServicioSolicitudTest {
         dtoSolicitud.setEstado("solicitada");
         ServicioMarca servicioMarca = new ServicioMarca();
         DtoMarca marca = new DtoMarca();
-        marca.setNombre("Rexona");
+        marca.setNombre("Adidas");
         Marca registrarMarca = servicioMarca.registrarMarca(marca);
+        DtoTipo dtoTipo = new DtoTipo(1);
+        dtoSolicitud.setTipo(dtoTipo);
         dtoSolicitud.setMarca( new DtoMarca(registrarMarca.get_id()));
         dtoSolicitud.setUsuario( new DtoUsuario( 1));
+        DtoSubCategoria dtoSubCategoria = new DtoSubCategoria(1);
+        dtoSolicitud.setSubCategoria(dtoSubCategoria);
         DtoSolicitud paraActualizar = servicio.registrarSolicitud( dtoSolicitud);
         paraActualizar.setEstado("aceptada");
-        DtoSolicitud resultado = servicio.actualizarSolicitud( paraActualizar);
+        DtoSolicitud resultado = servicio.actualizarSolicitud( paraActualizar.get_id(), paraActualizar);
         Assert.assertNotEquals(resultado.get_id(), 0);
     }
 
@@ -58,6 +62,10 @@ public class ServicioSolicitudTest {
         Marca registrarMarca = servicioMarca.registrarMarca(marca);
         dtoSolicitud.setMarca( new DtoMarca(registrarMarca.get_id()));
         dtoSolicitud.setUsuario( new DtoUsuario( 1));
+        DtoTipo dtoTipo = new DtoTipo(1);
+        dtoSolicitud.setTipo(dtoTipo);
+        DtoSubCategoria dtoSubCategoria = new DtoSubCategoria(1);
+        dtoSolicitud.setSubCategoria(dtoSubCategoria);
         DtoSolicitud paraBorrar = servicio.registrarSolicitud( dtoSolicitud);
         DtoSolicitud resultado = servicio.eliminarSolicitud( paraBorrar.get_id());
         Assert.assertEquals( resultado.get_id(), paraBorrar.get_id());
@@ -74,6 +82,10 @@ public class ServicioSolicitudTest {
         Marca registrarMarca = servicioMarca.registrarMarca(marca);
         dtoSolicitud.setMarca( new DtoMarca(registrarMarca.get_id()));
         dtoSolicitud.setUsuario( new DtoUsuario( 1));
+        DtoTipo dtoTipo = new DtoTipo(1);
+        dtoSolicitud.setTipo(dtoTipo);
+        DtoSubCategoria dtoSubCategoria = new DtoSubCategoria(1);
+        dtoSolicitud.setSubCategoria(dtoSubCategoria);
         DtoSolicitud paraConsultar = servicio.registrarSolicitud( dtoSolicitud);
         DtoSolicitud resultado = servicio.obtenerSolicitud( paraConsultar.get_id());
         Assert.assertEquals( resultado.get_id(), paraConsultar.get_id());

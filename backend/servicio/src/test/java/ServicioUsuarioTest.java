@@ -34,7 +34,10 @@ public class ServicioUsuarioTest {
         paraActualizar.setNombre("Juan");
         paraActualizar.setApellido( "Ricardo");
         paraActualizar.setEstado( "activo");
-        DtoUsuario resultado = servicio.actualizarUsuario( paraActualizar);
+        DtoUsuario resultado = servicio.actualizarUsuario(
+                paraActualizar.get_id(),
+                paraActualizar
+        );
         Assert.assertNotEquals( 0, resultado.get_id());
     }
 

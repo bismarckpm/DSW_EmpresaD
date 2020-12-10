@@ -33,6 +33,7 @@ public class ServicioSubCategoriaTest {
         );
         paraActualizar.setNombre("Soy una subc actualizada");
         DtoSubCategoria resultado = servicio.actualizarSubCategoria(
+                paraActualizar.get_id(),
                 paraActualizar
         );
         Assert.assertNotEquals(resultado.get_id(), 0);
