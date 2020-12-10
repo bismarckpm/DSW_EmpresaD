@@ -8,7 +8,7 @@ public class DtoRespuesta extends DtoBase{
 
     private String respuesta;
     private DtoOpcion dtoopcion;
-    private DtoEsqueletoEncuestaEstudio dto_esqueleto_encuesta_estudio;
+    private DtoEncuestaEstudio dtoEncuestaEstudio;
     private DtoUsuario Dtousuario;
 
     public String getRespuesta() {return respuesta;}
@@ -17,8 +17,21 @@ public class DtoRespuesta extends DtoBase{
     public DtoOpcion get_dtoopcion() {return dtoopcion;}
     public void set_dtoopcion(DtoOpcion DTOO) {this.dtoopcion = DTOO;}
 
-    public DtoEsqueletoEncuestaEstudio getDto_esqueleto_encuesta_estudio() {return dto_esqueleto_encuesta_estudio;}
-    public void setDto_esqueleto_encuesta_estudio(DtoEsqueletoEncuestaEstudio dto_esqueleto_encuesta_estudio) { this.dto_esqueleto_encuesta_estudio = dto_esqueleto_encuesta_estudio;}
+    public DtoOpcion getDtoopcion() {
+        return dtoopcion;
+    }
+
+    public void setDtoopcion(DtoOpcion dtoopcion) {
+        this.dtoopcion = dtoopcion;
+    }
+
+    public DtoEncuestaEstudio getDtoEncuestaEstudio() {
+        return dtoEncuestaEstudio;
+    }
+
+    public void setDtoEncuestaEstudio(DtoEncuestaEstudio dtoEncuestaEstudio) {
+        this.dtoEncuestaEstudio = dtoEncuestaEstudio;
+    }
 
     public DtoUsuario getDtousuario() { return Dtousuario; }
     public void setDtousuario(DtoUsuario dtousuario) { Dtousuario = dtousuario; }
