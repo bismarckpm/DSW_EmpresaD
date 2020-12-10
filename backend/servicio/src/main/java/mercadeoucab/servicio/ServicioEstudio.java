@@ -37,14 +37,12 @@ public class ServicioEstudio {
             estudio.setEscuestasEsperadas(dtoEstudio.getEscuestasEsperadas());
             estudio.setActivo(1);
             estudio.setCreado_el(new Date(Calendar.getInstance().getTime().getTime()));
-
             Solicitud solicitud = new Solicitud(dtoEstudio.getSolicitud().get_id());
             estudio.setSolicitud( solicitud );
             Usuario usuario = new Usuario(dtoEstudio.getFk_usuario().get_id());
             estudio.setFk_usuario( usuario );
             MuestraPoblacion muestraPoblacion = new MuestraPoblacion(dtoEstudio.getFk_muestra_poblacion().get_id());
             estudio.setFk_muestra_poblacion( muestraPoblacion );
-
             resultado = dao.insert(estudio);
         }
         catch (Exception e){

@@ -44,6 +44,7 @@ public class ServicioPregunta extends AplicacionBase{
         }
         catch (Exception e){
             String problema = e.getMessage();
+            System.out.println(problema + "************");
         }
         return resultado;
     }
