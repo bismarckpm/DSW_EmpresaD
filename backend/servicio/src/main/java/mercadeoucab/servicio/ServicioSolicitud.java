@@ -18,7 +18,6 @@ public class ServicioSolicitud extends AplicacionBase{
 
     @GET
     @Path("/{id}")
-    // @PathParam("id") Long id
     public DtoSolicitud obtenerSolicitud(@PathParam("id") Long id){
         DtoSolicitud resultado = new DtoSolicitud();
         try{
@@ -76,12 +75,11 @@ public class ServicioSolicitud extends AplicacionBase{
 
     @PUT
     @Path("/{id}")
-    // @PathParam("id") Long id
-    public DtoSolicitud actualizarSolicitud(DtoSolicitud dtoSolicitud){
+    public DtoSolicitud actualizarSolicitud(@PathParam("id") Long id, DtoSolicitud dtoSolicitud){
         DtoSolicitud resultado = new DtoSolicitud();
         try{
             DaoSolicitud dao = new DaoSolicitud();
-            Solicitud solicitud = dao.find( dtoSolicitud.get_id(), Solicitud.class);
+            Solicitud solicitud = dao.find( id, Solicitud.class);
             solicitud.setEstado( dtoSolicitud.getEstado());
             solicitud.setModificado_el(
                     new Date(Calendar
@@ -99,7 +97,7 @@ public class ServicioSolicitud extends AplicacionBase{
     @PUT
     @Path("/{id}/eliminar")
     // @PathParam("id") Long id
-    public DtoSolicitud eliminarSolicitud(long id){
+    public DtoSolicitud eliminarSolicitud(@PathParam("id") Long id){
         DtoSolicitud resultado = new DtoSolicitud();
         try{
             DaoSolicitud dao = new DaoSolicitud();
