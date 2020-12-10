@@ -10,6 +10,8 @@ public class DtoSolicitud extends DtoBase{
     private String estado;
     private DtoUsuario usuario;
     private DtoMarca marca;
+    private DtoTipo tipo;
+    private DtoSubCategoria subCategoria;
 
     public DtoSolicitud(long id)throws Exception{ super(id); }
     public DtoSolicitud(){}
@@ -23,4 +25,17 @@ public class DtoSolicitud extends DtoBase{
     public DtoUsuario getUsuario() {return usuario;}
     public void setUsuario(DtoUsuario usuario) {this.usuario = usuario;}
 
+    public DtoTipo getTipo() {
+        return tipo;
+    }
+    public void setTipo(DtoTipo tipo) {
+        this.tipo = tipo;
+    }
+
+    public DtoSubCategoria getSubCategoria() {
+        return subCategoria;
+    }
+    public void setSubCategoria(DtoSubCategoria subCategoria) {
+        this.subCategoria = subCategoria;
+    }
 }

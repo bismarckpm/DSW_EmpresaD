@@ -13,7 +13,6 @@
     </parent>
 
     <artifactId>servicio</artifactId>
-    <version>1.0-SNAPSHOT</version>
     <name>servicio</name>
     <packaging>war</packaging>
 
