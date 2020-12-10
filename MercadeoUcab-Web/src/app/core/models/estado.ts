@@ -2,7 +2,7 @@ import { Pais } from './pais';
 
 export class Estado{
     constructor(
-        public _id::number,
+        public _id:number,
         public nombre:string,
         public fk_pais: Pais,
         public activo:boolean,

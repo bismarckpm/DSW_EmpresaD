@@ -1,10 +1,9 @@
 package mercadeoucab.servicio;
 
 import mercadeoucab.accesodatos.DaoSolicitud;
+import mercadeoucab.accesodatos.DaoTipo;
 import mercadeoucab.dtos.DtoSolicitud;
-import mercadeoucab.entidades.Marca;
-import mercadeoucab.entidades.Solicitud;
-import mercadeoucab.entidades.Usuario;
+import mercadeoucab.entidades.*;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
@@ -39,6 +38,7 @@ public class ServicioSolicitud extends AplicacionBase{
         return dao.findAll( Solicitud.class);
     }
 
+
     @POST
     @Path("/")
     public DtoSolicitud registrarSolicitud(DtoSolicitud dtoSolicitud){
@@ -46,8 +46,8 @@ public class ServicioSolicitud extends AplicacionBase{
         try{
             DaoSolicitud dao = new DaoSolicitud();
             Solicitud solicitud = new Solicitud();
-            solicitud.setEstado( dtoSolicitud.getEstado());
-            solicitud.setActivo( 1);
+            solicitud.setEstado( dtoSolicitud.getEstado() );
+            solicitud.setActivo( 1 );
             solicitud.setCreado_el(
                     new Date(Calendar
                             .getInstance()
@@ -61,8 +61,12 @@ public class ServicioSolicitud extends AplicacionBase{
             Marca marca = new Marca(
                     dtoSolicitud.getMarca().get_id()
             );
-            solicitud.setMarca( marca);
-            Solicitud resul = dao.insert( solicitud);
+            solicitud.setMarca( marca );
+            Tipo tipo = new Tipo(dtoSolicitud.getTipo().get_id());
+            solicitud.addTipo(tipo);
+            SubCategoria subCategoria = new SubCategoria(dtoSolicitud.getSubCategoria().get_id());
+            solicitud.addSubCategoria(subCategoria);
+            Solicitud resul = dao.insert( solicitud );
             resultado.set_id( resul.get_id());
         }catch (Exception e) {
             String problema = e.getMessage();

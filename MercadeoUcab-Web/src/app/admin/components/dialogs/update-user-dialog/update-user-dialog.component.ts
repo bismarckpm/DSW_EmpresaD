@@ -1,7 +1,7 @@
 import { Component, Injectable, Input, OnInit, TemplateRef, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
-
+import { UsuarioService } from '@core/services/usuario/usuario.service';
 @Component({
   selector: 'app-update-user-dialog',
   templateUrl: './update-user-dialog.component.html',
@@ -14,7 +14,7 @@ export class UpdateUserDialogComponent implements OnInit {
 
   @ViewChild('updUser') private modalContent: TemplateRef<UpdateUserDialogComponent>;
   private modalRef: NgbModalRef;
-  constructor(private modalService: NgbModal,private formBuilder: FormBuilder){}
+  constructor(private modalService: NgbModal,private formBuilder: FormBuilder,  _service:UsuarioService){}
   @Input() _userSelection : number;
 
   ngOnInit(): void {

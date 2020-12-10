@@ -42,9 +42,6 @@
             <mat-horizontal-stepper [linear]="true" id="estudio-stepper">
                 <mat-step state='solicitud' style="background-color: aqua;">
                     <div class="step-container">
-                        <!--
-                        <h4>Solicitudes en espera</h4>
-                        -->
                         <form class="cForm" [formGroup]="addForm" (submit)="stepCheck()" style="height: 100%; justify-content: space-around;">
                             <div  style="height: 85%;
                             overflow-y: auto; display: flex; flex-direction: column;">

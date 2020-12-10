@@ -3,7 +3,7 @@ import { Tipo } from './tipo';
 
 export class TipoSolicitud{
     constructor(
-        public _id::number,
+        public _id:number,
         public solicitud:Solicitud,
         public tipo: Tipo,
         public activo:boolean,

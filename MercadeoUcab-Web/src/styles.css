@@ -16,12 +16,12 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
     justify-content: center;
 }
 .menu-container {
-height: 90vh;
-width: 85vw;
-display: flex;
-flex-direction: column;
-justify-content: center;
-align-items: center;
+    height: 90vh;
+    width: 85vw !important;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
 }
 .menu-card {
     height: 90%;
