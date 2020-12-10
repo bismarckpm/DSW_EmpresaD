@@ -312,9 +312,6 @@ DROP TABLE IF EXISTS `mercadeoucab`.`encuesta_estudio` ;
 
 CREATE TABLE IF NOT EXISTS `mercadeoucab`.`encuesta_estudio` (
   `id` INT NOT NULL AUTO_INCREMENT,
-  `activo` TINYINT NOT NULL,
-  `creado_el` TIMESTAMP NOT NULL,
-  `modificado_el` TIMESTAMP NULL DEFAULT NULL,
   `fk_pregunta` INT NOT NULL,
   `fk_estudio` INT NULL DEFAULT NULL,
   PRIMARY KEY (`id`),

@@ -10,6 +10,7 @@ public class DtoPregunta extends DtoBase{
     private String tipo;
     private String rango;
     private DtoUsuario usuarioDto;
+    private  DtoEstudio estudio;
 
     public DtoPregunta(){}
 
@@ -26,6 +27,17 @@ public class DtoPregunta extends DtoBase{
     public String getRango() {return rango;}
     public void setRango(String rango) {this.rango = rango;}
 
-    public DtoUsuario get_Dtousuario() { return usuarioDto; }
-    public void set_Dtousuario(DtoUsuario UDTO) {this.usuarioDto = UDTO;}
+    public DtoUsuario getUsuarioDto() {
+        return usuarioDto;
+    }
+    public void setUsuarioDto(DtoUsuario usuarioDto) {
+        this.usuarioDto = usuarioDto;
+    }
+
+    public DtoEstudio getEstudio() {
+        return estudio;
+    }
+    public void setEstudio(DtoEstudio estudio) {
+        this.estudio = estudio;
+    }
 }

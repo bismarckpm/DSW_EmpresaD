@@ -22,9 +22,7 @@
         <class>mercadeoucab.entidades.Solicitud</class>
         <class>mercadeoucab.entidades.Usuario</class>
         <class>mercadeoucab.entidades.Estudio</class>
-        <class>mercadeoucab.entidades.TipoSolicitud</class>
         <class>mercadeoucab.entidades.Tipo</class>
-        <class>mercadeoucab.entidades.SubCategoriaSolicitud</class>
         <class>mercadeoucab.entidades.Categoria</class>
         <class>mercadeoucab.entidades.Telefono</class>
         <class>mercadeoucab.entidades.Hijo</class>

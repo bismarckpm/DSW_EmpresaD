@@ -9,6 +9,7 @@ import org.junit.Test;
 import java.util.List;
 
 public class ServicioEstudioTest {
+
     @Test
     public void registrarEstudioTest() throws Exception{
         ServicioEstudio servicio = new ServicioEstudio();
@@ -40,14 +41,18 @@ public class ServicioEstudioTest {
         ServicioSolicitud servicioSolicitud = new ServicioSolicitud();
         DtoSolicitud dtoSolicitud = new DtoSolicitud();
         dtoSolicitud.setEstado("solicitada");
-        //Marca
-        ServicioMarca servicioMarca = new ServicioMarca();
-        DtoMarca marca = new DtoMarca();
-        marca.setNombre("Rexona");
-        Marca registrarMarca = servicioMarca.registrarMarca(marca);
-        dtoSolicitud.setMarca( new DtoMarca(registrarMarca.get_id()));
-        //Marca
-        dtoSolicitud.setUsuario( new DtoUsuario( usuario.get_id()));
+            //Marca
+            ServicioMarca servicioMarca = new ServicioMarca();
+            DtoMarca marca = new DtoMarca();
+            marca.setNombre("Rexona");
+            Marca registrarMarca = servicioMarca.registrarMarca(marca);
+            dtoSolicitud.setMarca( new DtoMarca(registrarMarca.get_id()));
+            //Marca
+        dtoSolicitud.setUsuario( new DtoUsuario( 1));
+        DtoTipo dtoTipo = new DtoTipo(1);
+        dtoSolicitud.setTipo(dtoTipo);
+        DtoSubCategoria dtoSubCategoria = new DtoSubCategoria(1);
+        dtoSolicitud.setSubCategoria(dtoSubCategoria);
         DtoSolicitud solicitud = servicioSolicitud.registrarSolicitud( dtoSolicitud);
         dtoEstudio.setSolicitud( solicitud );
         //Solicitud
@@ -94,6 +99,10 @@ public class ServicioEstudioTest {
         dtoSolicitud.setMarca( new DtoMarca(registrarMarca.get_id()));
         //Marca
         dtoSolicitud.setUsuario( new DtoUsuario( usuario.get_id()));
+        DtoTipo dtoTipo = new DtoTipo(1);
+        dtoSolicitud.setTipo(dtoTipo);
+        DtoSubCategoria dtoSubCategoria = new DtoSubCategoria(1);
+        dtoSolicitud.setSubCategoria(dtoSubCategoria);
         DtoSolicitud solicitud = servicioSolicitud.registrarSolicitud( dtoSolicitud);
         dtoEstudio.setSolicitud( solicitud );
         //Solicitud
@@ -148,6 +157,10 @@ public class ServicioEstudioTest {
         dtoSolicitud.setMarca( new DtoMarca(registrarMarca.get_id()));
         //Marca
         dtoSolicitud.setUsuario( new DtoUsuario( usuario.get_id()));
+        DtoTipo dtoTipo = new DtoTipo(1);
+        dtoSolicitud.setTipo(dtoTipo);
+        DtoSubCategoria dtoSubCategoria = new DtoSubCategoria(1);
+        dtoSolicitud.setSubCategoria(dtoSubCategoria);
         DtoSolicitud solicitud = servicioSolicitud.registrarSolicitud( dtoSolicitud);
         dtoEstudio.setSolicitud( solicitud );
         //Solicitud
@@ -195,6 +208,10 @@ public class ServicioEstudioTest {
         dtoSolicitud.setMarca( new DtoMarca(registrarMarca.get_id()));
         //Marca
         dtoSolicitud.setUsuario( new DtoUsuario( usuario.get_id()));
+        DtoTipo dtoTipo = new DtoTipo(1);
+        dtoSolicitud.setTipo(dtoTipo);
+        DtoSubCategoria dtoSubCategoria = new DtoSubCategoria(1);
+        dtoSolicitud.setSubCategoria(dtoSubCategoria);
         DtoSolicitud solicitud = servicioSolicitud.registrarSolicitud( dtoSolicitud);
         dtoEstudio.setSolicitud( solicitud );
         //Solicitud
