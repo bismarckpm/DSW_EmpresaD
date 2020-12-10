@@ -3,7 +3,7 @@ package mercadeoucab.entidades;
 import javax.persistence.*;
 
 @Entity
-@Table(name = "ocupacion_muestra2")
+@Table(name = "ocupacion_muestra")
 public class OcupacionMuestra extends EntidadBase{
 
     @ManyToOne
