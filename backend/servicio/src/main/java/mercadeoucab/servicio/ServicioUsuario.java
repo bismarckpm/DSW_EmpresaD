@@ -53,6 +53,7 @@ public class ServicioUsuario extends AplicacionBase{
             usuario.setActivo( 1);
             usuario.setCreado_el( new Date(Calendar.getInstance().getTime().getTime()));
             Usuario resul = dao.insert( usuario);
+
             resultado.set_id( resul.get_id());
         }catch (Exception e) {
             String problema = e.getMessage();
