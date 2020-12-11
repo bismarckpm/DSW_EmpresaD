@@ -2,6 +2,8 @@ package mercadeoucab.entidades;
 
 import javax.persistence.*;
 import java.sql.Date;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table( name = "dato_encuestado" )
@@ -41,6 +43,13 @@ public class DatoEncuestado extends EntidadBase{
     @ManyToOne
     @JoinColumn( name = "fk_usuario")
     private Usuario usuario;
+
+    @JoinTable(
+            name = "ocupacion_encuestado",
+            joinColumns = @JoinColumn(name = "fk_dato_encuestado", nullable = false),
+            inverseJoinColumns = @JoinColumn(name="fk_ocupacion", nullable = false))
+    @ManyToMany()
+    private List<Ocupacion> ocupaciones;
 
     public DatoEncuestado(String segundoNombre, String segundoapellido, String cedula, String medioConexion, Date edad, String genero, int nive_economico, String nivelAcademico, int personasHogar) {
         this.segundoNombre = segundoNombre;
@@ -149,5 +158,11 @@ public class DatoEncuestado extends EntidadBase{
 
     public void setUsuario(Usuario usuario) {
         this.usuario = usuario;
+    }
+
+    public void addOcupacion(Ocupacion ocupacion){
+        if(this.ocupaciones == null)
+            this.ocupaciones = new ArrayList<>();
+        this.ocupaciones.add(ocupacion);
     }
 }

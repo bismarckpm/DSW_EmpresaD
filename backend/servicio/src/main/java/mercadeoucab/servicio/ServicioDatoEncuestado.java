@@ -5,9 +5,7 @@ import mercadeoucab.accesodatos.DaoUsuario;
 import mercadeoucab.dtos.DtoDatoEncuestado;
 import mercadeoucab.dtos.DtoParroquia;
 import mercadeoucab.dtos.DtoUsuario;
-import mercadeoucab.entidades.DatoEncuestado;
-import mercadeoucab.entidades.Parroquia;
-import mercadeoucab.entidades.Usuario;
+import mercadeoucab.entidades.*;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
@@ -49,6 +47,8 @@ public class ServicioDatoEncuestado extends AplicacionBase{
             datoEncuestado.setFk_lugar(parroquia);
             Usuario usuario = new Usuario(dtoDatoEncuestado.getUsuario().get_id());
             datoEncuestado.setUsuario( usuario );
+            Ocupacion ocupacion = new Ocupacion(dtoDatoEncuestado.getOcupacion().get_id());
+            datoEncuestado.addOcupacion( ocupacion );
             resultado = dao.insert(datoEncuestado);
         }
         catch (Exception e){

@@ -10,7 +10,6 @@
         <class>mercadeoucab.entidades.MuestraPoblacion</class>
         <class>mercadeoucab.entidades.Municipio</class>
         <class>mercadeoucab.entidades.Ocupacion</class>
-        <class>mercadeoucab.entidades.OcupacionEncuestado</class>
         <class>mercadeoucab.entidades.Opcion</class>
         <class>mercadeoucab.entidades.Pais</class>
         <class>mercadeoucab.entidades.Parroquia</class>
