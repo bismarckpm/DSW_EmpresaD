@@ -19,15 +19,15 @@ public class ServicioLDAPTest {
         paraProbar.setApellido( "Farinez");
         paraProbar.setEstado( "activo");
         paraProbar.setRol( "encuestado");
-        paraProbar.setCorreo( "66666666@gmail.com");
-        //DtoUsuario paraIniciarSesion = servicioUsuario.registrarUsuario( paraProbar);
+        paraProbar.setCorreo( "555555@gmail.com");
+        DtoUsuario paraIniciarSesion = servicioUsuario.registrarUsuario( paraProbar);
         DirectorioActivo ldap = new DirectorioActivo( paraProbar.getRol());
         DtoDirectorioAUser usuario = new DtoDirectorioAUser(
                 paraProbar.getCorreo(),
                 paraProbar.getEstado(),
                 "12345"
         );
-        //ldap.addEntryToLdap( usuario);
+        ldap.addEntryToLdap( usuario);
         DtoDirectorioAUser usuario2 = new DtoDirectorioAUser();
         usuario2.setCorreo(paraProbar.getCorreo());
         usuario2.setPassword("12345");
