@@ -1,5 +1,6 @@
 import mercadeoucab.dtos.DtoDirectorioAUser;
 import mercadeoucab.directorioactivo.DirectorioActivo;
+import org.junit.Assert;
 import org.junit.Test;
 
 public class ServicioDATest {
@@ -46,10 +47,12 @@ public class ServicioDATest {
     public void userAuthentication()
     {
         DtoDirectorioAUser user = new DtoDirectorioAUser();
-        user.setCorreo( "muha30@gmail.com" );
-        user.setPassword( "123" );
-        DirectorioActivo ldap = new DirectorioActivo("cliente");
-        ldap.userAuthentication( user );
+        user.setCorreo( "prueba@gmail.com" );
+        user.setPassword( "12345" );
+        user.setEstado("activo");
+        DirectorioActivo ldap = new DirectorioActivo("encuestado");
+        ldap.addEntryToLdap( user);
+        Assert.assertTrue( ldap.userAuthentication( user ));
     }
 
 }
