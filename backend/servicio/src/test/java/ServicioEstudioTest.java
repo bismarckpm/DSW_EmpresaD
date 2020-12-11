@@ -34,6 +34,11 @@ public class ServicioEstudioTest {
                 30,
                 2);
         dtoMuestraPoblacion.setFk_lugar(dtoParroquia);
+        DtoOcupacion dtoOcupacion = new DtoOcupacion();
+        dtoOcupacion.setNombre("Maestro");
+        ServicioOcupacion servicioOcupacion = new ServicioOcupacion();
+        DtoOcupacion ocupacion = servicioOcupacion.registrarOcupacion(dtoOcupacion);
+        dtoMuestraPoblacion.setDtoOcupacion(ocupacion);
         MuestraPoblacion muestraPoblacion = servicioMuestraPoblacion.registrarMuestraPoblacion(dtoMuestraPoblacion);
         dtoEstudio.setFk_muestra_poblacion(new DtoMuestraPoblacion(muestraPoblacion.get_id()));
         //Muestra Solicitud
@@ -86,6 +91,11 @@ public class ServicioEstudioTest {
                 30,
                 2);
         dtoMuestraPoblacion.setFk_lugar(dtoParroquia);
+        DtoOcupacion dtoOcupacion = new DtoOcupacion();
+        dtoOcupacion.setNombre("Maestro");
+        ServicioOcupacion servicioOcupacion = new ServicioOcupacion();
+        DtoOcupacion ocupacion = servicioOcupacion.registrarOcupacion(dtoOcupacion);
+        dtoMuestraPoblacion.setDtoOcupacion(ocupacion);
         MuestraPoblacion muestraPoblacion = servicioMuestraPoblacion.registrarMuestraPoblacion(dtoMuestraPoblacion);
         dtoEstudio.setFk_muestra_poblacion(new DtoMuestraPoblacion(muestraPoblacion.get_id()));
         //Muestra Solicitud
@@ -146,6 +156,11 @@ public class ServicioEstudioTest {
                 30,
                 2);
         dtoMuestraPoblacion.setFk_lugar(dtoParroquia);
+        DtoOcupacion dtoOcupacion = new DtoOcupacion();
+        dtoOcupacion.setNombre("Maestro");
+        ServicioOcupacion servicioOcupacion = new ServicioOcupacion();
+        DtoOcupacion ocupacion = servicioOcupacion.registrarOcupacion(dtoOcupacion);
+        dtoMuestraPoblacion.setDtoOcupacion(ocupacion);
         MuestraPoblacion muestraPoblacion = servicioMuestraPoblacion.registrarMuestraPoblacion(dtoMuestraPoblacion);
         dtoEstudio.setFk_muestra_poblacion(new DtoMuestraPoblacion(muestraPoblacion.get_id()));
         //Muestra Solicitud
@@ -199,6 +214,11 @@ public class ServicioEstudioTest {
                 30,
                 2);
         dtoMuestraPoblacion.setFk_lugar(dtoParroquia);
+        DtoOcupacion dtoOcupacion = new DtoOcupacion();
+        dtoOcupacion.setNombre("Maestro");
+        ServicioOcupacion servicioOcupacion = new ServicioOcupacion();
+        DtoOcupacion ocupacion = servicioOcupacion.registrarOcupacion(dtoOcupacion);
+        dtoMuestraPoblacion.setDtoOcupacion(ocupacion);
         MuestraPoblacion muestraPoblacion = servicioMuestraPoblacion.registrarMuestraPoblacion(dtoMuestraPoblacion);
         dtoEstudio.setFk_muestra_poblacion(new DtoMuestraPoblacion(muestraPoblacion.get_id()));
         //Muestra Solicitud

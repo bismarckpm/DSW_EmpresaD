@@ -9,6 +9,7 @@ public class DtoMuestraPoblacion extends DtoBase{
     private int rangoEdadFin;
     private int cantidadHijos;
     private DtoParroquia fk_lugar;
+    private DtoOcupacion dtoOcupacion;
 
     public DtoMuestraPoblacion(){}
     public DtoMuestraPoblacion(long id)throws Exception{super(id);}
@@ -76,5 +77,13 @@ public class DtoMuestraPoblacion extends DtoBase{
 
     public void setFk_lugar(DtoParroquia fk_lugar) {
         this.fk_lugar = fk_lugar;
+    }
+
+    public DtoOcupacion getDtoOcupacion() {
+        return dtoOcupacion;
+    }
+
+    public void setDtoOcupacion(DtoOcupacion dtoOcupacion) {
+        this.dtoOcupacion = dtoOcupacion;
     }
 }

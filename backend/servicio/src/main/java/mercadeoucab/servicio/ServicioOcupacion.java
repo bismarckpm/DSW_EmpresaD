@@ -45,7 +45,7 @@ public class ServicioOcupacion extends AplicacionBase{
             DaoOcupacion daoO = new DaoOcupacion();
             Ocupacion O= new Ocupacion();
             O.setNombre(DTOO.getNombre());
-            O.setActivo(DTOO.getActivo());
+            O.setActivo(1);
             O.setCreado_el(new Date(Calendar.getInstance().getTime().getTime()));
             Ocupacion resul = daoO.insert( O);
             resultado.set_id( resul.get_id());

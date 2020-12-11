@@ -3,6 +3,7 @@ package mercadeoucab.servicio;
 import mercadeoucab.accesodatos.DaoMuestraPoblacion;
 import mercadeoucab.dtos.DtoMuestraPoblacion;
 import mercadeoucab.entidades.MuestraPoblacion;
+import mercadeoucab.entidades.Ocupacion;
 import mercadeoucab.entidades.Parroquia;
 
 import javax.ws.rs.*;
@@ -40,6 +41,8 @@ public class ServicioMuestraPoblacion extends AplicacionBase{
             muestraPoblacion.setRangoEdadFin(dtoMuestraPoblacion.getRangoEdadFin());
             Parroquia parroquia = new Parroquia(dtoMuestraPoblacion.getFk_lugar().get_id());
             muestraPoblacion.setFk_lugar(parroquia);
+            Ocupacion ocupacion = new Ocupacion(dtoMuestraPoblacion.getDtoOcupacion().get_id());
+            muestraPoblacion.addOcupacion(ocupacion);
             resultado = dao.insert(muestraPoblacion);
         }
         catch (Exception e){
