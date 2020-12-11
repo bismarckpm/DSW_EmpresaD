@@ -1,7 +1,8 @@
 package mercadeoucab.entidades;
 
 import javax.persistence.*;
-import java.sql.Date;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name = "muestra_poblacion")
@@ -28,6 +29,14 @@ public class MuestraPoblacion extends EntidadBase{
     @ManyToOne
     @JoinColumn( name = "fk_lugar")
     private Parroquia fk_lugar;
+
+    @JoinTable(
+            name = "ocupacion_muestra",
+            joinColumns = @JoinColumn(name = "fk_muestra_poblacion", nullable = false),
+            inverseJoinColumns = @JoinColumn(name="fk_ocupacion", nullable = false))
+    @ManyToMany()
+    private List<Ocupacion> ocupaciones;
+
 
     public MuestraPoblacion(){}
     public MuestraPoblacion(long id){super(id);}
@@ -86,5 +95,11 @@ public class MuestraPoblacion extends EntidadBase{
 
     public void setFk_lugar(Parroquia fk_lugar) {
         this.fk_lugar = fk_lugar;
+    }
+
+    public void addOcupacion(Ocupacion ocupacion){
+        if(this.ocupaciones == null)
+            this.ocupaciones = new ArrayList<>();
+        this.ocupaciones.add(ocupacion);
     }
 }
