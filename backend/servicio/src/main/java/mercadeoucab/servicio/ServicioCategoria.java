@@ -6,6 +6,8 @@ import mercadeoucab.entidades.Categoria;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
+import java.net.URI;
 import java.sql.Date;
 import java.util.Calendar;
 import java.util.List;
@@ -24,7 +26,7 @@ public class ServicioCategoria extends AplicacionBase{
 
     @POST
     @Path("/")
-    public Categoria agregarCategoria(DtoCategoria dtoCategoria){
+    public Response agregarCategoria(DtoCategoria dtoCategoria){
         Categoria resultado = new Categoria();
         try{
             DaoCategoria dao = new DaoCategoria();
@@ -33,11 +35,12 @@ public class ServicioCategoria extends AplicacionBase{
             categoria.setActivo(1);
             categoria.setCreado_el(new Date(Calendar.getInstance().getTime().getTime()));
             resultado = dao.insert(categoria);
+            Response.ok().entity(resultado).build();
         }
         catch (Exception e){
             String problema = e.getMessage();
         }
-        return  resultado;
+        return  Response.ok(resultado).build();
     }
 
     @GET
