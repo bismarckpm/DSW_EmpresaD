@@ -4,16 +4,17 @@ import { MatTableDataSource } from '@angular/material/table';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { DelLugarDialogComponent } from '../../components/dialogs/del-lugar-dialog/del-lugar-dialog.component';
 import { UpdLugarDialogComponent } from '../../components/dialogs/upd-lugar-dialog/upd-lugar-dialog.component';
-import { Pregunta } from '@models/pregunta';
 import { EstadoService } from '@core/services/estado/estado.service';
 import { PaisService } from '@core/services/pais/pais.service';
 import { MunicipioService } from '@core/services/municipio/municipio.service';
 import { ParroquiaService } from '@core/services/parroquia/parroquia.service';
-
+import { Estado } from '@models/estado';
+import { Pais } from '@models/pais';
+import { Municipio } from '@models/municipio';
 
 interface SearchLug {
-  t:string;
-  do:number;
+  t:string,
+  do:number,
 }
 
 @Component({
@@ -32,19 +33,18 @@ export class LugaresComponent implements OnInit {
     ) { }
   userSelection:number = 0;
   
-  @ViewChild('updLugar') private updComponent:UpdLugarDialogComponent;
-  async openUpdModal(id:number,type:string) {
-    return await this.updComponent.open();
-  }
-  @ViewChild('delLugar') private delComponent:DelLugarDialogComponent;
-  async openDelModal(id:number,type:string) {
-    return await this.delComponent.open();
-  }
+
   op:string = "";
   searchState:string="U";
   tipoLugar:string="";//PR,MU,ES,PA
   opStatus:string;//S,P,D
+  targetData:any;
   searchForm:FormGroup;
+  addForm:FormGroup;
+  _paises:Pais[]=[];
+  _estados:Estado[]=[];
+  _municipios:Municipio[]=[];
+  
   //CONTROL DE BUSQUEDA
   searchLugar: SearchLug[] = [];
   searchResults ={
@@ -53,8 +53,75 @@ export class LugaresComponent implements OnInit {
     'MU':[],
     'PR':[]
   };
+  async setData(inD){
+    this.targetData=inD;
+  }
+  @ViewChild('updLugar') private updComponent:UpdLugarDialogComponent;
+  async openUpdModal(id:number,tipo:string,data:any) {
+    await this.setData(data);
+    return await this.updComponent.open(tipo,this.targetData);
+  }
+  @ViewChild('delLugar') private delComponent:DelLugarDialogComponent;
+  async openDelModal(id:number,tipo:string) {
+    return await this.delComponent.open(id,tipo);
+  }
   //dataSource : MatTableDataSource<Lugar>;
   //CHEQUEO DE OPERACION
+  getAsociados(){
+    let testPais = {
+        _id:1,
+        nombre:'Test pais',
+        activo:true,
+        creado_el:new Date(),
+        modificado_el:new Date(),
+    };
+    let testEstado = {
+        _id:1,
+        nombre:'Test estado',
+        fk_pais:testPais,
+        activo:true,
+        creado_el:new Date(),
+        modificado_el:new Date(),
+    };
+    let testMunicipio = {
+       _id:1,
+      nombre:'Test  municipio',
+      fk_estado:testEstado,
+      activo:true,
+      creado_el:new Date(),
+      modificado_el:new Date(),
+    }
+    this._paisService.getPaises().subscribe(
+      (response) => {
+        console.log(response);
+        this._paises=response.data;
+      },
+      (error) => {
+        console.log(error);
+        this._paises=[testPais];
+      }
+    );
+    this._estadoService.getEstados().subscribe(
+      (response) => {
+        console.log(response);
+        this._estados=response.data;
+      },
+      (error) => {
+        console.log(error);
+        this._estados=[testEstado];
+      }
+    )
+    this._municipioService.getMunicipios().subscribe(
+      (response) => {
+        console.log(response);
+        this._municipios=response.data;
+      },
+      (error) => {
+        console.log(error);
+        this._municipios=[testMunicipio];
+      }
+    )
+  }
   checkForSearch(i:number){
     if(this.searchLugar[i].do === 1){
       this.searchLugar[i].do = 0;
@@ -86,22 +153,63 @@ export class LugaresComponent implements OnInit {
     this.searchLugar=[{t:'PA',do:0},{t:'ES',do:0},{t:'MU',do:0},{t:'PR',do:0}];
     this.searchForm = this.formBuilder.group({
       nombre:'',
-    })
+    });
+    this.getAsociados();
+    this.addForm= this.formBuilder.group({
+      nombre:null,
+      fk_pais:null,
+      fk_estado:null,
+      fk_municipio:null,
+      valor_socio_economico:null,
+    });
   }
   filterData(byName:string){
 
   }
   invokeSearch(){
+    let testPais = {
+        _id:1,
+        nombre:'Test pais',
+        activo:true,
+        creado_el:new Date(),
+        modificado_el:new Date(),
+    };
+    let testEstado = {
+        _id:1,
+        nombre:'Test estado',
+        fk_pais:testPais,
+        activo:true,
+        creado_el:new Date(),
+        modificado_el:new Date(),
+    };
+    let testMunicipio = {
+       _id:1,
+      nombre:'Test  municipio',
+      fk_estado:testEstado,
+      activo:true,
+      creado_el:new Date(),
+      modificado_el:new Date(),
+    }
+    let testParroquia = { 
+       _id:1,
+      nombre:'Test  parrroquia',
+      fk_municipio:testMunicipio,
+      activo:true,
+      valor_socio_economico:8000,
+      creado_el:new Date(),
+      modificado_el:new Date(),
+    }
+
+
     console.log(this.searchLugar,this.searchForm.value);
     this.searchState="P";
     this.searchResults = {
-      'PA':(this.searchLugar[0].do === 1)?[{n:'test'}]:[],
-      'ES':(this.searchLugar[1].do === 1)?[{n:'test'}]:[],
-      'MU':(this.searchLugar[2].do === 1)?[{n:'test'}]:[],
-      'PR':(this.searchLugar[3].do === 1)?[{n:'test'}]:[],
+      'PA':(this.searchLugar[0].do === 1)?[testPais]:[],
+      'ES':(this.searchLugar[1].do === 1)?[testEstado]:[],
+      'MU':(this.searchLugar[2].do === 1)?[testMunicipio]:[],
+      'PR':(this.searchLugar[3].do === 1)?[testParroquia]:[],
     }
     setTimeout(()=>{
-      //this.dataSource = new MatTableDataSource<Pregunta>(this.preguntas);
       this.searchState="D";
       console.log(this.searchResults);
     },3000);
@@ -128,22 +236,61 @@ export class LugaresComponent implements OnInit {
     this.tipoLugar=tipo;
   }
   serviceInvoke(role:string){
-    //MEDIO PARA DETERMINAR SERVICIO A INVOCAR SEGUN FORMULARIO DE CREACION DE USUARIO
+    console.log(this.addForm.value);
+    //MEDIO PARA DETERMINAR SERVICIO A INVOCAR SEGUN FORMULARIO DE CREACION DE LOCACION
+    this.opStatus="P"; 
     switch(role){
       case 'PA':
+      this._paisService.createPais(this.addForm.value).subscribe(
+      (response) => {
+        console.log(response);
+        this.opStatus="D"; 
+      },
+      (error) => {
+        console.log(error);
+        this.opStatus="E"; 
+      }
+      );
         break;
       case 'ES':
+      this._estadoService.createEstado(this.addForm.value).subscribe(
+      (response) => {
+        console.log(response);
+        this.opStatus="D";  
+      },
+      (error) => {
+        console.log(error);
+        this.opStatus="E"; 
+      }
+      );
         break;
       case 'MU':
+      this._municipioService.createMunicipio(this.addForm.value).subscribe(
+      (response) => {
+        console.log(response);
+        this.opStatus="D";  
+      },
+      (error) => {
+        console.log(error);
+        this.opStatus="E";  
+      }
+      );
         break;
       case 'PR':
+      this._parroquiaService.createParroquia(this.addForm.value).subscribe(
+      (response) => {
+        console.log(response);
+         this.opStatus="D";  
+      },
+      (error) => {
+        console.log(error);
+        this.opStatus="E"; 
+      }
+      );
         break;
       default:
         break;
     }
-    this.opStatus="P";
-    setTimeout(()=>{
-      this.opStatus="D";
-    },3000);
+    this.getAsociados();
   }
 }

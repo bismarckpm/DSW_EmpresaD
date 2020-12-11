@@ -107,6 +107,8 @@ export class EstudiosComponent implements OnInit {
     this.setOperation('');
   }
   invokeSearch(){
+    this.estudios = [];
+    this.userSelection=0;
     //console.log('Search works');
     //console.log(this.searchForm.value);
     this.searchState="P";

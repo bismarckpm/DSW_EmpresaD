@@ -21,12 +21,16 @@ export class DelLugarDialogComponent implements OnInit {
     private _estadoService:EstadoService,
     private _municipioService:MunicipioService,
     private _parroquiaService:ParroquiaService,){}
+  
   @Input() _userSelection : number;
+  @Input() _tipo : string;
 
   ngOnInit(): void {
     this.opStatus="S";
   }
-  open(){
+  open(id:number,tipo:string){
+    this._tipo=tipo;
+    this._userSelection=id;
     this.modalRef =this.modalService.open(this.modalContent);
     this.modalRef.result.then();
   }
@@ -34,11 +38,60 @@ export class DelLugarDialogComponent implements OnInit {
     this.opStatus="S";
     this.modalRef.close();
   }
-  invokeService(){
+  invokeService(id:number,role:string){
     this.opStatus="P";
-    setTimeout(()=>{
-      this.opStatus="D";
-    },3000);
+    switch(role){
+      case 'PA':
+      this._paisService.deletePais(this._userSelection,null).subscribe(
+      (response) => {
+        console.log(response);
+        this.opStatus="D"; 
+      },
+      (error) => {
+        console.log(error);
+        this.opStatus="E"; 
+      }
+      );
+        break;
+      case 'ES':
+      this._estadoService.deleteEstado(this._userSelection,null).subscribe(
+      (response) => {
+        console.log(response);
+        this.opStatus="D";  
+      },
+      (error) => {
+        console.log(error);
+        this.opStatus="E"; 
+      }
+      );
+        break;
+      case 'MU':
+      this._municipioService.deleteMunicipio(this._userSelection,null).subscribe(
+      (response) => {
+        console.log(response);
+        this.opStatus="D";  
+      },
+      (error) => {
+        console.log(error);
+        this.opStatus="E";  
+      }
+      );
+        break;
+      case 'PR':
+      this._parroquiaService.deleteParroquia(this._userSelection,null).subscribe(
+      (response) => {
+        console.log(response);
+         this.opStatus="D";  
+      },
+      (error) => {
+        console.log(error);
+        this.opStatus="E"; 
+      }
+      );
+        break;
+      default:
+        break;
+    }
   }
 
 }

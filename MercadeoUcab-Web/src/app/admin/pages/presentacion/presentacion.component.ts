@@ -103,6 +103,8 @@ export class PresentacionComponent implements OnInit {
     return filtered;
   }
   invokeSearch(){
+    this.presentaciones = [];
+    this.userSelection=0;
     if(this.searchForm.value['creado_el'] !== null){
       this.searchForm.get('creado_el').setValue(new Date(this.searchForm.value['creado_el']));
     }

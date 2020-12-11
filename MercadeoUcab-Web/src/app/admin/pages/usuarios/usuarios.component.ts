@@ -172,6 +172,8 @@ export class UsuariosComponent implements OnInit {
     return filtered;
   }
   invokeSearch(){
+    this.users = [];
+    this.userSelection=0;
     if(this.searchForm.value['creado_el'] !== null){
       this.searchForm.get('creado_el').setValue(new Date(this.searchForm.value['creado_el']));
     }

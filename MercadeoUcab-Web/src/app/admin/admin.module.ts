@@ -1,6 +1,5 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-
 import { AdminRoutingModule } from './admin-routing.module';
 import { EstudiosComponent } from './pages/estudios/estudios.component';
 import { CategoriasComponent } from './pages/categorias/categorias.component';
@@ -35,7 +34,9 @@ import { AddSolicitudDialogComponent } from './components/dialogs/add-solicitud-
 import { DelPreguntaDialogComponent } from './components/dialogs/del-pregunta-dialog/del-pregunta-dialog.component';
 import { UpdPresentacionDialogComponent } from './components/dialogs/upd-presentacion-dialog/upd-presentacion-dialog.component';
 import { DelPresentacionDialogComponent } from './components/dialogs/del-presentacion-dialog/del-presentacion-dialog.component';
-
+import { SubcategoriaComponent } from './pages/subcategoria/subcategoria.component';
+import { MarcaComponent } from './pages/marca/marca.component';
+import { TiposComponent } from './pages/tipos/tipos.component';
 @NgModule({
   declarations: [
     EstudiosComponent, 
@@ -67,13 +68,16 @@ import { DelPresentacionDialogComponent } from './components/dialogs/del-present
     AddSolicitudDialogComponent,
     DelPreguntaDialogComponent,
     UpdPresentacionDialogComponent,
-    DelPresentacionDialogComponent],
+    DelPresentacionDialogComponent,
+    SubcategoriaComponent,
+    MarcaComponent,
+    TiposComponent],
   imports: [
     CommonModule,
     AdminRoutingModule,
     MaterialModule,
     LocalNgbModule,
-    FormsModule,ReactiveFormsModule
+    FormsModule,ReactiveFormsModule,
   ]
 })
 export class AdminModule { }

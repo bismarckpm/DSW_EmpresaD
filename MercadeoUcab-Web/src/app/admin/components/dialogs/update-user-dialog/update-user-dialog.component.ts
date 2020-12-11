@@ -18,7 +18,7 @@ export class UpdateUserDialogComponent implements OnInit {
   constructor(private modalService: NgbModal,private formBuilder: FormBuilder,private  _service:UsuarioService){}
   @Input() _userSelection : number;
   @Input() _user : Usuario;
-  toService: Usuario;
+  toService: any;
   ngOnInit(): void {
     this.opStatus="S";
     this.updForm = this.formBuilder.group({
