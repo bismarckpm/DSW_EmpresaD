@@ -1,7 +1,4 @@
-import mercadeoucab.dtos.DtoDatoEncuestado;
-import mercadeoucab.dtos.DtoHijo;
-import mercadeoucab.dtos.DtoParroquia;
-import mercadeoucab.dtos.DtoUsuario;
+import mercadeoucab.dtos.*;
 import mercadeoucab.entidades.DatoEncuestado;
 import mercadeoucab.entidades.Hijo;
 import mercadeoucab.servicio.ServicioDatoEncuestado;
@@ -21,7 +18,7 @@ public class ServicioHijoTest {
         ServicioDatoEncuestado servicioDato = new ServicioDatoEncuestado();
         DtoDatoEncuestado datoEncuestado = new DtoDatoEncuestado("Concepcion",
                 "arevalo",
-                "666",
+                "7000",
                 "laptop",
                 Date.valueOf("1997-02-28"),
                 "masculino",
@@ -32,6 +29,8 @@ public class ServicioHijoTest {
         ServicioUsuario servicioUsuario = new ServicioUsuario();
         DtoUsuario usuario = servicioUsuario.registrarUsuario(new DtoUsuario("nombre","apellido","administrador", "activo", "mail@mail.com"));
         datoEncuestado.setUsuario(new DtoUsuario(usuario.get_id()));
+        DtoOcupacion dtoOcupacion = new DtoOcupacion(1);
+        datoEncuestado.setOcupacion(dtoOcupacion);
         DatoEncuestado datos = servicioDato.registrarDatoEncuestado(datoEncuestado);
 
         DtoHijo dtoHijo = new DtoHijo("masculino", Date.valueOf("1997-02-28"), new DtoDatoEncuestado(datos.get_id()));
@@ -45,7 +44,7 @@ public class ServicioHijoTest {
         ServicioDatoEncuestado servicioDato = new ServicioDatoEncuestado();
         DtoDatoEncuestado datoEncuestado = new DtoDatoEncuestado("Concepcion",
                 "arevalo",
-                "6726",
+                "7001",
                 "laptop",
                 Date.valueOf("1997-02-28"),
                 "masculino",
@@ -56,6 +55,8 @@ public class ServicioHijoTest {
         ServicioUsuario servicioUsuario = new ServicioUsuario();
         DtoUsuario usuario = servicioUsuario.registrarUsuario(new DtoUsuario("nombre","apellido","administrador", "activo", "mail@mail.com"));
         datoEncuestado.setUsuario(new DtoUsuario(usuario.get_id()));
+        DtoOcupacion dtoOcupacion = new DtoOcupacion(1);
+        datoEncuestado.setOcupacion(dtoOcupacion);
         DatoEncuestado datos = servicioDato.registrarDatoEncuestado(datoEncuestado);
         DtoHijo dtoHijo = new DtoHijo("masculino", Date.valueOf("2015-02-28"), new DtoDatoEncuestado(datos.get_id()));
         Hijo consultar = servicio.registrarHijo(dtoHijo);
@@ -76,7 +77,7 @@ public class ServicioHijoTest {
         ServicioDatoEncuestado servicioDato = new ServicioDatoEncuestado();
         DtoDatoEncuestado datoEncuestado = new DtoDatoEncuestado("Concepcion",
                 "arevalo",
-                "7276",
+                "7002",
                 "laptop",
                 Date.valueOf("1997-02-28"),
                 "masculino",
@@ -87,6 +88,8 @@ public class ServicioHijoTest {
         ServicioUsuario servicioUsuario = new ServicioUsuario();
         DtoUsuario usuario = servicioUsuario.registrarUsuario(new DtoUsuario("nombre","apellido","administrador", "activo", "mail@mail.com"));
         datoEncuestado.setUsuario(new DtoUsuario(usuario.get_id()));
+        DtoOcupacion dtoOcupacion = new DtoOcupacion(1);
+        datoEncuestado.setOcupacion(dtoOcupacion);
         DatoEncuestado datos = servicioDato.registrarDatoEncuestado(datoEncuestado);
         DtoHijo dtoHijo = new DtoHijo("masculino", Date.valueOf("2015-02-28"), new DtoDatoEncuestado(datos.get_id()));
         Hijo eliminar = servicio.registrarHijo(dtoHijo);
@@ -100,7 +103,7 @@ public class ServicioHijoTest {
         ServicioDatoEncuestado servicioDato = new ServicioDatoEncuestado();
         DtoDatoEncuestado datoEncuestado = new DtoDatoEncuestado("Concepcion",
                 "arevalo",
-                "5627",
+                "7003",
                 "laptop",
                 Date.valueOf("1997-02-28"),
                 "masculino",
@@ -111,6 +114,8 @@ public class ServicioHijoTest {
         ServicioUsuario servicioUsuario = new ServicioUsuario();
         DtoUsuario usuario = servicioUsuario.registrarUsuario(new DtoUsuario("nombre","apellido","administrador", "activo", "mail@mail.com"));
         datoEncuestado.setUsuario(new DtoUsuario(usuario.get_id()));
+        DtoOcupacion dtoOcupacion = new DtoOcupacion(1);
+        datoEncuestado.setOcupacion(dtoOcupacion);
         DatoEncuestado datos = servicioDato.registrarDatoEncuestado(datoEncuestado);
         DtoHijo dtoHijo = new DtoHijo("masculino", Date.valueOf("2015-02-28"), new DtoDatoEncuestado(datos.get_id()));
         Hijo actualizar = servicio.registrarHijo(dtoHijo);

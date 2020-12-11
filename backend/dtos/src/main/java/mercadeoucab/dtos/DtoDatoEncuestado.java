@@ -19,6 +19,7 @@ public class DtoDatoEncuestado extends DtoBase {
     private int personasHogar;
     private DtoParroquia fk_lugar;
     private DtoUsuario usuario;
+    private DtoOcupacion ocupacion;
 
     public DtoDatoEncuestado(){}
     public DtoDatoEncuestado(long id)throws Exception{super(id);}
@@ -121,5 +122,13 @@ public class DtoDatoEncuestado extends DtoBase {
 
     public void setUsuario(DtoUsuario usuario) {
         this.usuario = usuario;
+    }
+
+    public DtoOcupacion getOcupacion() {
+        return ocupacion;
+    }
+
+    public void setOcupacion(DtoOcupacion ocupacion) {
+        this.ocupacion = ocupacion;
     }
 }

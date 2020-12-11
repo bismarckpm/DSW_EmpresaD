@@ -15,7 +15,7 @@ public class ServicioDatoEncuestadoTest {
         ServicioDatoEncuestado servicioDato = new ServicioDatoEncuestado();
         DtoDatoEncuestado datoEncuestado = new DtoDatoEncuestado("Concepcion",
                                                     "arevalo",
-                                                    "6021",
+                                                    "5000",
                                                     "laptop",
                                                     Date.valueOf("1997-02-28"),
                                                     "masculino",
@@ -26,6 +26,8 @@ public class ServicioDatoEncuestadoTest {
         ServicioUsuario servicioUsuario = new ServicioUsuario();
         DtoUsuario usuario = servicioUsuario.registrarUsuario(new DtoUsuario("nombre","apellido","administrador", "activo", "mail@mail.com"));
         datoEncuestado.setUsuario(new DtoUsuario(usuario.get_id()));
+        DtoOcupacion dtoOcupacion = new DtoOcupacion(1);
+        datoEncuestado.setOcupacion(dtoOcupacion);
         DatoEncuestado resultado = servicioDato.registrarDatoEncuestado(datoEncuestado);
         Assert.assertNotEquals(0 , resultado.get_id());
     }
@@ -35,7 +37,7 @@ public class ServicioDatoEncuestadoTest {
         ServicioDatoEncuestado servicioDato = new ServicioDatoEncuestado();
         DtoDatoEncuestado datoEncuestado = new DtoDatoEncuestado("Concepcion",
                 "arevalo",
-                "6022",
+                "5001",
                 "laptop",
                 Date.valueOf("1997-02-28"),
                 "masculino",
@@ -46,6 +48,8 @@ public class ServicioDatoEncuestadoTest {
         ServicioUsuario servicioUsuario = new ServicioUsuario();
         DtoUsuario usuario = servicioUsuario.registrarUsuario(new DtoUsuario("nombre","apellido","administrador", "activo", "mail@mail.com"));
         datoEncuestado.setUsuario(new DtoUsuario(usuario.get_id()));
+        DtoOcupacion dtoOcupacion = new DtoOcupacion(1);
+        datoEncuestado.setOcupacion(dtoOcupacion);
         DatoEncuestado consultar = servicioDato.registrarDatoEncuestado(datoEncuestado);
         DatoEncuestado consultado = servicioDato.consultarDatoEncuestado(consultar.get_id());
         Assert.assertEquals(consultar.get_id(), consultado.get_id());
@@ -63,7 +67,7 @@ public class ServicioDatoEncuestadoTest {
         ServicioDatoEncuestado servicioDato = new ServicioDatoEncuestado();
         DtoDatoEncuestado datoEncuestado = new DtoDatoEncuestado("Concepcion",
                 "arevalo",
-                "6023",
+                "5002",
                 "laptop",
                 Date.valueOf("1997-02-28"),
                 "masculino",
@@ -74,6 +78,8 @@ public class ServicioDatoEncuestadoTest {
         ServicioUsuario servicioUsuario = new ServicioUsuario();
         DtoUsuario usuario = servicioUsuario.registrarUsuario(new DtoUsuario("nombre","apellido","administrador", "activo", "mail@mail.com"));
         datoEncuestado.setUsuario(new DtoUsuario(usuario.get_id()));
+        DtoOcupacion dtoOcupacion = new DtoOcupacion(1);
+        datoEncuestado.setOcupacion(dtoOcupacion);
         DatoEncuestado actualizar = servicioDato.registrarDatoEncuestado(datoEncuestado);
         datoEncuestado.setSegundoapellido("cambio");
         DatoEncuestado actualizado = servicioDato.actualizarDatoEncuestado(actualizar.get_id(), datoEncuestado);
@@ -85,7 +91,7 @@ public class ServicioDatoEncuestadoTest {
         ServicioDatoEncuestado servicioDato = new ServicioDatoEncuestado();
         DtoDatoEncuestado datoEncuestado = new DtoDatoEncuestado("Concepcion",
                 "arevalo",
-                "6024",
+                "5003",
                 "laptop",
                 Date.valueOf("1997-02-28"),
                 "masculino",
@@ -96,6 +102,8 @@ public class ServicioDatoEncuestadoTest {
         ServicioUsuario servicioUsuario = new ServicioUsuario();
         DtoUsuario usuario = servicioUsuario.registrarUsuario(new DtoUsuario("nombre","apellido","administrador", "activo", "mail@mail.com"));
         datoEncuestado.setUsuario(new DtoUsuario(usuario.get_id()));
+        DtoOcupacion dtoOcupacion = new DtoOcupacion(1);
+        datoEncuestado.setOcupacion(dtoOcupacion);
         DatoEncuestado eliminar = servicioDato.registrarDatoEncuestado(datoEncuestado);
         DatoEncuestado eliminado = servicioDato.eliminarDatoEncuestado(eliminar.get_id());
         Assert.assertNotNull(eliminado.getModificado_el());
