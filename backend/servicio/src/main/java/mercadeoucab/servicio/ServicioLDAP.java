@@ -29,7 +29,6 @@ public class ServicioLDAP extends AplicacionBase {
             Usuario usuario = dao.obtenerUsuarioPorCorreo(
                     dtoUsuario.getCorreo()
             );
-            System.out.println(usuario.getCorreo() + " EEEEEEEEEEEEEE");
             DirectorioActivo ldap = new DirectorioActivo(
                     usuario.getRol()
             );

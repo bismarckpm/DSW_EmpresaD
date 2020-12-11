@@ -21,9 +21,7 @@ public class DaoUsuario extends Dao<Usuario> {
             _handler.beginTransaction();
             TypedQuery<Usuario> usuario = this._em.createNamedQuery("obtenerUsuarioPorCorreo",Usuario.class);
             usuario.setParameter("correo", correo);
-            resultado = usuario.getSingleResult();
-            System.out.println(resultado);
-            System.out.println(resultado.getCorreo());
+            resultado = usuario.getResultList().get(0);
             _em.flush();
             _em.clear();
             _handler.finishTransaction();
