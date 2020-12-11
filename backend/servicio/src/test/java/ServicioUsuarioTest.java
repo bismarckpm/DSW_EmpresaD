@@ -16,7 +16,8 @@ public class ServicioUsuarioTest {
         dtoUsuario.setApellido( "Soteldo");
         dtoUsuario.setEstado( "activo");
         dtoUsuario.setRol( "encuestado");
-        dtoUsuario.setCorreo( "soteldios@gmail.com");
+        dtoUsuario.setCorreo( "soteldios10@gmail.com");
+        dtoUsuario.setPassword("54321");
         DtoUsuario resultado = servicio.registrarUsuario( dtoUsuario);
         Assert.assertNotEquals( 0, resultado.get_id());
     }
