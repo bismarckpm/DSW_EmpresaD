@@ -10,8 +10,17 @@ public class DtoUsuario extends DtoBase{
     private String rol;
     private String estado;
     private String correo;
+    private String password;
 
     public DtoUsuario(){}
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
 
     public DtoUsuario(long id) throws Exception {super(id);}
 

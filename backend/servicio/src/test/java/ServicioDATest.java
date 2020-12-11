@@ -1,5 +1,6 @@
 import mercadeoucab.dtos.DtoDirectorioAUser;
-import mercadeoucab.servicio.DirectorioActivo;
+import mercadeoucab.directorioactivo.DirectorioActivo;
+import org.junit.Assert;
 import org.junit.Test;
 
 public class ServicioDATest {
@@ -8,7 +9,7 @@ public class ServicioDATest {
     public void createUserLDAP()
     {
         DtoDirectorioAUser user = new DtoDirectorioAUser();
-        user.setCorreo("muha30@gmail.com");
+        user.setCorreo("muha31@gmail.com");
         user.setEstado("activo");
         user.setPassword("123");
         DirectorioActivo ldap = new DirectorioActivo("cliente");
@@ -29,7 +30,7 @@ public class ServicioDATest {
     {
         DtoDirectorioAUser user = new DtoDirectorioAUser();
         user.setCorreo( "muha30@gmail.com" );
-        DirectorioActivo ldap = new DirectorioActivo("administrador");
+        DirectorioActivo ldap = new DirectorioActivo("cliente");
         ldap.updateEntry( user,"C@k.com","123","bloqueado");
     }
 
@@ -46,10 +47,12 @@ public class ServicioDATest {
     public void userAuthentication()
     {
         DtoDirectorioAUser user = new DtoDirectorioAUser();
-        user.setCorreo( "muha30@gmail.com" );
-        user.setPassword( "123" );
-        DirectorioActivo ldap = new DirectorioActivo("cliente");
-        ldap.userAuthentication( user );
+        user.setCorreo( "prueba@gmail.com" );
+        user.setPassword( "12345" );
+        user.setEstado("activo");
+        DirectorioActivo ldap = new DirectorioActivo("encuestado");
+        ldap.addEntryToLdap( user);
+        Assert.assertTrue( ldap.userAuthentication( user ));
     }
 
 }

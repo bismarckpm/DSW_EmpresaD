@@ -8,6 +8,12 @@ public class DtoDirectorioAUser {
 
     public DtoDirectorioAUser(){}
 
+    public DtoDirectorioAUser(String correo, String estado, String password) {
+        this.correo = correo;
+        this.estado = estado;
+        this.password = password;
+    }
+
     public String getCorreo() { return correo; }
     public void setCorreo(String correo) { this.correo = correo; }
 

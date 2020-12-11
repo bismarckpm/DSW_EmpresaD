@@ -1,4 +1,4 @@
-package mercadeoucab.servicio;
+package mercadeoucab.directorioactivo;
 
 import mercadeoucab.dtos.DtoDirectorioAUser;
 
@@ -231,8 +231,9 @@ public class DirectorioActivo {
         }
     }
 
-    public void userAuthentication(DtoDirectorioAUser user)
+    public Boolean userAuthentication(DtoDirectorioAUser user)
     {
+        Boolean resultado = false;
         connectLDAP( _user, _password );
         try {
             Hashtable<String, String> environment = new Hashtable<String, String>();
@@ -242,11 +243,18 @@ public class DirectorioActivo {
             environment.put(Context.SECURITY_PRINCIPAL, String.format( _userDirectory + "," + _directory, user.getCorreo()));
             environment.put(Context.SECURITY_CREDENTIALS, user.getPassword());
             _ldapContext = new InitialDirContext( environment );
+            if ( _ldapContext != null) {
+                resultado = true;
+            };
         }
         catch ( Exception e )
         {
-            System.out.println("No es");
+            String problema = e.getMessage();
+        }finally
+        {
+            disconnectLDAP();
         }
+        return resultado;
     }
 
 

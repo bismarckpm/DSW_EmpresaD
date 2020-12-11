@@ -1,6 +1,8 @@
 package mercadeoucab.servicio;
 
 import mercadeoucab.accesodatos.DaoUsuario;
+import mercadeoucab.directorioactivo.DirectorioActivo;
+import mercadeoucab.dtos.DtoDirectorioAUser;
 import mercadeoucab.dtos.DtoUsuario;
 import mercadeoucab.entidades.Usuario;
 
@@ -43,6 +45,7 @@ public class ServicioUsuario extends AplicacionBase{
     public DtoUsuario registrarUsuario(DtoUsuario dtoUsuario){
         DtoUsuario resultado = new DtoUsuario();
         try{
+            // Agregacion a la BD
             DaoUsuario dao = new DaoUsuario();
             Usuario usuario = new Usuario();
             usuario.setNombre( dtoUsuario.getNombre());
@@ -53,6 +56,14 @@ public class ServicioUsuario extends AplicacionBase{
             usuario.setActivo( 1);
             usuario.setCreado_el( new Date(Calendar.getInstance().getTime().getTime()));
             Usuario resul = dao.insert( usuario);
+            // Agregar al directorio activo
+            DirectorioActivo ldap = new DirectorioActivo( dtoUsuario.getRol());
+            DtoDirectorioAUser paraInsertar = new DtoDirectorioAUser(
+                    dtoUsuario.getCorreo(),
+                    dtoUsuario.getEstado(),
+                    dtoUsuario.getPassword()
+            );
+            ldap.addEntryToLdap( paraInsertar);
             resultado.set_id( resul.get_id());
         }catch (Exception e) {
             String problema = e.getMessage();
