@@ -16,15 +16,19 @@ public class DaoUsuario extends Dao<Usuario> {
 
     public  Usuario obtenerUsuarioPorCorreo( String correo){
         Usuario resultado = new Usuario();
+        _em = _handler.getSession();
         try{
-            TypedQuery<Usuario> usuario = this._em.createNamedQuery(
-                    "obtenerUsuarioPorCorreo"
-                    ,Usuario.class
-            );
-
-            resultado = usuario.setParameter("correo", correo)
-                                .getSingleResult();
-        }catch ( Exception e){
+            _handler.beginTransaction();
+            TypedQuery<Usuario> usuario = this._em.createNamedQuery("obtenerUsuarioPorCorreo",Usuario.class);
+            usuario.setParameter("correo", correo);
+            resultado = usuario.getSingleResult();
+            System.out.println(resultado);
+            System.out.println(resultado.getCorreo());
+            _em.flush();
+            _em.clear();
+            _handler.finishTransaction();
+        }
+        catch ( Exception e){
             String problema = e.getMessage();
         }
         return resultado;
