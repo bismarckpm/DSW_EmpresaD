@@ -19,8 +19,8 @@ public class ServicioLDAPTest {
         paraProbar.setApellido( "Farinez");
         paraProbar.setEstado( "activo");
         paraProbar.setRol( "encuestado");
-        paraProbar.setCorreo( "555555@gmail.com");
-        DtoUsuario paraIniciarSesion = servicioUsuario.registrarUsuario( paraProbar);
+        paraProbar.setCorreo( "777777@gmail.com");
+        servicioUsuario.registrarUsuario( paraProbar);
         DirectorioActivo ldap = new DirectorioActivo( paraProbar.getRol());
         DtoDirectorioAUser usuario = new DtoDirectorioAUser(
                 paraProbar.getCorreo(),
