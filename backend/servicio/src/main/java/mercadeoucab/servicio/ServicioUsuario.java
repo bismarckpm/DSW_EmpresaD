@@ -30,18 +30,25 @@ public class ServicioUsuario extends AplicacionBase{
         try{
             DaoUsuario dao = new DaoUsuario();
             Usuario resul = dao.find( id, Usuario.class);
-            usuario = Json.createObjectBuilder()
-                            .add("_id", resul.get_id())
-                            .add( "nombre", resul.getNombre())
-                            .add( "apellido", resul.getApellido())
-                            .add( "rol", resul.getRol())
-                            .add( "estado", resul.getEstado())
-                            .add( "correo", resul.getCorreo())
-                            .build();
-            data = Json.createObjectBuilder()
+            if (resul.getActivo()!= 0) {
+                usuario = Json.createObjectBuilder()
+                        .add("_id", resul.get_id())
+                        .add("nombre", resul.getNombre())
+                        .add("apellido", resul.getApellido())
+                        .add("rol", resul.getRol())
+                        .add("estado", resul.getEstado())
+                        .add("correo", resul.getCorreo())
+                        .build();
+                data = Json.createObjectBuilder()
                         .add("status", 200)
                         .add("data", usuario)
                         .build();
+            }else{
+                data = Json.createObjectBuilder()
+                        .add("status", 200)
+                        .add("message", "Usuario no se encuentra activo")
+                        .build();
+            }
             resultado = Response.status(Response.Status.OK)
                                 .entity(data)
                                 .build();
@@ -68,15 +75,17 @@ public class ServicioUsuario extends AplicacionBase{
             List<Usuario> usuariosObtenidos = dao.findAll(Usuario.class);
 
             for (Usuario usuario: usuariosObtenidos){
-                JsonObject objeto = Json.createObjectBuilder()
-                                        .add("_id", usuario.get_id())
-                                        .add( "nombre", usuario.getNombre())
-                                        .add( "apellido", usuario.getApellido())
-                                        .add( "rol", usuario.getRol())
-                                        .add( "estado", usuario.getEstado())
-                                        .add( "correo", usuario.getCorreo())
-                                        .build();
-                usuarios.add( objeto);
+                if ( usuario.getActivo() != 0) {
+                    JsonObject objeto = Json.createObjectBuilder()
+                            .add("_id", usuario.get_id())
+                            .add("nombre", usuario.getNombre())
+                            .add("apellido", usuario.getApellido())
+                            .add("rol", usuario.getRol())
+                            .add("estado", usuario.getEstado())
+                            .add("correo", usuario.getCorreo())
+                            .build();
+                    usuarios.add(objeto);
+                }
             }
             data = Json.createObjectBuilder()
                     .add("status", 200)
@@ -160,7 +169,7 @@ public class ServicioUsuario extends AplicacionBase{
             Usuario resul = dao.update( usuario);
             data = Json.createObjectBuilder()
                     .add("status", 200)
-                    .add("message", "Agregado exitosamente")
+                    .add("message", "Actualizado exitosamente")
                     .build();
             resultado = Response.status(Response.Status.OK)
                     .entity(data)
@@ -194,7 +203,7 @@ public class ServicioUsuario extends AplicacionBase{
             Usuario resul = dao.update( usuario);
             data = Json.createObjectBuilder()
                     .add("status", 200)
-                    .add("message", "Agregado exitosamente")
+                    .add("message", "Eliminado exitosamente")
                     .build();
             resultado = Response.status(Response.Status.OK)
                     .entity(data)

@@ -13,63 +13,34 @@ public class ServicioEstadoTest {
     @Test
     public void registrarEstadoTest() throws Exception{
         ServicioEstado servicio = new ServicioEstado();
-        ServicioPais servicioPais = new ServicioPais();
-        DtoPais dtoPais = new DtoPais();
-        dtoPais.setNombre("TESTS");
-        DtoPais padre = servicioPais.agregarPais(dtoPais);
         DtoEstado dtoEstado = new DtoEstado();
         dtoEstado.setNombre("Gurico");
-        dtoEstado.setFk_pais(new DtoPais(padre.get_id()));
+        dtoEstado.setFk_pais(new DtoPais(1));
         Estado resultado = servicio.agregarEstado(dtoEstado);
-        Estado consulta = servicio.consultarEstado(resultado.get_id());
-        Assert.assertEquals(resultado.get_id(), consulta.get_id());
+        Assert.assertNotEquals(resultado.get_id(), 0);
     }
 
     @Test
     public void consultarEstadoTest() throws  Exception{
         ServicioEstado servicio = new ServicioEstado();
-        ServicioPais servicioPais = new ServicioPais();
-        DtoPais dtoPais = new DtoPais();
-        dtoPais.setNombre("TESTS");
-        DtoPais padre = servicioPais.agregarPais(dtoPais);
-        DtoEstado dtoEstado = new DtoEstado();
-        dtoEstado.setNombre("Gurico");
-        dtoEstado.setFk_pais(new DtoPais(padre.get_id()));
-        Estado resultado = servicio.agregarEstado(dtoEstado);
-        Estado consulta = servicio.consultarEstado(resultado.get_id());
-        Assert.assertEquals(resultado.get_id(), consulta.get_id());
+        Estado consulta = servicio.consultarEstado(1);
+        Assert.assertEquals(1, consulta.get_id());
     }
 
     @Test
     public void actualizarEstadoTest() throws  Exception{
         ServicioEstado servicio = new ServicioEstado();
-        ServicioPais servicioPais = new ServicioPais();
-        DtoPais dtoPais = new DtoPais();
-        dtoPais.setNombre("TESTS");
-        DtoPais padre = servicioPais.agregarPais(dtoPais);
         DtoEstado dtoEstado = new DtoEstado();
         dtoEstado.setNombre("Gurico");
-        dtoEstado.setFk_pais(new DtoPais(padre.get_id()));
-        Estado resultado = servicio.agregarEstado(dtoEstado);
-        Estado consulta = servicio.consultarEstado(resultado.get_id());
-        DtoEstado consulta1 = new DtoEstado(consulta.get_id());
-        consulta1.setNombre("Modificacion");
-        Estado modificado = servicio.actualizarEstado(consulta.get_id(), consulta1);
+        dtoEstado.setFk_pais(new DtoPais(1));
+        Estado modificado = servicio.actualizarEstado(1, dtoEstado);
         Assert.assertNotNull(modificado.getModificado_el());
     }
 
     @Test
     public void eliminarEstadoTest() throws Exception{
         ServicioEstado servicio = new ServicioEstado();
-        ServicioPais servicioPais = new ServicioPais();
-        DtoPais dtoPais = new DtoPais();
-        dtoPais.setNombre("TESTS");
-        DtoPais padre = servicioPais.agregarPais(dtoPais);
-        DtoEstado dtoEstado = new DtoEstado();
-        dtoEstado.setNombre("Gurico");
-        dtoEstado.setFk_pais(new DtoPais(padre.get_id()));
-        Estado resultado = servicio.agregarEstado(dtoEstado);
-        Estado eliminado = servicio.eliminarEstado(resultado.get_id());
+        Estado eliminado = servicio.eliminarEstado(1);
         Assert.assertNotEquals(1, eliminado.getActivo());
     }
 
