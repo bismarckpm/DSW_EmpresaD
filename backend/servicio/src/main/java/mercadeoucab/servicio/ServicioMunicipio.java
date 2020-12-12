@@ -69,8 +69,6 @@ public class ServicioMunicipio extends AplicacionBase{
                     .build();
         }
         return  resultado;
-
-
     }
 
     @GET
