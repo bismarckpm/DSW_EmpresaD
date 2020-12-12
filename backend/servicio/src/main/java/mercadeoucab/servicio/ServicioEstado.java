@@ -189,7 +189,7 @@ public class ServicioEstado extends AplicacionBase {
             }else{
                 data = Json.createObjectBuilder()
                         .add("status", 200)
-                        .add("message", "Usuario no se encuentra activo")
+                        .add("message", "Estado no se encuentra activo")
                         .build();
             }
             resultado = Response.status(Response.Status.OK)

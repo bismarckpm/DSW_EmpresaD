@@ -153,7 +153,7 @@ public class ServicioParroquia {
             }else{
                 data = Json.createObjectBuilder()
                         .add("status", 200)
-                        .add("message", "Municipio no se encuentra activo")
+                        .add("message", "Parroquia no se encuentra activo")
                         .build();
             }
             resultado = Response.status(Response.Status.OK)
