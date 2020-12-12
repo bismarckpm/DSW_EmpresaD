@@ -15,14 +15,14 @@ public class ServicioCategoriaTest {
         DtoCategoria categoria = new DtoCategoria();
         categoria.setNombre("Higiene");
         Response resultado = servicio.agregarCategoria(categoria);
-        Assert.assertEquals(200, resultado.getStatus());
+        Assert.assertEquals(resultado.getStatus(), 200);
     }
 
     @Test
     public void consultarCategoriaTest() throws  Exception{
         ServicioCategoria servicio = new ServicioCategoria();
         Response resultado = servicio.consultarCategoria(1);
-        Assert.assertEquals(200, resultado.getStatus());
+        Assert.assertEquals(resultado.getStatus(), 200);
     }
 
 
@@ -32,20 +32,20 @@ public class ServicioCategoriaTest {
         DtoCategoria categoria = new DtoCategoria();
         categoria.setNombre("Nuevo");
         Response resultado = servicio.actualizarCategoria(1, categoria);
-        Assert.assertEquals(200, resultado.getStatus());
+        Assert.assertEquals(resultado.getStatus(), 200);
     }
 
     @Test
     public  void eliminarCategoriaTest() throws Exception{
         ServicioCategoria servicio = new ServicioCategoria();
         Response eliminado = servicio.eliminarCategoria(1);
-        Assert.assertEquals(200, eliminado.getStatus());
+        Assert.assertEquals(eliminado.getStatus(), 200);
     }
 
     @Test
     public void listarCategoriasTest() throws  Exception{
         ServicioCategoria servicio = new ServicioCategoria();
         Response categorias = servicio.listarCategorias();
-        Assert.assertEquals(200, categorias.getStatus());
+        Assert.assertEquals(categorias.getStatus(), 200);
     }
 }
