@@ -4,6 +4,7 @@ import mercadeoucab.servicio.ServicioTipo;
 import org.junit.Assert;
 import org.junit.Test;
 
+import javax.ws.rs.core.Response;
 import java.util.List;
 
 public class ServicioTipoTest {
@@ -13,45 +14,39 @@ public class ServicioTipoTest {
         ServicioTipo servicio = new ServicioTipo();
         DtoTipo dtoTipo = new DtoTipo();
         dtoTipo.setNombre( "Soy un tipo");
-        DtoTipo resultado = servicio.registrarTipo( dtoTipo);
-        Assert.assertNotEquals( 0, resultado.get_id());
+        Response resultado = servicio.registrarTipo( dtoTipo);
+        Assert.assertEquals( 200, resultado.getStatus());
     }
 
     @Test
     public void actualizarTipoTest() throws Exception{
         ServicioTipo servicio = new ServicioTipo();
-        DtoTipo dtoTipo = new DtoTipo();
-        dtoTipo.setNombre( "Soy un tipo");
-        DtoTipo paraActualizar = servicio.registrarTipo( dtoTipo);
-        paraActualizar.setNombre(" Soy un Tipo actualizado");
-        DtoTipo resultado = servicio.actualizarTipo( paraActualizar);
-        Assert.assertNotEquals( 0, resultado.get_id());
+        DtoTipo dtoTipo = new DtoTipo(1);
+        dtoTipo.setNombre(" Soy un Tipo actualizado");
+        Response resultado = servicio.actualizarTipo( dtoTipo.get_id(),dtoTipo);
+        Assert.assertEquals( 200, resultado.getStatus());
     }
 
     @Test
     public void eliminarTipoTest() throws Exception{
         ServicioTipo servicio = new ServicioTipo();
-        DtoTipo dtoTipo = new DtoTipo();
-        dtoTipo.setNombre( "Soy un tipo eliminar");
-        DtoTipo paraBorrar = servicio.registrarTipo( dtoTipo);
-        DtoTipo resultado = servicio.eliminarTipo( paraBorrar.get_id());
-        Assert.assertEquals( paraBorrar.get_id(), resultado.get_id());
+        DtoTipo dtoTipo = new DtoTipo(1 );
+        Response resultado = servicio.eliminarTipo( dtoTipo.get_id());
+        Assert.assertEquals( 200, resultado.getStatus());
     }
 
     @Test
     public void obtenerTipoTest() throws Exception{
         ServicioTipo servicio = new ServicioTipo();
-        DtoTipo dtoTipo = new DtoTipo();
-        dtoTipo.setNombre( "Soy un tipo");
-        DtoTipo paraConsultar = servicio.registrarTipo( dtoTipo);
-        DtoTipo resultado = servicio.obtenerTipo( paraConsultar.get_id());
-        Assert.assertEquals( paraConsultar.get_id(), resultado.get_id());
+        DtoTipo dtoTipo = new DtoTipo(1);
+        Response resultado = servicio.obtenerTipo( dtoTipo.get_id());
+        Assert.assertEquals( 200, resultado.getStatus());
     }
 
     @Test
     public void listarTipoTest() throws Exception{
         ServicioTipo servicio = new ServicioTipo();
-        List<Tipo> resultado = servicio.listarTipos();
-        Assert.assertNotNull( resultado);
+        Response resultado = servicio.listarTipos();
+        Assert.assertEquals( 200, resultado.getStatus());
     }
 }

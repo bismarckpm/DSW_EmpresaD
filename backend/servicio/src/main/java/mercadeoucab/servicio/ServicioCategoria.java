@@ -79,7 +79,7 @@ public class ServicioCategoria extends AplicacionBase{
             String problema = e.getMessage();
             data = Json.createObjectBuilder()
                     .add("status", 400)
-                    .add("mensaje","Ocurrio un error")
+                    .add("mensaje",problema)
                     .build();
             resultado = Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(data).build();
         }
@@ -168,15 +168,15 @@ public class ServicioCategoria extends AplicacionBase{
                     .add("mensaje","Categoria eliminada con exito")
                     .build();
             resultado = Response.status(Response.Status.OK)
-                    .entity(data)
-                    .build();
+                                .entity(data)
+                                .build();
         }
         catch (Exception e){
             String problema = e.getMessage();
             data = Json.createObjectBuilder()
-                    .add("status", 400)
-                    .add("problema", problema)
-                    .build();
+                        .add("status", 400)
+                        .add("problema", problema)
+                        .build();
             resultado = Response.status(Response.Status.BAD_REQUEST)
                     .entity(data)
                     .build();
