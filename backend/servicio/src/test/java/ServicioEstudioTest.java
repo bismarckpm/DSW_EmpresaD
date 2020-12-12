@@ -2,6 +2,7 @@ import mercadeoucab.dtos.*;
 import mercadeoucab.entidades.Estudio;
 import mercadeoucab.entidades.Marca;
 import mercadeoucab.entidades.MuestraPoblacion;
+import mercadeoucab.entidades.Solicitud;
 import mercadeoucab.servicio.*;
 import org.junit.Assert;
 import org.junit.Test;
@@ -20,49 +21,11 @@ public class ServicioEstudioTest {
         dtoEstudio.setEscuestasEsperadas(100);
         //Datos estudio
         //Usuario
-        ServicioUsuario servicioUsuario = new ServicioUsuario();
-        DtoUsuario usuario = servicioUsuario.registrarUsuario(new DtoUsuario("nombre","apellido","administrador", "activo", "mail@mail.com"));
-        dtoEstudio.setFk_usuario(new DtoUsuario(usuario.get_id()));
-        //Usuario
+        dtoEstudio.setFk_usuario(new DtoUsuario(1));
         //Muestra Solicitud
-        ServicioMuestraPoblacion servicioMuestraPoblacion = new ServicioMuestraPoblacion();
-        DtoParroquia dtoParroquia = new DtoParroquia(1);
-        DtoMuestraPoblacion dtoMuestraPoblacion = new DtoMuestraPoblacion("masculino",
-                10,
-                "universitario",
-                20,
-                30,
-                2);
-        dtoMuestraPoblacion.setFk_lugar(dtoParroquia);
-        DtoOcupacion dtoOcupacion = new DtoOcupacion();
-        dtoOcupacion.setNombre("Maestro");
-        ServicioOcupacion servicioOcupacion = new ServicioOcupacion();
-        DtoOcupacion ocupacion = servicioOcupacion.registrarOcupacion(dtoOcupacion);
-        dtoMuestraPoblacion.setDtoOcupacion(ocupacion);
-        MuestraPoblacion muestraPoblacion = servicioMuestraPoblacion.registrarMuestraPoblacion(dtoMuestraPoblacion);
-        dtoEstudio.setFk_muestra_poblacion(new DtoMuestraPoblacion(muestraPoblacion.get_id()));
-        //Muestra Solicitud
+        dtoEstudio.setFk_muestra_poblacion(new DtoMuestraPoblacion(1));
         //Solicitud
-        ServicioSolicitud servicioSolicitud = new ServicioSolicitud();
-        DtoSolicitud dtoSolicitud = new DtoSolicitud();
-        dtoSolicitud.setEstado("solicitada");
-            //Marca
-            ServicioMarca servicioMarca = new ServicioMarca();
-            DtoMarca marca = new DtoMarca();
-            marca.setNombre("Rexona");
-            Marca registrarMarca = servicioMarca.registrarMarca(marca);
-            dtoSolicitud.setMarca( new DtoMarca(registrarMarca.get_id()));
-            //Marca
-        dtoSolicitud.setUsuario( new DtoUsuario( 1));
-        DtoTipo dtoTipo = new DtoTipo(1);
-        dtoSolicitud.setTipo(dtoTipo);
-        DtoSubCategoria dtoSubCategoria = new DtoSubCategoria(1);
-        dtoSolicitud.setSubCategoria(dtoSubCategoria);
-        DtoPresentacion dtoPresentacion = new DtoPresentacion(1);
-        dtoSolicitud.setPresentacion(dtoPresentacion);
-        DtoSolicitud solicitud = servicioSolicitud.registrarSolicitud( dtoSolicitud);
-        dtoEstudio.setSolicitud( solicitud );
-        //Solicitud
+        dtoEstudio.setSolicitud( new DtoSolicitud(1));
         Estudio resultado = servicio.agregarEstudio(dtoEstudio);
         Assert.assertNotEquals(0, resultado.get_id());
     }
@@ -70,59 +33,8 @@ public class ServicioEstudioTest {
     @Test
     public void consultarEstudioTest() throws Exception{
         ServicioEstudio servicio = new ServicioEstudio();
-        DtoEstudio dtoEstudio = new DtoEstudio();
-        //Datos Estudio
-        dtoEstudio.setEstado("En ejecucion");
-        dtoEstudio.setTipo("En linea");
-        dtoEstudio.setEscuestasEsperadas(100);
-        //Datos estudio
-        //Usuario
-        ServicioUsuario servicioUsuario = new ServicioUsuario();
-        DtoUsuario usuario = servicioUsuario.registrarUsuario(new DtoUsuario("nombre","apellido","administrador", "activo", "mail@mail.com"));
-        dtoEstudio.setFk_usuario(new DtoUsuario(usuario.get_id()));
-        //Usuario
-        //Muestra Solicitud
-        ServicioMuestraPoblacion servicioMuestraPoblacion = new ServicioMuestraPoblacion();
-        DtoParroquia dtoParroquia = new DtoParroquia(1);
-        DtoMuestraPoblacion dtoMuestraPoblacion = new DtoMuestraPoblacion("masculino",
-                10,
-                "universitario",
-                20,
-                30,
-                2);
-        dtoMuestraPoblacion.setFk_lugar(dtoParroquia);
-        DtoOcupacion dtoOcupacion = new DtoOcupacion();
-        dtoOcupacion.setNombre("Maestro");
-        ServicioOcupacion servicioOcupacion = new ServicioOcupacion();
-        DtoOcupacion ocupacion = servicioOcupacion.registrarOcupacion(dtoOcupacion);
-        dtoMuestraPoblacion.setDtoOcupacion(ocupacion);
-        MuestraPoblacion muestraPoblacion = servicioMuestraPoblacion.registrarMuestraPoblacion(dtoMuestraPoblacion);
-        dtoEstudio.setFk_muestra_poblacion(new DtoMuestraPoblacion(muestraPoblacion.get_id()));
-        //Muestra Solicitud
-        //Solicitud
-        ServicioSolicitud servicioSolicitud = new ServicioSolicitud();
-        DtoSolicitud dtoSolicitud = new DtoSolicitud();
-        dtoSolicitud.setEstado("solicitada");
-        //Marca
-        ServicioMarca servicioMarca = new ServicioMarca();
-        DtoMarca marca = new DtoMarca();
-        marca.setNombre("Rexona");
-        Marca registrarMarca = servicioMarca.registrarMarca(marca);
-        dtoSolicitud.setMarca( new DtoMarca(registrarMarca.get_id()));
-        //Marca
-        dtoSolicitud.setUsuario( new DtoUsuario( usuario.get_id()));
-        DtoTipo dtoTipo = new DtoTipo(1);
-        dtoSolicitud.setTipo(dtoTipo);
-        DtoSubCategoria dtoSubCategoria = new DtoSubCategoria(1);
-        dtoSolicitud.setSubCategoria(dtoSubCategoria);
-        DtoPresentacion dtoPresentacion = new DtoPresentacion(1);
-        dtoSolicitud.setPresentacion(dtoPresentacion);
-        DtoSolicitud solicitud = servicioSolicitud.registrarSolicitud( dtoSolicitud);
-        dtoEstudio.setSolicitud( solicitud );
-        //Solicitud
-        Estudio consultar = servicio.agregarEstudio(dtoEstudio);
-        Estudio consultado = servicio.consultarEstudio(consultar.get_id());
-        Assert.assertEquals(consultar.get_id(), consultado.get_id());
+        Estudio consultado = servicio.consultarEstudio((long)1);
+        Assert.assertEquals( 1, consultado.get_id());
     }
 
     @Test
@@ -135,59 +47,8 @@ public class ServicioEstudioTest {
     @Test
     public void eliminarEstudioTest() throws Exception{
         ServicioEstudio servicio = new ServicioEstudio();
-        DtoEstudio dtoEstudio = new DtoEstudio();
-        //Datos Estudio
-        dtoEstudio.setEstado("En ejecucion");
-        dtoEstudio.setTipo("En linea");
-        dtoEstudio.setEscuestasEsperadas(100);
-        //Datos estudio
-        //Usuario
-        ServicioUsuario servicioUsuario = new ServicioUsuario();
-        DtoUsuario usuario = servicioUsuario.registrarUsuario(new DtoUsuario("nombre","apellido","administrador", "activo", "mail@mail.com"));
-        dtoEstudio.setFk_usuario(new DtoUsuario(usuario.get_id()));
-        //Usuario
-        //Muestra Solicitud
-        ServicioMuestraPoblacion servicioMuestraPoblacion = new ServicioMuestraPoblacion();
-        DtoParroquia dtoParroquia = new DtoParroquia(1);
-        DtoMuestraPoblacion dtoMuestraPoblacion = new DtoMuestraPoblacion("masculino",
-                10,
-                "universitario",
-                20,
-                30,
-                2);
-        dtoMuestraPoblacion.setFk_lugar(dtoParroquia);
-        DtoOcupacion dtoOcupacion = new DtoOcupacion();
-        dtoOcupacion.setNombre("Maestro");
-        ServicioOcupacion servicioOcupacion = new ServicioOcupacion();
-        DtoOcupacion ocupacion = servicioOcupacion.registrarOcupacion(dtoOcupacion);
-        dtoMuestraPoblacion.setDtoOcupacion(ocupacion);
-        MuestraPoblacion muestraPoblacion = servicioMuestraPoblacion.registrarMuestraPoblacion(dtoMuestraPoblacion);
-        dtoEstudio.setFk_muestra_poblacion(new DtoMuestraPoblacion(muestraPoblacion.get_id()));
-        //Muestra Solicitud
-        //Solicitud
-        ServicioSolicitud servicioSolicitud = new ServicioSolicitud();
-        DtoSolicitud dtoSolicitud = new DtoSolicitud();
-        dtoSolicitud.setEstado("solicitada");
-        //Marca
-        ServicioMarca servicioMarca = new ServicioMarca();
-        DtoMarca marca = new DtoMarca();
-        marca.setNombre("Rexona");
-        Marca registrarMarca = servicioMarca.registrarMarca(marca);
-        dtoSolicitud.setMarca( new DtoMarca(registrarMarca.get_id()));
-        //Marca
-        dtoSolicitud.setUsuario( new DtoUsuario( usuario.get_id()));
-        DtoTipo dtoTipo = new DtoTipo(1);
-        dtoSolicitud.setTipo(dtoTipo);
-        DtoSubCategoria dtoSubCategoria = new DtoSubCategoria(1);
-        dtoSolicitud.setSubCategoria(dtoSubCategoria);
-        DtoPresentacion dtoPresentacion = new DtoPresentacion(1);
-        dtoSolicitud.setPresentacion(dtoPresentacion);
-        DtoSolicitud solicitud = servicioSolicitud.registrarSolicitud( dtoSolicitud);
-        dtoEstudio.setSolicitud( solicitud );
-        //Solicitud
-        Estudio eliminar = servicio.agregarEstudio(dtoEstudio);
-        Estudio eliminado = servicio.eliminarEstudio(eliminar.get_id());
-        Assert.assertEquals(0, eliminado.getActivo());
+        Estudio eliminado = servicio.eliminarEstudio((long)1);
+        Assert.assertEquals(1, eliminado.getActivo());
     }
 
     @Test
@@ -200,53 +61,12 @@ public class ServicioEstudioTest {
         dtoEstudio.setEscuestasEsperadas(100);
         //Datos estudio
         //Usuario
-        ServicioUsuario servicioUsuario = new ServicioUsuario();
-        DtoUsuario usuario = servicioUsuario.registrarUsuario(new DtoUsuario("nombre","apellido","administrador", "activo", "mail@mail.com"));
-        dtoEstudio.setFk_usuario(new DtoUsuario(usuario.get_id()));
-        //Usuario
+        dtoEstudio.setFk_usuario(new DtoUsuario(1));
         //Muestra Solicitud
-        ServicioMuestraPoblacion servicioMuestraPoblacion = new ServicioMuestraPoblacion();
-        DtoParroquia dtoParroquia = new DtoParroquia(1);
-        DtoMuestraPoblacion dtoMuestraPoblacion = new DtoMuestraPoblacion("masculino",
-                10,
-                "universitario",
-                20,
-                30,
-                2);
-        dtoMuestraPoblacion.setFk_lugar(dtoParroquia);
-        DtoOcupacion dtoOcupacion = new DtoOcupacion();
-        dtoOcupacion.setNombre("Maestro");
-        ServicioOcupacion servicioOcupacion = new ServicioOcupacion();
-        DtoOcupacion ocupacion = servicioOcupacion.registrarOcupacion(dtoOcupacion);
-        dtoMuestraPoblacion.setDtoOcupacion(ocupacion);
-        MuestraPoblacion muestraPoblacion = servicioMuestraPoblacion.registrarMuestraPoblacion(dtoMuestraPoblacion);
-        dtoEstudio.setFk_muestra_poblacion(new DtoMuestraPoblacion(muestraPoblacion.get_id()));
-        //Muestra Solicitud
+        dtoEstudio.setFk_muestra_poblacion(new DtoMuestraPoblacion(1));
         //Solicitud
-        ServicioSolicitud servicioSolicitud = new ServicioSolicitud();
-        DtoSolicitud dtoSolicitud = new DtoSolicitud();
-        dtoSolicitud.setEstado("solicitada");
-        //Marca
-        ServicioMarca servicioMarca = new ServicioMarca();
-        DtoMarca marca = new DtoMarca();
-        marca.setNombre("Rexona");
-        Marca registrarMarca = servicioMarca.registrarMarca(marca);
-        dtoSolicitud.setMarca( new DtoMarca(registrarMarca.get_id()));
-        //Marca
-        dtoSolicitud.setUsuario( new DtoUsuario( usuario.get_id()));
-        DtoTipo dtoTipo = new DtoTipo(1);
-        dtoSolicitud.setTipo(dtoTipo);
-        DtoSubCategoria dtoSubCategoria = new DtoSubCategoria(1);
-        dtoSolicitud.setSubCategoria(dtoSubCategoria);
-        DtoPresentacion dtoPresentacion = new DtoPresentacion(1);
-        dtoSolicitud.setPresentacion(dtoPresentacion);
-        DtoSolicitud solicitud = servicioSolicitud.registrarSolicitud( dtoSolicitud);
-        dtoEstudio.setSolicitud( solicitud );
-        //Solicitud
-        Estudio actualizar = servicio.agregarEstudio(dtoEstudio);
-        dtoEstudio.setEstado("Culminado");
-        dtoEstudio.setEscuestasEsperadas(5000);
-        Estudio actualizado = servicio.actualizarEstudio(actualizar.get_id(), dtoEstudio);
+        dtoEstudio.setSolicitud( new DtoSolicitud(1));
+        Estudio actualizado = servicio.actualizarEstudio(1, dtoEstudio);
         Assert.assertNotNull(actualizado.getModificado_el());
     }
 }

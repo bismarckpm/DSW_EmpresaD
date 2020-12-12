@@ -24,8 +24,7 @@ public class ServicioDatoEncuestadoTest {
                                                     5);
         datoEncuestado.setFk_lugar(new DtoParroquia(1));
         ServicioUsuario servicioUsuario = new ServicioUsuario();
-        DtoUsuario usuario = servicioUsuario.registrarUsuario(new DtoUsuario("nombre","apellido","administrador", "activo", "mail@mail.com"));
-        datoEncuestado.setUsuario(new DtoUsuario(usuario.get_id()));
+        datoEncuestado.setUsuario(new DtoUsuario( 1));
         DtoOcupacion dtoOcupacion = new DtoOcupacion(1);
         datoEncuestado.setOcupacion(dtoOcupacion);
         DatoEncuestado resultado = servicioDato.registrarDatoEncuestado(datoEncuestado);
@@ -35,24 +34,8 @@ public class ServicioDatoEncuestadoTest {
     @Test
     public void consultarDatoEncuestadoTest() throws Exception{
         ServicioDatoEncuestado servicioDato = new ServicioDatoEncuestado();
-        DtoDatoEncuestado datoEncuestado = new DtoDatoEncuestado("Concepcion",
-                "arevalo",
-                "5001",
-                "laptop",
-                Date.valueOf("1997-02-28"),
-                "masculino",
-                50,
-                "universitario",
-                5);
-        datoEncuestado.setFk_lugar(new DtoParroquia(1));
-        ServicioUsuario servicioUsuario = new ServicioUsuario();
-        DtoUsuario usuario = servicioUsuario.registrarUsuario(new DtoUsuario("nombre","apellido","administrador", "activo", "mail@mail.com"));
-        datoEncuestado.setUsuario(new DtoUsuario(usuario.get_id()));
-        DtoOcupacion dtoOcupacion = new DtoOcupacion(1);
-        datoEncuestado.setOcupacion(dtoOcupacion);
-        DatoEncuestado consultar = servicioDato.registrarDatoEncuestado(datoEncuestado);
-        DatoEncuestado consultado = servicioDato.consultarDatoEncuestado(consultar.get_id());
-        Assert.assertEquals(consultar.get_id(), consultado.get_id());
+        DatoEncuestado consultado = servicioDato.consultarDatoEncuestado(1);
+        Assert.assertEquals(1, consultado.get_id());
     }
 
     @Test
@@ -66,7 +49,7 @@ public class ServicioDatoEncuestadoTest {
     public void actualizarDatoEncuestadoTest() throws Exception{
         ServicioDatoEncuestado servicioDato = new ServicioDatoEncuestado();
         DtoDatoEncuestado datoEncuestado = new DtoDatoEncuestado("Concepcion",
-                "arevalo",
+                "ok",
                 "5002",
                 "laptop",
                 Date.valueOf("1997-02-28"),
@@ -75,37 +58,17 @@ public class ServicioDatoEncuestadoTest {
                 "universitario",
                 5);
         datoEncuestado.setFk_lugar(new DtoParroquia(1));
-        ServicioUsuario servicioUsuario = new ServicioUsuario();
-        DtoUsuario usuario = servicioUsuario.registrarUsuario(new DtoUsuario("nombre","apellido","administrador", "activo", "mail@mail.com"));
-        datoEncuestado.setUsuario(new DtoUsuario(usuario.get_id()));
+        datoEncuestado.setUsuario(new DtoUsuario(1));
         DtoOcupacion dtoOcupacion = new DtoOcupacion(1);
         datoEncuestado.setOcupacion(dtoOcupacion);
-        DatoEncuestado actualizar = servicioDato.registrarDatoEncuestado(datoEncuestado);
-        datoEncuestado.setSegundoapellido("cambio");
-        DatoEncuestado actualizado = servicioDato.actualizarDatoEncuestado(actualizar.get_id(), datoEncuestado);
+        DatoEncuestado actualizado = servicioDato.actualizarDatoEncuestado(1, datoEncuestado);
         Assert.assertNotNull(actualizado.getModificado_el());
     }
 
     @Test
     public void eliminarDatoEncuestadoTest() throws Exception{
         ServicioDatoEncuestado servicioDato = new ServicioDatoEncuestado();
-        DtoDatoEncuestado datoEncuestado = new DtoDatoEncuestado("Concepcion",
-                "arevalo",
-                "5003",
-                "laptop",
-                Date.valueOf("1997-02-28"),
-                "masculino",
-                50,
-                "universitario",
-                5);
-        datoEncuestado.setFk_lugar(new DtoParroquia(1));
-        ServicioUsuario servicioUsuario = new ServicioUsuario();
-        DtoUsuario usuario = servicioUsuario.registrarUsuario(new DtoUsuario("nombre","apellido","administrador", "activo", "mail@mail.com"));
-        datoEncuestado.setUsuario(new DtoUsuario(usuario.get_id()));
-        DtoOcupacion dtoOcupacion = new DtoOcupacion(1);
-        datoEncuestado.setOcupacion(dtoOcupacion);
-        DatoEncuestado eliminar = servicioDato.registrarDatoEncuestado(datoEncuestado);
-        DatoEncuestado eliminado = servicioDato.eliminarDatoEncuestado(eliminar.get_id());
+        DatoEncuestado eliminado = servicioDato.eliminarDatoEncuestado( (long)1);
         Assert.assertNotNull(eliminado.getModificado_el());
     }
 
