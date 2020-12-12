@@ -27,7 +27,7 @@ public class ServicioOpcionTest {
         ServicioOpcion servicio = new ServicioOpcion();
         DtoOpcion DTOO = new DtoOpcion();
         DTOO.setNombre_opcion("opcion 2: No la comprendo muy bien");
-        DTOO.setActivo(2);
+        DTOO.setActivo(1);
         DtoPregunta DTOP=new DtoPregunta();
         DTOP.set_id(5);
         DTOO.set_Dtopregunta(DTOP);
