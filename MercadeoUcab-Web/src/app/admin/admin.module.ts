@@ -37,6 +37,10 @@ import { DelPresentacionDialogComponent } from './components/dialogs/del-present
 import { SubcategoriaComponent } from './pages/subcategoria/subcategoria.component';
 import { MarcaComponent } from './pages/marca/marca.component';
 import { TiposComponent } from './pages/tipos/tipos.component';
+import { UpdSubCategoriaDialogComponent } from './components/dialogs/upd-sub-catategoria-dialog/upd-sub-catategoria-dialog.component';
+import { DelSubCategoriaDialogComponent } from './components/dialogs/del-sub-catategoria-dialog/del-sub-catategoria-dialog.component';
+import { DelMarcaDialogComponent } from './components/dialogs/del-marca-dialog/del-marca-dialog.component';
+import { UpdMarcaDialogComponent } from './components/dialogs/upd-marca-dialog/upd-marca-dialog.component';
 @NgModule({
   declarations: [
     EstudiosComponent, 
@@ -71,7 +75,11 @@ import { TiposComponent } from './pages/tipos/tipos.component';
     DelPresentacionDialogComponent,
     SubcategoriaComponent,
     MarcaComponent,
-    TiposComponent],
+    TiposComponent,
+    UpdSubCategoriaDialogComponent,
+    DelSubCategoriaDialogComponent,
+    DelMarcaDialogComponent,
+    UpdMarcaDialogComponent],
   imports: [
     CommonModule,
     AdminRoutingModule,

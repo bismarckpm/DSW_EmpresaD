@@ -1,41 +1,39 @@
 import { Component, Input, OnInit, TemplateRef, ViewChild } from '@angular/core';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import { FormBuilder,FormGroup, } from '@angular/forms';
 import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
-import { CategoriaService } from '@core/services/categoria/categoria.service';
-import { Categoria } from '@models/categoria';
-@Component({
-  selector: 'app-upd-categoria-dialog',
-  templateUrl: './upd-categoria-dialog.component.html',
-  styleUrls: ['./upd-categoria-dialog.component.css']
-})
-export class UpdCategoriaDialogComponent implements OnInit {
+import { MarcaService } from '@core/services/marca/marca.service';
+import { Marca } from '@models/marca';
 
-  opStatus:string;//S,P,D,E
+@Component({
+  selector: 'app-upd-marca-dialog',
+  templateUrl: './upd-marca-dialog.component.html',
+  styleUrls: ['./upd-marca-dialog.component.css']
+})
+export class UpdMarcaDialogComponent implements OnInit {
+opStatus:string;//S,P,D,E
   updForm: FormGroup;
   toService: any;
-  @ViewChild('updCategoria') private modalContent: TemplateRef<UpdCategoriaDialogComponent>;
+  @ViewChild('updMarca') private modalContent: TemplateRef<UpdMarcaDialogComponent>;
   private modalRef: NgbModalRef;
-  constructor(private modalService: NgbModal,private formBuilder: FormBuilder,private _service:CategoriaService){}
+  constructor(private modalService: NgbModal,private formBuilder: FormBuilder,private _service:MarcaService){}
   @Input() _userSelection : number;
-  @Input() _categoria : Categoria;
+  @Input() _marca : Marca;
 
   ngOnInit(): void {
     this.opStatus="S";
     this.updForm= this.formBuilder.group({
       nombre:null,
-      activo:null
     });
     this.toService= {
       nombre:null,
-      activo:null
+      _id:null
     }
   }
   open(){
     this.modalRef =this.modalService.open(this.modalContent);
     this.toService= {
-      id:this._categoria._id,
+      _id:this._marca._id,
       nombre:null,
-      activo:this._categoria.activo
     }
     this.modalRef.result.then();
   }
@@ -43,8 +41,8 @@ export class UpdCategoriaDialogComponent implements OnInit {
     this.opStatus="S";
     this.modalRef.close();
   }
-  updateCategoria(id,data){
-    this._service.updateCategoria(id,data).subscribe(
+  updateMarca(data){
+    this._service.updateMarca(data['_id'],data).subscribe(
       (response) => {
         console.log(response);
         this.opStatus="D";
@@ -61,10 +59,10 @@ export class UpdCategoriaDialogComponent implements OnInit {
         this.toService[key]=field;
       }
       else{
-        this.toService[key] = this._categoria[key];
+        this.toService[key] = this._marca[key];
       }
     })
     this.opStatus="P";
-    this.updateCategoria(this._userSelection,this.toService);
+    this.updateMarca(this.toService);
   }
 }

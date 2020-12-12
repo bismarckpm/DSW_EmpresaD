@@ -1,25 +1,23 @@
 import { Component, Input, OnInit, TemplateRef, ViewChild } from '@angular/core';
 import { FormBuilder } from '@angular/forms';
 import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
-//import { TipoSolicitudService } from '@core/services/tipo/tipo.service';
-import { Tipo } from '@models/tipo';
+import { MarcaService } from '@core/services/marca/marca.service';
+import { Marca } from '@models/marca';
+
 
 @Component({
-  selector: 'app-delete-tipo-dialog',
-  templateUrl: './delete-tipo-dialog.component.html',
-  styleUrls: ['./delete-tipo-dialog.component.css']
+  selector: 'app-del-marca-dialog',
+  templateUrl: './del-marca-dialog.component.html',
+  styleUrls: ['./del-marca-dialog.component.css']
 })
-export class DeleteTipoDialogComponent implements OnInit {
+export class DelMarcaDialogComponent implements OnInit {
+opStatus:string;//S,P,D
 
-  opStatus:string;//S,P,D
-
-  @ViewChild('delTipo') private modalContent: TemplateRef<DeleteTipoDialogComponent>;
+  @ViewChild('delMarca') private modalContent: TemplateRef<DelMarcaDialogComponent>;
   private modalRef: NgbModalRef;
-  constructor(private modalService: NgbModal,private formBuilder: FormBuilder,
-  	//private _service:TipoSolicitudService
-  	){}
+  constructor(private modalService: NgbModal,private formBuilder: FormBuilder,private _service:MarcaService){}
   @Input() _userSelection : number;
-  @Input() _marca : Tipo;
+  @Input() _marca : Marca;
 
   ngOnInit(): void {
     this.opStatus="S";
@@ -35,7 +33,7 @@ export class DeleteTipoDialogComponent implements OnInit {
 
   invokeService(){
     this.opStatus="P";
-    /*this._service.deleteTipoSolicitud(this._tipo._id,null).subscribe(
+    this._service.deleteMarca(this._marca._id,null).subscribe(
       (response) => {
         console.log(response);
         this.opStatus="D";
@@ -44,7 +42,7 @@ export class DeleteTipoDialogComponent implements OnInit {
         console.log(error);
         this.opStatus="E";
       }
-    )*/
+    )
   }
 
 }

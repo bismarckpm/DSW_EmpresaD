@@ -1,25 +1,24 @@
 import { Component, Input, OnInit, TemplateRef, ViewChild } from '@angular/core';
 import { FormBuilder } from '@angular/forms';
 import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
-//import { TipoSolicitudService } from '@core/services/tipo/tipo.service';
-import { Tipo } from '@models/tipo';
+import { SubcategoriaService } from '@core/services/subcategoria/subcategoria.service';
+import { SubCategoria } from '@models/subcategoria';
+
 
 @Component({
-  selector: 'app-delete-tipo-dialog',
-  templateUrl: './delete-tipo-dialog.component.html',
-  styleUrls: ['./delete-tipo-dialog.component.css']
+  selector: 'app-del-sub-catategoria-dialog',
+  templateUrl: './del-sub-catategoria-dialog.component.html',
+  styleUrls: ['./del-sub-catategoria-dialog.component.css']
 })
-export class DeleteTipoDialogComponent implements OnInit {
+export class DelSubCategoriaDialogComponent implements OnInit {
 
   opStatus:string;//S,P,D
 
-  @ViewChild('delTipo') private modalContent: TemplateRef<DeleteTipoDialogComponent>;
+  @ViewChild('delSubCat') private modalContent: TemplateRef<DelSubCategoriaDialogComponent>;
   private modalRef: NgbModalRef;
-  constructor(private modalService: NgbModal,private formBuilder: FormBuilder,
-  	//private _service:TipoSolicitudService
-  	){}
+  constructor(private modalService: NgbModal,private formBuilder: FormBuilder,private _service:SubcategoriaService){}
   @Input() _userSelection : number;
-  @Input() _marca : Tipo;
+  @Input() _subcategoria : SubCategoria;
 
   ngOnInit(): void {
     this.opStatus="S";
@@ -35,7 +34,7 @@ export class DeleteTipoDialogComponent implements OnInit {
 
   invokeService(){
     this.opStatus="P";
-    /*this._service.deleteTipoSolicitud(this._tipo._id,null).subscribe(
+    this._service.deleteSubCategoria(this._subcategoria._id,null).subscribe(
       (response) => {
         console.log(response);
         this.opStatus="D";
@@ -44,7 +43,7 @@ export class DeleteTipoDialogComponent implements OnInit {
         console.log(error);
         this.opStatus="E";
       }
-    )*/
+    )
   }
 
 }

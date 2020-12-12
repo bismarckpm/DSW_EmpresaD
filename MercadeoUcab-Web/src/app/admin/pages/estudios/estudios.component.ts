@@ -22,12 +22,6 @@ import { Solicitud } from '@models/solicitud';
 export class EstudiosComponent implements OnInit {
   op:string;
   searchState:string;//U,I,P,D
-  /*searchModel:Usuario;
-  users: UserModel[] = [];
-  displayedColumns: string[] = ['id','selector','ops'];
-  columnsToDisplay: string[] = this.displayedColumns.slice();
-  userSelection:number = 0;
-  dataSource : MatTableDataSource<UserModel>;*/
   solicitudSelec: number;
   solicitudes:Solicitud[]=[
     /*{ _id:1, estado:'I', activo:false, creado_el:new Date(), modificado_el:new Date()},
@@ -68,7 +62,7 @@ export class EstudiosComponent implements OnInit {
     creado_el:new Date(),
     modificado_el:new Date()
   }];
-  //tipos_sol: TipoSolicitud[] = [];
+
   displayedColumns: string[] = ['id','selector','ops'];
   columnsToDisplay: string[] = this.displayedColumns.slice();
   updForm;
@@ -106,6 +100,10 @@ export class EstudiosComponent implements OnInit {
     })
     this.setOperation('');
   }
+  invokeService(){
+
+  }
+  
   invokeSearch(){
     this.estudios = [];
     this.userSelection=0;
