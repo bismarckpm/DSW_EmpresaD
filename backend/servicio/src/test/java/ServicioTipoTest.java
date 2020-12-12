@@ -15,7 +15,7 @@ public class ServicioTipoTest {
         DtoTipo dtoTipo = new DtoTipo();
         dtoTipo.setNombre( "Soy un tipo");
         Response resultado = servicio.registrarTipo( dtoTipo);
-        Assert.assertEquals( 200, resultado.getStatus());
+        Assert.assertEquals(resultado.getStatus(), 200);
     }
 
     @Test
@@ -24,7 +24,7 @@ public class ServicioTipoTest {
         DtoTipo dtoTipo = new DtoTipo(1);
         dtoTipo.setNombre(" Soy un Tipo actualizado");
         Response resultado = servicio.actualizarTipo( dtoTipo.get_id(),dtoTipo);
-        Assert.assertEquals( 200, resultado.getStatus());
+        Assert.assertEquals(resultado.getStatus(), 200);
     }
 
     @Test
@@ -32,7 +32,7 @@ public class ServicioTipoTest {
         ServicioTipo servicio = new ServicioTipo();
         DtoTipo dtoTipo = new DtoTipo(1 );
         Response resultado = servicio.eliminarTipo( dtoTipo.get_id());
-        Assert.assertEquals( 200, resultado.getStatus());
+        Assert.assertEquals(resultado.getStatus(), 200);
     }
 
     @Test
@@ -40,13 +40,13 @@ public class ServicioTipoTest {
         ServicioTipo servicio = new ServicioTipo();
         DtoTipo dtoTipo = new DtoTipo(1);
         Response resultado = servicio.obtenerTipo( dtoTipo.get_id());
-        Assert.assertEquals( 200, resultado.getStatus());
+        Assert.assertEquals(resultado.getStatus(), 200);
     }
 
     @Test
     public void listarTipoTest() throws Exception{
         ServicioTipo servicio = new ServicioTipo();
         Response resultado = servicio.listarTipos();
-        Assert.assertEquals( 200, resultado.getStatus());
+        Assert.assertEquals(resultado.getStatus(), 200);
     }
 }
