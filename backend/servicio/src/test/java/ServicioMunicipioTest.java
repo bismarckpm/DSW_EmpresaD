@@ -6,6 +6,7 @@ import mercadeoucab.entidades.Municipio;
 import mercadeoucab.servicio.ServicioEstado;
 import mercadeoucab.servicio.ServicioMunicipio;
 import mercadeoucab.servicio.ServicioPais;
+import javax.ws.rs.core.Response;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -19,15 +20,21 @@ public class ServicioMunicipioTest {
         DtoMunicipio dtoMunicipio = new DtoMunicipio();
         dtoMunicipio.setNombre("No conozco eso");
         dtoMunicipio.setFk_estado(new DtoEstado(1));
-        DtoMunicipio resultado = servicio.registrarMunicipio(dtoMunicipio);
-        Assert.assertNotEquals(resultado.get_id(), 0);
+        Response resultado = servicio.registrarMunicipio(dtoMunicipio);
+        Assert.assertEquals(
+                javax.ws.rs.core.Response.Status.OK.getStatusCode(),
+                resultado.getStatus()
+        );
     }
 
     @Test
     public void consultarMunicipioTest() throws Exception{
         ServicioMunicipio servicio = new ServicioMunicipio();
-        Municipio consultado = servicio.obtenerMunicipio(1);
-        Assert.assertEquals(1, consultado.get_id());
+        Response resultado = servicio.obtenerMunicipio(1);
+        Assert.assertEquals(
+                javax.ws.rs.core.Response.Status.OK.getStatusCode(),
+                resultado.getStatus()
+        );
     }
 
     @Test
@@ -35,21 +42,30 @@ public class ServicioMunicipioTest {
         ServicioMunicipio servicio = new ServicioMunicipio();
         DtoMunicipio dtoMunicipio = new DtoMunicipio();
         dtoMunicipio.setNombre("Modified");
-        Municipio actualizado = servicio.actualizarMunicipio(1, dtoMunicipio);
-        Assert.assertEquals(dtoMunicipio.getNombre(), actualizado.getNombre());
+        Response resultado = servicio.actualizarMunicipio(1, dtoMunicipio);
+        Assert.assertEquals(
+                javax.ws.rs.core.Response.Status.OK.getStatusCode(),
+                resultado.getStatus()
+        );
     }
 
     @Test
     public void eliminarMunicipioTest() throws Exception{
         ServicioMunicipio servicio = new ServicioMunicipio();
-        Municipio eliminar = servicio.eliminarMunicipio(1);
-        Assert.assertEquals(0, eliminar.getActivo());
+        Response resultado = servicio.eliminarMunicipio(1);
+        Assert.assertEquals(
+                javax.ws.rs.core.Response.Status.OK.getStatusCode(),
+                resultado.getStatus()
+        );
     }
 
     @Test
     public void listarMunicipiosTest() throws Exception{
         ServicioMunicipio servicio = new ServicioMunicipio();
-        List<Municipio> resultado = servicio.listarMunicipios();
-        Assert.assertNotNull(resultado);
+        Response resultado = servicio.listarMunicipios();
+        Assert.assertEquals(
+                javax.ws.rs.core.Response.Status.OK.getStatusCode(),
+                resultado.getStatus()
+        );
     }
 }
