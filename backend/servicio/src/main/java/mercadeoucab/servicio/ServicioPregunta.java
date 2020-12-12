@@ -93,6 +93,12 @@ public class ServicioPregunta extends AplicacionBase{
         }
         catch (Exception e){
             String problema = e.getMessage();
+            data = Json.createObjectBuilder()
+                    .add("status", 400)
+                    .add("mensaje",problema)
+                    .build();
+            resultado = Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(data).build();
+
         }
         return resultado;
     }
