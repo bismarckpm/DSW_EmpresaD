@@ -6,6 +6,7 @@ import mercadeoucab.servicio.ServicioPais;
 import org.junit.Assert;
 import org.junit.jupiter.api.Test;
 
+import javax.ws.rs.core.Response;
 import java.util.List;
 
 public class ServicioEstadoTest {
@@ -16,15 +17,21 @@ public class ServicioEstadoTest {
         DtoEstado dtoEstado = new DtoEstado();
         dtoEstado.setNombre("Gurico");
         dtoEstado.setFk_pais(new DtoPais(1));
-        Estado resultado = servicio.agregarEstado(dtoEstado);
-        Assert.assertNotEquals(resultado.get_id(), 0);
+        Response resultado = servicio.agregarEstado(dtoEstado);
+        Assert.assertEquals(
+                javax.ws.rs.core.Response.Status.OK.getStatusCode(),
+                resultado.getStatus()
+        );
     }
 
     @Test
     public void consultarEstadoTest() throws  Exception{
         ServicioEstado servicio = new ServicioEstado();
-        Estado consulta = servicio.consultarEstado(1);
-        Assert.assertEquals(1, consulta.get_id());
+        Response resultado = servicio.consultarEstado(1);
+        Assert.assertEquals(
+                javax.ws.rs.core.Response.Status.OK.getStatusCode(),
+                resultado.getStatus()
+        );
     }
 
     @Test
@@ -33,21 +40,30 @@ public class ServicioEstadoTest {
         DtoEstado dtoEstado = new DtoEstado();
         dtoEstado.setNombre("Gurico");
         dtoEstado.setFk_pais(new DtoPais(1));
-        Estado modificado = servicio.actualizarEstado(1, dtoEstado);
-        Assert.assertNotNull(modificado.getModificado_el());
+        Response resultado = servicio.actualizarEstado(1, dtoEstado);
+        Assert.assertEquals(
+                javax.ws.rs.core.Response.Status.OK.getStatusCode(),
+                resultado.getStatus()
+        );
     }
 
     @Test
     public void eliminarEstadoTest() throws Exception{
         ServicioEstado servicio = new ServicioEstado();
-        Estado eliminado = servicio.eliminarEstado(1);
-        Assert.assertNotEquals(1, eliminado.getActivo());
+        Response resultado = servicio.eliminarEstado(1);
+        Assert.assertEquals(
+                javax.ws.rs.core.Response.Status.OK.getStatusCode(),
+                resultado.getStatus()
+        );
     }
 
     @Test
     public void listarEstadosTest() throws Exception{
         ServicioEstado servicio = new ServicioEstado();
-        List<Estado> resultado = servicio.listarEstador();
-        Assert.assertNotNull(resultado);
+        Response resultado = servicio.listarEstador();
+        Assert.assertEquals(
+                javax.ws.rs.core.Response.Status.OK.getStatusCode(),
+                resultado.getStatus()
+        );
     }
 }
