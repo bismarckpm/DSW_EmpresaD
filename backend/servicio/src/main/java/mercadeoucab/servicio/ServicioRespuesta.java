@@ -42,24 +42,27 @@ public class ServicioRespuesta extends AplicacionBase{
 
     @POST
     @Path("/")
-    public DtoRespuesta registrarRespuesta(DtoRespuesta DTOR){
+    public DtoRespuesta registrarRespuesta(DtoRespuesta dtoRespuesta){
         DtoRespuesta resultado = new DtoRespuesta();
         try{
-            DaoRespuesta daoO = new DaoRespuesta();
-            Respuesta R = new Respuesta();
-            EncuestaEstudio EE=new EncuestaEstudio();
-            EE.set_id(DTOR.getDtoEncuestaEstudio().get_id());
-            R.setEncuesta_estudio(EE);
-            Opcion O=new Opcion();
-            O.set_id(DTOR.get_dtoopcion().get_id());
-            R.setFk_opcion(O);
-            Usuario U=new Usuario(DTOR.getDtousuario().get_id());
-            R.setFk_usuario(U);
-            R.setRespuesta(DTOR.getRespuesta());
-            R.setActivo(DTOR.getActivo());
-            R.setRespuesta(DTOR.getRespuesta());
-            R.setCreado_el(new Date(Calendar.getInstance().getTime().getTime()));
-            Respuesta resul = daoO.insert( R);
+
+            DaoRespuesta dao = new DaoRespuesta();
+            Respuesta respuesta = new Respuesta();
+
+            EncuestaEstudio encuestaEstudio =new EncuestaEstudio(dtoRespuesta.getDtoEncuestaEstudio().get_id());
+            respuesta.setEncuesta_estudio(encuestaEstudio);
+
+            Opcion opcion = new Opcion(dtoRespuesta.get_dtoopcion().get_id());
+            respuesta.setFk_opcion(opcion);
+
+            Usuario usuario = new Usuario(dtoRespuesta.getDtousuario().get_id());
+            respuesta.setFk_usuario(usuario);
+
+            respuesta.setRespuesta(dtoRespuesta.getRespuesta());
+            respuesta.setActivo(1);
+            respuesta.setCreado_el(new Date(Calendar.getInstance().getTime().getTime()));
+
+            Respuesta resul = dao.insert( respuesta );
             resultado.set_id( resul.get_id());
         }catch (Exception e) {
             String problema = e.getMessage();
@@ -71,33 +74,20 @@ public class ServicioRespuesta extends AplicacionBase{
     @PUT
     @Path("/{id}")
     // @PathParam("id") Long id
-    public DtoRespuesta actualizarRespuesta(DtoRespuesta DTOR){
+    public DtoRespuesta actualizarRespuesta(@PathParam("id") long id, DtoRespuesta dtoRespuesta){
         DtoRespuesta resultado = new DtoRespuesta();
         try{
             DaoRespuesta dao = new DaoRespuesta();
-            Respuesta R = dao.find( DTOR.get_id(), Respuesta.class);
-            if(DTOR.getDtoEncuestaEstudio()!=null){
-                R.setEncuesta_estudio(new EncuestaEstudio(DTOR.getDtoEncuestaEstudio().get_id()));
-            }
-            if(DTOR.get_dtoopcion()!=null){
-                R.setFk_opcion(new Opcion(DTOR.get_dtoopcion().get_id()));
-            }
-            if(DTOR.getDtousuario()!=null){
-                R.setFk_usuario(new Usuario(DTOR.getDtousuario().get_id()));
-            }
-            if(DTOR.getRespuesta()!=null){
-                R.setRespuesta(DTOR.getRespuesta());
-            }
-            if (DTOR.getActivo()!=0){
-                R.setActivo(DTOR.getActivo());
-            }
+            Respuesta respuesta = dao.find( id, Respuesta.class);
 
-            R.setModificado_el(new Date(Calendar
+            respuesta.setRespuesta(dtoRespuesta.getRespuesta());
+            respuesta.setModificado_el(new Date(Calendar
                     .getInstance()
                     .getTime()
                     .getTime()));
-            Respuesta resul = dao.update( R);
+            Respuesta resul = dao.update( respuesta );
             resultado.set_id( resul.get_id());
+            resultado.setModificado_el(resul.getModificado_el());
         }catch (Exception e) {
             String problema = e.getMessage();
         }
@@ -107,18 +97,17 @@ public class ServicioRespuesta extends AplicacionBase{
     @PUT
     @Path("/{id}/eliminar")
     // @PathParam("id") Long id
-    public DtoRespuesta eliminarRespuesta(long id){
+    public DtoRespuesta eliminarRespuesta(@PathParam("id") long id){
         DtoRespuesta resultado = new DtoRespuesta();
         try{
             DaoRespuesta dao = new DaoRespuesta();
-            Respuesta R = dao.find( id, Respuesta.class);
-            R.setActivo( 0);
-            R.setModificado_el(
-                    new Date(Calendar
-                            .getInstance()
-                            .getTime()
-                            .getTime()));
-            Respuesta resul = dao.update( R);
+            Respuesta respuesta = dao.find( id, Respuesta.class);
+            respuesta.setActivo( 0);
+            respuesta.setModificado_el(new Date(Calendar
+                                            .getInstance()
+                                            .getTime()
+                                            .getTime()));
+            Respuesta resul = dao.update( respuesta );
             resultado.set_id( resul.get_id());
         }catch (Exception e) {
             String problema = e.getMessage();

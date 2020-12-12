@@ -98,7 +98,7 @@ public class ServicioUsuario extends AplicacionBase{
     @PUT
     @Path("/{id}/eliminar")
     // @PathParam("id") Long id
-    public DtoUsuario eliminarUsuario( long id){
+    public DtoUsuario eliminarUsuario( @PathParam("id") Long id){
         DtoUsuario resultado = new DtoUsuario();
         try{
             DaoUsuario dao = new DaoUsuario();
