@@ -50,7 +50,7 @@ export class SubcategoriaService {
     );
   }
 
-  deleteUser( id, data){
+  deleteSubCategoria( id, data){
     // Ignorar data por los momentos
     return this._http.put( 
       this.url + '/subcategorias/' + id + '/eliminar', 

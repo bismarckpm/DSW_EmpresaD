@@ -26,7 +26,7 @@ import { CoreModule } from './core/core.module';
     AppRoutingModule,
     MaterialModule,
     LocalNgbModule,
-    CoreModule
+    CoreModule,
   ],
   bootstrap: [AppComponent]
 })

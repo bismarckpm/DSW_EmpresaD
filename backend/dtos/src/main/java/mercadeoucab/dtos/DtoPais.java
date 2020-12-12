@@ -17,6 +17,10 @@ public class DtoPais extends  DtoBase{
         this.nombre = nombre;
     }
 
+    public DtoPais(String nombre) {
+        this.nombre = nombre;
+    }
+
     public String getNombre() {
         return nombre;
     }

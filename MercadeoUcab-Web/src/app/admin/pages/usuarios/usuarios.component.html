@@ -95,39 +95,40 @@ align-items: center;">
                     </div>
                 </div>
             </div>
-            <form class="cForm" *ngIf="opStatus==='S' && userRole!==''" (submit)="serviceInvoke(userRole)">
+            <form class="cForm" [formGroup]="addForm"
+            *ngIf="opStatus==='S' && userRole!==''" (ngSubmit)="serviceInvoke(userRole)" novalidate>
                 <h4 style="height: fit-content;width: 100%;">Nuevo {{userRole}}</h4>
                 <div class="cForm-field-row" style="flex: 1;">
-                    <div *ngIf="userRole==='Administrador'" class="base-row" style="flex:1">
-                        <div class="cForm-field-col">
-
+                    <div class="cForm-field-col">
+                        <div class="form-group">
+                            <label for="userNewName">Nombre de usuario</label>
+                            <input type="text" 
+                            formControlName="nombre" class="form-control" id="userNewName"
+                                aria-describedby="newNameHelp"/>
                         </div>
-                        <div class="cForm-field-col">
-    
+                        <div class="form-group">
+                            <label for="userNewapellido">Apellido de usuario</label>
+                            <input type="text" 
+                            formControlName="apellido" class="form-control" id="userNewapellido"
+                            aria-describedby="newApellidoHelp"/>
                         </div>
-                    </div>
-                    <div *ngIf="userRole==='Analista'" class="base-row" style="flex:1">
-                        <div class="cForm-field-col">
-
-                        </div>
-                        <div class="cForm-field-col">
-    
-                        </div>
-                    </div>
-                    <div *ngIf="userRole==='Cliente'" class="base-row" style="flex:1">
-                        <div class="cForm-field-col">
-
-                        </div>
-                        <div class="cForm-field-col">
-    
+                        <div class="form-group">
+                            <label for="userNewCorreo">Correo de usuario</label>
+                            <input type="email"  
+                            formControlName="correo" class="form-control" id="userNewCorreo"
+                            aria-describedby="newCorreoHelp"/>
                         </div>
                     </div>
-                    <div *ngIf="userRole==='Encuestado'" class="base-row" style="flex:1">
-                        <div class="cForm-field-col">
-
-                        </div>
-                        <div class="cForm-field-col">
-    
+                    <div class="cForm-field-col">
+                        <div class="form-group">
+                            <label for="userRol">Rol de usuario</label>
+                            <input type="text" 
+                            readonly
+                            formControlName="rol" class="form-control" id="userRol"
+                            [(ngModel)]="userRole"
+                            value="userRole" 
+                            placeholder="userRole" 
+                            aria-describedby="newRolHelp"/>
                         </div>
                     </div>
                 </div>
@@ -193,7 +194,7 @@ align-items: center;">
                         <div class="form-group">
                             <label for="rolSelect">Rol de usuario</label>
                             <select class="form-control" id="rolSelect" formControlName="rol">
-                                <option value="Adminsitrador">Adminsitrador</option>
+                                <option value="Administrador">Administrador</option>
                                 <option value="Analista">Analista</option>
                                 <option value="Cliente">Cliente</option>
                                 <option value="Encuestado">Encuestado</option>
@@ -228,7 +229,7 @@ align-items: center;">
                 <ng-container matColumnDef="selector">
                     <th mat-header-cell *matHeaderCellDef>Selección</th>
                     <td mat-cell *matCellDef="let element">
-                        <mat-checkbox [checked]="isSelected(element._id)" (change)="selectUser(element._id)">
+                        <mat-checkbox [checked]="isSelected(element._id)" (change)="selectUser(element._id,element)">
                         </mat-checkbox>
                     </td>
                 </ng-container>
@@ -288,25 +289,5 @@ align-items: center;">
         </div>
     </div>
 </div>
-<app-update-user-dialog #updUser [_userSelection]="userSelection"></app-update-user-dialog>
+<app-update-user-dialog #updUser [_userSelection]="userSelection" [_user]="userTarget"></app-update-user-dialog>
 <app-delete-user-dialog #delUser [_userSelection]="userSelection"></app-delete-user-dialog>
-<!--
-<ng-template #userinf let-modal>
-    <div class="modal-header">
-        <h4 class="modal-title" id="modal-basic-title">Información de usuario #{{userSelection}}</h4>
-        <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
-            <span aria-hidden="true">&times;</span>
-        </button>
-    </div>
-    <div class="modal-body">
-        <div class="cForm">
-            <div class="cForm-field-row">
-
-            </div>
-            <div class="cForm-actions">
-
-            </div>
-        </div>
-    </div>
-</ng-template>
--->

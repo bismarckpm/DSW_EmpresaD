@@ -97,41 +97,56 @@ align-items: center;">
                     </div>
                 </div>
             </div>
-            <form class="cForm" *ngIf="opStatus==='S' && tipoLugar!==''" (submit)="serviceInvoke(tipoLugar)">
-                <h4 style="height: fit-content;width: 100%;">Nuevo {{tipoLugar}}</h4>
+            <form class="cForm" [formGroup]="addForm" 
+                *ngIf="opStatus==='S' && tipoLugar!==''" (submit)="serviceInvoke(tipoLugar)">
+                <ng-container  [ngSwitch]="tipoLugar">
+                    <h4 *ngSwitchCase="'PA'">Nuevo Pais</h4>
+                    <h4 *ngSwitchCase="'ES'">Nuevo Estado</h4>
+                    <h4 *ngSwitchCase="'MU'">Nuevo Municipio</h4>
+                    <h4 *ngSwitchCase="'PR'">Nuevo Parroquia</h4>
+                </ng-container>
                 <div class="cForm-field-row" style="flex: 1;">
-                    <div *ngIf="tipoLugar==='PA'" class="base-row" style="flex:1">
                         <div class="cForm-field-col">
-
+                            <div class="form-group">
+                            <label for="locNewName">Nombre de locación</label>
+                            <input type="text" 
+                            formControlName="nombre" class="form-control" id="locNewName"
+                                aria-describedby="locNewNameHelp"/>
+                            </div>
                         </div>
                         <div class="cForm-field-col">
-    
+                            <ng-container  [ngSwitch]="tipoLugar">
+                                    <div class="form-group" *ngSwitchCase="'ES'">
+                                        <label for="paisSelect">País asociado</label>
+                                        <select class="form-control" id="paisSelect" formControlName="fk_pais">
+                                            <option [ngValue]="null">Sin seleccionar...</option>
+                                            <option *ngFor="let el of _paises" [ngValue]="el">{{el.nombre}}</option>
+                                        </select>
+                                    </div>
+                                    <div class="form-group" *ngSwitchCase="'MU'">
+                                        <label for="estSelect">Estado asociado</label>
+                                        <select class="form-control" id="estSelect" formControlName="fk_estado">
+                                            <option [ngValue]="null">Sin seleccionar...</option>
+                                            <option *ngFor="let el of _estados" [ngValue]="el">{{el.nombre}}</option>
+                                        </select>
+                                    </div>
+                                    <div class="form-group" *ngSwitchCase="'PR'">
+                                        <label for="munSelect">Municipio asociado</label>
+                                        <select class="form-control" id="munSelect" formControlName="fk_municipio">
+                                            <option [ngValue]="null">Sin seleccionar...</option>
+                                            <option *ngFor="let el of _municipios" [ngValue]="el">{{el.nombre}}</option>
+                                        </select>
+                                    </div>
+                            </ng-container>
+                            <div class="form-group" *ngIf="tipoLugar==='PR'">
+                                <div class="form-group">
+                                    <label for="locVal">Valor socio económico</label>
+                                    <input type="number" 
+                                    formControlName="valor_socio_economico" class="form-control" id="locVal"
+                                    aria-describedby="locValHelp"/>
+                                </div>    
+                            </div>
                         </div>
-                    </div>
-                    <div *ngIf="tipoLugar==='ES'" class="base-row" style="flex:1">
-                        <div class="cForm-field-col">
-
-                        </div>
-                        <div class="cForm-field-col">
-    
-                        </div>
-                    </div>
-                    <div *ngIf="tipoLugar==='MU'" class="base-row" style="flex:1">
-                        <div class="cForm-field-col">
-
-                        </div>
-                        <div class="cForm-field-col">
-    
-                        </div>
-                    </div>
-                    <div *ngIf="tipoLugar==='PR'" class="base-row" style="flex:1">
-                        <div class="cForm-field-col">
-
-                        </div>
-                        <div class="cForm-field-col">
-    
-                        </div>
-                    </div>
                 </div>
                 <div class="cForm-actions">
                     <button type="button" class="btn btn-outline-dark" (click)="setOperation('')">Cancelar
@@ -169,6 +184,20 @@ align-items: center;">
                     <button type="button" class="btn btn-outline-dark" (click)="setOperation('')">Volver a menú</button>
                 </div>
             </div>
+            <div class="cForm" *ngIf="opStatus==='E'">
+                <div class="cForm-field-row">
+                    <div class="cForm-field-col" style="justify-content:center;align-items: center;">
+                        <h3>Ha ocurrido un error</h3>
+                        <mat-icon style="width: 7.5rem; height: 7.5rem;font-size:7.5rem;">
+                            report_problem
+                        </mat-icon>
+                        <h5>Su operación no pudo ser procesada</h5>
+                    </div>
+                </div>
+                <div class="cForm-actions">
+                    <button type="button" class="btn btn-outline-dark" (click)="setOperation('')">Continuar</button>
+                </div>
+                </div>
         </mat-card>
     </div>
     <div *ngIf="op!=='add' && searchState==='I'" style="height: 75%;width: 75%;">
@@ -210,52 +239,6 @@ align-items: center;">
     <!--COMPONENTE DE MUESTRA DE RESULTADOS-->
     <div *ngIf="searchState!=='U' && searchState!=='I'"
         style="width: 100%;height:100%; display: flex; flex-direction: column; justify-content: space-around; align-items: center;">
-        <!--MOSTRAR UNA TABLA SEGUN PARAMETRO DE BUSQUEDA-->
-        <!--
-        <app-data-table>
-            
-            <table mat-table [dataSource]="dataSource" class="mat-elevation-z8" style="flex:1; overflow-y: auto;" *ngIf="searchState==='D'">
-                <ng-container matColumnDef="id">
-                    <th mat-header-cell *matHeaderCellDef>Id</th>
-                    <td mat-cell *matCellDef="let element"> {{element.id_estudio}} </td>
-                </ng-container>
-                <ng-container matColumnDef="selector">
-                    <th mat-header-cell *matHeaderCellDef>Selección</th>
-                    <td mat-cell *matCellDef="let element">
-                        <mat-checkbox [checked]="isSelected(element.id_estudio)" (change)="selectUser(element.id_estudio)">
-                        </mat-checkbox>
-                    </td>
-                </ng-container>
-                <ng-container matColumnDef="ops">
-                    <th mat-header-cell *matHeaderCellDef>Operación</th>
-                    <td mat-cell *matCellDef="let element">
-                        <div *ngIf="isSelected(element.id_estudio)">
-                            <button style="background-color: #00d8b4; color:white" mat-mini-fab
-                                aria-label="Example icon button with a filter list icon" class="shadow-sm"
-                                >
-                                <mat-icon>info</mat-icon>
-                            </button>
-                            <button *ngIf="op==='upd'" style="background-color: #00d8b4; color:white; margin:0px 5px"
-                                mat-mini-fab aria-label="Example icon button with a filter list icon"
-                                (click)="openUpdModal()" 
-                                class="shadow-sm">
-                                <mat-icon>autorenew</mat-icon>
-                            </button>
-                            <button *ngIf="op==='del'" style="background-color: #00d8b4; color:white" mat-mini-fab
-                                aria-label="Example icon button with a filter list icon" 
-                                (click)="openDelModal()"
-                                class="shadow-sm">
-                                <mat-icon>delete_forever</mat-icon>
-                            </button>
-                        </div>
-                    </td>
-                </ng-container>
-                <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-                <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
-            </table>
-           
-        </app-data-table>
-         -->
         <div  style="width: 80vw;
                 height: 75vh;
                 display: flex;    
@@ -276,7 +259,9 @@ align-items: center;">
                         <!--HEADER SPACE-->
                         <div *ngFor="let result of res.value" class="base-row">
                             <div>
-                                 {{ result.n }}
+                                <h4>
+                                 {{ result.nombre }}
+                                </h4>
                             </div> 
                             <div>
                                 <!--OP SPACE -->
@@ -288,13 +273,13 @@ align-items: center;">
                                 <button *ngIf="op==='upd'" 
                                 style="background-color: #00d8b4; color:white; margin:0px 5px"
                                 mat-mini-fab aria-label="Example icon button with a filter list icon"
-                                (click)="openUpdModal(0,res.key)" 
+                                (click)="openUpdModal(0,res.key,result)" 
                                 class="shadow-sm">
                                     <mat-icon>autorenew</mat-icon>
                                 </button>
                                 <button *ngIf="op==='del'" style="background-color: #00d8b4; color:white" mat-mini-fab
                                 aria-label="Example icon button with a filter list icon" 
-                                (click)="openDelModal(0,res.key)"
+                                (click)="openDelModal(result._id,res.key)"
                                 class="shadow-sm">
                                     <mat-icon>delete_forever</mat-icon>
                                 </button>
@@ -332,5 +317,5 @@ align-items: center;">
         </div>
     </div>
 </div>
-<app-upd-lugar-dialog #updLugar [_userSelection]="userSelection"></app-upd-lugar-dialog>
+<app-upd-lugar-dialog #updLugar [_tipo]="tipoLugar" [_updData]="targetData"></app-upd-lugar-dialog>
 <app-del-lugar-dialog #delLugar [_userSelection]="userSelection"></app-del-lugar-dialog>

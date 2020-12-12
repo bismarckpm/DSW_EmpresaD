@@ -1,15 +1,16 @@
 package mercadeoucab.accesodatos;
 
-import mercadeoucab.entidades.TipoSolicitud;
+import mercadeoucab.entidades.Estudio;
 
 import javax.persistence.EntityManager;
 
-public class DaoTipoSolicitud extends Dao<TipoSolicitud> {
+public class DaoEstudio extends Dao<Estudio>{
 
     private EntityManager _em;
     static DaoHandler _handler = new DaoHandler();
 
-    public DaoTipoSolicitud(){
-        super( _handler);
+    public DaoEstudio( )
+    {
+        super( _handler );
     }
 }

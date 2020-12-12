@@ -13,7 +13,7 @@ export class DelCategoriaDialogComponent implements OnInit {
 
   @ViewChild('delCategoria') private modalContent: TemplateRef<DelCategoriaDialogComponent>;
   private modalRef: NgbModalRef;
-  constructor(private modalService: NgbModal,private formBuilder: FormBuilder,_service:CategoriaService){}
+  constructor(private modalService: NgbModal,private formBuilder: FormBuilder,private _service:CategoriaService){}
   @Input() _userSelection : number;
 
   ngOnInit(): void {
@@ -27,11 +27,27 @@ export class DelCategoriaDialogComponent implements OnInit {
     this.opStatus="S";
     this.modalRef.close();
   }
+
+  deleteCategoria(id){
+    this._service.deleteCategoria(id,null).subscribe(
+      (response) => {
+        console.log(response);
+        this.opStatus="D";
+      },
+      (error) => {
+        console.log(error);
+        this.opStatus="E";
+      }
+    )
+  }
+
   invokeService(){
     this.opStatus="P";
+    /*this.opStatus="P";
     setTimeout(()=>{
       this.opStatus="D";
-    },3000);
+    },3000);*/
+    this.deleteCategoria(this._userSelection);
   }
 
 }

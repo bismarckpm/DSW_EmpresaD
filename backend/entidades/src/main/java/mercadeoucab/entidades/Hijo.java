@@ -1,8 +1,6 @@
 package mercadeoucab.entidades;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.sql.Date;
 
 @Entity
@@ -14,6 +12,10 @@ public class Hijo extends EntidadBase{
 
     @Column(name = "edad")
     private Date edad;
+
+    @ManyToOne
+    @JoinColumn( name = "fk_dato_encuestado")
+    private DatoEncuestado fk_dato_encuestado;
 
     public Hijo(long id) {
         super(id);
@@ -36,5 +38,13 @@ public class Hijo extends EntidadBase{
 
     public void setEdad(Date edad) {
         this.edad = edad;
+    }
+
+    public DatoEncuestado getFk_dato_encuestado() {
+        return fk_dato_encuestado;
+    }
+
+    public void setFk_dato_encuestado(DatoEncuestado fk_dato_encuestado) {
+        this.fk_dato_encuestado = fk_dato_encuestado;
     }
 }

@@ -151,7 +151,7 @@ CREATE TABLE IF NOT EXISTS `mercadeoucab`.`dato_encuestado` (
   `segundo_apellido` VARCHAR(45) NULL DEFAULT NULL,
   `cedula` VARCHAR(45) NOT NULL,
   `medio_conexion` ENUM('laptop', 'pc', 'tableta', 'telefono') NOT NULL,
-  `edad` INT NOT NULL,
+  `edad` TIMESTAMP NOT NULL,
   `genero` ENUM('masculino', 'femenino') NOT NULL,
   `nivel_economico` INT NOT NULL,
   `nivel_academico` VARCHAR(60) NOT NULL,
@@ -184,7 +184,7 @@ DROP TABLE IF EXISTS `mercadeoucab`.`muestra_poblacion` ;
 CREATE TABLE IF NOT EXISTS `mercadeoucab`.`muestra_poblacion` (
   `id` INT NOT NULL AUTO_INCREMENT,
   `genero` ENUM('masculino', 'femenino') NOT NULL,
-  `nivel_economico` VARCHAR(45) NOT NULL,
+  `nivel_economico` INT NOT NULL,
   `nivel_academico` VARCHAR(60) NOT NULL,
   `rango_edad_inicio` INT NOT NULL,
   `rango_edad_fin` INT NOT NULL,
@@ -262,14 +262,14 @@ CREATE TABLE IF NOT EXISTS `mercadeoucab`.`estudio` (
   `modificado_el` TIMESTAMP NULL DEFAULT NULL,
   `fk_solicitud` INT NOT NULL,
   `fk_usuario` INT NULL DEFAULT NULL,
-  `fk_muestra_problacion` INT NULL DEFAULT NULL,
+  `fk_muestra_poblacion` INT NULL DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE INDEX `id_estudio_UNIQUE` (`id` ASC) VISIBLE,
   INDEX `id_solicitud_idx` (`fk_solicitud` ASC) VISIBLE,
   INDEX `fk_usuario_idx` (`fk_usuario` ASC) VISIBLE,
-  INDEX `fk_muestra_poblacion_idx` (`fk_muestra_problacion` ASC) VISIBLE,
+  INDEX `fk_muestra_poblacion_idx` (`fk_muestra_poblacion` ASC) VISIBLE,
   CONSTRAINT `fk_muestra_poblacion`
-    FOREIGN KEY (`fk_muestra_problacion`)
+    FOREIGN KEY (`fk_muestra_poblacion`)
     REFERENCES `mercadeoucab`.`muestra_poblacion` (`id`),
   CONSTRAINT `fk_solicitud`
     FOREIGN KEY (`fk_solicitud`)
@@ -550,9 +550,6 @@ DROP TABLE IF EXISTS `mercadeoucab`.`sub_categoria_solicitud` ;
 
 CREATE TABLE IF NOT EXISTS `mercadeoucab`.`sub_categoria_solicitud` (
   `id` INT NOT NULL AUTO_INCREMENT,
-  `activo` TINYINT NOT NULL,
-  `creado_el` TIMESTAMP NOT NULL,
-  `modificado_el` TIMESTAMP NULL DEFAULT NULL,
   `fk_sub_categoria` INT NOT NULL,
   `fk_solicitud` INT NOT NULL,
   PRIMARY KEY (`id`),
@@ -614,9 +611,6 @@ DROP TABLE IF EXISTS `mercadeoucab`.`tipo_solicitud` ;
 
 CREATE TABLE IF NOT EXISTS `mercadeoucab`.`tipo_solicitud` (
   `id` INT NOT NULL AUTO_INCREMENT,
-  `activo` TINYINT NOT NULL,
-  `creado_el` TIMESTAMP NOT NULL,
-  `modificado_el` TIMESTAMP NULL DEFAULT NULL,
   `fk_solicitud` INT NOT NULL,
   `fk_tipo` INT NOT NULL,
   PRIMARY KEY (`id`),

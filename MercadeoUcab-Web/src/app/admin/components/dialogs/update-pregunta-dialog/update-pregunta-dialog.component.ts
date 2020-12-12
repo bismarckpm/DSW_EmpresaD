@@ -1,7 +1,7 @@
 import { Component, Input, OnInit, TemplateRef, ViewChild } from '@angular/core';
 import { FormBuilder } from '@angular/forms';
 import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
-
+import { Pregunta } from '@models/pregunta';
 @Component({
   selector: 'app-update-pregunta-dialog',
   templateUrl: './update-pregunta-dialog.component.html',
@@ -15,6 +15,7 @@ export class UpdatePreguntaDialogComponent implements OnInit {
   private modalRef: NgbModalRef;
   constructor(private modalService: NgbModal,private formBuilder: FormBuilder){}
   @Input() _userSelection : number;
+  @Input() _pregunta : Pregunta;
 
   ngOnInit(): void {
     this.opStatus="S";

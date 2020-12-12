@@ -1,7 +1,12 @@
 <ng-template  #delLugar>
     <!---->
     <div class="modal-header">
-        <h4 class="modal-title" id="modal-basic-title">Eliminar lugar #{{_userSelection}}</h4>
+        <ng-container  [ngSwitch]="_tipo">
+                    <h4 *ngSwitchCase="'PA'">Eliminar País #{{_userSelection}}</h4>
+                    <h4 *ngSwitchCase="'ES'">Eliminar Estado #{{_userSelection}}</h4>
+                    <h4 *ngSwitchCase="'MU'">Eliminar Municipio #{{_userSelection}}</h4>
+                    <h4 *ngSwitchCase="'PR'">Eliminar Parroquía #{{_userSelection}}</h4>
+        </ng-container>
     </div>
     <div class="modal-body">
         <!--INFORMATIVO-->
@@ -17,7 +22,7 @@
             <div class="cForm-actions">
                 <button type="button" class="btn btn-danger" (click)="close()">Cancelar</button>
                 <mat-divider [vertical]="true" [inset]="true"></mat-divider>
-                <button type="button" class="btn btn-primary" (click)="invokeService()">Modificar</button>
+                <button type="button" class="btn btn-primary" (click)="invokeService(_userSelection,_tipo)">Eliminar</button>
             </div>
         </div>
         <div class="cForm" *ngIf="opStatus==='P'">
@@ -45,6 +50,20 @@
                     <mat-icon style="width: 7.5rem; height: 7.5rem;font-size:7.5rem;">
                         fact_check
                     </mat-icon>
+                </div>
+            </div>
+            <div class="cForm-actions">
+                <button type="button" class="btn btn-outline-dark" (click)="close()">Continuar</button>
+            </div>
+        </div>
+        <div class="cForm" *ngIf="opStatus==='E'">
+            <div class="cForm-field-row">
+                <div class="cForm-field-col" style="justify-content:center;align-items: center;">
+                    <h3>Ha ocurrido un error</h3>
+                    <mat-icon style="width: 7.5rem; height: 7.5rem;font-size:7.5rem;">
+                        report_problem
+                    </mat-icon>
+                    <h5>Su operación no pudo ser procesada</h5>
                 </div>
             </div>
             <div class="cForm-actions">

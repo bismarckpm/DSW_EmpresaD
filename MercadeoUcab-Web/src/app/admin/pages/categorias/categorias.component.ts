@@ -13,9 +13,10 @@ import { UpdCategoriaDialogComponent } from '../../components/dialogs/upd-catego
 export class CategoriasComponent implements OnInit {
   op:string;
   searchState:string;
+  opStatus:string;//S,P,D,E
   searchForm: FormGroup;
+  targetCategoria: Categoria;
   addForm:FormGroup;
-  updForm:FormGroup;
   categorias: Categoria [] = [];
   dataSource : MatTableDataSource<Categoria>;
   userSelection:number = 0;
@@ -38,6 +39,7 @@ export class CategoriasComponent implements OnInit {
     }
     else{
       this.searchState="U";
+      this.opStatus="S";
     }
   }
   constructor( 
@@ -48,25 +50,75 @@ export class CategoriasComponent implements OnInit {
   ngOnInit(): void {
     this.setOperation('');
     this.searchState="U";
+    this.opStatus="S";
+    this.addForm =  this.formBuilder.group({
+      nombre:null,
+    });
     this.searchForm = this.formBuilder.group({
       nombre:null,
       activo:null,
     });
   }
+  getCategorias(){
+    this._categoriaService.getCategorias().subscribe(
+      (response) => {
+        console.log(response);
+      },
+      (error) => {
+        console.log(error);
+      }
+    )
+  }
+  addCategoria(data){
+    this._categoriaService.createCategoria(data).subscribe(
+      (response) => {
+        console.log(response);
+        this.opStatus="D";
+      },
+      (error) => {
+        console.log(error);
+        this.opStatus="E";
+      }
+    )
+  }
+  serviceInvoke(){
+    this.opStatus="P";
+    this.addCategoria(this.addForm.value);
+    this.addForm = this.formBuilder.group({
+      nombre:null,
+    });
+  }
   invokeSearch(){
     this.searchState="P";
-    setTimeout(()=>{
-      //DATA SOURCE EDIT
+    this.categorias = [];
+    this.userSelection=0;
+    this._categoriaService.getCategorias().subscribe(
+      (response) => {
+        console.log(response);
+        this.categorias = response.data;
+        this.searchState="D";
+      },
+      (error) => {
+        console.log(error);
+        for (let i = 0; i < Math.floor(Math.random()*(100-1)+1); i++) {
+        this.categorias.push({
+         _id:Math.floor(Math.random()*(1000-1)+1),
+         nombre:Math.random().toString(36).substr(2, 5),
+         activo:true,
+         creado_el:new Date(),
+         modificado_el:new Date(),
+        });
+      }
       this.dataSource = new MatTableDataSource<Categoria>(this.dataFilter(this.categorias));
-  
-      this.searchState="D";
-    },3000);
+        this.searchState="D";
+      }
+    )
   }
   doSearch(){
     this.searchState="I";
   }
   dataFilter(dataArray:Categoria[]): Categoria[]{
-    console.log(this.searchForm.value);
+    //console.log(this.searchForm.value);
     let filtered: Categoria[] = [];
     dataArray.forEach((res,ind) => {
       let inc = true;
@@ -93,12 +145,14 @@ export class CategoriasComponent implements OnInit {
     console.log(dataArray,filtered);
     return filtered;
   }
-  selectUser(id: number){
+  selectUser(id: number,data:Categoria){
     if(id === this.userSelection){
       this.userSelection = 0;
+      this.targetCategoria=null;
     }
     else{
       this.userSelection=id;
+      this.targetCategoria=data;
     }
   }
   isSelected(id: number):boolean{

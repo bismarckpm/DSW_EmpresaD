@@ -11,6 +11,8 @@ export class DashboardComponent implements OnInit {
     private route: ActivatedRoute,
     private router: Router,
     ){}
+  
+  slideConfig = {"slidesToShow": 4, "slidesToScroll": 4};
 
   ngOnInit(): void {
   }

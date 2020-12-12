@@ -22,6 +22,8 @@ export class PreguntasComponent implements OnInit {
     
   op:string;
   searchState:string;
+  opStatus:string;//S,P,D,E
+  targetPregunta:Pregunta;
    //INDICE DE USUARIO SELECCIONADO
    userSelection:number = 0;
    searchForm: FormGroup;
@@ -37,10 +39,10 @@ export class PreguntasComponent implements OnInit {
     this.op=chOp;
     if(chOp !== ''){
       this.searchState='I';
-      console.log('I',chOp);
     }
     else{
       this.searchState='U';
+      this.opStatus="S";
     }
   }
   @ViewChild('delPregunta') private delComponent:DelPreguntaDialogComponent;
@@ -55,17 +57,20 @@ export class PreguntasComponent implements OnInit {
   ngOnInit(): void {
     this.setOperation('');
     this.searchState="U";
+    this.opStatus="S";
     this.searchForm = this.formBuilder.group({
       tipo:null,
       creado_el:null,
     });
   }
-  selectUser(id: number){
+  selectUser(id: number,data:Pregunta){
     if(id === this.userSelection){
       this.userSelection = 0;
+      this.targetPregunta=null;
     }
     else{
       this.userSelection=id;
+      this.targetPregunta=data;
     }
   }
   isSelected(id: number):boolean{
@@ -74,12 +79,44 @@ export class PreguntasComponent implements OnInit {
     }
     return false;
   }
+  addPregunta(data){
+    /*this._preguntaService.createPregunta(data).subscribe(
+      (response) => {
+        console.log(response);
+        this.opStatus="D";
+      },
+      (error) => {
+        console.log(error);
+        this.opStatus="E";
+      }
+    )*/
+  }
+  serviceInvoke(){
+    this.opStatus="P";
+    this.addPregunta(this.addForm.value);
+    this.addForm = this.formBuilder.group({
+      nombre:null,
+    });
+  }
   invokeSearch(){
+    this.preguntas = [];
+    this.userSelection=0;
     if(this.searchForm.value['creado_el'] !== null){
       this.searchForm.get('creado_el').setValue(new Date(this.searchForm.value['creado_el']));
     }
     this.searchState="P";
     setTimeout(()=>{
+      for (let i = 0; i < Math.floor(Math.random()*(100-1)+1); i++) {
+        this.preguntas.push({
+         _id:Math.floor(Math.random()*(1000-1)+1),
+         nombre_pregunta:Math.random().toString(36).substr(2, 10),
+         activo:true,
+         tipo:'',
+         rango:'',
+         creado_el:new Date(),
+         modificado_el:new Date(),
+        });
+      }
       this.dataSource = new MatTableDataSource<Pregunta>(this.dataFilter(this.preguntas));
       this.searchState="D";
     },3000);
