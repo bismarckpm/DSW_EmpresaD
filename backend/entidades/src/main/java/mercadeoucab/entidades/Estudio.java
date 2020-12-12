@@ -1,6 +1,8 @@
 package mercadeoucab.entidades;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name ="estudio")
@@ -26,6 +28,13 @@ public class Estudio extends EntidadBase{
     @ManyToOne
     @JoinColumn(name = "fk_muestra_poblacion")
     private MuestraPoblacion fk_muestra_poblacion;
+
+    @JoinTable(
+            name = "encuesta_estudio",
+            joinColumns = @JoinColumn(name = "fk_estudio", nullable = false),
+            inverseJoinColumns = @JoinColumn(name="fk_pregunta", nullable = false))
+    @ManyToMany()
+    private List<Pregunta> preguntas;
 
     public Estudio(long id) {
         super(id);
@@ -80,5 +89,19 @@ public class Estudio extends EntidadBase{
 
     public void setFk_muestra_poblacion(MuestraPoblacion fk_muestra_poblacion) {
         this.fk_muestra_poblacion = fk_muestra_poblacion;
+    }
+
+    public void addpregunta(Pregunta pregunta){
+        if(this.preguntas == null)
+            this.preguntas = new ArrayList<>();
+        this.preguntas.add(pregunta);
+    }
+
+    public List<Pregunta> getPreguntas() {
+        return preguntas;
+    }
+
+    public void setPreguntas(List<Pregunta> preguntas) {
+        this.preguntas = preguntas;
     }
 }
