@@ -10,7 +10,6 @@ public class DtoPregunta extends DtoBase{
     private String tipo;
     private String rango;
     private DtoUsuario usuarioDto;
-    private  DtoEstudio estudio;
 
     public DtoPregunta(){}
 
@@ -32,12 +31,5 @@ public class DtoPregunta extends DtoBase{
     }
     public void setUsuarioDto(DtoUsuario usuarioDto) {
         this.usuarioDto = usuarioDto;
-    }
-
-    public DtoEstudio getEstudio() {
-        return estudio;
-    }
-    public void setEstudio(DtoEstudio estudio) {
-        this.estudio = estudio;
     }
 }

@@ -122,7 +122,9 @@ public class ServicioSubCategoria extends AplicacionBase{
                     .add("status", 200)
                     .add("mensaje", "SUbcategoria creado con exito")
                     .build();
-            resultado = Response.status(Response.Status.OK).entity(data).build();
+            resultado = Response.status(Response.Status.OK)
+                                .entity(data)
+                                .build();
         }catch (Exception e) {
             String problema = e.getMessage();
             data = Json.createObjectBuilder()
