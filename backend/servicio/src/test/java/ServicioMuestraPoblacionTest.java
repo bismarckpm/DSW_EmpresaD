@@ -24,8 +24,8 @@ public class ServicioMuestraPoblacionTest {
         dtoMuestraPoblacion.setFk_lugar(dtoParroquia);
         DtoOcupacion dtoOcupacion = new DtoOcupacion();
         dtoOcupacion.setNombre("Maestro");
-        ServicioOcupacion servicioOcupacion = new ServicioOcupacion();
-        DtoOcupacion ocupacion = servicioOcupacion.registrarOcupacion(dtoOcupacion);
+
+        DtoOcupacion ocupacion = new DtoOcupacion(1);
         dtoMuestraPoblacion.setDtoOcupacion(ocupacion);
 
         MuestraPoblacion resultado = servicio.registrarMuestraPoblacion(dtoMuestraPoblacion);
@@ -52,8 +52,7 @@ public class ServicioMuestraPoblacionTest {
         dtoMuestraPoblacion.setFk_lugar(dtoParroquia);
         DtoOcupacion dtoOcupacion = new DtoOcupacion();
         dtoOcupacion.setNombre("Maestro");
-        ServicioOcupacion servicioOcupacion = new ServicioOcupacion();
-        DtoOcupacion ocupacion = servicioOcupacion.registrarOcupacion(dtoOcupacion);
+        DtoOcupacion ocupacion = new DtoOcupacion(1);
         dtoMuestraPoblacion.setDtoOcupacion(ocupacion);
         MuestraPoblacion consultar = servicio.registrarMuestraPoblacion(dtoMuestraPoblacion);
         MuestraPoblacion consultado = servicio.consultarMuestraPoblacion(consultar.get_id());
@@ -73,8 +72,7 @@ public class ServicioMuestraPoblacionTest {
         dtoMuestraPoblacion.setFk_lugar(dtoParroquia);
         DtoOcupacion dtoOcupacion = new DtoOcupacion();
         dtoOcupacion.setNombre("Maestro");
-        ServicioOcupacion servicioOcupacion = new ServicioOcupacion();
-        DtoOcupacion ocupacion = servicioOcupacion.registrarOcupacion(dtoOcupacion);
+        DtoOcupacion ocupacion = new DtoOcupacion(1);
         dtoMuestraPoblacion.setDtoOcupacion(ocupacion);
         MuestraPoblacion eliminar = servicio.registrarMuestraPoblacion(dtoMuestraPoblacion);
         MuestraPoblacion eliminado = servicio.eliminarMuestraPoblacion(eliminar.get_id());
@@ -94,8 +92,7 @@ public class ServicioMuestraPoblacionTest {
         dtoMuestraPoblacion.setFk_lugar(dtoParroquia);
         DtoOcupacion dtoOcupacion = new DtoOcupacion();
         dtoOcupacion.setNombre("Maestro");
-        ServicioOcupacion servicioOcupacion = new ServicioOcupacion();
-        DtoOcupacion ocupacion = servicioOcupacion.registrarOcupacion(dtoOcupacion);
+        DtoOcupacion ocupacion = new DtoOcupacion(1);
         dtoMuestraPoblacion.setDtoOcupacion(ocupacion);
         MuestraPoblacion actualizar = servicio.registrarMuestraPoblacion(dtoMuestraPoblacion);
         dtoMuestraPoblacion.setRangoEdadInicio(30);
