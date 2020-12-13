@@ -37,11 +37,13 @@ public class ServicioPregunta extends AplicacionBase{
                 if(pregunta.getActivo() == 1){
                     JsonArrayBuilder listaOpcion = Json.createArrayBuilder();
                     for ( Opcion opcion: pregunta.getOpciones()){
-                        JsonObject objetoOpcion = Json.createObjectBuilder()
-                                                        .add("_id", opcion.get_id())
-                                                        .add("nombre", opcion.getNombre_opcion())
-                                                        .build();
-                        listaOpcion.add( objetoOpcion);
+                        if( opcion.getActivo() != 0 ) {
+                            JsonObject objetoOpcion = Json.createObjectBuilder()
+                                    .add("_id", opcion.get_id())
+                                    .add("nombre", opcion.getNombre_opcion())
+                                    .build();
+                            listaOpcion.add(objetoOpcion);
+                        }
                     }
                     JsonObject objeto = Json.createObjectBuilder()
                                             .add("_id", pregunta.get_id())
@@ -134,11 +136,13 @@ public class ServicioPregunta extends AplicacionBase{
             if ( resul.getActivo() != 0) {
                 JsonArrayBuilder listaOpcion = Json.createArrayBuilder();
                 for ( Opcion opcion: resul.getOpciones()){
-                    JsonObject objetoOpcion = Json.createObjectBuilder()
-                            .add("_id", opcion.get_id())
-                            .add("nombre", opcion.getNombre_opcion())
-                            .build();
-                    listaOpcion.add( objetoOpcion);
+                    if( opcion.getActivo() != 0 ) {
+                        JsonObject objetoOpcion = Json.createObjectBuilder()
+                                .add("_id", opcion.get_id())
+                                .add("nombre", opcion.getNombre_opcion())
+                                .build();
+                        listaOpcion.add(objetoOpcion);
+                    }
                 }
                 pregunta = Json.createObjectBuilder()
                         .add("_id", resul.get_id())
