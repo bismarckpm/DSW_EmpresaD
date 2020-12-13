@@ -51,6 +51,12 @@ public class DatoEncuestado extends EntidadBase{
     @ManyToMany()
     private List<Ocupacion> ocupaciones;
 
+    @OneToMany( mappedBy = "datoEncuestado", fetch = FetchType.LAZY, cascade = CascadeType.PERSIST )
+    private List<Telefono> telefonos = new ArrayList<>();
+
+    @OneToMany( mappedBy = "datoEncuestado", fetch = FetchType.LAZY, cascade = CascadeType.PERSIST )
+    private List<Hijo> hijos = new ArrayList<>();
+
     public DatoEncuestado(String segundoNombre, String segundoapellido, String cedula, String medioConexion, Date edad, String genero, int nive_economico, String nivelAcademico, int personasHogar) {
         this.segundoNombre = segundoNombre;
         this.segundoapellido = segundoapellido;
@@ -62,8 +68,6 @@ public class DatoEncuestado extends EntidadBase{
         this.nivelAcademico = nivelAcademico;
         this.personasHogar = personasHogar;
     }
-
-
 
     public DatoEncuestado(long id) {
         super(id);
@@ -160,9 +164,44 @@ public class DatoEncuestado extends EntidadBase{
         this.usuario = usuario;
     }
 
+    public List<Ocupacion> getOcupaciones() {
+        return ocupaciones;
+    }
+
+    public void setOcupaciones(List<Ocupacion> ocupaciones) {
+        this.ocupaciones = ocupaciones;
+    }
+
+    public List<Telefono> getTelefonos() {
+        return telefonos;
+    }
+
+    public void setTelefonos(List<Telefono> telefonos) {
+        this.telefonos = telefonos;
+    }
+
+    public List<Hijo> getHijos() {
+        return hijos;
+    }
+
+    public void setHijos(List<Hijo> hijos) {
+        this.hijos = hijos;
+    }
+
     public void addOcupacion(Ocupacion ocupacion){
         if(this.ocupaciones == null)
             this.ocupaciones = new ArrayList<>();
         this.ocupaciones.add(ocupacion);
     }
+
+    public void addTelefono(Telefono telefono){
+        this.telefonos.add(telefono);
+        telefono.setDatoEncuestado( this);
+    }
+
+    public void addHijo(Hijo hijo){
+        this.hijos.add( hijo);
+        hijo.setDatoEncuestado( this);
+    }
+
 }
