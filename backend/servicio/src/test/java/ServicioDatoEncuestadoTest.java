@@ -16,7 +16,7 @@ public class ServicioDatoEncuestadoTest {
         ServicioDatoEncuestado servicioDato = new ServicioDatoEncuestado();
         DtoDatoEncuestado datoEncuestado = new DtoDatoEncuestado("Concepcion",
                                                     "arevalo",
-                                                    "5000",
+                                                    "50636",
                                                     "laptop",
                                                     Date.valueOf("1997-02-28"),
                                                     "masculino",
@@ -28,12 +28,22 @@ public class ServicioDatoEncuestadoTest {
         DtoOcupacion dtoOcupacion = new DtoOcupacion(1);
         datoEncuestado.setOcupacion(dtoOcupacion);
         List<DtoTelefono> telefonos = new ArrayList<>();
-        telefonos.add( new DtoTelefono(1));
-        telefonos.add( new DtoTelefono(2));
+        DtoTelefono telefono1 = new DtoTelefono();
+        telefono1.setTelefono("20123654");
+        DtoTelefono telefono2 = new DtoTelefono();
+        telefono2.setTelefono("8585858585");
+        telefonos.add( telefono1);
+        telefonos.add( telefono2);
         datoEncuestado.setTelefonos( telefonos);
         List<DtoHijo> hijos = new ArrayList<>();
-        hijos.add( new DtoHijo(1));
-        hijos.add( new DtoHijo( 2));
+        DtoHijo hijo1 = new DtoHijo();
+        hijo1.setEdad( new Date(Calendar.getInstance().getTime().getTime()));
+        hijo1.setGenero("masculino");
+        DtoHijo hijo2 = new DtoHijo();
+        hijo2.setEdad( new Date(Calendar.getInstance().getTime().getTime()));
+        hijo2.setGenero("masculino");
+        hijos.add( hijo1);
+        hijos.add( hijo2);
         datoEncuestado.setHijos( hijos);
         Response resultado = servicioDato.registrarDatoEncuestado(datoEncuestado);
         Assert.assertEquals(

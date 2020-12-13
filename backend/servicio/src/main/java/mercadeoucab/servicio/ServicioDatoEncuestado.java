@@ -155,11 +155,18 @@ public class ServicioDatoEncuestado extends AplicacionBase{
             Ocupacion ocupacion = new Ocupacion(dtoDatoEncuestado.getOcupacion().get_id());
             datoEncuestado.addOcupacion( ocupacion );
             for ( DtoTelefono telefono: dtoDatoEncuestado.getTelefonos()){
-                Telefono paraInsertar = new Telefono(telefono.get_id());
+                Telefono paraInsertar = new Telefono();
+                paraInsertar.setTelefono( telefono.getTelefono());
+                paraInsertar.setActivo( 1);
+                paraInsertar.setCreado_el( new Date(Calendar.getInstance().getTime().getTime()));
                 datoEncuestado.addTelefono( paraInsertar);
             }
             for (DtoHijo hijo: dtoDatoEncuestado.getHijos()){
-                Hijo paraInsertar = new Hijo(hijo.get_id());
+                Hijo paraInsertar = new Hijo();
+                paraInsertar.setEdad( hijo.getEdad());
+                paraInsertar.setGenero( hijo.getGenero());
+                paraInsertar.setActivo( 1);
+                paraInsertar.setCreado_el( new Date(Calendar.getInstance().getTime().getTime()));
                 datoEncuestado.addHijo( paraInsertar);
             }
             DatoEncuestado resul = dao.insert(datoEncuestado);
