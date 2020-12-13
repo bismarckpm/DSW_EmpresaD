@@ -6,8 +6,11 @@ import mercadeoucab.entidades.MuestraPoblacion;
 import mercadeoucab.entidades.Ocupacion;
 import mercadeoucab.entidades.Parroquia;
 
+import javax.json.Json;
+import javax.json.JsonObject;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
 import java.sql.Date;
 import java.util.Calendar;
 import java.util.List;
@@ -26,8 +29,9 @@ public class ServicioMuestraPoblacion extends AplicacionBase{
 
     @POST
     @Path("/")
-    public  MuestraPoblacion registrarMuestraPoblacion(DtoMuestraPoblacion dtoMuestraPoblacion){
-        MuestraPoblacion resultado = new MuestraPoblacion();
+    public  Response registrarMuestraPoblacion(DtoMuestraPoblacion dtoMuestraPoblacion){
+        JsonObject data;
+        Response resultado = null;
         try {
             DaoMuestraPoblacion dao = new DaoMuestraPoblacion();
             MuestraPoblacion muestraPoblacion = new MuestraPoblacion();
@@ -43,10 +47,24 @@ public class ServicioMuestraPoblacion extends AplicacionBase{
             muestraPoblacion.setFk_lugar(parroquia);
             Ocupacion ocupacion = new Ocupacion(dtoMuestraPoblacion.getDtoOcupacion().get_id());
             muestraPoblacion.addOcupacion(ocupacion);
-            resultado = dao.insert(muestraPoblacion);
+            MuestraPoblacion resul = dao.insert(muestraPoblacion);
+            data = Json.createObjectBuilder()
+                    .add("status", 200)
+                    .add("mensaje","Muestra registrada con exito")
+                    .build();
+            resultado = Response.status(Response.Status.OK)
+                    .entity(data)
+                    .build();
         }
         catch (Exception e){
             String problema = e.getMessage();
+            data = Json.createObjectBuilder()
+                    .add("status", 400)
+                    .add("problema", problema)
+                    .build();
+            resultado = Response.status(Response.Status.BAD_REQUEST)
+                    .entity(data)
+                    .build();
         }
         return resultado;
     }
@@ -60,14 +78,22 @@ public class ServicioMuestraPoblacion extends AplicacionBase{
 
     @PUT
     @Path("/eliminar/{id}")
-    public MuestraPoblacion eliminarMuestraPoblacion(@PathParam("id") long id){
-        MuestraPoblacion resultado = new MuestraPoblacion();
+    public Response eliminarMuestraPoblacion(@PathParam("id") long id){
+        JsonObject data;
+        Response resultado = null;
         try {
             DaoMuestraPoblacion dao = new DaoMuestraPoblacion();
             MuestraPoblacion muestraPoblacion = dao.find(id, MuestraPoblacion.class);
             muestraPoblacion.setActivo(0);
             muestraPoblacion.setModificado_el(new Date(Calendar.getInstance().getTime().getTime()));
-            resultado = dao.update(muestraPoblacion);
+            MuestraPoblacion resul = dao.update(muestraPoblacion);
+            data = Json.createObjectBuilder()
+                    .add("status", 200)
+                    .add("mensaje","Muestra eliminada con exito")
+                    .build();
+            resultado = Response.status(Response.Status.OK)
+                    .entity(data)
+                    .build();
         }
         catch (Exception e){
             String problema = e.getMessage();
@@ -77,8 +103,9 @@ public class ServicioMuestraPoblacion extends AplicacionBase{
 
     @PUT
     @Path("/{id}")
-    public MuestraPoblacion actualizarMuestraPoblacion(@PathParam("id") long id, DtoMuestraPoblacion dtoMuestraPoblacion){
-        MuestraPoblacion resultado = new MuestraPoblacion();
+    public Response actualizarMuestraPoblacion(@PathParam("id") long id, DtoMuestraPoblacion dtoMuestraPoblacion){
+        JsonObject data;
+        Response resultado = null;
         try {
             DaoMuestraPoblacion dao = new DaoMuestraPoblacion();
             MuestraPoblacion muestraPoblacion = dao.find(id, MuestraPoblacion.class);
@@ -89,10 +116,24 @@ public class ServicioMuestraPoblacion extends AplicacionBase{
             muestraPoblacion.setNivelEconomico(dtoMuestraPoblacion.getNivelEconomico());
             muestraPoblacion.setRangoEdadInicio(dtoMuestraPoblacion.getRangoEdadInicio());
             muestraPoblacion.setRangoEdadFin(dtoMuestraPoblacion.getRangoEdadFin());
-            resultado = dao.update(muestraPoblacion);
+            MuestraPoblacion resul = dao.update(muestraPoblacion);
+            data = Json.createObjectBuilder()
+                    .add("status", 200)
+                    .add("mensaje","Muestra actualizada con exito")
+                    .build();
+            resultado = Response.status(Response.Status.OK)
+                    .entity(data)
+                    .build();
         }
         catch (Exception e){
             String problema = e.getMessage();
+            data = Json.createObjectBuilder()
+                    .add("status", 400)
+                    .add("problema", problema)
+                    .build();
+            resultado = Response.status(Response.Status.BAD_REQUEST)
+                    .entity(data)
+                    .build();
         }
         return resultado;
     }
