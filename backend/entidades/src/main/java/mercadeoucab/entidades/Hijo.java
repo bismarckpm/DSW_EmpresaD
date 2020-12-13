@@ -15,10 +15,18 @@ public class Hijo extends EntidadBase{
 
     @ManyToOne
     @JoinColumn( name = "fk_dato_encuestado")
-    private DatoEncuestado fk_dato_encuestado;
+    private DatoEncuestado datoEncuestado;
 
     public Hijo(long id) {
         super(id);
+    }
+
+    public DatoEncuestado getDatoEncuestado() {
+        return datoEncuestado;
+    }
+
+    public void setDatoEncuestado(DatoEncuestado datoEncuestado) {
+        this.datoEncuestado = datoEncuestado;
     }
 
     public Hijo() {
@@ -40,11 +48,4 @@ public class Hijo extends EntidadBase{
         this.edad = edad;
     }
 
-    public DatoEncuestado getFk_dato_encuestado() {
-        return fk_dato_encuestado;
-    }
-
-    public void setFk_dato_encuestado(DatoEncuestado fk_dato_encuestado) {
-        this.fk_dato_encuestado = fk_dato_encuestado;
-    }
 }

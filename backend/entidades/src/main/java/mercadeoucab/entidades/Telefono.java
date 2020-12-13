@@ -10,7 +10,7 @@ public class Telefono extends EntidadBase{
     private String telefono;
 
     @ManyToOne
-    @JoinColumn(name = "fk_dato_encuestado")
+    @JoinColumn( name = "fk_dato_encuestado")
     private DatoEncuestado datoEncuestado;
 
     public Telefono(long id) {
@@ -20,19 +20,19 @@ public class Telefono extends EntidadBase{
     public Telefono() {
     }
 
-    public String getTelefono() {
-        return telefono;
-    }
-
-    public void setTelefono(String telefono) {
-        this.telefono = telefono;
-    }
-
     public DatoEncuestado getDatoEncuestado() {
         return datoEncuestado;
     }
 
     public void setDatoEncuestado(DatoEncuestado datoEncuestado) {
         this.datoEncuestado = datoEncuestado;
+    }
+
+    public String getTelefono() {
+        return telefono;
+    }
+
+    public void setTelefono(String telefono) {
+        this.telefono = telefono;
     }
 }

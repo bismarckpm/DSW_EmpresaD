@@ -3,8 +3,9 @@ import mercadeoucab.entidades.*;
 import mercadeoucab.servicio.*;
 import org.junit.Assert;
 import org.junit.Test;
-
+import javax.ws.rs.core.Response;
 import java.sql.Date;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
@@ -23,26 +24,42 @@ public class ServicioDatoEncuestadoTest {
                                                     "universitario",
                                                     5);
         datoEncuestado.setFk_lugar(new DtoParroquia(1));
-        ServicioUsuario servicioUsuario = new ServicioUsuario();
         datoEncuestado.setUsuario(new DtoUsuario( 1));
         DtoOcupacion dtoOcupacion = new DtoOcupacion(1);
         datoEncuestado.setOcupacion(dtoOcupacion);
-        DatoEncuestado resultado = servicioDato.registrarDatoEncuestado(datoEncuestado);
-        Assert.assertNotEquals(0 , resultado.get_id());
+        List<DtoTelefono> telefonos = new ArrayList<>();
+        telefonos.add( new DtoTelefono(1));
+        telefonos.add( new DtoTelefono(2));
+        datoEncuestado.setTelefonos( telefonos);
+        List<DtoHijo> hijos = new ArrayList<>();
+        hijos.add( new DtoHijo(1));
+        hijos.add( new DtoHijo( 2));
+        datoEncuestado.setHijos( hijos);
+        Response resultado = servicioDato.registrarDatoEncuestado(datoEncuestado);
+        Assert.assertEquals(
+                Response.Status.OK.getStatusCode(),
+                resultado.getStatus()
+        );
     }
 
     @Test
     public void consultarDatoEncuestadoTest() throws Exception{
         ServicioDatoEncuestado servicioDato = new ServicioDatoEncuestado();
-        DatoEncuestado consultado = servicioDato.consultarDatoEncuestado(1);
-        Assert.assertEquals(1, consultado.get_id());
+        Response resultado = servicioDato.consultarDatoEncuestado(1);
+        Assert.assertEquals(
+                Response.Status.OK.getStatusCode(),
+                resultado.getStatus()
+        );
     }
 
     @Test
     public void listarDatoEncuestadoTest() throws Exception{
         ServicioDatoEncuestado servicioDato = new ServicioDatoEncuestado();
-        List<DatoEncuestado> datoEncuestados = servicioDato.listarDatosEncuestado();
-        Assert.assertNotNull(datoEncuestados);
+        Response resultado = servicioDato.listarDatosEncuestado();
+        Assert.assertEquals(
+                Response.Status.OK.getStatusCode(),
+                resultado.getStatus()
+        );
     }
 
     @Test
@@ -61,15 +78,21 @@ public class ServicioDatoEncuestadoTest {
         datoEncuestado.setUsuario(new DtoUsuario(1));
         DtoOcupacion dtoOcupacion = new DtoOcupacion(1);
         datoEncuestado.setOcupacion(dtoOcupacion);
-        DatoEncuestado actualizado = servicioDato.actualizarDatoEncuestado(1, datoEncuestado);
-        Assert.assertNotNull(actualizado.getModificado_el());
+        Response resultado = servicioDato.actualizarDatoEncuestado(1, datoEncuestado);
+        Assert.assertEquals(
+                Response.Status.OK.getStatusCode(),
+                resultado.getStatus()
+        );
     }
 
     @Test
     public void eliminarDatoEncuestadoTest() throws Exception{
         ServicioDatoEncuestado servicioDato = new ServicioDatoEncuestado();
-        DatoEncuestado eliminado = servicioDato.eliminarDatoEncuestado( (long)1);
-        Assert.assertNotNull(eliminado.getModificado_el());
+        Response resultado = servicioDato.eliminarDatoEncuestado( (long)1);
+        Assert.assertEquals(
+                Response.Status.OK.getStatusCode(),
+                resultado.getStatus()
+        );
     }
 
 
