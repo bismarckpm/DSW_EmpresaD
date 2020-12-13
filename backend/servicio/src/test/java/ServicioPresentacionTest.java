@@ -4,6 +4,7 @@ import mercadeoucab.servicio.ServicioPresentacion;
 import org.junit.Assert;
 import org.junit.Test;
 
+import javax.ws.rs.core.Response;
 import java.util.List;
 
 public class ServicioPresentacionTest {
@@ -14,54 +15,41 @@ public class ServicioPresentacionTest {
         DtoPresentacion DTOP= new DtoPresentacion();
         DTOP.setTipo("volumen");
         DTOP.setCantidad("1000 L");
-        DTOP.setActivo(1);
-        DtoPresentacion resultado = servicio.registrarPresentacion( DTOP);
-        Assert.assertNotEquals(resultado.get_id(), 0);
+        Response resultado = servicio.registrarPresentacion( DTOP);
+        Assert.assertEquals(200, resultado.getStatus());
     }
 
     @Test
     public void actualizarPresentacionTest() throws Exception {
         ServicioPresentacion servicio = new ServicioPresentacion();
-        DtoPresentacion DTOP = new DtoPresentacion();
-        DTOP.setActivo(1);
+        DtoPresentacion DTOP = new DtoPresentacion(1);
         DTOP.setCantidad("1000 L");
         DTOP.setTipo("volumen");
-        DtoPresentacion paraActualizar = servicio.registrarPresentacion( DTOP);
-        paraActualizar.setCantidad("500 Litros");
-        DtoPresentacion resultado = servicio.actualizarPresentacion( paraActualizar);
-        Assert.assertNotEquals(resultado.get_id(), 0);
+        Response resultado = servicio.actualizarPresentacion( DTOP.get_id(), DTOP);
+        Assert.assertEquals(200, resultado.getStatus());
     }
 
     @Test
     public void eliminarPresentacionTest() throws Exception {
         ServicioPresentacion servicio = new ServicioPresentacion();
-        DtoPresentacion DTOP = new DtoPresentacion();
-        DTOP.setActivo(1);
-        DTOP.setCantidad("2000 L");
-        DTOP.setTipo("volumen");
-        DtoPresentacion paraEliminar = servicio.registrarPresentacion( DTOP);
-        DtoPresentacion resultado = servicio.eliminarPresentacion(paraEliminar.get_id());
-        Assert.assertNotEquals(resultado.get_id(), 0);
+        DtoPresentacion DTOP = new DtoPresentacion(1);
+        Response resultado = servicio.eliminarPresentacion(DTOP.get_id());
+        Assert.assertEquals(200, resultado.getStatus());
     }
 
     @Test
-    public void obtenerPresentacionTest(){
+    public void obtenerPresentacionTest() throws Exception{
         ServicioPresentacion servicio = new ServicioPresentacion();
-        DtoPresentacion DTOP = new DtoPresentacion();
-        DTOP.setActivo(1);
-        DTOP.setCantidad("2000 L");
-        DTOP.setTipo("volumen");
-        DtoPresentacion paraConsultar = servicio.registrarPresentacion( DTOP);
-        DtoPresentacion resultado = servicio.obtenerPresentacion(paraConsultar.get_id());
-        System.out.println(resultado.getTipo());
-        Assert.assertNotEquals(resultado.get_id(), 0);
+        DtoPresentacion DTOP = new DtoPresentacion(1);
+        Response resultado = servicio.obtenerPresentacion(DTOP.get_id());
+        Assert.assertEquals(200, resultado.getStatus());
     }
 
     @Test
-    public void obtenerListaPresentacionTest(){
+    public void obtenerListaPresentacionTest() throws Exception{
         ServicioPresentacion servicio = new ServicioPresentacion();
-        List<Presentacion> LDTOP= servicio.listarPresentacion();
-        Assert.assertNotNull(LDTOP);
+        Response LDTOP= servicio.listarPresentacion();
+        Assert.assertEquals(200, LDTOP.getStatus());
     }
 
 }
