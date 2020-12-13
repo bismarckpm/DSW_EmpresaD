@@ -13,7 +13,7 @@ public class Hijo extends EntidadBase{
     @Column(name = "edad")
     private Date edad;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn( name = "fk_dato_encuestado")
     private DatoEncuestado datoEncuestado;
 

@@ -9,7 +9,7 @@ public class Telefono extends EntidadBase{
     @Column( name = "telefono")
     private String telefono;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn( name = "fk_dato_encuestado")
     private DatoEncuestado datoEncuestado;
 

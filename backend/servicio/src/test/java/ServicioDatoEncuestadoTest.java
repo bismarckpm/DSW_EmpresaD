@@ -16,7 +16,7 @@ public class ServicioDatoEncuestadoTest {
         ServicioDatoEncuestado servicioDato = new ServicioDatoEncuestado();
         DtoDatoEncuestado datoEncuestado = new DtoDatoEncuestado("Concepcion",
                                                     "arevalo",
-                                                    "50636",
+                                                    "745636222",
                                                     "laptop",
                                                     Date.valueOf("1997-02-28"),
                                                     "masculino",
@@ -24,7 +24,7 @@ public class ServicioDatoEncuestadoTest {
                                                     "universitario",
                                                     5);
         datoEncuestado.setFk_lugar(new DtoParroquia(1));
-        datoEncuestado.setUsuario(new DtoUsuario( 1));
+        datoEncuestado.setUsuario(new DtoUsuario( 2));
         DtoOcupacion dtoOcupacion = new DtoOcupacion(1);
         datoEncuestado.setOcupacion(dtoOcupacion);
         List<DtoTelefono> telefonos = new ArrayList<>();

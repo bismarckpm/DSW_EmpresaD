@@ -196,10 +196,12 @@ public class DatoEncuestado extends EntidadBase{
 
     public void addTelefono(Telefono telefono){
         this.telefonos.add(telefono);
+        telefono.setDatoEncuestado( this);
     }
 
     public void addHijo(Hijo hijo){
         this.hijos.add( hijo);
+        hijo.setDatoEncuestado( this);
     }
 
 }
