@@ -5,8 +5,12 @@ import mercadeoucab.dtos.DtoSubCategoria;
 import mercadeoucab.entidades.Categoria;
 import mercadeoucab.entidades.SubCategoria;
 
+import javax.json.Json;
+import javax.json.JsonArrayBuilder;
+import javax.json.JsonObject;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
 import java.sql.Date;
 import java.util.Calendar;
 import java.util.List;
@@ -18,29 +22,86 @@ public class ServicioSubCategoria extends AplicacionBase{
 
     @GET
     @Path("/{id}")
-    public DtoSubCategoria  obtenerSubCategoria(@PathParam("id") Long id){
-        DtoSubCategoria resultado = new DtoSubCategoria();
+    public Response obtenerSubCategoria(@PathParam("id") Long id){
+        JsonObject data;
+        JsonObject subcategoria;
+        Response resultado = null;
         try{
             DaoSubCategoria dao = new DaoSubCategoria();
             SubCategoria resul = dao.find( id, SubCategoria.class);
-            resultado.set_id( resul.get_id());
+            subcategoria = Json.createObjectBuilder()
+                                .add("_id", resul.get_id())
+                                .add("nombre", resul.getNombre())
+                                .add("categoria", Json.createObjectBuilder()
+                                                         .add("_id",resul.getCategoria().get_id())
+                                                         .add("nombre", resul.getCategoria().getNombre()))
+                                .build();
+            data = Json.createObjectBuilder()
+                    .add("status", 200)
+                    .add("data", subcategoria)
+                    .build();
+            resultado = Response.status(Response.Status.OK)
+                    .entity(data)
+                    .build();
+
         }catch (Exception e) {
             String problema = e.getMessage();
+            data = Json.createObjectBuilder()
+                    .add("status", 400)
+                    .add("problema", problema)
+                    .build();
+            resultado = Response.status(Response.Status.BAD_REQUEST)
+                    .entity(data)
+                    .build();
         }
         return resultado;
     }
 
     @GET
     @Path("/")
-    public List<SubCategoria> listarSubCategoria(){
+    public Response listarSubCategoria(){
+        JsonObject data;
+        JsonArrayBuilder subcategoriasList = Json.createArrayBuilder();
+        Response resultado = null;
+        try {
             DaoSubCategoria dao = new DaoSubCategoria();
-           return dao.findAll( SubCategoria.class);
+            List<SubCategoria> subCategorias = dao.findAll(SubCategoria.class);
+            for(SubCategoria subCategoria: subCategorias){
+                if(subCategoria.getActivo() == 1){
+                    JsonObject objeto = Json.createObjectBuilder()
+                                            .add("_id", subCategoria.get_id())
+                                            .add("nombre", subCategoria.getNombre())
+                                            .add("categoria", Json.createObjectBuilder()
+                                                    .add("_id",subCategoria.getCategoria().get_id())
+                                                    .add("nombre", subCategoria.getCategoria().getNombre()))
+                                            .build();
+                    subcategoriasList.add(objeto);
+                }
+            }
+            data = Json.createObjectBuilder()
+                    .add("status", 200)
+                    .add("data", subcategoriasList)
+                    .build();
+            resultado = Response.status(Response.Status.OK)
+                    .entity(data)
+                    .build();
+        }
+        catch (Exception e){
+            String problema = e.getMessage();
+            data = Json.createObjectBuilder()
+                    .add("status", 400)
+                    .add("mensaje",problema)
+                    .build();
+            resultado = Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(data).build();
+        }
+        return  resultado;
     }
 
     @POST
     @Path("/")
-    public DtoSubCategoria  registrarSubCategoria(DtoSubCategoria dtoSubCategoria){
-        DtoSubCategoria resultado = new DtoSubCategoria();
+    public Response  registrarSubCategoria(DtoSubCategoria dtoSubCategoria){
+        JsonObject data;
+        Response resultado = null;
         try{
             DaoSubCategoria dao = new DaoSubCategoria();
             SubCategoria subCategoria = new SubCategoria();
@@ -57,17 +118,29 @@ public class ServicioSubCategoria extends AplicacionBase{
                             .getTime())
             );
             SubCategoria resul = dao.insert( subCategoria);
-            resultado.set_id( resul.get_id());
+            data = Json.createObjectBuilder()
+                    .add("status", 200)
+                    .add("mensaje", "SUbcategoria creado con exito")
+                    .build();
+            resultado = Response.status(Response.Status.OK)
+                                .entity(data)
+                                .build();
         }catch (Exception e) {
             String problema = e.getMessage();
+            data = Json.createObjectBuilder()
+                    .add("status", 400)
+                    .add("mensaje",problema)
+                    .build();
+            resultado = Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(data).build();
         }
         return resultado;
     }
 
     @PUT
     @Path("/{id}")
-    public DtoSubCategoria  actualizarSubCategoria(@PathParam("id") Long id,DtoSubCategoria dtoSubCategoria){
-        DtoSubCategoria resultado = new DtoSubCategoria();
+    public Response  actualizarSubCategoria(@PathParam("id") Long id,DtoSubCategoria dtoSubCategoria){
+        JsonObject data;
+        Response resultado = null;
         try{
             DaoSubCategoria dao = new DaoSubCategoria();
             SubCategoria subCategoria = dao.find( id, SubCategoria.class);
@@ -79,17 +152,32 @@ public class ServicioSubCategoria extends AplicacionBase{
                             .getTime())
             );
             SubCategoria resul = dao.update( subCategoria);
-            resultado.set_id( resul.get_id());
-        }catch (Exception e) {
+            data = Json.createObjectBuilder()
+                    .add("status", 200)
+                    .add("mensaje", "Subcategoria actualizado con exito")
+                    .build();
+            resultado = Response.status(Response.Status.OK)
+                    .entity(data)
+                    .build();
+        }
+        catch (Exception e) {
             String problema = e.getMessage();
+            data = Json.createObjectBuilder()
+                    .add("status", 400)
+                    .add("problema", problema)
+                    .build();
+            resultado = Response.status(Response.Status.BAD_REQUEST)
+                    .entity(data)
+                    .build();
         }
         return resultado;
     }
 
     @PUT
-    @Path("/{id}/eliminar")
-    public DtoSubCategoria  eliminarSubCategoria(@PathParam("id") Long id){
-        DtoSubCategoria resultado = new DtoSubCategoria();
+    @Path("/eliminar/{id}")
+    public Response  eliminarSubCategoria(@PathParam("id") Long id){
+        JsonObject data;
+        Response resultado = null;
         try{
             DaoSubCategoria dao = new DaoSubCategoria();
             SubCategoria subCategoria = dao.find( id, SubCategoria.class);
@@ -101,9 +189,22 @@ public class ServicioSubCategoria extends AplicacionBase{
                             .getTime())
             );
             SubCategoria resul = dao.update( subCategoria);
-            resultado.set_id( resul.get_id());
+            data = Json.createObjectBuilder()
+                    .add("status", 200)
+                    .add("mensaje", "Subcategoria eliminada con exito")
+                    .build();
+            resultado = Response.status(Response.Status.OK)
+                    .entity(data)
+                    .build();
         }catch (Exception e) {
             String problema = e.getMessage();
+            data = Json.createObjectBuilder()
+                    .add("status", 400)
+                    .add("problema", problema)
+                    .build();
+            resultado = Response.status(Response.Status.BAD_REQUEST)
+                    .entity(data)
+                    .build();
         }
         return resultado;
     }

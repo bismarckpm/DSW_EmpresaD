@@ -37,7 +37,7 @@ public class ServicioHijo {
             hijo.setActivo(1);
             hijo.setCreado_el(new Date(Calendar.getInstance().getTime().getTime()));
             DatoEncuestado datoEncuestado = new DatoEncuestado(dtoHijo.getFk_dato_encuestado().get_id());
-            hijo.setFk_dato_encuestado(datoEncuestado);
+            //hijo.setFk_dato_encuestado(datoEncuestado);
             resultado = dao.insert(hijo);
         }
         catch (Exception e){

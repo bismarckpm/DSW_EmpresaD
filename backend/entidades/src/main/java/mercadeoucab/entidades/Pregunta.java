@@ -21,12 +21,8 @@ public class Pregunta extends EntidadBase{
     @JoinColumn(name = "fk_usuario")
     private Usuario usuario;
 
-    @JoinTable(
-            name = "encuesta_estudio",
-            joinColumns = @JoinColumn(name = "fk_pregunta", nullable = false),
-            inverseJoinColumns = @JoinColumn(name="fk_estudio", nullable = false))
-    @ManyToMany()
-    private List<Estudio> estudios;
+    @OneToMany( mappedBy = "fk_pregunta", fetch = FetchType.LAZY, cascade = CascadeType.PERSIST )
+    private List<Opcion> opciones = new ArrayList<>();
 
     public Pregunta(long id) {
         super(id);
@@ -66,18 +62,16 @@ public class Pregunta extends EntidadBase{
     public void setUsuario(Usuario usuario) {
         this.usuario = usuario;
     }
-
-    public List<Estudio> getEstudios() {
-        return estudios;
+    public List<Opcion> getOpciones() {
+        return opciones;
     }
 
-    public void setEstudios(List<Estudio> estudios) {
-        this.estudios = estudios;
+    public void setOpciones(List<Opcion> opciones) {
+        this.opciones = opciones;
     }
 
-    public void addEstudio(Estudio estudio){
-        if(this.estudios == null)
-            this.estudios = new ArrayList<>();
-        this.estudios.add(estudio);
+    public void addOpcion(Opcion opcion){
+        this.opciones.add( opcion);
+        opcion.setFk_pregunta( this);
     }
 }

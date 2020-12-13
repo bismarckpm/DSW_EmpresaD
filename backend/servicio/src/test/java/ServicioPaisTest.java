@@ -4,6 +4,7 @@ import mercadeoucab.servicio.ServicioPais;
 import org.junit.Assert;
 import org.junit.Test;
 
+import javax.ws.rs.core.Response;
 import java.util.List;
 
 public class ServicioPaisTest {
@@ -13,48 +14,53 @@ public class ServicioPaisTest {
         ServicioPais servicio = new ServicioPais();
         DtoPais registro = new DtoPais();
         registro.setNombre("Venecosuela");
-        DtoPais resultado = servicio.agregarPais(registro);
-        DtoPais consulta = servicio.obtenerPais(resultado.get_id());
-        Assert.assertEquals(resultado.get_id(), consulta.get_id());
+        Response resultado = servicio.agregarPais(registro);
+        Assert.assertEquals(
+                javax.ws.rs.core.Response.Status.OK.getStatusCode(),
+                resultado.getStatus()
+        );
     }
 
     @Test
     public void actualizarPaisTest() throws Exception{
         ServicioPais servicio = new ServicioPais();
         DtoPais registro = new DtoPais();
-        registro.setNombre("Venezuela");
-        DtoPais resultado = servicio.agregarPais(registro);
-        DtoPais modificar = servicio.obtenerPais(resultado.get_id());
-        modificar.setNombre("modificado");
-        DtoPais modificado = servicio.actualizarPais(modificar.get_id(), modificar);
-        Assert.assertEquals(modificado.get_id() , modificar.get_id());
+        registro.setNombre("modificado");
+        Response resultado = servicio.actualizarPais(1, registro);
+        Assert.assertEquals(
+                javax.ws.rs.core.Response.Status.OK.getStatusCode(),
+                resultado.getStatus()
+        );
     }
 
     @Test
     public void eliminarPaisTest() throws Exception{
         ServicioPais servicio = new ServicioPais();
-        DtoPais registro = new DtoPais();
-        registro.setNombre("eliminar");
-        DtoPais eliminar = servicio.agregarPais(registro);
-        DtoPais eliminado = servicio.eliminarPais(eliminar.get_id());
-        Assert.assertNotEquals(eliminado.getActivo(), eliminar.getActivo());
+        Response resultado = servicio.eliminarPais( (long)1);
+        Assert.assertEquals(
+                javax.ws.rs.core.Response.Status.OK.getStatusCode(),
+                resultado.getStatus()
+        );
     }
 
     @Test
     public void consultarPaisTest() throws Exception{
         ServicioPais servicio = new ServicioPais();
-        DtoPais registro = new DtoPais();
-        registro.setNombre("consulta");
-        DtoPais consulta = servicio.agregarPais(registro);
-        DtoPais consultado = servicio.obtenerPais(consulta.get_id());
-        Assert.assertEquals(consulta.get_id(), consultado.get_id());
+        Response resultado = servicio.obtenerPais( (long)1);
+        Assert.assertEquals(
+                javax.ws.rs.core.Response.Status.OK.getStatusCode(),
+                resultado.getStatus()
+        );
     }
 
     @Test
     public void listarPaisesTest() throws Exception{
         ServicioPais servicio = new ServicioPais();
-        List<Pais> resultado = servicio.listar_paises();
-        Assert.assertNotNull(resultado);
+        Response resultado = servicio.listar_paises();
+        Assert.assertEquals(
+                javax.ws.rs.core.Response.Status.OK.getStatusCode(),
+                resultado.getStatus()
+        );
     }
 }
 

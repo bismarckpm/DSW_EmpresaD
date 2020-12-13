@@ -7,6 +7,7 @@ import mercadeoucab.servicio.ServicioRespuesta;
 import org.junit.Assert;
 import org.junit.Test;
 
+import javax.ws.rs.core.Response;
 import java.util.List;
 
 public class ServicioRespuestaTest {
@@ -14,76 +15,50 @@ public class ServicioRespuestaTest {
     @Test
     public void registrarRespuestaTest() throws Exception {
         ServicioRespuesta servicio = new ServicioRespuesta();
-        DtoRespuesta DTOR= new DtoRespuesta();
-        DTOR.setRespuesta("Me gustaria tener mas opciones y no solo 3");
-        DTOR.setActivo(1);
-        DtoOpcion O=new DtoOpcion(1);
-        DTOR.set_dtoopcion(O);
-        DtoEncuestaEstudio EE=new DtoEncuestaEstudio(1);
-        DTOR.setDtoEncuestaEstudio(EE);
-        DtoUsuario U=new DtoUsuario(1);
-        DTOR.setDtousuario(U);
-        DtoRespuesta resultado = servicio.registrarRespuesta( DTOR);
-        Assert.assertNotEquals(resultado.get_id(), 0);
+        DtoRespuesta dtoRespuesta = new DtoRespuesta();
+        dtoRespuesta.setRespuesta("Me gustaria tener mas opciones y no solo 3");
+        DtoOpcion opcion = new DtoOpcion(1);
+        dtoRespuesta.set_dtoopcion( opcion );
+        DtoEncuestaEstudio dtoEncuestaEstudio = new DtoEncuestaEstudio(1);
+        dtoRespuesta.setDtoEncuestaEstudio(dtoEncuestaEstudio);
+        DtoUsuario usuario = new DtoUsuario(1);
+        dtoRespuesta.setDtousuario(usuario);
+
+        Response resultado = servicio.registrarRespuesta( dtoRespuesta );
+        Assert.assertEquals(200, resultado.getStatus());
     }
 
     @Test
     public void obtenerRespuestaTest() throws Exception {
         ServicioRespuesta servicio = new ServicioRespuesta();
-        DtoRespuesta DTOR= new DtoRespuesta();
-        DTOR.setRespuesta("Estoy muy sastifecho con el producto");
-        DTOR.setActivo(1);
-        DtoOpcion O=new DtoOpcion(1);
-        DTOR.set_dtoopcion(O);
-        DtoEncuestaEstudio EE=new DtoEncuestaEstudio(1);
-        DTOR.setDtoEncuestaEstudio(EE);
-        DtoUsuario U=new DtoUsuario(1);
-        DTOR.setDtousuario(U);
-        DtoRespuesta paraConsultar = servicio.registrarRespuesta( DTOR);
-        DtoRespuesta resultado = servicio.obtenerRespuesta(paraConsultar.get_id());
-        Assert.assertNotEquals(resultado.get_id(), 0);
+        DtoRespuesta dtoRespuesta = new DtoRespuesta(1);
+
+        Response resultado = servicio.obtenerRespuesta(dtoRespuesta.get_id());
+        Assert.assertEquals(200, resultado.getStatus());
     }
 
     @Test
     public void obtenerListaRespuestaTest(){
         ServicioRespuesta servicio = new ServicioRespuesta();
-        List<Respuesta> LDTOO= servicio.listarRespuesta();
-        Assert.assertNotNull(LDTOO);
+        Response LDTOO= servicio.listarRespuesta();
+        Assert.assertEquals(200, LDTOO.getStatus());
     }
 
     @Test
     public void actualizarRespuestaTest() throws Exception {
         ServicioRespuesta servicio = new ServicioRespuesta();
-        DtoRespuesta DTOR= new DtoRespuesta();
-        DTOR.setRespuesta("Estoy muy sastifecho con el producto");
-        DTOR.setActivo(1);
-        DtoOpcion O=new DtoOpcion(1);
-        DTOR.set_dtoopcion(O);
-        DtoEncuestaEstudio EE=new DtoEncuestaEstudio(1);
-        DTOR.setDtoEncuestaEstudio(EE);
-        DtoUsuario U=new DtoUsuario(1);
-        DTOR.setDtousuario(U);
-        DtoRespuesta paraActualizar = servicio.registrarRespuesta( DTOR);
-        paraActualizar.setActivo(2);
-        DtoRespuesta resultado = servicio.actualizarRespuesta( paraActualizar);
-        Assert.assertNotEquals(resultado.get_id(), 0);
+        DtoRespuesta dtoRespuesta = new DtoRespuesta(1);
+        dtoRespuesta.setRespuesta("ups me equivoque");
+        Response resultado = servicio.actualizarRespuesta( dtoRespuesta.get_id(), dtoRespuesta);
+        Assert.assertEquals(200, resultado.getStatus());
     }
 
     @Test
     public void eliminarRespuestaTest() throws Exception {
         ServicioRespuesta servicio = new ServicioRespuesta();
-        DtoRespuesta DTOR= new DtoRespuesta();
-        DTOR.setRespuesta("Estoy muy sastifecho con el producto");
-        DTOR.setActivo(1);
-        DtoOpcion O=new DtoOpcion(1);
-        DTOR.set_dtoopcion(O);
-        DtoEncuestaEstudio EE=new DtoEncuestaEstudio(1);
-        DTOR.setDtoEncuestaEstudio(EE);
-        DtoUsuario U=new DtoUsuario(1);
-        DTOR.setDtousuario(U);
-        DtoRespuesta paraEliminar = servicio.registrarRespuesta( DTOR);
-        DtoRespuesta resultado = servicio.eliminarRespuesta(paraEliminar.get_id());
-        Assert.assertNotEquals(resultado.get_id(), 0);
+        DtoRespuesta dtoRespuesta = new DtoRespuesta(1);
+        Response resultado = servicio.eliminarRespuesta(dtoRespuesta.get_id());
+        Assert.assertEquals(200, resultado.getStatus());
     }
 
 }

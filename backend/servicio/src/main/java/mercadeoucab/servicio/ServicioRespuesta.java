@@ -7,62 +7,158 @@ import mercadeoucab.entidades.Opcion;
 import mercadeoucab.entidades.Respuesta;
 import mercadeoucab.entidades.Usuario;
 
+import javax.json.Json;
+import javax.json.JsonArrayBuilder;
+import javax.json.JsonObject;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
 import java.sql.Date;
 import java.util.Calendar;
 import java.util.List;
 
-@Path( "/respuesta" )
+@Path( "/respuestas" )
 @Produces( MediaType.APPLICATION_JSON )
 @Consumes( MediaType.APPLICATION_JSON )
 public class ServicioRespuesta extends AplicacionBase{
 
     @GET
     @Path("/{id}")
-    // @PathParam("id") Long id
-    public DtoRespuesta obtenerRespuesta(@PathParam("id") Long id){
-        DtoRespuesta resultado = new DtoRespuesta();
+    public Response obtenerRespuesta(@PathParam("id") long id){
+        JsonObject data;
+        JsonObject respuesta;
+        Response resultado = null;
         try{
             DaoRespuesta dao = new DaoRespuesta();
             Respuesta resul = dao.find( id, Respuesta.class);
-            resultado.set_id( resul.get_id());
-        }catch (Exception e) {
+            respuesta = Json.createObjectBuilder()
+                            .add("_id", resul.get_id())
+                            .add("respuesta", resul.getRespuesta())
+                            .add("usuario", Json.createObjectBuilder()
+                                                    .add("_id",resul.getFk_usuario().get_id())
+                                                    .add("nombre",resul.getFk_usuario().getNombre())
+                                                    .add("apellido",resul.getFk_usuario().getApellido())
+                                                    .add("correo",resul.getFk_usuario().getCorreo()))
+                            .add("Pregunta", Json.createObjectBuilder()
+                                                    .add("_id",resul.getEncuesta_estudio().getFk_pregunta().get_id())
+                                                    .add("pregunta",resul.getEncuesta_estudio().getFk_pregunta().getNombrePregunta()))
+                            .add("estudio",Json.createObjectBuilder()
+                                                  .add("_id",resul.getEncuesta_estudio().getFk_estudio().get_id()))
+                            .add("opcion", Json.createObjectBuilder()
+                                                  .add("_id", resul.getFk_opcion().get_id())
+                                                  .add("nombre",resul.getFk_opcion().getNombre_opcion()))
+                            .build();
+            data = Json.createObjectBuilder()
+                    .add("status", 200)
+                    .add("data", respuesta)
+                    .build();
+            resultado = Response.status(Response.Status.OK)
+                    .entity(data)
+                    .build();
+        }
+        catch (Exception e) {
             String problema = e.getMessage();
+            data = Json.createObjectBuilder()
+                    .add("status", 400)
+                    .add("problema", problema)
+                    .build();
+            resultado = Response.status(Response.Status.BAD_REQUEST)
+                    .entity(data)
+                    .build();
         }
         return resultado;
     }
 
     @GET
     @Path("/")
-    public List<Respuesta> listarRespuesta(){
-        DaoRespuesta dao = new DaoRespuesta();
-        return dao.findAll( Respuesta.class);
+    public Response listarRespuesta(){
+        JsonObject data;
+        JsonArrayBuilder respuestasList = Json.createArrayBuilder();
+        Response resultado = null;
+        try {
+            DaoRespuesta dao = new DaoRespuesta();
+            List<Respuesta> respuestas = dao.findAll(Respuesta.class);
+            for(Respuesta resul: respuestas){
+                if(resul.getActivo() == 1){
+                    JsonObject objeto = Json.createObjectBuilder()
+                                            .add("_id", resul.get_id())
+                                            .add("respuesta", resul.getRespuesta())
+                                            .add("usuario", Json.createObjectBuilder()
+                                                    .add("_id",resul.getFk_usuario().get_id())
+                                                    .add("nombre",resul.getFk_usuario().getNombre())
+                                                    .add("apellido",resul.getFk_usuario().getApellido())
+                                                    .add("correo",resul.getFk_usuario().getCorreo()))
+                                            .add("Pregunta", Json.createObjectBuilder()
+                                                    .add("_id",resul.getEncuesta_estudio().getFk_pregunta().get_id())
+                                                    .add("pregunta",resul.getEncuesta_estudio().getFk_pregunta().getNombrePregunta()))
+                                            .add("estudio",Json.createObjectBuilder()
+                                                    .add("_id",resul.getEncuesta_estudio().getFk_estudio().get_id()))
+                                            .add("opcion", Json.createObjectBuilder()
+                                                    .add("_id", resul.getFk_opcion().get_id())
+                                                    .add("nombre",resul.getFk_opcion().getNombre_opcion()))
+                                            .build();
+                    respuestasList.add(objeto);
+                }
+            }
+            data = Json.createObjectBuilder()
+                    .add("status", 200)
+                    .add("data", respuestasList)
+                    .build();
+            resultado = Response.status(Response.Status.OK)
+                    .entity(data)
+                    .build();
+        }
+        catch (Exception e){
+            String problema = e.getMessage();
+            data = Json.createObjectBuilder()
+                    .add("status", 400)
+                    .add("mensaje",problema)
+                    .build();
+            resultado = Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(data).build();
+        }
+        return resultado;
     }
 
     @POST
     @Path("/")
-    public DtoRespuesta registrarRespuesta(DtoRespuesta DTOR){
-        DtoRespuesta resultado = new DtoRespuesta();
+    public Response registrarRespuesta(DtoRespuesta dtoRespuesta){
+        JsonObject data;
+        Response resultado = null;
         try{
-            DaoRespuesta daoO = new DaoRespuesta();
-            Respuesta R = new Respuesta();
-            EncuestaEstudio EE=new EncuestaEstudio();
-            EE.set_id(DTOR.getDtoEncuestaEstudio().get_id());
-            R.setEncuesta_estudio(EE);
-            Opcion O=new Opcion();
-            O.set_id(DTOR.get_dtoopcion().get_id());
-            R.setFk_opcion(O);
-            Usuario U=new Usuario(DTOR.getDtousuario().get_id());
-            R.setFk_usuario(U);
-            R.setRespuesta(DTOR.getRespuesta());
-            R.setActivo(DTOR.getActivo());
-            R.setRespuesta(DTOR.getRespuesta());
-            R.setCreado_el(new Date(Calendar.getInstance().getTime().getTime()));
-            Respuesta resul = daoO.insert( R);
-            resultado.set_id( resul.get_id());
+
+            DaoRespuesta dao = new DaoRespuesta();
+            Respuesta respuesta = new Respuesta();
+
+            EncuestaEstudio encuestaEstudio =new EncuestaEstudio(dtoRespuesta.getDtoEncuestaEstudio().get_id());
+            respuesta.setEncuesta_estudio(encuestaEstudio);
+
+            Opcion opcion = new Opcion(dtoRespuesta.get_dtoopcion().get_id());
+            respuesta.setFk_opcion(opcion);
+
+            Usuario usuario = new Usuario(dtoRespuesta.getDtousuario().get_id());
+            respuesta.setFk_usuario(usuario);
+
+            respuesta.setRespuesta(dtoRespuesta.getRespuesta());
+            respuesta.setActivo(1);
+            respuesta.setCreado_el(new Date(Calendar.getInstance().getTime().getTime()));
+
+            Respuesta resul = dao.insert( respuesta );
+
+            data = Json.createObjectBuilder()
+                    .add("status", 200)
+                    .add("mensaje","respuesta creada con exito")
+                    .build();
+            resultado = Response.status(Response.Status.OK).entity(data).build();
+
         }catch (Exception e) {
             String problema = e.getMessage();
+            data = Json.createObjectBuilder()
+                    .add("status", 400)
+                    .add("mensaje",problema)
+                    .build();
+            resultado = Response.status(Response.Status.INTERNAL_SERVER_ERROR)
+                                .entity(data)
+                                .build();
         }
         return resultado;
     }
@@ -71,35 +167,35 @@ public class ServicioRespuesta extends AplicacionBase{
     @PUT
     @Path("/{id}")
     // @PathParam("id") Long id
-    public DtoRespuesta actualizarRespuesta(DtoRespuesta DTOR){
-        DtoRespuesta resultado = new DtoRespuesta();
+    public Response actualizarRespuesta(@PathParam("id") long id, DtoRespuesta dtoRespuesta){
+        JsonObject data;
+        Response resultado = null;
         try{
             DaoRespuesta dao = new DaoRespuesta();
-            Respuesta R = dao.find( DTOR.get_id(), Respuesta.class);
-            if(DTOR.getDtoEncuestaEstudio()!=null){
-                R.setEncuesta_estudio(new EncuestaEstudio(DTOR.getDtoEncuestaEstudio().get_id()));
-            }
-            if(DTOR.get_dtoopcion()!=null){
-                R.setFk_opcion(new Opcion(DTOR.get_dtoopcion().get_id()));
-            }
-            if(DTOR.getDtousuario()!=null){
-                R.setFk_usuario(new Usuario(DTOR.getDtousuario().get_id()));
-            }
-            if(DTOR.getRespuesta()!=null){
-                R.setRespuesta(DTOR.getRespuesta());
-            }
-            if (DTOR.getActivo()!=0){
-                R.setActivo(DTOR.getActivo());
-            }
+            Respuesta respuesta = dao.find( id, Respuesta.class);
 
-            R.setModificado_el(new Date(Calendar
+            respuesta.setRespuesta(dtoRespuesta.getRespuesta());
+            respuesta.setModificado_el(new Date(Calendar
                     .getInstance()
                     .getTime()
                     .getTime()));
-            Respuesta resul = dao.update( R);
-            resultado.set_id( resul.get_id());
+            Respuesta resul = dao.update( respuesta );
+            data = Json.createObjectBuilder()
+                    .add("status", 200)
+                    .add("mensaje","Respuesta actualizada con exito")
+                    .build();
+            resultado = Response.status(Response.Status.OK)
+                    .entity(data)
+                    .build();
         }catch (Exception e) {
             String problema = e.getMessage();
+            data = Json.createObjectBuilder()
+                    .add("status", 400)
+                    .add("problema", problema)
+                    .build();
+            resultado = Response.status(Response.Status.BAD_REQUEST)
+                    .entity(data)
+                    .build();
         }
         return resultado;
     }
@@ -107,21 +203,34 @@ public class ServicioRespuesta extends AplicacionBase{
     @PUT
     @Path("/{id}/eliminar")
     // @PathParam("id") Long id
-    public DtoRespuesta eliminarRespuesta(long id){
-        DtoRespuesta resultado = new DtoRespuesta();
+    public Response eliminarRespuesta(@PathParam("id") long id){
+        JsonObject data;
+        Response resultado = null;
         try{
             DaoRespuesta dao = new DaoRespuesta();
-            Respuesta R = dao.find( id, Respuesta.class);
-            R.setActivo( 0);
-            R.setModificado_el(
-                    new Date(Calendar
-                            .getInstance()
-                            .getTime()
-                            .getTime()));
-            Respuesta resul = dao.update( R);
-            resultado.set_id( resul.get_id());
+            Respuesta respuesta = dao.find( id, Respuesta.class);
+            respuesta.setActivo( 0);
+            respuesta.setModificado_el(new Date(Calendar
+                                            .getInstance()
+                                            .getTime()
+                                            .getTime()));
+            Respuesta resul = dao.update( respuesta );
+            data = Json.createObjectBuilder()
+                    .add("status", 200)
+                    .add("mensaje","Respuesta eliminada con exito")
+                    .build();
+            resultado = Response.status(Response.Status.OK)
+                    .entity(data)
+                    .build();
         }catch (Exception e) {
             String problema = e.getMessage();
+            data = Json.createObjectBuilder()
+                    .add("status", 400)
+                    .add("problema", problema)
+                    .build();
+            resultado = Response.status(Response.Status.BAD_REQUEST)
+                    .entity(data)
+                    .build();
         }
         return resultado;
     }

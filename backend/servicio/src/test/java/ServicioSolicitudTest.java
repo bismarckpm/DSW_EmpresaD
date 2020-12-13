@@ -6,6 +6,7 @@ import mercadeoucab.servicio.ServicioSolicitud;
 import org.junit.Assert;
 import org.junit.Test;
 
+import javax.ws.rs.core.Response;
 import java.util.List;
 
 public class ServicioSolicitudTest {
@@ -16,11 +17,7 @@ public class ServicioSolicitudTest {
         ServicioSolicitud servicio = new ServicioSolicitud();
         DtoSolicitud dtoSolicitud = new DtoSolicitud();
         dtoSolicitud.setEstado("solicitada");
-        ServicioMarca servicioMarca = new ServicioMarca();
-        DtoMarca marca = new DtoMarca();
-        marca.setNombre("Rexona");
-        Marca registrarMarca = servicioMarca.registrarMarca(marca);
-        dtoSolicitud.setMarca( new DtoMarca(registrarMarca.get_id()));
+        dtoSolicitud.setMarca( new DtoMarca(1));
         dtoSolicitud.setUsuario( new DtoUsuario( 1));
         DtoTipo dtoTipo = new DtoTipo(1);
         dtoSolicitud.setTipo(dtoTipo);
@@ -28,81 +25,39 @@ public class ServicioSolicitudTest {
         dtoSolicitud.setSubCategoria(dtoSubCategoria);
         DtoPresentacion dtoPresentacion = new DtoPresentacion(1);
         dtoSolicitud.setPresentacion(dtoPresentacion);
-        DtoSolicitud resultado = servicio.registrarSolicitud( dtoSolicitud);
-        Assert.assertNotEquals(resultado.get_id(), 0);
+        Response resultado = servicio.registrarSolicitud( dtoSolicitud);
+        Assert.assertEquals(resultado.getStatus(), 200);
     }
 
     @Test
     public void actualizarSolicitudTest() throws Exception {
         ServicioSolicitud servicio = new ServicioSolicitud();
-        DtoSolicitud dtoSolicitud = new DtoSolicitud();
-        dtoSolicitud.setEstado("solicitada");
-        ServicioMarca servicioMarca = new ServicioMarca();
-        DtoMarca marca = new DtoMarca();
-        marca.setNombre("Adidas");
-        Marca registrarMarca = servicioMarca.registrarMarca(marca);
-        DtoTipo dtoTipo = new DtoTipo(1);
-        dtoSolicitud.setTipo(dtoTipo);
-        dtoSolicitud.setMarca( new DtoMarca(registrarMarca.get_id()));
-        dtoSolicitud.setUsuario( new DtoUsuario( 1));
-        DtoSubCategoria dtoSubCategoria = new DtoSubCategoria(1);
-        dtoSolicitud.setSubCategoria(dtoSubCategoria);
-        DtoPresentacion dtoPresentacion = new DtoPresentacion(1);
-        dtoSolicitud.setPresentacion(dtoPresentacion);
-        DtoSolicitud paraActualizar = servicio.registrarSolicitud( dtoSolicitud);
-        paraActualizar.setEstado("aceptada");
-        DtoSolicitud resultado = servicio.actualizarSolicitud( paraActualizar.get_id(), paraActualizar);
-        Assert.assertNotEquals(resultado.get_id(), 0);
+        DtoSolicitud dtoSolicitud = new DtoSolicitud(1);
+        dtoSolicitud.setEstado("aceptada");
+        Response resultado = servicio.actualizarSolicitud( dtoSolicitud.get_id(), dtoSolicitud);
+        Assert.assertEquals(resultado.getStatus(), 200);
     }
 
     @Test
     public void eliminarSolicitudTest() throws Exception {
         ServicioSolicitud servicio = new ServicioSolicitud();
-        DtoSolicitud dtoSolicitud = new DtoSolicitud();
-        dtoSolicitud.setEstado("solicitada");
-        ServicioMarca servicioMarca = new ServicioMarca();
-        DtoMarca marca = new DtoMarca();
-        marca.setNombre("Rexona");
-        Marca registrarMarca = servicioMarca.registrarMarca(marca);
-        dtoSolicitud.setMarca( new DtoMarca(registrarMarca.get_id()));
-        dtoSolicitud.setUsuario( new DtoUsuario( 1));
-        DtoTipo dtoTipo = new DtoTipo(1);
-        dtoSolicitud.setTipo(dtoTipo);
-        DtoSubCategoria dtoSubCategoria = new DtoSubCategoria(1);
-        dtoSolicitud.setSubCategoria(dtoSubCategoria);
-        DtoPresentacion dtoPresentacion = new DtoPresentacion(1);
-        dtoSolicitud.setPresentacion(dtoPresentacion);
-        DtoSolicitud paraBorrar = servicio.registrarSolicitud( dtoSolicitud);
-        DtoSolicitud resultado = servicio.eliminarSolicitud( paraBorrar.get_id());
-        Assert.assertEquals( resultado.get_id(), paraBorrar.get_id());
+        DtoSolicitud dtoSolicitud = new DtoSolicitud(1);
+        Response resultado = servicio.eliminarSolicitud( dtoSolicitud.get_id());
+        Assert.assertEquals(resultado.getStatus(), 200);
     }
 
     @Test
     public void obtenerSolicitudTest() throws Exception {
         ServicioSolicitud servicio = new ServicioSolicitud();
-        DtoSolicitud dtoSolicitud = new DtoSolicitud();
-        dtoSolicitud.setEstado("solicitada");
-        ServicioMarca servicioMarca = new ServicioMarca();
-        DtoMarca marca = new DtoMarca();
-        marca.setNombre("Rexona");
-        Marca registrarMarca = servicioMarca.registrarMarca(marca);
-        dtoSolicitud.setMarca( new DtoMarca(registrarMarca.get_id()));
-        dtoSolicitud.setUsuario( new DtoUsuario( 1));
-        DtoTipo dtoTipo = new DtoTipo(1);
-        dtoSolicitud.setTipo(dtoTipo);
-        DtoSubCategoria dtoSubCategoria = new DtoSubCategoria(1);
-        dtoSolicitud.setSubCategoria(dtoSubCategoria);
-        DtoPresentacion dtoPresentacion = new DtoPresentacion(1);
-        dtoSolicitud.setPresentacion(dtoPresentacion);
-        DtoSolicitud paraConsultar = servicio.registrarSolicitud( dtoSolicitud);
-        DtoSolicitud resultado = servicio.obtenerSolicitud( paraConsultar.get_id());
-        Assert.assertEquals( resultado.get_id(), paraConsultar.get_id());
+        DtoSolicitud dtoSolicitud = new DtoSolicitud(1);
+        Response resultado = servicio.obtenerSolicitud( dtoSolicitud.get_id());
+        Assert.assertEquals(resultado.getStatus(), 200);
     }
 
     @Test
     public void listarSolicitudTest() throws Exception {
         ServicioSolicitud servicio = new ServicioSolicitud();
-        List<Solicitud> resultado = servicio.listarSolicitud();
-        Assert.assertNotNull( resultado);
+        Response resultado = servicio.listarSolicitud();
+        Assert.assertEquals(resultado.getStatus(), 200);
     }
 }

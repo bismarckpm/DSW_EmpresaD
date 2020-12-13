@@ -6,6 +6,7 @@ import mercadeoucab.entidades.Municipio;
 import mercadeoucab.servicio.ServicioEstado;
 import mercadeoucab.servicio.ServicioMunicipio;
 import mercadeoucab.servicio.ServicioPais;
+import javax.ws.rs.core.Response;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -15,90 +16,56 @@ public class ServicioMunicipioTest {
 
     @Test
     public void registrarMunicipioTest() throws Exception{
-        ServicioEstado servicioEstado = new ServicioEstado();
-        ServicioPais servicioPais = new ServicioPais();
-        DtoPais dtoPais = new DtoPais();
-        dtoPais.setNombre("Venezuela");
-        DtoPais padre = servicioPais.agregarPais(dtoPais);
-        DtoEstado dtoEstado = new DtoEstado();
-        dtoEstado.setNombre("Guarico");
-        dtoEstado.setFk_pais(new DtoPais(padre.get_id()));
-        Estado estado = servicioEstado.agregarEstado(dtoEstado);
         ServicioMunicipio servicio = new ServicioMunicipio();
         DtoMunicipio dtoMunicipio = new DtoMunicipio();
         dtoMunicipio.setNombre("No conozco eso");
-        dtoMunicipio.setFk_estado(new DtoEstado(estado.get_id()));
-        DtoMunicipio resultado = servicio.registrarMunicipio(dtoMunicipio);
-
-        Assert.assertNotEquals(resultado.get_id(), 0);
+        dtoMunicipio.setFk_estado(new DtoEstado(1));
+        Response resultado = servicio.registrarMunicipio(dtoMunicipio);
+        Assert.assertEquals(
+                javax.ws.rs.core.Response.Status.OK.getStatusCode(),
+                resultado.getStatus()
+        );
     }
 
     @Test
     public void consultarMunicipioTest() throws Exception{
-        ServicioEstado servicioEstado = new ServicioEstado();
-        ServicioPais servicioPais = new ServicioPais();
-        DtoPais dtoPais = new DtoPais();
-        dtoPais.setNombre("Venezuela");
-        DtoPais padre = servicioPais.agregarPais(dtoPais);
-        DtoEstado dtoEstado = new DtoEstado();
-        dtoEstado.setNombre("Guarico");
-        dtoEstado.setFk_pais(new DtoPais(padre.get_id()));
-        Estado estado = servicioEstado.agregarEstado(dtoEstado);
         ServicioMunicipio servicio = new ServicioMunicipio();
-        DtoMunicipio dtoMunicipio = new DtoMunicipio();
-        dtoMunicipio.setNombre("No conozco eso");
-        dtoMunicipio.setFk_estado(new DtoEstado(estado.get_id()));
-        DtoMunicipio resultado = servicio.registrarMunicipio(dtoMunicipio);
-
-        Municipio consultado = servicio.obtenerMunicipio(resultado.get_id());
-        Assert.assertEquals(resultado.get_id(), consultado.get_id());
+        Response resultado = servicio.obtenerMunicipio(1);
+        Assert.assertEquals(
+                javax.ws.rs.core.Response.Status.OK.getStatusCode(),
+                resultado.getStatus()
+        );
     }
 
     @Test
     public void actualizarMunicipioTest() throws Exception{
-        ServicioEstado servicioEstado = new ServicioEstado();
-        ServicioPais servicioPais = new ServicioPais();
-        DtoPais dtoPais = new DtoPais();
-        dtoPais.setNombre("Venezuela");
-        DtoPais padre = servicioPais.agregarPais(dtoPais);
-        DtoEstado dtoEstado = new DtoEstado();
-        dtoEstado.setNombre("Guarico");
-        dtoEstado.setFk_pais(new DtoPais(padre.get_id()));
-        Estado estado = servicioEstado.agregarEstado(dtoEstado);
         ServicioMunicipio servicio = new ServicioMunicipio();
         DtoMunicipio dtoMunicipio = new DtoMunicipio();
-        dtoMunicipio.setNombre("No conozco eso");
-        dtoMunicipio.setFk_estado(new DtoEstado(estado.get_id()));
-        DtoMunicipio resultado = servicio.registrarMunicipio(dtoMunicipio);
-        resultado.setNombre("Modified");
-        Municipio actualizado = servicio.actualizarMunicipio(resultado.get_id(), resultado);
-        Assert.assertEquals(resultado.getNombre(), actualizado.getNombre());
+        dtoMunicipio.setNombre("Modified");
+        Response resultado = servicio.actualizarMunicipio(1, dtoMunicipio);
+        Assert.assertEquals(
+                javax.ws.rs.core.Response.Status.OK.getStatusCode(),
+                resultado.getStatus()
+        );
     }
 
     @Test
     public void eliminarMunicipioTest() throws Exception{
-        ServicioEstado servicioEstado = new ServicioEstado();
-        ServicioPais servicioPais = new ServicioPais();
-        DtoPais dtoPais = new DtoPais();
-        dtoPais.setNombre("Venezuela");
-        DtoPais padre = servicioPais.agregarPais(dtoPais);
-        DtoEstado dtoEstado = new DtoEstado();
-        dtoEstado.setNombre("Guarico");
-        dtoEstado.setFk_pais(new DtoPais(padre.get_id()));
-        Estado estado = servicioEstado.agregarEstado(dtoEstado);
         ServicioMunicipio servicio = new ServicioMunicipio();
-        DtoMunicipio dtoMunicipio = new DtoMunicipio();
-        dtoMunicipio.setNombre("No conozco eso");
-        dtoMunicipio.setFk_estado(new DtoEstado(estado.get_id()));
-        DtoMunicipio resultado = servicio.registrarMunicipio(dtoMunicipio);
-        Municipio eliminar = servicio.eliminarMunicipio(resultado.get_id());
-        Assert.assertEquals(0, eliminar.getActivo());
+        Response resultado = servicio.eliminarMunicipio(1);
+        Assert.assertEquals(
+                javax.ws.rs.core.Response.Status.OK.getStatusCode(),
+                resultado.getStatus()
+        );
     }
 
     @Test
     public void listarMunicipiosTest() throws Exception{
         ServicioMunicipio servicio = new ServicioMunicipio();
-        List<Municipio> resultado = servicio.listarMunicipios();
-        Assert.assertNotNull(resultado);
+        Response resultado = servicio.listarMunicipios();
+        Assert.assertEquals(
+                javax.ws.rs.core.Response.Status.OK.getStatusCode(),
+                resultado.getStatus()
+        );
     }
 }
