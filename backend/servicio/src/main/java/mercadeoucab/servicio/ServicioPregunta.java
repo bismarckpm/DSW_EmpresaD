@@ -1,8 +1,11 @@
 package mercadeoucab.servicio;
 
 import mercadeoucab.accesodatos.DaoPregunta;
+import mercadeoucab.dtos.DtoOcupacion;
+import mercadeoucab.dtos.DtoOpcion;
 import mercadeoucab.dtos.DtoPregunta;
 import mercadeoucab.entidades.Estudio;
+import mercadeoucab.entidades.Opcion;
 import mercadeoucab.entidades.Pregunta;
 import mercadeoucab.entidades.Usuario;
 
@@ -32,11 +35,20 @@ public class ServicioPregunta extends AplicacionBase{
             List<Pregunta> preguntas = dao.findAll(Pregunta.class);
             for (Pregunta pregunta: preguntas){
                 if(pregunta.getActivo() == 1){
+                    JsonArrayBuilder listaOpcion = Json.createArrayBuilder();
+                    for ( Opcion opcion: pregunta.getOpciones()){
+                        JsonObject objetoOpcion = Json.createObjectBuilder()
+                                                        .add("_id", opcion.get_id())
+                                                        .add("nombre", opcion.getNombre_opcion())
+                                                        .build();
+                        listaOpcion.add( objetoOpcion);
+                    }
                     JsonObject objeto = Json.createObjectBuilder()
                                             .add("_id", pregunta.get_id())
                                             .add("pregunta",pregunta.getNombrePregunta())
                                             .add("tipo", pregunta.getTipo())
                                             .add("rango", pregunta.getRango())
+                                            .add("opciones", listaOpcion)
                                             .add("usuario",Json.createObjectBuilder()
                                                                   .add("_id",pregunta.getUsuario().get_id())
                                                                   .add("nombre",pregunta.getUsuario().getNombre())
@@ -82,6 +94,13 @@ public class ServicioPregunta extends AplicacionBase{
             pregunta.setUsuario(usuario);
             pregunta.setActivo(1);
             pregunta.setCreado_el(new Date(Calendar.getInstance().getTime().getTime()));
+            for (DtoOpcion opcion: dtoPregunta.getOpciones()){
+                Opcion paraInsertar = new Opcion();
+                paraInsertar.setActivo( 1);
+                paraInsertar.setCreado_el(new Date(Calendar.getInstance().getTime().getTime()));
+                paraInsertar.setNombre_opcion(opcion.getNombre_opcion());
+                pregunta.addOpcion( paraInsertar);
+            }
             Pregunta resul = dao.insert(pregunta);
             data = Json.createObjectBuilder()
                     .add("status", 200)
@@ -112,27 +131,43 @@ public class ServicioPregunta extends AplicacionBase{
         try {
             DaoPregunta dao = new DaoPregunta();
             Pregunta resul = dao.find(id, Pregunta.class);
-            pregunta = Json.createObjectBuilder()
-                            .add("_id", resul.get_id())
-                            .add("pregunta",resul.getNombrePregunta())
-                            .add("tipo", resul.getTipo())
-                            .add("rango", resul.getRango())
-                            .add("usuario",Json.createObjectBuilder()
-                                    .add("_id",resul.getUsuario().get_id())
-                                    .add("nombre",resul.getUsuario().getNombre())
-                                    .add("apellido",resul.getUsuario().getApellido())
-                                    .add("correo",resul.getUsuario().getCorreo())
-                                    .add("rol",resul.getUsuario().getRol()))
-                    .build();
-            data = Json.createObjectBuilder()
-                    .add("status", 200)
-                    .add("data", pregunta)
-                    .build();
+            if ( resul.getActivo() != 0) {
+                JsonArrayBuilder listaOpcion = Json.createArrayBuilder();
+                for ( Opcion opcion: resul.getOpciones()){
+                    JsonObject objetoOpcion = Json.createObjectBuilder()
+                            .add("_id", opcion.get_id())
+                            .add("nombre", opcion.getNombre_opcion())
+                            .build();
+                    listaOpcion.add( objetoOpcion);
+                }
+                pregunta = Json.createObjectBuilder()
+                        .add("_id", resul.get_id())
+                        .add("pregunta", resul.getNombrePregunta())
+                        .add("tipo", resul.getTipo())
+                        .add("rango", resul.getRango())
+                        .add("opciones", listaOpcion)
+                        .add("usuario", Json.createObjectBuilder()
+                                .add("_id", resul.getUsuario().get_id())
+                                .add("nombre", resul.getUsuario().getNombre())
+                                .add("apellido", resul.getUsuario().getApellido())
+                                .add("correo", resul.getUsuario().getCorreo())
+                                .add("rol", resul.getUsuario().getRol()))
+                        .build();
+                data = Json.createObjectBuilder()
+                        .add("status", 200)
+                        .add("data", pregunta)
+                        .build();
+            }
+            else{
+                data = Json.createObjectBuilder()
+                        .add("status", 200)
+                        .add("message", "Pregunta no se encuentra activa")
+                        .build();
+            }
             resultado = Response.status(Response.Status.OK)
                     .entity(data)
                     .build();
-        }
-        catch (Exception e){
+        }catch (Exception e){
             String problema = e.getMessage();
             data = Json.createObjectBuilder()
                     .add("status", 400)

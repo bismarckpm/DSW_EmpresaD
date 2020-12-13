@@ -1,12 +1,15 @@
 import mercadeoucab.dtos.DtoEstudio;
+import mercadeoucab.dtos.DtoOpcion;
 import mercadeoucab.dtos.DtoPregunta;
 import mercadeoucab.dtos.DtoUsuario;
+import mercadeoucab.entidades.Opcion;
 import mercadeoucab.entidades.Pregunta;
 import mercadeoucab.servicio.ServicioPregunta;
 import org.junit.Assert;
 import org.junit.Test;
 
 import javax.ws.rs.core.Response;
+import java.util.ArrayList;
 import java.util.List;
 
 public class ServicioPreguntaTest {
@@ -19,6 +22,13 @@ public class ServicioPreguntaTest {
         dtoPregunta.setRango("oliwis");
         dtoPregunta.setTipo("abierta");
         dtoPregunta.setUsuarioDto(new DtoUsuario(1));
+        List<DtoOpcion> opciones = new ArrayList();
+        DtoOpcion paraAgregar = new DtoOpcion();
+        paraAgregar.setNombre_opcion("Prueba lista 1");
+        DtoOpcion paraAgregar2 = new DtoOpcion();
+        paraAgregar2.setNombre_opcion("Prueba lista 2");
+        opciones.add( paraAgregar2);
+        dtoPregunta.setOpciones( opciones);
         Response resultado = servicio.registrarPregunta(dtoPregunta);
         Assert.assertEquals(resultado.getStatus(), 200);
     }

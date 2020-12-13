@@ -4,8 +4,11 @@ import mercadeoucab.accesodatos.*;
 import mercadeoucab.dtos.*;
 import mercadeoucab.entidades.*;
 
+import javax.json.Json;
+import javax.json.JsonObject;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
 import java.sql.Date;
 import java.util.Calendar;
 import java.util.List;
@@ -40,8 +43,9 @@ public class ServicioOpcion extends AplicacionBase{
 
     @POST
     @Path("/")
-    public DtoOpcion registrarOpcion(DtoOpcion DTOO){
-        DtoOpcion resultado = new DtoOpcion();
+    public Response registrarOpcion(DtoOpcion DTOO){
+        JsonObject data;
+        Response resultado = null;
         try{
             DaoOpcion daoO = new DaoOpcion();
             Opcion opcion = new Opcion();
@@ -51,9 +55,21 @@ public class ServicioOpcion extends AplicacionBase{
             Pregunta pregunta=new Pregunta(DTOO.get_Dtopregunta().get_id());
             opcion.setFk_pregunta(pregunta);
             Opcion resul = daoO.insert( opcion);
-            resultado.set_id( resul.get_id());
+            data = Json.createObjectBuilder()
+                    .add("status", 200)
+                    .add("message", "Agregado exitosamente")
+                    .build();
+            resultado = Response.status(Response.Status.OK)
+                    .entity(data)
+                    .build();
         }catch (Exception e) {
             String problema = e.getMessage();
+            data = Json.createObjectBuilder()
+                    .add("status", 400)
+                    .build();
+            resultado = Response.status(Response.Status.BAD_REQUEST)
+                    .entity(data)
+                    .build();
         }
         return resultado;
     }
@@ -62,37 +78,45 @@ public class ServicioOpcion extends AplicacionBase{
     @PUT
     @Path("/{id}")
     // @PathParam("id") Long id
-    public DtoOpcion actualizarOpcion(DtoOpcion DTOO){
-        DtoOpcion resultado = new DtoOpcion();
+    public Response actualizarOpcion(@PathParam("id") Long id, DtoOpcion DTOO){
+        JsonObject data;
+        Response resultado = null;
         try{
             DaoOpcion dao = new DaoOpcion();
-            Opcion opcion = dao.find( DTOO.get_id(), Opcion.class);
+            Opcion opcion = dao.find( id, Opcion.class);
             if(DTOO.getNombre_opcion()!=null){
                 opcion.setNombre_opcion(DTOO.getNombre_opcion());
-            }
-            if(DTOO.getActivo()!=0){
-                opcion.setActivo(DTOO.getActivo());
-            }
-            if(DTOO.get_Dtopregunta()!=null){
-                opcion.setFk_pregunta(new Pregunta(DTOO.get_Dtopregunta().get_id()));
             }
             opcion.setModificado_el(new Date(Calendar
                     .getInstance()
                     .getTime()
                     .getTime()));
             Opcion resul = dao.update( opcion);
-            resultado.set_id( resul.get_id());
+            data = Json.createObjectBuilder()
+                    .add("status", 200)
+                    .add("message", "Actualizado exitosamente")
+                    .build();
+            resultado = Response.status(Response.Status.OK)
+                    .entity(data)
+                    .build();
         }catch (Exception e) {
             String problema = e.getMessage();
+            System.out.println(problema + "*************");
+            data = Json.createObjectBuilder()
+                    .add("status", 400)
+                    .build();
+            resultado = Response.status(Response.Status.BAD_REQUEST)
+                    .entity(data)
+                    .build();
         }
         return resultado;
     }
 
     @PUT
     @Path("/{id}/eliminar")
-    // @PathParam("id") Long id
-    public DtoOpcion eliminarOpcion(long id){
-        DtoOpcion resultado = new DtoOpcion();
+    public Response eliminarOpcion(@PathParam("id") Long id){
+        JsonObject data;
+        Response resultado = null;
         try{
             DaoOpcion dao = new DaoOpcion();
             Opcion opcion = dao.find( id, Opcion.class);
@@ -103,9 +127,21 @@ public class ServicioOpcion extends AplicacionBase{
                             .getTime()
                             .getTime()));
             Opcion resul = dao.update( opcion);
-            resultado.set_id( resul.get_id());
+            data = Json.createObjectBuilder()
+                    .add("status", 200)
+                    .add("message", "Eliminado exitosamente")
+                    .build();
+            resultado = Response.status(Response.Status.OK)
+                    .entity(data)
+                    .build();
         }catch (Exception e) {
             String problema = e.getMessage();
+            data = Json.createObjectBuilder()
+                    .add("status", 400)
+                    .build();
+            resultado = Response.status(Response.Status.BAD_REQUEST)
+                    .entity(data)
+                    .build();
         }
         return resultado;
     }

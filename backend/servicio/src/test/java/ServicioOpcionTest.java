@@ -4,6 +4,7 @@ import mercadeoucab.servicio.*;
 import org.junit.Assert;
 import org.junit.Test;
 
+import javax.ws.rs.core.Response;
 import java.util.List;
 
 
@@ -18,24 +19,16 @@ public class ServicioOpcionTest {
         DtoPregunta DTOP=new DtoPregunta();
         DTOP.set_id(2);
         DTOO.set_Dtopregunta(DTOP);
-        DtoOpcion resultado = servicio.registrarOpcion( DTOO);
-        Assert.assertNotEquals(resultado.get_id(), 0);
+        Response resultado = servicio.registrarOpcion( DTOO);
+        Assert.assertEquals( resultado.getStatus(), 200);
     }
-
+    /*
     @Test
     public void obtenerOpcionTest(){
         ServicioOpcion servicio = new ServicioOpcion();
-        DtoOpcion DTOO = new DtoOpcion();
-        DTOO.setNombre_opcion("opcion 2: No la comprendo muy bien");
-        DTOO.setActivo(1);
-        DtoPregunta DTOP=new DtoPregunta();
-        DTOP.set_id(5);
-        DTOO.set_Dtopregunta(DTOP);
-        DtoOpcion paraConsultar = servicio.registrarOpcion( DTOO);
-        DtoOpcion resultado = servicio.obtenerOpcion( paraConsultar.get_id());
-        System.out.println( resultado.getNombre_opcion());
-        Assert.assertNotEquals( resultado.get_id(), 0);
-    }
+        Response resultado = servicio.obtenerOpcion( (long)1);
+        Assert.assertEquals( resultado.getStatus(), 200);
+    }*/
 
     @Test
     public void obtenerListaOpcionesTest(){
@@ -50,28 +43,16 @@ public class ServicioOpcionTest {
         DtoOpcion DTOO = new DtoOpcion();
         DTOO.setNombre_opcion("opcion 2: No la comprendo muy bien");
         DTOO.setActivo(1);
-        DtoPregunta DTOP=new DtoPregunta();
-        DTOP.set_id(1);
-        DTOO.set_Dtopregunta(DTOP);
-        DtoOpcion paraActualizar = servicio.registrarOpcion( DTOO);
-        paraActualizar.setNombre_opcion("opcion 10: No estoy a favor");
-        paraActualizar.setActivo(1);
-        DtoOpcion resultado = servicio.actualizarOpcion( paraActualizar);
-        Assert.assertNotEquals(resultado.get_id(), 0);
+        DTOO.set_Dtopregunta(new DtoPregunta(1));
+        Response resultado = servicio.actualizarOpcion( (long)1, DTOO);
+        Assert.assertEquals(resultado.getStatus(), 200);
     }
 
     @Test
     public void eliminarOpcionTest() throws Exception {
         ServicioOpcion servicio = new ServicioOpcion();
-        DtoOpcion DTOO = new DtoOpcion();
-        DTOO.setNombre_opcion("opcion 2: No la comprendo muy bien");
-        DTOO.setActivo(1);
-        DtoPregunta DTOP=new DtoPregunta();
-        DTOP.set_id(1);
-        DTOO.set_Dtopregunta(DTOP);
-        DtoOpcion paraEliminar = servicio.registrarOpcion( DTOO);
-        DtoOpcion resultado = servicio.eliminarOpcion(paraEliminar.get_id());
-        Assert.assertNotEquals(resultado.get_id(), 0);
+        Response resultado = servicio.eliminarOpcion((long)1);
+        Assert.assertEquals(resultado.getStatus(), 200);
     }
 
 
