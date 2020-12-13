@@ -5,60 +5,51 @@ import mercadeoucab.servicio.ServicioOcupacion;
 import org.junit.Assert;
 import org.junit.Test;
 
+import javax.ws.rs.core.Response;
 import java.util.List;
 
 
 public class ServicioOcupacionTest {
 
     @Test
-    public void registrarOcupacionTest() throws PruebaExcepcion {
+    public void registrarOcupacionTest() throws Exception {
         ServicioOcupacion servicio = new ServicioOcupacion();
         DtoOcupacion DTOO= new DtoOcupacion();
-        DTOO.setActivo(1);
         DTOO.setNombre("Cocinar");
-        DtoOcupacion resultado = servicio.registrarOcupacion( DTOO);
-        Assert.assertNotEquals(resultado.get_id(), 0);
+        Response resultado = servicio.registrarOcupacion( DTOO );
+        Assert.assertEquals(200, resultado.getStatus());
     }
 
     @Test
-    public void obtenerOcupacionTest() throws PruebaExcepcion {
+    public void obtenerOcupacionTest() throws Exception {
         ServicioOcupacion servicio = new ServicioOcupacion();
-        DtoOcupacion DTOO= new DtoOcupacion();
-        DTOO.setActivo(1);
-        DTOO.setNombre("Cocinar");
-        DtoOcupacion paraConsultar = servicio.registrarOcupacion( DTOO);
-        DtoOcupacion resultado = servicio.obtenerOcupacio(paraConsultar.get_id());
-        Assert.assertNotEquals(resultado.get_id(), 0);
+        DtoOcupacion DTOO = new DtoOcupacion(1);
+        Response resultado = servicio.obtenerOcupacion(DTOO.get_id());
+        Assert.assertEquals(200 , resultado.getStatus());
     }
 
     @Test
-    public void obtenerListaOcupacionTest(){
+    public void obtenerListaOcupacionTest() throws Exception{
         ServicioOcupacion servicio = new ServicioOcupacion();
-        List<Ocupacion> LDTOO= servicio.listarOcupacion();
-        Assert.assertNotNull(LDTOO);
+        Response LDTOO= servicio.listarOcupacion();
+        Assert.assertEquals(200, LDTOO.getStatus());
     }
 
     @Test
     public void actualizarOcupacionTest() throws Exception {
         ServicioOcupacion servicio = new ServicioOcupacion();
-        DtoOcupacion DTOO= new DtoOcupacion();
-        DTOO.setActivo(1);
-        DTOO.setNombre("Cocinar");
-        DtoOcupacion paraActualizar = servicio.registrarOcupacion( DTOO);
-        paraActualizar.setNombre("Leer libros");
-        DtoOcupacion resultado = servicio.actualizarOcupacion( paraActualizar);
-        Assert.assertNotEquals(resultado.get_id(), 0);
+        DtoOcupacion DTOO= new DtoOcupacion(1);
+        DTOO.setNombre("Leer libros");
+        Response resultado = servicio.actualizarOcupacion( DTOO.get_id(),DTOO);
+        Assert.assertEquals(200, resultado.getStatus());
     }
 
     @Test
     public void eliminarOcupacionest() throws Exception {
         ServicioOcupacion servicio = new ServicioOcupacion();
-        DtoOcupacion DTOO= new DtoOcupacion();
-        DTOO.setActivo(1);
-        DTOO.setNombre("Cocinar");
-        DtoOcupacion paraEliminar = servicio.registrarOcupacion( DTOO);
-        DtoOcupacion resultado = servicio.eliminarOcupacion(paraEliminar.get_id());
-        Assert.assertNotEquals(resultado.get_id(), 0);
+        DtoOcupacion DTOO= new DtoOcupacion(1);
+        Response resultado = servicio.eliminarOcupacion(DTOO.get_id());
+        Assert.assertEquals(200, resultado.getStatus());
     }
 
 }
