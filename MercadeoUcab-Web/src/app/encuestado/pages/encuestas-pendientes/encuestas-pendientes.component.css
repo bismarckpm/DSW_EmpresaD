@@ -1,0 +1,8 @@
+.data-table {
+    width: 80vw;
+    height: 75vh;
+    display: flex;    
+    flex-direction: column;
+    background-color: white;
+    overflow-y: scroll;
+}
