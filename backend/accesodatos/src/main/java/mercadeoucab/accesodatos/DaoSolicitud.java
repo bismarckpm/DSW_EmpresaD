@@ -34,4 +34,22 @@ public class DaoSolicitud extends Dao<Solicitud> {
         }
         return resultado;
     }
+
+    public List<Solicitud> solicitudesSegunEstado(String estado){
+        _em = _handler.getSession();
+        List<Solicitud> resultado = null;
+        try {
+            _handler.beginTransaction();
+            TypedQuery<Solicitud> solicitudes = this._em.createNamedQuery("solicitudes_segun_estado",Solicitud.class);
+            solicitudes.setParameter("estado", estado);
+            resultado = solicitudes.getResultList();
+            _em.flush();
+            _em.clear();
+            _handler.finishTransaction();
+        }
+        catch (Exception e){
+            String problema = e.getMessage();
+        }
+        return resultado;
+    }
 }

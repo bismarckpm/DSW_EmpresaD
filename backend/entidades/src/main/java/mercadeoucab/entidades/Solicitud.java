@@ -10,6 +10,10 @@ import java.util.List;
         @NamedQuery(
                 name = "solicitudes_de_un_cliente",
                 query = "select s from Solicitud s where s.usuario = :usuario"
+        ),
+        @NamedQuery(
+                name = "solicitudes_segun_estado",
+                query = "select s from Solicitud s where s.estado = :estado and s.activo = 1"
         )
 })
 public class Solicitud extends EntidadBase{
