@@ -18,7 +18,7 @@ import java.util.List;
 @Path( "/analista" )
 @Produces( MediaType.APPLICATION_JSON )
 @Consumes( MediaType.APPLICATION_JSON )
-public class ServicioAnalista {
+public class ServicioAnalista extends AplicacionBase{
 
     @GET
     @Path("/{id}/estudios")
