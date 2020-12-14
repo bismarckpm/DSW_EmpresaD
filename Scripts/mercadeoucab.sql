@@ -129,6 +129,7 @@ CREATE TABLE IF NOT EXISTS `mercadeoucab`.`usuario` (
   `nombre` VARCHAR(20) NOT NULL,
   `apellido` VARCHAR(25) NOT NULL,
   `correo` VARCHAR(60) NOT NULL,
+  `token_recuperar_clave` VARCHAR(256) NULL DEFAULT NULL,
   `rol` ENUM('administrador', 'cliente', 'encuestado', 'analista') NOT NULL,
   `estado` ENUM('activo', 'bloqueado', 'inactivo') NOT NULL,
   `activo` TINYINT NOT NULL,
