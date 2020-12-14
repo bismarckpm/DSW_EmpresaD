@@ -1,4 +1,5 @@
 import { MuestraPoblacion } from './muestraPoblacion';
+import { Pregunta } from './pregunta';
 import { Solicitud } from './solicitud';
 import { Usuario } from './usuario';
 
@@ -7,12 +8,10 @@ export class Estudio {
     public _id: number,
     public estado: string,
     public tipo: string,
-    public encuestasEsperadas: number,
+    public encuestas_esperadas: number,
     public solicitud: Solicitud,
-    public fk_usuario: Usuario,
-    public fk_muestra_poblacion: MuestraPoblacion,
-    public activo: boolean,
-    public creado_el: any,
-    public modificado_el: any
+    public analista: Usuario,
+    public muestra_poblacion: MuestraPoblacion,
+    public preguntas: Array<Pregunta>s
   ) {}
 }
