@@ -9,7 +9,8 @@ import java.util.List;
 @NamedQueries({
         @NamedQuery(
                 name = "obtenerUsuarioPorCorreo",
-                query = "select u from Usuario u where u.correo = :correo")
+                query = "select u from Usuario u where u.correo = :correo"
+        )
 })
 public class Usuario extends EntidadBase {
 
