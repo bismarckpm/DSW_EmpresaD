@@ -155,7 +155,7 @@ public class ServicioSolicitud extends AplicacionBase{
 
                     solicitudesList.add(object);
                 }
-            }
+            } //final for
             data = Json.createObjectBuilder()
                     .add("status", 200)
                     .add("data", solicitudesList)

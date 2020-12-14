@@ -65,7 +65,14 @@ public class ServicioAdministrador extends AplicacionBase{
                     .build();
         }
         catch (Exception e){
-
+            String problema = e.getMessage();
+            data = Json.createObjectBuilder()
+                    .add("status", 400)
+                    .add("problema", problema)
+                    .build();
+            resultado = Response.status(Response.Status.BAD_REQUEST)
+                    .entity(data)
+                    .build();
         }
         return resultado;
     }

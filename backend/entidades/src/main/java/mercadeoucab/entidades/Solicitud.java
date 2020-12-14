@@ -6,6 +6,12 @@ import java.util.List;
 
 @Entity
 @Table(name ="solicitud")
+@NamedQueries({
+        @NamedQuery(
+                name = "solicitudes_de_un_cliente",
+                query = "select s from Solicitud s where s.usuario = :usuario"
+        )
+})
 public class Solicitud extends EntidadBase{
 
     @Column(name = "estado")
