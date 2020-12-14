@@ -16,7 +16,7 @@ public class ServicioDatoEncuestadoTest {
         ServicioDatoEncuestado servicioDato = new ServicioDatoEncuestado();
         DtoDatoEncuestado datoEncuestado = new DtoDatoEncuestado("Concepcion",
                                                     "arevalo",
-                                                    "745636222",
+                                                    "745632",
                                                     "laptop",
                                                     Date.valueOf("1997-02-28"),
                                                     "masculino",

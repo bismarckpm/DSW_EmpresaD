@@ -126,7 +126,6 @@ public class DirectorioActivo {
                 attributes.put(attribute);
                 this._ldapContext.modifyAttributes(String.format(_userDirectory + "," + _directory, COR), item);
                 correoB=COR;
-                disconnectLDAP();
             }
             if (CON !=null){
                 connectLDAP(_user, _password);
@@ -136,7 +135,6 @@ public class DirectorioActivo {
                         ) );
                 _ldapContext.modifyAttributes(String.format(_userDirectory + "," + _directory, correoB
                 ), modificationItems );
-                disconnectLDAP();
             }
             if (EST !=null){
                 connectLDAP( _user, _password );
@@ -146,12 +144,13 @@ public class DirectorioActivo {
 
                 _ldapContext.modifyAttributes( String.format(_userDirectory + "," + _directory, correoB)
                         , DirContext.REPLACE_ATTRIBUTE,atbs );
-                disconnectLDAP();
             }
 
 
         }catch (NamingException e){
             e.printStackTrace();
+        }finally {
+            disconnectLDAP();
         }
 
     }

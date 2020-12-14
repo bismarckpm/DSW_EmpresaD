@@ -12,7 +12,7 @@ import java.util.List;
 
 public class ServicioHijoTest {
 
-    @Test
+    /*@Test
     public void registrarHijoTest() throws Exception{
         ServicioHijo servicio = new ServicioHijo();
         DtoHijo dtoHijo = new DtoHijo("masculino", Date.valueOf("1997-02-28"), new DtoDatoEncuestado(1));
@@ -47,5 +47,5 @@ public class ServicioHijoTest {
         DtoHijo dtoHijo = new DtoHijo("masculino", Date.valueOf("2015-02-28"), new DtoDatoEncuestado(1));
         Hijo actualizado = servicio.actuaizarHijo(1, dtoHijo);
         Assert.assertNotNull(actualizado.getModificado_el());
-    }
+    }*/
 }

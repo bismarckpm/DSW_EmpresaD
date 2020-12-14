@@ -1,3 +1,4 @@
+import mercadeoucab.dtos.DtoDirectorioAUser;
 import mercadeoucab.dtos.DtoUsuario;
 import mercadeoucab.entidades.Usuario;
 import mercadeoucab.servicio.ServicioUsuario;
@@ -16,8 +17,8 @@ public class ServicioUsuarioTest {
         dtoUsuario.setNombre( "Yeferson");
         dtoUsuario.setApellido( "Soteldo");
         dtoUsuario.setEstado( "activo");
-        dtoUsuario.setRol( "encuestado");
-        dtoUsuario.setCorreo( "soteldios10@gmail.com");
+        dtoUsuario.setRol( "administrador");
+        dtoUsuario.setCorreo( "pasaCono@gmail.com");
         dtoUsuario.setPassword("54321");
         Response resultado = servicio.registrarUsuario( dtoUsuario);
         Assert.assertEquals(
@@ -70,6 +71,31 @@ public class ServicioUsuarioTest {
     public void listarUsuarioTest(){
         ServicioUsuario servicio = new ServicioUsuario();
         Response resultado = servicio.listarUsuarios();
+        Assert.assertEquals(
+                Response.Status.OK.getStatusCode(),
+                resultado.getStatus()
+        );
+    }
+
+    @Test
+    public void peticionClaveOlvidadaTest() throws Exception{
+        ServicioUsuario servicio = new ServicioUsuario();
+        DtoUsuario dtoUsuario = new DtoUsuario();
+        dtoUsuario.setCorreo("mail@mail.com");
+        Response resultado = servicio.peticionClaveOlvidada( dtoUsuario);
+        Assert.assertEquals(
+                Response.Status.OK.getStatusCode(),
+                resultado.getStatus()
+        );
+    }
+
+    @Test
+    public void cambioClaveOlvidadaTest() throws Exception{
+        ServicioUsuario servicio = new ServicioUsuario();
+        DtoDirectorioAUser dtoUsuario = new DtoDirectorioAUser();
+        dtoUsuario.setCorreo("pasaCono@gmail.com");
+        dtoUsuario.setPassword("cambie");
+        Response resultado = servicio.cambioClaveOlvidada( dtoUsuario);
         Assert.assertEquals(
                 Response.Status.OK.getStatusCode(),
                 resultado.getStatus()

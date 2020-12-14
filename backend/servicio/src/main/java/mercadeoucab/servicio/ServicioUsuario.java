@@ -3,8 +3,10 @@ package mercadeoucab.servicio;
 import mercadeoucab.accesodatos.DaoUsuario;
 import mercadeoucab.directorioactivo.DirectorioActivo;
 import mercadeoucab.dtos.DtoDirectorioAUser;
+import mercadeoucab.dtos.DtoMail;
 import mercadeoucab.dtos.DtoUsuario;
 import mercadeoucab.entidades.Usuario;
+import mercadeoucab.mail.Mail;
 
 import javax.json.Json;
 import javax.json.JsonArrayBuilder;
@@ -204,6 +206,89 @@ public class ServicioUsuario extends AplicacionBase{
             data = Json.createObjectBuilder()
                     .add("status", 200)
                     .add("message", "Eliminado exitosamente")
+                    .build();
+            resultado = Response.status(Response.Status.OK)
+                    .entity(data)
+                    .build();
+        }catch (Exception e) {
+            String problema = e.getMessage();
+            data = Json.createObjectBuilder()
+                    .add("status", 400)
+                    .build();
+            resultado = Response.status(Response.Status.BAD_REQUEST)
+                    .entity(data)
+                    .build();
+        }
+        return resultado;
+    }
+
+    @POST
+    @Path("/peticionClaveOlvidada")
+    public Response peticionClaveOlvidada (DtoUsuario dtoUsuario){
+        JsonObject data;
+        Response resultado = null;
+        try{
+            DaoUsuario dao = new DaoUsuario();
+            Usuario usuario = dao.obtenerUsuarioPorCorreo(
+                    dtoUsuario.getCorreo()
+            );
+            if ( usuario == null){
+                data = Json.createObjectBuilder()
+                        .add("status", 200)
+                        .add("message", "Usuario no registrado")
+                        .build();
+            }else {
+                Mail enviarCorreo = new Mail();
+                DtoMail dtoMail = new DtoMail();
+                dtoMail.emailResetearContrasena("Soy una URL");
+                // Cambiar correo receptor a usuario.getCorreo() cuando se vaya a probar en al App
+                enviarCorreo.enviarCorreo(
+                        "dswempresad@gmail.com",
+                        dtoMail.getMensaje(),
+                        dtoMail.getAsunto()
+                );
+                data = Json.createObjectBuilder()
+                        .add("status", 200)
+                        .add("message",
+                                "Peticion procesada exitosamente revisar el correo")
+                        .build();
+            }
+            resultado = Response.status( Response.Status.OK)
+                        .entity(data)
+                        .build();
+        }catch (Exception e) {
+            String problema = e.getMessage();
+            data = Json.createObjectBuilder()
+                    .add("status", 400)
+                    .build();
+            resultado = Response.status( Response.Status.BAD_REQUEST)
+                    .entity(data)
+                    .build();
+        }
+        return resultado;
+    }
+
+    @POST
+    @Path("/cambioClaveOlvidada")
+    public Response cambioClaveOlvidada (DtoDirectorioAUser dtoDirectorioAUser){
+        JsonObject data;
+        Response resultado = null;
+        try{
+            //Agregar seguridad aca con el token en la segunda entrega
+            DaoUsuario dao = new DaoUsuario();
+            Usuario usuario = dao.obtenerUsuarioPorCorreo( dtoDirectorioAUser.getCorreo());
+            DirectorioActivo ldap = new DirectorioActivo( usuario.getRol());
+            dtoDirectorioAUser.setEstado(usuario.getEstado());
+            ldap.updateEntry(
+                    dtoDirectorioAUser,
+                    null,
+                    dtoDirectorioAUser.getPassword(),
+                    null
+            );
+            data = Json.createObjectBuilder()
+                    .add("status", 200)
+                    .add("message",
+                            "Cambio de clave realizado exitosamente")
                     .build();
             resultado = Response.status(Response.Status.OK)
                     .entity(data)

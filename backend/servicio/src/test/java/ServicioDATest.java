@@ -9,10 +9,10 @@ public class ServicioDATest {
     public void createUserLDAP()
     {
         DtoDirectorioAUser user = new DtoDirectorioAUser();
-        user.setCorreo("muha31@gmail.com");
+        user.setCorreo("test@gmail.com");
         user.setEstado("activo");
         user.setPassword("123");
-        DirectorioActivo ldap = new DirectorioActivo("cliente");
+        DirectorioActivo ldap = new DirectorioActivo("administrador");
         ldap.addEntryToLdap( user );
     }
 
@@ -29,9 +29,9 @@ public class ServicioDATest {
     public void updateUserLDAP()
     {
         DtoDirectorioAUser user = new DtoDirectorioAUser();
-        user.setCorreo( "muha30@gmail.com" );
-        DirectorioActivo ldap = new DirectorioActivo("cliente");
-        ldap.updateEntry( user,"C@k.com","123","bloqueado");
+        user.setCorreo( "test@gmail.com" );
+        DirectorioActivo ldap = new DirectorioActivo("administrador");
+        ldap.updateEntry( user,null,"cambie3",null);
     }
 
     @Test
@@ -47,11 +47,11 @@ public class ServicioDATest {
     public void userAuthentication()
     {
         DtoDirectorioAUser user = new DtoDirectorioAUser();
-        user.setCorreo( "prueba@gmail.com" );
-        user.setPassword( "12345" );
+        user.setCorreo( "pasaCono@gmail.com" );
+        user.setPassword( "cambie" );
         user.setEstado("activo");
-        DirectorioActivo ldap = new DirectorioActivo("encuestado");
-        ldap.addEntryToLdap( user);
+        DirectorioActivo ldap = new DirectorioActivo("administrador");
+        ldap.userAuthentication( user);
         Assert.assertTrue( ldap.userAuthentication( user ));
     }
 
