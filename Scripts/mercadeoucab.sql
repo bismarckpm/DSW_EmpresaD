@@ -129,6 +129,7 @@ CREATE TABLE IF NOT EXISTS `mercadeoucab`.`usuario` (
   `nombre` VARCHAR(20) NOT NULL,
   `apellido` VARCHAR(25) NOT NULL,
   `correo` VARCHAR(60) NOT NULL,
+  `token_recuperar_clave` VARCHAR(256) NULL DEFAULT NULL,
   `rol` ENUM('administrador', 'cliente', 'encuestado', 'analista') NOT NULL,
   `estado` ENUM('activo', 'bloqueado', 'inactivo') NOT NULL,
   `activo` TINYINT NOT NULL,
@@ -312,9 +313,6 @@ DROP TABLE IF EXISTS `mercadeoucab`.`encuesta_estudio` ;
 
 CREATE TABLE IF NOT EXISTS `mercadeoucab`.`encuesta_estudio` (
   `id` INT NOT NULL AUTO_INCREMENT,
-  `activo` TINYINT NOT NULL,
-  `creado_el` TIMESTAMP NOT NULL,
-  `modificado_el` TIMESTAMP NULL DEFAULT NULL,
   `fk_pregunta` INT NOT NULL,
   `fk_estudio` INT NULL DEFAULT NULL,
   PRIMARY KEY (`id`),
@@ -378,9 +376,6 @@ DROP TABLE IF EXISTS `mercadeoucab`.`ocupacion_encuestado` ;
 
 CREATE TABLE IF NOT EXISTS `mercadeoucab`.`ocupacion_encuestado` (
   `id` INT NOT NULL AUTO_INCREMENT,
-  `activo` TINYINT NOT NULL,
-  `creado_el` TIMESTAMP NOT NULL,
-  `modificado_el` TIMESTAMP NULL DEFAULT NULL,
   `fk_ocupacion` INT NOT NULL,
   `fk_dato_encuestado` INT NOT NULL,
   PRIMARY KEY (`id`),
@@ -404,9 +399,6 @@ DROP TABLE IF EXISTS `mercadeoucab`.`ocupacion_muestra` ;
 
 CREATE TABLE IF NOT EXISTS `mercadeoucab`.`ocupacion_muestra` (
   `id` INT NOT NULL AUTO_INCREMENT,
-  `activo` TINYINT NOT NULL,
-  `creado_el` TIMESTAMP NOT NULL,
-  `modificado_el` TIMESTAMP NULL DEFAULT NULL,
   `fk_ocupacion` INT NOT NULL,
   `fk_muestra_poblacion` INT NOT NULL,
   PRIMARY KEY (`id`),
@@ -470,9 +462,6 @@ DROP TABLE IF EXISTS `mercadeoucab`.`presentacion_solicitud` ;
 
 CREATE TABLE IF NOT EXISTS `mercadeoucab`.`presentacion_solicitud` (
   `id` INT NOT NULL AUTO_INCREMENT,
-  `activo` TINYINT NOT NULL,
-  `creado_el` TIMESTAMP NOT NULL,
-  `modificado_el` TIMESTAMP NULL DEFAULT NULL,
   `fk_presentacion` INT NOT NULL,
   `fk_solicitud` INT NOT NULL,
   PRIMARY KEY (`id`),

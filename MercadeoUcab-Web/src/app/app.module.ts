@@ -11,6 +11,7 @@ import { SharedModule } from './shared/shared.module';
 import { MaterialModule } from './material.module';
 import { LocalNgbModule } from './ngbootstrap.module';
 import { CoreModule } from './core/core.module';
+import { AuthModule } from './auth/auth.module';
 @NgModule({
   declarations: [
     AppComponent
@@ -23,6 +24,7 @@ import { CoreModule } from './core/core.module';
     ClienteModule,
     AnalistaModule,
     AdminModule,
+    AuthModule,
     AppRoutingModule,
     MaterialModule,
     LocalNgbModule,

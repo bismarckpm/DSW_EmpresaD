@@ -102,19 +102,19 @@ align-items: center;">
                     <div class="cForm-field-col">
                         <div class="form-group">
                             <label for="userNewName">Nombre de usuario</label>
-                            <input type="text" 
+                            <input type="text"
                             formControlName="nombre" class="form-control" id="userNewName"
                                 aria-describedby="newNameHelp"/>
                         </div>
                         <div class="form-group">
                             <label for="userNewapellido">Apellido de usuario</label>
-                            <input type="text" 
+                            <input type="text"
                             formControlName="apellido" class="form-control" id="userNewapellido"
                             aria-describedby="newApellidoHelp"/>
                         </div>
                         <div class="form-group">
                             <label for="userNewCorreo">Correo de usuario</label>
-                            <input type="email"  
+                            <input type="email"
                             formControlName="correo" class="form-control" id="userNewCorreo"
                             aria-describedby="newCorreoHelp"/>
                         </div>
@@ -122,12 +122,12 @@ align-items: center;">
                     <div class="cForm-field-col">
                         <div class="form-group">
                             <label for="userRol">Rol de usuario</label>
-                            <input type="text" 
+                            <input type="text"
                             readonly
                             formControlName="rol" class="form-control" id="userRol"
                             [(ngModel)]="userRole"
-                            value="userRole" 
-                            placeholder="userRole" 
+                            value="userRole"
+                            placeholder="userRole"
                             aria-describedby="newRolHelp"/>
                         </div>
                     </div>
@@ -244,13 +244,13 @@ align-items: center;">
                             </button>
                             <button *ngIf="op==='upd'" style="background-color: #00d8b4; color:white; margin:0px 5px"
                                 mat-mini-fab aria-label="Example icon button with a filter list icon"
-                                (click)="openUpdModal()" 
+                                (click)="openUpdModal()"
                                 class="shadow-sm">
                                 <mat-icon>autorenew</mat-icon>
                             </button>
                             <button *ngIf="op==='del'" style="background-color: #00d8b4; color:white" mat-mini-fab
-                                aria-label="Example icon button with a filter list icon" 
-                                (click)="openDelModal()" 
+                                aria-label="Example icon button with a filter list icon"
+                                (click)="openDelModal()"
                                 class="shadow-sm">
                                 <mat-icon>delete_forever</mat-icon>
                             </button>

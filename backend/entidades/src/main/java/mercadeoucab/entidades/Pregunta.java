@@ -1,10 +1,17 @@
 package mercadeoucab.entidades;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
 @Table(name="Pregunta")
+@NamedQueries({
+        @NamedQuery(
+                name = "preguntas_de_un_administrador",
+                query = "select p from Pregunta p where p.usuario = :fk_usuario"
+        )
+})
 public class Pregunta extends EntidadBase{
 
     @Column(name = "nombre_pregunta")
@@ -19,6 +26,9 @@ public class Pregunta extends EntidadBase{
     @ManyToOne
     @JoinColumn(name = "fk_usuario")
     private Usuario usuario;
+
+    @OneToMany( mappedBy = "fk_pregunta", fetch = FetchType.LAZY, cascade = CascadeType.PERSIST )
+    private List<Opcion> opciones = new ArrayList<>();
 
     public Pregunta(long id) {
         super(id);
@@ -58,5 +68,16 @@ public class Pregunta extends EntidadBase{
     public void setUsuario(Usuario usuario) {
         this.usuario = usuario;
     }
+    public List<Opcion> getOpciones() {
+        return opciones;
+    }
 
+    public void setOpciones(List<Opcion> opciones) {
+        this.opciones = opciones;
+    }
+
+    public void addOpcion(Opcion opcion){
+        this.opciones.add( opcion);
+        opcion.setFk_pregunta( this);
+    }
 }

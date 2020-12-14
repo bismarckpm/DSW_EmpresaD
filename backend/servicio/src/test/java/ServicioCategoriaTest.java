@@ -4,6 +4,7 @@ import mercadeoucab.servicio.ServicioCategoria;
 import org.junit.Assert;
 import org.junit.Test;
 
+import javax.ws.rs.core.Response;
 import java.util.List;
 
 public class ServicioCategoriaTest {
@@ -13,45 +14,38 @@ public class ServicioCategoriaTest {
         ServicioCategoria servicio = new ServicioCategoria();
         DtoCategoria categoria = new DtoCategoria();
         categoria.setNombre("Higiene");
-        Categoria resultado = servicio.agregarCategoria(categoria);
-        Assert.assertNotEquals(0, resultado.get_id());
+        Response resultado = servicio.agregarCategoria(categoria);
+        Assert.assertEquals(resultado.getStatus(), 200);
     }
 
     @Test
     public void consultarCategoriaTest() throws  Exception{
         ServicioCategoria servicio = new ServicioCategoria();
-        DtoCategoria categoria = new DtoCategoria();
-        categoria.setNombre("Higiene");
-        Categoria consultar = servicio.agregarCategoria(categoria);
-        Categoria consultado = servicio.consultarCategoria(consultar.get_id());
-        Assert.assertEquals(consultar.get_id(), consultado.get_id());
+        Response resultado = servicio.consultarCategoria(1);
+        Assert.assertEquals(resultado.getStatus(), 200);
     }
+
 
     @Test
     public void actualizarCategoriaTest() throws Exception{
         ServicioCategoria servicio = new ServicioCategoria();
         DtoCategoria categoria = new DtoCategoria();
-        categoria.setNombre("Higiene");
-        Categoria actualizar = servicio.agregarCategoria(categoria);
         categoria.setNombre("Nuevo");
-        Categoria actualizado = servicio.actualizarCategoria(actualizar.get_id(), categoria);
-        Assert.assertNotNull(actualizado.getModificado_el());
+        Response resultado = servicio.actualizarCategoria(1, categoria);
+        Assert.assertEquals(resultado.getStatus(), 200);
     }
 
     @Test
     public  void eliminarCategoriaTest() throws Exception{
         ServicioCategoria servicio = new ServicioCategoria();
-        DtoCategoria categoria = new DtoCategoria();
-        categoria.setNombre("Higiene");
-        Categoria eliminar = servicio.agregarCategoria(categoria);
-        Categoria eliminado = servicio.eliminarCategoria(eliminar.get_id());
-        Assert.assertEquals(0, eliminado.getActivo());
+        Response eliminado = servicio.eliminarCategoria(1);
+        Assert.assertEquals(eliminado.getStatus(), 200);
     }
 
     @Test
     public void listarCategoriasTest() throws  Exception{
         ServicioCategoria servicio = new ServicioCategoria();
-        List<Categoria> categorias = servicio.listarCategorias();
-        Assert.assertNotNull(categorias);
+        Response categorias = servicio.listarCategorias();
+        Assert.assertEquals(categorias.getStatus(), 200);
     }
 }

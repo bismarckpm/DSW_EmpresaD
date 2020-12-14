@@ -6,8 +6,11 @@ import mercadeoucab.dtos.DtoTelefono;
 import mercadeoucab.entidades.DatoEncuestado;
 import mercadeoucab.entidades.Telefono;
 
+import javax.json.Json;
+import javax.json.JsonObject;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
 import java.sql.Date;
 import java.util.Calendar;
 
@@ -18,28 +21,52 @@ public class ServicioTelefono extends AplicacionBase {
 
     @GET
     @Path("/{id}")
-    // @PathParam("id") Long id
-    public DtoTelefono obtenerTelefono( @PathParam("id") Long id){
-        DtoTelefono resultado = new DtoTelefono();
+    public Response obtenerTelefono(@PathParam("id") Long id){
+        JsonObject data;
+        JsonObject telefono;
+        Response resultado = null;
         try{
             DaoTelefono dao = new DaoTelefono();
             Telefono resul = dao.find( id, Telefono.class);
-            resultado.set_id( resul.get_id());
+            if ( resul.getActivo() != 0 ){
+                telefono = Json.createObjectBuilder()
+                        .add("_id", resul.get_id())
+                        .add("telefono", resul.getTelefono())
+                        .build();
+                data = Json.createObjectBuilder()
+                        .add("status", 200)
+                        .add("data", telefono)
+                        .build();
+            }else{
+                data = Json.createObjectBuilder()
+                        .add("status", 200)
+                        .add("message", "Telefono no se encuentra activo")
+                        .build();
+            }
+            resultado = Response.status(Response.Status.OK)
+                    .entity(data)
+                    .build();
         }catch (Exception e) {
             String problema = e.getMessage();
+            data = Json.createObjectBuilder()
+                    .add("status", 400)
+                    .build();
+            resultado = Response.status(Response.Status.BAD_REQUEST)
+                    .entity(data)
+                    .build();
         }
         return resultado;
     }
 
     @POST
     @Path("/")
-    public DtoTelefono registrarTelefono( DtoTelefono dtoTelefono){
-        DtoTelefono resultado = new DtoTelefono();
+    public Response registrarTelefono( DtoTelefono dtoTelefono){
+        JsonObject data;
+        Response resultado = null;
         try{
             DaoTelefono dao = new DaoTelefono();
             Telefono telefono = new Telefono();
             telefono.setTelefono( dtoTelefono.getTelefono());
-
             telefono.setActivo( 1);
             telefono.setCreado_el(new Date(Calendar
                                             .getInstance()
@@ -50,9 +77,21 @@ public class ServicioTelefono extends AplicacionBase {
             );
             telefono.setDatoEncuestado( datoEncuestado);
             Telefono resul = dao.insert( telefono);
-            resultado.set_id( resul.get_id());
+            data = Json.createObjectBuilder()
+                    .add("status", 200)
+                    .add("message", "Agregado exitosamente")
+                    .build();
+            resultado = Response.status(Response.Status.OK)
+                    .entity(data)
+                    .build();
         }catch (Exception e) {
             String problema = e.getMessage();
+            data = Json.createObjectBuilder()
+                    .add("status", 400)
+                    .build();
+            resultado = Response.status(Response.Status.BAD_REQUEST)
+                    .entity(data)
+                    .build();
         }
         return resultado;
     }
@@ -60,11 +99,12 @@ public class ServicioTelefono extends AplicacionBase {
     @PUT
     @Path("/{id}")
     // @PathParam("id") Long id
-    public DtoTelefono modificarTelefono( DtoTelefono dtoTelefono){
-        DtoTelefono resultado = new DtoTelefono();
+    public Response modificarTelefono( @PathParam("id") Long id, DtoTelefono dtoTelefono){
+        JsonObject data;
+        Response resultado = null;
         try{
             DaoTelefono dao = new DaoTelefono();
-            Telefono telefono = dao.find( dtoTelefono.get_id(), Telefono.class);
+            Telefono telefono = dao.find( id, Telefono.class);
             telefono.setTelefono( dtoTelefono.getTelefono());
             telefono.setActivo( 1);
             telefono.setModificado_el(new Date(Calendar
@@ -72,18 +112,30 @@ public class ServicioTelefono extends AplicacionBase {
                                             .getTime()
                                             .getTime()));
             Telefono resul = dao.update( telefono);
-            resultado.set_id( resul.get_id());
+            data = Json.createObjectBuilder()
+                    .add("status", 200)
+                    .add("message", "Actualizado exitosamente")
+                    .build();
+            resultado = Response.status(Response.Status.OK)
+                    .entity(data)
+                    .build();
         }catch (Exception e) {
             String problema = e.getMessage();
+            data = Json.createObjectBuilder()
+                    .add("status", 400)
+                    .build();
+            resultado = Response.status(Response.Status.BAD_REQUEST)
+                    .entity(data)
+                    .build();
         }
         return resultado;
     }
 
     @PUT
     @Path("/{id}/eliminar")
-    // @PathParam("id") Long id
-    public DtoTelefono eliminarTelefono( long id){
-        DtoTelefono resultado = new DtoTelefono();
+    public Response eliminarTelefono( @PathParam("id") Long id){
+        JsonObject data;
+        Response resultado = null;
         try{
             DaoTelefono dao = new DaoTelefono();
             Telefono telefono = dao.find( id, Telefono.class);
@@ -93,9 +145,21 @@ public class ServicioTelefono extends AplicacionBase {
                     .getTime()
                     .getTime()));
             Telefono resul = dao.update( telefono);
-            resultado.set_id( resul.get_id());
+            data = Json.createObjectBuilder()
+                    .add("status", 200)
+                    .add("message", "Eliminado exitosamente")
+                    .build();
+            resultado = Response.status(Response.Status.OK)
+                    .entity(data)
+                    .build();
         }catch (Exception e) {
             String problema = e.getMessage();
+            data = Json.createObjectBuilder()
+                    .add("status", 400)
+                    .build();
+            resultado = Response.status(Response.Status.BAD_REQUEST)
+                    .entity(data)
+                    .build();
         }
         return resultado;
     }

@@ -1,9 +1,11 @@
+import mercadeoucab.dtos.DtoDirectorioAUser;
 import mercadeoucab.dtos.DtoUsuario;
 import mercadeoucab.entidades.Usuario;
 import mercadeoucab.servicio.ServicioUsuario;
 import org.junit.Assert;
 import org.junit.Test;
 
+import javax.ws.rs.core.Response;
 import java.util.List;
 
 public class ServicioUsuarioTest {
@@ -15,61 +17,88 @@ public class ServicioUsuarioTest {
         dtoUsuario.setNombre( "Yeferson");
         dtoUsuario.setApellido( "Soteldo");
         dtoUsuario.setEstado( "activo");
-        dtoUsuario.setRol( "encuestado");
-        dtoUsuario.setCorreo( "soteldios@gmail.com");
-        DtoUsuario resultado = servicio.registrarUsuario( dtoUsuario);
-        Assert.assertNotEquals( 0, resultado.get_id());
+        dtoUsuario.setRol( "administrador");
+        dtoUsuario.setCorreo( "pasaCono@gmail.com");
+        dtoUsuario.setPassword("54321");
+        Response resultado = servicio.registrarUsuario( dtoUsuario);
+        Assert.assertEquals(
+                Response.Status.OK.getStatusCode(),
+                resultado.getStatus()
+        );
     }
 
     @Test
     public void actualizarUsuarioTest(){
         ServicioUsuario servicio = new ServicioUsuario();
         DtoUsuario dtoUsuario = new DtoUsuario();
+        dtoUsuario.set_id( 1);
         dtoUsuario.setNombre( "Yangel");
         dtoUsuario.setApellido( "Herrera");
         dtoUsuario.setEstado( "activo");
         dtoUsuario.setRol( "encuestado");
         dtoUsuario.setCorreo( "sanYangel@gmail.com");
-        DtoUsuario paraActualizar = servicio.registrarUsuario( dtoUsuario);
-        paraActualizar.setNombre("Juan");
-        paraActualizar.setApellido( "Ricardo");
-        paraActualizar.setEstado( "activo");
-        DtoUsuario resultado = servicio.actualizarUsuario( paraActualizar);
-        Assert.assertNotEquals( 0, resultado.get_id());
+        Response resultado = servicio.actualizarUsuario(
+                dtoUsuario.get_id(),
+                dtoUsuario
+        );
+        Assert.assertEquals(
+                Response.Status.OK.getStatusCode(),
+                resultado.getStatus()
+        );
     }
 
     @Test
     public void eliminarUsuarioTest(){
         ServicioUsuario servicio = new ServicioUsuario();
-        DtoUsuario dtoUsuario = new DtoUsuario();
-        dtoUsuario.setNombre( "Arturo");
-        dtoUsuario.setApellido( "Vidal");
-        dtoUsuario.setEstado( "activo");
-        dtoUsuario.setRol( "encuestado");
-        dtoUsuario.setCorreo( "elrey@gmail.com");
-        DtoUsuario paraBorrar = servicio.registrarUsuario( dtoUsuario);
-        DtoUsuario resultado = servicio.eliminarUsuario( paraBorrar.get_id());
-        Assert.assertEquals( paraBorrar.get_id(), resultado.get_id());
+        Response resultado = servicio.eliminarUsuario( (long)1);
+        Assert.assertEquals(
+                Response.Status.OK.getStatusCode(),
+                resultado.getStatus()
+        );
     }
 
     @Test
     public void obtenerUsuarioTest(){
         ServicioUsuario servicio = new ServicioUsuario();
-        DtoUsuario dtoUsuario = new DtoUsuario();
-        dtoUsuario.setNombre( "Juan");
-        dtoUsuario.setApellido( "Arango");
-        dtoUsuario.setEstado( "activo");
-        dtoUsuario.setRol( "encuestado");
-        dtoUsuario.setCorreo( "arangol@gmail.com");
-        DtoUsuario paraConsultar = servicio.registrarUsuario( dtoUsuario);
-        DtoUsuario resultado = servicio.obtenerUsuario( paraConsultar.get_id());
-        Assert.assertEquals( paraConsultar.get_id(), resultado.get_id());
+        Response resultado = servicio.obtenerUsuario( (long)1);
+        Assert.assertEquals(
+                Response.Status.OK.getStatusCode(),
+                resultado.getStatus()
+        );
     }
 
     @Test
     public void listarUsuarioTest(){
         ServicioUsuario servicio = new ServicioUsuario();
-        List<Usuario> resultado = servicio.listarUsuarios();
-        Assert.assertNotNull(resultado);
+        Response resultado = servicio.listarUsuarios();
+        Assert.assertEquals(
+                Response.Status.OK.getStatusCode(),
+                resultado.getStatus()
+        );
+    }
+
+    @Test
+    public void peticionClaveOlvidadaTest() throws Exception{
+        ServicioUsuario servicio = new ServicioUsuario();
+        DtoUsuario dtoUsuario = new DtoUsuario();
+        dtoUsuario.setCorreo("mail@mail.com");
+        Response resultado = servicio.peticionClaveOlvidada( dtoUsuario);
+        Assert.assertEquals(
+                Response.Status.OK.getStatusCode(),
+                resultado.getStatus()
+        );
+    }
+
+    @Test
+    public void cambioClaveOlvidadaTest() throws Exception{
+        ServicioUsuario servicio = new ServicioUsuario();
+        DtoDirectorioAUser dtoUsuario = new DtoDirectorioAUser();
+        dtoUsuario.setCorreo("pasaCono@gmail.com");
+        dtoUsuario.setPassword("cambie");
+        Response resultado = servicio.cambioClaveOlvidada( dtoUsuario);
+        Assert.assertEquals(
+                Response.Status.OK.getStatusCode(),
+                resultado.getStatus()
+        );
     }
 }

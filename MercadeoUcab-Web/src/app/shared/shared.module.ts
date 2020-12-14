@@ -14,4 +14,4 @@ import { AngularMaterialModule } from './angular-material/angular-material.modul
   ],
   exports:[AngularMaterialModule]
 })
-export class SharedModule { }
+export class SharedModule {}

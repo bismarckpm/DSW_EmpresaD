@@ -6,6 +6,12 @@ import java.util.List;
 
 @Entity
 @Table( name = "usuario" )
+@NamedQueries({
+        @NamedQuery(
+                name = "obtenerUsuarioPorCorreo",
+                query = "select u from Usuario u where u.correo = :correo"
+        )
+})
 public class Usuario extends EntidadBase {
 
     @Column(name = "nombre")

@@ -10,6 +10,7 @@ public class DtoOpcion extends DtoBase {
     private DtoPregunta Dtopregunta;
 
     public DtoOpcion(){}
+    public DtoOpcion(long id)throws Exception{super(id);}
 
     public String getNombre_opcion() {return nombre_opcion;}
     public void setNombre_opcion(String nombre_opcion) {this.nombre_opcion = nombre_opcion;}

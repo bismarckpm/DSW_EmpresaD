@@ -4,6 +4,7 @@ import javax.persistence.Column;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import java.sql.Date;
+import java.util.List;
 
 public class DtoDatoEncuestado extends DtoBase {
 
@@ -19,6 +20,9 @@ public class DtoDatoEncuestado extends DtoBase {
     private int personasHogar;
     private DtoParroquia fk_lugar;
     private DtoUsuario usuario;
+    private DtoOcupacion ocupacion;
+    private List<DtoHijo> hijos;
+    private List<DtoTelefono> telefonos;
 
     public DtoDatoEncuestado(){}
     public DtoDatoEncuestado(long id)throws Exception{super(id);}
@@ -121,5 +125,28 @@ public class DtoDatoEncuestado extends DtoBase {
 
     public void setUsuario(DtoUsuario usuario) {
         this.usuario = usuario;
+    }
+
+    public DtoOcupacion getOcupacion() {
+        return ocupacion;
+    }
+
+    public void setOcupacion(DtoOcupacion ocupacion) {
+        this.ocupacion = ocupacion;
+    }
+    public List<DtoHijo> getHijos() {
+        return hijos;
+    }
+
+    public void setHijos(List<DtoHijo> hijos) {
+        this.hijos = hijos;
+    }
+
+    public List<DtoTelefono> getTelefonos() {
+        return telefonos;
+    }
+
+    public void setTelefonos(List<DtoTelefono> telefonos) {
+        this.telefonos = telefonos;
     }
 }

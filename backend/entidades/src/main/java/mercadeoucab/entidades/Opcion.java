@@ -10,9 +10,12 @@ public class Opcion extends EntidadBase {
     @Column(name = "nombre_opcion")
     private String nombre_opcion;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "fk_pregunta")
     private Pregunta fk_pregunta;
+
+    public Opcion(){}
+    public Opcion(long id){super(id);}
 
 
     public String getNombre_opcion() {return nombre_opcion;}

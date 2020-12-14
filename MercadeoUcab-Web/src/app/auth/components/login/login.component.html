@@ -1,0 +1,53 @@
+<div class="form_bg">
+  <div class="container">
+    <div class="row justify-content-center">
+      <div class="col-md-offset-4 col-md-4 col-sm-offset-3 col-sm-6">
+        <form #f="ngForm" (ngSubmit)="onSubmit(f)" class="form_horizontal">
+          <div class="form-icon"><i class="fa fa-user-circle"></i></div>
+          <h3 class="title">Login</h3>
+          <div class="form-group">
+            <span class="input-icon"> <i class="fa fa-at"></i></span>
+            <input
+              type="email"
+              name="userEmail"
+              #userEmail="ngModel"
+              class="form-control"
+              id="loginEmail"
+              placeholder="Correo"
+              ngModel
+              required
+            />
+          </div>
+          <div class="form-group">
+            <span class="input-icon"> <i class="fa fa-lock"></i></span>
+            <input
+              type="password"
+              class="form-control"
+              id="loginPassword"
+              placeholder="Password"
+              name="userPassword"
+              #userPassword="ngModel"
+              ngModel
+              required
+            />
+          </div>
+          <button type="submit" class="btn btn-primary" [disabled]="f.invalid">
+            Login <i class="fas fa-sign-in-alt"></i>
+          </button>
+          <ul class="form-options">
+            <li>
+              <a routerLink="/reset-password" routerLinkActive="active"
+                >Forgot Password</a
+              >
+            </li>
+            <li>
+              <a routerLink="/" routerLinkActive="active"
+                >Register <i class="fas fa-arrow-right"></i
+              ></a>
+            </li>
+          </ul>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
