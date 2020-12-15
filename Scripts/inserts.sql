@@ -404,3 +404,22 @@ insert sub_categoria_solicitud values(3,2,5);
 -- -----------------------------------------------------
 -- Table `mercadeoucab`.`tipo_solicitud`
 -- -----------------------------------------------------
+
+
+ insert usuario values (21,"Elmo","Rose","Elmo@gmail.com","encuestado","activo",1,"2019-07-23",null);
+ insert dato_encuestado values (21,null,"Hooper",25545624,"laptop","1997-02-23","masculino",1,"Licenciado",1,1,'2019-07-23',null,21,1,1);
+ insert hijo values(19,"femenino","2013-09-22",1,"2019-07-23",null,21);
+ 
+ insert muestra_poblacion values (6,"masculino",1,"Licenciado",10,50,1,1,"2020-07-23",null,1,1);
+ 
+  insert estudio values(6,"En ejecucion","En linea",1,1,"2021-08-10",null,1,6,6);
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
