@@ -92,6 +92,31 @@ export class UsuariosComponent implements OnInit {
     this._userService.createUser(data).subscribe(
       (response) => {
         console.log(response);
+        alert('Se agrego el usuario correctamente');
+      },
+      (error) => {
+        console.log(error);
+      }
+    );
+  }
+
+  updateUser(id, data) {
+    this._userService.updateUser(id, data).subscribe(
+      (response) => {
+        console.log(response);
+        alert('Se modifico el usuario correctamente');
+      },
+      (error) => {
+        console.log(error);
+      }
+    );
+  }
+
+  deleteUser(id, data) {
+    this._userService.deleteUser(id, data).subscribe(
+      (response) => {
+        console.log(response);
+        alert('Se modifico el usuario correctamente');
       },
       (error) => {
         console.log(error);
