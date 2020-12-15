@@ -240,10 +240,12 @@ public class ServicioUsuario extends AplicacionBase{
             }else {
                 Mail enviarCorreo = new Mail();
                 DtoMail dtoMail = new DtoMail();
-                dtoMail.emailResetearContrasena("Soy una URL");
+                dtoMail.emailResetearContrasena(
+                        "http://localhost:4200/change-password?correo="+ usuario.getCorreo()
+                );
                 // Cambiar correo receptor a usuario.getCorreo() cuando se vaya a probar en al App
                 enviarCorreo.enviarCorreo(
-                        "dswempresad@gmail.com",
+                        usuario.getCorreo(),
                         dtoMail.getMensaje(),
                         dtoMail.getAsunto()
                 );

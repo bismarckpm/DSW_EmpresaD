@@ -67,7 +67,8 @@ export class UsuarioService {
 
   signup(data) {
     const headers = new HttpHeaders().set('Content-Type', 'application/json');
-    console.log('Usuario Services Signup');
-    return data;
+    return this._http.post(this.url + '/LDAP/login', JSON.stringify(data), {
+      headers: headers,
+    });
   }
 }
