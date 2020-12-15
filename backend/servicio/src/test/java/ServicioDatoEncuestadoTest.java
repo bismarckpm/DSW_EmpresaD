@@ -24,7 +24,7 @@ public class ServicioDatoEncuestadoTest {
                                                     "universitario",
                                                     5);
         datoEncuestado.setFk_lugar(new DtoParroquia(1));
-        datoEncuestado.setUsuario(new DtoUsuario( 2));
+        datoEncuestado.setUsuario(new DtoUsuario( 5));
         DtoOcupacion dtoOcupacion = new DtoOcupacion(1);
         datoEncuestado.setOcupacion(dtoOcupacion);
         List<DtoTelefono> telefonos = new ArrayList<>();
