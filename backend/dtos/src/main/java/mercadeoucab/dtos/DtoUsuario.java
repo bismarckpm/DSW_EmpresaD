@@ -1,7 +1,5 @@
 package mercadeoucab.dtos;
 
-import org.codehaus.jackson.annotate.JsonIgnoreProperties;
-
 import javax.persistence.Column;
 import java.util.List;
 

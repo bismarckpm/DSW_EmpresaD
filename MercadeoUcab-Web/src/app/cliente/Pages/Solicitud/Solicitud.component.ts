@@ -187,7 +187,7 @@ export class SolicitudComponent implements OnInit {
     this.searchState="P";
     setTimeout(()=>{
       for (let i = 0; i < Math.floor(Math.random()*(100-1)+1); i++) {
-        this.solicitudes.push({
+        /*this.solicitudes.push({
           _id:Math.floor(Math.random()*(100-1)+1),
           estado:"activo",
           usuario:{
@@ -196,22 +196,13 @@ export class SolicitudComponent implements OnInit {
             apellido:"B",
             rol:"adminin",
             correo:"a@g.com",
-            estado:"activo",
-            activo:true,
-            creado_el:new Date(),
-            modificado_el:new Date(),
+            estado:"activo"
           },
           marca:{
             _id:Math.floor(Math.random()*(100-1)+1),
-            nombre:"A",
-            activo:true,
-            creado_el:new Date(),
-            modificado_el:new Date(),
-          },
-          activo:true,
-          creado_el:new Date(),
-          modificado_el:new Date(),
-        });
+            nombre:"A"
+          }
+        });*/
       }
       this.dataSource = new MatTableDataSource<Solicitud>(this.dataFilter(this.solicitudes));
       this.searchState="D";

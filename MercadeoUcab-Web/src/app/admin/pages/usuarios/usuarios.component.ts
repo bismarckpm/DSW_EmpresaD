@@ -77,6 +77,8 @@ export class UsuariosComponent implements OnInit {
     this._userService.getUsers().subscribe(
       (response) => {
         console.log(response);
+        this.users = response.data;
+        console.log(this.users);
       },
       (error) => {
         console.log(error);
@@ -110,9 +112,9 @@ export class UsuariosComponent implements OnInit {
     this.setOperation('');
     this.searchState="U";
     this.getUsers();
-    let usuario = new Usuario( 1,"Pedro", "Perez", "encuestado","op@gmai.com","activo");
-    let subcategoria = new SubCategoria(1,"subFront", new Categoria(1,"nose"));
-    this.addSubCategory(subcategoria);
+    //let usuario = new Usuario( 1,"Pedro", "Perez", "encuestado","op@gmai.com","activo");
+    //let subcategoria = new SubCategoria(1,"subFront", new Categoria(1,"nose"));
+    //this.addSubCategory(subcategoria);
   }
   @ViewChild('updUser') private updComponent:UpdateUserDialogComponent;
   async openUpdModal() {
@@ -190,7 +192,7 @@ export class UsuariosComponent implements OnInit {
     return filtered;
   }
   invokeSearch(){
-    this.users = [];
+    //this.users = [];
     this.userSelection=0;
     if(this.searchForm.value['creado_el'] !== null){
       this.searchForm.get('creado_el').setValue(new Date(this.searchForm.value['creado_el']));
@@ -201,7 +203,7 @@ export class UsuariosComponent implements OnInit {
     //this.searchForm.get('');
     this.searchState="P";
     setTimeout(()=>{
-      for (let i = 0; i < Math.floor(Math.random()*(100-1)+1); i++) {
+      /*for (let i = 0; i < Math.floor(Math.random()*(100-1)+1); i++) {
         this.users.push({
          _id:Math.floor(Math.random()*(1000-1)+1),
          nombre:Math.random().toString(36).substr(2, 5),
@@ -210,7 +212,7 @@ export class UsuariosComponent implements OnInit {
          correo:Math.random().toString(36).substr(2, 5),
          estado:'Activo',
         });
-      }
+      }*/
       this.dataSource = new MatTableDataSource<Usuario>(this.dataFilter(this.users));
       this.searchState="D";
     },3000);

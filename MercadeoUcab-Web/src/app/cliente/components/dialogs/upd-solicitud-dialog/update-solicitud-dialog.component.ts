@@ -42,8 +42,7 @@ export class UpdateSolicitudDialogComponent implements OnInit {
       tipo:null,
       subcategoria:null,
       marca:null,
-      estado:null,
-      activo:this._solicitud.activo,
+      estado:null
     };
   }
   close(){
