@@ -46,7 +46,7 @@ public class ServicioMuestraPoblacion extends AplicacionBase{
             Parroquia parroquia = new Parroquia(dtoMuestraPoblacion.getFk_lugar().get_id());
             muestraPoblacion.setFk_lugar(parroquia);
             Ocupacion ocupacion = new Ocupacion(dtoMuestraPoblacion.getDtoOcupacion().get_id());
-            muestraPoblacion.addOcupacion(ocupacion);
+            muestraPoblacion.setFk_ocupacion(ocupacion);
             MuestraPoblacion resul = dao.insert(muestraPoblacion);
             data = Json.createObjectBuilder()
                     .add("status", 200)

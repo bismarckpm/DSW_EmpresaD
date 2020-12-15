@@ -1,6 +1,7 @@
 package mercadeoucab.servicio;
 
 import mercadeoucab.accesodatos.DaoEstudio;
+import mercadeoucab.accesodatos.DaoUsuario;
 import mercadeoucab.dtos.DtoUsuario;
 import mercadeoucab.entidades.Estudio;
 import mercadeoucab.entidades.Pregunta;
@@ -19,6 +20,56 @@ import java.util.List;
 @Produces( MediaType.APPLICATION_JSON )
 @Consumes( MediaType.APPLICATION_JSON )
 public class ServicioAnalista extends AplicacionBase{
+
+
+    @GET
+    @Path("/")
+    public Response listarAnalistas(){
+        JsonObject data;
+        JsonArrayBuilder usuariosList = Json.createArrayBuilder();
+        Response resultado = null;
+        try {
+            DaoUsuario dao = new DaoUsuario();
+            List<Usuario> usuarios = dao.listarAnalistas();
+            if(!(usuarios.isEmpty())){
+                for(Usuario usuario: usuarios){
+                    JsonObject objeto = Json.createObjectBuilder()
+                            .add("_id", usuario.get_id())
+                            .add("nombre", usuario.getNombre())
+                            .add("apellido", usuario.getApellido())
+                            .add("rol", usuario.getRol())
+                            .add("estado", usuario.getEstado())
+                            .add("correo", usuario.getCorreo())
+                            .build();
+                    usuariosList.add(objeto);
+                }
+            }
+            else{
+                JsonObject agregar = Json.createObjectBuilder()
+                        .add("Analistas", "Actualmente no hay analistas registrados")
+                        .build();
+                usuariosList.add(agregar);
+            }
+            data = Json.createObjectBuilder()
+                    .add("status", 200)
+                    .add("data", usuariosList)
+                    .build();
+            resultado = Response.status(Response.Status.OK)
+                    .entity(data)
+                    .build();
+        }
+        catch (Exception e){
+            String problema = e.getMessage();
+            data = Json.createObjectBuilder()
+                    .add("status", 400)
+                    .add("problema", problema)
+                    .build();
+            resultado = Response.status(Response.Status.BAD_REQUEST)
+                    .entity(data)
+                    .build();
+        }
+        return resultado;
+    }
 
     @GET
     @Path("/{id}/estudios")
