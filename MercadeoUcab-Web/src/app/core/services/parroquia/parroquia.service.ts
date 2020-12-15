@@ -1,53 +1,49 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { GLOBAL} from '@env/environment';
+import { GLOBAL } from '@env/environment';
 import { Observable } from 'rxjs';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class ParroquiaService {
   public url: string;
 
-  constructor(
-    public _http:HttpClient
-  ) { 
+  constructor(public _http: HttpClient) {
     this.url = GLOBAL.urlOscar;
   }
 
-  getParroquias(): Observable<any>{
-    return this._http.get( this.url + '/parroquias');
+  getParroquias(): Observable<any> {
+    return this._http.get(this.url + '/parroquias');
   }
 
-  getParroquia(id): Observable<any>{
-    return this._http.get( this.url + '/parroquias' + id);
+  getParroquia(id): Observable<any> {
+    return this._http.get(this.url + '/parroquias/' + id);
   }
 
-  createParroquia( data){
+  createParroquia(data) {
     const headers = new HttpHeaders().set('Content-Type', 'application/json');
-    return this._http.post( 
-      this.url + '/parroquias/', 
-      JSON.stringify(data), 
-      {headers: headers}
+    return this._http.post(this.url + '/parroquias/', JSON.stringify(data), {
+      headers: headers,
+    });
+  }
+
+  updateParroquia(id, data) {
+    const headers = new HttpHeaders().set('Content-Type', 'application/json');
+    return this._http.put(
+      this.url + '/parroquias/' + id,
+      JSON.stringify(data),
+      { headers: headers }
     );
   }
 
-  updateParroquia( id, data){
-    const headers = new HttpHeaders().set('Content-Type', 'application/json');
-    return this._http.put( 
-      this.url + '/parroquias/' + id, 
-      JSON.stringify(data), 
-      {headers: headers}
-    );
-  }
-
-  deleteParroquia( id, data){
+  deleteParroquia(id, data) {
     // Ignorar data por los momentos
     const headers = new HttpHeaders().set('Content-Type', 'application/json');
-    return this._http.put( 
-      this.url + '/parroquias/' + id + '/eliminar', 
-      JSON.stringify(data), 
-      {headers: headers}
+    return this._http.put(
+      this.url + '/parroquias/' + id + '/eliminar',
+      JSON.stringify(data),
+      { headers: headers }
     );
   }
 }

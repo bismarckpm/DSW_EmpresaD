@@ -14,12 +14,12 @@ public class ServicioUsuarioTest {
     public void registrarUsuarioTest(){
         ServicioUsuario servicio = new ServicioUsuario();
         DtoUsuario dtoUsuario = new DtoUsuario();
-        dtoUsuario.setNombre( "Yeferson");
-        dtoUsuario.setApellido( "Soteldo");
+        dtoUsuario.setNombre( "Prueba");
+        dtoUsuario.setApellido( "Login");
         dtoUsuario.setEstado( "activo");
         dtoUsuario.setRol( "analista");
-        dtoUsuario.setCorreo( "pasaCono@gmail.com");
-        dtoUsuario.setPassword("54321");
+        dtoUsuario.setCorreo( "dswempresad@gmail.com");
+        dtoUsuario.setPassword("dsw");
         Response resultado = servicio.registrarUsuario( dtoUsuario);
         Assert.assertEquals(
                 Response.Status.OK.getStatusCode(),
