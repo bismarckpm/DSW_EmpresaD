@@ -17,7 +17,7 @@ public class ServicioUsuarioTest {
         dtoUsuario.setNombre( "Yeferson");
         dtoUsuario.setApellido( "Soteldo");
         dtoUsuario.setEstado( "activo");
-        dtoUsuario.setRol( "administrador");
+        dtoUsuario.setRol( "analista");
         dtoUsuario.setCorreo( "pasaCono@gmail.com");
         dtoUsuario.setPassword("54321");
         Response resultado = servicio.registrarUsuario( dtoUsuario);
