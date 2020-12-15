@@ -103,10 +103,7 @@ export class CategoriasComponent implements OnInit {
         for (let i = 0; i < Math.floor(Math.random()*(100-1)+1); i++) {
         this.categorias.push({
          _id:Math.floor(Math.random()*(1000-1)+1),
-         nombre:Math.random().toString(36).substr(2, 5),
-         activo:true,
-         creado_el:new Date(),
-         modificado_el:new Date(),
+         nombre:Math.random().toString(36).substr(2, 5)
         });
       }
       this.dataSource = new MatTableDataSource<Categoria>(this.dataFilter(this.categorias));

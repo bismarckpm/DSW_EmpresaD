@@ -146,10 +146,7 @@ export class MarcaComponent implements OnInit {
         this.marcas=[
         { 
           _id:1,
-          nombre:'test marca',
-          activo:true,
-          creado_el:new Date(),
-          modificado_el:new Date()
+          nombre:'test marca'
         }
         ];
        this.dataSource = new MatTableDataSource<Marca>(this.dataFilter(this.marcas));

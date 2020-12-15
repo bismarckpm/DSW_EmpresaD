@@ -24,37 +24,30 @@ export class ParroquiaService {
   }
 
   createParroquia( data){
-    let json = JSON.stringify({
-      "nombre": data.nombre,
-      "fk_municipio": {
-        "_id": data.fk_municipio._id
-      },
-      "valor_socio_economico": data.valor_socio_economico
-    });
-    let params =json;
+    const headers = new HttpHeaders().set('Content-Type', 'application/json');
     return this._http.post( 
       this.url + '/parroquias/', 
-      { params: params}
+      JSON.stringify(data), 
+      {headers: headers}
     );
   }
 
   updateParroquia( id, data){
-    let json = JSON.stringify({
-      "_id": data._id,
-      "nombre": data.nombre
-    });
-    let params =json;
+    const headers = new HttpHeaders().set('Content-Type', 'application/json');
     return this._http.put( 
       this.url + '/parroquias/' + id, 
-      { params: params}
+      JSON.stringify(data), 
+      {headers: headers}
     );
   }
 
   deleteParroquia( id, data){
     // Ignorar data por los momentos
+    const headers = new HttpHeaders().set('Content-Type', 'application/json');
     return this._http.put( 
       this.url + '/parroquias/' + id + '/eliminar', 
-      data
+      JSON.stringify(data), 
+      {headers: headers}
     );
   }
 }

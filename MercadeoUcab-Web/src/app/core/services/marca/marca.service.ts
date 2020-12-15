@@ -24,17 +24,20 @@ export class MarcaService {
   }
 
   createMarca( data){
+    const headers = new HttpHeaders().set('Content-Type', 'application/json');
     let json = JSON.stringify({
       "nombre": data.nombre
     });
     let params =json;
     return this._http.post( 
       this.url + '/marcas/', 
-      { params: params}
+      JSON.stringify(data), 
+      {headers: headers}
     );
   }
 
   updateMarca( id, data){
+    const headers = new HttpHeaders().set('Content-Type', 'application/json');
     let json = JSON.stringify({
       "_id": data._id,
       "nombre": data.nombre
@@ -42,15 +45,18 @@ export class MarcaService {
     let params =json;
     return this._http.put( 
       this.url + '/marcas/' + id, 
-      { params: params}
+      JSON.stringify(data), 
+      {headers: headers}
     );
   }
 
   deleteMarca( id, data){
+    const headers = new HttpHeaders().set('Content-Type', 'application/json');
     // Ignorar data por los momentos
     return this._http.put( 
       this.url + '/marcas/' + id + '/eliminar', 
-      data
+      JSON.stringify(data), 
+      {headers: headers}
     );
   }
 }

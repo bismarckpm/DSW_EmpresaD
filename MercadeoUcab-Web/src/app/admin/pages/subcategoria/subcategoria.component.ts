@@ -155,9 +155,7 @@ export class SubcategoriaComponent implements OnInit {
         console.log(error);
         this.subcategorias=[{ 
           _id:1,nombre:'test subcategoria',
-          categoria:{ _id:1,nombre:'test categoria',activo:true,creado_el:new Date(),modificado_el:new Date()},
-          activo:true,
-          creado_el:new Date(),modificado_el:new Date()
+          categoria:{ _id:1,nombre:'test categoria'}
         }];
        this.dataSource = new MatTableDataSource<SubCategoria>(this.dataFilter(this.subcategorias));
        this.searchState="D";
@@ -177,7 +175,7 @@ export class SubcategoriaComponent implements OnInit {
       (error) => {
         console.log(error);
         this.opStatus="E";
-        this.categorias=[{ _id:1,nombre:'test categoria',activo:true,creado_el:new Date(),modificado_el:new Date()}];
+        this.categorias=[{ _id:1,nombre:'test categoria'}];
       }
     )
   }

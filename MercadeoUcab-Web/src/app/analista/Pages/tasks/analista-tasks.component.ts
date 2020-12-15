@@ -22,7 +22,7 @@ export class AnalistaTasksComponent implements OnInit {
   dataSource : MatTableDataSource<Estudio>;
   analistaId: number = 5;
   searchState:string="U";
-  constructor( 
+  constructor(
     private route: ActivatedRoute,
     private router: Router,
     private _estudioService: EstudioService) {}
@@ -34,7 +34,7 @@ export class AnalistaTasksComponent implements OnInit {
   dataFilter(dataArray:Estudio[]) :Estudio[]{
     let filtered: Estudio[] = [];
     dataArray.forEach((res,ind) => {
-      /*if(res._id === this.analistaId){ 
+      /*if(res._id === this.analistaId){
         filtered.push(res);
       }*/
       filtered.push(res);
@@ -50,10 +50,7 @@ export class AnalistaTasksComponent implements OnInit {
          _id:Math.floor(Math.random()*(1000-1)+1),
          estado:(Math.floor(Math.random()*(100-1)+1)%2 === 0)?'I':'P',
          tipo:'A',
-         activo:true,
-         encuestas_esperadas:Math.floor(Math.random()*(100-1)+1),
-         creado_el:new Date(),
-         modificado_el:new Date(),
+         encuestas_esperadas:Math.floor(Math.random()*(100-1)+1)
         });*/
       }
       this.dataSource = new MatTableDataSource<Estudio>(this.dataFilter(this.estudios));

@@ -24,36 +24,30 @@ export class MunicipioService {
   }
 
   createMunicipio( data){
-    let json = JSON.stringify({
-      "nombre": data.nombre,
-      "fk_estado": {
-        "_id": data.fk_estado._id
-      }
-    });
-    let params =json;
+    const headers = new HttpHeaders().set('Content-Type', 'application/json');
     return this._http.post( 
       this.url + '/municipios/', 
-      { params: params}
+      JSON.stringify(data), 
+      {headers: headers}
     );
   }
 
   updateMunicipio( id, data){
-    let json = JSON.stringify({
-      "_id": data._id,
-      "nombre": data.nombre
-    });
-    let params =json;
+    const headers = new HttpHeaders().set('Content-Type', 'application/json');
     return this._http.put( 
       this.url + '/municipios/' + id, 
-      { params: params}
+      JSON.stringify(data), 
+      {headers: headers}
     );
   }
 
   deleteMunicipio( id, data){
+    const headers = new HttpHeaders().set('Content-Type', 'application/json');
     // Ignorar data por los momentos
     return this._http.put( 
       this.url + '/municipios/' + id + '/eliminar', 
-      data
+      JSON.stringify(data), 
+      {headers: headers}
     );
   }
 }

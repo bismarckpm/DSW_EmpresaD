@@ -24,58 +24,30 @@ export class DatoEncuestadoService {
   }
 
   createDatoEncuestado( data){
-    let json = JSON.stringify({
-      "segundoNombre": data.segundoNombre,
-      "segundoApellido": data.segundoApellido,
-      "cedula": data.cedula,
-      "medioConexion": data.medioConexion,
-      "edad": data.edad,
-      "genero": data.genero,
-      "nivel_economico": data.nivel_economico,
-      "nivelAcademico": data.nivelAcademico,
-      "personasHogar": data.personasHogar,
-      "usuario": {
-        "_id": data.usuario._id
-      },
-      "fk_lugar": {
-        "_id": data.fk_lugar._id
-      }
-    });
-    let params =json;
+    const headers = new HttpHeaders().set('Content-Type', 'application/json');
     return this._http.post( 
       this.url + '/datos_encuestados/', 
-      { params: params}
+      JSON.stringify(data), 
+      {headers: headers}
     );
   }
 
   updateDatoEncuestado( id, data){
-    let json = JSON.stringify({
-      "_id": data._id,
-      "segundoNombre": data.segundoNombre,
-      "segundoApellido": data.segundoApellido,
-      "cedula": data.cedula,
-      "medioConexion": data.medioConexion,
-      "edad": data.edad,
-      "genero": data.genero,
-      "nivel_economico": data.nivel_economico,
-      "nivelAcademico": data.nivelAcademico,
-      "personasHogar": data.personasHogar,
-      "activo": data.activo,
-      "creado_el": data.creado_el,
-      "modificado_el": data.modificado_el
-    });
-    let params =json;
+    const headers = new HttpHeaders().set('Content-Type', 'application/json');
     return this._http.put( 
       this.url + '/datos_encuestados/' + id, 
-      { params: params}
+      JSON.stringify(data), 
+      {headers: headers}
     );
   }
 
   deleteDatoEncuestado( id, data){
+    const headers = new HttpHeaders().set('Content-Type', 'application/json');
     // Ignorar data por los momentos
     return this._http.put( 
       this.url + '/datos_encuestados/' + id + '/eliminar', 
-      data
+      JSON.stringify(data), 
+      {headers: headers}
     );
   }
 }
