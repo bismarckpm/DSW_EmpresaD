@@ -32,10 +32,10 @@ export class EstudiosComponent implements OnInit {
     { _id:6, estado:'I', activo:false, creado_el:new Date(), modificado_el:new Date()}*/
   ];
   estudios: Estudio[] = [
-    {_id:1,estado:'A',tipo:'A',encuestas_esperadas:98,activo:true,creado_el:new Date(),modificado_el:new Date()},
-    {_id:2,estado:'A',tipo:'A',encuestas_esperadas:3,activo:true,creado_el:new Date(),modificado_el:new Date()},
-    {_id:3,estado:'A',tipo:'A',encuestas_esperadas:16,activo:true,creado_el:new Date(),modificado_el:new Date()},
-    {_id:4,estado:'A',tipo:'A',encuestas_esperadas:50,activo:true,creado_el:new Date(),modificado_el:new Date()},
+    /*{_id:1,estado:'A',tipo:'A',encuestasEsperadas:98,activo:true,creado_el:new Date(),modificado_el:new Date()},
+    {_id:2,estado:'A',tipo:'A',encuestasEsperadas:3,activo:true,creado_el:new Date(),modificado_el:new Date()},
+    {_id:3,estado:'A',tipo:'A',encuestasEsperadas:16,activo:true,creado_el:new Date(),modificado_el:new Date()},
+    {_id:4,estado:'A',tipo:'A',encuestasEsperadas:50,activo:true,creado_el:new Date(),modificado_el:new Date()},*/
   ];
   dataSource : MatTableDataSource<Estudio>;
   userSelection:number = 0

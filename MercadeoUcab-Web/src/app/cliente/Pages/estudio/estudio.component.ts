@@ -169,15 +169,15 @@ export class EstudioComponent implements OnInit {
     console.log(this.searchState);
     setTimeout(()=>{
       for (let i = 0; i < Math.floor(Math.random()*(100-1)+1); i++) {
-        this.estudios.push({
+        /*this.estudios.push({
           _id:Math.floor(Math.random()*(100-1)+1),
           estado:"Procesando",
           tipo:"encuesta",
-          encuestas_esperadas:Math.floor(Math.random()*(100-1)+1),
+          encuestasEsperadas:Math.floor(Math.random()*(100-1)+1),
           activo:true,
           creado_el:new Date(),
           modificado_el:new Date(),
-        });
+        });*/
       }
       this.dataSource = new MatTableDataSource<Estudio>(this.dataFilter(this.estudios));
       this.searchState="D";
