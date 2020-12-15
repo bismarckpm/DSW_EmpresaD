@@ -18,7 +18,7 @@ export class SubcategoriaService {
   }
 
   getSubCategoria(id): Observable<any> {
-    return this._http.get(this.url + '/subcategorias' + id);
+    return this._http.get(this.url + '/subcategorias/' + id);
   }
 
   createSubCategoria(data) {

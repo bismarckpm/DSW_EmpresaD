@@ -18,7 +18,7 @@ export class EstudioService {
   }
 
   getEstudio(id): Observable<any> {
-    return this._http.get(this.url + '/estudios' + id);
+    return this._http.get(this.url + '/estudios/' + id);
   }
 
   createEstudio(data) {

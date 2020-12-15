@@ -18,7 +18,7 @@ export class UsuarioService {
   }
 
   getUser(id): Observable<any> {
-    return this._http.get(this.url + '/usuarios' + id);
+    return this._http.get(this.url + '/usuarios/' + id);
   }
 
   createUser(data) {
@@ -38,7 +38,13 @@ export class UsuarioService {
   deleteUser(id, data) {
     // Ignorar data por los momentos
     const headers = new HttpHeaders().set('Content-Type', 'application/json');
-    return this._http.put(this.url + '/usuarios/' + id + '/eliminar', data);
+    return this._http.put(
+      this.url + '/usuarios/' + id + '/eliminar',
+      JSON.stringify(data),
+      {
+        headers: headers,
+      }
+    );
   }
 
   forgotPasswordRequest(data) {

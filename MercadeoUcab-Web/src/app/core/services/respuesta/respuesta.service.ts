@@ -18,18 +18,23 @@ export class RespuestaService {
   }
 
   getRespuesta(id): Observable<any> {
-    return this._http.get(this.url + '/respuestas' + id);
+    return this._http.get(this.url + '/respuestas/' + id);
   }
 
-  createRespuesta(data) 
-  {
+  createRespuesta(data) {
     const headers = new HttpHeaders().set('Content-Type', 'application/json');
-    return this._http.post(this.url + '/respuestas/', JSON.stringify(data), {headers: headers});
+    return this._http.post(this.url + '/respuestas/', JSON.stringify(data), {
+      headers: headers,
+    });
   }
 
   updateRespuesta(id, data) {
     const headers = new HttpHeaders().set('Content-Type', 'application/json');
-    return this._http.put(this.url + '/respuestas/' + id, JSON.stringify(data), {headers: headers});
+    return this._http.put(
+      this.url + '/respuestas/' + id,
+      JSON.stringify(data),
+      { headers: headers }
+    );
   }
 
   deleteRespuesta(id, data) {
