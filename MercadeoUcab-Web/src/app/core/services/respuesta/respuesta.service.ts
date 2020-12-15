@@ -21,36 +21,20 @@ export class RespuestaService {
     return this._http.get(this.url + '/respuestas' + id);
   }
 
-  createRespuesta(data) {
-    let json = JSON.stringify({
-      respuesta: data.respuesta,
-      Dtousuario: {
-        _id: data.Dtousuario._id,
-      },
-      dtoopcion: {
-        _id: data.dtoopcion._id,
-      },
-    });
-    let params = json;
-    return this._http.post(this.url + '/respuestas/', { params: params });
+  createRespuesta(data) 
+  {
+    const headers = new HttpHeaders().set('Content-Type', 'application/json');
+    return this._http.post(this.url + '/respuestas/', JSON.stringify(data), {headers: headers});
   }
 
   updateRespuesta(id, data) {
-    let json = JSON.stringify({
-      _id: data._id,
-      respuesta: data.respuesta,
-    });
-    let params = json;
-    return this._http.put(this.url + '/respuestas/' + id, { params: params });
+    const headers = new HttpHeaders().set('Content-Type', 'application/json');
+    return this._http.put(this.url + '/respuestas/' + id, JSON.stringify(data), {headers: headers});
   }
 
   deleteRespuesta(id, data) {
     // Ignorar data por los momentos
+    const headers = new HttpHeaders().set('Content-Type', 'application/json');
     return this._http.put(this.url + '/respuestas/' + id + '/eliminar', data);
-  }
-
-  signup(data) {
-    console.log('Usuario Services Signup');
-    return data;
   }
 }

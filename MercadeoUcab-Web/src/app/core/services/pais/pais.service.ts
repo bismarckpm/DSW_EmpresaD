@@ -24,17 +24,20 @@ export class PaisService {
   }
 
   createPais( data){
+    const headers = new HttpHeaders().set('Content-Type', 'application/json');
     let json = JSON.stringify({
       "nombre": data.nombre
     });
     let params =json;
     return this._http.post( 
       this.url + '/paises/', 
-      { params: params}
+      JSON.stringify(data), 
+      {headers: headers}
     );
   }
 
   updatePais( id, data){
+    const headers = new HttpHeaders().set('Content-Type', 'application/json');
     let json = JSON.stringify({
       "_id": data._id,
       "nombre": data.nombre
@@ -42,15 +45,18 @@ export class PaisService {
     let params =json;
     return this._http.put( 
       this.url + '/paises/' + id, 
-      { params: params}
+      JSON.stringify(data), 
+      {headers: headers}
     );
   }
 
   deletePais( id, data){
+    const headers = new HttpHeaders().set('Content-Type', 'application/json');
     // Ignorar data por los momentos
     return this._http.put( 
       this.url + '/paises/' + id + '/eliminar', 
-      data
+      JSON.stringify(data), 
+      {headers: headers}
     );
   }
 }

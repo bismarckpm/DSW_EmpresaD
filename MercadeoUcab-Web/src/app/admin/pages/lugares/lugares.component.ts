@@ -70,26 +70,17 @@ export class LugaresComponent implements OnInit {
   getAsociados(){
     let testPais = {
         _id:1,
-        nombre:'Test pais',
-        activo:true,
-        creado_el:new Date(),
-        modificado_el:new Date(),
+        nombre:'Test pais'
     };
     let testEstado = {
         _id:1,
         nombre:'Test estado',
-        fk_pais:testPais,
-        activo:true,
-        creado_el:new Date(),
-        modificado_el:new Date(),
+        pais:testPais
     };
     let testMunicipio = {
        _id:1,
       nombre:'Test  municipio',
-      fk_estado:testEstado,
-      activo:true,
-      creado_el:new Date(),
-      modificado_el:new Date(),
+      estado:testEstado
     }
     this._paisService.getPaises().subscribe(
       (response) => {
@@ -157,9 +148,9 @@ export class LugaresComponent implements OnInit {
     this.getAsociados();
     this.addForm= this.formBuilder.group({
       nombre:null,
-      fk_pais:null,
-      fk_estado:null,
-      fk_municipio:null,
+      pais:null,
+      estado:null,
+      municipio:null,
       valor_socio_economico:null,
     });
   }
@@ -169,35 +160,23 @@ export class LugaresComponent implements OnInit {
   invokeSearch(){
     let testPais = {
         _id:1,
-        nombre:'Test pais',
-        activo:true,
-        creado_el:new Date(),
-        modificado_el:new Date(),
+        nombre:'Test pais'
     };
     let testEstado = {
         _id:1,
         nombre:'Test estado',
-        fk_pais:testPais,
-        activo:true,
-        creado_el:new Date(),
-        modificado_el:new Date(),
+        pais:testPais,
     };
     let testMunicipio = {
        _id:1,
       nombre:'Test  municipio',
-      fk_estado:testEstado,
-      activo:true,
-      creado_el:new Date(),
-      modificado_el:new Date(),
+      estado:testEstado,
     }
     let testParroquia = { 
        _id:1,
       nombre:'Test  parrroquia',
-      fk_municipio:testMunicipio,
-      activo:true,
-      valor_socio_economico:8000,
-      creado_el:new Date(),
-      modificado_el:new Date(),
+      municipio:testMunicipio,
+      valor_socio_economico:8000
     }
 
 

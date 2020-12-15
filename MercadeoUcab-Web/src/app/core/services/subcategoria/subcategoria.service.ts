@@ -24,37 +24,31 @@ export class SubcategoriaService {
   }
 
   createSubCategoria( data){
+    const headers = new HttpHeaders().set('Content-Type', 'application/json');
     // Posible error verificar que la categoria la cargue bien 
-    let json = JSON.stringify({
-      "nombre": data.nombre,
-      "categoria": {
-        "_id": data.categoria._id
-      }
-    });
-    let params =json;
     return this._http.post( 
       this.url + '/subcategorias/', 
-      { params: params}
+      JSON.stringify(data), 
+      {headers: headers}
     );
   }
   updateSubCategoria( data){
+    const headers = new HttpHeaders().set('Content-Type', 'application/json');
     // Posible error verificar que la categoria la cargue bien 
-    let json = JSON.stringify({
-      "_id": data._id,
-      "nombre": data.nombre
-    });
-    let params =json;
     return this._http.put( 
       this.url + '/subcategorias/', 
-      { params: params}
+      JSON.stringify(data), 
+      {headers: headers}
     );
   }
 
   deleteSubCategoria( id, data){
+    const headers = new HttpHeaders().set('Content-Type', 'application/json');
     // Ignorar data por los momentos
     return this._http.put( 
       this.url + '/subcategorias/' + id + '/eliminar', 
-      data
+      JSON.stringify(data), 
+      {headers: headers}
     );
   }
 

@@ -46,15 +46,12 @@ export class AnalistaTasksComponent implements OnInit {
     this.searchState="I";
     setTimeout(() => {
       for (let i = 0; i < Math.floor(Math.random()*(100-1)+1); i++) {
-        this.estudios.push({
+        /*this.estudios.push({
          _id:Math.floor(Math.random()*(1000-1)+1),
          estado:(Math.floor(Math.random()*(100-1)+1)%2 === 0)?'I':'P',
          tipo:'A',
-         activo:true,
-         encuestas_esperadas:Math.floor(Math.random()*(100-1)+1),
-         creado_el:new Date(),
-         modificado_el:new Date(),
-        });
+         encuestas_esperadas:Math.floor(Math.random()*(100-1)+1)
+        });*/
       }
       this.dataSource = new MatTableDataSource<Estudio>(this.dataFilter(this.estudios));
       this.searchState="D";

@@ -7,6 +7,9 @@ import { MatDatepickerModule } from '@angular/material/datepicker';
 import { UpdateUserDialogComponent } from '../../components/dialogs/update-user-dialog/update-user-dialog.component';
 import { DeleteUserDialogComponent } from '../../components/dialogs/delete-user-dialog/delete-user-dialog.component';
 import { UsuarioService } from '@core/services/usuario/usuario.service';
+import { SubCategoria } from '@core/models/subcategoria';
+import { Categoria } from '@core/models/categoria';
+import { SubcategoriaService } from '@core/services/subcategoria/subcategoria.service';
 
 @Component({
   selector: 'app-usuarios',
@@ -44,6 +47,7 @@ export class UsuariosComponent implements OnInit {
      //private modalService: NgbModal,
      private formBuilder: FormBuilder,
      private _userService: UsuarioService,
+     private _subCategoryService: SubcategoriaService
     ) {
     this.addForm = this.formBuilder.group({
       nombre: null,
@@ -80,8 +84,19 @@ export class UsuariosComponent implements OnInit {
     )
   }
 
+
   addUser(data){
     this._userService.createUser(data).subscribe(
+      (response) => {
+        console.log(response);
+      },
+      (error) => {
+        console.log(error);
+      }
+    )
+  }
+  addSubCategory(data){
+    this._subCategoryService.createSubCategoria(data).subscribe(
       (response) => {
         console.log(response);
       },
@@ -95,6 +110,9 @@ export class UsuariosComponent implements OnInit {
     this.setOperation('');
     this.searchState="U";
     this.getUsers();
+    let usuario = new Usuario( 1,"Pedro", "Perez", "encuestado","op@gmai.com","activo");
+    let subcategoria = new SubCategoria(1,"subFront", new Categoria(1,"nose"));
+    this.addSubCategory(subcategoria);
   }
   @ViewChild('updUser') private updComponent:UpdateUserDialogComponent;
   async openUpdModal() {
@@ -191,9 +209,6 @@ export class UsuariosComponent implements OnInit {
          rol:'Administrador',
          correo:Math.random().toString(36).substr(2, 5),
          estado:'Activo',
-         activo:true,
-         creado_el:new Date(),
-         modificado_el:new Date(),
         });
       }
       this.dataSource = new MatTableDataSource<Usuario>(this.dataFilter(this.users));

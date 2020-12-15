@@ -36,10 +36,7 @@ export class UpdateUserDialogComponent implements OnInit {
       _id:this._user._id,
       nombre:null,
       apellido:null,
-      estado:null,
-      activo:this._user.activo,
-      creado_el:this._user.creado_el,
-      modificado_el:Date.now(),
+      estado:null
     };
   }
   close(){

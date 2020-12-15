@@ -21,38 +21,35 @@ export class UsuarioService {
     return this._http.get(this.url + '/usuarios' + id);
   }
 
-  createUser(data) {
-    let json = JSON.stringify({
-      nombre: data.nombre,
-      apellido: data.apellido,
-      estado: data.estado,
-      rol: data.rol,
-      correo: data.correo,
-    });
-    let params = json;
-    return this._http.post(this.url + '/usuarios/', { params: params });
+  createUser(data) 
+  {
+    const headers = new HttpHeaders().set('Content-Type', 'application/json');
+    return this._http.post(this.url + '/usuarios/', JSON.stringify(data), {headers: headers});
   }
 
   updateUser(id, data) {
-    let json = JSON.stringify({
-      _id: data._id,
-      nombre: data.nombre,
-      apellido: data.apellido,
-      estado: data.estado,
-      activo: data.activo,
-      creado_el: data.creado_el,
-      modificado_el: data.modificado_el,
-    });
-    let params = json;
-    return this._http.put(this.url + '/usuarios/' + id, { params: params });
+    const headers = new HttpHeaders().set('Content-Type', 'application/json');
+    return this._http.put(this.url + '/usuarios/' + id, JSON.stringify(data), {headers: headers});
   }
 
   deleteUser(id, data) {
     // Ignorar data por los momentos
+    const headers = new HttpHeaders().set('Content-Type', 'application/json');
     return this._http.put(this.url + '/usuarios/' + id + '/eliminar', data);
   }
 
+  forgotPasswordRequest(data){
+    const headers = new HttpHeaders().set('Content-Type', 'application/json');
+    return this._http.post(this.url + '/usuarios/peticionClaveOlvidada', JSON.stringify(data), {headers: headers});
+  }
+
+  forgotPassword(data){
+    const headers = new HttpHeaders().set('Content-Type', 'application/json');
+    return this._http.post(this.url + '/usuarios/cambioClaveOlvidada', JSON.stringify(data), {headers: headers});
+  }
+
   signup(data) {
+    const headers = new HttpHeaders().set('Content-Type', 'application/json');
     console.log('Usuario Services Signup');
     return data;
   }

@@ -26,15 +26,12 @@ export class EstudioRealizarComponent implements OnInit {
     console.log(this.route.snapshot.paramMap.get('id'));
     this._Id = parseInt(this.route.snapshot.paramMap.get('id'),10);
     if(this._Id !== 0){
-      this._Estudio= {
+      /*this._Estudio= {
         _id:Math.floor(Math.random()*(1000-1)+1),
          estado:(Math.floor(Math.random()*(100-1)+1)%2 === 0)?'I':'P',
          tipo:'A',
-         activo:true,
          encuestas_esperadas:Math.floor(Math.random()*(100-1)+1),
-         creado_el:new Date(),
-         modificado_el:new Date(),
-      }
+      }*/
     }
   }
 

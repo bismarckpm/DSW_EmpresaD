@@ -12,6 +12,6 @@ export class Estudio {
     public solicitud: Solicitud,
     public analista: Usuario,
     public muestra_poblacion: MuestraPoblacion,
-    public preguntas: Array<Pregunta>s
+    public preguntas: Array<Pregunta>
   ) {}
 }

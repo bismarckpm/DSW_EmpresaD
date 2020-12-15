@@ -20,47 +20,34 @@ export class SolicitudService {
   }
 
   getSolicitud(id): Observable<any>{
-    return this._http.get( this.url + '/solicitudes' + id);
+    return this._http.get( this.url + '/solicitudes/' + id);
   }
 
   createSolicitud( data){
-    // Posible error verificar que la marca y usuario la cargue bien 
-    let json = JSON.stringify({
-      "estado": data.estado,
-      "usuario": {
-        "_id": data.usuario._id
-      },
-      "marca": {
-        "_id": data.marca._id
-      }
-    });
-    let params =json;
+    const headers = new HttpHeaders().set('Content-Type', 'application/json');
     return this._http.post( 
       this.url + '/solicitudes/', 
-      { params: params}
+      JSON.stringify(data), 
+      {headers: headers}
     );
   }
 
   updateSolicitud( id, data){
-    let json = JSON.stringify({
-      "_id": data._id,
-      "estado": data.estado,
-      "activo": data.activo,
-      "creado_el": data.creado_el,
-      "modificado_el": data.modificado_el
-    });
-    let params =json;
+    const headers = new HttpHeaders().set('Content-Type', 'application/json');
     return this._http.put( 
       this.url + '/solicitudes/' + id, 
-      { params: params}
+      JSON.stringify(data), 
+      {headers: headers}
     );
   }
 
   deleteSolicitud( id, data){
+    const headers = new HttpHeaders().set('Content-Type', 'application/json');
     // Ignorar data por los momentos
     return this._http.put( 
       this.url + '/solicitudes/' + id + '/eliminar', 
-      data
+      JSON.stringify(data), 
+      {headers: headers}
     );
   }
 }

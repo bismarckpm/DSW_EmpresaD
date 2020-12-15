@@ -107,15 +107,12 @@ export class PreguntasComponent implements OnInit {
     this.searchState="P";
     setTimeout(()=>{
       for (let i = 0; i < Math.floor(Math.random()*(100-1)+1); i++) {
-        this.preguntas.push({
+        /*this.preguntas.push({
          _id:Math.floor(Math.random()*(1000-1)+1),
          nombre_pregunta:Math.random().toString(36).substr(2, 10),
-         activo:true,
          tipo:'',
-         rango:'',
-         creado_el:new Date(),
-         modificado_el:new Date(),
-        });
+         rango:''
+        });*/
       }
       this.dataSource = new MatTableDataSource<Pregunta>(this.dataFilter(this.preguntas));
       this.searchState="D";

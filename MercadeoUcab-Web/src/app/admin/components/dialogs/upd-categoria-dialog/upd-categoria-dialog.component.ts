@@ -34,8 +34,7 @@ export class UpdCategoriaDialogComponent implements OnInit {
     this.modalRef =this.modalService.open(this.modalContent);
     this.toService= {
       id:this._categoria._id,
-      nombre:null,
-      activo:this._categoria.activo
+      nombre:null
     }
     this.modalRef.result.then();
   }

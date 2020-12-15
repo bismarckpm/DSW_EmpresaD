@@ -25,17 +25,20 @@ export class CategoriaService {
   }
 
   createCategoria( data){
+    const headers = new HttpHeaders().set('Content-Type', 'application/json');
     let json = JSON.stringify({
       "nombre": data.nombre
     });
     let params =json;
     return this._http.post( 
       this.url + '/categorias/', 
-      { params: params}
+      JSON.stringify(data), 
+      {headers: headers}
     );
   }
 
   updateCategoria( id, data){
+    const headers = new HttpHeaders().set('Content-Type', 'application/json');
     let json = JSON.stringify({
       "_id": data._id,
       "nombre": data.nombre
@@ -43,15 +46,18 @@ export class CategoriaService {
     let params =json;
     return this._http.put( 
       this.url + '/categorias/' + id, 
-      { params: params}
+      JSON.stringify(data), 
+      {headers: headers}
     );
   }
 
   deleteCategoria( id, data){
+    const headers = new HttpHeaders().set('Content-Type', 'application/json');
     // Ignorar data por los momentos
     return this._http.put( 
       this.url + '/categorias/' + id + '/eliminar', 
-      data
+      JSON.stringify(data), 
+      {headers: headers}
     );
   }
 }
