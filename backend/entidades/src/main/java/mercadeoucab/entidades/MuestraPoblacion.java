@@ -30,12 +30,9 @@ public class MuestraPoblacion extends EntidadBase{
     @JoinColumn( name = "fk_lugar")
     private Parroquia fk_lugar;
 
-    @JoinTable(
-            name = "ocupacion_muestra",
-            joinColumns = @JoinColumn(name = "fk_muestra_poblacion", nullable = false),
-            inverseJoinColumns = @JoinColumn(name="fk_ocupacion", nullable = false))
-    @ManyToMany()
-    private List<Ocupacion> ocupaciones;
+    @ManyToOne
+    @JoinColumn( name = "fk_ocupacion")
+    private Ocupacion fk_ocupacion;
 
 
     public MuestraPoblacion(){}
@@ -97,9 +94,11 @@ public class MuestraPoblacion extends EntidadBase{
         this.fk_lugar = fk_lugar;
     }
 
-    public void addOcupacion(Ocupacion ocupacion){
-        if(this.ocupaciones == null)
-            this.ocupaciones = new ArrayList<>();
-        this.ocupaciones.add(ocupacion);
+    public Ocupacion getFk_ocupacion() {
+        return fk_ocupacion;
+    }
+
+    public void setFk_ocupacion(Ocupacion fk_ocupacion) {
+        this.fk_ocupacion = fk_ocupacion;
     }
 }

@@ -7,6 +7,12 @@ import java.util.List;
 
 @Entity
 @Table( name = "dato_encuestado" )
+@NamedQueries({
+        @NamedQuery(
+                name = "obtener_datoEncuestado_encuestado",
+                query = "select d from DatoEncuestado d where d.usuario = :usuario"
+        )
+})
 public class DatoEncuestado extends EntidadBase{
 
     @Column(name = "segundo_nombre")
@@ -44,12 +50,9 @@ public class DatoEncuestado extends EntidadBase{
     @JoinColumn( name = "fk_usuario")
     private Usuario usuario;
 
-    @JoinTable(
-            name = "ocupacion_encuestado",
-            joinColumns = @JoinColumn(name = "fk_dato_encuestado", nullable = false),
-            inverseJoinColumns = @JoinColumn(name="fk_ocupacion", nullable = false))
-    @ManyToMany()
-    private List<Ocupacion> ocupaciones;
+    @ManyToOne
+    @JoinColumn( name = "fk_ocupacion")
+    private Ocupacion ocupacion;
 
     @OneToMany( mappedBy = "datoEncuestado", fetch = FetchType.LAZY, cascade = CascadeType.PERSIST )
     private List<Telefono> telefonos = new ArrayList<>();
@@ -164,14 +167,6 @@ public class DatoEncuestado extends EntidadBase{
         this.usuario = usuario;
     }
 
-    public List<Ocupacion> getOcupaciones() {
-        return ocupaciones;
-    }
-
-    public void setOcupaciones(List<Ocupacion> ocupaciones) {
-        this.ocupaciones = ocupaciones;
-    }
-
     public List<Telefono> getTelefonos() {
         return telefonos;
     }
@@ -188,10 +183,12 @@ public class DatoEncuestado extends EntidadBase{
         this.hijos = hijos;
     }
 
-    public void addOcupacion(Ocupacion ocupacion){
-        if(this.ocupaciones == null)
-            this.ocupaciones = new ArrayList<>();
-        this.ocupaciones.add(ocupacion);
+    public Ocupacion getOcupacion() {
+        return ocupacion;
+    }
+
+    public void setOcupacion(Ocupacion ocupacion) {
+        this.ocupacion = ocupacion;
     }
 
     public void addTelefono(Telefono telefono){

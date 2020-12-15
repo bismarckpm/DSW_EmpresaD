@@ -166,7 +166,8 @@ INSERT INTO `mercadeoucab`.`muestra_poblacion`
 `cantidad_hijos`,
 `activo`,
 `creado_el`,
-`fk_lugar`)
+`fk_lugar`,
+`fk_ocupacion`)
 VALUES
 (1,
 "masculino",
@@ -177,6 +178,7 @@ VALUES
 2,
 1,
 now(),
+1,
 1);
 
 INSERT INTO `mercadeoucab`.`estudio`
@@ -214,7 +216,8 @@ INSERT INTO `mercadeoucab`.`dato_encuestado`
 `activo`,
 `creado_el`,
 `fk_usuario`,
-`fk_lugar`)
+`fk_lugar`,
+`fk_ocupacion`)
 VALUES
 (1,
 "Concepcion",
@@ -228,6 +231,7 @@ VALUES
 4,
 1,
 now(),
+1,
 1,
 1);
 
