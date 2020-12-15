@@ -95,7 +95,7 @@ export class TiposComponent implements OnInit {
     );
   }
 
-  modifyTipo(id, data) {
+  updateTipo(id, data) {
     this._tipoService.updateTipo(id, data).subscribe(
       (response) => {
         console.log(response);

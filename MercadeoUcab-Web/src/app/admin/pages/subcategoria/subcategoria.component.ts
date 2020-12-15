@@ -72,6 +72,50 @@ export class SubcategoriaComponent implements OnInit {
     });
     this.getAsociados();
   }
+  getSubCategorias() {
+    this._subcategoriaService.getSubCategorias().subscribe(
+      (response) => {
+        console.log(response);
+        this.subcategorias = response.data;
+      },
+      (error) => {
+        console.log(error);
+      }
+    );
+  }
+  updateSubCategoria(id, data) {
+    this._subcategoriaService.updateSubCategoria(id, data).subscribe(
+      (response) => {
+        console.log(response);
+        alert('Se ha modificado correctamente');
+      },
+      (error) => {
+        console.log(error);
+      }
+    );
+  }
+  deleteSubCategoria(id, data) {
+    this._subcategoriaService.deleteSubCategoria(id, data).subscribe(
+      (response) => {
+        console.log(response);
+        alert('Se ha modificado correctamente');
+      },
+      (error) => {
+        console.log(error);
+      }
+    );
+  }
+  addSubCategoria(data) {
+    this._subcategoriaService.createSubCategoria(data).subscribe(
+      (response) => {
+        console.log(response);
+        alert('Se ha agregado correctamente');
+      },
+      (error) => {
+        console.log(error);
+      }
+    );
+  }
   selectUser(id: number, data) {
     if (id === this.userSelection) {
       this.userSelection = 0;

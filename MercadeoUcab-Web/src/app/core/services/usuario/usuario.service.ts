@@ -21,15 +21,18 @@ export class UsuarioService {
     return this._http.get(this.url + '/usuarios' + id);
   }
 
-  createUser(data) 
-  {
+  createUser(data) {
     const headers = new HttpHeaders().set('Content-Type', 'application/json');
-    return this._http.post(this.url + '/usuarios/', JSON.stringify(data), {headers: headers});
+    return this._http.post(this.url + '/usuarios/', JSON.stringify(data), {
+      headers: headers,
+    });
   }
 
   updateUser(id, data) {
     const headers = new HttpHeaders().set('Content-Type', 'application/json');
-    return this._http.put(this.url + '/usuarios/' + id, JSON.stringify(data), {headers: headers});
+    return this._http.put(this.url + '/usuarios/' + id, JSON.stringify(data), {
+      headers: headers,
+    });
   }
 
   deleteUser(id, data) {
@@ -38,14 +41,22 @@ export class UsuarioService {
     return this._http.put(this.url + '/usuarios/' + id + '/eliminar', data);
   }
 
-  forgotPasswordRequest(data){
+  forgotPasswordRequest(data) {
     const headers = new HttpHeaders().set('Content-Type', 'application/json');
-    return this._http.post(this.url + '/usuarios/peticionClaveOlvidada', JSON.stringify(data), {headers: headers});
+    return this._http.post(
+      this.url + '/usuarios/peticionClaveOlvidada',
+      JSON.stringify(data),
+      { headers: headers }
+    );
   }
 
-  forgotPassword(data){
+  forgotPassword(data) {
     const headers = new HttpHeaders().set('Content-Type', 'application/json');
-    return this._http.post(this.url + '/usuarios/cambioClaveOlvidada', JSON.stringify(data), {headers: headers});
+    return this._http.post(
+      this.url + '/usuarios/cambioClaveOlvidada',
+      JSON.stringify(data),
+      { headers: headers }
+    );
   }
 
   signup(data) {
