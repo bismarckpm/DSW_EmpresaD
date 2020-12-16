@@ -11,4 +11,24 @@ export class UtilService {
   constructor(public _http: HttpClient) {
     this.url = GLOBAL.urlOscar;
   }
+
+  getPreguntasOfAnAdministrador(id) {
+    return this._http.get(this.url + '/administrador/' + id + '/preguntas');
+  }
+
+  getEstudiosOfEncuestado(id) {
+    return this._http.get(this.url + '/encuestados/estudios/' + id);
+  }
+
+  getUsuariosAnalistas() {
+    return this._http.get(this.url + '/analista');
+  }
+
+  getEstudiosOfAnalista(id) {
+    return this._http.get(this.url + '/analista/' + id + '/estudios');
+  }
+
+  getSolicitudesOfCliente(id) {
+    return this._http.get(this.url + '/cliente/' + id + '/solicitudes');
+  }
 }
