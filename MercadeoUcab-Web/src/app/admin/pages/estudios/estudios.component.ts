@@ -215,6 +215,7 @@ export class EstudiosComponent implements OnInit {
   invokeSearch() {
     this.estudios = [];
     this.userSelection = 0;
+    let toAdd: any = {};
     //console.log('Search works');
     //console.log(this.searchForm.value);
     this.searchState = 'P';

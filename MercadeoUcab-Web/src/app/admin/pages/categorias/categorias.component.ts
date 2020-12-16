@@ -85,7 +85,7 @@ export class CategoriasComponent implements OnInit {
     this._categoriaService.updateCategoria(id, data).subscribe(
       (response) => {
         console.log(response);
-        alert('Se modifico la categoria correctamente');
+        //alert('Se modifico la categoria correctamente');
       },
       (error) => {
         console.log(error);
@@ -97,7 +97,7 @@ export class CategoriasComponent implements OnInit {
     this._categoriaService.deleteCategoria(id, data).subscribe(
       (response) => {
         console.log(response);
-        alert('Se elimino la categoria correctamente');
+        //alert('Se elimino la categoria correctamente');
       },
       (error) => {
         console.log(error);
@@ -115,7 +115,10 @@ export class CategoriasComponent implements OnInit {
     this.searchState = 'P';
     this.categorias = [];
     this.userSelection = 0;
-    this._categoriaService.getCategorias().subscribe(
+    let toAdd: any = {};
+    toAdd.nombre = this.addForm.value.nombre;
+    this.addCategoria(toAdd);
+    /*this._categoriaService.getCategorias().subscribe(
       (response) => {
         console.log(response);
         this.categorias = response.data;
@@ -134,7 +137,7 @@ export class CategoriasComponent implements OnInit {
         );
         this.searchState = 'D';
       }
-    );
+    );*/
   }
   doSearch() {
     this.searchState = 'I';
