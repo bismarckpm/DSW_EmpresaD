@@ -127,16 +127,23 @@ public class ServicioUsuario extends AplicacionBase{
             Usuario resul = dao.insert( usuario);
             // Agregar al directorio activo
             DirectorioActivo ldap = new DirectorioActivo( dtoUsuario.getRol());
-            DtoDirectorioAUser paraInsertar = new DtoDirectorioAUser(
-                    dtoUsuario.getCorreo(),
-                    dtoUsuario.getEstado(),
-                    dtoUsuario.getPassword()
-            );
-            ldap.addEntryToLdap( paraInsertar);
-            data = Json.createObjectBuilder()
-                    .add("status", 200)
-                    .add("message", "Agregado exitosamente")
-                    .build();
+            if (dtoUsuario.getPassword() != null){
+                DtoDirectorioAUser paraInsertar = new DtoDirectorioAUser(
+                        dtoUsuario.getCorreo(),
+                        dtoUsuario.getEstado(),
+                        dtoUsuario.getPassword()
+                );
+                ldap.addEntryToLdap( paraInsertar);
+                data = Json.createObjectBuilder()
+                        .add("status", 200)
+                        .add("message", "Agregado exitosamente")
+                        .build();
+            }else{
+                data = Json.createObjectBuilder()
+                        .add("status", 400)
+                        .add("message", "Error se debe enviar una contrasena")
+                        .build();
+            }
             resultado = Response.status(Response.Status.OK)
                     .entity(data)
                     .build();
