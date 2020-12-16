@@ -95,6 +95,7 @@ align-items: center;">
                     </div>
                 </div>
             </div>
+            <!--ASIGNAR AL FORMULARIO EL FORMGROUP A MANIPULAR-->
             <form class="cForm" [formGroup]="addForm"
             *ngIf="opStatus==='S' && userRole!==''" (ngSubmit)="serviceInvoke(userRole)" novalidate>
                 <h4 style="height: fit-content;width: 100%;">Nuevo {{userRole}}</h4>
@@ -102,6 +103,7 @@ align-items: center;">
                     <div class="cForm-field-col">
                         <div class="form-group">
                             <label for="userNewName">Nombre de usuario</label>
+                            <!--ASIGNAR A CADA INPUT EL FORMCONTROLNAME DESIGNADO, ESTO ES EL CAMPO QUE SE QUIERE ALTERAR ANTE LA INTERACCION CON EL MISMO-->
                             <input type="text"
                             formControlName="nombre" class="form-control" id="userNewName"
                                 aria-describedby="newNameHelp"/>

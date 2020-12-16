@@ -17,8 +17,11 @@ export class UpdateUserDialogComponent implements OnInit {
   private modalRef: NgbModalRef;
   constructor(private modalService: NgbModal,private formBuilder: FormBuilder,private  _service:UsuarioService){}
   @Input() _userSelection : number;
+  //MODELO O REGISTRO DE DATOS A MODIFICAR RECIBIDO POR PROPIEDADES DESDE EL COMPONENTE PADRE
   @Input() _user : Usuario;
+  //MODELO DE DATOS 
   toService: any;
+  
   ngOnInit(): void {
     this.opStatus="S";
     this.updForm = this.formBuilder.group({
@@ -32,12 +35,22 @@ export class UpdateUserDialogComponent implements OnInit {
     this.modalRef =this.modalService.open(this.modalContent);
     this.modalRef.result.then();
     //console.log('Usuario: ',this._user);
+    
+    /*
+
+    ESTA ES LA VARIABLE/MODELO ENVIADO AL SERVICIO DE MODIFICACION
+    UNA VEZ DESPLEGADO EL DIALOGO SE LE ASIGNAN LOS VALORES NO CAMBIANTES
+    DE LA ENTIDAD Y SE DEJA LOS ABIERTOS A CAMBIOS EN NULL
+
+    */
     this.toService ={
       _id:this._user._id,
       nombre:null,
       apellido:null,
       estado:null
     };
+
+
   }
   close(){
     this.opStatus="S";
@@ -62,6 +75,12 @@ export class UpdateUserDialogComponent implements OnInit {
     )
   }
   invokeService(){
+    /*
+
+    PROCESO DE ASIGNACION DE VALORES ANTIGUOS O NUEVOS AL MODELO A SER ENVIADO 
+    A SERVICIO DE MODIFICACION
+
+    */
     Object.entries(this.updForm.value).forEach(([key,field],ind)=>{
       if(field !== null){
         this.toService[key]=field;
@@ -73,8 +92,5 @@ export class UpdateUserDialogComponent implements OnInit {
     //console.log(this.toService,this.updForm.value);
     this.opStatus="P";
     this.updateUser(this._userSelection,this.toService);
-    /*setTimeout(()=>{
-      this.opStatus="D";
-    },3000);*/
   }
 }
