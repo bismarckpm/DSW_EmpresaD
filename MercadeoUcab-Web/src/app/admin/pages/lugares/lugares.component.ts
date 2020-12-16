@@ -12,6 +12,7 @@ import { Estado } from '@models/estado';
 import { Pais } from '@models/pais';
 import { Municipio } from '@models/municipio';
 import { Parroquia } from '@core/models/parroquia';
+import { THIS_EXPR } from '@angular/compiler/src/output/output_ast';
 
 interface SearchLug {
   t: string;
@@ -69,7 +70,7 @@ export class LugaresComponent implements OnInit {
   //dataSource : MatTableDataSource<Lugar>;
   //CHEQUEO DE OPERACION
   getAsociados() {
-    let testPais = {
+    /*let testPais = {
       _id: 1,
       nombre: 'Test pais',
     };
@@ -82,37 +83,11 @@ export class LugaresComponent implements OnInit {
       _id: 1,
       nombre: 'Test  municipio',
       estado: testEstado,
-    };
-    this._paisService.getPaises().subscribe(
-      (response) => {
-        console.log(response);
-        this._paises = response.data;
-      },
-      (error) => {
-        console.log(error);
-        this._paises = [testPais];
-      }
-    );
-    this._estadoService.getEstados().subscribe(
-      (response) => {
-        console.log(response);
-        this._estados = response.data;
-      },
-      (error) => {
-        console.log(error);
-        this._estados = [testEstado];
-      }
-    );
-    this._municipioService.getMunicipios().subscribe(
-      (response) => {
-        console.log(response);
-        this._municipios = response.data;
-      },
-      (error) => {
-        console.log(error);
-        this._municipios = [testMunicipio];
-      }
-    );
+    };*/
+    this.getPaises();
+    this.getEstados();
+    this.getMunicipios();
+    this.getParroquias();
   }
   checkForSearch(i: number) {
     if (this.searchLugar[i].do === 1) {
@@ -368,7 +343,7 @@ export class LugaresComponent implements OnInit {
       valor_socio_economico: 8000,
     };
 
-    console.log(this.searchLugar, this.searchForm.value);
+    //console.log(this.searchLugar, this.searchForm.value);
     this.searchState = 'P';
     this.searchResults = {
       PA: this.searchLugar[0].do === 1 ? [testPais] : [],
@@ -378,7 +353,7 @@ export class LugaresComponent implements OnInit {
     };
     setTimeout(() => {
       this.searchState = 'D';
-      console.log(this.searchResults);
+      //console.log(this.searchResults);
     }, 3000);
   }
   selectUser(id: number) {
@@ -407,57 +382,33 @@ export class LugaresComponent implements OnInit {
     this.tipoLugar = tipo;
   }
   serviceInvoke(role: string) {
-    console.log(this.addForm.value);
-    //MEDIO PARA DETERMINAR SERVICIO A INVOCAR SEGUN FORMULARIO DE CREACION DE LOCACION
+    //console.log(this.addForm.value);
+    let values = this.addForm.value;
+    let toCreate: any = {};
     this.opStatus = 'P';
     switch (role) {
       case 'PA':
-        this._paisService.createPais(this.addForm.value).subscribe(
-          (response) => {
-            console.log(response);
-            this.opStatus = 'D';
-          },
-          (error) => {
-            console.log(error);
-            this.opStatus = 'E';
-          }
-        );
+        toCreate.nombre = values.nombre;
+        this.addPais(toCreate);
         break;
       case 'ES':
-        this._estadoService.createEstado(this.addForm.value).subscribe(
-          (response) => {
-            console.log(response);
-            this.opStatus = 'D';
-          },
-          (error) => {
-            console.log(error);
-            this.opStatus = 'E';
-          }
-        );
+        toCreate.nombre = values.nombre;
+        toCreate.fk_pais = values.pais;
+        console.log(toCreate);
+        this.addEstado(toCreate);
         break;
       case 'MU':
-        this._municipioService.createMunicipio(this.addForm.value).subscribe(
-          (response) => {
-            console.log(response);
-            this.opStatus = 'D';
-          },
-          (error) => {
-            console.log(error);
-            this.opStatus = 'E';
-          }
-        );
+        toCreate.nombre = values.nombre;
+        toCreate.fk_estado = values.estado;
+        console.log(toCreate);
+        this.addMunicipio(toCreate);
         break;
       case 'PR':
-        this._parroquiaService.createParroquia(this.addForm.value).subscribe(
-          (response) => {
-            console.log(response);
-            this.opStatus = 'D';
-          },
-          (error) => {
-            console.log(error);
-            this.opStatus = 'E';
-          }
-        );
+        toCreate.nombre = values.nombre;
+        toCreate.fk_municipio = values.municipio;
+        toCreate.valor_socio_economico = values.valor_socio_economico;
+        console.log(toCreate);
+        this.addParroquia(toCreate);
         break;
       default:
         break;

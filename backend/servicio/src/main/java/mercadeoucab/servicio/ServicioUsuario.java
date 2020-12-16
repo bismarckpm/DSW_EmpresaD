@@ -138,15 +138,19 @@ public class ServicioUsuario extends AplicacionBase{
                         .add("status", 200)
                         .add("message", "Agregado exitosamente")
                         .build();
+                resultado = Response.status(Response.Status.OK)
+                        .entity(data)
+                        .build();
             }else{
                 data = Json.createObjectBuilder()
                         .add("status", 400)
                         .add("message", "Error se debe enviar una contrasena")
                         .build();
+                resultado = Response.status(Response.Status.BAD_REQUEST)
+                        .entity(data)
+                        .build();
             }
-            resultado = Response.status(Response.Status.OK)
-                    .entity(data)
-                    .build();
+
         }catch (Exception e) {
             String problema = e.getMessage();
             data = Json.createObjectBuilder()

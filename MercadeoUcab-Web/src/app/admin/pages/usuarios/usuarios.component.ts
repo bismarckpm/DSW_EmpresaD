@@ -50,13 +50,12 @@ export class UsuariosComponent implements OnInit {
     private formBuilder: FormBuilder,
     private _userService: UsuarioService
   ) {
-
-
     //FORMULARIO PARA REGISTRAR USUARIO
     //(FORMGROUP)
     this.addForm = this.formBuilder.group({
       //CAMPOS REQUERIDOS PARA EL REGISTRO (SIN IMPORTAR LA DATA QUE ERCIBEN DEBEN SER INSTANCIADOS ACA)
       //(FORMCONTROLNAME)
+      //Falta agregar la contrasena
       nombre: null,
       apellido: null,
       rol: null,
@@ -67,10 +66,10 @@ export class UsuariosComponent implements OnInit {
     this.searchForm = this.formBuilder.group({
       nombre: null,
       apellido: null,
-      rol: null, 
-      estado: null, 
-      activo: null, 
-      creado_el: null, 
+      rol: null,
+      estado: null,
+      activo: null,
+      creado_el: null,
       modificado_el: null,
     });
   }
@@ -78,12 +77,14 @@ export class UsuariosComponent implements OnInit {
     this.searchState = 'P';
     this._userService.getUsers().subscribe(
       (response) => {
-        console.log(response);
+        //console.log(response);
         //SE OBTIENE LA RESPUESTA DEL SERVICIO
         this.users = response.data;
-        console.log(this.users);
-        //SE GENERA LA NUEVA TABLA DE RESULTADOS FILTRANDO SEGUN CAMPOS DADOS POR EL USUARIO 
-        this.dataSource = new MatTableDataSource<Usuario>(this.dataFilter(this.users));
+        //console.log(this.users);
+        //SE GENERA LA NUEVA TABLA DE RESULTADOS FILTRANDO SEGUN CAMPOS DADOS POR EL USUARIO
+        this.dataSource = new MatTableDataSource<Usuario>(
+          this.dataFilter(this.users)
+        );
         this.searchState = 'D';
       },
       (error) => {
@@ -95,12 +96,16 @@ export class UsuariosComponent implements OnInit {
 
   addUser(data) {
     this._userService.createUser(data).subscribe(
-      (response) => {
+      (response: any) => {
         console.log(response);
-        alert('Se agrego el usuario correctamente');
+        if (response.status === 200) {
+          //Se hace lo que se quiera en exito
+          alert(response.message);
+        }
       },
       (error) => {
         console.log(error);
+        alert(error.error.message);
       }
     );
   }
@@ -147,9 +152,8 @@ export class UsuariosComponent implements OnInit {
   }
   //METODO ENCARGADO DE DISPARAR PETICION DE REGISTRO
   serviceInvoke(role: string) {
-
     //FALTA VALIDACION
-    
+
     /*
 
     PARA LEER LOS CAMPOS DEL FORMULARIO SE ACCEDE AL OBJETO this.addForm.value
@@ -157,13 +161,17 @@ export class UsuariosComponent implements OnInit {
     ES EL VALOR DADO POR EL USUARIO
 
     */
-
+    let toAdd: any = {};
+    toAdd = this.addForm.value;
+    //toAdd.password = 'no';
     //console.log(this.addForm.value);
-
+    //console.log('-------------------');
+    //console.log(toAdd);
 
     this.opStatus = 'P';
-    this.addUser(this.addForm.value);
-    
+    // En este caso los valores de los campos son iguales
+    this.addUser(toAdd);
+
     /*setTimeout(() => {
       this.addForm = this.formBuilder.group({
         nombre: null,
@@ -192,7 +200,7 @@ export class UsuariosComponent implements OnInit {
   }
   //PROCESO DE FILTRADO GENERAL
   dataFilter(dataArray: Usuario[]): Usuario[] {
-    console.log(this.searchForm.value);
+    //console.log(this.searchForm.value);
     let filtered: Usuario[] = [];
     dataArray.forEach((res, ind) => {
       let inc = true;
@@ -217,7 +225,7 @@ export class UsuariosComponent implements OnInit {
         filtered.push(res);
       }
     });
-    console.log(dataArray, filtered);
+    //console.log(dataArray, filtered);
     return filtered;
   }
   invokeSearch() {
@@ -251,7 +259,6 @@ export class UsuariosComponent implements OnInit {
       );
       this.searchState = 'D';
     }, 3000);*/
-
   }
   setOperation(chOp: string) {
     this.op = chOp;
