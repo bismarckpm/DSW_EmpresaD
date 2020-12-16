@@ -17,10 +17,16 @@ export class MarcaService {
     return this._http.get(this.url + '/marcas');
   }
 
+  //id en path
   getMarca(id): Observable<any> {
     return this._http.get(this.url + '/marcas/' + id);
   }
 
+  /*
+  {
+    "nombre","nombre"
+  }
+  */
   createMarca(data) {
     const headers = new HttpHeaders().set('Content-Type', 'application/json');
     let json = JSON.stringify({
@@ -32,6 +38,12 @@ export class MarcaService {
     });
   }
 
+  /*
+  id en el path
+  {
+    "nombre","nombre"
+  }
+  */
   updateMarca(id, data) {
     const headers = new HttpHeaders().set('Content-Type', 'application/json');
     let json = JSON.stringify({
@@ -44,6 +56,7 @@ export class MarcaService {
     });
   }
 
+  //id en el path
   deleteMarca(id, data) {
     const headers = new HttpHeaders().set('Content-Type', 'application/json');
     // Ignorar data por los momentos

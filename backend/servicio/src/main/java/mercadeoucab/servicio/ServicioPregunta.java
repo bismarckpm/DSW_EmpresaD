@@ -96,6 +96,7 @@ public class ServicioPregunta extends AplicacionBase{
             pregunta.setUsuario(usuario);
             pregunta.setActivo(1);
             pregunta.setCreado_el(new Date(Calendar.getInstance().getTime().getTime()));
+            
             for (DtoOpcion opcion: dtoPregunta.getOpciones()){
                 Opcion paraInsertar = new Opcion();
                 paraInsertar.setActivo( 1);
