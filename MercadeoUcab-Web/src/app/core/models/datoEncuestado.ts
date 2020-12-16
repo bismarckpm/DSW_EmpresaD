@@ -1,4 +1,6 @@
+import { Hijo } from './hijo';
 import { Parroquia } from './parroquia';
+import { Telefono } from './telefono';
 import { Usuario } from './usuario';
 
 export class DatoEncuestado{
@@ -8,15 +10,14 @@ export class DatoEncuestado{
         public segundoApellido:string,
         public cedula:string,
         public medioConexion:string,
-        public edad:any,
+        public edad:number,
         public genero:string,
         public nivel_economico:number,
         public nivelAcademico:string,
-        public personasHogar:string,
-        public fk_lugar:Parroquia,
+        public personasHogar:number,
+        public parroquia:Parroquia,
         public usuario:Usuario,
-        public activo:boolean,
-        public creado_el:any,
-        public modificado_el:any
+        public telefonos: Array<Telefono>,
+        public hijos: Array<Hijo>
     ){}
 }

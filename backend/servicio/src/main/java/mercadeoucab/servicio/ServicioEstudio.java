@@ -67,6 +67,7 @@ public class ServicioEstudio {
                                              .add("muestra_poblacion",Json.createObjectBuilder()
                                                                              .add("_id",estudio.getFk_muestra_poblacion().get_id())
                                                                              .add("genero",estudio.getFk_muestra_poblacion().getGenero())
+                                                                             .add("nivel_economico", estudio.getFk_muestra_poblacion().getNivelEconomico())
                                                                              .add("nivel_academico", estudio.getFk_muestra_poblacion().getNivelAcademico())
                                                                              .add("rango_edad_inicio", estudio.getFk_muestra_poblacion().getRangoEdadInicio())
                                                                              .add("rango_edad_fin", estudio.getFk_muestra_poblacion().getRangoEdadFin())

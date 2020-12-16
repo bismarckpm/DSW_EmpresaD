@@ -1,60 +1,65 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { GLOBAL} from '@env/environment';
+import { GLOBAL } from '@env/environment';
 import { Observable } from 'rxjs';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class ParroquiaService {
   public url: string;
 
-  constructor(
-    public _http:HttpClient
-  ) { 
+  constructor(public _http: HttpClient) {
     this.url = GLOBAL.urlOscar;
   }
 
-  getParroquias(): Observable<any>{
-    return this._http.get( this.url + '/parroquias');
+  getParroquias(): Observable<any> {
+    return this._http.get(this.url + '/parroquias');
   }
 
-  getParroquia(id): Observable<any>{
-    return this._http.get( this.url + '/parroquias' + id);
+  //id en path
+  getParroquia(id): Observable<any> {
+    return this._http.get(this.url + '/parroquias/' + id);
   }
 
-  createParroquia( data){
-    let json = JSON.stringify({
-      "nombre": data.nombre,
-      "fk_municipio": {
-        "_id": data.fk_municipio._id
-      },
-      "valor_socio_economico": data.valor_socio_economico
+  /*
+  {
+    "nombre":"nombre",
+    "valor_socio_economico":int,
+    "fk_municipio":int
+  }
+  */
+  createParroquia(data) {
+    const headers = new HttpHeaders().set('Content-Type', 'application/json');
+    return this._http.post(this.url + '/parroquias/', JSON.stringify(data), {
+      headers: headers,
     });
-    let params =json;
-    return this._http.post( 
-      this.url + '/parroquias/', 
-      { params: params}
+  }
+
+  /*
+  id en el path
+  {
+    "nombre":"nombre",
+    "valor_socio_economico":int
+  }
+  */
+  updateParroquia(id, data) {
+    const headers = new HttpHeaders().set('Content-Type', 'application/json');
+    return this._http.put(
+      this.url + '/parroquias/' + id,
+      JSON.stringify(data),
+      { headers: headers }
     );
   }
 
-  updateParroquia( id, data){
-    let json = JSON.stringify({
-      "_id": data._id,
-      "nombre": data.nombre
-    });
-    let params =json;
-    return this._http.put( 
-      this.url + '/parroquias/' + id, 
-      { params: params}
-    );
-  }
-
-  deleteParroquia( id, data){
+  //id en path
+  deleteParroquia(id, data) {
     // Ignorar data por los momentos
-    return this._http.put( 
-      this.url + '/parroquias/' + id + '/eliminar', 
-      data
+    const headers = new HttpHeaders().set('Content-Type', 'application/json');
+    return this._http.put(
+      this.url + '/parroquias/' + id + '/eliminar',
+      JSON.stringify(data),
+      { headers: headers }
     );
   }
 }

@@ -1,0 +1,88 @@
+<div class="analista-estudio">
+    <mat-grid-list cols="10" rowHeight="25%">
+        <mat-grid-tile
+        [colspan]="4"
+        [rowspan]="4"
+        >
+            <mat-card class="estudio-poblacion">
+                <mat-card-header style="justify-content: space-around;">
+                    <mat-card-title>Población de estudio</mat-card-title>
+                    <button class="btn btn-outline-dark shadow-sm">
+                        <mat-icon>
+                            more_horiz
+                        </mat-icon>
+                    </button>
+                </mat-card-header>
+                <mat-card-content class="card-content">
+                    <!--ENCUESTADOS-->
+                    <!--
+                    <div class="encuestado-content" *ngFor="let person of _Estudio.poblacion">
+                        <mat-icon style="color: #00d8b4;">
+                            account_box
+                        </mat-icon>
+                        <a>DATA_ENCUESTADO</a>
+                        <mat-icon  style="color: greenyellow;" *ngIf="person.done === true; else notdone">
+                            assignment_turned_in
+                        </mat-icon>
+                        <ng-template #notdone>
+                            <mat-icon style="color: orange">
+                                assignment_late
+                            </mat-icon>
+                        </ng-template>
+                    </div>
+                    -->
+                </mat-card-content>
+            </mat-card>
+        </mat-grid-tile>
+        <mat-grid-tile
+        [colspan]="6"
+        [rowspan]="3"
+        >
+            <mat-card class="estudio-preguntas">
+                <mat-card-header>
+                    <mat-card-title>Preguntas de estudio</mat-card-title>
+                </mat-card-header>
+                <mat-card-content class="card-content">
+                    <!--PREGUNTAS ESTUDIO-->
+                    <!--
+                    <div class="pregunta-content" *ngFor="let pregunta of _Estudio.preguntas">
+                        <mat-icon style="
+                        color: #00d8b4; 
+                        font-size: 28px;
+                        height: 28px;
+                        width: 28px;">
+                            help_center
+                        </mat-icon>
+                        <div class="pregunta-descripcion">
+
+                        </div>
+                        <button mat-raised-button aria-label="pregunta explain button">
+                            <mat-icon>
+                                more_vert
+                            </mat-icon>
+                        </button>
+                        
+                        <a>{{pregunta.id}}</a>
+                        <a>{{pregunta.descripcion}}</a>
+                        <a>{{pregunta.estado}}</a>
+                        
+                    </div>
+                -->
+                </mat-card-content>
+            </mat-card>
+        </mat-grid-tile>
+        <mat-grid-tile
+        [colspan]="6"
+        [rowspan]="1"
+        >
+            <mat-card class="estudio-progreso">
+                <mat-card-header>
+                    <mat-card-title>Progreso del estudio</mat-card-title>
+                </mat-card-header>
+                <mat-card-content>
+                    <!--PROGRESO ( Finalizados/ No finalizados/ N poblacion )-->
+                </mat-card-content>
+            </mat-card>
+        </mat-grid-tile>
+    </mat-grid-list>
+</div>

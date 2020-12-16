@@ -19,10 +19,18 @@ export class HijoService {
     return this._http.get( this.url + '/hijos');
   }
 
+  //id en path
   getHijo(id): Observable<any>{
     return this._http.get( this.url + '/hijos' + id);
   }
 
+  /*
+  {
+    "genero":"genero",
+    "edad":"yyyy-mm-dd",
+    "datoEncuestado":int
+  }
+  */
   createHijo( data){
     let json = JSON.stringify({
       "genero": data.genero,
@@ -39,6 +47,13 @@ export class HijoService {
     );
   }
 
+    /*
+    id en path
+  {
+    "genero":"genero",
+    "edad":"yyyy-mm-dd"
+  }
+  */
   updateHijo( id, data){
     let json = JSON.stringify({
       "_id": data._id,
@@ -52,6 +67,7 @@ export class HijoService {
     );
   }
 
+  //id en el path
   deleteHijo( id, data){
     // Ignorar data por los momentos
     return this._http.put( 

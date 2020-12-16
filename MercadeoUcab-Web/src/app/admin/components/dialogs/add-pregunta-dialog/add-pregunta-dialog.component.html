@@ -5,20 +5,27 @@
     </div>
     <div class="modal-body">
         <!--INFORMATIVO-->
-        <form class="cForm"  *ngIf="opStatus==='S'">
-            <div class="cForm-field-row">
-                <div class="cForm-field-col">
-        
+        <form class="cForm" [formGroup]="addForm"
+            *ngIf="opStatus==='S'" (ngSubmit)="invokeService()" novalidate>
+                <h4 style="height: fit-content;width: 100%;">Nueva pregunta</h4>
+                <div class="cForm-field-row" style="flex: 1;">
+                    <div class="cForm-field-col">
+                    <div class="form-group">
+                        <label for="categoriaNewName">Nombre de Pregunta</label>
+                        <input type="text" 
+                        formControlName="nombre" class="form-control" id="categoriaNewName"
+                        aria-describedby="newNameHelp"/>
+                    </div>
+                    </div>
+                    <div class="cForm-field-col">
+                       
+                    </div>
                 </div>
-                <div class="cForm-field-col">
-        
+                <div class="cForm-actions">
+                 <button type="button" class="btn btn-outline-dark" (click)="close()">Cancelar</button>
+                 <mat-divider [vertical]="true" [inset]="true"></mat-divider>
+                 <button type="submit" class="btn btn-primary" style="color: white;">Buscar</button>
                 </div>
-            </div>
-            <div class="cForm-actions">
-                <button type="button" class="btn btn-danger" (click)="close()">Cancelar</button>
-                <mat-divider [vertical]="true" [inset]="true"></mat-divider>
-                <button type="button" class="btn btn-primary" (click)="invokeService()">Eliminar</button>
-            </div>
         </form>
         <div class="cForm" *ngIf="opStatus==='P'">
             <div class="cForm-field-row">
@@ -45,6 +52,20 @@
                     <mat-icon style="width: 7.5rem; height: 7.5rem;font-size:7.5rem;">
                         fact_check
                     </mat-icon>
+                </div>
+            </div>
+            <div class="cForm-actions">
+                <button type="button" class="btn btn-outline-dark" (click)="close()">Continuar</button>
+            </div>
+        </div>
+        <div class="cForm" *ngIf="opStatus==='E'">
+            <div class="cForm-field-row">
+                <div class="cForm-field-col" style="justify-content:center;align-items: center;">
+                    <h3>Ha ocurrido un error</h3>
+                    <mat-icon style="width: 7.5rem; height: 7.5rem;font-size:7.5rem;">
+                        report_problem
+                    </mat-icon>
+                    <h5>Su operación no pudo ser procesada</h5>
                 </div>
             </div>
             <div class="cForm-actions">

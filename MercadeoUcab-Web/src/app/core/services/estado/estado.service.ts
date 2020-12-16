@@ -1,59 +1,60 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { GLOBAL} from '@env/environment';
+import { GLOBAL } from '@env/environment';
 import { Observable } from 'rxjs';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class EstadoService {
   public url: string;
 
-  constructor(
-    public _http:HttpClient
-  ) { 
+  constructor(public _http: HttpClient) {
     this.url = GLOBAL.urlOscar;
   }
 
-  getEstados(): Observable<any>{
-    return this._http.get( this.url + '/estados');
+  getEstados(): Observable<any> {
+    return this._http.get(this.url + '/estados');
   }
 
-  getEstado(id): Observable<any>{
-    return this._http.get( this.url + '/estados' + id);
+  //id en el path
+  getEstado(id): Observable<any> {
+    return this._http.get(this.url + '/estados/' + id);
   }
 
-  createEstado( data){
-    let json = JSON.stringify({
-      "nombre": data.nombre,
-      "fk_pais": {
-        "_id": data.fk_pais._id
-      }
+  /*
+  {
+    "nombre":"nombre",
+    "fk_pais":int
+  }
+  */
+  createEstado(data) {
+    const headers = new HttpHeaders().set('Content-Type', 'application/json');
+    return this._http.post(this.url + '/estados/', JSON.stringify(data), {
+      headers: headers,
     });
-    let params =json;
-    return this._http.post( 
-      this.url + '/estados/', 
-      { params: params}
-    );
   }
 
-  updateEstado( id, data){
-    let json = JSON.stringify({
-      "_id": data._id,
-      "nombre": data.nombre
+    /*id en path
+  {
+    "nombre":"nombre"
+  }
+  */
+  updateEstado(id, data) {
+    const headers = new HttpHeaders().set('Content-Type', 'application/json');
+    return this._http.put(this.url + '/estados/' + id, JSON.stringify(data), {
+      headers: headers,
     });
-    let params =json;
-    return this._http.put( 
-      this.url + '/estados/' + id, 
-      { params: params}
-    );
   }
 
-  deleteEstado( id, data){
+  //id en el path
+  deleteEstado(id, data) {
+    const headers = new HttpHeaders().set('Content-Type', 'application/json');
     // Ignorar data por los momentos
-    return this._http.put( 
-      this.url + '/estados/' + id + '/eliminar', 
-      data
+    return this._http.put(
+      this.url + '/estados/' + id + '/eliminar',
+      JSON.stringify(data),
+      { headers: headers }
     );
   }
 }

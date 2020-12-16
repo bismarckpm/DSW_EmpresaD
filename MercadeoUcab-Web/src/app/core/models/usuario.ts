@@ -5,9 +5,6 @@ export class Usuario{
         public apellido:string,
         public rol:string,
         public correo:string,
-        public estado:string,
-        public activo:boolean,
-        public creado_el:any,
-        public modificado_el:any
+        public estado:string
     ){}
 }

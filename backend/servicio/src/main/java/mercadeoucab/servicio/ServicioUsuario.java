@@ -127,19 +127,30 @@ public class ServicioUsuario extends AplicacionBase{
             Usuario resul = dao.insert( usuario);
             // Agregar al directorio activo
             DirectorioActivo ldap = new DirectorioActivo( dtoUsuario.getRol());
-            DtoDirectorioAUser paraInsertar = new DtoDirectorioAUser(
-                    dtoUsuario.getCorreo(),
-                    dtoUsuario.getEstado(),
-                    dtoUsuario.getPassword()
-            );
-            ldap.addEntryToLdap( paraInsertar);
-            data = Json.createObjectBuilder()
-                    .add("status", 200)
-                    .add("message", "Agregado exitosamente")
-                    .build();
-            resultado = Response.status(Response.Status.OK)
-                    .entity(data)
-                    .build();
+            if (dtoUsuario.getPassword() != null){
+                DtoDirectorioAUser paraInsertar = new DtoDirectorioAUser(
+                        dtoUsuario.getCorreo(),
+                        dtoUsuario.getEstado(),
+                        dtoUsuario.getPassword()
+                );
+                ldap.addEntryToLdap( paraInsertar);
+                data = Json.createObjectBuilder()
+                        .add("status", 200)
+                        .add("message", "Agregado exitosamente")
+                        .build();
+                resultado = Response.status(Response.Status.OK)
+                        .entity(data)
+                        .build();
+            }else{
+                data = Json.createObjectBuilder()
+                        .add("status", 400)
+                        .add("message", "Error se debe enviar una contrasena")
+                        .build();
+                resultado = Response.status(Response.Status.BAD_REQUEST)
+                        .entity(data)
+                        .build();
+            }
+
         }catch (Exception e) {
             String problema = e.getMessage();
             data = Json.createObjectBuilder()
@@ -240,10 +251,12 @@ public class ServicioUsuario extends AplicacionBase{
             }else {
                 Mail enviarCorreo = new Mail();
                 DtoMail dtoMail = new DtoMail();
-                dtoMail.emailResetearContrasena("Soy una URL");
+                dtoMail.emailResetearContrasena(
+                        "http://localhost:4200/change-password?correo="+ usuario.getCorreo()
+                );
                 // Cambiar correo receptor a usuario.getCorreo() cuando se vaya a probar en al App
                 enviarCorreo.enviarCorreo(
-                        "dswempresad@gmail.com",
+                        usuario.getCorreo(),
                         dtoMail.getMensaje(),
                         dtoMail.getAsunto()
                 );

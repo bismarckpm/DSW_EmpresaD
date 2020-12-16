@@ -1,0 +1,6 @@
+.app-analista-overview {
+    width: 75vw;
+    height: 65vh;
+    display: flex;    
+    flex-direction: column;
+}

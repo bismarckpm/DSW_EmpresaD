@@ -1,66 +1,71 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { GLOBAL} from '@env/environment';
+import { GLOBAL } from '@env/environment';
 import { Observable } from 'rxjs';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class SolicitudService {
   public url: string;
 
-  constructor(
-    public _http:HttpClient
-  ) { 
+  constructor(public _http: HttpClient) {
     this.url = GLOBAL.urlOscar;
   }
 
-  getSolicitudes(): Observable<any>{
-    return this._http.get( this.url + '/solicitudes');
+  getSolicitudByEstado(estado) {
+    return this._http.get(this.url + '/solicitudes/estado/' + estado);
   }
 
-  getSolicitud(id): Observable<any>{
-    return this._http.get( this.url + '/solicitudes' + id);
+  getSolicitudes(): Observable<any> {
+    return this._http.get(this.url + '/solicitudes');
   }
 
-  createSolicitud( data){
-    // Posible error verificar que la marca y usuario la cargue bien 
-    let json = JSON.stringify({
-      "estado": data.estado,
-      "usuario": {
-        "_id": data.usuario._id
-      },
-      "marca": {
-        "_id": data.marca._id
-      }
+  //id en el path
+  getSolicitud(id): Observable<any> {
+    return this._http.get(this.url + '/solicitudes/' + id);
+  }
+
+  /*
+  {
+    "estado":string,
+    "usuario":int,
+    "marca":int,
+    "tipo":int,
+    "subCategoria":int,
+    "presentacion":int
+  }
+  */
+  createSolicitud(data) {
+    const headers = new HttpHeaders().set('Content-Type', 'application/json');
+    return this._http.post(this.url + '/solicitudes/', JSON.stringify(data), {
+      headers: headers,
     });
-    let params =json;
-    return this._http.post( 
-      this.url + '/solicitudes/', 
-      { params: params}
+  }
+
+   /*
+   id en el path
+  {
+    "estado":string
+  }
+  */
+  updateSolicitud(id, data) {
+    const headers = new HttpHeaders().set('Content-Type', 'application/json');
+    return this._http.put(
+      this.url + '/solicitudes/' + id,
+      JSON.stringify(data),
+      { headers: headers }
     );
   }
 
-  updateSolicitud( id, data){
-    let json = JSON.stringify({
-      "_id": data._id,
-      "estado": data.estado,
-      "activo": data.activo,
-      "creado_el": data.creado_el,
-      "modificado_el": data.modificado_el
-    });
-    let params =json;
-    return this._http.put( 
-      this.url + '/solicitudes/' + id, 
-      { params: params}
-    );
-  }
-
-  deleteSolicitud( id, data){
+  //id en el path
+  deleteSolicitud(id, data) {
+    const headers = new HttpHeaders().set('Content-Type', 'application/json');
     // Ignorar data por los momentos
-    return this._http.put( 
-      this.url + '/solicitudes/' + id + '/eliminar', 
-      data
+    return this._http.put(
+      this.url + '/solicitudes/' + id + '/eliminar',
+      JSON.stringify(data),
+      { headers: headers }
     );
   }
 }

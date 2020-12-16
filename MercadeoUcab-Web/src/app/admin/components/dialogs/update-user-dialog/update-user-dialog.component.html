@@ -1,20 +1,42 @@
 <ng-template #updUser>
     <div class="modal-header">
-        <h4 class="modal-title" id="modal-basic-title">Modificar usuario #{{_userSelection}}</h4>
+        <h4 class="modal-title" id="modal-basic-title">Modificar usuario #{{_user._id}}</h4>
     </div>
     <div class="modal-body">
-        <form [formGroup]="updForm" (submit)="invokeService()" *ngIf="opStatus==='S'">
+        <form [formGroup]="updForm" class="cForm" (submit)="invokeService()" *ngIf="opStatus==='S'">
             <div class="cForm-field-row">
                 <div class="cForm-field-col">
                     <div class="form-group">
-                        <label for="exampleInputEmail1">Nombre de usuario</label>
+                        <label for="userNewName">Nombre de usuario</label>
                         <input type="text" formControlName="nombre" class="form-control" id="userNewName"
                             aria-describedby="newNameHelp">
-                        <small id="newNameHelp" class="form-text text-muted">WTV</small>
+                    </div>
+                    <div class="form-group">
+                        <label for="userNewLName">Apellido de usuario</label>
+                        <input type="text" formControlName="apellido" class="form-control" id="userNewLName"
+                            aria-describedby="newLNameHelp">
                     </div>
                 </div>
                 <div class="cForm-field-col">
-
+                    <!--
+                    <div class="form-group">
+                            <label for="userRol">Rol de usuario</label>
+                            <input type="text" 
+                            readonly
+                            formControlName="rol" class="form-control" id="userRol"
+                            [(ngModel)]="_user.rol"
+                            value="_user.rol" 
+                            placeholder="_user.rol" 
+                            aria-describedby="newRolHelp"/>
+                    </div>
+                    -->
+                    <div class="form-group">
+                        <label for="estadoSelect">Estado de usuario</label>
+                        <select class="form-control" id="estadoSelect" formControlName="activo">
+                            <option [ngValue]="true">Activo</option>
+                            <option [ngValue]="false">Inactivo</option>
+                        </select>
+                    </div>
                 </div>
             </div>
             <div class="cForm-actions">
@@ -48,6 +70,20 @@
                     <mat-icon style="width: 7.5rem; height: 7.5rem;font-size:7.5rem;">
                         fact_check
                     </mat-icon>
+                </div>
+            </div>
+            <div class="cForm-actions">
+                <button type="button" class="btn btn-outline-dark" (click)="close()">Continuar</button>
+            </div>
+        </div>
+        <div class="cForm" *ngIf="opStatus==='E'">
+            <div class="cForm-field-row">
+                <div class="cForm-field-col" style="justify-content:center;align-items: center;">
+                    <h3>Ha ocurrido un error</h3>
+                    <mat-icon style="width: 7.5rem; height: 7.5rem;font-size:7.5rem;">
+                        report_problem
+                    </mat-icon>
+                    <h5>Su operación no pudo ser procesada</h5>
                 </div>
             </div>
             <div class="cForm-actions">

@@ -12,12 +12,12 @@ style="background-color: #E5FFF7;"
         width: 100% !important;
         justify-self: center;"
         >
-        <mat-grid-list cols="1" rowHeight="1:1">
+        <mat-grid-list cols="1" rowHeight="55px">
             <mat-grid-tile
             [colspan]="1"
             [rowspan]="1"
             >
-            <button mat-fab color="primary" aria-label="Example icon button with a delete icon" 
+            <button mat-mini-fab color="primary" aria-label="Example icon button with a delete icon" 
             style="background-color: #00d8b4; color:white"
             class="shadow-sm"
             (click)="onDir('administrador/usuarios')"
@@ -29,7 +29,7 @@ style="background-color: #E5FFF7;"
             [colspan]="1"
             [rowspan]="1"
             >
-            <button mat-fab color="primary" aria-label="Example icon button with a delete icon" 
+            <button mat-mini-fab color="primary" aria-label="Example icon button with a delete icon" 
             style="background-color: #00d8b4; color:white"
             (click)="onDir('administrador/estudios')"
             >
@@ -40,7 +40,7 @@ style="background-color: #E5FFF7;"
             [colspan]="1"
             [rowspan]="1"
             >
-            <button mat-fab color="primary" aria-label="Example icon button with a delete icon" 
+            <button mat-mini-fab color="primary" aria-label="Example icon button with a delete icon" 
             style="background-color: #00d8b4; color:white"
             (click)="onDir('administrador/home')"
             >
@@ -51,7 +51,7 @@ style="background-color: #E5FFF7;"
             [colspan]="1"
             [rowspan]="1"
             >
-            <button mat-fab color="primary" aria-label="Example icon button with a delete icon" 
+            <button mat-mini-fab color="primary" aria-label="Example icon button with a delete icon" 
             style="background-color: #00d8b4; color:white"
             (click)="onDir('administrador/lugares')"
             >
@@ -62,7 +62,7 @@ style="background-color: #E5FFF7;"
             [colspan]="1"
             [rowspan]="1"
             >
-            <button mat-fab color="primary" aria-label="Example icon button with a delete icon" 
+            <button mat-mini-fab color="primary" aria-label="Example icon button with a delete icon" 
             style="background-color: #00d8b4; color:white"
             (click)="onDir('administrador/preguntas')"
             >
@@ -73,23 +73,45 @@ style="background-color: #E5FFF7;"
             [colspan]="1"
             [rowspan]="1"
             >
-            <button mat-fab color="primary" aria-label="Example icon button with a delete icon" 
+            <button mat-mini-fab color="primary" aria-label="Example icon button with a delete icon" 
             style="background-color: #00d8b4; color:white"
             (click)="onDir('administrador/categorias')">
-                <mat-icon>category</mat-icon>
+                <mat-icon>turned_in</mat-icon>
+            </button>
+            </mat-grid-tile>
+            <mat-grid-tile
+            [colspan]="1"
+            [rowspan]="1">
+            <button mat-mini-fab color="primary" aria-label="Example icon button with a delete icon" 
+            style="background-color: #00d8b4; color:white"
+            (click)="onDir('administrador/subcategorias')"
+            >
+                <mat-icon>class</mat-icon>
             </button>
             </mat-grid-tile>
             <mat-grid-tile
             [colspan]="1"
             [rowspan]="1"
             >
-            <button mat-fab color="primary" aria-label="Example icon button with a delete icon" 
+            <button mat-mini-fab color="primary" aria-label="Example icon button with a delete icon" 
             style="background-color: #00d8b4; color:white"
-            (click)="onDir('administrador/presentaciones')">
-                <mat-icon>add_photo_alternate</mat-icon>
+            (click)="onDir('administrador/marcas')">
+                <mat-icon>local_offer</mat-icon>
             </button>
             </mat-grid-tile>
-        </mat-grid-list>
+             <mat-grid-tile
+            [colspan]="1"
+            [rowspan]="1"
+            >
+            <button mat-mini-fab color="primary" aria-label="Example icon button with a delete icon" 
+            style="background-color: #00d8b4; color:white"
+            (click)="onDir('administrador/tipos')"
+            >
+                <mat-icon>list</mat-icon>
+            </button>
+            </mat-grid-tile>
+           
+            </mat-grid-list>
         </div>
     </mat-grid-tile>
     <mat-grid-tile

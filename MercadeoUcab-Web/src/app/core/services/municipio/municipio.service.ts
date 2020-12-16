@@ -1,59 +1,63 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { GLOBAL} from '@env/environment';
+import { GLOBAL } from '@env/environment';
 import { Observable } from 'rxjs';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class MunicipioService {
   public url: string;
 
-  constructor(
-    public _http:HttpClient
-  ) { 
+  constructor(public _http: HttpClient) {
     this.url = GLOBAL.urlOscar;
   }
 
-  getMunicipios(): Observable<any>{
-    return this._http.get( this.url + '/municipios');
+  getMunicipios(): Observable<any> {
+    return this._http.get(this.url + '/municipios');
   }
 
-  getMunicipio(id): Observable<any>{
-    return this._http.get( this.url + '/municipios' + id);
+  //id en path
+  getMunicipio(id): Observable<any> {
+    return this._http.get(this.url + '/municipios/' + id);
   }
 
-  createMunicipio( data){
-    let json = JSON.stringify({
-      "nombre": data.nombre,
-      "fk_estado": {
-        "_id": data.fk_estado._id
-      }
+  /*
+  {
+    "nombre":"nombre",
+    "fk_estado": int
+  }
+  */
+  createMunicipio(data) {
+    const headers = new HttpHeaders().set('Content-Type', 'application/json');
+    return this._http.post(this.url + '/municipios/', JSON.stringify(data), {
+      headers: headers,
     });
-    let params =json;
-    return this._http.post( 
-      this.url + '/municipios/', 
-      { params: params}
+  }
+
+  /*
+  iden el path
+  {
+    "nombre":"nombre"
+  }
+  */
+  updateMunicipio(id, data) {
+    const headers = new HttpHeaders().set('Content-Type', 'application/json');
+    return this._http.put(
+      this.url + '/municipios/' + id,
+      JSON.stringify(data),
+      { headers: headers }
     );
   }
 
-  updateMunicipio( id, data){
-    let json = JSON.stringify({
-      "_id": data._id,
-      "nombre": data.nombre
-    });
-    let params =json;
-    return this._http.put( 
-      this.url + '/municipios/' + id, 
-      { params: params}
-    );
-  }
-
-  deleteMunicipio( id, data){
+  //id en el path
+  deleteMunicipio(id, data) {
+    const headers = new HttpHeaders().set('Content-Type', 'application/json');
     // Ignorar data por los momentos
-    return this._http.put( 
-      this.url + '/municipios/' + id + '/eliminar', 
-      data
+    return this._http.put(
+      this.url + '/municipios/' + id + '/eliminar',
+      JSON.stringify(data),
+      { headers: headers }
     );
   }
 }

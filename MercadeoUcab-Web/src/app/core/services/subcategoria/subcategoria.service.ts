@@ -1,61 +1,65 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { GLOBAL} from '@env/environment';
+import { GLOBAL } from '@env/environment';
 import { Observable } from 'rxjs';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class SubcategoriaService {
   public url: string;
 
-  constructor(
-    public _http:HttpClient
-  ) { 
+  constructor(public _http: HttpClient) {
     this.url = GLOBAL.urlOscar;
   }
 
-  getSubCategorias(): Observable<any>{
-    return this._http.get( this.url + '/subcategorias');
+  getSubCategorias(): Observable<any> {
+    return this._http.get(this.url + '/subcategorias');
   }
 
-  getSubCategoria(id): Observable<any>{
-    return this._http.get( this.url + '/subcategorias' + id);
+  //id en el path
+  getSubCategoria(id): Observable<any> {
+    return this._http.get(this.url + '/subcategorias/' + id);
   }
 
-  createSubCategoria( data){
-    // Posible error verificar que la categoria la cargue bien 
-    let json = JSON.stringify({
-      "nombre": data.nombre,
-      "categoria": {
-        "_id": data.categoria._id
-      }
+  /*
+  {
+    "nombre":"nombre",
+    "fk_categoria":int
+  }
+  */
+  createSubCategoria(data) {
+    const headers = new HttpHeaders().set('Content-Type', 'application/json');
+    // Posible error verificar que la categoria la cargue bien
+    return this._http.post(this.url + '/subcategorias/', JSON.stringify(data), {
+      headers: headers,
     });
-    let params =json;
-    return this._http.post( 
-      this.url + '/subcategorias/', 
-      { params: params}
+  }
+
+  /*
+  id en el path
+  {
+    "nombre":"nombre"
+  }
+  */
+  updateSubCategoria(id, data) {
+    const headers = new HttpHeaders().set('Content-Type', 'application/json');
+    // Posible error verificar que la categoria la cargue bien
+    return this._http.put(
+      this.url + '/subcategorias/' + id,
+      JSON.stringify(data),
+      { headers: headers }
     );
   }
-  updateSubCategoria( data){
-    // Posible error verificar que la categoria la cargue bien 
-    let json = JSON.stringify({
-      "_id": data._id,
-      "nombre": data.nombre
-    });
-    let params =json;
-    return this._http.put( 
-      this.url + '/subcategorias/', 
-      { params: params}
-    );
-  }
 
-  deleteUser( id, data){
+  //id en el path
+  deleteSubCategoria(id, data) {
+    const headers = new HttpHeaders().set('Content-Type', 'application/json');
     // Ignorar data por los momentos
-    return this._http.put( 
-      this.url + '/subcategorias/' + id + '/eliminar', 
-      data
+    return this._http.put(
+      this.url + '/subcategorias/' + id + '/eliminar',
+      JSON.stringify(data),
+      { headers: headers }
     );
   }
-
 }

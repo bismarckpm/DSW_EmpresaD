@@ -18,42 +18,57 @@ export class UsuarioService {
   }
 
   getUser(id): Observable<any> {
-    return this._http.get(this.url + '/usuarios' + id);
+    return this._http.get(this.url + '/usuarios/' + id);
   }
 
   createUser(data) {
-    let json = JSON.stringify({
-      nombre: data.nombre,
-      apellido: data.apellido,
-      estado: data.estado,
-      rol: data.rol,
-      correo: data.correo,
+    const headers = new HttpHeaders().set('Content-Type', 'application/json');
+    return this._http.post(this.url + '/usuarios/', JSON.stringify(data), {
+      headers,
     });
-    let params = json;
-    return this._http.post(this.url + '/usuarios/', { params: params });
   }
 
   updateUser(id, data) {
-    let json = JSON.stringify({
-      _id: data._id,
-      nombre: data.nombre,
-      apellido: data.apellido,
-      estado: data.estado,
-      activo: data.activo,
-      creado_el: data.creado_el,
-      modificado_el: data.modificado_el,
+    const headers = new HttpHeaders().set('Content-Type', 'application/json');
+    return this._http.put(this.url + '/usuarios/' + id, JSON.stringify(data), {
+      headers: headers,
     });
-    let params = json;
-    return this._http.put(this.url + '/usuarios/' + id, { params: params });
   }
 
   deleteUser(id, data) {
     // Ignorar data por los momentos
-    return this._http.put(this.url + '/usuarios/' + id + '/eliminar', data);
+    const headers = new HttpHeaders().set('Content-Type', 'application/json');
+    return this._http.put(
+      this.url + '/usuarios/' + id + '/eliminar',
+      JSON.stringify(data),
+      {
+        headers,
+      }
+    );
+  }
+
+  forgotPasswordRequest(data) {
+    const headers = new HttpHeaders().set('Content-Type', 'application/json');
+    return this._http.post(
+      this.url + '/usuarios/peticionClaveOlvidada',
+      JSON.stringify(data),
+      { headers }
+    );
+  }
+
+  forgotPassword(data) {
+    const headers = new HttpHeaders().set('Content-Type', 'application/json');
+    return this._http.post(
+      this.url + '/usuarios/cambioClaveOlvidada',
+      JSON.stringify(data),
+      { headers }
+    );
   }
 
   signup(data) {
-    console.log('Usuario Services Signup');
-    return data;
+    const headers = new HttpHeaders().set('Content-Type', 'application/json');
+    return this._http.post(this.url + '/LDAP/login', JSON.stringify(data), {
+      headers,
+    });
   }
 }

@@ -1,15 +1,16 @@
+import { Estudio } from './estudio';
 import { Opcion } from './opcion';
+import { Pregunta } from './pregunta';
 import { Usuario } from './usuario';
 
 export class Respuesta {
   constructor(
+    //REVISAR
     public _id: number,
     public respuesta: string,
-    public dtoopcion: Opcion,
-    //relacion con encuesta
-    public Dtousuario: Usuario,
-    public activo: boolean,
-    public creado_el: any,
-    public modificado_el: any
+    public opcion: Opcion,
+    public usuario: Usuario,
+    public Pregunta: Pregunta,
+    public estudio: Estudio,
   ) {}
 }

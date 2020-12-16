@@ -11,108 +11,179 @@ import { UpdatePreguntaDialogComponent } from '../../components/dialogs/update-p
 @Component({
   selector: 'app-preguntas',
   templateUrl: './preguntas.component.html',
-  styleUrls: ['./preguntas.component.css']
+  styleUrls: ['./preguntas.component.css'],
 })
 export class PreguntasComponent implements OnInit {
-  
   constructor(
     private modalService: NgbModal,
     private formBuilder: FormBuilder,
-    private _preguntaService: PreguntaService,){}
-    
-  op:string;
-  searchState:string;
-   //INDICE DE USUARIO SELECCIONADO
-   userSelection:number = 0;
-   searchForm: FormGroup;
-   addForm:FormGroup;
-   //LISTA DE USUARIOS DEVUELTOS EN BÚSQUEDA
-   preguntas: Pregunta [] = [];
-   dataSource : MatTableDataSource<Pregunta>;
+    private _preguntaService: PreguntaService
+  ) {}
 
-   displayedColumns: string[] = ['id','desc','selector','ops'];
-   columnsToDisplay: string[] = this.displayedColumns.slice();
+  op: string;
+  searchState: string;
+  opStatus: string; //S,P,D,E
+  targetPregunta: Pregunta;
+  //INDICE DE USUARIO SELECCIONADO
+  userSelection: number = 0;
+  searchForm: FormGroup;
+  addForm: FormGroup;
+  //LISTA DE USUARIOS DEVUELTOS EN BÚSQUEDA
+  preguntas: Pregunta[] = [];
+  dataSource: MatTableDataSource<Pregunta>;
 
-  setOperation(chOp:string){
-    this.op=chOp;
-    if(chOp !== ''){
-      this.searchState='I';
-      console.log('I',chOp);
-    }
-    else{
-      this.searchState='U';
+  displayedColumns: string[] = ['id', 'desc', 'selector', 'ops'];
+  columnsToDisplay: string[] = this.displayedColumns.slice();
+
+  setOperation(chOp: string) {
+    this.op = chOp;
+    if (chOp !== '') {
+      this.searchState = 'I';
+    } else {
+      this.searchState = 'U';
+      this.opStatus = 'S';
     }
   }
-  @ViewChild('delPregunta') private delComponent:DelPreguntaDialogComponent;
+  @ViewChild('delPregunta') private delComponent: DelPreguntaDialogComponent;
   async openDelModal() {
     return await this.delComponent.open();
   }
-  @ViewChild('updPregunta') private updComponent:UpdatePreguntaDialogComponent;
+  @ViewChild('updPregunta') private updComponent: UpdatePreguntaDialogComponent;
   async openUpdModal() {
     return await this.updComponent.open();
   }
 
   ngOnInit(): void {
     this.setOperation('');
-    this.searchState="U";
+    this.searchState = 'U';
+    this.opStatus = 'S';
     this.searchForm = this.formBuilder.group({
-      tipo:null,
-      creado_el:null,
+      tipo: null,
+      creado_el: null,
     });
   }
-  selectUser(id: number){
-    if(id === this.userSelection){
+  selectUser(id: number, data: Pregunta) {
+    if (id === this.userSelection) {
       this.userSelection = 0;
-    }
-    else{
-      this.userSelection=id;
+      this.targetPregunta = null;
+    } else {
+      this.userSelection = id;
+      this.targetPregunta = data;
     }
   }
-  isSelected(id: number):boolean{
-    if(id === this.userSelection){
+  isSelected(id: number): boolean {
+    if (id === this.userSelection) {
       return true;
     }
     return false;
   }
-  invokeSearch(){
-    if(this.searchForm.value['creado_el'] !== null){
-      this.searchForm.get('creado_el').setValue(new Date(this.searchForm.value['creado_el']));
-    }
-    this.searchState="P";
-    setTimeout(()=>{
-      this.dataSource = new MatTableDataSource<Pregunta>(this.dataFilter(this.preguntas));
-      this.searchState="D";
-    },3000);
+  addPregunta(data) {
+    /*this._preguntaService.createPregunta(data).subscribe(
+      (response) => {
+        console.log(response);
+        this.opStatus="D";
+      },
+      (error) => {
+        console.log(error);
+        this.opStatus="E";
+      }
+    )*/
   }
-  dataFilter(dataArray:Pregunta[]): Pregunta[]{
+
+  getPreguntas() {
+    this._preguntaService.getPreguntas().subscribe(
+      (response) => {
+        console.log(response);
+        this.preguntas = response.data;
+      },
+      (error) => {
+        console.log(error);
+      }
+    );
+  }
+
+  updatePregunta(id, data) {
+    this._preguntaService.updatePregunta(id, data).subscribe(
+      (response) => {
+        console.log(response);
+      },
+      (error) => {
+        console.log(error);
+      }
+    );
+  }
+
+  deletePregunta(id, data) {
+    this._preguntaService.deletePregunta(id, data).subscribe(
+      (response) => {
+        console.log(response);
+      },
+      (error) => {
+        console.log(error);
+      }
+    );
+  }
+  serviceInvoke() {
+    this.opStatus = 'P';
+    this.addPregunta(this.addForm.value);
+    this.addForm = this.formBuilder.group({
+      nombre: null,
+    });
+  }
+  invokeSearch() {
+    this.preguntas = [];
+    this.userSelection = 0;
+    if (this.searchForm.value['creado_el'] !== null) {
+      this.searchForm
+        .get('creado_el')
+        .setValue(new Date(this.searchForm.value['creado_el']));
+    }
+    this.searchState = 'P';
+    setTimeout(() => {
+      for (let i = 0; i < Math.floor(Math.random() * (100 - 1) + 1); i++) {
+        /*this.preguntas.push({
+         _id:Math.floor(Math.random()*(1000-1)+1),
+         nombre_pregunta:Math.random().toString(36).substr(2, 10),
+         tipo:'',
+         rango:''
+        });*/
+      }
+      this.dataSource = new MatTableDataSource<Pregunta>(
+        this.dataFilter(this.preguntas)
+      );
+      this.searchState = 'D';
+    }, 3000);
+  }
+  dataFilter(dataArray: Pregunta[]): Pregunta[] {
     console.log(this.searchForm.value);
     let filtered: Pregunta[] = [];
-    dataArray.forEach((res,ind) => {
+    dataArray.forEach((res, ind) => {
       let inc = true;
-      Object.entries(this.searchForm.value).forEach(([key,field],_ind)=>{
-        if(inc === true && field !== null){
-          if(field instanceof Date && (res[key] >= field && res[key] <= Date.now())){
+      Object.entries(this.searchForm.value).forEach(([key, field], _ind) => {
+        if (inc === true && field !== null) {
+          if (
+            field instanceof Date &&
+            res[key] >= field &&
+            res[key] <= Date.now()
+          ) {
             return;
-          }
-          else if(typeof(field)==='string' && res[key].startsWith(field)){
+          } else if (typeof field === 'string' && res[key].startsWith(field)) {
             return;
-          }
-          else if(typeof(field)==='boolean' && res[key]===field){
+          } else if (typeof field === 'boolean' && res[key] === field) {
             return;
-          }
-          else{
+          } else {
             inc = false;
           }
         }
-      })
-      if(inc === true){
+      });
+      if (inc === true) {
         filtered.push(res);
       }
-    })
-    console.log(dataArray,filtered);
+    });
+    console.log(dataArray, filtered);
     return filtered;
   }
-  doSearch(){
-    this.searchState="I";
+  doSearch() {
+    this.searchState = 'I';
   }
 }

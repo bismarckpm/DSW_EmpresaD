@@ -14,14 +14,12 @@ export class DeleteUserDialogComponent implements OnInit {
 
   @ViewChild('delUser') private modalContent: TemplateRef<DeleteUserDialogComponent>;
   private modalRef: NgbModalRef;
-  constructor(private modalService: NgbModal,private formBuilder: FormBuilder, _service:UsuarioService){}
+  constructor(private modalService: NgbModal,private formBuilder: FormBuilder, private _service:UsuarioService){}
+  //ID DE REGISTRO A ELIMINAR
   @Input() _userSelection : number;
 
   ngOnInit(): void {
     this.opStatus="S";
-    this.updForm = this.formBuilder.group({
-      nombre:'',
-    });
   }
   open(){
     this.modalRef =this.modalService.open(this.modalContent);
@@ -31,10 +29,29 @@ export class DeleteUserDialogComponent implements OnInit {
     this.opStatus="S";
     this.modalRef.close();
   }
+
+  deleteUser(id){
+    this._service.deleteUser(id,null).subscribe(
+      (response) => {
+        console.log(response);
+        this.opStatus="D";
+      },
+      (error) => {
+        console.log(error);
+        this.opStatus="E";
+      }
+    )
+  }
+  /*
+
+  EN ESTE CASO SOLO SE RECIBE UN ID Y SE ELIMINA LA ENTIDAD,
+  LA UNICA VARIANTE ES NO RECIBIR UN ID SINO EL REGISTRO COMPLETO 
+  A ELIMINAR Y DE ALLI SE EXTRAE EL ID REQUERIDO PARA EL PROCESO DE 
+  ELIMINACION
+  
+  */
   invokeService(){
     this.opStatus="P";
-    setTimeout(()=>{
-      this.opStatus="D";
-    },3000);
+    this.deleteUser(this._userSelection);
   }
 }

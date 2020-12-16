@@ -10,110 +10,165 @@ import { UpdPresentacionDialogComponent } from '../../components/dialogs/upd-pre
 @Component({
   selector: 'app-presentacion',
   templateUrl: './presentacion.component.html',
-  styleUrls: ['./presentacion.component.css']
+  styleUrls: ['./presentacion.component.css'],
 })
 export class PresentacionComponent implements OnInit {
-  op:string;
-  searchState:string;
-  opStatus:string;//S,P,D
-  userSelection:number = 0;
+  op: string;
+  searchState: string;
+  opStatus: string; //S,P,D
+  userSelection: number = 0;
 
-  presentaciones: Presentacion [] = [];
-  dataSource : MatTableDataSource<Presentacion>;
-  
+  presentaciones: Presentacion[] = [];
+  dataSource: MatTableDataSource<Presentacion>;
+
   searchForm: FormGroup;
-  addForm:FormGroup;
-  
-  displayedColumns: string[] = ['id','desc','selector','ops'];
+  addForm: FormGroup;
+
+  displayedColumns: string[] = ['id', 'desc', 'selector', 'ops'];
   columnsToDisplay: string[] = this.displayedColumns.slice();
 
-  setOperation(chOp:string){
-    this.op=chOp;
-    if(chOp !== ''){
-      this.searchState="I";
-      this.opStatus="S";
-    }
-    else{
-      this.searchState="U";
+  setOperation(chOp: string) {
+    this.op = chOp;
+    if (chOp !== '') {
+      this.searchState = 'I';
+      this.opStatus = 'S';
+    } else {
+      this.searchState = 'U';
     }
   }
-  
+
   constructor(
     private modalService: NgbModal,
     private formBuilder: FormBuilder,
-    private _presentacionService: PresentacionService,){}
-  
-  @ViewChild('updPresentacion') private updComponent:UpdPresentacionDialogComponent;
+    private _presentacionService: PresentacionService
+  ) {}
+
+  @ViewChild('updPresentacion')
+  private updComponent: UpdPresentacionDialogComponent;
   async openUpdModal() {
     return await this.updComponent.open();
   }
-  @ViewChild('delPresentacion') private delComponent:DelPresentacionDialogComponent;
+  @ViewChild('delPresentacion')
+  private delComponent: DelPresentacionDialogComponent;
   async openDelModal() {
     return await this.delComponent.open();
   }
 
   ngOnInit(): void {
     this.setOperation('');
-    this.searchState="U";
+    this.searchState = 'U';
     this.searchForm = this.formBuilder.group({
-      nombre:null,
-      creado_el:null,
+      nombre: null,
+      creado_el: null,
     });
   }
-  selectUser(id: number){
-    if(id === this.userSelection){
+
+  getPresentaciones() {
+    this._presentacionService.getPresentaciones().subscribe(
+      (response) => {
+        console.log(response);
+        this.presentaciones = response.data;
+      },
+      (error) => {
+        console.log(error);
+      }
+    );
+  }
+
+  addPresentacion(data) {
+    this._presentacionService.createPresentacion(data).subscribe(
+      (response) => {
+        console.log(response);
+        alert('Se agrego la presentacion correctamente');
+      },
+      (error) => {
+        console.log(error);
+      }
+    );
+  }
+  updatePresentacion(id, data) {
+    this._presentacionService.updatePresentacion(id, data).subscribe(
+      (response) => {
+        console.log(response);
+        alert('Se modifico la presentacion correctamente');
+      },
+      (error) => {
+        console.log(error);
+      }
+    );
+  }
+
+  delete(id, data) {
+    this._presentacionService.deletePresentacion(id, data).subscribe(
+      (response) => {
+        console.log(response);
+        alert('Se elimino la presentacion correctamente');
+      },
+      (error) => {
+        console.log(error);
+      }
+    );
+  }
+  selectUser(id: number) {
+    if (id === this.userSelection) {
       this.userSelection = 0;
-    }
-    else{
-      this.userSelection=id;
+    } else {
+      this.userSelection = id;
     }
   }
-  isSelected(id: number):boolean{
-    if(id === this.userSelection){
+  isSelected(id: number): boolean {
+    if (id === this.userSelection) {
       return true;
     }
     return false;
   }
-  dataFilter(dataArray:Presentacion[]): Presentacion[]{
+  dataFilter(dataArray: Presentacion[]): Presentacion[] {
     console.log(this.searchForm.value);
     let filtered: Presentacion[] = [];
-    dataArray.forEach((res,ind) => {
+    dataArray.forEach((res, ind) => {
       let inc = true;
-      Object.entries(this.searchForm.value).forEach(([key,field],_ind)=>{
-        if(inc === true && field !== null){
-          if(field instanceof Date && (res[key] >= field && res[key] <= Date.now())){
+      Object.entries(this.searchForm.value).forEach(([key, field], _ind) => {
+        if (inc === true && field !== null) {
+          if (
+            field instanceof Date &&
+            res[key] >= field &&
+            res[key] <= Date.now()
+          ) {
             return;
-          }
-          else if(typeof(field)==='string' && res[key].startsWith(field)){
+          } else if (typeof field === 'string' && res[key].startsWith(field)) {
             return;
-          }
-          else if(typeof(field)==='boolean' && res[key]===field){
+          } else if (typeof field === 'boolean' && res[key] === field) {
             return;
-          }
-          else{
+          } else {
             inc = false;
           }
         }
-      })
-      if(inc === true){
+      });
+      if (inc === true) {
         filtered.push(res);
       }
-    })
-    console.log(dataArray,filtered);
+    });
+    console.log(dataArray, filtered);
     return filtered;
   }
-  invokeSearch(){
-    if(this.searchForm.value['creado_el'] !== null){
-      this.searchForm.get('creado_el').setValue(new Date(this.searchForm.value['creado_el']));
+  invokeSearch() {
+    this.presentaciones = [];
+    this.userSelection = 0;
+    if (this.searchForm.value['creado_el'] !== null) {
+      this.searchForm
+        .get('creado_el')
+        .setValue(new Date(this.searchForm.value['creado_el']));
     }
-    this.searchState="P";
-    setTimeout(()=>{
+    this.searchState = 'P';
+    setTimeout(() => {
       //DATA SOURCE EDIT
-      this.dataSource = new MatTableDataSource<Presentacion>(this.dataFilter(this.presentaciones));
-      this.searchState="D";
-    },3000);
+      this.dataSource = new MatTableDataSource<Presentacion>(
+        this.dataFilter(this.presentaciones)
+      );
+      this.searchState = 'D';
+    }, 3000);
   }
-  doSearch(){
-    this.searchState="I";
+  doSearch() {
+    this.searchState = 'I';
   }
 }

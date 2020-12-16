@@ -64,9 +64,7 @@ public class ServicioSolicitudTest {
     @Test
     public void listarSolicitudEstadoTest() throws Exception{
         ServicioSolicitud servicio = new ServicioSolicitud();
-        DtoSolicitud dtoSolicitud = new DtoSolicitud();
-        dtoSolicitud.setEstado("solicitada");
-        Response resultado = servicio.listarSolicitudEstado(dtoSolicitud);
+        Response resultado = servicio.listarSolicitudEstado("solicitada");
         Assert.assertEquals(200, resultado.getStatus());
     }
 }

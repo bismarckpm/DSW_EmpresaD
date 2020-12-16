@@ -1,0 +1,67 @@
+.analista-estudio {
+    width: 80vw;
+    height: 75vh;
+    display: flex;    
+    flex-direction: column;
+}
+.estudio-poblacion{
+    width: 80%;
+    height: 90%;
+    background-color: white;
+    align-self: start;
+    display: flex;
+    flex-direction: column;
+}
+.estudio-preguntas{
+    width: 80%;
+    height: 90%;
+    background-color: white;
+    align-self: start;
+    display: flex;
+    flex-direction: column;
+}
+.estudio-progreso{
+    width: 80%;
+    height: 80%;
+    background-color: white;
+    align-self: start;
+    display: flex;
+    flex-direction: column;
+}
+
+.card-content {
+    flex:1;
+    border-style: solid;
+    border-color: rgb(217 217 217 / 68%);
+    overflow-y: scroll;
+    border-radius: 10px;
+    padding: 2.5px;
+}
+
+.encuestado-content {
+    height: 8%;
+    width: 95%;
+    margin-bottom: 2%;
+    margin-left:2.5%;
+    margin-right: 2.5%;
+    flex-direction: row;
+    align-items: center;
+    display:flex;
+    justify-content: space-around;
+}
+
+.pregunta-content {
+    height: 22.5%;
+    margin-bottom: 2.5%;
+    margin-left:2.5%;
+    margin-right: 2.5%;
+    align-items: center;
+    justify-content: space-around;
+    display: flex;
+    flex-direction: row;
+}
+
+.pregunta-descripcion {
+    width: 60%;
+    height: 95%;
+}
