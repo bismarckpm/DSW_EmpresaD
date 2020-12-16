@@ -3,8 +3,46 @@
 		<div>
 			<h5>{{_Id}}</h5>	
 		</div>
-		<div style="overflow-y: auto;flex:1;background-color:yellow;">
-
+		<div style="overflow-y: auto;flex:1;display: flex;flex-direction: column;">
+			<div class="cForm" *ngIf="searchState==='P'">
+                <div class="cForm-field-row">
+                    <div class="cForm-field-col">
+                        <div class="text-center" style="flex: 1;
+                        display: flex;
+                        flex-direction: column;
+                        align-items: center;
+                        justify-content: center;">
+                            <div class="spinner-border" style="width: 7.5rem; height: 7.5rem;" role="status">
+                                <span class="sr-only">Loading...</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+			<div *ngIf="searchState==='D'" class="preguntas-scroll">
+                <div class="pregunta-container" *ngFor="let pregunta of _estudio.preguntas; let i=index">
+                    <div class="pregunta-title">
+                        <h5>{{pregunta.pregunta}}</h5>     
+                    </div>
+                    <ng-container  [ngSwitch]="pregunta.tipo">
+                        <div class="pregunta-content" *ngSwitchCase="'abierta'">
+                            
+                        </div>
+                        <div class="pregunta-content" *ngSwitchCase="'simple'">
+                          
+                        </div>
+                        <div class="pregunta-content" *ngSwitchCase="'multiple'">
+                            
+                        </div>
+                        <div class="pregunta-content" *ngSwitchCase="'boolean'">
+                            
+                        </div>
+                        <div class="pregunta-content" *ngSwitchCase="'rango'">
+                            
+                        </div>
+                    </ng-container>
+                </div>
+			</div>
 		</div>
 		<div class="cForm-actions">
             <button type="button" class="btn btn-danger">Cancelar</button>
