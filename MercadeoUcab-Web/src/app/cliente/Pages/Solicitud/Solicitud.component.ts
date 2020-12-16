@@ -4,16 +4,16 @@ import { MatTableDataSource } from '@angular/material/table';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { SolicitudService } from '@core/services/solicitud/solicitud.service';
 import { MarcaService } from '@core/services/marca/marca.service';
-import {SubcategoriaService} from '@core/services/subcategoria/subcategoria.service';
-import {PresentacionService} from '@core/services/presentacion/presentacion.service';
-import {TipoService} from '@core/services/tipo/tipo.service';
+import { SubcategoriaService } from '@core/services/subcategoria/subcategoria.service';
+import { PresentacionService } from '@core/services/presentacion/presentacion.service';
+import { TipoService } from '@core/services/tipo/tipo.service';
 import { UpdateSolicitudDialogComponent } from '../../../cliente/components/dialogs/upd-solicitud-dialog/update-solicitud-dialog.component';
 import { DeleteUserDialogComponent } from '../../../admin/components/dialogs/delete-user-dialog/delete-user-dialog.component';
 import { Usuario } from '@models/usuario';
 import { Marca } from '@models/marca';
-import {SubCategoria} from '@models/subcategoria';
-import {Presentacion} from '@models/presentacion';
-import {Tipo} from '@models/tipo';
+import { SubCategoria } from '@models/subcategoria';
+import { Presentacion } from '@models/presentacion';
+import { Tipo } from '@models/tipo';
 
 @Component({
   // tslint:disable-next-line:component-selector
@@ -22,7 +22,6 @@ import {Tipo} from '@models/tipo';
   styleUrls: ['./Solicitud.component.css'],
 })
 export class SolicitudComponent implements OnInit {
-
   constructor(
     // private modalService: NgbModal,
     private formBuilder: FormBuilder,
@@ -30,8 +29,8 @@ export class SolicitudComponent implements OnInit {
     private _solicitudService: SolicitudService,
     private marcaServices: MarcaService,
     private subcategoriaService: SubcategoriaService,
-    private  presentacionService: PresentacionService,
-    private tipoService: TipoService,
+    private presentacionService: PresentacionService,
+    private tipoService: TipoService
   ) {
     this.addForm = this.formBuilder.group({
       marca: null,
@@ -54,6 +53,7 @@ export class SolicitudComponent implements OnInit {
     });
   }
   // CONTROL DE ESTADO DEL COMPONENTE
+  public userLogged: number;
   op: string;
   searchState: string; // U.I,D
   solicitudes: Solicitud[] = [];
@@ -153,7 +153,7 @@ export class SolicitudComponent implements OnInit {
   addSolicitud(data) {
     this._solicitudService.createSolicitud(data).subscribe(
       (response) => {
-        console.log(data.get('marcas'));
+        //console.log(data.get('marcas'));
         console.log(response);
       },
       (error) => {
@@ -194,6 +194,7 @@ export class SolicitudComponent implements OnInit {
     this.getSubcategoria();
     this.getPresentacion();
     this.getTipos();
+    this.userLogged = Number(localStorage.getItem('_id'));
   }
   async openUpdModal() {
     return await this.updComponent.open();
@@ -206,16 +207,24 @@ export class SolicitudComponent implements OnInit {
     "rol": data.rol,
     "correo": data.correo
     */
+    let toAdd: any = {};
+    let values = this.addForm.value;
+    toAdd.estado = values.estado;
+    toAdd.usuario = 1;
+    toAdd.tipo = values.tipo;
+    toAdd.subCategoria = values.subCategoria;
+    toAdd.presentacion = values.presentacion;
+    toAdd.marca = values.marca;
     // FALTA VALIDACION
-    // console.log(this.addForm.value);
-    this.addSolicitud(this.addForm.value);
+    console.log(toAdd);
+    this.addSolicitud(toAdd);
     this.opStatus = 'P';
-    console.log(this.op);
-    console.log(this.opStatus);
-    console.log(this.addForm.get('marca').value);
-    console.log(this.addForm.get('tipo').value);
-    console.log(this.addForm.get('subCategoria').value);
-    console.log(this.addForm.get('presentacion').value);
+    //console.log(this.op);
+    //console.log(this.opStatus);
+    //console.log(this.addForm.get('marca').value);
+    //console.log(this.addForm.get('tipo').value);
+    //console.log(this.addForm.get('subCategoria').value);
+    //console.log(this.addForm.get('presentacion').value);
     setTimeout(() => {
       this.addForm = this.formBuilder.group({
         marca: 1,
@@ -244,7 +253,7 @@ export class SolicitudComponent implements OnInit {
     return false;
   }
   dataFilter(dataArray: Solicitud[]): Solicitud[] {
-    console.log(this.searchForm.value);
+    //console.log(this.searchForm.value);
     const filtered: Solicitud[] = [];
     dataArray.forEach((res, ind) => {
       let inc = true;
@@ -270,7 +279,7 @@ export class SolicitudComponent implements OnInit {
         filtered.push(res);
       }
     });
-    console.log(dataArray, filtered);
+    //console.log(dataArray, filtered);
     return filtered;
   }
   invokeSearch() {
@@ -315,7 +324,7 @@ export class SolicitudComponent implements OnInit {
   }
   setOperation(chOp: string) {
     this.op = chOp;
-    console.log(this.searchState);
+    //console.log(this.searchState);
     if (chOp !== '') {
       this.searchState = 'I';
       this.opStatus = 'S';

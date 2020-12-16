@@ -155,28 +155,6 @@ export class LugaresComponent implements OnInit {
       }
     );
   }
-  updatePaises(id, data) {
-    this._paisService.updatePais(id, data).subscribe(
-      (response) => {
-        console.log(response);
-        alert('Se modifico el pais correctamente');
-      },
-      (error) => {
-        console.log(error);
-      }
-    );
-  }
-  deletePais(id, data) {
-    this._paisService.deletePais(id, data).subscribe(
-      (response) => {
-        console.log(response);
-        alert('Se elimino el pais correctamente');
-      },
-      (error) => {
-        console.log(error);
-      }
-    );
-  }
 
   addEstado(data) {
     this._estadoService.createEstado(data).subscribe(
@@ -195,30 +173,6 @@ export class LugaresComponent implements OnInit {
       (response) => {
         console.log(response);
         this._estados = response.data;
-      },
-      (error) => {
-        console.log(error);
-      }
-    );
-  }
-
-  updateEstado(id, data) {
-    this._estadoService.updateEstado(id, data).subscribe(
-      (response) => {
-        console.log(response);
-        alert('Se modifico el estado correctamente');
-      },
-      (error) => {
-        console.log(error);
-      }
-    );
-  }
-
-  deleteEstado(id, data) {
-    this._estadoService.deleteEstado(id, data).subscribe(
-      (response) => {
-        console.log(response);
-        alert('Se elimino el estado correctamente');
       },
       (error) => {
         console.log(error);
@@ -274,52 +228,6 @@ export class LugaresComponent implements OnInit {
     );
   }
 
-  updateParroquia(id, data) {
-    this._parroquiaService.updateParroquia(id, data).subscribe(
-      (response) => {
-        console.log(response);
-        alert('Se modifico la parroquia correctamente');
-      },
-      (error) => {
-        console.log(error);
-      }
-    );
-  }
-  updateMunicipio(id, data) {
-    this._municipioService.updateMunicipio(id, data).subscribe(
-      (response) => {
-        console.log(response);
-        alert('Se modifico el municipio correctamente');
-      },
-      (error) => {
-        console.log(error);
-      }
-    );
-  }
-
-  deleteParroquia(id, data) {
-    this._parroquiaService.deleteParroquia(id, data).subscribe(
-      (response) => {
-        console.log(response);
-        alert('Se elimino la parroquia correctamente');
-      },
-      (error) => {
-        console.log(error);
-      }
-    );
-  }
-
-  deleteMunicipio(id, data) {
-    this._municipioService.deleteMunicipio(id, data).subscribe(
-      (response) => {
-        console.log(response);
-        alert('Se elimino el municipio correctamente');
-      },
-      (error) => {
-        console.log(error);
-      }
-    );
-  }
   filterData(byName: string) {}
   invokeSearch() {
     let testPais = {

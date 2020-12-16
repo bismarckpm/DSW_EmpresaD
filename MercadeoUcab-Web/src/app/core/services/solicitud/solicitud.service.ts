@@ -28,12 +28,12 @@ export class SolicitudService {
 
   /*
   {
-    "estado":string,
-    "usuario":int,
-    "marca":int,
-    "tipo":int,
-    "subCategoria":int,
-    "presentacion":int
+    "estado":"solicitada",
+    "usuario":3,
+    "marca":1,
+    "tipo":4,
+    "subCategoria":1,
+    "presentacion":2
   }
   */
   createSolicitud(data) {
@@ -43,7 +43,7 @@ export class SolicitudService {
     });
   }
 
-   /*
+  /*
    id en el path
   {
     "estado":string

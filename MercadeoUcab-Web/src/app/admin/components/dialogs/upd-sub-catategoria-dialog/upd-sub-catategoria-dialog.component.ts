@@ -56,10 +56,11 @@ export class UpdSubCategoriaDialogComponent implements OnInit {
     this._service.updateSubCategoria(id, data).subscribe(
       (response) => {
         console.log(response);
+        alert('Se ha modificado correctamente');
         this.opStatus = 'D';
       },
       (error) => {
-        console.log(error);
+        alert(error.error.message);
         this.opStatus = 'E';
       }
     );
@@ -73,6 +74,9 @@ export class UpdSubCategoriaDialogComponent implements OnInit {
       }
     });
     this.opStatus = 'P';
-    //this.updateSubCategoria(this.toService);
+    let toUpdate: any = {};
+    toUpdate.nombre = this.toService.nombre;
+    toUpdate.id = this.toService._id;
+    this.updateSubCategoria(toUpdate.id, toUpdate);
   }
 }

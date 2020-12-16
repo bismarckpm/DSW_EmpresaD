@@ -90,7 +90,7 @@ export class SubcategoriaComponent implements OnInit {
         alert('Se ha modificado correctamente');
       },
       (error) => {
-        console.log(error);
+        alert(error.error.message);
       }
     );
   }
@@ -132,7 +132,7 @@ export class SubcategoriaComponent implements OnInit {
     return false;
   }
   dataFilter(dataArray: SubCategoria[]): SubCategoria[] {
-    console.log(this.searchForm.value);
+    //console.log(this.searchForm.value);
     let filtered: SubCategoria[] = [];
     dataArray.forEach((res, ind) => {
       let inc = true;
@@ -166,21 +166,16 @@ export class SubcategoriaComponent implements OnInit {
         filtered.push(res);
       }
     });
-    console.log(dataArray, filtered);
+    //console.log(dataArray, filtered);
     return filtered;
   }
   invokeService() {
     console.log(this.addForm.value);
-    this._subcategoriaService.createSubCategoria(this.addForm.value).subscribe(
-      (response) => {
-        console.log(response);
-        this.opStatus = 'D';
-      },
-      (error) => {
-        console.log(error);
-        this.opStatus = 'E';
-      }
-    );
+    let values: any = this.addForm.value;
+    let toAdd: any = {};
+    toAdd.nombre = values.nombre;
+    toAdd.fk_categoria = values.categoria;
+    this.addSubCategoria(toAdd);
     this.getAsociados();
   }
   async invokeSearch() {
