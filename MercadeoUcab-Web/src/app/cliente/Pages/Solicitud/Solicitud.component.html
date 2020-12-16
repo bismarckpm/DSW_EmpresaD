@@ -39,21 +39,16 @@ align-items: center;">
           <div class="form-group">
             <label for="marcaSelect">Marca del producto</label>
             <select class="form-control" id="marcaSelect" formControlName="marca">
-              <option [ngValue]="'1'">Keratina</option>
-              <option [ngValue]="'2'">valmy</option>
-              <option [ngValue]="'3'">Nylen</option>
-              <option [ngValue]="'0'">Nueva marca</option>
+              <option *ngFor="let Marca of this.marcas" [ngValue]="Marca._id">{{Marca.nombre}}</option>
             </select>
           </div>
         </div>
 
-        <div style="width: 45%;height: 100%;">
+        <div style="width: 100%;height: 100%;">
           <div class="form-group">
             <label for="tipoADD">Tipo de producto</label>
-            <select class="form-control" id="tipoADD" formControlName="tipo" multiple>
-              <option [ngValue]="'1'">Tipo 1</option>
-              <option [ngValue]="'2'">Tipo 2</option>
-              <option [ngValue]="'3'">Tipo 3</option>
+            <select class="form-control" id="tipoADD" formControlName="tipo">
+              <option *ngFor="let Tipo of this.tipos" [ngValue]="Tipo._id">{{Tipo.nombre}}</option>
             </select>
           </div>
         </div>
@@ -62,11 +57,8 @@ align-items: center;">
       <div style="width: 45%;height: 100%;">
         <div class="form-group">
           <label for="subcategoriaADD" >Subcategoria del producto:<br><br></label>
-          <select class="form-control" id="subcategoriaADD" formControlName="subcategoria" multiple>
-            <option [ngValue]="1">subcategoria 1</option>
-            <option [ngValue]="2">subcategoria 2</option>
-            <option [ngValue]="3">subcategoria 3</option>
-            <option [ngValue]="4 ">subcategoria 4</option>
+          <select class="form-control" id="subcategoriaADD" formControlName="subCategoria">
+            <option *ngFor="let SubCategoria of this.subcategorias" [ngValue]="SubCategoria._id">{{SubCategoria.nombre}}</option>
           </select>
         </div>
       </div>
@@ -75,11 +67,8 @@ align-items: center;">
       <div style="width: 45%;height: 100%;">
         <div class="form-group">
           <label for="presentacionADD" >Presentacion del producto:<br><br></label>
-          <select class="form-control" id="presentacionADD" formControlName="presentacion" multiple>
-            <option [ngValue]="1">presentacion 1</option>
-            <option [ngValue]="2">presentacion 2</option>
-            <option [ngValue]="3">presentacion 3</option>
-            <option [ngValue]="4">presentacion 4</option>
+          <select class="form-control" id="presentacionADD" formControlName="presentacion">
+            <option *ngFor="let presentacion of this.presentaciones" [ngValue]="presentacion._id">{{presentacion.tipo+" "+presentacion.cantidad}}</option>
           </select>
         </div>
       </div>

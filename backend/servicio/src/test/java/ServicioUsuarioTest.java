@@ -18,8 +18,8 @@ public class ServicioUsuarioTest {
         dtoUsuario.setApellido( "Login");
         dtoUsuario.setEstado( "activo");
         dtoUsuario.setRol( "analista");
-        dtoUsuario.setCorreo( "dswempresad@gmail.com");
-        dtoUsuario.setPassword("dsw");
+        dtoUsuario.setCorreo( "atag102@gmail.com");
+        dtoUsuario.setPassword("1234");
         Response resultado = servicio.registrarUsuario( dtoUsuario);
         Assert.assertEquals(
                 Response.Status.OK.getStatusCode(),

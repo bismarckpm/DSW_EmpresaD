@@ -3,66 +3,85 @@ import { Solicitud } from '@models/solicitud';
 import { MatTableDataSource } from '@angular/material/table';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { SolicitudService } from '@core/services/solicitud/solicitud.service';
+import { MarcaService } from '@core/services/marca/marca.service';
+import {SubcategoriaService} from '@core/services/subcategoria/subcategoria.service';
+import {PresentacionService} from '@core/services/presentacion/presentacion.service';
+import {TipoService} from '@core/services/tipo/tipo.service';
 import { UpdateSolicitudDialogComponent } from '../../../cliente/components/dialogs/upd-solicitud-dialog/update-solicitud-dialog.component';
 import { DeleteUserDialogComponent } from '../../../admin/components/dialogs/delete-user-dialog/delete-user-dialog.component';
 import { Usuario } from '@models/usuario';
 import { Marca } from '@models/marca';
+import {SubCategoria} from '@models/subcategoria';
+import {Presentacion} from '@models/presentacion';
+import {Tipo} from '@models/tipo';
 
 @Component({
+  // tslint:disable-next-line:component-selector
   selector: 'app-Solicitud',
   templateUrl: './Solicitud.component.html',
   styleUrls: ['./Solicitud.component.css'],
 })
 export class SolicitudComponent implements OnInit {
-  //CONTROL DE ESTADO DEL COMPONENTE
-  op: string;
-  searchState: string; //U.I,D
-  solicitudes: Solicitud[] = [];
-
-  //COLUMNAS DE TABLA DE RESULTADOS
-  displayedColumns: string[] = ['id', 'selector', 'ops'];
-  columnsToDisplay: string[] = this.displayedColumns.slice();
-
-  //INDICE DE SOLICITUD SELECCIONADO
-  solicitudSelection: number = 0;
-
-  //LISTA DE SOLICITUDES DEVUELTOS EN BÚSQUEDA
-  dataSource: MatTableDataSource<Solicitud>;
-  solicitudTarget: Solicitud;
-  //FORMULARIOS
-  searchForm: FormGroup;
-  searchModel: Solicitud;
-  addForm: FormGroup;
-  opStatus: string; //S,P,D
-  userSolicitud: number;
-  setUsuarioSolicitud(U: number) {
-    this.userSolicitud = U;
-  }
 
   constructor(
-    //private modalService: NgbModal,
+    // private modalService: NgbModal,
     private formBuilder: FormBuilder,
-    private _solicitudService: SolicitudService
+    // tslint:disable-next-line:variable-name
+    private _solicitudService: SolicitudService,
+    private marcaServices: MarcaService,
+    private subcategoriaService: SubcategoriaService,
+    private  presentacionService: PresentacionService,
+    private tipoService: TipoService,
   ) {
     this.addForm = this.formBuilder.group({
       marca: null,
-      presentacionTipo: null,
-      subcategoria: null,
+      presentacion: null,
       usuario: null,
-      activo: null,
-      estado: 'Activo',
+      tipo: null,
+      subCategoria: null,
+      estado: 'solicitada',
     });
     this.searchForm = this.formBuilder.group({
-      usuario: null, //SELECT
+      usuario: null, // SELECT
       presentacion: null,
-      subcategoria: null,
+      subCategoria: null,
       tipo: null,
-      marca: null, //SELECT
-      estado: null, //SELECT
-      activo: null, //CHECKBOX O SELECT
-      creado_el: null, //DATE TO STRING
-      modificado_el: null, //DATE TO STRING
+      marca: null, // SELECT
+      estado: null, // SELECT
+      activo: null, // CHECKBOX O SELECT
+      creado_el: null, // DATE TO STRING
+      modificado_el: null, // DATE TO STRING
     });
+  }
+  // CONTROL DE ESTADO DEL COMPONENTE
+  op: string;
+  searchState: string; // U.I,D
+  solicitudes: Solicitud[] = [];
+  marcas: Marca[] = [];
+  subcategorias: SubCategoria[] = [];
+  presentaciones: Presentacion[] = [];
+  tipos: Tipo[] = [];
+
+  // COLUMNAS DE TABLA DE RESULTADOS
+  displayedColumns: string[] = ['id', 'selector', 'ops'];
+  columnsToDisplay: string[] = this.displayedColumns.slice();
+
+  // INDICE DE SOLICITUD SELECCIONADO
+  solicitudSelection = 0;
+
+  // LISTA DE SOLICITUDES DEVUELTOS EN BÚSQUEDA
+  dataSource: MatTableDataSource<Solicitud>;
+  solicitudTarget: Solicitud;
+  // FORMULARIOS
+  searchForm: FormGroup;
+  searchModel: Solicitud;
+  addForm: FormGroup;
+  opStatus: string; // S,P,D
+  userSolicitud: number;
+  @ViewChild('updSolicitud')
+  private updComponent: UpdateSolicitudDialogComponent;
+  setUsuarioSolicitud(U: number) {
+    this.userSolicitud = U;
   }
   /*getTarget(id:number){
     this.users.forEach((user,ind) => {
@@ -75,6 +94,55 @@ export class SolicitudComponent implements OnInit {
     this._solicitudService.getSolicitudes().subscribe(
       (response) => {
         console.log(response);
+        this.solicitudes = response.data;
+      },
+      (error) => {
+        console.log(error);
+      }
+    );
+  }
+
+  getPresentacion() {
+    this.presentacionService.getPresentaciones().subscribe(
+      (response) => {
+        console.log(response);
+        this.presentaciones = response.data;
+      },
+      (error) => {
+        console.log(error);
+      }
+    );
+  }
+
+  getTipos() {
+    this.tipoService.getTipos().subscribe(
+      (response) => {
+        console.log(response);
+        this.tipos = response.data;
+      },
+      (error) => {
+        console.log(error);
+      }
+    );
+  }
+
+  getSubcategoria() {
+    this.subcategoriaService.getSubCategorias().subscribe(
+      (response) => {
+        console.log(response);
+        this.subcategorias = response.data;
+      },
+      (error) => {
+        console.log(error);
+      }
+    );
+  }
+
+  getMarcas() {
+    this.marcaServices.getMarcas().subscribe(
+      (response) => {
+        console.log(response.data.nombre);
+        this.marcas = response.data;
       },
       (error) => {
         console.log(error);
@@ -85,6 +153,7 @@ export class SolicitudComponent implements OnInit {
   addSolicitud(data) {
     this._solicitudService.createSolicitud(data).subscribe(
       (response) => {
+        console.log(data.get('marcas'));
         console.log(response);
       },
       (error) => {
@@ -121,9 +190,11 @@ export class SolicitudComponent implements OnInit {
     this.setOperation('');
     this.searchState = 'U';
     this.getSolicitudes();
+    this.getMarcas();
+    this.getSubcategoria();
+    this.getPresentacion();
+    this.getTipos();
   }
-  @ViewChild('updSolicitud')
-  private updComponent: UpdateSolicitudDialogComponent;
   async openUpdModal() {
     return await this.updComponent.open();
   }
@@ -135,21 +206,24 @@ export class SolicitudComponent implements OnInit {
     "rol": data.rol,
     "correo": data.correo
     */
-    //FALTA VALIDACION
-    //console.log(this.addForm.value);
+    // FALTA VALIDACION
+    // console.log(this.addForm.value);
     this.addSolicitud(this.addForm.value);
     this.opStatus = 'P';
     console.log(this.op);
     console.log(this.opStatus);
-    console.log(this.opStatus);
+    console.log(this.addForm.get('marca').value);
+    console.log(this.addForm.get('tipo').value);
+    console.log(this.addForm.get('subCategoria').value);
+    console.log(this.addForm.get('presentacion').value);
     setTimeout(() => {
       this.addForm = this.formBuilder.group({
         marca: null,
+        presentacion: null,
         usuario: null,
-        presentacionTipo: null,
-        subcategoria: null,
-        activo: null,
-        estado: 'Activo',
+        tipo: null,
+        subCategoria: null,
+        estado: 'solicitada',
       });
       this.opStatus = 'D';
     }, 3000);
@@ -171,9 +245,10 @@ export class SolicitudComponent implements OnInit {
   }
   dataFilter(dataArray: Solicitud[]): Solicitud[] {
     console.log(this.searchForm.value);
-    let filtered: Solicitud[] = [];
+    const filtered: Solicitud[] = [];
     dataArray.forEach((res, ind) => {
       let inc = true;
+      // tslint:disable-next-line:variable-name
       Object.entries(this.searchForm.value).forEach(([key, field], _ind) => {
         if (inc === true && field !== null) {
           if (
@@ -201,17 +276,17 @@ export class SolicitudComponent implements OnInit {
   invokeSearch() {
     this.solicitudes = [];
     this.solicitudSelection = 0;
-    if (this.searchForm.value['creado_el'] !== null) {
+    if (this.searchForm.value.creado_el !== null) {
       this.searchForm
         .get('creado_el')
-        .setValue(new Date(this.searchForm.value['creado_el']));
+        .setValue(new Date(this.searchForm.value.creado_el));
     }
-    if (this.searchForm.value['modificado_el'] !== null) {
+    if (this.searchForm.value.modificado_el !== null) {
       this.searchForm
         .get('modificado_el')
-        .setValue(new Date(this.searchForm.value['modificado_el']));
+        .setValue(new Date(this.searchForm.value.modificado_el));
     }
-    //this.searchForm.get('');
+    // this.searchForm.get('');
     this.searchState = 'P';
     setTimeout(() => {
       for (let i = 0; i < Math.floor(Math.random() * (100 - 1) + 1); i++) {

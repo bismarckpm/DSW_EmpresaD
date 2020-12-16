@@ -10,8 +10,9 @@ export class SolicitudService {
   public url: string;
 
   constructor(
-    public _http:HttpClient
-  ) { 
+    // tslint:disable-next-line:variable-name
+    public _http: HttpClient
+  ) {
     this.url = GLOBAL.urlOscar;
   }
 
@@ -25,29 +26,27 @@ export class SolicitudService {
 
   createSolicitud( data){
     const headers = new HttpHeaders().set('Content-Type', 'application/json');
-    return this._http.post( 
-      this.url + '/solicitudes/', 
-      JSON.stringify(data), 
-      {headers: headers}
+    headers.set('Access-Control-Allow-Origin', 'http://localhost');
+    return this._http.post(this.url + '/solicitudes', JSON.stringify(data), {headers: headers}
     );
   }
 
   updateSolicitud( id, data){
     const headers = new HttpHeaders().set('Content-Type', 'application/json');
-    return this._http.put( 
-      this.url + '/solicitudes/' + id, 
-      JSON.stringify(data), 
-      {headers: headers}
+    return this._http.put(
+      this.url + '/solicitudes/' + id,
+      JSON.stringify(data),
+      {headers}
     );
   }
 
   deleteSolicitud( id, data){
     const headers = new HttpHeaders().set('Content-Type', 'application/json');
     // Ignorar data por los momentos
-    return this._http.put( 
-      this.url + '/solicitudes/' + id + '/eliminar', 
-      JSON.stringify(data), 
-      {headers: headers}
+    return this._http.put(
+      this.url + '/solicitudes/' + id + '/eliminar',
+      JSON.stringify(data),
+      {headers}
     );
   }
 }
