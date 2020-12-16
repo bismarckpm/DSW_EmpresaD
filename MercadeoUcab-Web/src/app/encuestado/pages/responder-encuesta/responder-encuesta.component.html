@@ -1,7 +1,7 @@
 <div class="container menu-container">
 	<mat-card style="height: 90%; width: 50%; display: flex;flex-direction: column;">
-		<div>
-			<h5>{{_Id}}</h5>	
+		<div style="text-align: center;">
+			<h5>Estudio #{{_Id}}</h5>	
 		</div>
 		<div style="overflow-y: auto;flex:1;display: flex;flex-direction: column;">
 			<div class="cForm" *ngIf="searchState==='P'">
@@ -20,7 +20,7 @@
                 </div>
             </div>
 			<div *ngIf="searchState==='D'" class="preguntas-scroll">
-                <div class="pregunta-container" *ngFor="let pregunta of _estudio.preguntas; let i=index">
+                <div class="pregunta-container border rounded" *ngFor="let pregunta of _estudio.preguntas; let i=index">
                     <ng-container  [ngSwitch]="pregunta.tipo">
                         <div class="form-group pregunta-content " *ngSwitchCase="'abierta'">
                             <label for="{{'pregunta-' + i }}" class="pregunta-title">
@@ -40,10 +40,15 @@
                             </h5>
                             </label>
                             <select class="form-control"
-                            (click)="setRespuestas(i,pregunta.tipo,$event.target.value)"  
+                            [(ngModel)]="_sampleOption"
+                            (change)="setRespuestas(i,'simple',$event.target.value)"  
                             id="{{'pregunta-' + i }}">
-                                <option [ngValue]="null">Sin seleccionar...</option>
-                                <option *ngFor="let op of pregunta.opciones;" [ngValue]="op">{{op.nombre_opcion}}</option>
+                                <option
+                                [ngValue]="null">Sin seleccionar...</option>
+                                <ng-container *ngFor="let op of pregunta.opciones; let s=index">
+                                     <option  
+                                     [ngValue]="s">{{op.nombre_opcion}}</option>
+                                </ng-container>
                             </select>
                         </div>
                         <div class="pregunta-content" *ngSwitchCase="'multiple'">
@@ -90,32 +95,36 @@
                         <div class="pregunta-content" *ngSwitchCase="'rango'">
                            <label for="{{'pregunta-' + i }}" class="pregunta-title">
                             <h5>
-                            {{pregunta.pregunta}}
+                                {{pregunta.pregunta}}
                             </h5>
-                            <!--<h5>
-                            {{pregunta.rango.split("&")[0]}}
-                            </h5>
-                            <h5>
-                            {{pregunta.rango.split("&")[1]}}
-                            </h5>
-                            -->
                             </label>
-                            <!--
-                            <mat-slider
-                            thumbLabel
-                            tickInterval="auto"
-                            min="{{parseInt(pregunta.rango.split('&')[0],10)}}"
-                            max="parseInt(pregunta.rango.split('&')[1],10)"></mat-slider>
-                            -->
+                            <input type="number"
+                            (change)="setRespuestas(i,pregunta.tipo,$event.target.value)" 
+                            name="{{'pregunta-' + i }}"
+                            class="form-control" id="{{'pregunta-' + i }}"
+                            min="{{pregunta.rango.split('&')[0]}}" max="{{pregunta.rango.split('&')[1]}}"
+                            />
+                            <span>
+                                Rango requerido: {{pregunta.rango.split("&")[0]}}-{{pregunta.rango.split("&")[1]}}
+                            </span>
                         </div>
                     </ng-container>
                 </div>
 			</div>
 		</div>
 		<div class="cForm-actions">
-            <button type="button" class="btn btn-danger">Cancelar</button>
+            <button type="button" class="btn btn-warning" (click)="onDir('encuestado/pending')">Cancelar</button>
             <mat-divider [vertical]="true" [inset]="true"></mat-divider>
-            <button type="button" class="btn btn-primary" disabled="checkSurvey()">Enviar</button>
+            <ng-container *ngIf="_estudio !== null">
+                <button type="button" class="btn btn-outline-dark" disabled="true" *ngIf="checkSurvey() === true">
+                    <div class="spinner-border" style="width: 1.25rem; height: 1.25rem;" role="status">
+                        <span class="sr-only">Loading...</span>
+                    </div>
+                </button>
+                <button type="button" class="btn btn-primary" *ngIf="checkSurvey() === false">
+                    Enviar
+                </button>
+            </ng-container>
         </div>
 	</mat-card>
 </div>

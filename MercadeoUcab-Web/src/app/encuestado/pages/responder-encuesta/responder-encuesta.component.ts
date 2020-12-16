@@ -18,7 +18,8 @@ interface RespuestaModel {
   s_val:Opcion | null;
   m_val:Opcion[];
   b_val:boolean | null;
-  r_val:string | null;
+  r_val:number | null;
+  done:boolean;
 }
 
 
@@ -30,8 +31,9 @@ interface RespuestaModel {
 export class ResponderEncuestaComponent implements OnInit {
   _Id:number = 0;
   _preguntas: Pregunta[] = [];
-  _estudio: Estudio;
+  _estudio: Estudio = null;
   _respuestas: RespuestaModel[] = [];
+  _sampleOption:Opcion = {_id:0,nombre_opcion:''};
   searchState:string = "";
   surveyReady:boolean=false;
   constructor(
@@ -148,15 +150,25 @@ export class ResponderEncuestaComponent implements OnInit {
         this._respuestas[pregInd].a_val = data;
         break;
       case 'simple':
-        this._respuestas[pregInd].s_val = data;
+        if(parseInt(data,10) - 1 === -1 ){
+          this._respuestas[pregInd].s_val = null;
+        }
+        else{
+          this._respuestas[pregInd].s_val = this._estudio.preguntas[pregInd].opciones[parseInt(data,10)-1];
+        }
       case 'boolean':
         this._respuestas[pregInd].b_val = data;
         break;
       case 'rango':
-        this._respuestas[pregInd].r_val = data;
+        if(data !== ''){
+          this._respuestas[pregInd].r_val = parseInt(data,10) ;
+        }
+        else{
+          this._respuestas[pregInd].r_val = parseInt(data,10) ; 
+        }
         break;
       }
-      console.log(this._respuestas[pregInd]);
+      //console.log(this._respuestas[pregInd]);
   }
   setMultOption(pregId,op){
     let ILength: number = this._respuestas[pregId].m_val.length;
@@ -206,6 +218,7 @@ export class ResponderEncuestaComponent implements OnInit {
               m_val:[],
               b_val:true,
               r_val:null,
+              done:false,
             });
          });
          this.searchState="D";
@@ -217,9 +230,65 @@ export class ResponderEncuestaComponent implements OnInit {
     this._Id = parseInt(this.route.snapshot.paramMap.get('id'),10);
     this.searchState="";
     this.getData(this._Id);
+  } 
+
+  onDir(_route:string):void {
+    try{
+    //console.log(_route);
+      this.router.navigate([_route]);
+    }catch(e){
+      console.log(e.message);
+    }
+  }
+
+  checkResp(pregInd,preg){
+    let resp: RespuestaModel = this._respuestas[pregInd];
+    let _done = false; 
+    switch(preg.tipo){
+      case 'abierta':
+        if(resp.a_val !== null){
+          _done  = true;
+        }
+        //SEND VALUE
+        break;
+      case 'simple':
+        if(resp.s_val !== null){
+          _done  = true;
+        }
+        //SEND OPCION
+        break;
+      case 'multiple':
+      if(resp.m_val !== []){
+          _done  = true;
+        }
+        //FOR EACH SEND
+        break;
+      case 'boolean':
+        _done  = true;
+        //SEND
+        break;
+      case 'rango':
+        if(resp.r_val !== null && (  resp.r_val >= parseInt(preg.rango.split('&')[0],10) && resp.r_val <= parseInt(preg.rango.split('&')[1],10))){
+          _done  = true;
+        }
+        //SEND
+        break;
+    }
+    this._respuestas[pregInd].done = _done;
   }
   checkSurvey():boolean{
-    let res : boolean = true;
+    let res : boolean = false;
+    console.log('Checking answers...');
+    this._estudio.preguntas.forEach((preg,ind) =>{
+      this.checkResp(ind,preg);
+    })
+
+    for(let resp of this._respuestas){
+      if(resp.done !== true){
+        res = true;
+        break;
+      } 
+    }
     return res;
   }
   postRespuestas(pregPos:number,tipoPreg:string,resp:any){
