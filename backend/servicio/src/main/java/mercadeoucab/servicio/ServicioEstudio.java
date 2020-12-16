@@ -4,6 +4,7 @@ import mercadeoucab.accesodatos.DaoEstudio;
 import mercadeoucab.dtos.DtoEstudio;
 import mercadeoucab.dtos.DtoPregunta;
 import mercadeoucab.entidades.*;
+import org.omg.PortableInterceptor.SYSTEM_EXCEPTION;
 
 import javax.json.Json;
 import javax.json.JsonArrayBuilder;
@@ -31,6 +32,7 @@ public class ServicioEstudio {
             List<Estudio> estudios = dao.findAll(Estudio.class);
             for(Estudio estudio: estudios){
                 if(estudio.getActivo() == 1){
+
                     JsonArrayBuilder preguntaslist = Json.createArrayBuilder();
                     for(Pregunta pregunta: estudio.getPreguntas()){
                         JsonObject objecto = Json.createObjectBuilder()
@@ -47,6 +49,7 @@ public class ServicioEstudio {
                                                 .build();
                         preguntaslist.add(objecto);
                     }
+
                     JsonObject agregar = Json.createObjectBuilder()
                                              .add("_id",estudio.get_id())
                                              .add("estado", estudio.getEstado())
@@ -158,24 +161,91 @@ public class ServicioEstudio {
         JsonObject estudioJson;
         Response resultado = null;
         try {
+
             DaoEstudio dao = new DaoEstudio();
             Estudio estudio = dao.find(id, Estudio.class);
+
             JsonArrayBuilder preguntaslist = Json.createArrayBuilder();
-            for(Pregunta pregunta: estudio.getPreguntas()){
-                JsonObject objecto = Json.createObjectBuilder()
-                        .add("_id", pregunta.get_id())
-                        .add("pregunta",pregunta.getNombrePregunta())
-                        .add("tipo", pregunta.getTipo())
-                        .add("rango", pregunta.getRango())
-                        .add("usuario",Json.createObjectBuilder()
-                                .add("_id",pregunta.getUsuario().get_id())
-                                .add("nombre",pregunta.getUsuario().getNombre())
-                                .add("apellido",pregunta.getUsuario().getApellido())
-                                .add("correo",pregunta.getUsuario().getCorreo())
-                                .add("rol",pregunta.getUsuario().getRol()))
-                        .build();
-                preguntaslist.add(objecto);
-            }
+
+           if(!(estudio.getEncuestaEstudio().isEmpty())){
+                for(EncuestaEstudio encuestaEstudio: estudio.getEncuestaEstudio()){
+                    String tipo = encuestaEstudio.getFk_pregunta().getTipo();
+                    JsonObject objeto = null;
+                    JsonArrayBuilder opcionesList = null;
+                    switch (tipo){
+                        case "abierta":
+                            objeto = Json.createObjectBuilder()
+                                                    .add("_id", encuestaEstudio.get_id())
+                                                    .add("pregunta",Json.createObjectBuilder()
+                                                                           .add("_id",encuestaEstudio.getFk_pregunta().get_id())
+                                                                           .add("nombre", encuestaEstudio.getFk_pregunta().getNombrePregunta())
+                                                                           .add("tipo",encuestaEstudio.getFk_pregunta().getTipo()))
+                                                    .build();
+                            preguntaslist.add(objeto);
+                            break;
+
+                        case "multiple":
+                            opcionesList = Json.createArrayBuilder();
+                            for(Opcion opcion: encuestaEstudio.getFk_pregunta().getOpciones()){
+                                JsonObject option = Json.createObjectBuilder()
+                                                        .add("_id", opcion.get_id())
+                                                        .add("nombre",opcion.getNombre_opcion())
+                                                        .build();
+                                opcionesList.add(option);
+                            }
+                            objeto = Json.createObjectBuilder()
+                                                    .add("_id", encuestaEstudio.get_id())
+                                                    .add("pregunta",Json.createObjectBuilder()
+                                                                            .add("_id",encuestaEstudio.getFk_pregunta().get_id())
+                                                                            .add("nombre", encuestaEstudio.getFk_pregunta().getNombrePregunta())
+                                                                            .add("tipo",encuestaEstudio.getFk_pregunta().getTipo())
+                                                                            .add("opciones", opcionesList))
+                                    .build();
+                            preguntaslist.add(objeto);
+                            break;
+                        case "simple":
+                            opcionesList = Json.createArrayBuilder();
+                            for(Opcion opcion: encuestaEstudio.getFk_pregunta().getOpciones()){
+                                JsonObject option = Json.createObjectBuilder()
+                                        .add("_id", opcion.get_id())
+                                        .add("nombre",opcion.getNombre_opcion())
+                                        .build();
+                                opcionesList.add(option);
+                            }
+                            objeto = Json.createObjectBuilder()
+                                    .add("_id", encuestaEstudio.get_id())
+                                    .add("pregunta",Json.createObjectBuilder()
+                                            .add("_id",encuestaEstudio.getFk_pregunta().get_id())
+                                            .add("nombre", encuestaEstudio.getFk_pregunta().getNombrePregunta())
+                                            .add("tipo",encuestaEstudio.getFk_pregunta().getTipo())
+                                            .add("opciones", opcionesList))
+                                    .build();
+                            preguntaslist.add(objeto);
+                            break;
+                        case "boolean":
+                            objeto = Json.createObjectBuilder()
+                                    .add("_id", encuestaEstudio.get_id())
+                                    .add("pregunta",Json.createObjectBuilder()
+                                            .add("_id",encuestaEstudio.getFk_pregunta().get_id())
+                                            .add("nombre", encuestaEstudio.getFk_pregunta().getNombrePregunta())
+                                            .add("tipo",encuestaEstudio.getFk_pregunta().getTipo()))
+                                    .build();
+                            preguntaslist.add(objeto);
+                            break;
+                        case "rango":
+                            objeto = Json.createObjectBuilder()
+                                    .add("_id", encuestaEstudio.get_id())
+                                    .add("pregunta",Json.createObjectBuilder()
+                                            .add("_id",encuestaEstudio.getFk_pregunta().get_id())
+                                            .add("nombre", encuestaEstudio.getFk_pregunta().getNombrePregunta())
+                                            .add("tipo",encuestaEstudio.getFk_pregunta().getTipo())
+                                            .add("rango",encuestaEstudio.getFk_pregunta().getRango()))
+                                    .build();
+                            preguntaslist.add(objeto);
+                            break;
+                    }//final switch
+                }//Final for
+            }//IF de la encuesta
             estudioJson = Json.createObjectBuilder()
                     .add("_id",estudio.get_id())
                     .add("estado", estudio.getEstado())
@@ -229,6 +299,7 @@ public class ServicioEstudio {
             resultado = Response.status(Response.Status.BAD_REQUEST)
                     .entity(data)
                     .build();
+            System.out.print(problema);
         }
         return resultado;
     }
