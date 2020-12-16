@@ -17,10 +17,19 @@ export class RespuestaService {
     return this._http.get(this.url + '/respuestas');
   }
 
+  //id en el path
   getRespuesta(id): Observable<any> {
     return this._http.get(this.url + '/respuestas/' + id);
   }
 
+  /*
+  {
+    "respuesta":String,
+    "fk_opcion":int,
+    "encuesta_estudio":int,
+    "fk_usuario":int
+  }
+  */
   createRespuesta(data) {
     const headers = new HttpHeaders().set('Content-Type', 'application/json');
     return this._http.post(this.url + '/respuestas/', JSON.stringify(data), {
@@ -28,6 +37,12 @@ export class RespuestaService {
     });
   }
 
+    /*
+    id en patj
+  {
+    "respuesta":String
+  }
+  */
   updateRespuesta(id, data) {
     const headers = new HttpHeaders().set('Content-Type', 'application/json');
     return this._http.put(
@@ -37,6 +52,7 @@ export class RespuestaService {
     );
   }
 
+  //id en el path
   deleteRespuesta(id, data) {
     // Ignorar data por los momentos
     const headers = new HttpHeaders().set('Content-Type', 'application/json');

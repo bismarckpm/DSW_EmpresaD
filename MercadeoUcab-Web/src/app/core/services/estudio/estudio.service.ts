@@ -17,10 +17,33 @@ export class EstudioService {
     return this._http.get(this.url + '/estudios');
   }
 
+  //id en path
   getEstudio(id): Observable<any> {
     return this._http.get(this.url + '/estudios/' + id);
   }
 
+  /*
+  Las preguntas tienen que existir
+  {
+    "estado":String,
+    "tipo":String
+    "encuestasEsperadas":int,
+    "solicitud"int,
+    "fk_usuario":int,
+    "fk_muestra_poblacion":int,
+    "preguntas":[
+      {
+        "_id":int
+      },
+      .
+      .
+      .
+      {
+        "_id":int
+      }
+    ]
+  }
+  */
   createEstudio(data) {
     const headers = new HttpHeaders().set('Content-Type', 'application/json');
     return this._http.post(this.url + '/estudios/', JSON.stringify(data), {
@@ -28,6 +51,14 @@ export class EstudioService {
     });
   }
 
+   /*
+  id en el path
+  {
+    "estado":String,
+    "tipo":String
+    "encuestasEsperadas":int
+  }
+  */
   updateEstudio(id, data) {
     const headers = new HttpHeaders().set('Content-Type', 'application/json');
     return this._http.put(this.url + '/estudios/' + id, JSON.stringify(data), {
@@ -35,6 +66,7 @@ export class EstudioService {
     });
   }
 
+  //id en el path
   deleteEstudio(id, data) {
     // Ignorar data por los momentos
     const headers = new HttpHeaders().set('Content-Type', 'application/json');

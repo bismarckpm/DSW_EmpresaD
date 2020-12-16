@@ -21,10 +21,21 @@ export class SolicitudService {
     return this._http.get(this.url + '/solicitudes');
   }
 
+  //id en el path
   getSolicitud(id): Observable<any> {
     return this._http.get(this.url + '/solicitudes/' + id);
   }
 
+  /*
+  {
+    "estado":string,
+    "usuario":int,
+    "marca":int,
+    "tipo":int,
+    "subCategoria":int,
+    "presentacion":int
+  }
+  */
   createSolicitud(data) {
     const headers = new HttpHeaders().set('Content-Type', 'application/json');
     return this._http.post(this.url + '/solicitudes/', JSON.stringify(data), {
@@ -32,6 +43,12 @@ export class SolicitudService {
     });
   }
 
+   /*
+   id en el path
+  {
+    "estado":string
+  }
+  */
   updateSolicitud(id, data) {
     const headers = new HttpHeaders().set('Content-Type', 'application/json');
     return this._http.put(
@@ -41,6 +58,7 @@ export class SolicitudService {
     );
   }
 
+  //id en el path
   deleteSolicitud(id, data) {
     const headers = new HttpHeaders().set('Content-Type', 'application/json');
     // Ignorar data por los momentos
