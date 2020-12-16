@@ -9,6 +9,7 @@ import { Observable } from 'rxjs';
 export class MarcaService {
   public url: string;
 
+  // tslint:disable-next-line:variable-name
   constructor(public _http: HttpClient) {
     this.url = GLOBAL.urlOscar;
   }
@@ -29,12 +30,12 @@ export class MarcaService {
   */
   createMarca(data) {
     const headers = new HttpHeaders().set('Content-Type', 'application/json');
-    let json = JSON.stringify({
+    const json = JSON.stringify({
       nombre: data.nombre,
     });
-    let params = json;
+    const params = json;
     return this._http.post(this.url + '/marcas/', JSON.stringify(data), {
-      headers: headers,
+      headers,
     });
   }
 
@@ -46,13 +47,13 @@ export class MarcaService {
   */
   updateMarca(id, data) {
     const headers = new HttpHeaders().set('Content-Type', 'application/json');
-    let json = JSON.stringify({
+    const json = JSON.stringify({
       _id: data._id,
       nombre: data.nombre,
     });
-    let params = json;
+    const params = json;
     return this._http.put(this.url + '/marcas/' + id, JSON.stringify(data), {
-      headers: headers,
+      headers,
     });
   }
 
@@ -63,7 +64,7 @@ export class MarcaService {
     return this._http.put(
       this.url + '/marcas/' + id + '/eliminar',
       JSON.stringify(data),
-      { headers: headers }
+      { headers }
     );
   }
 }

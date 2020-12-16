@@ -24,7 +24,7 @@ export class UsuarioService {
   createUser(data) {
     const headers = new HttpHeaders().set('Content-Type', 'application/json');
     return this._http.post(this.url + '/usuarios/', JSON.stringify(data), {
-      headers: headers,
+      headers,
     });
   }
 
@@ -42,7 +42,7 @@ export class UsuarioService {
       this.url + '/usuarios/' + id + '/eliminar',
       JSON.stringify(data),
       {
-        headers: headers,
+        headers,
       }
     );
   }
@@ -52,7 +52,7 @@ export class UsuarioService {
     return this._http.post(
       this.url + '/usuarios/peticionClaveOlvidada',
       JSON.stringify(data),
-      { headers: headers }
+      { headers }
     );
   }
 
@@ -61,14 +61,14 @@ export class UsuarioService {
     return this._http.post(
       this.url + '/usuarios/cambioClaveOlvidada',
       JSON.stringify(data),
-      { headers: headers }
+      { headers }
     );
   }
 
   signup(data) {
     const headers = new HttpHeaders().set('Content-Type', 'application/json');
     return this._http.post(this.url + '/LDAP/login', JSON.stringify(data), {
-      headers: headers,
+      headers,
     });
   }
 }
