@@ -17,10 +17,17 @@ export class PresentacionService {
     return this._http.get(this.url + '/presentaciones');
   }
 
+  //id en el path
   getPresentacion(id): Observable<any> {
     return this._http.get(this.url + '/presentaciones/' + id);
   }
 
+  /*
+  {
+    "cantidad":"string",
+    "tipo":string
+  }
+  */
   createPresentacion(data) {
     const headers = new HttpHeaders().set('Content-Type', 'application/json');
     return this._http.post(
@@ -30,6 +37,13 @@ export class PresentacionService {
     );
   }
 
+  /*
+  id en path
+  {
+    "cantidad":"string",
+    "tipo":string
+  }
+  */
   updatePresentacion(id, data) {
     const headers = new HttpHeaders().set('Content-Type', 'application/json');
     return this._http.put(
@@ -39,6 +53,7 @@ export class PresentacionService {
     );
   }
 
+  //id en el path
   deletePresentacion(id, data) {
     // Ignorar data por los momentos
     const headers = new HttpHeaders().set('Content-Type', 'application/json');

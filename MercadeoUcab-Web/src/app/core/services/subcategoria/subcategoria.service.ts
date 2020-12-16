@@ -17,10 +17,17 @@ export class SubcategoriaService {
     return this._http.get(this.url + '/subcategorias');
   }
 
+  //id en el path
   getSubCategoria(id): Observable<any> {
     return this._http.get(this.url + '/subcategorias/' + id);
   }
 
+  /*
+  {
+    "nombre":"nombre",
+    "fk_categoria":int
+  }
+  */
   createSubCategoria(data) {
     const headers = new HttpHeaders().set('Content-Type', 'application/json');
     // Posible error verificar que la categoria la cargue bien
@@ -28,6 +35,13 @@ export class SubcategoriaService {
       headers: headers,
     });
   }
+
+  /*
+  id en el path
+  {
+    "nombre":"nombre"
+  }
+  */
   updateSubCategoria(id, data) {
     const headers = new HttpHeaders().set('Content-Type', 'application/json');
     // Posible error verificar que la categoria la cargue bien
@@ -38,6 +52,7 @@ export class SubcategoriaService {
     );
   }
 
+  //id en el path
   deleteSubCategoria(id, data) {
     const headers = new HttpHeaders().set('Content-Type', 'application/json');
     // Ignorar data por los momentos

@@ -17,10 +17,15 @@ export class CategoriaService {
     return this._http.get(this.url + '/categorias');
   }
 
+  //id en el path
   getCategoria(id): Observable<any> {
     return this._http.get(this.url + '/categorias/' + id);
   }
 
+  /*{
+      "nombre":"nombre"
+    }
+  */
   createCategoria(data) {
     const headers = new HttpHeaders().set('Content-Type', 'application/json');
     let json = JSON.stringify({
@@ -32,6 +37,10 @@ export class CategoriaService {
     });
   }
 
+  /*{
+      "nombre":"nombre"
+    }
+  */
   updateCategoria(id, data) {
     const headers = new HttpHeaders().set('Content-Type', 'application/json');
     let json = JSON.stringify({
@@ -46,6 +55,7 @@ export class CategoriaService {
     );
   }
 
+  //id en el path
   deleteCategoria(id, data) {
     const headers = new HttpHeaders().set('Content-Type', 'application/json');
     // Ignorar data por los momentos

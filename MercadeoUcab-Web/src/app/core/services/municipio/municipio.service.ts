@@ -17,10 +17,17 @@ export class MunicipioService {
     return this._http.get(this.url + '/municipios');
   }
 
+  //id en path
   getMunicipio(id): Observable<any> {
     return this._http.get(this.url + '/municipios/' + id);
   }
 
+  /*
+  {
+    "nombre":"nombre",
+    "fk_estado": int
+  }
+  */
   createMunicipio(data) {
     const headers = new HttpHeaders().set('Content-Type', 'application/json');
     return this._http.post(this.url + '/municipios/', JSON.stringify(data), {
@@ -28,6 +35,12 @@ export class MunicipioService {
     });
   }
 
+  /*
+  iden el path
+  {
+    "nombre":"nombre"
+  }
+  */
   updateMunicipio(id, data) {
     const headers = new HttpHeaders().set('Content-Type', 'application/json');
     return this._http.put(
@@ -37,6 +50,7 @@ export class MunicipioService {
     );
   }
 
+  //id en el path
   deleteMunicipio(id, data) {
     const headers = new HttpHeaders().set('Content-Type', 'application/json');
     // Ignorar data por los momentos
