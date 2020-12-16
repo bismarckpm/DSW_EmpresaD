@@ -43,7 +43,7 @@ export class LoginComponent implements OnInit {
           this._router.navigate(['cliente']);
         }
         if (response.data.rol === 'analista') {
-          this._router.navigate(['analist']);
+          this._router.navigate(['analista']);
         }
         console.log(response);
       },
