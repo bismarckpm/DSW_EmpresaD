@@ -218,11 +218,11 @@ export class SolicitudComponent implements OnInit {
     console.log(this.addForm.get('presentacion').value);
     setTimeout(() => {
       this.addForm = this.formBuilder.group({
-        marca: null,
-        presentacion: null,
-        usuario: null,
-        tipo: null,
-        subCategoria: null,
+        marca: 1,
+        presentacion: 1,
+        usuario: 1,
+        tipo: 1,
+        subCategoria: 1,
         estado: 'solicitada',
       });
       this.opStatus = 'D';
