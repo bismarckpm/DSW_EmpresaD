@@ -152,9 +152,12 @@ export class SolicitudComponent implements OnInit {
 
   addSolicitud(data) {
     this._solicitudService.createSolicitud(data).subscribe(
-      (response) => {
-        console.log(data.get('marcas'));
+      (response: any) => {;
         console.log(response);
+        if (response.status === 200) {
+          //Se hace lo que se quiera en exito
+          alert(response.message);
+        }
       },
       (error) => {
         console.log(error);
@@ -208,8 +211,14 @@ export class SolicitudComponent implements OnInit {
     */
     // FALTA VALIDACION
     // console.log(this.addForm.value);
-    this.addSolicitud(this.addForm.value);
+
+    let toAdd: any = {};
+    Values = this.addForm.value;
+
+
+
     this.opStatus = 'P';
+    this.addSolicitud(toAdd);
     console.log(this.op);
     console.log(this.opStatus);
     console.log(this.addForm.get('marca').value);
