@@ -10,6 +10,8 @@ import { Marca } from '@models/marca';
 import { Pregunta } from '@models/pregunta';
 import { Presentacion } from '@models/presentacion';
 import { Solicitud } from '@models/solicitud';
+import { EstudioService } from '@core/services/estudio/estudio.service';
+import { SolicitudService } from '@core/services/solicitud/solicitud.service';
 
 @Component({
   selector: 'app-estudios',
@@ -80,7 +82,9 @@ export class EstudiosComponent implements OnInit {
   secondFormGroup: FormGroup;
   constructor(
     private modalService: NgbModal,
-    private formBuilder: FormBuilder
+    private formBuilder: FormBuilder,
+    private _estudioService: EstudioService,
+    private _solicitudService: SolicitudService
   ) {}
 
   @ViewChild('updEstudio') private updComponent: UpdEstudioDialogComponent;
@@ -109,6 +113,103 @@ export class EstudiosComponent implements OnInit {
     });
     this.setOperation('');
   }
+
+  getEstudios() {
+    this._estudioService.getEstudios().subscribe(
+      (response) => {
+        console.log(response);
+        this.estudios = response.data;
+      },
+      (error) => {
+        console.log(error);
+      }
+    );
+  }
+
+  addEstudio(data) {
+    this._estudioService.createEstudio(data).subscribe(
+      (response) => {
+        console.log(response);
+        alert('Se agrego el estudio correctamente');
+      },
+      (error) => {
+        console.log(error);
+      }
+    );
+  }
+
+  updateEstudio(id, data) {
+    this._estudioService.updateEstudio(id, data).subscribe(
+      (response) => {
+        console.log(response);
+        alert('Se modifico el estudio correctamente');
+      },
+      (error) => {
+        console.log(error);
+      }
+    );
+  }
+
+  deleteEstudio(id, data) {
+    this._estudioService.deleteEstudio(id, data).subscribe(
+      (response) => {
+        console.log(response);
+        alert('Se elimino el estudio correctamente');
+      },
+      (error) => {
+        console.log(error);
+      }
+    );
+  }
+
+  getSolicitudes() {
+    this._solicitudService.getSolicitudes().subscribe(
+      (response) => {
+        console.log(response);
+        this.solicitudes = response.data;
+      },
+      (error) => {
+        console.log(error);
+      }
+    );
+  }
+
+  addSolicitud(data) {
+    this._solicitudService.createSolicitud(data).subscribe(
+      (response) => {
+        console.log(response);
+        alert('Se agrego la solicitud correctamente');
+      },
+      (error) => {
+        console.log(error);
+      }
+    );
+  }
+
+  updateSolicitud(id, data) {
+    this._solicitudService.updateSolicitud(id, data).subscribe(
+      (response) => {
+        console.log(response);
+        alert('Se modifico la solicitud correctamente');
+      },
+      (error) => {
+        console.log(error);
+      }
+    );
+  }
+
+  deleteSolicitud(id, data) {
+    this._solicitudService.deleteSolicitud(id, data).subscribe(
+      (response) => {
+        console.log(response);
+        alert('Se elimino la solicitud correctamente');
+      },
+      (error) => {
+        console.log(error);
+      }
+    );
+  }
+
   invokeService() {}
 
   invokeSearch() {

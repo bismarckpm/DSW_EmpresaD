@@ -1,43 +1,43 @@
-import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { Injectable } from '@angular/core';
 import { GLOBAL } from '@env/environment';
 import { Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
 })
-export class EstudioService {
+export class TipoService {
   public url: string;
 
   constructor(public _http: HttpClient) {
     this.url = GLOBAL.urlOscar;
   }
 
-  getEstudios(): Observable<any> {
-    return this._http.get(this.url + '/estudios');
+  getTipos(): Observable<any> {
+    return this._http.get(this.url + '/tipos');
   }
 
-  getEstudio(id): Observable<any> {
-    return this._http.get(this.url + '/estudios/' + id);
+  getTipo(id): Observable<any> {
+    return this._http.get(this.url + '/tipos/' + id);
   }
 
-  createEstudio(data) {
+  createTipo(data) {
     const headers = new HttpHeaders().set('Content-Type', 'application/json');
-    return this._http.post(this.url + '/estudios/', JSON.stringify(data), {
+    return this._http.post(this.url + '/tipos/', JSON.stringify(data), {
       headers: headers,
     });
   }
 
-  updateEstudio(id, data) {
+  updateTipo(id, data) {
     const headers = new HttpHeaders().set('Content-Type', 'application/json');
-    return this._http.put(this.url + '/estudios/' + id, JSON.stringify(data), {
+    return this._http.put(this.url + '/tipos/' + id, JSON.stringify(data), {
       headers: headers,
     });
   }
 
-  deleteEstudio(id, data) {
+  deleteTipo(id, data) {
     // Ignorar data por los momentos
     const headers = new HttpHeaders().set('Content-Type', 'application/json');
-    return this._http.put(this.url + '/estudios/' + id + '/eliminar', data);
+    return this._http.put(this.url + '/tipos/' + id + '/eliminar', data);
   }
 }

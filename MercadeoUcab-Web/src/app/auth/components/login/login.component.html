@@ -2,7 +2,8 @@
   <div class="container">
     <div class="row justify-content-center">
       <div class="col-md-offset-4 col-md-4 col-sm-offset-3 col-sm-6">
-        <form #f="ngForm" (ngSubmit)="onSubmit(f)" class="form_horizontal">
+        <form #f="ngForm" (ngSubmit)="onSubmit()" class="form_horizontal">
+          <h2 class="title-principal">Mercadeo Ucab</h2>
           <div class="form-icon"><i class="fa fa-user-circle"></i></div>
           <h3 class="title">Login</h3>
           <div class="form-group">
@@ -11,6 +12,7 @@
               type="email"
               name="userEmail"
               #userEmail="ngModel"
+              [(ngModel)]="model.correo"
               class="form-control"
               id="loginEmail"
               placeholder="Correo"
@@ -26,6 +28,7 @@
               id="loginPassword"
               placeholder="Password"
               name="userPassword"
+              [(ngModel)]="model.password"
               #userPassword="ngModel"
               ngModel
               required

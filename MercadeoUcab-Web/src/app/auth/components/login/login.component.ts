@@ -4,6 +4,7 @@ import { ViewEncapsulation } from '@angular/core';
 import { UsuarioService } from '@core/services/usuario/usuario.service';
 import { Usuario } from '@core/models/usuario';
 import { NgForm } from '@angular/forms';
+import { Ldap } from '@core/models/ldap';
 
 @Component({
   selector: 'app-Login',
@@ -13,9 +14,8 @@ import { NgForm } from '@angular/forms';
   providers: [UsuarioService],
 })
 export class LoginComponent implements OnInit {
-  public user: Usuario;
-  public status;
   public token;
+  public model: Ldap = new Ldap('', '');
 
   constructor(
     private _route: ActivatedRoute,
@@ -25,23 +25,34 @@ export class LoginComponent implements OnInit {
 
   ngOnInit() {}
 
-  onSubmit(form: NgForm) {
-    console.log(form.value);
-    console.log(form.valid);
-    /*this._userService.signup(this.user).subscribe(
-      response =>{
-        console.log(response.status);
-        this.status = 'success';
+  signup(user) {
+    this._userService.signup(user).subscribe(
+      (response: any) => {
+        console.log(response);
         //Guardar credenciales en el local Storage
-        
+        localStorage.setItem('_id', response.data._id);
+        localStorage.setItem('rol', response.data.rol);
         // Agregar codigo para ir a la ruta dependiendo del rol
-        
+        if (response.data.rol === 'administrador') {
+          this._router.navigate(['administrador']);
+        }
+        if (response.data.rol === 'encuestado') {
+          this._router.navigate(['encuestado']);
+        }
+        if (response.data.rol === 'cliente') {
+          this._router.navigate(['cliente']);
+        }
+        if (response.data.rol === 'analista') {
+          this._router.navigate(['analist']);
+        }
         console.log(response);
       },
-      error => {
-        this.status='error'
+      (error) => {
         console.log(<any>error);
       }
-    );*/
+    );
+  }
+  onSubmit() {
+    this.signup(this.model);
   }
 }

@@ -10,6 +10,18 @@ import java.util.List;
         @NamedQuery(
                 name = "estudios_de_un_analista",
                 query = "select e from Estudio e where e.fk_usuario = :fk_usuario"
+        ),
+        @NamedQuery(
+                name = "estudios_aplican_encuestado",
+                query = "select e from Estudio e " +
+                        "where e.fk_muestra_poblacion.cantidadHijos = :cantidadHijos " +
+                        "  and e.fk_muestra_poblacion.genero = :genero " +
+                        "  and e.fk_muestra_poblacion.nivelAcademico = :nivelAcademico " +
+                        "  and e.fk_muestra_poblacion.nivelEconomico = :nivelEconomico " +
+                        "  and e.fk_muestra_poblacion.rangoEdadInicio <= :edad " +
+                        "  and e.fk_muestra_poblacion.rangoEdadFin >= :edad " +
+                        "  and e.fk_muestra_poblacion.fk_lugar = :lugar " +
+                        "  and e.fk_muestra_poblacion.fk_ocupacion = :ocupacion"
         )
 })
 public class Estudio extends EntidadBase{

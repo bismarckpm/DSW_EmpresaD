@@ -52,7 +52,7 @@ public class ServicioDatoEncuestado extends AplicacionBase{
                                                     .build();
                         listaHijos.add(objetoHijo);
                     }
-                    Ocupacion ocupacion = datoEncuestado.getOcupaciones().get(0);
+                    Ocupacion ocupacion = datoEncuestado.getOcupacion();
                     JsonObject objetoOcupacion = Json.createObjectBuilder()
                                                         .add("_id", ocupacion.get_id())
                                                         .add("nombre", ocupacion.getNombre())
@@ -100,7 +100,8 @@ public class ServicioDatoEncuestado extends AplicacionBase{
                                             .add("genero", datoEncuestado.getGenero())
                                             .add("nivelEconomico", datoEncuestado.getNive_economico())
                                             .add("nivelAcademico", datoEncuestado.getNivelAcademico())
-                                            .add("personasHojar", datoEncuestado.getPersonasHogar())
+                                            .add("personasHogar", datoEncuestado.getPersonasHogar())
+                                            .add("ocupacion", objetoOcupacion)
                                             .add("parroquia", objetoParroquia)
                                             .add("usuario", objetoUsuario)
                                             .add("hijos", listaHijos)
@@ -153,7 +154,7 @@ public class ServicioDatoEncuestado extends AplicacionBase{
             Usuario usuario = new Usuario(dtoDatoEncuestado.getUsuario().get_id());
             datoEncuestado.setUsuario( usuario );
             Ocupacion ocupacion = new Ocupacion(dtoDatoEncuestado.getOcupacion().get_id());
-            datoEncuestado.addOcupacion( ocupacion );
+            datoEncuestado.setOcupacion( ocupacion );
             for ( DtoTelefono telefono: dtoDatoEncuestado.getTelefonos()){
                 Telefono paraInsertar = new Telefono();
                 paraInsertar.setTelefono( telefono.getTelefono());
@@ -218,7 +219,7 @@ public class ServicioDatoEncuestado extends AplicacionBase{
                             .build();
                     listaHijos.add(objetoHijo);
                 }
-                Ocupacion ocupacion = resul.getOcupaciones().get(0);
+                Ocupacion ocupacion = resul.getOcupacion();
                 JsonObject objetoOcupacion = Json.createObjectBuilder()
                         .add("_id", ocupacion.get_id())
                         .add("nombre", ocupacion.getNombre())
@@ -266,7 +267,8 @@ public class ServicioDatoEncuestado extends AplicacionBase{
                         .add("genero", resul.getGenero())
                         .add("nivelEconomico", resul.getNive_economico())
                         .add("nivelAcademico", resul.getNivelAcademico())
-                        .add("personasHojar", resul.getPersonasHogar())
+                        .add("personasHogar", resul.getPersonasHogar())
+                        .add("ocupacion", objetoOcupacion)
                         .add("parroquia", objetoParroquia)
                         .add("usuario", objetoUsuario)
                         .add("hijos", listaHijos)
@@ -276,7 +278,9 @@ public class ServicioDatoEncuestado extends AplicacionBase{
                         .add("status", 200)
                         .add("data", objeto)
                         .build();
-            }else{
+            }
+            else
+                {
                 data = Json.createObjectBuilder()
                         .add("status", 200)
                         .add("message", "Dato Encuestado no se encuentra activo")

@@ -14,4 +14,11 @@ public class ServicioAnalistaTest {
         Response resultado = servicio.estudiosAnalista(dtoUsuario.get_id());
         Assert.assertEquals(200, resultado.getStatus());
     }
+
+    @Test
+    public void listarAnalistasTest() throws Exception{
+        ServicioAnalista servicio = new ServicioAnalista();
+        Response resultado = servicio.listarAnalistas();
+        Assert.assertEquals(200, resultado.getStatus());
+    }
 }
