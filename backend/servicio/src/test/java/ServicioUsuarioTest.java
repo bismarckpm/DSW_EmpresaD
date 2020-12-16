@@ -18,7 +18,7 @@ public class ServicioUsuarioTest {
         dtoUsuario.setApellido( "Soteldo");
         dtoUsuario.setEstado( "activo");
         dtoUsuario.setRol( "analista");
-        dtoUsuario.setCorreo( "pasaCono@gmail.com");
+        dtoUsuario.setCorreo( "soteldoplayer@gmail.com");
         dtoUsuario.setPassword("54321");
         Response resultado = servicio.registrarUsuario( dtoUsuario);
         Assert.assertEquals(
@@ -36,7 +36,7 @@ public class ServicioUsuarioTest {
         dtoUsuario.setApellido( "Herrera");
         dtoUsuario.setEstado( "activo");
         dtoUsuario.setRol( "encuestado");
-        dtoUsuario.setCorreo( "sanYangel@gmail.com");
+        dtoUsuario.setCorreo( "yangelplayer@gmail.com");
         Response resultado = servicio.actualizarUsuario(
                 dtoUsuario.get_id(),
                 dtoUsuario
@@ -93,7 +93,7 @@ public class ServicioUsuarioTest {
     public void cambioClaveOlvidadaTest() throws Exception{
         ServicioUsuario servicio = new ServicioUsuario();
         DtoDirectorioAUser dtoUsuario = new DtoDirectorioAUser();
-        dtoUsuario.setCorreo("pasaCono@gmail.com");
+        dtoUsuario.setCorreo("cambioclave@gmail.com");
         dtoUsuario.setPassword("cambie");
         Response resultado = servicio.cambioClaveOlvidada( dtoUsuario);
         Assert.assertEquals(

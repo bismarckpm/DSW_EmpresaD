@@ -48,7 +48,7 @@ public class ServicioRespuestaTest {
     public void actualizarRespuestaTest() throws Exception {
         ServicioRespuesta servicio = new ServicioRespuesta();
         DtoRespuesta dtoRespuesta = new DtoRespuesta(1);
-        dtoRespuesta.setRespuesta("ups me equivoque");
+        dtoRespuesta.setRespuesta("deberia ser mas grande");
         Response resultado = servicio.actualizarRespuesta( dtoRespuesta.get_id(), dtoRespuesta);
         Assert.assertEquals(200, resultado.getStatus());
     }

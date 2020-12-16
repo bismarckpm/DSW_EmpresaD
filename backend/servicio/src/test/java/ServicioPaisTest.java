@@ -13,7 +13,7 @@ public class ServicioPaisTest {
     public void registroPaisTest() throws Exception{
         ServicioPais servicio = new ServicioPais();
         DtoPais registro = new DtoPais();
-        registro.setNombre("Venecosuela");
+        registro.setNombre("Venezuela");
         Response resultado = servicio.agregarPais(registro);
         Assert.assertEquals(
                 javax.ws.rs.core.Response.Status.OK.getStatusCode(),
@@ -25,7 +25,7 @@ public class ServicioPaisTest {
     public void actualizarPaisTest() throws Exception{
         ServicioPais servicio = new ServicioPais();
         DtoPais registro = new DtoPais();
-        registro.setNombre("modificado");
+        registro.setNombre("Venezuela");
         Response resultado = servicio.actualizarPais(1, registro);
         Assert.assertEquals(
                 javax.ws.rs.core.Response.Status.OK.getStatusCode(),

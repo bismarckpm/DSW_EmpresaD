@@ -21,8 +21,8 @@ public class ServicioParroquiaTest {
     public void registroParroquiaTest() throws Exception{
         ServicioParroquia servicio = new ServicioParroquia();
         DtoParroquia dtoParroquia = new DtoParroquia();
-        dtoParroquia.setNombre("menos conozco");
-        dtoParroquia.setValor_socio_economico(0);
+        dtoParroquia.setNombre("caucaguita");
+        dtoParroquia.setValor_socio_economico(66666660);
         dtoParroquia.setFk_municipio(new DtoMunicipio(1));
         Response resultado = servicio.registrarParroquia( dtoParroquia );
         Assert.assertEquals(
@@ -45,7 +45,7 @@ public class ServicioParroquiaTest {
     public void actualizarParroquiaTest() throws Exception{
         ServicioParroquia servicio = new ServicioParroquia();
         DtoParroquia dtoParroquia = new DtoParroquia();
-        dtoParroquia.setNombre("menos conozco");
+        dtoParroquia.setNombre("petare");
         dtoParroquia.setValor_socio_economico(1000);
         Response resultado = servicio.actualizarParroquia(1, dtoParroquia);
         Assert.assertEquals(

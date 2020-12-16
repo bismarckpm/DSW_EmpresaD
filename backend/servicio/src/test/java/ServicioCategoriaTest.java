@@ -30,7 +30,7 @@ public class ServicioCategoriaTest {
     public void actualizarCategoriaTest() throws Exception{
         ServicioCategoria servicio = new ServicioCategoria();
         DtoCategoria categoria = new DtoCategoria();
-        categoria.setNombre("Nuevo");
+        categoria.setNombre("higiene");
         Response resultado = servicio.actualizarCategoria(1, categoria);
         Assert.assertEquals(resultado.getStatus(), 200);
     }

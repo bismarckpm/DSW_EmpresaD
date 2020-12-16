@@ -15,7 +15,7 @@ public class ServicioEstadoTest {
     public void registrarEstadoTest() throws Exception{
         ServicioEstado servicio = new ServicioEstado();
         DtoEstado dtoEstado = new DtoEstado();
-        dtoEstado.setNombre("Gurico");
+        dtoEstado.setNombre("Guarico");
         dtoEstado.setFk_pais(new DtoPais(1));
         Response resultado = servicio.agregarEstado(dtoEstado);
         Assert.assertEquals(
@@ -38,7 +38,7 @@ public class ServicioEstadoTest {
     public void actualizarEstadoTest() throws  Exception{
         ServicioEstado servicio = new ServicioEstado();
         DtoEstado dtoEstado = new DtoEstado();
-        dtoEstado.setNombre("Gurico");
+        dtoEstado.setNombre("Guarico");
         dtoEstado.setFk_pais(new DtoPais(1));
         Response resultado = servicio.actualizarEstado(1, dtoEstado);
         Assert.assertEquals(
