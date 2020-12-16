@@ -54,6 +54,9 @@ public class Estudio extends EntidadBase{
     @ManyToMany()
     private List<Pregunta> preguntas;
 
+    @OneToMany( mappedBy = "fk_estudio", fetch = FetchType.LAZY )
+    private List<EncuestaEstudio> encuestaEstudio = new ArrayList<>();
+
     public Estudio(long id) {
         super(id);
     }
@@ -121,5 +124,13 @@ public class Estudio extends EntidadBase{
 
     public void setPreguntas(List<Pregunta> preguntas) {
         this.preguntas = preguntas;
+    }
+
+    public List<EncuestaEstudio> getEncuestaEstudio() {
+        return encuestaEstudio;
+    }
+
+    public void setEncuestaEstudio(List<EncuestaEstudio> encuestaEstudio) {
+        this.encuestaEstudio = encuestaEstudio;
     }
 }
