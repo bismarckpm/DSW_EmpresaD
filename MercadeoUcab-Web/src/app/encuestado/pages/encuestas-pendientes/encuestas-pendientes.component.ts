@@ -3,6 +3,9 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { MatTableDataSource } from '@angular/material/table';
 import { Encuesta } from '@core/models/encuesta';
 
+import { Estudio } from '@core/models/estudio';
+import { EstudioService } from '@core/services/estudio/estudio.service';
+
 @Component({
   selector: 'app-encuestas-pendientes',
   templateUrl: './encuestas-pendientes.component.html',
