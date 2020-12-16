@@ -10,8 +10,8 @@ export class Solicitud{
         public estado:string,
         public usuario: Usuario,
         public marca: Marca,
-        public tipos: Tipo,
-        public presentaciones: Presentacion,
-        public subcategorias: SubCategoria
+        public tipos: Array<Tipo>,
+        public presentaciones: Array<Presentacion>,
+        public subcategorias: Array<SubCategoria>
     ){}
 }
