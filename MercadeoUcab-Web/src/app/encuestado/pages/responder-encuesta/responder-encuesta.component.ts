@@ -7,11 +7,21 @@ import { Opcion } from '@models/opcion';
 import { Estudio } from '@models/estudio';
 import { Solicitud } from '@models/solicitud';
 import { Usuario } from '@models/usuario';
-import { Respuesta } from '@models/respuesta';
 import { MuestraPoblacion } from '@models/muestraPoblacion';
 import { RespuestaService } from '@core/services/respuesta/respuesta.service';
 import { PreguntaService } from '@core/services/pregunta/pregunta.service';
 import { EstudioService } from '@core/services/estudio/estudio.service';
+
+interface RespuestaModel {
+  tipo:string;
+  a_val:string | null;
+  s_val:Opcion | null;
+  m_val:Opcion[];
+  b_val:boolean | null;
+  r_val:string | null;
+}
+
+
 @Component({
   selector: 'app-responder-encuesta',
   templateUrl: './responder-encuesta.component.html',
@@ -21,8 +31,9 @@ export class ResponderEncuestaComponent implements OnInit {
   _Id:number = 0;
   _preguntas: Pregunta[] = [];
   _estudio: Estudio;
-  _respuestas: Respuesta[] = [];
+  _respuestas: RespuestaModel[] = [];
   searchState:string = "";
+  surveyReady:boolean=false;
   constructor(
     private route: ActivatedRoute,
     private router:Router,
@@ -83,41 +94,46 @@ export class ResponderEncuestaComponent implements OnInit {
   samplePreguntas : Pregunta[] = [
     {
       _id:1,
-      pregunta:'abierta',
-      tipo:'',
+      pregunta:'preg abierta',
+      tipo:'abierta',
       rango:'',
       opciones: [],
       usuario: this.sampleUsuario,
     },
     {
       _id:2,
-      pregunta:'multiple',
-      tipo:'',
+      pregunta:'preg multiple',
+      tipo:'multiple',
       rango:'',
-      opciones: [],
+      opciones: [
+      {_id:1,nombre_opcion:'test mult 1'},
+      {_id:2,nombre_opcion:'test mult 2'},
+      ],
       usuario: this.sampleUsuario,
     },
     {
       _id:3,
-      pregunta:'simple',
-      tipo:'',
+      pregunta:'preg simple',
+      tipo:'simple',
       rango:'',
-      opciones: [],
+      opciones: [
+      {_id:1,nombre_opcion:'test simple 1'},
+      {_id:2,nombre_opcion:'test simple 2'},],
       usuario: this.sampleUsuario,
     },
     {
       _id:4,
-      pregunta:'boolean',
-      tipo:'',
+      pregunta:'preg boolean',
+      tipo:'boolean',
       rango:'',
       opciones: [],
       usuario: this.sampleUsuario,
     },
     {
       _id:5,
-      pregunta:'rango',
-      tipo:'',
-      rango:'',
+      pregunta:'preg rango',
+      tipo:'rango',
+      rango:'1&100',
       opciones: [],
       usuario: this.sampleUsuario,
     }, 
@@ -125,8 +141,40 @@ export class ResponderEncuestaComponent implements OnInit {
   getPreguntas(){
     
   }
-  postRespuestas(){
+  setRespuestas(pregInd,tipoPreg,data){
     //let _respuesta: Respuesta;
+      switch(tipoPreg){
+      case 'abierta':
+        this._respuestas[pregInd].a_val = data;
+        break;
+      case 'simple':
+        this._respuestas[pregInd].s_val = data;
+      case 'boolean':
+        this._respuestas[pregInd].b_val = data;
+        break;
+      case 'rango':
+        this._respuestas[pregInd].r_val = data;
+        break;
+      }
+      console.log(this._respuestas[pregInd]);
+  }
+  setMultOption(pregId,op){
+    let ILength: number = this._respuestas[pregId].m_val.length;
+    this._respuestas[pregId].m_val = this._respuestas[pregId].m_val.filter(regOp => regOp._id !== op._id);
+    if(ILength === this._respuestas[pregId].m_val.length){
+      this._respuestas[pregId].m_val.push(op);
+    }
+    //console.log(this._respuestas[pregId].m_val);
+  }
+  checkMultiple(pregInd:number,opInd:number){
+    let res: boolean = false;
+    this._respuestas[pregInd].m_val.forEach((opc,ind) => {
+      if(opc._id === opInd){
+        res = true;
+      }
+    });
+    //console.log(res,` for ${opInd}`);
+    return res;
   }
   getData(estudioId:number){
     this.searchState="P";
@@ -149,6 +197,17 @@ export class ResponderEncuestaComponent implements OnInit {
           analista:this.sampleUsuario,
           preguntas:this.samplePreguntas,
          };
+         this._estudio.preguntas.forEach((preg,ind)=>{  
+            //INSTANCIAR PREPARACION DE Respuesta
+            this._respuestas.push({ 
+              tipo:preg.tipo,
+              a_val:null,
+              s_val:null,
+              m_val:[],
+              b_val:true,
+              r_val:null,
+            });
+         });
          this.searchState="D";
       }
     )
@@ -159,18 +218,26 @@ export class ResponderEncuestaComponent implements OnInit {
     this.searchState="";
     this.getData(this._Id);
   }
-
-  setRespuesta(pregPos:number,tipoPreg:string,resp:any){
+  checkSurvey():boolean{
+    let res : boolean = true;
+    return res;
+  }
+  postRespuestas(pregPos:number,tipoPreg:string,resp:any){
     switch(tipoPreg){
       case 'abierta':
+        //SEND VALUE
         break;
       case 'simple':
+        //SEND OPCION
         break;
       case 'multiple':
+        //FOR EACH SEND
         break;
       case 'boolean':
+        //SEND
         break;
       case 'rango':
+        //SEND
         break;
     }
   }

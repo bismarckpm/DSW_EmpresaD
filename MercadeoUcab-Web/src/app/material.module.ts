@@ -35,7 +35,7 @@ import { MatToolbarModule } from '@angular/material/toolbar';
     MatNativeDateModule,
     MatStepperModule,
     MatRadioModule,
-    MatToolbarModule
+    MatToolbarModule,
   ],
   exports: [
     BrowserAnimationsModule,
@@ -53,7 +53,7 @@ import { MatToolbarModule } from '@angular/material/toolbar';
     MatNativeDateModule,
     MatStepperModule,
     MatRadioModule,
-    MatToolbarModule
+    MatToolbarModule,
   ]
 })
 export class MaterialModule { }
