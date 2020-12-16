@@ -11,7 +11,7 @@ import { MaterialModule } from '../material.module';
 import { BaseDialogComponent } from './components/base-dialog/base-dialog.component';
 import { UserInfoDialogComponent } from './components/user-info-dialog/user-info-dialog.component';
 import { LocalNgbModule } from '../ngbootstrap.module';
-import {FormsModule,ReactiveFormsModule} from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AddUserDialogComponent } from './components/dialogs/add-user-dialog/add-user-dialog.component';
 import { UpdateUserDialogComponent } from './components/dialogs/update-user-dialog/update-user-dialog.component';
 import { DeleteUserDialogComponent } from './components/dialogs/delete-user-dialog/delete-user-dialog.component';
@@ -43,31 +43,31 @@ import { DelMarcaDialogComponent } from './components/dialogs/del-marca-dialog/d
 import { UpdMarcaDialogComponent } from './components/dialogs/upd-marca-dialog/upd-marca-dialog.component';
 @NgModule({
   declarations: [
-    EstudiosComponent, 
-    CategoriasComponent, 
-    UsuariosComponent, 
+    EstudiosComponent,
+    CategoriasComponent,
+    UsuariosComponent,
     PresentacionComponent,
-    DashboardComponent, 
-    DataTableComponent, 
+    DashboardComponent,
+    DataTableComponent,
     BaseDialogComponent,
-    UserInfoDialogComponent, 
-    AddUserDialogComponent, 
-    UpdateUserDialogComponent, 
-    DeleteUserDialogComponent, 
-    AddTipoDialogComponent, 
-    UpdateTipoDialogComponent, 
-    DeleteTipoDialogComponent, 
-    AddPreguntaDialogComponent, 
-    UpdatePreguntaDialogComponent, 
-    LugaresComponent, 
-    PreguntasComponent, 
-    AddCategoriaDialogComponent, 
-    DelCategoriaDialogComponent, 
-    UpdCategoriaDialogComponent, 
-    UpdLugarDialogComponent, 
-    AddLugarDialogComponent, 
-    DelLugarDialogComponent, 
-    DelEstudioDialogComponent, 
+    UserInfoDialogComponent,
+    AddUserDialogComponent,
+    UpdateUserDialogComponent,
+    DeleteUserDialogComponent,
+    AddTipoDialogComponent,
+    UpdateTipoDialogComponent,
+    DeleteTipoDialogComponent,
+    AddPreguntaDialogComponent,
+    UpdatePreguntaDialogComponent,
+    LugaresComponent,
+    PreguntasComponent,
+    AddCategoriaDialogComponent,
+    DelCategoriaDialogComponent,
+    UpdCategoriaDialogComponent,
+    UpdLugarDialogComponent,
+    AddLugarDialogComponent,
+    DelLugarDialogComponent,
+    DelEstudioDialogComponent,
     UpdEstudioDialogComponent,
     AddSolicitudDialogComponent,
     DelPreguntaDialogComponent,
@@ -79,13 +79,15 @@ import { UpdMarcaDialogComponent } from './components/dialogs/upd-marca-dialog/u
     UpdSubCategoriaDialogComponent,
     DelSubCategoriaDialogComponent,
     DelMarcaDialogComponent,
-    UpdMarcaDialogComponent],
+    UpdMarcaDialogComponent,
+  ],
   imports: [
     CommonModule,
     AdminRoutingModule,
     MaterialModule,
     LocalNgbModule,
-    FormsModule,ReactiveFormsModule,
-  ]
+    FormsModule,
+    ReactiveFormsModule,
+  ],
 })
-export class AdminModule { }
+export class AdminModule {}

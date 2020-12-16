@@ -13,11 +13,9 @@ import { LocalNgbModule } from './ngbootstrap.module';
 import { CoreModule } from './core/core.module';
 import { AuthModule } from './auth/auth.module';
 @NgModule({
-  declarations: [
-    AppComponent
-  ],
+  declarations: [AppComponent],
   imports: [
-    BrowserModule,
+    //BrowserModule,
     HttpClientModule,
     SharedModule,
     EncuestadoModule,
@@ -25,11 +23,11 @@ import { AuthModule } from './auth/auth.module';
     AnalistaModule,
     AdminModule,
     AuthModule,
-    AppRoutingModule,
-    MaterialModule,
-    LocalNgbModule,
+    //MaterialModule,
+    //LocalNgbModule,
     CoreModule,
+    AppRoutingModule,
   ],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
 })
-export class AppModule { }
+export class AppModule {}

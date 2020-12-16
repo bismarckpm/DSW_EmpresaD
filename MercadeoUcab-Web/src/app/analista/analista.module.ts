@@ -6,15 +6,15 @@ import { AnalistaOverviewComponent } from './Pages/overview/analista-overview.co
 import { MatGridListModule } from '@angular/material/grid-list';
 import { MatCardModule } from '@angular/material/card';
 import { EstudioRealizarComponent } from './Pages/estudio-realizar/estudio-realizar.component';
-import {MatTableModule} from '@angular/material/table';
-import {MatRippleModule} from '@angular/material/core';
+import { MatTableModule } from '@angular/material/table';
+import { MatRippleModule } from '@angular/material/core';
 import { MatIconModule } from '@angular/material/icon';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { EstudioService } from './../shared/Services/estudio/estudio.service';
 
 import { MaterialModule } from '../material.module';
 import { LocalNgbModule } from '../ngbootstrap.module';
-import {FormsModule,ReactiveFormsModule} from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AnalistaComponent } from './Pages/dashboard/analista.component';
 
 @NgModule({
@@ -22,17 +22,16 @@ import { AnalistaComponent } from './Pages/dashboard/analista.component';
     AnalistaTasksComponent,
     AnalistaOverviewComponent,
     EstudioRealizarComponent,
-    AnalistaComponent
+    AnalistaComponent,
   ],
   imports: [
     CommonModule,
     AnalistaRoutingModule,
     MaterialModule,
     LocalNgbModule,
-    FormsModule,ReactiveFormsModule
+    FormsModule,
+    ReactiveFormsModule,
   ],
-  providers:[
-    EstudioService
-  ]
+  providers: [EstudioService],
 })
-export class AnalistaModule { }
+export class AnalistaModule {}
