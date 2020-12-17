@@ -7,6 +7,7 @@ import org.junit.Assert;
 import org.junit.Test;
 
 import javax.ws.rs.core.Response;
+import java.util.ArrayList;
 import java.util.List;
 
 public class ServicioSolicitudTest {
@@ -19,12 +20,15 @@ public class ServicioSolicitudTest {
         dtoSolicitud.setEstado("solicitada");
         dtoSolicitud.setMarca( new DtoMarca(1));
         dtoSolicitud.setUsuario( new DtoUsuario( 1));
-        DtoTipo dtoTipo = new DtoTipo(1);
-        dtoSolicitud.setTipo(dtoTipo);
-        DtoSubCategoria dtoSubCategoria = new DtoSubCategoria(1);
-        dtoSolicitud.setSubCategoria(dtoSubCategoria);
-        DtoPresentacion dtoPresentacion = new DtoPresentacion(1);
-        dtoSolicitud.setPresentacion(dtoPresentacion);
+        List<DtoTipo> tipos = new ArrayList<>();
+        tipos.add(new DtoTipo(1));
+        dtoSolicitud.setTipos(tipos);
+        List<DtoSubCategoria> subCategorias = new ArrayList<>();
+        subCategorias.add(new DtoSubCategoria(1));
+        dtoSolicitud.setSubCategorias(subCategorias);
+        List<DtoPresentacion> presentacions = new ArrayList<>();
+        presentacions.add(new DtoPresentacion(1));
+        dtoSolicitud.setPresentaciones(presentacions);
         Response resultado = servicio.registrarSolicitud( dtoSolicitud);
         Assert.assertEquals(resultado.getStatus(), 200);
     }
