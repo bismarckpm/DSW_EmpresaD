@@ -39,7 +39,7 @@ align-items: center;">
           <div class="form-group">
             <label for="marcaSelect">Marca del producto</label>
             <select class="form-control" id="marcaSelect" formControlName="marca">
-              <option *ngFor="let Marca of this.marcas" [ngValue]="Marca._id">{{Marca.nombre}}</option>
+              <option *ngFor="let Marca of marcas" [ngValue]="Marca._id">{{Marca.nombre}}</option>
             </select>
           </div>
         </div>
@@ -48,7 +48,7 @@ align-items: center;">
           <div class="form-group">
             <label for="tipoADD">Tipo de producto</label>
             <select class="form-control" id="tipoADD" formControlName="tipo">
-              <option *ngFor="let Tipo of this.tipos" [ngValue]="Tipo._id">{{Tipo.nombre}}</option>
+              <option *ngFor="let Tipo of tipos" [ngValue]="Tipo._id">{{Tipo.nombre}}</option>
             </select>
           </div>
         </div>
@@ -68,7 +68,7 @@ align-items: center;">
         <div class="form-group">
           <label for="presentacionADD" >Presentacion del producto:<br><br></label>
           <select class="form-control" id="presentacionADD" formControlName="presentacion">
-            <option *ngFor="let presentacion of this.presentaciones" [ngValue]="presentacion._id">{{presentacion.tipo+" "+presentacion.cantidad}}</option>
+            <option *ngFor="let presentacion of presentaciones" [ngValue]="presentacion._id">{{presentacion.tipo+" "+presentacion.cantidad}}</option>
           </select>
         </div>
       </div>

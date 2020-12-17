@@ -12,6 +12,9 @@ import { RespuestaService } from '@core/services/respuesta/respuesta.service';
 import { PreguntaService } from '@core/services/pregunta/pregunta.service';
 import { EstudioService } from '@core/services/estudio/estudio.service';
 
+//MODELO DE RESPUESTA CONTROLADA
+//los valores *_val corresponden al campo alterable SEGUN EL TIPO DE PREGUNTA
+//siendo * siempre la primera letra deL tipo de pregunta a responder
 interface RespuestaModel {
   tipo:string;
   a_val:string | null;
@@ -188,6 +191,9 @@ export class ResponderEncuestaComponent implements OnInit {
     //console.log(res,` for ${opInd}`);
     return res;
   }
+  //NT: NO FUE POSIBLE EL PASO DEL ESTUDIO A RESPONDER DESDE LA TABLA DE ESTUDIO ASIGNADOS
+  //POR LO QUE SE USA UN ID EXTRAIDO DE LA URL EMPLEADA PARA BUSCAR LA INFO DEL ESTUDIO A RESPONDER
+  //EN BSD
   getData(estudioId:number){
     this.searchState="P";
     console.log('GETTING DATA FROM: ', estudioId);  
@@ -291,6 +297,8 @@ export class ResponderEncuestaComponent implements OnInit {
     }
     return res;
   }
+  /* 
+  //VERSION AUXILIAR
   postRespuestas(pregPos:number,tipoPreg:string,resp:any){
     switch(tipoPreg){
       case 'abierta':
@@ -309,5 +317,17 @@ export class ResponderEncuestaComponent implements OnInit {
         //SEND
         break;
     }
+  }*/
+  //NT: ESTE METODO SOLO SE HABILITA UNA VEZ COMPLETADAS LAS PREGUNTAS EN LA ENCUESTA CON SUS RESPUESTAS
+  postRespuestas(){
+    //ARRAY DE RESPUESTAS ESPERADAS Y VALIDADAS 
+    //this._respuestas
+
+    //PREGUNTAS DEL ESTUDIO CON CARACTERISTICAS ESPECIFICADAS
+    //this._estudio.preguntas 
+
+    //SI SE RECORRE RESPUESTA SE DESCONOCERA EL TIPO DE PREGUNTA, SI SE RECORREN PREGUNTAS Y POR INDICE DE
+    //LA PREGUNTA SE BUSCA LA RESPUESTA ASOCIADA (ES EL MISMO) SE PODRA CONOCER EL TIPO Y DETERMINAR EL 
+    //ENVIO DE LA RESPUESTA DE ESA MANERA
   }
 }
