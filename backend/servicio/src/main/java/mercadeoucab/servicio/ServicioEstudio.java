@@ -30,25 +30,122 @@ public class ServicioEstudio {
         try {
             DaoEstudio dao = new DaoEstudio();
             List<Estudio> estudios = dao.findAll(Estudio.class);
+
             for(Estudio estudio: estudios){
+
                 if(estudio.getActivo() == 1){
 
                     JsonArrayBuilder preguntaslist = Json.createArrayBuilder();
-                    for(Pregunta pregunta: estudio.getPreguntas()){
-                        JsonObject objecto = Json.createObjectBuilder()
-                                                .add("_id", pregunta.get_id())
-                                                .add("pregunta",pregunta.getNombrePregunta())
-                                                .add("tipo", pregunta.getTipo())
-                                                .add("rango", pregunta.getRango())
-                                                .add("usuario",Json.createObjectBuilder()
-                                                        .add("_id",pregunta.getUsuario().get_id())
-                                                        .add("nombre",pregunta.getUsuario().getNombre())
-                                                        .add("apellido",pregunta.getUsuario().getApellido())
-                                                        .add("correo",pregunta.getUsuario().getCorreo())
-                                                        .add("rol",pregunta.getUsuario().getRol()))
+                    if(!(estudio.getEncuestaEstudio().isEmpty())){
+
+                        for(EncuestaEstudio encuestaEstudio: estudio.getEncuestaEstudio()){
+                            String tipo = encuestaEstudio.getFk_pregunta().getTipo();
+                            JsonObject objeto = null;
+                            JsonArrayBuilder opcionesList = null;
+                            switch (tipo){
+                                case "abierta":
+                                    objeto = Json.createObjectBuilder()
+                                            .add("_id", encuestaEstudio.get_id())
+                                            .add("pregunta",Json.createObjectBuilder()
+                                                    .add("_id",encuestaEstudio.getFk_pregunta().get_id())
+                                                    .add("nombre", encuestaEstudio.getFk_pregunta().getNombrePregunta())
+                                                    .add("tipo",encuestaEstudio.getFk_pregunta().getTipo()))
+                                            .add("usuario",Json.createObjectBuilder()
+                                                    .add("_id",encuestaEstudio.getFk_pregunta().getUsuario().get_id())
+                                                    .add("nombre",encuestaEstudio.getFk_pregunta().getUsuario().getNombre())
+                                                    .add("apellido",encuestaEstudio.getFk_pregunta().getUsuario().getApellido())
+                                                    .add("correo",encuestaEstudio.getFk_pregunta().getUsuario().getCorreo())
+                                                    .add("rol",encuestaEstudio.getFk_pregunta().getUsuario().getRol()))
+                                            .build();
+                                    preguntaslist.add(objeto);
+                                    break;
+
+                                case "multiple":
+                                    opcionesList = Json.createArrayBuilder();
+                                    for(Opcion opcion: encuestaEstudio.getFk_pregunta().getOpciones()){
+                                        JsonObject option = Json.createObjectBuilder()
+                                                .add("_id", opcion.get_id())
+                                                .add("nombre",opcion.getNombre_opcion())
                                                 .build();
-                        preguntaslist.add(objecto);
-                    }
+                                        opcionesList.add(option);
+                                    }
+                                    objeto = Json.createObjectBuilder()
+                                            .add("_id", encuestaEstudio.get_id())
+                                            .add("pregunta",Json.createObjectBuilder()
+                                                    .add("_id",encuestaEstudio.getFk_pregunta().get_id())
+                                                    .add("nombre", encuestaEstudio.getFk_pregunta().getNombrePregunta())
+                                                    .add("tipo",encuestaEstudio.getFk_pregunta().getTipo())
+                                                    .add("opciones", opcionesList))
+                                            .add("usuario",Json.createObjectBuilder()
+                                                    .add("_id",encuestaEstudio.getFk_pregunta().getUsuario().get_id())
+                                                    .add("nombre",encuestaEstudio.getFk_pregunta().getUsuario().getNombre())
+                                                    .add("apellido",encuestaEstudio.getFk_pregunta().getUsuario().getApellido())
+                                                    .add("correo",encuestaEstudio.getFk_pregunta().getUsuario().getCorreo())
+                                                    .add("rol",encuestaEstudio.getFk_pregunta().getUsuario().getRol()))
+                                            .build();
+                                    preguntaslist.add(objeto);
+                                    break;
+                                case "simple":
+                                    opcionesList = Json.createArrayBuilder();
+                                    for(Opcion opcion: encuestaEstudio.getFk_pregunta().getOpciones()){
+                                        JsonObject option = Json.createObjectBuilder()
+                                                .add("_id", opcion.get_id())
+                                                .add("nombre",opcion.getNombre_opcion())
+                                                .build();
+                                        opcionesList.add(option);
+                                    }
+                                    objeto = Json.createObjectBuilder()
+                                            .add("_id", encuestaEstudio.get_id())
+                                            .add("pregunta",Json.createObjectBuilder()
+                                                    .add("_id",encuestaEstudio.getFk_pregunta().get_id())
+                                                    .add("nombre", encuestaEstudio.getFk_pregunta().getNombrePregunta())
+                                                    .add("tipo",encuestaEstudio.getFk_pregunta().getTipo())
+                                                    .add("opciones", opcionesList))
+                                            .add("usuario",Json.createObjectBuilder()
+                                                    .add("_id",encuestaEstudio.getFk_pregunta().getUsuario().get_id())
+                                                    .add("nombre",encuestaEstudio.getFk_pregunta().getUsuario().getNombre())
+                                                    .add("apellido",encuestaEstudio.getFk_pregunta().getUsuario().getApellido())
+                                                    .add("correo",encuestaEstudio.getFk_pregunta().getUsuario().getCorreo())
+                                                    .add("rol",encuestaEstudio.getFk_pregunta().getUsuario().getRol()))
+                                            .build();
+                                    preguntaslist.add(objeto);
+                                    break;
+                                case "boolean":
+                                    objeto = Json.createObjectBuilder()
+                                            .add("_id", encuestaEstudio.get_id())
+                                            .add("pregunta",Json.createObjectBuilder()
+                                                    .add("_id",encuestaEstudio.getFk_pregunta().get_id())
+                                                    .add("nombre", encuestaEstudio.getFk_pregunta().getNombrePregunta())
+                                                    .add("tipo",encuestaEstudio.getFk_pregunta().getTipo()))
+                                            .add("usuario",Json.createObjectBuilder()
+                                                    .add("_id",encuestaEstudio.getFk_pregunta().getUsuario().get_id())
+                                                    .add("nombre",encuestaEstudio.getFk_pregunta().getUsuario().getNombre())
+                                                    .add("apellido",encuestaEstudio.getFk_pregunta().getUsuario().getApellido())
+                                                    .add("correo",encuestaEstudio.getFk_pregunta().getUsuario().getCorreo())
+                                                    .add("rol",encuestaEstudio.getFk_pregunta().getUsuario().getRol()))
+                                            .build();
+                                    preguntaslist.add(objeto);
+                                    break;
+                                case "rango":
+                                    objeto = Json.createObjectBuilder()
+                                            .add("_id", encuestaEstudio.get_id())
+                                            .add("pregunta",Json.createObjectBuilder()
+                                                    .add("_id",encuestaEstudio.getFk_pregunta().get_id())
+                                                    .add("nombre", encuestaEstudio.getFk_pregunta().getNombrePregunta())
+                                                    .add("tipo",encuestaEstudio.getFk_pregunta().getTipo())
+                                                    .add("rango",encuestaEstudio.getFk_pregunta().getRango()))
+                                            .add("usuario",Json.createObjectBuilder()
+                                                    .add("_id",encuestaEstudio.getFk_pregunta().getUsuario().get_id())
+                                                    .add("nombre",encuestaEstudio.getFk_pregunta().getUsuario().getNombre())
+                                                    .add("apellido",encuestaEstudio.getFk_pregunta().getUsuario().getApellido())
+                                                    .add("correo",encuestaEstudio.getFk_pregunta().getUsuario().getCorreo())
+                                                    .add("rol",encuestaEstudio.getFk_pregunta().getUsuario().getRol()))
+                                            .build();
+                                    preguntaslist.add(objeto);
+                                    break;
+                            }//final switch
+                        }//Final for
+                    }//IF de la encuesta
 
                     JsonObject agregar = Json.createObjectBuilder()
                                              .add("_id",estudio.get_id())
@@ -169,6 +266,7 @@ public class ServicioEstudio {
             JsonArrayBuilder preguntaslist = Json.createArrayBuilder();
 
            if(!(estudio.getEncuestaEstudio().isEmpty())){
+
                 for(EncuestaEstudio encuestaEstudio: estudio.getEncuestaEstudio()){
                     String tipo = encuestaEstudio.getFk_pregunta().getTipo();
                     JsonObject objeto = null;
@@ -283,6 +381,7 @@ public class ServicioEstudio {
                                                             .add("nombre",estudio.getFk_muestra_poblacion().getFk_lugar().getFk_municipio().getFk_estado().getFk_pais().getNombre()))))))
                     .add("preguntas", preguntaslist)
                     .build();
+
             data = Json.createObjectBuilder()
                     .add("status", 200)
                     .add("data", estudioJson)
