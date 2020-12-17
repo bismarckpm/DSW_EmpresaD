@@ -56,14 +56,16 @@ export class SolicitudComponent implements OnInit {
   // CONTROL DE ESTADO DEL COMPONENTE
   op: string;
   searchState: string; // U.I,D
+  toSearch2: any = {};
   solicitudes: Solicitud[] = [];
+  solicitudes2: Solicitud[] = [];
   marcas: Marca[] = [];
   subcategorias: SubCategoria[] = [];
   presentaciones: Presentacion[] = [];
   tipos: Tipo[] = [];
 
   // COLUMNAS DE TABLA DE RESULTADOS
-  displayedColumns: string[] = ['id', 'selector', 'ops'];
+  displayedColumns: string[] = ['id', 'selector', 'estado' , 'creado' , 'modificado', 'usuario' , 'Marca' ,'ops'];
   columnsToDisplay: string[] = this.displayedColumns.slice();
 
   // INDICE DE SOLICITUD SELECCIONADO
@@ -90,17 +92,10 @@ export class SolicitudComponent implements OnInit {
       }
     });
   };*/
-  getSolicitudes() {
-    this._solicitudService.getSolicitudes().subscribe(
-      (response) => {
-        console.log(response);
-        this.solicitudes = response.data;
-      },
-      (error) => {
-        console.log(error);
-      }
-    );
-  }
+
+
+
+
 
   getPresentacion() {
     this.presentacionService.getPresentaciones().subscribe(
@@ -152,10 +147,10 @@ export class SolicitudComponent implements OnInit {
 
   addSolicitud(data) {
     this._solicitudService.createSolicitud(data).subscribe(
-      (response: any) => {;
+      (response: any) => {
         console.log(response);
         if (response.status === 200) {
-          //Se hace lo que se quiera en exito
+          // Se hace lo que se quiera en exito
           alert(response.message);
         }
       },
@@ -192,7 +187,6 @@ export class SolicitudComponent implements OnInit {
   ngOnInit(): void {
     this.setOperation('');
     this.searchState = 'U';
-    this.getSolicitudes();
     this.getMarcas();
     this.getSubcategoria();
     this.getPresentacion();
@@ -203,22 +197,27 @@ export class SolicitudComponent implements OnInit {
   }
   serviceInvoke() {
     /*
-    "nombre": data.nombre,
-    "apellido": data.apellido,
-    "estado": data.estado,
-    "rol": data.rol,
-    "correo": data.correo
-    */
+{
+    "estado":"solicitada",
+    "usuario":12,
+    "marca":1,
+    "tipo":1,
+    "subCategoria":1,
+    "presentacion":2
+}    */
     // FALTA VALIDACION
     // console.log(this.addForm.value);
 
-    let toAdd: any = {};
-    Values = this.addForm.value;
-
-
-
-    this.opStatus = 'P';
+    const toAdd: any = {};
+    const values = this.addForm.value;
+    toAdd.estado = values.estado;
+    toAdd.usuario = 1;
+    toAdd.marca = values.marca;
+    toAdd.tipo = values.tipo;
+    toAdd.subCategoria = values.subCategoria;
+    toAdd.presentacion = values.presentacion;
     this.addSolicitud(toAdd);
+    this.opStatus = 'P';
     console.log(this.op);
     console.log(this.opStatus);
     console.log(this.addForm.get('marca').value);
@@ -282,6 +281,26 @@ export class SolicitudComponent implements OnInit {
     console.log(dataArray, filtered);
     return filtered;
   }
+
+  getSolicitudes(data) {
+    this._solicitudService.getSolicitudes().subscribe(
+      (response) => {
+        console.log(response);
+
+        this.solicitudes = response.data;
+        this.dataSource = new MatTableDataSource<Solicitud>(
+          this.dataFilter(this.solicitudes)
+      );
+        this.searchState = 'D';
+      },
+      (error) => {
+        console.log(error);
+      }
+    );
+  }
+
+
+
   invokeSearch() {
     this.solicitudes = [];
     this.solicitudSelection = 0;
@@ -297,30 +316,20 @@ export class SolicitudComponent implements OnInit {
     }
     // this.searchForm.get('');
     this.searchState = 'P';
-    setTimeout(() => {
-      for (let i = 0; i < Math.floor(Math.random() * (100 - 1) + 1); i++) {
-        /*this.solicitudes.push({
-          _id:Math.floor(Math.random()*(100-1)+1),
-          estado:"activo",
-          usuario:{
-            _id:Math.floor(Math.random()*(100-1)+1),
-            nombre:"A",
-            apellido:"B",
-            rol:"adminin",
-            correo:"a@g.com",
-            estado:"activo"
-          },
-          marca:{
-            _id:Math.floor(Math.random()*(100-1)+1),
-            nombre:"A"
-          }
-        });*/
-      }
-      this.dataSource = new MatTableDataSource<Solicitud>(
-        this.dataFilter(this.solicitudes)
-      );
-      this.searchState = 'D';
-    }, 3000);
+    const toSearch: any = {};
+    const values = this.searchForm.value;
+    toSearch.tipo = values.tipo;
+    toSearch.subCategoria = values.subCategoria;
+    toSearch.marca = values.marca;
+    toSearch.presentacion = values.presentacion;
+    toSearch.creado_el = values.creado_el;
+    toSearch.modificado_el = values.modificado_el;
+    this.getSolicitudes(toSearch);
+    this.solicitudes.forEach(function (V) {
+
+    })
+
+    // tslint:disable-next-line:only-arrow-functions
   }
   setOperation(chOp: string) {
     this.op = chOp;

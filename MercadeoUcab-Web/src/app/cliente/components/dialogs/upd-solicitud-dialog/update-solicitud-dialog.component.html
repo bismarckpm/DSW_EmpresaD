@@ -9,54 +9,31 @@
 
           <div class="form-group">
             <label for="tipoUPD">Tipo de producto</label>
-            <select class="form-control" id="tipoUPD" formControlName="tipo" multiple>
-              <option [ngValue]="'1'">Tipo 1</option>
-              <option [ngValue]="'2'">Tipo 2</option>
-              <option [ngValue]="'3'">Tipo 3</option>
+            <select class="form-control" id="tipoUPD" formControlName="tipo" >
+              <option *ngFor="let tipo of this.tipos " [ngValue]="tipo._id">{{tipo.nombre}}</option>
             </select>
           </div>
 
           <div class="form-group">
             <label for="subcategoriaUPD" >Subcategoria del producto:<br><br></label>
-            <select class="form-control" id="subcategoriaUPD" formControlName="subcategoria" multiple>
-              <option [ngValue]="1">subcategoria 1</option>
-              <option [ngValue]="2">subcategoria 2</option>
-              <option [ngValue]="3">subcategoria 3</option>
-              <option [ngValue]="4 ">subcategoria 4</option>
+            <select class="form-control" id="subcategoriaUPD" formControlName="subcategoria" >
+              <option *ngFor="let subcategoria of this.subcategorias " [ngValue]="subcategoria._id">{{subcategoria.nombre}}</option>
             </select>
           </div>
 
           <div class="form-group">
             <label for="marcaSelect">Marca del producto</label>
             <select class="form-control" id="marcaSelect" formControlName="marca">
-              <option [ngValue]="'1'">Keratina</option>
-              <option [ngValue]="'2'">valmy</option>
-              <option [ngValue]="'3'">Nylen</option>
-              <option [ngValue]="'0'">Nueva marca</option>
+              <option *ngFor="let marca of this.marcas2 " [ngValue]="marca._id">{{marca.nombre}}</option>
             </select>
           </div>
 
         </div>
         <div class="cForm-field-col">
-          <!--
-          <div class="form-group">
-                  <label for="userRol">Rol de usuario</label>
-                  <input type="text"
-                  readonly
-                  formControlName="rol" class="form-control" id="userRol"
-                  [(ngModel)]="_user.rol"
-                  value="_user.rol"
-                  placeholder="_user.rol"
-                  aria-describedby="newRolHelp"/>
-          </div>
-          -->
           <div class="form-group">
             <label for="presentacionUPD" >Presentacion del producto:<br><br></label>
-            <select class="form-control" id="presentacionUPD" formControlName="presentacion" multiple>
-              <option [ngValue]="1">presentacion 1</option>
-              <option [ngValue]="2">presentacion 2</option>
-              <option [ngValue]="3">presentacion 3</option>
-              <option [ngValue]="4">presentacion 4</option>
+            <select class="form-control" id="presentacionUPD" formControlName="presentacion" >
+              <option *ngFor="let presentacion of this.presentaciones " [ngValue]="presentacion._id">{{presentacion.tipo+" "+presentacion.cantidad}}</option>
             </select>
           </div>
 
