@@ -6,7 +6,8 @@ export class surveyPregunta {
     public _id: number,
     public pregunta: string,
     public tipo: string,
-    public rango: string,
-    public opciones: Array<Opcion>
+    public rango?: string,
+    public opciones?: Array<Opcion>
+    //TENER EN CUENTA OPCIONALIDAD DE PROPIEDADES
   ) {}
 }

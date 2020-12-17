@@ -37,7 +37,7 @@
           class="pregunta-container border rounded"
           *ngFor="let pregunta of _estudio.encuesta; let i = index"
         >
-          <ng-container [ngSwitch]="pregunta.tipo">
+          <ng-container [ngSwitch]="pregunta.pregunta.tipo">
             <div class="form-group pregunta-content" *ngSwitchCase="'abierta'">
               <label for="{{ 'pregunta-' + i }}" class="pregunta-title">
                 <h5>

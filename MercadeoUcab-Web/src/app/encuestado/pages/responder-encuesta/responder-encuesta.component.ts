@@ -229,7 +229,7 @@ export class ResponderEncuestaComponent implements OnInit {
       },
       (error) => {
         console.log(error);
-        this._estudio = {
+        /*this._estudio = {
           _id: 666,
           estado: 'activo',
           tipo: 'WEB',
@@ -238,7 +238,8 @@ export class ResponderEncuestaComponent implements OnInit {
           muestra_poblacion: this.samplePoblacion,
           analista: this.sampleUsuario,
           encuesta: this.sampleEncuesta,
-        };
+        };*/
+        this._estudio = testRes.data;
         console.log(this._estudio);
         this._estudio.encuesta.forEach((preg, ind) => {
           //INSTANCIAR PREPARACION DE Respuesta
@@ -315,7 +316,7 @@ export class ResponderEncuestaComponent implements OnInit {
     let res: boolean = false;
     console.log('Checking answers...');
     this._estudio.encuesta.forEach((preg, ind) => {
-      this.checkResp(ind, preg);
+      this.checkResp(ind, preg.pregunta);
     });
 
     for (let resp of this._respuestas) {
@@ -358,6 +359,92 @@ export class ResponderEncuestaComponent implements OnInit {
     //ENVIO DE LA RESPUESTA DE ESA MANERA
   }
 }
+
+let testRes = {
+  "status": 200,
+  "data": {
+      "_id": 1,
+      "estado": "En ejecucion",
+      "tipo": "En linea",
+      "encuestas_esperadas": 1,
+      "solicitud": {
+          "_id": 1,
+          "estado": "solicitada"
+      },
+      "analista": {
+          "_id": 6,
+          "nombre": "Macon",
+          "apellido": "Mcleod",
+          "correo": "MM10@gmail.com",
+          "rol": "administrador",
+          "estado":'test',
+      },
+      "muestra_poblacion": {
+          "_id": 1,
+          "genero": "masculino",
+          "nivel_academico": "Bachiller",
+          "nivel_economico":3,
+          "rango_edad_inicio": 10,
+          "rango_edad_fin": 50,
+          "cantidad_hijos": 2,
+          "parroquia": {
+              "_id": 6,
+              "nombre": "Eglise Notre Dame De Rumengol",
+             // "valor_socioeconomico": 1,
+             "valorSocioEconomico":3,
+              "nivel_economico":3,
+              "municipio": {
+                  "_id": 7,
+                  "nombre": "Le Faou",
+                  "estado": {
+                      "_id": 7,
+                      "nombre": "Breteña",
+                      "pais": {
+                          "_id": 4,
+                          "nombre": "Francia"
+                      }
+                  }
+              }
+          }
+      },
+      "encuesta": [
+          {
+              "_id": 1,
+              "pregunta": {
+                  "_id": 1,
+                  "pregunta": "Pregunta 1: Le parecio comodo el mueble? ",
+                  "tipo": "abierta"
+              }
+          },
+          {
+              "_id": 2,
+              "pregunta": {
+                  "_id": 2,
+                  "pregunta": "Pregunta 2: Recomendaria este mueble a otras personas?",
+                  "tipo": "boolean"
+              }
+          },
+          {
+              "_id": 3,
+              "pregunta": {
+                  "_id": 3,
+                  "pregunta": "Pregunta 3: El precio del mueble le parece que esta bien justificado?",
+                  "tipo": "abierta",
+                  "rango":'',
+              }
+          },
+          {
+              "_id": 4,
+              "pregunta": {
+                  "_id": 4,
+                  "pregunta": "Pregunta 4: Que problemas encontro en nuestro mueble?",
+                  "tipo": "abierta"
+              }
+          }
+      ]
+  }
+}
+
 /* 
   CAMBIOS RELEVANTES
     Se cambiaron los modelos a los survey<Modelo>, ya que el json no contiene 
