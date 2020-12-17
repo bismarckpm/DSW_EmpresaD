@@ -1,8 +1,5 @@
 package mercadeoucab.dtos;
 
-import javax.persistence.Column;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
 import java.util.List;
 
 public class DtoEstudio extends DtoBase{
@@ -11,10 +8,11 @@ public class DtoEstudio extends DtoBase{
     private String estado;
     private String tipo;
     private int escuestasEsperadas;
-    private DtoSolicitud solicitud;
     private DtoUsuario fk_usuario;
     private DtoMuestraPoblacion fk_muestra_poblacion;
     private List<DtoPregunta> preguntas;
+    private DtoSolicitud solicitud;
+
 
     public DtoEstudio(long id) throws Exception {
         super(id);
@@ -47,14 +45,6 @@ public class DtoEstudio extends DtoBase{
         this.escuestasEsperadas = escuestasEsperadas;
     }
 
-    public DtoSolicitud getSolicitud() {
-        return solicitud;
-    }
-
-    public void setSolicitud(DtoSolicitud solicitud) {
-        this.solicitud = solicitud;
-    }
-
     public DtoUsuario getFk_usuario() {
         return fk_usuario;
     }
@@ -71,6 +61,14 @@ public class DtoEstudio extends DtoBase{
         this.fk_muestra_poblacion = fk_muestra_poblacion;
     }
 
+    public DtoSolicitud getSolicitud() {
+        return solicitud;
+    }
+
+    public void setSolicitud(DtoSolicitud solicitud) {
+        this.solicitud = solicitud;
+    }
+
     public List<DtoPregunta> getPreguntas() {
         return preguntas;
     }
@@ -78,4 +76,6 @@ public class DtoEstudio extends DtoBase{
     public void setPreguntas(List<DtoPregunta> preguntas) {
         this.preguntas = preguntas;
     }
+
+
 }
