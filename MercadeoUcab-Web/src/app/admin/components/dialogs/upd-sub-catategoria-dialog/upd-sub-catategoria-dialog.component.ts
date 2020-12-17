@@ -73,6 +73,7 @@ export class UpdSubCategoriaDialogComponent implements OnInit {
         this.toService[key] = this._subcategoria[key];
       }
     });
+    //Falta la relacion con la categoria, Preguntar
     this.opStatus = 'P';
     let toUpdate: any = {};
     toUpdate.nombre = this.toService.nombre;

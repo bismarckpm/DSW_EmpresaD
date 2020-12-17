@@ -31,6 +31,7 @@
             <property name="javax.persistence.jdbc.password" value="mysql"/>
             <property name="hibernate.dialect" value="org.hibernate.dialect.MySQLDialect"/>
             <property name="eclipselink.logging.level" value="FINE"/>
+            <property name="eclipselink.connection-pool.force-internal-pool" value="true"/>
         </properties>
     </persistence-unit>
 

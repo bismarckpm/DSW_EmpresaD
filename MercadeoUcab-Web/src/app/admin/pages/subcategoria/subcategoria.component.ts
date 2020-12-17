@@ -70,16 +70,31 @@ export class SubcategoriaComponent implements OnInit {
       nombre: null,
       categoria: null,
     });
-    this.getAsociados();
+    this.getSubCategorias();
+    this.getCategorias();
+    //this.getAsociados();
+  }
+  getCategorias() {
+    this._categoriaService.getCategorias().subscribe(
+      (response) => {
+        console.log(response);
+        this.categorias = response.data;
+      },
+      (error) => {
+        console.log(error);
+      }
+    );
   }
   getSubCategorias() {
     this._subcategoriaService.getSubCategorias().subscribe(
       (response) => {
         console.log(response);
         this.subcategorias = response.data;
+        this.opStatus = 'D';
       },
       (error) => {
         console.log(error);
+        this.opStatus = 'E';
       }
     );
   }
@@ -87,10 +102,10 @@ export class SubcategoriaComponent implements OnInit {
     this._subcategoriaService.updateSubCategoria(id, data).subscribe(
       (response) => {
         console.log(response);
-        alert('Se ha modificado correctamente');
+        //alert('Se ha modificado correctamente');
       },
       (error) => {
-        alert(error.error.message);
+        console.log(error.error.message);
       }
     );
   }
@@ -98,7 +113,7 @@ export class SubcategoriaComponent implements OnInit {
     this._subcategoriaService.deleteSubCategoria(id, data).subscribe(
       (response) => {
         console.log(response);
-        alert('Se ha modificado correctamente');
+        //alert('Se ha modificado correctamente');
       },
       (error) => {
         console.log(error);
@@ -109,7 +124,7 @@ export class SubcategoriaComponent implements OnInit {
     this._subcategoriaService.createSubCategoria(data).subscribe(
       (response) => {
         console.log(response);
-        alert('Se ha agregado correctamente');
+        //alert('Se ha agregado correctamente');
       },
       (error) => {
         console.log(error);
@@ -174,9 +189,10 @@ export class SubcategoriaComponent implements OnInit {
     let values: any = this.addForm.value;
     let toAdd: any = {};
     toAdd.nombre = values.nombre;
-    toAdd.fk_categoria = values.categoria;
+    toAdd.categoria = values.categoria;
     this.addSubCategoria(toAdd);
-    this.getAsociados();
+    //this.getAsociados();
+    this.getSubCategorias();
   }
   async invokeSearch() {
     this.subcategorias = [];
@@ -216,7 +232,7 @@ export class SubcategoriaComponent implements OnInit {
   doSearch() {
     this.searchState = 'I';
   }
-  getAsociados() {
+  /*getAsociados() {
     this._categoriaService.getCategorias().subscribe(
       (response) => {
         console.log(response);
@@ -229,5 +245,5 @@ export class SubcategoriaComponent implements OnInit {
         this.categorias = [{ _id: 1, nombre: 'test categoria' }];
       }
     );
-  }
+  }*/
 }
