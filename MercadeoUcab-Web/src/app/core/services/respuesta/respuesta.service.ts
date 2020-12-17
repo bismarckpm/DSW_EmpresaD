@@ -61,6 +61,10 @@ export class RespuestaService {
 
   saveSurvey(data) {
     const headers = new HttpHeaders().set('Content-Type', 'application/json');
-    return this._http.post(this.url + '/respuestas/encuesta', data);
+    return this._http.post(
+      this.url + '/respuestas/encuesta',
+      JSON.stringify(data),
+      { headers: headers }
+    );
   }
 }

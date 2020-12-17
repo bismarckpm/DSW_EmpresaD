@@ -75,7 +75,7 @@ public class ServicioEstudio {
                                                                              .add("parroquia",Json.createObjectBuilder()
                                                                                                  .add("_id",estudio.getFk_muestra_poblacion().getFk_lugar().get_id())
                                                                                                  .add("nombre",estudio.getFk_muestra_poblacion().getFk_lugar().getNombre())
-                                                                                                 .add("valor_socioeconomico", estudio.getFk_muestra_poblacion().getFk_lugar().getValor_socio_economico())
+                                                                                                 .add("valorSocioEconomico", estudio.getFk_muestra_poblacion().getFk_lugar().getValor_socio_economico())
                                                                                                  .add("municipio",Json.createObjectBuilder()
                                                                                                                           .add("_id", estudio.getFk_muestra_poblacion().getFk_lugar().getFk_municipio().get_id())
                                                                                                                           .add("nombre", estudio.getFk_muestra_poblacion().getFk_lugar().getFk_municipio().getNombre())
@@ -85,7 +85,7 @@ public class ServicioEstudio {
                                                                                                                                                 .add("pais", Json.createObjectBuilder()
                                                                                                                                                                     .add("_id",estudio.getFk_muestra_poblacion().getFk_lugar().getFk_municipio().getFk_estado().getFk_pais().get_id())
                                                                                                                                                                     .add("nombre",estudio.getFk_muestra_poblacion().getFk_lugar().getFk_municipio().getFk_estado().getFk_pais().getNombre()))))))
-                                            .add("preguntas", preguntaslist)
+                                            .add("encuesta", preguntaslist)
                                             .build();
                     estudiosList.add(agregar);
                 }
@@ -271,7 +271,7 @@ public class ServicioEstudio {
                             .add("parroquia",Json.createObjectBuilder()
                                     .add("_id",estudio.getFk_muestra_poblacion().getFk_lugar().get_id())
                                     .add("nombre",estudio.getFk_muestra_poblacion().getFk_lugar().getNombre())
-                                    .add("valor_socioeconomico", estudio.getFk_muestra_poblacion().getFk_lugar().getValor_socio_economico())
+                                    .add("valorSocioEconomico", estudio.getFk_muestra_poblacion().getFk_lugar().getValor_socio_economico())
                                     .add("municipio",Json.createObjectBuilder()
                                             .add("_id", estudio.getFk_muestra_poblacion().getFk_lugar().getFk_municipio().get_id())
                                             .add("nombre", estudio.getFk_muestra_poblacion().getFk_lugar().getFk_municipio().getNombre())

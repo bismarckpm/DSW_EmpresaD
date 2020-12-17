@@ -1,11 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
-import { Respuesta } from '@models/respuesta';
-import { Encuesta } from '@models/encuesta';
-import { Pregunta } from '@models/pregunta';
 import { Opcion } from '@models/opcion';
-import { Estudio } from '@models/estudio';
-import { Solicitud } from '@models/solicitud';
 import { Usuario } from '@models/usuario';
 import { MuestraPoblacion } from '@models/muestraPoblacion';
 import { RespuestaService } from '@core/services/respuesta/respuesta.service';
@@ -15,6 +10,7 @@ import { surveyEstudio } from '@core/models/surveyEstudio';
 import { surveyPregunta } from '@core/models/surveyPregunta';
 import { surveySolicitud } from '@core/models/surveySolicitud';
 import { surveyEncuesta } from '@core/models/surveyEncuesta';
+import { toBackendAnswer } from '@core/models/toBackendAnswer';
 
 //MODELO DE RESPUESTA CONTROLADA
 //los valores *_val corresponden al campo alterable SEGUN EL TIPO DE PREGUNTA
@@ -28,18 +24,19 @@ interface RespuestaModel {
   r_val: number | null;
   done: boolean;
 }
-
 @Component({
   selector: 'app-responder-encuesta',
   templateUrl: './responder-encuesta.component.html',
   styleUrls: ['./responder-encuesta.component.css'],
 })
 export class ResponderEncuestaComponent implements OnInit {
-  _Id: number = 0;
+  public userLogged: number;
+  _Id: number;
   _preguntas: surveyPregunta[] = [];
   _estudio: surveyEstudio = null;
   _respuestas: RespuestaModel[] = [];
   _sampleOption: Opcion = { _id: 0, nombre_opcion: '' };
+  toAdd: toBackendAnswer[] = [];
   searchState: string = '';
   surveyReady: boolean = false;
   constructor(
@@ -180,7 +177,7 @@ export class ResponderEncuestaComponent implements OnInit {
         }
         break;
     }
-    console.log(this._respuestas[pregInd]);
+    //console.log(this._respuestas[pregInd]);
   }
   setMultOption(pregId, op) {
     let ILength: number = this._respuestas[pregId].m_val.length;
@@ -190,7 +187,7 @@ export class ResponderEncuestaComponent implements OnInit {
     if (ILength === this._respuestas[pregId].m_val.length) {
       this._respuestas[pregId].m_val.push(op);
     }
-    console.log(this._respuestas[pregId].m_val);
+    //console.log(this._respuestas[pregId].m_val);
   }
   checkMultiple(pregInd: number, opInd: number) {
     let res: boolean = false;
@@ -213,7 +210,7 @@ export class ResponderEncuestaComponent implements OnInit {
         console.log(response);
         this._estudio = response.data;
         this.searchState = 'D';
-        console.log(this._estudio);
+        //console.log(this._estudio);
         this._estudio.encuesta.forEach((preg, ind) => {
           //INSTANCIAR PREPARACION DE Respuesta
           this._respuestas.push({
@@ -240,7 +237,7 @@ export class ResponderEncuestaComponent implements OnInit {
           encuesta: this.sampleEncuesta,
         };*/
         this._estudio = testRes.data;
-        console.log(this._estudio);
+        //console.log(this._estudio);
         this._estudio.encuesta.forEach((preg, ind) => {
           //INSTANCIAR PREPARACION DE Respuesta
           this._respuestas.push({
@@ -258,7 +255,9 @@ export class ResponderEncuestaComponent implements OnInit {
     );
   }
   ngOnInit(): void {
-    console.log(this.route.snapshot.paramMap.get('id'));
+    //console.log(this.route.snapshot.paramMap.get('id'));
+    // this.userLogged = Number(localStorage.getItem('_id'));
+    this.userLogged = 21;
     this._Id = parseInt(this.route.snapshot.paramMap.get('id'), 10);
     this.searchState = '';
     this.getData(this._Id);
@@ -314,7 +313,7 @@ export class ResponderEncuestaComponent implements OnInit {
   }
   checkSurvey(): boolean {
     let res: boolean = false;
-    console.log('Checking answers...');
+    //console.log('Checking answers...');
     this._estudio.encuesta.forEach((preg, ind) => {
       this.checkResp(ind, preg.pregunta);
     });
@@ -348,6 +347,28 @@ export class ResponderEncuestaComponent implements OnInit {
         break;
     }
   }*/
+
+  saveSurvey(data) {
+    this._respuestaService.saveSurvey(data).subscribe(
+      (response: any) => {
+        console.log(response);
+      },
+      (error) => {
+        console.log(error);
+      }
+    );
+  }
+  setBackendAnswer(simple, respuesta, encuestaEstudio, usuario, opcion) {
+    let singleAnswer = new toBackendAnswer({ _id: 0 }, { _id: 0 });
+    singleAnswer.dtoEncuestaEstudio._id = encuestaEstudio;
+    singleAnswer.dtousuario._id = usuario;
+    if (simple === true) {
+      singleAnswer.dtoopcion._id = opcion;
+    } else {
+      singleAnswer.respuesta = respuesta;
+    }
+    this.toAdd.push(singleAnswer);
+  }
   //NT: ESTE METODO SOLO SE HABILITA UNA VEZ COMPLETADAS LAS PREGUNTAS EN LA ENCUESTA CON SUS RESPUESTAS
   postRespuestas() {
     //ARRAY DE RESPUESTAS ESPERADAS Y VALIDADAS
@@ -356,94 +377,159 @@ export class ResponderEncuestaComponent implements OnInit {
     //this._estudio.preguntas
     //SI SE RECORRE RESPUESTA SE DESCONOCERA EL TIPO DE PREGUNTA, SI SE RECORREN PREGUNTAS Y POR INDICE DE
     //LA PREGUNTA SE BUSCA LA RESPUESTA ASOCIADA (ES EL MISMO) SE PODRA CONOCER EL TIPO Y DETERMINAR EL
-    //ENVIO DE LA RESPUESTA DE ESA MANERA
+    //ENVIO DE LA RESPUESTA DE ESA MANERA:
+    console.log(this._respuestas);
+    this._estudio.encuesta.forEach((pregunta, index) => {
+      //console.log('Encuesta_estudio ' + pregunta._id);
+      //this.setBackendAnswer(false, this._respuestas[index])
+      let tipoRespuesta = this._respuestas[index].tipo;
+      let respuesta = this._respuestas[index];
+      switch (tipoRespuesta) {
+        case 'abierta':
+          this.setBackendAnswer(
+            false,
+            respuesta.a_val,
+            pregunta._id,
+            this.userLogged,
+            null
+          );
+          break;
+        case 'simple':
+          // Falta, obtener id de la opcion
+          this.setBackendAnswer(
+            true,
+            null,
+            pregunta._id,
+            this.userLogged,
+            null
+          );
+          break;
+        case 'multiple':
+          // Falta, obtener id de la opcion y llamar la funcion segun tantas opciones posea
+          respuesta.m_val.forEach((opcion, index) => {
+            //verificar que funcione
+            this.setBackendAnswer(
+              true,
+              null,
+              pregunta._id,
+              this.userLogged,
+              opcion._id
+            );
+          });
+          break;
+        case 'boolean':
+          this.setBackendAnswer(
+            false,
+            respuesta.b_val.toString(),
+            pregunta._id,
+            this.userLogged,
+            null
+          );
+          break;
+        case 'rango':
+          // posible error por el valor
+          this.setBackendAnswer(
+            false,
+            respuesta.r_val.toString(),
+            pregunta._id,
+            this.userLogged,
+            null
+          );
+          break;
+      }
+    });
+    console.log(this.toAdd);
+    let backendStyle: any = {};
+    backendStyle.respuestas = this.toAdd;
+    this.saveSurvey(backendStyle);
   }
 }
 
 let testRes = {
-  "status": 200,
-  "data": {
-      "_id": 1,
-      "estado": "En ejecucion",
-      "tipo": "En linea",
-      "encuestas_esperadas": 1,
-      "solicitud": {
-          "_id": 1,
-          "estado": "solicitada"
-      },
-      "analista": {
-          "_id": 6,
-          "nombre": "Macon",
-          "apellido": "Mcleod",
-          "correo": "MM10@gmail.com",
-          "rol": "administrador",
-          "estado":'test',
-      },
-      "muestra_poblacion": {
-          "_id": 1,
-          "genero": "masculino",
-          "nivel_academico": "Bachiller",
-          "nivel_economico":3,
-          "rango_edad_inicio": 10,
-          "rango_edad_fin": 50,
-          "cantidad_hijos": 2,
-          "parroquia": {
-              "_id": 6,
-              "nombre": "Eglise Notre Dame De Rumengol",
-             // "valor_socioeconomico": 1,
-             "valorSocioEconomico":3,
-              "nivel_economico":3,
-              "municipio": {
-                  "_id": 7,
-                  "nombre": "Le Faou",
-                  "estado": {
-                      "_id": 7,
-                      "nombre": "Breteña",
-                      "pais": {
-                          "_id": 4,
-                          "nombre": "Francia"
-                      }
-                  }
-              }
-          }
-      },
-      "encuesta": [
-          {
-              "_id": 1,
-              "pregunta": {
-                  "_id": 1,
-                  "pregunta": "Pregunta 1: Le parecio comodo el mueble? ",
-                  "tipo": "abierta"
-              }
+  status: 200,
+  data: {
+    _id: 1,
+    estado: 'En ejecucion',
+    tipo: 'En linea',
+    encuestas_esperadas: 1,
+    solicitud: {
+      _id: 1,
+      estado: 'solicitada',
+    },
+    analista: {
+      _id: 6,
+      nombre: 'Macon',
+      apellido: 'Mcleod',
+      correo: 'MM10@gmail.com',
+      rol: 'administrador',
+      estado: 'test',
+    },
+    muestra_poblacion: {
+      _id: 1,
+      genero: 'masculino',
+      nivel_academico: 'Bachiller',
+      nivel_economico: 3,
+      rango_edad_inicio: 10,
+      rango_edad_fin: 50,
+      cantidad_hijos: 2,
+      parroquia: {
+        _id: 6,
+        nombre: 'Eglise Notre Dame De Rumengol',
+        // "valor_socioeconomico": 1,
+        valorSocioEconomico: 3,
+        nivel_economico: 3,
+        municipio: {
+          _id: 7,
+          nombre: 'Le Faou',
+          estado: {
+            _id: 7,
+            nombre: 'Breteña',
+            pais: {
+              _id: 4,
+              nombre: 'Francia',
+            },
           },
-          {
-              "_id": 2,
-              "pregunta": {
-                  "_id": 2,
-                  "pregunta": "Pregunta 2: Recomendaria este mueble a otras personas?",
-                  "tipo": "boolean"
-              }
-          },
-          {
-              "_id": 3,
-              "pregunta": {
-                  "_id": 3,
-                  "pregunta": "Pregunta 3: El precio del mueble le parece que esta bien justificado?",
-                  "tipo": "abierta",
-                  "rango":'',
-              }
-          },
-          {
-              "_id": 4,
-              "pregunta": {
-                  "_id": 4,
-                  "pregunta": "Pregunta 4: Que problemas encontro en nuestro mueble?",
-                  "tipo": "abierta"
-              }
-          }
-      ]
-  }
-}
+        },
+      },
+    },
+    encuesta: [
+      {
+        _id: 1,
+        pregunta: {
+          _id: 1,
+          pregunta: 'Pregunta 1: Le parecio comodo el mueble? ',
+          tipo: 'abierta',
+        },
+      },
+      {
+        _id: 7,
+        pregunta: {
+          _id: 2,
+          pregunta: 'Pregunta 2: Recomendaria este mueble a otras personas?',
+          tipo: 'boolean',
+        },
+      },
+      {
+        _id: 3,
+        pregunta: {
+          _id: 3,
+          pregunta:
+            'Pregunta 3: El precio del mueble le parece que esta bien justificado?',
+          tipo: 'abierta',
+          rango: '',
+        },
+      },
+      {
+        _id: 24,
+        pregunta: {
+          _id: 4,
+          pregunta: 'Pregunta 4: Que problemas encontro en nuestro mueble?',
+          tipo: 'abierta',
+        },
+      },
+    ],
+  },
+};
 
 /* 
   CAMBIOS RELEVANTES
