@@ -15,7 +15,6 @@ import { UpdatePreguntaDialogComponent } from '../../components/dialogs/update-p
 })
 export class PreguntasComponent implements OnInit {
   constructor(
-    private modalService: NgbModal,
     private formBuilder: FormBuilder,
     private _preguntaService: PreguntaService
   ) {}

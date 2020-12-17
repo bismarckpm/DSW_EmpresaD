@@ -3,6 +3,7 @@ import { FormBuilder,FormGroup, } from '@angular/forms';
 import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 
 import { Tipo } from '@models/tipo';
+import { TipoService } from '@core/services/tipo/tipo.service';
 
 
 @Component({
@@ -19,7 +20,7 @@ opStatus:string;//S,P,D,E
   constructor(
   	private modalService: NgbModal,
   	private formBuilder: FormBuilder,
-  	//private _service:TipoService
+    private _service:TipoService
   	){}
 
   @Input() _userSelection : number;
@@ -31,13 +32,14 @@ opStatus:string;//S,P,D,E
       nombre:null,
     });
     this.toService= {
-     
+     // _id:null,
+      nombre:null,
     }
   }
   open(){
     this.modalRef =this.modalService.open(this.modalContent);
     this.toService= {
-      _id:this._tipo._id,
+     // _id:this._tipo._id,
       nombre:null,
     }
     this.modalRef.result.then();
@@ -46,8 +48,8 @@ opStatus:string;//S,P,D,E
     this.opStatus="S";
     this.modalRef.close();
   }
-  /*updateTipo(data){
-    this._service.updateMarca(data['_id'],data).subscribe(
+  updateTipo(data){
+    this._service.updateTipo(this._tipo._id,data).subscribe(
       (response) => {
         console.log(response);
         this.opStatus="D";
@@ -57,7 +59,7 @@ opStatus:string;//S,P,D,E
         this.opStatus="E";
       }
     )
-  }*/
+  }
   invokeService(){
     Object.entries(this.updForm.value).forEach(([key,field],ind)=>{
       if(field !== null){
@@ -68,6 +70,6 @@ opStatus:string;//S,P,D,E
       }
     })
     this.opStatus="P";
-    //this.updateTipo(this.toService);
+    this.updateTipo(this.toService);
   }
 }

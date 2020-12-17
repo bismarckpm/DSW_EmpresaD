@@ -1,8 +1,5 @@
 package mercadeoucab.dtos;
 
-import javax.persistence.Column;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
 import java.util.List;
 
 public class DtoSolicitud extends DtoBase{
@@ -10,9 +7,10 @@ public class DtoSolicitud extends DtoBase{
     private String estado;
     private DtoUsuario usuario;
     private DtoMarca marca;
-    private DtoTipo tipo;
-    private DtoSubCategoria subCategoria;
-    private DtoPresentacion presentacion;
+
+    private List<DtoTipo> tipos;
+    private List<DtoSubCategoria> subCategorias;
+    private List<DtoPresentacion> presentaciones;
 
     public DtoSolicitud(long id)throws Exception{ super(id); }
     public DtoSolicitud(){}
@@ -26,24 +24,27 @@ public class DtoSolicitud extends DtoBase{
     public DtoUsuario getUsuario() {return usuario;}
     public void setUsuario(DtoUsuario usuario) {this.usuario = usuario;}
 
-    public DtoTipo getTipo() {
-        return tipo;
-    }
-    public void setTipo(DtoTipo tipo) {
-        this.tipo = tipo;
+    public List<DtoTipo> getTipos() {
+        return tipos;
     }
 
-    public DtoSubCategoria getSubCategoria() {
-        return subCategoria;
-    }
-    public void setSubCategoria(DtoSubCategoria subCategoria) {
-        this.subCategoria = subCategoria;
+    public void setTipos(List<DtoTipo> tipos) {
+        this.tipos = tipos;
     }
 
-    public DtoPresentacion getPresentacion() {
-        return presentacion;
+    public List<DtoSubCategoria> getSubCategorias() {
+        return subCategorias;
     }
-    public void setPresentacion(DtoPresentacion presentacion) {
-        this.presentacion = presentacion;
+
+    public void setSubCategorias(List<DtoSubCategoria> subCategorias) {
+        this.subCategorias = subCategorias;
+    }
+
+    public List<DtoPresentacion> getPresentaciones() {
+        return presentaciones;
+    }
+
+    public void setPresentaciones(List<DtoPresentacion> presentaciones) {
+        this.presentaciones = presentaciones;
     }
 }
