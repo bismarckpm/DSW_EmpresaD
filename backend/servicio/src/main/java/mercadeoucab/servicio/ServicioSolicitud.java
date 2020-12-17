@@ -2,7 +2,10 @@ package mercadeoucab.servicio;
 
 import mercadeoucab.accesodatos.DaoSolicitud;
 import mercadeoucab.accesodatos.DaoTipo;
+import mercadeoucab.dtos.DtoPresentacion;
 import mercadeoucab.dtos.DtoSolicitud;
+import mercadeoucab.dtos.DtoSubCategoria;
+import mercadeoucab.dtos.DtoTipo;
 import mercadeoucab.entidades.*;
 
 import javax.json.Json;
@@ -195,14 +198,21 @@ public class ServicioSolicitud extends AplicacionBase{
                     dtoSolicitud.getMarca().get_id()
             );
             solicitud.setMarca( marca );
-            Tipo tipo = new Tipo(dtoSolicitud.getTipo().get_id());
-            solicitud.addTipo(tipo);
 
-            SubCategoria subCategoria = new SubCategoria(dtoSolicitud.getSubCategoria().get_id());
-            solicitud.addSubCategoria(subCategoria);
+            for(DtoTipo dtoTipo: dtoSolicitud.getTipos()){
+                Tipo tipo = new Tipo(dtoTipo.get_id());
+                solicitud.addTipo(tipo);
+            }
+            for(DtoSubCategoria dtoSubCategoria: dtoSolicitud.getSubCategorias()){
+                SubCategoria subCategoria = new SubCategoria(dtoSubCategoria.get_id());
+                solicitud.addSubCategoria(subCategoria);
+            }
 
-            Presentacion presentacion = new Presentacion(dtoSolicitud.getPresentacion().get_id());
-            solicitud.addPresentacion( presentacion );
+            for(DtoPresentacion dtoPresentacion: dtoSolicitud.getPresentaciones()){
+                Presentacion presentacion = new Presentacion(dtoPresentacion.get_id());
+                solicitud.addPresentacion( presentacion );
+            }
+
 
             Solicitud resul = dao.insert( solicitud );
             data = Json.createObjectBuilder()
@@ -212,6 +222,7 @@ public class ServicioSolicitud extends AplicacionBase{
             resultado = Response.status(Response.Status.OK).entity(data).build();
         }catch (Exception e) {
             String problema = e.getMessage();
+            System.out.print(problema);
             data = Json.createObjectBuilder()
                     .add("status", 400)
                     .add("mensaje",problema)
