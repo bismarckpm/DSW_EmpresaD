@@ -78,16 +78,18 @@ export class PreguntasComponent implements OnInit {
     return false;
   }
   addPregunta(data) {
-    /*this._preguntaService.createPregunta(data).subscribe(
-      (response) => {
+    this._preguntaService.createPregunta(data).subscribe(
+      (response: any) => {
         console.log(response);
-        this.opStatus="D";
+        alert(response.message);
+        this.opStatus = 'D';
       },
       (error) => {
         console.log(error);
-        this.opStatus="E";
+        alert(error.error.message);
+        this.opStatus = 'E';
       }
-    )*/
+    );
   }
 
   getPreguntas() {
@@ -125,7 +127,15 @@ export class PreguntasComponent implements OnInit {
   }
   serviceInvoke() {
     this.opStatus = 'P';
-    this.addPregunta(this.addForm.value);
+    let toAdd: any = {};
+    toAdd.nombre_pregunta;
+    // Campos que se deben pasar al Back
+    //toAdd.tipo;
+    //toAdd.rango;
+    //toAdd.fk_usuario;
+    //toAdd.opciones;
+    this.addPregunta(toAdd);
+
     this.addForm = this.formBuilder.group({
       nombre: null,
     });

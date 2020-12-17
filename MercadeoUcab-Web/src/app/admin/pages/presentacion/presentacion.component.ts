@@ -98,17 +98,6 @@ export class PresentacionComponent implements OnInit {
     );
   }
 
-  delete(id, data) {
-    this._presentacionService.deletePresentacion(id, data).subscribe(
-      (response) => {
-        console.log(response);
-        alert('Se elimino la presentacion correctamente');
-      },
-      (error) => {
-        console.log(error);
-      }
-    );
-  }
   selectUser(id: number) {
     if (id === this.userSelection) {
       this.userSelection = 0;
@@ -123,7 +112,7 @@ export class PresentacionComponent implements OnInit {
     return false;
   }
   dataFilter(dataArray: Presentacion[]): Presentacion[] {
-    console.log(this.searchForm.value);
+    //console.log(this.searchForm.value);
     let filtered: Presentacion[] = [];
     dataArray.forEach((res, ind) => {
       let inc = true;
@@ -152,8 +141,13 @@ export class PresentacionComponent implements OnInit {
     return filtered;
   }
   invokeSearch() {
-    this.presentaciones = [];
-    this.userSelection = 0;
+    //this.presentaciones = [];
+    //this.userSelection = 0;
+    let toAdd: any = {};
+    //Campos que se deben enviar
+    //toAdd.cantidad
+    //toAdd.tipo
+    this.addPresentacion(toAdd);
     if (this.searchForm.value['creado_el'] !== null) {
       this.searchForm
         .get('creado_el')
