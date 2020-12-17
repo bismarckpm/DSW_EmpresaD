@@ -4,6 +4,8 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { MatTableDataSource } from '@angular/material/table';
 import { Tipo } from '@models/tipo';
 import { TipoService } from '@core/services/tipo/tipo.service';
+import { UpdateTipoDialogComponent } from '../../components/dialogs/update-tipo-dialog/update-tipo-dialog.component';
+import { DeleteTipoDialogComponent } from '../../components/dialogs/delete-tipo-dialog/delete-tipo-dialog.component';
 @Component({
   selector: 'app-tipos',
   templateUrl: './tipos.component.html',
@@ -14,7 +16,7 @@ export class TiposComponent implements OnInit {
   searchState: string;
   opStatus: string; //S,P,D
   userSelection: number = 0;
-
+  targetTipo: Tipo;
   tipos: Tipo[] = [];
   dataSource: MatTableDataSource<Tipo>;
 
@@ -35,28 +37,29 @@ export class TiposComponent implements OnInit {
   }
 
   constructor(
-    private modalService: NgbModal,
     private formBuilder: FormBuilder,
     private _tipoService: TipoService
   ) {}
-  /*
-  @ViewChild('updPresentacion') private updComponent:UpdPresentacionDialogComponent;
+  
+  @ViewChild('updTipo') private updComponent:UpdateTipoDialogComponent;
   async openUpdModal() {
     return await this.updComponent.open();
   }
-  @ViewChild('delPresentacion') private delComponent:DelPresentacionDialogComponent;
+  @ViewChild('delTipo') private delComponent:DeleteTipoDialogComponent;
   async openDelModal() {
     return await this.delComponent.open();
-  }*/
+  }
 
   ngOnInit(): void {
     this.setOperation('');
     this.searchState = 'U';
+    this.addForm = this.formBuilder.group({
+      nombre: null,
+    });
     this.searchForm = this.formBuilder.group({
       nombre: null,
-      creado_el: null,
     });
-    this.getTipos();
+    //this.getTipos();
   }
 
   getTipos() {
@@ -64,9 +67,18 @@ export class TiposComponent implements OnInit {
       (response) => {
         console.log(response);
         this.tipos = response.data;
+        this.dataSource = new MatTableDataSource<Tipo>(
+          this.dataFilter(this.tipos)
+        );
+        this.searchState="D";
       },
       (error) => {
         console.log(error);
+        this.tipos=[{_id:1,nombre:'testTipo'}];
+        this.dataSource = new MatTableDataSource<Tipo>(
+          this.dataFilter(this.tipos)
+        );
+        this.searchState="D";
       }
     );
   }
@@ -75,9 +87,19 @@ export class TiposComponent implements OnInit {
     this._tipoService.getTipo(id).subscribe(
       (response) => {
         console.log(response);
+        this.tipos = response.data;
+        this.dataSource = new MatTableDataSource<Tipo>(
+          this.dataFilter(this.tipos)
+        );
+        //this.searchState="D";
         // Obtener el tipo con response.data
       },
       (error) => {
+        this.tipos=[{_id:1,nombre:'testTipo'}];
+        this.dataSource = new MatTableDataSource<Tipo>(
+          this.dataFilter(this.tipos)
+        );
+        this.searchState="D";
         console.log(error);
       }
     );
@@ -88,9 +110,11 @@ export class TiposComponent implements OnInit {
       (response) => {
         console.log(response);
         alert('Se agrego el Tipo correctamente');
+        this.opStatus="D";
       },
       (error) => {
         console.log(error);
+        this.opStatus="E";
       }
     );
   }
@@ -119,11 +143,13 @@ export class TiposComponent implements OnInit {
     );
   }
 
-  selectUser(id: number) {
+  selectUser(id: number, data: Tipo) {
     if (id === this.userSelection) {
       this.userSelection = 0;
+      this.targetTipo = null;
     } else {
       this.userSelection = id;
+      this.targetTipo = data;
     }
   }
   isSelected(id: number): boolean {
@@ -132,9 +158,9 @@ export class TiposComponent implements OnInit {
     }
     return false;
   }
-  /*dataFilter(dataArray:Presentacion[]): Presentacion[]{
+  dataFilter(dataArray:Tipo[]): Tipo[]{
     console.log(this.searchForm.value);
-    let filtered: Presentacion[] = [];
+    let filtered: Tipo[] = [];
     dataArray.forEach((res,ind) => {
       let inc = true;
       Object.entries(this.searchForm.value).forEach(([key,field],_ind)=>{
@@ -157,10 +183,12 @@ export class TiposComponent implements OnInit {
         filtered.push(res);
       }
     })
-    console.log(dataArray,filtered);
+    //console.log(dataArray,filtered);
     return filtered;
-  }*/
+  }
   invokeSearch() {
+    this.searchState="P";
+    this.getTipos();
     /* this.presentaciones = [];
     this.userSelection=0;
     if(this.searchForm.value['creado_el'] !== null){
@@ -172,6 +200,13 @@ export class TiposComponent implements OnInit {
       this.dataSource = new MatTableDataSource<Presentacion>(this.dataFilter(this.presentaciones));
       this.searchState="D";
     },3000);*/
+  }
+  invokeService(){
+    this.opStatus = 'P';
+    this.addTipo(this.addForm.value);
+    this.addForm = this.formBuilder.group({
+      nombre: null,
+    });
   }
   doSearch() {
     this.searchState = 'I';
