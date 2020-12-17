@@ -18,7 +18,7 @@ export class EncuestasPendientesComponent implements OnInit {
     private router: Router,
     private _utilService: UtilService
   ) {}
-  public idUserLogged: number = 21;
+  public idUserLogged: number = 1;
   enc: string = '';
   searchState: string = '';
   encuestas: Encuesta[] = [];
@@ -26,7 +26,9 @@ export class EncuestasPendientesComponent implements OnInit {
 
   displayedColumns: string[] = ['id', 'selector', 'ops'];
   columnsToDisplay: string[] = this.displayedColumns.slice();
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.getEncuestasOfEncuestado();
+  }
 
   setEnc(t: string) {
     if (t !== '') {
@@ -47,6 +49,7 @@ export class EncuestasPendientesComponent implements OnInit {
     this._utilService.getEstudiosOfEncuestado(this.idUserLogged).subscribe(
       (response: any) => {
         if (response.status === 200) {
+          console.log(response);
           this.encuestas = response.data;
         } else {
           alert(response.message);
@@ -61,11 +64,11 @@ export class EncuestasPendientesComponent implements OnInit {
   invokeSearch(toSearch) {
     this.searchState = 'P';
     setTimeout(() => {
-      this.encuestas = [
+      /*this.encuestas = [
         {
           _id: 1,
         },
-      ];
+      ];*/
       this.dataSource = new MatTableDataSource<Encuesta>(this.encuestas);
       this.searchState = 'D';
     }, 3000);

@@ -257,10 +257,11 @@ export class ResponderEncuestaComponent implements OnInit {
   ngOnInit(): void {
     //console.log(this.route.snapshot.paramMap.get('id'));
     // this.userLogged = Number(localStorage.getItem('_id'));
-    this.userLogged = 21;
+    this.userLogged = 1;
     this._Id = parseInt(this.route.snapshot.paramMap.get('id'), 10);
     this.searchState = '';
     this.getData(this._Id);
+    //this.getData(4);
   }
 
   onDir(_route: string): void {
@@ -363,7 +364,7 @@ export class ResponderEncuestaComponent implements OnInit {
     singleAnswer.dtoEncuestaEstudio._id = encuestaEstudio;
     singleAnswer.dtousuario._id = usuario;
     if (simple === true) {
-      singleAnswer.dtoopcion._id = opcion;
+      singleAnswer.dtoopcion = opcion;
     } else {
       singleAnswer.respuesta = respuesta;
     }
@@ -401,7 +402,7 @@ export class ResponderEncuestaComponent implements OnInit {
             null,
             pregunta._id,
             this.userLogged,
-            null
+            respuesta.s_val._id
           );
           break;
         case 'multiple':

@@ -288,7 +288,7 @@ public class ServicioEstudio {
                             for(Opcion opcion: encuestaEstudio.getFk_pregunta().getOpciones()){
                                 JsonObject option = Json.createObjectBuilder()
                                                         .add("_id", opcion.get_id())
-                                                        .add("pregunta",opcion.getNombre_opcion())
+                                                        .add("nombre_opcion",opcion.getNombre_opcion())
                                                         .build();
                                 opcionesList.add(option);
                             }
@@ -307,7 +307,7 @@ public class ServicioEstudio {
                             for(Opcion opcion: encuestaEstudio.getFk_pregunta().getOpciones()){
                                 JsonObject option = Json.createObjectBuilder()
                                         .add("_id", opcion.get_id())
-                                        .add("nombre",opcion.getNombre_opcion())
+                                        .add("nombre_opcion",opcion.getNombre_opcion())
                                         .build();
                                 opcionesList.add(option);
                             }
@@ -315,7 +315,7 @@ public class ServicioEstudio {
                                     .add("_id", encuestaEstudio.get_id())
                                     .add("pregunta",Json.createObjectBuilder()
                                             .add("_id",encuestaEstudio.getFk_pregunta().get_id())
-                                            .add("nombre", encuestaEstudio.getFk_pregunta().getNombrePregunta())
+                                            .add("pregunta", encuestaEstudio.getFk_pregunta().getNombrePregunta())
                                             .add("tipo",encuestaEstudio.getFk_pregunta().getTipo())
                                             .add("opciones", opcionesList))
                                     .build();
