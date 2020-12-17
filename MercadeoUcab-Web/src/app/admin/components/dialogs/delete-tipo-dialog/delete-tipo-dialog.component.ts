@@ -3,6 +3,7 @@ import { FormBuilder } from '@angular/forms';
 import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 //import { TipoSolicitudService } from '@core/services/tipo/tipo.service';
 import { Tipo } from '@models/tipo';
+import { TipoService } from '@core/services/tipo/tipo.service';
 
 @Component({
   selector: 'app-delete-tipo-dialog',
@@ -15,11 +16,11 @@ export class DeleteTipoDialogComponent implements OnInit {
 
   @ViewChild('delTipo') private modalContent: TemplateRef<DeleteTipoDialogComponent>;
   private modalRef: NgbModalRef;
-  constructor(private modalService: NgbModal,private formBuilder: FormBuilder,
-  	//private _service:TipoSolicitudService
+  constructor(private modalService: NgbModal,
+  private _service:TipoService
   	){}
   @Input() _userSelection : number;
-  @Input() _marca : Tipo;
+  @Input() _tipo : Tipo;
 
   ngOnInit(): void {
     this.opStatus="S";
@@ -35,7 +36,7 @@ export class DeleteTipoDialogComponent implements OnInit {
 
   invokeService(){
     this.opStatus="P";
-    /*this._service.deleteTipoSolicitud(this._tipo._id,null).subscribe(
+    this._service.deleteTipo(this._tipo._id,null).subscribe(
       (response) => {
         console.log(response);
         this.opStatus="D";
@@ -44,7 +45,7 @@ export class DeleteTipoDialogComponent implements OnInit {
         console.log(error);
         this.opStatus="E";
       }
-    )*/
+    )
   }
 
 }
