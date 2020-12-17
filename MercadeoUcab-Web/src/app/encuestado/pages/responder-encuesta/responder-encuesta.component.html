@@ -1,130 +1,200 @@
 <div class="container menu-container">
-	<mat-card style="height: 90%; width: 50%; display: flex;flex-direction: column;">
-		<div style="text-align: center;">
-			<h5>Estudio #{{_Id}}</h5>	
-		</div>
-		<div style="overflow-y: auto;flex:1;display: flex;flex-direction: column;">
-			<div class="cForm" *ngIf="searchState==='P'">
-                <div class="cForm-field-row">
-                    <div class="cForm-field-col">
-                        <div class="text-center" style="flex: 1;
-                        display: flex;
-                        flex-direction: column;
-                        align-items: center;
-                        justify-content: center;">
-                            <div class="spinner-border" style="width: 7.5rem; height: 7.5rem;" role="status">
-                                <span class="sr-only">Loading...</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+  <mat-card
+    style="height: 90%; width: 50%; display: flex; flex-direction: column"
+  >
+    <div style="text-align: center">
+      <h5>Estudio #{{ _Id }}</h5>
+    </div>
+    <div
+      style="overflow-y: auto; flex: 1; display: flex; flex-direction: column"
+    >
+      <div class="cForm" *ngIf="searchState === 'P'">
+        <div class="cForm-field-row">
+          <div class="cForm-field-col">
+            <div
+              class="text-center"
+              style="
+                flex: 1;
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                justify-content: center;
+              "
+            >
+              <div
+                class="spinner-border"
+                style="width: 7.5rem; height: 7.5rem"
+                role="status"
+              >
+                <span class="sr-only">Loading...</span>
+              </div>
             </div>
-			<div *ngIf="searchState==='D'" class="preguntas-scroll">
-                <div class="pregunta-container border rounded" *ngFor="let pregunta of _estudio.preguntas; let i=index">
-                    <ng-container  [ngSwitch]="pregunta.tipo">
-                        <div class="form-group pregunta-content " *ngSwitchCase="'abierta'">
-                            <label for="{{'pregunta-' + i }}" class="pregunta-title">
-                            <h5>
-                            {{pregunta.pregunta}}
-                            </h5>
-                            </label>
-                            <input type="text"
-                            (change)="setRespuestas(i,pregunta.tipo,$event.target.value)" 
-                            class="form-control" id="{{'pregunta-' + i }}"
-                                aria-describedby="newNameHelp" rows="3"/>
-                        </div>
-                        <div class="pregunta-content" *ngSwitchCase="'simple'">
-                           <label for="{{'pregunta-' + i }}" class="pregunta-title">
-                            <h5>
-                            {{pregunta.pregunta}}
-                            </h5>
-                            </label>
-                            <select class="form-control"
-                            [(ngModel)]="_sampleOption"
-                            (change)="setRespuestas(i,'simple',$event.target.value)"  
-                            id="{{'pregunta-' + i }}">
-                                <option
-                                [ngValue]="null">Sin seleccionar...</option>
-                                <ng-container *ngFor="let op of pregunta.opciones; let s=index">
-                                     <option  
-                                     [ngValue]="s">{{op.nombre_opcion}}</option>
-                                </ng-container>
-                            </select>
-                        </div>
-                        <div class="pregunta-content" *ngSwitchCase="'multiple'">
-                            <label for="{{'pregunta-' + i }}" class="pregunta-title">
-                            <h5>
-                            {{pregunta.pregunta}}
-                            </h5>
-                            </label>
-                            <ul>
-                                <li *ngFor="let op of pregunta.opciones; let j=index">
-                                    <mat-checkbox
-                                    [checked]="checkMultiple(i,op._id)"
-                                    id="{{'radio-'+i+'-op-'+j}}"
-                                    (change)="setMultOption(i,op)"
-                                    >
-                                    {{op.nombre_opcion}}
-                                    </mat-checkbox>
-                                </li>
-                            </ul>
-                        </div>
-                        <div class="pregunta-content" *ngSwitchCase="'boolean'">
-                            <div class="pregunta-title">
-                                <h5>
-                                {{pregunta.pregunta}}
-                                </h5>
-                            </div>
-                            <div class="form-check">
-                            <input class="form-check-input" type="radio"
-                            (click)="setRespuestas(i,pregunta.tipo,true)"  
-                            name="{{'op-'+i+'-rbt'}}" id="{{'op-'+i+'-rbtrue'}}" value="true" checked>
-                                <label class="form-check-label" for="{{'op-'+i+'-rbtrue'}}">
-                                Verdadero
-                                </label>
-                            </div>
-                            <div class="form-check">
-                            <input class="form-check-input" type="radio"
-                            (click)="setRespuestas(i,pregunta.tipo,false)"
-                             name="{{'op-'+i+'-rbt'}}" id="{{'op-'+i+'-rbtfalse'}}" value="false">
-                                <label class="form-check-label" for="{{'op-'+i+'-rbtfalse'}}">
-                                Falso
-                                </label>
-                            </div>
-                        </div>
-                        <div class="pregunta-content" *ngSwitchCase="'rango'">
-                           <label for="{{'pregunta-' + i }}" class="pregunta-title">
-                            <h5>
-                                {{pregunta.pregunta}}
-                            </h5>
-                            </label>
-                            <input type="number"
-                            (change)="setRespuestas(i,pregunta.tipo,$event.target.value)" 
-                            name="{{'pregunta-' + i }}"
-                            class="form-control" id="{{'pregunta-' + i }}"
-                            min="{{pregunta.rango.split('&')[0]}}" max="{{pregunta.rango.split('&')[1]}}"
-                            />
-                            <span>
-                                Rango requerido: {{pregunta.rango.split("&")[0]}}-{{pregunta.rango.split("&")[1]}}
-                            </span>
-                        </div>
-                    </ng-container>
-                </div>
-			</div>
-		</div>
-		<div class="cForm-actions">
-            <button type="button" class="btn btn-warning" (click)="onDir('encuestado/pending')">Cancelar</button>
-            <mat-divider [vertical]="true" [inset]="true"></mat-divider>
-            <ng-container *ngIf="_estudio !== null">
-                <button type="button" class="btn btn-outline-dark" disabled="true" *ngIf="checkSurvey() === true">
-                    <div class="spinner-border" style="width: 1.25rem; height: 1.25rem;" role="status">
-                        <span class="sr-only">Loading...</span>
-                    </div>
-                </button>
-                <button type="button" class="btn btn-primary" *ngIf="checkSurvey() === false" (click)="postRespuestas()">
-                    Enviar
-                </button>
-            </ng-container>
+          </div>
         </div>
-	</mat-card>
+      </div>
+      <div *ngIf="searchState === 'D'" class="preguntas-scroll">
+        <div
+          class="pregunta-container border rounded"
+          *ngFor="let pregunta of _estudio.encuesta; let i = index"
+        >
+          <ng-container [ngSwitch]="pregunta.tipo">
+            <div class="form-group pregunta-content" *ngSwitchCase="'abierta'">
+              <label for="{{ 'pregunta-' + i }}" class="pregunta-title">
+                <h5>
+                  {{ pregunta.pregunta.pregunta }}
+                </h5>
+              </label>
+              <input
+                type="text"
+                (change)="
+                  setRespuestas(i, pregunta.pregunta.tipo, $event.target.value)
+                "
+                class="form-control"
+                id="{{ 'pregunta-' + i }}"
+                aria-describedby="newNameHelp"
+                rows="3"
+              />
+            </div>
+            <div class="pregunta-content" *ngSwitchCase="'simple'">
+              <label for="{{ 'pregunta-' + i }}" class="pregunta-title">
+                <h5>
+                  {{ pregunta.pregunta.pregunta }}
+                </h5>
+              </label>
+              <select
+                class="form-control"
+                [(ngModel)]="_sampleOption"
+                (change)="setRespuestas(i, 'simple', $event.target.value)"
+                id="{{ 'pregunta-' + i }}"
+              >
+                <option [ngValue]="null">Sin seleccionar...</option>
+                <ng-container
+                  *ngFor="let op of pregunta.pregunta.opciones; let s = index"
+                >
+                  <option [ngValue]="s">{{ op.nombre_opcion }}</option>
+                </ng-container>
+              </select>
+            </div>
+            <div class="pregunta-content" *ngSwitchCase="'multiple'">
+              <label for="{{ 'pregunta-' + i }}" class="pregunta-title">
+                <h5>
+                  {{ pregunta.pregunta.pregunta }}
+                </h5>
+              </label>
+              <ul>
+                <li
+                  *ngFor="let op of pregunta.pregunta.opciones; let j = index"
+                >
+                  <mat-checkbox
+                    [checked]="checkMultiple(i, op._id)"
+                    id="{{ 'radio-' + i + '-op-' + j }}"
+                    (change)="setMultOption(i, op)"
+                  >
+                    {{ op.nombre_opcion }}
+                  </mat-checkbox>
+                </li>
+              </ul>
+            </div>
+            <div class="pregunta-content" *ngSwitchCase="'boolean'">
+              <div class="pregunta-title">
+                <h5>
+                  {{ pregunta.pregunta.pregunta }}
+                </h5>
+              </div>
+              <div class="form-check">
+                <input
+                  class="form-check-input"
+                  type="radio"
+                  (click)="setRespuestas(i, pregunta.pregunta.tipo, true)"
+                  name="{{ 'op-' + i + '-rbt' }}"
+                  id="{{ 'op-' + i + '-rbtrue' }}"
+                  value="true"
+                  checked
+                />
+                <label
+                  class="form-check-label"
+                  for="{{ 'op-' + i + '-rbtrue' }}"
+                >
+                  Verdadero
+                </label>
+              </div>
+              <div class="form-check">
+                <input
+                  class="form-check-input"
+                  type="radio"
+                  (click)="setRespuestas(i, pregunta.pregunta.tipo, false)"
+                  name="{{ 'op-' + i + '-rbt' }}"
+                  id="{{ 'op-' + i + '-rbtfalse' }}"
+                  value="false"
+                />
+                <label
+                  class="form-check-label"
+                  for="{{ 'op-' + i + '-rbtfalse' }}"
+                >
+                  Falso
+                </label>
+              </div>
+            </div>
+            <div class="pregunta-content" *ngSwitchCase="'rango'">
+              <label for="{{ 'pregunta-' + i }}" class="pregunta-title">
+                <h5>
+                  {{ pregunta.pregunta.pregunta }}
+                </h5>
+              </label>
+              <input
+                type="number"
+                (change)="
+                  setRespuestas(i, pregunta.pregunta.tipo, $event.target.value)
+                "
+                name="{{ 'pregunta-' + i }}"
+                class="form-control"
+                id="{{ 'pregunta-' + i }}"
+                min="{{ pregunta.pregunta.rango.split('&')[0] }}"
+                max="{{ pregunta.pregunta.rango.split('&')[1] }}"
+              />
+              <span>
+                Rango requerido: {{ pregunta.pregunta.rango.split("&")[0] }}-{{
+                  pregunta.pregunta.rango.split("&")[1]
+                }}
+              </span>
+            </div>
+          </ng-container>
+        </div>
+      </div>
+    </div>
+    <div class="cForm-actions">
+      <button
+        type="button"
+        class="btn btn-warning"
+        (click)="onDir('encuestado/pending')"
+      >
+        Cancelar
+      </button>
+      <mat-divider [vertical]="true" [inset]="true"></mat-divider>
+      <ng-container *ngIf="_estudio !== null">
+        <button
+          type="button"
+          class="btn btn-outline-dark"
+          disabled="true"
+          *ngIf="checkSurvey() === true"
+        >
+          <div
+            class="spinner-border"
+            style="width: 1.25rem; height: 1.25rem"
+            role="status"
+          >
+            <span class="sr-only">Loading...</span>
+          </div>
+        </button>
+        <button
+          type="button"
+          class="btn btn-primary"
+          *ngIf="checkSurvey() === false"
+          (click)="postRespuestas()"
+        >
+          Enviar
+        </button>
+      </ng-container>
+    </div>
+  </mat-card>
 </div>

@@ -40,16 +40,16 @@ public class ServicioEncuestado extends AplicacionBase{
             if(!(estudios.isEmpty())){
                 for(Estudio estudio: estudios){
 
-                    JsonArrayBuilder tiposList = Json.createArrayBuilder();
+                    /*JsonArrayBuilder tiposList = Json.createArrayBuilder();
                     for(Tipo tipo: estudio.getSolicitud().getTipos()){
                         JsonObject objecto = Json.createObjectBuilder()
                                 .add("_id", tipo.get_id())
                                 .add("nombre", tipo.getNombre())
                                 .build();
                         tiposList.add(objecto);
-                    }
+                    }*/
 
-                    JsonArrayBuilder presentacionlist = Json.createArrayBuilder();
+                    /*JsonArrayBuilder presentacionlist = Json.createArrayBuilder();
                     for(Presentacion presentacion: estudio.getSolicitud().getPresentaciones()){
                         JsonObject objecto = Json.createObjectBuilder()
                                 .add("_id", presentacion.get_id())
@@ -57,9 +57,9 @@ public class ServicioEncuestado extends AplicacionBase{
                                 .add("Cantidad",presentacion.getCantidad())
                                 .build();
                         presentacionlist.add(objecto);
-                    }
+                    }*/
 
-                    JsonArrayBuilder subCategoriaslist = Json.createArrayBuilder();
+                    /*JsonArrayBuilder subCategoriaslist = Json.createArrayBuilder();
                     for(SubCategoria subCategoria: estudio.getSolicitud().getSubCategorias()){
                         JsonObject objecto = Json.createObjectBuilder()
                                 .add("_id", subCategoria.get_id())
@@ -69,36 +69,25 @@ public class ServicioEncuestado extends AplicacionBase{
                                         .add("nombre", subCategoria.getCategoria().getNombre()))
                                 .build();
                         subCategoriaslist.add(objecto);
-                    }
+                    }*/
 
                     JsonObject agregar = Json.createObjectBuilder()
                             .add("_id",estudio.get_id())
-                            .add("estado", estudio.getEstado())
-                            .add("tipo", estudio.getTipo())
-                            .add("encuestas_esperadas", estudio.getEscuestasEsperadas())
-                            .add("solicitud",Json.createObjectBuilder()
-                                    .add("_id", estudio.getSolicitud().get_id())
-                                    .add("estado",estudio.getSolicitud().getEstado())
-                                    .add("marca",Json.createObjectBuilder()
-                                                        .add("_id",estudio.getSolicitud().getMarca().get_id())
-                                                        .add("nombre",estudio.getSolicitud().getMarca().getNombre()))
-                                    .add("tipo", tiposList)
-                                    .add("presentacion", presentacionlist)
-                                    .add("subcategorias",subCategoriaslist))
                             .build();
                     estudiosList.add(agregar);
                 }
+                data = Json.createObjectBuilder()
+                        .add("status", 200)
+                        .add("data", estudiosList)
+                        .build();
             }
             else{
-                JsonObject agregar = Json.createObjectBuilder()
-                        .add("Estudios", "Lamentablemente su perfil aun no aplica para ningun estudio")
+                data = Json.createObjectBuilder()
+                        .add("status", 204)
+                        .add("message", "Lamentablemente su perfil aun no aplica para ningun estudio")
                         .build();
-                estudiosList.add(agregar);
             }
-            data = Json.createObjectBuilder()
-                    .add("status", 200)
-                    .add("data", estudiosList)
-                    .build();
+
             resultado = Response.status(Response.Status.OK)
                     .entity(data)
                     .build();
@@ -107,7 +96,7 @@ public class ServicioEncuestado extends AplicacionBase{
             String problema = e.getMessage();
             data = Json.createObjectBuilder()
                     .add("status", 400)
-                    .add("problema", problema)
+                    .add("message", problema)
                     .build();
             resultado = Response.status(Response.Status.BAD_REQUEST)
                     .entity(data)
