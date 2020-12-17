@@ -47,55 +47,65 @@ export class UsuariosComponent implements OnInit {
   }
 
   constructor(
-    //private modalService: NgbModal,
     private formBuilder: FormBuilder,
     private _userService: UsuarioService
   ) {
+    //FORMULARIO PARA REGISTRAR USUARIO
+    //(FORMGROUP)
     this.addForm = this.formBuilder.group({
+      //CAMPOS REQUERIDOS PARA EL REGISTRO (SIN IMPORTAR LA DATA QUE ERCIBEN DEBEN SER INSTANCIADOS ACA)
+      //(FORMCONTROLNAME)
+      //Falta agregar la contrasena
       nombre: null,
       apellido: null,
       rol: null,
       estado: 'Activo',
       correo: null,
     });
+
     this.searchForm = this.formBuilder.group({
       nombre: null,
       apellido: null,
-      rol: null, //SELECT
-      estado: null, //SELECT
-      activo: null, //CHECKBOX O SELECT
-      creado_el: null, //DATE TO STRING
-      modificado_el: null, //DATE TO STRING
+      rol: null,
+      estado: null,
+      activo: null,
+      creado_el: null,
+      modificado_el: null,
     });
   }
-  /*getTarget(id:number){
-    this.users.forEach((user,ind) => {
-      if(user._id === id){
-
-      }
-    });
-  };*/
   getUsers() {
+    this.searchState = 'P';
     this._userService.getUsers().subscribe(
       (response) => {
-        console.log(response);
+        //console.log(response);
+        //SE OBTIENE LA RESPUESTA DEL SERVICIO
         this.users = response.data;
-        console.log(this.users);
+        //console.log(this.users);
+        //SE GENERA LA NUEVA TABLA DE RESULTADOS FILTRANDO SEGUN CAMPOS DADOS POR EL USUARIO
+        this.dataSource = new MatTableDataSource<Usuario>(
+          this.dataFilter(this.users)
+        );
+        this.searchState = 'D';
       },
       (error) => {
         console.log(error);
+        this.searchState = 'D';
       }
     );
   }
 
   addUser(data) {
     this._userService.createUser(data).subscribe(
-      (response) => {
+      (response: any) => {
         console.log(response);
-        alert('Se agrego el usuario correctamente');
+        if (response.status === 200) {
+          //Se hace lo que se quiera en exito
+          alert(response.message);
+        }
       },
       (error) => {
         console.log(error);
+        alert(error.error.message);
       }
     );
   }
@@ -127,7 +137,7 @@ export class UsuariosComponent implements OnInit {
   ngOnInit(): void {
     this.setOperation('');
     this.searchState = 'U';
-    this.getUsers();
+    //this.getUsers();
     //let usuario = new Usuario( 1,"Pedro", "Perez", "encuestado","op@gmai.com","activo");
     //let subcategoria = new SubCategoria(1,"subFront", new Categoria(1,"nose"));
     //this.addSubCategory(subcategoria);
@@ -140,19 +150,29 @@ export class UsuariosComponent implements OnInit {
   async openDelModal() {
     return await this.delComponent.open();
   }
+  //METODO ENCARGADO DE DISPARAR PETICION DE REGISTRO
   serviceInvoke(role: string) {
-    /*
-    "nombre": data.nombre,
-    "apellido": data.apellido,
-    "estado": data.estado,
-    "rol": data.rol,
-    "correo": data.correo
-    */
     //FALTA VALIDACION
+
+    /*
+
+    PARA LEER LOS CAMPOS DEL FORMULARIO SE ACCEDE AL OBJETO this.addForm.value
+    ESTO NO ES MAS QUE DONDE QUEDA CADA CAMPO COMO UNA PROPIEDAD CUYO CONTENIDO 
+    ES EL VALOR DADO POR EL USUARIO
+
+    */
+    let toAdd: any = {};
+    toAdd = this.addForm.value;
+    //toAdd.password = 'no';
     //console.log(this.addForm.value);
-    this.addUser(this.addForm.value);
+    //console.log('-------------------');
+    //console.log(toAdd);
+
     this.opStatus = 'P';
-    setTimeout(() => {
+    // En este caso los valores de los campos son iguales
+    this.addUser(toAdd);
+
+    /*setTimeout(() => {
       this.addForm = this.formBuilder.group({
         nombre: null,
         apellido: null,
@@ -161,7 +181,7 @@ export class UsuariosComponent implements OnInit {
         correo: null,
       });
       this.opStatus = 'D';
-    }, 3000);
+    }, 3000);*/
   }
   selectUser(id: number, data: Usuario) {
     if (id === this.userSelection) {
@@ -178,8 +198,9 @@ export class UsuariosComponent implements OnInit {
     }
     return false;
   }
+  //PROCESO DE FILTRADO GENERAL
   dataFilter(dataArray: Usuario[]): Usuario[] {
-    console.log(this.searchForm.value);
+    //console.log(this.searchForm.value);
     let filtered: Usuario[] = [];
     dataArray.forEach((res, ind) => {
       let inc = true;
@@ -204,7 +225,7 @@ export class UsuariosComponent implements OnInit {
         filtered.push(res);
       }
     });
-    console.log(dataArray, filtered);
+    //console.log(dataArray, filtered);
     return filtered;
   }
   invokeSearch() {
@@ -220,11 +241,11 @@ export class UsuariosComponent implements OnInit {
         .get('modificado_el')
         .setValue(new Date(this.searchForm.value['modificado_el']));
     }
-    //this.searchForm.get('');
     this.searchState = 'P';
-    setTimeout(() => {
-      /*for (let i = 0; i < Math.floor(Math.random()*(100-1)+1); i++) {
-        this.users.push({
+    this.getUsers();
+    /*setTimeout(() => {
+    for (let i = 0; i < Math.floor(Math.random()*(100-1)+1); i++) {
+          this.users.push({
          _id:Math.floor(Math.random()*(1000-1)+1),
          nombre:Math.random().toString(36).substr(2, 5),
          apellido:Math.random().toString(36).substr(2, 5),
@@ -232,12 +253,12 @@ export class UsuariosComponent implements OnInit {
          correo:Math.random().toString(36).substr(2, 5),
          estado:'Activo',
         });
-      }*/
+      }
       this.dataSource = new MatTableDataSource<Usuario>(
         this.dataFilter(this.users)
       );
       this.searchState = 'D';
-    }, 3000);
+    }, 3000);*/
   }
   setOperation(chOp: string) {
     this.op = chOp;

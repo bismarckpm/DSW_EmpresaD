@@ -17,10 +17,44 @@ export class DatoEncuestadoService {
     return this._http.get(this.url + '/datos_encuestados');
   }
 
+  //id en el path
   getDatoEncuestado(id): Observable<any> {
     return this._http.get(this.url + '/datos_encuestados/' + id);
   }
 
+  /*
+  {
+    "segundoNombre":String,
+    "segundoApellido":String,
+    "cedula":String,
+    "medioConexion":String,
+    "edad":"yyyy-mm-dd",
+    "genero":"genero",
+    "nive_economico": int,
+    "nivelAcademico": String,
+    "personasHogar":int,
+    "fk_lugar":int,
+    "usuario":int,
+    "ocupacion":int,
+    "telefonos":[
+      {
+        "telefono":String
+      },
+      .
+      .
+      .
+      {
+        "telefono":String
+      }
+    ],
+    "hijos":[
+      {
+        "genero":String,
+        "edad":"yyyy-mm-dd"
+      }
+    ]
+  }
+  */
   createDatoEncuestado(data) {
     const headers = new HttpHeaders().set('Content-Type', 'application/json');
     return this._http.post(
@@ -30,6 +64,20 @@ export class DatoEncuestadoService {
     );
   }
 
+  /*
+  id en path
+  {
+    "segundoNombre":String,
+    "segundoApellido":String,
+    "cedula":String,
+    "medioConexion":String,
+    "edad":"yyyy-mm-dd",
+    "genero":"genero",
+    "nive_economico": int,
+    "nivelAcademico": String,
+    "personasHogar":int
+  }
+  */
   updateDatoEncuestado(id, data) {
     const headers = new HttpHeaders().set('Content-Type', 'application/json');
     return this._http.put(
@@ -39,6 +87,7 @@ export class DatoEncuestadoService {
     );
   }
 
+  //id en path
   deleteDatoEncuestado(id, data) {
     const headers = new HttpHeaders().set('Content-Type', 'application/json');
     // Ignorar data por los momentos

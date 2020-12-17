@@ -36,7 +36,7 @@ public class ServicioMarcaTest {
     public void  actualizarMarcaTest() throws  Exception{
         ServicioMarca servicio = new ServicioMarca();
         DtoMarca marca = new DtoMarca();
-        marca.setNombre("modificada");
+        marca.setNombre("Axe");
         Response resultado = servicio.actualizarMarca(1, marca);
         Assert.assertEquals(
                 Response.Status.OK.getStatusCode(),

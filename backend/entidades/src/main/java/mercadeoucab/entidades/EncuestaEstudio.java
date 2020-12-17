@@ -2,6 +2,8 @@ package mercadeoucab.entidades;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name = "encuesta_estudio")
@@ -19,6 +21,9 @@ public class EncuestaEstudio implements Serializable {
     @ManyToOne
     @JoinColumn( name = "fk_estudio")
     private Estudio fk_estudio;
+
+    @OneToMany( mappedBy = "encuesta_estudio", fetch = FetchType.LAZY )
+    private List<Respuesta> respuestas = new ArrayList<>();
 
 
     public EncuestaEstudio(long _id) {
@@ -49,5 +54,13 @@ public class EncuestaEstudio implements Serializable {
 
     public void setFk_estudio(Estudio fk_estudio) {
         this.fk_estudio = fk_estudio;
+    }
+
+    public List<Respuesta> getRespuestas() {
+        return respuestas;
+    }
+
+    public void setRespuestas(List<Respuesta> respuestas) {
+        this.respuestas = respuestas;
     }
 }

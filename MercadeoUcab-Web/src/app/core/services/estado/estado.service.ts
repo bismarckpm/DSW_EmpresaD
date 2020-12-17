@@ -17,10 +17,17 @@ export class EstadoService {
     return this._http.get(this.url + '/estados');
   }
 
+  //id en el path
   getEstado(id): Observable<any> {
     return this._http.get(this.url + '/estados/' + id);
   }
 
+  /*
+  {
+    "nombre":"nombre",
+    "fk_pais":int
+  }
+  */
   createEstado(data) {
     const headers = new HttpHeaders().set('Content-Type', 'application/json');
     return this._http.post(this.url + '/estados/', JSON.stringify(data), {
@@ -28,6 +35,11 @@ export class EstadoService {
     });
   }
 
+    /*id en path
+  {
+    "nombre":"nombre"
+  }
+  */
   updateEstado(id, data) {
     const headers = new HttpHeaders().set('Content-Type', 'application/json');
     return this._http.put(this.url + '/estados/' + id, JSON.stringify(data), {
@@ -35,6 +47,7 @@ export class EstadoService {
     });
   }
 
+  //id en el path
   deleteEstado(id, data) {
     const headers = new HttpHeaders().set('Content-Type', 'application/json');
     // Ignorar data por los momentos

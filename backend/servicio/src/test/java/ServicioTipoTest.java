@@ -13,7 +13,7 @@ public class ServicioTipoTest {
     public void registrarTipoTest() throws Exception{
         ServicioTipo servicio = new ServicioTipo();
         DtoTipo dtoTipo = new DtoTipo();
-        dtoTipo.setNombre( "Soy un tipo");
+        dtoTipo.setNombre( "barra");
         Response resultado = servicio.registrarTipo( dtoTipo);
         Assert.assertEquals(resultado.getStatus(), 200);
     }
@@ -22,7 +22,7 @@ public class ServicioTipoTest {
     public void actualizarTipoTest() throws Exception{
         ServicioTipo servicio = new ServicioTipo();
         DtoTipo dtoTipo = new DtoTipo(1);
-        dtoTipo.setNombre(" Soy un Tipo actualizado");
+        dtoTipo.setNombre("aerosol");
         Response resultado = servicio.actualizarTipo( dtoTipo.get_id(),dtoTipo);
         Assert.assertEquals(resultado.getStatus(), 200);
     }

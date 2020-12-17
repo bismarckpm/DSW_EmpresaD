@@ -17,10 +17,18 @@ export class ParroquiaService {
     return this._http.get(this.url + '/parroquias');
   }
 
+  //id en path
   getParroquia(id): Observable<any> {
     return this._http.get(this.url + '/parroquias/' + id);
   }
 
+  /*
+  {
+    "nombre":"nombre",
+    "valor_socio_economico":int,
+    "fk_municipio":int
+  }
+  */
   createParroquia(data) {
     const headers = new HttpHeaders().set('Content-Type', 'application/json');
     return this._http.post(this.url + '/parroquias/', JSON.stringify(data), {
@@ -28,6 +36,13 @@ export class ParroquiaService {
     });
   }
 
+  /*
+  id en el path
+  {
+    "nombre":"nombre",
+    "valor_socio_economico":int
+  }
+  */
   updateParroquia(id, data) {
     const headers = new HttpHeaders().set('Content-Type', 'application/json');
     return this._http.put(
@@ -37,6 +52,7 @@ export class ParroquiaService {
     );
   }
 
+  //id en path
   deleteParroquia(id, data) {
     // Ignorar data por los momentos
     const headers = new HttpHeaders().set('Content-Type', 'application/json');

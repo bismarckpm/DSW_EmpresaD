@@ -293,14 +293,14 @@ public class ServicioSolicitud extends AplicacionBase{
     }
 
     @GET
-    @Path("/estado")
-    public Response listarSolicitudEstado(DtoSolicitud dtoSolicitud){
+    @Path("/estado/{estado}")
+    public Response listarSolicitudEstado(@PathParam("estado") String estado){
         JsonObject data;
         JsonArrayBuilder solicitudesList = Json.createArrayBuilder();
         Response resultado = null;
         try {
             DaoSolicitud dao = new DaoSolicitud();
-            List<Solicitud> solicitudes = dao.solicitudesSegunEstado(dtoSolicitud.getEstado());
+            List<Solicitud> solicitudes = dao.solicitudesSegunEstado(estado);
             if(solicitudes.size() > 0){
 
                 for (Solicitud resul: solicitudes){

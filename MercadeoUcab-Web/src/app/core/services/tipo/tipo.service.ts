@@ -17,10 +17,14 @@ export class TipoService {
     return this._http.get(this.url + '/tipos');
   }
 
+  //id en el path
   getTipo(id): Observable<any> {
     return this._http.get(this.url + '/tipos/' + id);
   }
 
+  /*{
+    "nombre":"nombre"
+    }*/ 
   createTipo(data) {
     const headers = new HttpHeaders().set('Content-Type', 'application/json');
     return this._http.post(this.url + '/tipos/', JSON.stringify(data), {
@@ -28,6 +32,11 @@ export class TipoService {
     });
   }
 
+  /*
+    id en el path
+    {
+    "nombre":"nombre"
+    }*/ 
   updateTipo(id, data) {
     const headers = new HttpHeaders().set('Content-Type', 'application/json');
     return this._http.put(this.url + '/tipos/' + id, JSON.stringify(data), {
@@ -35,6 +44,7 @@ export class TipoService {
     });
   }
 
+  //id en el path
   deleteTipo(id, data) {
     // Ignorar data por los momentos
     const headers = new HttpHeaders().set('Content-Type', 'application/json');

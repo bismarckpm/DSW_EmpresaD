@@ -1,6 +1,7 @@
 package mercadeoucab.servicio;
 
 import mercadeoucab.accesodatos.DaoRespuesta;
+import mercadeoucab.dtos.DtoEncuestaEstudio;
 import mercadeoucab.dtos.DtoRespuesta;
 import mercadeoucab.entidades.EncuestaEstudio;
 import mercadeoucab.entidades.Opcion;
@@ -235,5 +236,55 @@ public class ServicioRespuesta extends AplicacionBase{
         return resultado;
     }
 
+    @POST
+    @Path("/encuesta")
+    public Response registarEncuestaRespondida(DtoEncuestaEstudio dtoEncuestaEstudio){
+        JsonObject data;
+        Response resultado = null;
+        try {
+            DaoRespuesta dao = new DaoRespuesta();
+            for(DtoRespuesta dtorespuesta: dtoEncuestaEstudio.getRespuestas()){
+
+                Respuesta respuesta = new Respuesta();
+                respuesta.setRespuesta(dtorespuesta.getRespuesta());
+
+                EncuestaEstudio encuestaEstudio = new EncuestaEstudio(dtorespuesta.getDtoEncuestaEstudio().get_id());
+                respuesta.setEncuesta_estudio(encuestaEstudio);
+
+                Usuario usuario = new Usuario(dtorespuesta.getDtousuario().get_id());
+                respuesta.setFk_usuario(usuario);
+
+                if(dtorespuesta.get_dtoopcion() != null){
+                    Opcion opcion = new Opcion(dtorespuesta.get_dtoopcion().get_id());
+                    respuesta.setFk_opcion(opcion);
+                }
+                respuesta.setActivo(1);
+                respuesta.setCreado_el(new Date(Calendar
+                                                .getInstance()
+                                                .getTime()
+                                                .getTime()));
+                dao.insert(respuesta);
+
+            }
+            data = Json.createObjectBuilder()
+                    .add("status", 200)
+                    .add("mensaje","Respuestas registradas con exito, gracias por su tiempo")
+                    .build();
+            resultado = Response.status(Response.Status.OK)
+                    .entity(data)
+                    .build();
+        }
+        catch (Exception e){
+            String problema = e.getMessage();
+            data = Json.createObjectBuilder()
+                    .add("status", 400)
+                    .add("problema", problema)
+                    .build();
+            resultado = Response.status(Response.Status.BAD_REQUEST)
+                    .entity(data)
+                    .build();
+        }
+        return resultado;
+    }
 
 }

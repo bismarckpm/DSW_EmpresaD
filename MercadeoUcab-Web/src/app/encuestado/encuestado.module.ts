@@ -10,7 +10,7 @@ import { ResponderEncuestaComponent } from './pages/responder-encuesta/responder
 import { EncuestasPendientesComponent } from './pages/encuestas-pendientes/encuestas-pendientes.component';
 import { DashboardComponent } from './pages/dashboard/dashboard.component';
 import { LocalNgbModule } from '../ngbootstrap.module';
-import {FormsModule,ReactiveFormsModule} from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
@@ -20,14 +20,15 @@ import {FormsModule,ReactiveFormsModule} from '@angular/forms';
     HomeComponent,
     ResponderEncuestaComponent,
     EncuestasPendientesComponent,
-    DashboardComponent
+    DashboardComponent,
   ],
   imports: [
     CommonModule,
     EncuestadoRoutingModule,
     MaterialModule,
     LocalNgbModule,
-    FormsModule,ReactiveFormsModule,
-  ]
+    FormsModule,
+    ReactiveFormsModule,
+  ],
 })
-export class EncuestadoModule { }
+export class EncuestadoModule {}

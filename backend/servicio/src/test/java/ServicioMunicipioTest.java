@@ -18,7 +18,7 @@ public class ServicioMunicipioTest {
     public void registrarMunicipioTest() throws Exception{
         ServicioMunicipio servicio = new ServicioMunicipio();
         DtoMunicipio dtoMunicipio = new DtoMunicipio();
-        dtoMunicipio.setNombre("No conozco eso");
+        dtoMunicipio.setNombre("La pastora");
         dtoMunicipio.setFk_estado(new DtoEstado(1));
         Response resultado = servicio.registrarMunicipio(dtoMunicipio);
         Assert.assertEquals(
@@ -41,7 +41,7 @@ public class ServicioMunicipioTest {
     public void actualizarMunicipioTest() throws Exception{
         ServicioMunicipio servicio = new ServicioMunicipio();
         DtoMunicipio dtoMunicipio = new DtoMunicipio();
-        dtoMunicipio.setNombre("Modified");
+        dtoMunicipio.setNombre("Libertador");
         Response resultado = servicio.actualizarMunicipio(1, dtoMunicipio);
         Assert.assertEquals(
                 javax.ws.rs.core.Response.Status.OK.getStatusCode(),

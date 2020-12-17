@@ -18,15 +18,15 @@ public class ServicioPreguntaTest {
     public void registrarPreguntaTest() throws Exception{
         ServicioPregunta servicio = new ServicioPregunta();
         DtoPregunta dtoPregunta = new DtoPregunta();
-        dtoPregunta.setNombre_pregunta("Olis");
-        dtoPregunta.setRango("oliwis");
-        dtoPregunta.setTipo("abierta");
+        dtoPregunta.setNombre_pregunta("cual es su opinion");
+        dtoPregunta.setRango("1&10");
+        dtoPregunta.setTipo("rango");
         dtoPregunta.setUsuarioDto(new DtoUsuario(1));
         List<DtoOpcion> opciones = new ArrayList();
         DtoOpcion paraAgregar = new DtoOpcion();
-        paraAgregar.setNombre_opcion("Prueba lista 1");
+        paraAgregar.setNombre_opcion("mucho");
         DtoOpcion paraAgregar2 = new DtoOpcion();
-        paraAgregar2.setNombre_opcion("Prueba lista 2");
+        paraAgregar2.setNombre_opcion("poco");
         opciones.add( paraAgregar2);
         dtoPregunta.setOpciones( opciones);
         Response resultado = servicio.registrarPregunta(dtoPregunta);

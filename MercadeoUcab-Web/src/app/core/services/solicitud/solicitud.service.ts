@@ -1,53 +1,71 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { GLOBAL} from '@env/environment';
+import { GLOBAL } from '@env/environment';
 import { Observable } from 'rxjs';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class SolicitudService {
   public url: string;
 
-  constructor(
-    public _http:HttpClient
-  ) { 
+  constructor(public _http: HttpClient) {
     this.url = GLOBAL.urlOscar;
   }
 
-  getSolicitudes(): Observable<any>{
-    return this._http.get( this.url + '/solicitudes');
+  getSolicitudByEstado(estado) {
+    return this._http.get(this.url + '/solicitudes/estado/' + estado);
   }
 
-  getSolicitud(id): Observable<any>{
-    return this._http.get( this.url + '/solicitudes/' + id);
+  getSolicitudes(): Observable<any> {
+    return this._http.get(this.url + '/solicitudes');
   }
 
-  createSolicitud( data){
+  //id en el path
+  getSolicitud(id): Observable<any> {
+    return this._http.get(this.url + '/solicitudes/' + id);
+  }
+
+  /*
+  {
+    "estado":string,
+    "usuario":int,
+    "marca":int,
+    "tipo":int,
+    "subCategoria":int,
+    "presentacion":int
+  }
+  */
+  createSolicitud(data) {
     const headers = new HttpHeaders().set('Content-Type', 'application/json');
-    return this._http.post( 
-      this.url + '/solicitudes/', 
-      JSON.stringify(data), 
-      {headers: headers}
+    return this._http.post(this.url + '/solicitudes/', JSON.stringify(data), {
+      headers: headers,
+    });
+  }
+
+   /*
+   id en el path
+  {
+    "estado":string
+  }
+  */
+  updateSolicitud(id, data) {
+    const headers = new HttpHeaders().set('Content-Type', 'application/json');
+    return this._http.put(
+      this.url + '/solicitudes/' + id,
+      JSON.stringify(data),
+      { headers: headers }
     );
   }
 
-  updateSolicitud( id, data){
-    const headers = new HttpHeaders().set('Content-Type', 'application/json');
-    return this._http.put( 
-      this.url + '/solicitudes/' + id, 
-      JSON.stringify(data), 
-      {headers: headers}
-    );
-  }
-
-  deleteSolicitud( id, data){
+  //id en el path
+  deleteSolicitud(id, data) {
     const headers = new HttpHeaders().set('Content-Type', 'application/json');
     // Ignorar data por los momentos
-    return this._http.put( 
-      this.url + '/solicitudes/' + id + '/eliminar', 
-      JSON.stringify(data), 
-      {headers: headers}
+    return this._http.put(
+      this.url + '/solicitudes/' + id + '/eliminar',
+      JSON.stringify(data),
+      { headers: headers }
     );
   }
 }

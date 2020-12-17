@@ -1,5 +1,5 @@
 .form_bg {
-  background: linear-gradient(to bottom, #009900, #79ff4d);
+  background: linear-gradient(to bottom, #00d8b4, #e5fff7);
   height: 100vh;
   display: flex;
   align-items: center;
@@ -87,7 +87,7 @@
 }
 
 .form_horizontal .form-options li a {
-  color: #fff;
+  color: rgb(3, 3, 3);
   letter-spacing: 0.5px;
   margin: 0 0 10px;
   display: block;

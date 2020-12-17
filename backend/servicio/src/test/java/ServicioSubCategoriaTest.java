@@ -15,7 +15,7 @@ public class ServicioSubCategoriaTest {
     public void registrarSubCategoriaTest() throws Exception {
         ServicioSubCategoria servicio = new ServicioSubCategoria();
         DtoSubCategoria dtoSubCategoria = new DtoSubCategoria();
-        dtoSubCategoria.setNombre( "Bebida");
+        dtoSubCategoria.setNombre( "bebida");
         dtoSubCategoria.setCategoria( new DtoCategoria(1));
         Response resultado = servicio.registrarSubCategoria( dtoSubCategoria);
         Assert.assertEquals(resultado.getStatus(), 200);
@@ -26,7 +26,7 @@ public class ServicioSubCategoriaTest {
         ServicioSubCategoria servicio = new ServicioSubCategoria();
         DtoSubCategoria dtoSubCategoria = new DtoSubCategoria(1);
         dtoSubCategoria.setCategoria( new DtoCategoria(1));
-        dtoSubCategoria.setNombre("Soy una subc actualizada");
+        dtoSubCategoria.setNombre("alcoholica");
         Response resultado = servicio.actualizarSubCategoria(
                 dtoSubCategoria.get_id(),
                 dtoSubCategoria
@@ -38,7 +38,7 @@ public class ServicioSubCategoriaTest {
     public void eliminarSubCategoriaTest() throws Exception {
         ServicioSubCategoria servicio = new ServicioSubCategoria();
         DtoSubCategoria dtoSubCategoria = new DtoSubCategoria(1);
-        dtoSubCategoria.setNombre( "Soy una subcategoria borrada");
+        dtoSubCategoria.setNombre( "adultos");
         dtoSubCategoria.setCategoria( new DtoCategoria(1));
         Response resultado = servicio.eliminarSubCategoria(
                 dtoSubCategoria.get_id()
