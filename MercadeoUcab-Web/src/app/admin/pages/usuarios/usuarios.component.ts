@@ -102,9 +102,11 @@ export class UsuariosComponent implements OnInit {
           //Se hace lo que se quiera en exito
           //alert(response.message);
         }
+        this.opStatus="D";
       },
       (error) => {
         console.log(error);
+        this.opStatus="E";
         //alert(error.error.message);
       }
     );

@@ -91,8 +91,9 @@ export class DelLugarDialogComponent implements OnInit {
     );
   }
 
-  open(id: number, tipo: string) {
+  open(id: number, tipo: string,lugar:any) {
     this._tipo = tipo;
+    this._lugar = lugar;
     this._userSelection = id;
     this.modalRef = this.modalService.open(this.modalContent);
     this.modalRef.result.then();

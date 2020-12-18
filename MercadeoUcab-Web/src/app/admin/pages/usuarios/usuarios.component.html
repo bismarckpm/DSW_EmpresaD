@@ -203,7 +203,7 @@
           </button>
           <mat-divider [vertical]="true" [inset]="true"></mat-divider>
           <button type="submit" class="btn btn-primary" style="color: white">
-            Buscar
+            Registrar
           </button>
         </div>
       </form>
@@ -254,6 +254,20 @@
           </button>
         </div>
       </div>
+    <div class="cForm" *ngIf="opStatus==='E'">
+      <div class="cForm-field-row">
+        <div class="cForm-field-col" style="justify-content:center;align-items: center;">
+          <h3>Ha ocurrido un error</h3>
+          <mat-icon style="width: 7.5rem; height: 7.5rem;font-size:7.5rem;">
+            report_problem
+          </mat-icon>
+          <h5>Su operación no pudo ser procesada</h5>
+        </div>
+      </div>
+      <div class="cForm-actions">
+        <button type="button" class="btn btn-outline-dark" (click)="setOperation('')">Continuar</button>
+      </div>
+    </div>
     </mat-card>
   </div>
   <div

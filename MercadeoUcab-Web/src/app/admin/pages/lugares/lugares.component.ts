@@ -64,8 +64,8 @@ export class LugaresComponent implements OnInit {
     return await this.updComponent.open(tipo, this.targetData);
   }
   @ViewChild('delLugar') private delComponent: DelLugarDialogComponent;
-  async openDelModal(id: number, tipo: string) {
-    return await this.delComponent.open(id, tipo);
+  async openDelModal(id: number, tipo: string,data: any) {
+    return await this.delComponent.open(id, tipo,data);
   }
   //dataSource : MatTableDataSource<Lugar>;
   //CHEQUEO DE OPERACION

@@ -41,13 +41,13 @@
     <div *ngIf="op==='add'" style="height: 90%;width: 90%;">
         
         <mat-card style="height: 100%;width: 100%;text-align: center;display: flex;flex-direction: column;">
-            <mat-horizontal-stepper [linear]="true" id="estudio-stepper" *ngIf="opStatus==='S'">
+            <mat-horizontal-stepper [linear]="true" #estudio_stepper *ngIf="opStatus==='S'">
                 <mat-step state='solicitud' style="background-color: aqua;">
                     <div class="step-container">
-                        <form class="cForm" [formGroup]="addForm" (submit)="stepCheck()" style="height: 100%; justify-content: space-around;">
+                        <form class="cForm" [formGroup]="addForm" (submit)="stepCheck(0,estudio_stepper)" style="height: 100%; justify-content: space-around;">
                             <div  style="height: 85%;
                             overflow-y: auto; display: flex; flex-direction: column;">
-                            <mat-radio-group formControlName="fk_solicitud" style="display: flex; flex-direction: column; align-items: center;min-height: 100%;">
+                            <mat-radio-group formControlName="solicitud" style="display: flex; flex-direction: column; align-items: center;min-height: 100%;">
                                 <div *ngFor="let solicitud of solicitudes" class="shadow-sm mat-card"
                                 style="display: flex;flex-direction: row;margin-bottom: 5px;width: 95%; justify-content: space-between;height:calc(25% - 5px);">
                                     <div style="display: flex;flex-direction: row;">
@@ -64,20 +64,66 @@
                         <div class="cForm-actions" style="height: 12.5%;">
                             <button type="button" class="btn btn-outline-dark">Cancelar</button>
                             <mat-divider [vertical]="true" [inset]="true" style="color: transparent;"></mat-divider>
-                            <button type="submit" class="btn btn-primary" style="color: white;">Buscar</button>
+                            <button type="submit" class="btn btn-primary" style="color: white;">Siguiente</button>
                         </div>
                         </form>
                     </div>
                 </mat-step>
                 <mat-step state='review' style="background-color: aqua;">
                     <div class="step-container">
-                        <h3>Información de solicitud {{addForm.value.fk_solicitud}}</h3>
+                        <!--<h4>Información de solicitud {{addForm.value.solicitud}}</h4>-->
+                        <h4>Población de estudio</h4>
+                        <form class="cForm" [formGroup]="poblacionForm">
+                            <div class="cForm-field-row">
+                                <div class="cForm-field-col">
+                                    <div class="form-group">
+                                        <label for="generoSelect">Género a participar</label>
+                                        <select class="form-control" id="generoSelect" formControlName="genero">
+                                            <option [ngValue]="null">Sin seleccionar...</option>
+                                            <option [ngValue]="'femenino'">Femenino</option>
+                                            <option [ngValue]="'masculino'">Masculino</option>
+                                        </select>
+                                    </div>
+                                    <!--
+                                    <div class="form-group">
+                                        <label for="tipoEstSelect">Tipo de estudio</label>
+                                        <select class="form-control" id="tipoEstSelect" formControlName="tipo">
+                                            <option [ngValue]="null">Sin seleccionar...</option>
+                                            <option  [ngValue]="'en linea'">En línea</option>
+                                            <option  [ngValue]="'encuesta'">Encuesta</option>
+                                        </select>
+                                    </div>w
+                                    -->
+                                </div>
+                                <div class="cForm-field-col">
+                                    <div class="form-group">
+                                        <label for="ocupacionSelect">Ocupación</label>
+                                        <select class="form-control" id="ocupacionSelect" formControlName="fk_ocupacion">
+                                            <option [ngValue]="null">Sin seleccionar...</option>
+                                            <option *ngFor="let ocup of ocupaciones" [ngValue]="ocup._id">{{ocup.nombre}}</option>
+                                        </select>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="lugarSelect">Parroquia de estudio</label>
+                                        <select class="form-control" id="lugarSelect" formControlName="fk_lugar">
+                                            <option [ngValue]="null">Sin seleccionar...</option>
+                                            <option *ngFor="let el of parroquias" [ngValue]="el._id">{{el.nombre}}</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="cForm-actions" style="height: 12.5%;">
+                                <button type="button" class="btn btn-outline-dark">Cancelar</button>
+                                <mat-divider [vertical]="true" [inset]="true" style="color: transparent;"></mat-divider>
+                                <button type="submit" class="btn btn-primary" style="color: white;">Siguiente</button>
+                            </div>
+                        </form>
                     </div>
                 </mat-step>
                 
                 <mat-step state="preguntas"> 
                     <div class="step-container">
-                        <form class="cForm" [formGroup]="addForm" (submit)="stepCheck()">
+                        <form class="cForm" [formGroup]="addForm" (submit)="stepCheck(1,estudio_stepper)">
                             <div class="cForm-field-row">
                                 <div class="cForm-field-col">
                                     <div style="display: flex;flex-direction: row; width: 100%;">

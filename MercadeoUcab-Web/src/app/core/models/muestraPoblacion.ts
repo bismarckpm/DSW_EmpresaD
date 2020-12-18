@@ -1,3 +1,4 @@
+import { Ocupacion } from './ocupacion';
 import { Parroquia } from './parroquia';
 
 export class MuestraPoblacion {
@@ -10,6 +11,6 @@ export class MuestraPoblacion {
     public rango_edad_fin: number,
     public cantidad_hijos: number,
     public parroquia: Parroquia,
-    //Relacion con ocupacion
+    public Fk_ocupacion:Ocupacion,
   ) {}
 }
