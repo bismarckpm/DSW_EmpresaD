@@ -443,6 +443,7 @@ export class ResponderEncuestaComponent implements OnInit {
     let backendStyle: any = {};
     backendStyle.respuestas = this.toAdd;
     this.saveSurvey(backendStyle);
+    this.router.navigate(['']);
   }
 }
 
