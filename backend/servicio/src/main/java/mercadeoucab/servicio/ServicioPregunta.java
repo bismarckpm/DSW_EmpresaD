@@ -4,10 +4,7 @@ import mercadeoucab.accesodatos.DaoPregunta;
 import mercadeoucab.dtos.DtoOcupacion;
 import mercadeoucab.dtos.DtoOpcion;
 import mercadeoucab.dtos.DtoPregunta;
-import mercadeoucab.entidades.Estudio;
-import mercadeoucab.entidades.Opcion;
-import mercadeoucab.entidades.Pregunta;
-import mercadeoucab.entidades.Usuario;
+import mercadeoucab.entidades.*;
 
 import javax.json.Json;
 import javax.json.JsonArrayBuilder;
@@ -28,46 +25,135 @@ public class ServicioPregunta extends AplicacionBase{
     @Path("/")
     public Response listarPreguntas(){
         JsonObject data;
-        JsonArrayBuilder preguntasList = Json.createArrayBuilder();
         Response resultado = null;
         try {
             DaoPregunta dao = new DaoPregunta();
             List<Pregunta> preguntas = dao.findAll(Pregunta.class);
-            for (Pregunta pregunta: preguntas){
-                if(pregunta.getActivo() == 1){
-                    JsonArrayBuilder listaOpcion = Json.createArrayBuilder();
-                    for ( Opcion opcion: pregunta.getOpciones()){
-                        if( opcion.getActivo() != 0 ) {
-                            JsonObject objetoOpcion = Json.createObjectBuilder()
-                                    .add("_id", opcion.get_id())
-                                    .add("nombre", opcion.getNombre_opcion())
-                                    .build();
-                            listaOpcion.add(objetoOpcion);
-                        }
-                    }
-                    JsonObject objeto = Json.createObjectBuilder()
+            JsonArrayBuilder preguntaslist = Json.createArrayBuilder();
+
+            if(!(preguntas.isEmpty())) {
+                for (Pregunta pregunta : preguntas) {
+                    String tipo = pregunta.getTipo();
+                    JsonObject objeto = null;
+                    JsonArrayBuilder opcionesList = null;
+
+                    switch (tipo) {
+                        case "abierta":
+                            objeto = Json.createObjectBuilder()
+                                    .add("pregunta", Json.createObjectBuilder()
                                             .add("_id", pregunta.get_id())
-                                            .add("pregunta",pregunta.getNombrePregunta())
+                                            .add("nombre", pregunta.getNombrePregunta())
+                                            .add("tipo", pregunta.getTipo()))
+                                    .add("usuario", Json.createObjectBuilder()
+                                            .add("_id", pregunta.getUsuario().get_id())
+                                            .add("nombre", pregunta.getUsuario().getNombre())
+                                            .add("apellido", pregunta.getUsuario().getApellido())
+                                            .add("correo", pregunta.getUsuario().getCorreo())
+                                            .add("rol", pregunta.getUsuario().getRol()))
+                                    .build();
+                            preguntaslist.add(objeto);
+                            break;
+
+                        case "multiple":
+                            opcionesList = Json.createArrayBuilder();
+                            for (Opcion opcion : pregunta.getOpciones()) {
+                                JsonObject option = Json.createObjectBuilder()
+                                        .add("_id", opcion.get_id())
+                                        .add("nombre", opcion.getNombre_opcion())
+                                        .build();
+                                opcionesList.add(option);
+                            }
+                            objeto = Json.createObjectBuilder()
+                                    .add("pregunta", Json.createObjectBuilder()
+                                            .add("_id", pregunta.get_id())
+                                            .add("nombre", pregunta.getNombrePregunta())
                                             .add("tipo", pregunta.getTipo())
-                                            .add("rango", pregunta.getRango())
-                                            .add("opciones", listaOpcion)
-                                            .add("usuario",Json.createObjectBuilder()
-                                                                  .add("_id",pregunta.getUsuario().get_id())
-                                                                  .add("nombre",pregunta.getUsuario().getNombre())
-                                                                  .add("apellido",pregunta.getUsuario().getApellido())
-                                                                  .add("correo",pregunta.getUsuario().getCorreo())
-                                                                  .add("rol",pregunta.getUsuario().getRol()))
-                                            .build();
-                    preguntasList.add(objeto);
-                }
+                                            .add("opciones", opcionesList))
+                                    .add("usuario", Json.createObjectBuilder()
+                                            .add("_id", pregunta.getUsuario().get_id())
+                                            .add("nombre", pregunta.getUsuario().getNombre())
+                                            .add("apellido", pregunta.getUsuario().getApellido())
+                                            .add("correo", pregunta.getUsuario().getCorreo())
+                                            .add("rol", pregunta.getUsuario().getRol()))
+                                    .build();
+                            preguntaslist.add(objeto);
+                            break;
+                        case "simple":
+                            opcionesList = Json.createArrayBuilder();
+                            for (Opcion opcion : pregunta.getOpciones()) {
+                                JsonObject option = Json.createObjectBuilder()
+                                        .add("_id", opcion.get_id())
+                                        .add("nombre", opcion.getNombre_opcion())
+                                        .build();
+                                opcionesList.add(option);
+                            }
+                            objeto = Json.createObjectBuilder()
+                                    .add("pregunta", Json.createObjectBuilder()
+                                            .add("_id", pregunta.get_id())
+                                            .add("nombre", pregunta.getNombrePregunta())
+                                            .add("tipo", pregunta.getTipo())
+                                            .add("opciones", opcionesList))
+                                    .add("usuario", Json.createObjectBuilder()
+                                            .add("_id", pregunta.getUsuario().get_id())
+                                            .add("nombre", pregunta.getUsuario().getNombre())
+                                            .add("apellido", pregunta.getUsuario().getApellido())
+                                            .add("correo", pregunta.getUsuario().getCorreo())
+                                            .add("rol", pregunta.getUsuario().getRol()))
+                                    .build();
+                            preguntaslist.add(objeto);
+                            break;
+                        case "boolean":
+                            objeto = Json.createObjectBuilder()
+                                    .add("pregunta", Json.createObjectBuilder()
+                                            .add("_id", pregunta.get_id())
+                                            .add("nombre", pregunta.getNombrePregunta())
+                                            .add("tipo", pregunta.getTipo()))
+                                    .add("usuario", Json.createObjectBuilder()
+                                            .add("_id", pregunta.getUsuario().get_id())
+                                            .add("nombre", pregunta.getUsuario().getNombre())
+                                            .add("apellido", pregunta.getUsuario().getApellido())
+                                            .add("correo", pregunta.getUsuario().getCorreo())
+                                            .add("rol", pregunta.getUsuario().getRol()))
+                                    .build();
+                            preguntaslist.add(objeto);
+                            break;
+                        case "rango":
+                            objeto = Json.createObjectBuilder()
+                                    .add("pregunta", Json.createObjectBuilder()
+                                            .add("_id",pregunta.get_id())
+                                            .add("nombre", pregunta.getNombrePregunta())
+                                            .add("tipo", pregunta.getTipo())
+                                            .add("rango", pregunta.getRango()))
+                                    .add("usuario", Json.createObjectBuilder()
+                                            .add("_id", pregunta.getUsuario().get_id())
+                                            .add("nombre", pregunta.getUsuario().getNombre())
+                                            .add("apellido", pregunta.getUsuario().getApellido())
+                                            .add("correo", pregunta.getUsuario().getCorreo())
+                                            .add("rol", pregunta.getUsuario().getRol()))
+                                    .build();
+                            preguntaslist.add(objeto);
+                            break;
+                    }//final switch
+                }//Final for
+
+                data = Json.createObjectBuilder()
+                        .add("status", 200)
+                        .add("data", preguntaslist)
+                        .build();
+                resultado = Response.status(Response.Status.OK)
+                        .entity(data)
+                        .build();
+            }//final if
+
+            else {
+                data = Json.createObjectBuilder()
+                        .add("status", 200)
+                        .add("data", "No posee preguntas registradas")
+                        .build();
+                resultado = Response.status(Response.Status.OK)
+                        .entity(data)
+                        .build();
             }
-            data = Json.createObjectBuilder()
-                    .add("status", 200)
-                    .add("data", preguntasList)
-                    .build();
-            resultado = Response.status(Response.Status.OK)
-                    .entity(data)
-                    .build();
         }
         catch (Exception e){
             String problema = e.getMessage();

@@ -10,7 +10,7 @@ public class ServicioAnalistaTest {
     @Test
     public void estudiosAnalistaTest() throws Exception{
         ServicioAnalista servicio = new ServicioAnalista();
-        DtoUsuario dtoUsuario = new DtoUsuario(1);
+        DtoUsuario dtoUsuario = new DtoUsuario(37);
         Response resultado = servicio.estudiosAnalista(dtoUsuario.get_id());
         Assert.assertEquals(200, resultado.getStatus());
     }
