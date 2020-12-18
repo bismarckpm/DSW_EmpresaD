@@ -62,9 +62,19 @@ export class CategoriasComponent implements OnInit {
     this._categoriaService.getCategorias().subscribe(
       (response) => {
         console.log(response);
+        this.categorias = response.data;
+        this.dataSource = new MatTableDataSource<Categoria>(
+          this.dataFilter(this.categorias)
+        );
+        this.searchState ="D";
       },
       (error) => {
         console.log(error);
+        this.categorias = [{_id:1,nombre:'test categoria'}];
+        this.dataSource = new MatTableDataSource<Categoria>(
+          this.dataFilter(this.categorias)
+        );
+        this.searchState ="D";
       }
     );
   }
@@ -112,12 +122,12 @@ export class CategoriasComponent implements OnInit {
     });
   }
   invokeSearch() {
-    this.searchState = 'P';
     this.categorias = [];
     this.userSelection = 0;
     let toAdd: any = {};
     toAdd.nombre = this.addForm.value.nombre;
-    this.addCategoria(toAdd);
+    this.searchState = 'P';
+    this.getCategorias();
     /*this._categoriaService.getCategorias().subscribe(
       (response) => {
         console.log(response);

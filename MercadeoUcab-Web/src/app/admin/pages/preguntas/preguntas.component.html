@@ -62,7 +62,7 @@
                         <ng-container [ngSwitch]="addForm.value.tipo">
                             <div *ngSwitchCase="'simple'" style="height: 100%; display: flex;flex-direction: column; overflow-y: auto;align-items: center;">
                                     <div class="form-group" *ngFor="let option of optionList;let i=index;">
-                                    <label for="{{'option-'+i}}">Pregunta #{{i+1}}</label>
+                                    <label for="{{'option-'+i}}">Opción #{{i+1}}</label>
                                     <div style="
                                     display: flex;
                                     flex-direction: row;
@@ -89,7 +89,7 @@
                             </div>
                             <div *ngSwitchCase="'multiple'" style="height: 100%; display: flex;flex-direction: column; overflow-y: auto;align-items: center;">
                                 <div class="form-group" *ngFor="let option of optionList;let i=index;">
-                                <label for="{{'option-'+i}}">Pregunta #{{i+1}}</label>
+                                <label for="{{'option-'+i}}">Opción #{{i+1}}</label>
                                 <div style="
                                 display: flex;
                                 flex-direction: row;
@@ -230,7 +230,13 @@
                 <ng-container matColumnDef="desc">
                     <th mat-header-cell *matHeaderCellDef>Titulo pregunta</th>
                     <td mat-cell *matCellDef="let element">
-                        {{element.nombre_pregunta}}
+                        {{element.pregunta}}
+                    </td>
+                </ng-container>
+                <ng-container matColumnDef="tipo">
+                    <th mat-header-cell *matHeaderCellDef>Tipo de pregunta</th>
+                    <td mat-cell *matCellDef="let element">
+                        {{element.tipo}}
                     </td>
                 </ng-container>
                 <ng-container matColumnDef="selector">

@@ -2,6 +2,7 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { MatTableDataSource } from '@angular/material/table';
 import { Pregunta } from '@core/models/pregunta';
+import { Usuario } from '@core/models/usuario';
 import { PreguntaService } from '@core/services/pregunta/pregunta.service';
 import { AddPreguntaDialogComponent } from '../../components/dialogs/add-pregunta-dialog/add-pregunta-dialog.component';
 import { DelPreguntaDialogComponent } from '../../components/dialogs/del-pregunta-dialog/del-pregunta-dialog.component';
@@ -36,7 +37,7 @@ export class PreguntasComponent implements OnInit {
   dataSource: MatTableDataSource<Pregunta>;
   minF:number=0;
   maxF:number=0;
-  displayedColumns: string[] = ['id', 'desc', 'selector', 'ops'];
+  displayedColumns: string[] = ['id', 'desc','tipo','selector', 'ops'];
   columnsToDisplay: string[] = this.displayedColumns.slice();
 
   optionList:OptionItem[] = [];
@@ -67,7 +68,7 @@ export class PreguntasComponent implements OnInit {
 
   addOption(){
     this.optionList.push({
-      nombre_opcion:'Nueva pregunta',
+      nombre_opcion:'Nueva opción',
     });
     console.log(this.optionList);
   }
@@ -100,7 +101,14 @@ export class PreguntasComponent implements OnInit {
   async openUpdModal() {
     return await this.updComponent.open();
   }
-
+  testUser: Usuario = {
+    _id:Math.floor(Math.random()*(1000-1)+1),
+    nombre:Math.random().toString(36).substr(2, 5),
+    apellido:Math.random().toString(36).substr(2, 5),
+    rol:'Administrador',
+    correo:Math.random().toString(36).substr(2, 5),
+    estado:'Activo',
+  }
   ngOnInit(): void {
     this.setOperation('');
     this.searchState = 'U';
@@ -156,7 +164,19 @@ export class PreguntasComponent implements OnInit {
       },
       (error) => {
         console.log(error);
-        this.preguntas=[];
+        this.preguntas=[
+          {_id:1,tipo:'abierta',rango:null,opciones:null,pregunta:'ABIERTA',usuario:this.testUser},
+          {_id:2,tipo:'rango',rango:'1&100',opciones:null,pregunta:'RANGO',usuario:this.testUser},
+          {_id:3,tipo:'simple',rango:null,opciones:[
+            {nombre_opcion:'Nueva op1',_id:1},
+            {nombre_opcion:'Nueva op2',_id:2},
+          ],pregunta:'SIMPLE',usuario:this.testUser},
+          {_id:14,tipo:'multiple',rango:null,opciones:[
+            {nombre_opcion:'Nueva op1',_id:1},
+            {nombre_opcion:'Nueva op2',_id:2},
+          ],pregunta:'MULTIPLE',usuario:this.testUser},
+          {_id:17,tipo:'boolean',rango:null,opciones:null,pregunta:'V O F',usuario:this.testUser},
+        ];
         this.dataSource=new  MatTableDataSource<Pregunta>(this.dataFilter(this.preguntas));
         this.searchState = 'D';
       }
@@ -189,10 +209,10 @@ export class PreguntasComponent implements OnInit {
       this.addForm.get('opciones').setValue(this.optionList);
       console.log('')
     }
-    console.log('Submit trigered', this.addForm.value);
+    //console.log('Submit trigered', this.addForm.value);
     this.opStatus = 'P';
     let toAdd: any = {};
-    toAdd.nombre_pregunta;
+    toAdd = this.addForm.value;
     // Campos que se deben pasar al Back
     //toAdd.tipo;
     //toAdd.rango;
@@ -211,28 +231,8 @@ export class PreguntasComponent implements OnInit {
   invokeSearch() {
     this.preguntas = [];
     this.userSelection = 0;
-    if (this.searchForm.value['creado_el'] !== null) {
-      this.searchForm
-        .get('creado_el')
-        .setValue(new Date(this.searchForm.value['creado_el']));
-    }
     this.searchState = 'P';
     this.getPreguntas();
-    /*this.preguntas.push({
-         _id:Math.floor(Math.random()*(1000-1)+1),
-         nombre_pregunta:Math.random().toString(36).substr(2, 10),
-         tipo:'',
-         rango:''
-        });*/
-        /*
-    setTimeout(() => {
-      for (let i = 0; i < Math.floor(Math.random() * (100 - 1) + 1); i++) {
-      }
-      this.dataSource = new MatTableDataSource<Pregunta>(
-        this.dataFilter(this.preguntas)
-      );
-      this.searchState = 'D';
-    }, 3000);*/
   }
   dataFilter(dataArray: Pregunta[]): Pregunta[] {
     console.log(this.searchForm.value);

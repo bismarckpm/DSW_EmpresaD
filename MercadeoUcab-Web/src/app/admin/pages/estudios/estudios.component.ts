@@ -28,6 +28,7 @@ export class EstudiosComponent implements OnInit {
   op: string;
   searchState: string; //U,I,P,D
   solicitudSelec: number;
+  opStatus: string;
   solicitudes: Solicitud[] = [
     /*{ _id:1, estado:'I', activo:false, creado_el:new Date(), modificado_el:new Date()},
     { _id:2, estado:'I', activo:false, creado_el:new Date(), modificado_el:new Date()},
@@ -73,11 +74,12 @@ export class EstudiosComponent implements OnInit {
     },*/
   ];
 
+  targetEstudio:Estudio;
+
   displayedColumns: string[] = ['id', 'selector', 'ops'];
   columnsToDisplay: string[] = this.displayedColumns.slice();
-  updForm;
-  addForm;
-  searchForm;
+  addForm:FormGroup;
+  searchForm:FormGroup;
   firstFormGroup: FormGroup;
   secondFormGroup: FormGroup;
   constructor(
@@ -96,6 +98,7 @@ export class EstudiosComponent implements OnInit {
     return await this.delComponent.open();
   }
   ngOnInit(): void {
+    this.opStatus = 'S';
     this.searchForm = this.formBuilder.group({});
     //FORMUALRIO PARA SOLICITUD
     this.addForm = this.formBuilder.group({
@@ -119,9 +122,12 @@ export class EstudiosComponent implements OnInit {
       (response) => {
         console.log(response);
         this.estudios = response.data;
+        this.searchState="D";
       },
       (error) => {
         console.log(error);
+        this.estudios = [];
+        this.searchState="D";
       }
     );
   }
@@ -131,9 +137,11 @@ export class EstudiosComponent implements OnInit {
       (response) => {
         console.log(response);
         alert('Se agrego el estudio correctamente');
+        this.opStatus="D";
       },
       (error) => {
         console.log(error);
+        this.opStatus="E";
       }
     );
   }
@@ -173,7 +181,7 @@ export class EstudiosComponent implements OnInit {
       }
     );
   }
-
+/*
   addSolicitud(data) {
     this._solicitudService.createSolicitud(data).subscribe(
       (response) => {
@@ -209,8 +217,10 @@ export class EstudiosComponent implements OnInit {
       }
     );
   }
-
-  invokeService() {}
+*/
+  invokeService() {
+    
+  }
 
   invokeSearch() {
     this.estudios = [];
@@ -219,10 +229,10 @@ export class EstudiosComponent implements OnInit {
     //console.log('Search works');
     //console.log(this.searchForm.value);
     this.searchState = 'P';
-    setTimeout(() => {
+    /*setTimeout(() => {
       this.dataSource = new MatTableDataSource<Estudio>(this.estudios);
       this.searchState = 'D';
-    }, 3000);
+    }, 3000);*/
   }
   setOperation(chOp: string) {
     this.op = chOp;
@@ -233,11 +243,13 @@ export class EstudiosComponent implements OnInit {
     }
   }
   //CONTROL DE SELECCIÓN EN TABLA DE DATOS
-  selectUser(id: number) {
+  selectUser(id: number,data:Estudio) {
     if (id === this.userSelection) {
       this.userSelection = 0;
+      this.targetEstudio=null;
     } else {
       this.userSelection = id;
+      this.targetEstudio=data;
     }
   }
   isSelected(id: number): boolean {

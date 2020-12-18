@@ -18,7 +18,7 @@ import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 export class DelPresentacionDialogComponent implements OnInit {
   opStatus: string; //S,P,D
 
-  @ViewChild('delPresentacion')
+  @ViewChild('delPregunta')
   private modalContent: TemplateRef<DelPresentacionDialogComponent>;
   private modalRef: NgbModalRef;
   constructor(
