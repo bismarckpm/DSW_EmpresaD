@@ -87,7 +87,7 @@ export class UpdateUserDialogComponent implements OnInit {
   invokeService() {
     /*
 
-    PROCESO DE ASIGNACION DE VALORES ANTIGUOS O NUEVOS AL MODELO A SER ENVIADO 
+    PROCESO DE ASIGNACION DE VALORES ANTIGUOS O NUEVOS AL MODELO A SER ENVIADO
     A SERVICIO DE MODIFICACION
 
     */
@@ -105,8 +105,9 @@ export class UpdateUserDialogComponent implements OnInit {
     toUpdate.apellido = this.toService.apellido;
     toUpdate.estado = this.toService.estado;
     console.log(toUpdate);
+    this.updateUser(toUpdate._id, toUpdate);
     //console.log(this.toService,this.updForm.value);
     this.opStatus = 'P';
-    this.updateUser(toUpdate._id, toUpdate);
+
   }
 }

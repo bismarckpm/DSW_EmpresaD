@@ -39,30 +39,32 @@ export class UpdateSolicitudDialogComponent implements OnInit {
   constructor(private modalService: NgbModal, private formBuilder: FormBuilder, private  _service: SolicitudService){}
   @Input() _solicitudSelection: number;
   @Input() _solicitud: Solicitud;
+  @Input() marcas: Marca[] = [];
+  @Input() subcategoria: SubCategoria[] = [];
+  @Input() tipo: Tipo[] = [];
+  @Input() presentacion: Presentacion[] = [];
   toService: any;
 
   ngOnInit(): void {
     this.opStatus = 'S';
     this.updForm = this.formBuilder.group({
-      usuario: null,
-      marca: null,
-      presentacion: null,
-      tipo: null,
-      subcategoria: null,
-      estado: null,
-      activo: null,
+      estado : null,
+      marca : null,
+      tipo : null,
+      subCategoria : null,
+      presentacion : null,
     });
   }
   open(){
     this.modalRef = this.modalService.open(this.modalContent);
     this.modalRef.result.then();
-    // console.log('Usuario: ',this._user);
+    //console.log(this.tipos[0].nombre);
     this.toService = {
-      _id: this._solicitud._id,
-      tipo: null,
-      subcategoria: null,
-      marca: null,
-      estado: null
+      estado : null,
+      marca : null,
+      tipo : null,
+      subCategoria : null,
+      presentacion : null,
     };
   }
   close(){
@@ -149,15 +151,24 @@ export class UpdateSolicitudDialogComponent implements OnInit {
     });
     // console.log(this.toService,this.updForm.value);
     this.opStatus = 'P';
-    const toUpd: any = {};
-    const values = this.updForm.value();
+    /*
+{
+    "estado": "aceptada",
+    "marca":9,
+    "tipo":2,
+    "subCategoria": 2,
+    "presentacion":2
+}
+     */
+   /* const toUpd: any = {};
+    const values = this.updForm.value;
     toUpd.estado = values.estado;
-    toUpd.usuario = 2;
     toUpd.marca = values.marca;
     toUpd.tipo = values.tipo;
-    toUpd.subcategoria = values.subCategoria;
+    toUpd.subCategoria = values.subCategoria;
     toUpd.presentacion = values.presentacion;
-    this.updateUser(2, toUpd);
+    toUpd.estado="solicitada";
+    this.updateUser(14, toUpd);*/
     /*setTimeout(()=>{
       this.opStatus="D";
     },3000);*/

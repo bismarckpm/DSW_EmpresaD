@@ -10,21 +10,21 @@
           <div class="form-group">
             <label for="tipoUPD">Tipo de producto</label>
             <select class="form-control" id="tipoUPD" formControlName="tipo" >
-              <option *ngFor="let tipo of this.tipos " [ngValue]="tipo._id">{{tipo.nombre}}</option>
+              <option *ngFor="let tipo of this.tipo " [ngValue]="tipo._id">{{tipo.nombre}}</option>
             </select>
           </div>
 
           <div class="form-group">
             <label for="subcategoriaUPD" >Subcategoria del producto:<br><br></label>
-            <select class="form-control" id="subcategoriaUPD" formControlName="subcategoria" >
-              <option *ngFor="let subcategoria of this.subcategorias " [ngValue]="subcategoria._id">{{subcategoria.nombre}}</option>
+            <select class="form-control" id="subcategoriaUPD" formControlName="subCategoria" >
+              <option *ngFor="let subcategoria of this.subcategoria " [ngValue]="subcategoria._id">{{subcategoria.nombre}}</option>
             </select>
           </div>
 
           <div class="form-group">
             <label for="marcaSelect">Marca del producto</label>
             <select class="form-control" id="marcaSelect" formControlName="marca">
-              <option *ngFor="let marca of this.marcas2 " [ngValue]="marca._id">{{marca.nombre}}</option>
+              <option *ngFor="let marca of this.marcas " [ngValue]="marca._id">{{marca.nombre}}</option>
             </select>
           </div>
 
@@ -33,7 +33,7 @@
           <div class="form-group">
             <label for="presentacionUPD" >Presentacion del producto:<br><br></label>
             <select class="form-control" id="presentacionUPD" formControlName="presentacion" >
-              <option *ngFor="let presentacion of this.presentaciones " [ngValue]="presentacion._id">{{presentacion.tipo+" "+presentacion.cantidad}}</option>
+              <option *ngFor="let presentacion of this.presentacion " [ngValue]="presentacion._id">{{presentacion.tipo+" "+presentacion.cantidad}}</option>
             </select>
           </div>
 
@@ -43,7 +43,7 @@
       <div class="cForm-actions">
         <button type="button" class="btn btn-danger" (click)="close()">Cancelar</button>
         <mat-divider [vertical]="true" [inset]="true"></mat-divider>
-        <button type="submit" class="btn btn-primary">Modificar</button>
+     <!--   <button type="submit" class="btn btn-primary">Modificar</button> -->
       </div>
     </form>
     <div class="cForm" *ngIf="opStatus==='P'">
@@ -93,3 +93,4 @@
     </div>
   </div>
 </ng-template>
+

@@ -10,6 +10,7 @@ import {TipoService} from '@core/services/tipo/tipo.service';
 import { UpdateSolicitudDialogComponent } from '../../../cliente/components/dialogs/upd-solicitud-dialog/update-solicitud-dialog.component';
 import { DeleteUserDialogComponent } from '../../../admin/components/dialogs/delete-user-dialog/delete-user-dialog.component';
 import { Usuario } from '@models/usuario';
+import {UtilService} from '@core/services/utils/util.service';
 import { Marca } from '@models/marca';
 import {SubCategoria} from '@models/subcategoria';
 import {Presentacion} from '@models/presentacion';
@@ -28,6 +29,7 @@ export class SolicitudComponent implements OnInit {
     private formBuilder: FormBuilder,
     // tslint:disable-next-line:variable-name
     private _solicitudService: SolicitudService,
+    private _solicitudUtilService: UtilService,
     private marcaServices: MarcaService,
     private subcategoriaService: SubcategoriaService,
     private  presentacionService: PresentacionService,
@@ -65,7 +67,7 @@ export class SolicitudComponent implements OnInit {
   tipos: Tipo[] = [];
 
   // COLUMNAS DE TABLA DE RESULTADOS
-  displayedColumns: string[] = ['id', 'selector', 'estado' , 'creado' , 'modificado', 'usuario' , 'Marca' ,'ops'];
+  displayedColumns: string[] = ['id', 'selector', 'estado' , 'Marca', 'presentacion', 'subcategoria' , 'tipos' ,'ops'];
   columnsToDisplay: string[] = this.displayedColumns.slice();
 
   // INDICE DE SOLICITUD SELECCIONADO
@@ -283,10 +285,9 @@ export class SolicitudComponent implements OnInit {
   }
 
   getSolicitudes(data) {
-    this._solicitudService.getSolicitudes().subscribe(
-      (response) => {
+    this._solicitudUtilService.getSolicitudesOfCliente(1).subscribe(
+      (response: any) => {
         console.log(response);
-
         this.solicitudes = response.data;
         this.dataSource = new MatTableDataSource<Solicitud>(
           this.dataFilter(this.solicitudes)
@@ -319,16 +320,11 @@ export class SolicitudComponent implements OnInit {
     const toSearch: any = {};
     const values = this.searchForm.value;
     toSearch.tipo = values.tipo;
+    toSearch._id=1,
     toSearch.subCategoria = values.subCategoria;
     toSearch.marca = values.marca;
     toSearch.presentacion = values.presentacion;
-    toSearch.creado_el = values.creado_el;
-    toSearch.modificado_el = values.modificado_el;
     this.getSolicitudes(toSearch);
-    this.solicitudes.forEach(function (V) {
-
-    })
-
     // tslint:disable-next-line:only-arrow-functions
   }
   setOperation(chOp: string) {
