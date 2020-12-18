@@ -272,7 +272,7 @@ public class ServicioPregunta extends AplicacionBase{
     }
 
     @PUT
-    @Path("/eliminar/{id}")
+    @Path("/{id}/eliminar")
     public Response eliminarPregunta(@PathParam("id") long id){
         JsonObject data;
         Response resultado = null;
