@@ -69,24 +69,24 @@ export class LugaresComponent implements OnInit {
   }
   //dataSource : MatTableDataSource<Lugar>;
   //CHEQUEO DE OPERACION
-   testPais: Pais = {
+  testPais: Pais = {
     _id: 1,
     nombre: 'Test pais',
   };
-   testEstado: Estado = {
+  testEstado: Estado = {
     _id: 1,
     nombre: 'Test estado',
     pais: this.testPais,
   };
-   testMunicipio: Municipio = {
+  testMunicipio: Municipio = {
     _id: 1,
     nombre: 'Test  municipio',
     estado: this.testEstado,
   };
-   testParroquia: Parroquia = {
+  testParroquia: Parroquia = {
     _id: 1,
     nombre: 'Test  parrroquia',
-    municipio:this.testMunicipio,
+    municipio: this.testMunicipio,
     valorSocioEconomico: 8000,
   };
   getAsociados() {
@@ -121,6 +121,7 @@ export class LugaresComponent implements OnInit {
   ngOnInit(): void {
     this.setOperation('');
     this.searchState = 'U';
+
     this.searchLugar = [
       { t: 'PA', do: 0 },
       { t: 'ES', do: 0 },
@@ -138,6 +139,10 @@ export class LugaresComponent implements OnInit {
       municipio: null,
       valor_socio_economico: null,
     });
+    this.getEstados();
+    this.getMunicipios();
+    this.getParroquias();
+    this.getPaises();
   }
   addPais(data) {
     this._paisService.createPais(data).subscribe(
@@ -161,10 +166,13 @@ export class LugaresComponent implements OnInit {
       },
       (error) => {
         console.log(error);
-        this._paises = [this.testPais,{
-          "_id": 2,
-          "nombre": "Argentina"
-        },];
+        this._paises = [
+          this.testPais,
+          {
+            _id: 2,
+            nombre: 'Argentina',
+          },
+        ];
         this.getEstados();
       }
     );
@@ -193,7 +201,7 @@ export class LugaresComponent implements OnInit {
       },
       (error) => {
         console.log(error);
-        this._estados=[this.testEstado];
+        this._estados = [this.testEstado];
         this.getMunicipios();
       }
     );
@@ -220,13 +228,13 @@ export class LugaresComponent implements OnInit {
         console.log(response);
         this._parroquias = response.data;
         this.setSearchResults();
-        this.searchState="D";
+        this.searchState = 'D';
       },
       (error) => {
         console.log(error);
         this._parroquias = [this.testParroquia];
         this.setSearchResults();
-        this.searchState="D";
+        this.searchState = 'D';
       }
     );
   }
@@ -259,7 +267,7 @@ export class LugaresComponent implements OnInit {
     );
   }
 
-  dataFilter(dataArray){
+  dataFilter(dataArray) {
     //console.log(this.searchForm.value);
     let filtered = [];
     dataArray.forEach((res, ind) => {
@@ -288,7 +296,7 @@ export class LugaresComponent implements OnInit {
     console.log(dataArray, filtered);
     return filtered;
   }
-  setSearchResults(){
+  setSearchResults() {
     this.searchResults = {
       PA: this.searchLugar[0].do === 1 ? this.dataFilter(this._paises) : [],
       ES: this.searchLugar[1].do === 1 ? this.dataFilter(this._estados) : [],

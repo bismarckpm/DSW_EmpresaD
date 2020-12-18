@@ -60,7 +60,7 @@ export class UsuariosComponent implements OnInit {
       rol: null,
       estado: 'Activo',
       correo: null,
-      password:null,
+      password: null,
     });
 
     this.searchForm = this.formBuilder.group({
@@ -126,7 +126,7 @@ export class UsuariosComponent implements OnInit {
     this._userService.deleteUser(id, data).subscribe(
       (response) => {
         console.log(response);
-        alert('Se modifico el usuario correctamente');
+        //alert('Se modifico el usuario correctamente');
       },
       (error) => {
         console.log(error);
@@ -166,7 +166,7 @@ export class UsuariosComponent implements OnInit {
     //toAdd.password = 'no';
     //console.log(this.addForm.value);
     //console.log('-------------------');
-    //console.log(toAdd);
+    console.log(toAdd);
 
     this.opStatus = 'P';
     // En este caso los valores de los campos son iguales
@@ -177,7 +177,7 @@ export class UsuariosComponent implements OnInit {
       rol: null,
       estado: 'Activo',
       correo: null,
-      password:null,
+      password: null,
     });
     /*setTimeout(() => {
       this.addForm = this.formBuilder.group({
