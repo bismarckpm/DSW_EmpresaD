@@ -3,10 +3,14 @@ import { FormBuilder, FormGroup } from '@angular/forms';
 import { MatTableDataSource } from '@angular/material/table';
 import { Pregunta } from '@core/models/pregunta';
 import { PreguntaService } from '@core/services/pregunta/pregunta.service';
-import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { AddPreguntaDialogComponent } from '../../components/dialogs/add-pregunta-dialog/add-pregunta-dialog.component';
 import { DelPreguntaDialogComponent } from '../../components/dialogs/del-pregunta-dialog/del-pregunta-dialog.component';
 import { UpdatePreguntaDialogComponent } from '../../components/dialogs/update-pregunta-dialog/update-pregunta-dialog.component';
+
+interface OptionItem {
+  nombre_opcion:string;
+}
+
 
 @Component({
   selector: 'app-preguntas',
@@ -30,9 +34,54 @@ export class PreguntasComponent implements OnInit {
   //LISTA DE USUARIOS DEVUELTOS EN BÚSQUEDA
   preguntas: Pregunta[] = [];
   dataSource: MatTableDataSource<Pregunta>;
-
+  minF:number=0;
+  maxF:number=0;
   displayedColumns: string[] = ['id', 'desc', 'selector', 'ops'];
   columnsToDisplay: string[] = this.displayedColumns.slice();
+
+  optionList:OptionItem[] = [];
+
+  pregTipos = [
+  {name:'Abierta',t:'abierta'},
+  {name:'Selección simple',t:'simple'},
+  {name:'Selección múltiple',t:'multiple'},
+  {name:'Verdadero o Falso',t:'boolean'},
+  {name:'Valor dentro de rango',t:'rango'}
+ ];
+
+  rangeConcat(limit,val){
+    if(limit === 0){
+      this.minF=val;
+    }
+    else if(limit === 1){
+      this.maxF = val;
+    } 
+    if((this.minF !== 0) && (this.maxF !==0) && (this.minF < this.maxF)){
+      this.addForm.get('rango').setValue(`${this.minF}&${this.maxF}`);
+    }
+  }
+
+  setOption(opInd,opName){
+    this.optionList[opInd].nombre_opcion=opName;
+  }
+
+  addOption(){
+    this.optionList.push({
+      nombre_opcion:'Nueva pregunta',
+    });
+    console.log(this.optionList);
+  }
+  
+  resizeOptionList(opInd){
+    this.optionList=this.optionList
+    .map((op,ind)=> {
+      if(ind !== opInd ){return op}
+      else{
+        return undefined;
+      }
+    })
+    .filter(el => el !== undefined);
+  }
 
   setOperation(chOp: string) {
     this.op = chOp;
@@ -56,9 +105,15 @@ export class PreguntasComponent implements OnInit {
     this.setOperation('');
     this.searchState = 'U';
     this.opStatus = 'S';
+    this.addForm= this.formBuilder.group({
+      nombre_pregunta: null,
+      tipo:null,
+      rango:null,
+      fk_usuario:(localStorage.getItem('_id') !== undefined)?localStorage.getItem('_id'):1,
+      opciones:null,
+    });
     this.searchForm = this.formBuilder.group({
       tipo: null,
-      creado_el: null,
     });
   }
   selectUser(id: number, data: Pregunta) {
@@ -96,9 +151,14 @@ export class PreguntasComponent implements OnInit {
       (response) => {
         console.log(response);
         this.preguntas = response.data;
+        this.dataSource=new  MatTableDataSource<Pregunta>(this.dataFilter(this.preguntas));
+        this.searchState = 'D';
       },
       (error) => {
         console.log(error);
+        this.preguntas=[];
+        this.dataSource=new  MatTableDataSource<Pregunta>(this.dataFilter(this.preguntas));
+        this.searchState = 'D';
       }
     );
   }
@@ -125,6 +185,11 @@ export class PreguntasComponent implements OnInit {
     );
   }
   serviceInvoke() {
+    if((this.addForm.get('tipo').value === 'simple' || this.addForm.get('tipo').value === 'multiple' ) && this.optionList.length > 0){
+      this.addForm.get('opciones').setValue(this.optionList);
+      console.log('')
+    }
+    console.log('Submit trigered', this.addForm.value);
     this.opStatus = 'P';
     let toAdd: any = {};
     toAdd.nombre_pregunta;
@@ -134,10 +199,14 @@ export class PreguntasComponent implements OnInit {
     //toAdd.fk_usuario;
     //toAdd.opciones;
     this.addPregunta(toAdd);
-
     this.addForm = this.formBuilder.group({
-      nombre: null,
+      nombre_pregunta: null,
+      tipo:null,
+      rango:null,
+      fk_usuario:(localStorage.getItem('_id') !== undefined)?localStorage.getItem('_id'):1,
+      opciones:null,
     });
+    this.optionList=[];
   }
   invokeSearch() {
     this.preguntas = [];
@@ -148,20 +217,22 @@ export class PreguntasComponent implements OnInit {
         .setValue(new Date(this.searchForm.value['creado_el']));
     }
     this.searchState = 'P';
-    setTimeout(() => {
-      for (let i = 0; i < Math.floor(Math.random() * (100 - 1) + 1); i++) {
-        /*this.preguntas.push({
+    this.getPreguntas();
+    /*this.preguntas.push({
          _id:Math.floor(Math.random()*(1000-1)+1),
          nombre_pregunta:Math.random().toString(36).substr(2, 10),
          tipo:'',
          rango:''
         });*/
+        /*
+    setTimeout(() => {
+      for (let i = 0; i < Math.floor(Math.random() * (100 - 1) + 1); i++) {
       }
       this.dataSource = new MatTableDataSource<Pregunta>(
         this.dataFilter(this.preguntas)
       );
       this.searchState = 'D';
-    }, 3000);
+    }, 3000);*/
   }
   dataFilter(dataArray: Pregunta[]): Pregunta[] {
     console.log(this.searchForm.value);

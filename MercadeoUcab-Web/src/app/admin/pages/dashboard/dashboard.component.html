@@ -81,6 +81,17 @@ style="background-color: #E5FFF7;"
             </mat-grid-tile>
             <mat-grid-tile
             [colspan]="1"
+            [rowspan]="1"
+            >
+            <button mat-mini-fab color="primary" aria-label="Example icon button with a delete icon" 
+            style="background-color: #00d8b4; color:white"
+            (click)="onDir('administrador/presentaciones')"
+            >
+                <mat-icon>category</mat-icon>
+            </button>
+            </mat-grid-tile>
+            <mat-grid-tile
+            [colspan]="1"
             [rowspan]="1">
             <button mat-mini-fab color="primary" aria-label="Example icon button with a delete icon" 
             style="background-color: #00d8b4; color:white"

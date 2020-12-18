@@ -5,7 +5,8 @@ import {
   TemplateRef,
   ViewChild,
 } from '@angular/core';
-import { FormBuilder } from '@angular/forms';
+import { FormBuilder, FormGroup } from '@angular/forms';
+import { Presentacion } from '@core/models/presentacion';
 import { PresentacionService } from '@core/services/presentacion/presentacion.service';
 import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 
@@ -16,7 +17,7 @@ import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 })
 export class UpdPresentacionDialogComponent implements OnInit {
   opStatus: string; //S,P,D
-
+  updForm:FormGroup;
   @ViewChild('updPresentacion')
   private modalContent: TemplateRef<UpdPresentacionDialogComponent>;
   private modalRef: NgbModalRef;
@@ -26,9 +27,14 @@ export class UpdPresentacionDialogComponent implements OnInit {
     private _presentacionService: PresentacionService
   ) {}
   @Input() _userSelection: number;
+  @Input() _presentacion: Presentacion;
 
   ngOnInit(): void {
     this.opStatus = 'S';
+    this.updForm= this.formBuilder.group({
+      cantidad:null,
+      tipo:null,
+    });
   }
   open() {
     this.modalRef = this.modalService.open(this.modalContent);
@@ -43,22 +49,36 @@ export class UpdPresentacionDialogComponent implements OnInit {
       (response) => {
         console.log(response);
         alert('Se modifico la presentacion correctamente');
+        this.opStatus = 'D';
       },
       (error) => {
         console.log(error);
+        this.opStatus = 'E';
       }
     );
   }
   invokeService() {
-    let toUpdate: any = {};
+    let toUpdate: any = {
+      id:this._presentacion._id,
+      cantidad:null,
+      tipo:null,
+    };
     // Campos que se deben enviar al Back
     // toUpdate.id
     // toUpdate.cantidad
     // toUpdate.tipo
-    this.updatePresentacion(toUpdate.id, toUpdate);
+    Object.entries(this.updForm.value).forEach(([key,field],ind)=>{
+      if(field !== null){
+        toUpdate[key]=field;
+      }
+      else{
+        toUpdate[key] = this._presentacion[key];
+      }
+    })
     this.opStatus = 'P';
-    setTimeout(() => {
+    this.updatePresentacion(toUpdate.id, toUpdate);
+    /*setTimeout(() => {
       this.opStatus = 'D';
-    }, 3000);
+    }, 3000);*/
   }
 }

@@ -17,7 +17,7 @@ export class PresentacionComponent implements OnInit {
   searchState: string;
   opStatus: string; //S,P,D
   userSelection: number = 0;
-
+  targetData:Presentacion;
   presentaciones: Presentacion[] = [];
   dataSource: MatTableDataSource<Presentacion>;
 
@@ -38,7 +38,6 @@ export class PresentacionComponent implements OnInit {
   }
 
   constructor(
-    private modalService: NgbModal,
     private formBuilder: FormBuilder,
     private _presentacionService: PresentacionService
   ) {}
@@ -57,9 +56,13 @@ export class PresentacionComponent implements OnInit {
   ngOnInit(): void {
     this.setOperation('');
     this.searchState = 'U';
+    this.addForm = this.formBuilder.group({
+      cantidad: null,
+      tipo:null,
+    });
     this.searchForm = this.formBuilder.group({
-      nombre: null,
-      creado_el: null,
+      tipo:null,
+      cantidad:null,
     });
   }
 
@@ -68,9 +71,18 @@ export class PresentacionComponent implements OnInit {
       (response) => {
         console.log(response);
         this.presentaciones = response.data;
+        this.dataSource = new MatTableDataSource<Presentacion>(
+          this.dataFilter(this.presentaciones)
+        );
+        this.searchState = 'D';
       },
       (error) => {
         console.log(error);
+        this.presentaciones =[{_id:1,cantidad:'1x2',tipo:'pres test'}];
+        this.dataSource = new MatTableDataSource<Presentacion>(
+          this.dataFilter(this.presentaciones)
+        );
+        this.searchState = 'D';
       }
     );
   }
@@ -80,9 +92,11 @@ export class PresentacionComponent implements OnInit {
       (response) => {
         console.log(response);
         alert('Se agrego la presentacion correctamente');
+        this.opStatus="D";
       },
       (error) => {
         console.log(error);
+        this.opStatus="E";
       }
     );
   }
@@ -98,11 +112,13 @@ export class PresentacionComponent implements OnInit {
     );
   }
 
-  selectUser(id: number) {
+  selectUser(id: number,data) {
     if (id === this.userSelection) {
       this.userSelection = 0;
+      this.targetData=null;
     } else {
       this.userSelection = id;
+      this.targetData=data;
     }
   }
   isSelected(id: number): boolean {
@@ -140,6 +156,18 @@ export class PresentacionComponent implements OnInit {
     console.log(dataArray, filtered);
     return filtered;
   }
+  invokeService(){
+    //Campos que se deben enviar
+    //toAdd.cantidad
+    //toAdd.tipo
+    let toAdd: any = {};
+    this.opStatus = 'P';
+    this.addPresentacion(toAdd);
+    this.addForm = this.formBuilder.group({
+      cantidad: null,
+      tipo:null,
+    });
+  }
   invokeSearch() {
     //this.presentaciones = [];
     //this.userSelection = 0;
@@ -147,20 +175,22 @@ export class PresentacionComponent implements OnInit {
     //Campos que se deben enviar
     //toAdd.cantidad
     //toAdd.tipo
-    this.addPresentacion(toAdd);
-    if (this.searchForm.value['creado_el'] !== null) {
+    //this.addPresentacion(toAdd);
+    /*if (this.searchForm.value['creado_el'] !== null) {
       this.searchForm
         .get('creado_el')
         .setValue(new Date(this.searchForm.value['creado_el']));
-    }
+    }*/
     this.searchState = 'P';
-    setTimeout(() => {
+    this.getPresentaciones();
+    
+    /*setTimeout(() => {
       //DATA SOURCE EDIT
       this.dataSource = new MatTableDataSource<Presentacion>(
         this.dataFilter(this.presentaciones)
       );
       this.searchState = 'D';
-    }, 3000);
+    }, 3000);*/
   }
   doSearch() {
     this.searchState = 'I';
