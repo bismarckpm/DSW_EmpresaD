@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Form, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatTableDataSource } from '@angular/material/table';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { STEPPER_GLOBAL_OPTIONS } from '@angular/cdk/stepper';
@@ -13,6 +13,13 @@ import { Solicitud } from '@models/solicitud';
 import { EstudioService } from '@core/services/estudio/estudio.service';
 import { SolicitudService } from '@core/services/solicitud/solicitud.service';
 import { Usuario } from '@core/models/usuario';
+import { Muestra_poblacionService } from '@core/services/muestra_poblacion/muestra_poblacion.service';
+import { Ocupacion } from '@core/models/ocupacion';
+import { Parroquia } from '@core/models/parroquia';
+import { ParroquiaService } from '@core/services/parroquia/parroquia.service';
+import { Municipio } from '@core/models/municipio';
+import { Estado } from '@core/models/estado';
+import { Pais } from '@core/models/pais';
 
 @Component({
   selector: 'app-estudios',
@@ -30,21 +37,9 @@ export class EstudiosComponent implements OnInit {
   searchState: string; //U,I,P,D
   solicitudSelec: number;
   opStatus: string;
-  solicitudes: Solicitud[] = [
-    /*{ _id:1, estado:'I', activo:false, creado_el:new Date(), modificado_el:new Date()},
-    { _id:2, estado:'I', activo:false, creado_el:new Date(), modificado_el:new Date()},
-    { _id:3, estado:'A', activo:false, creado_el:new Date(), modificado_el:new Date()},
-    { _id:4, estado:'I', activo:false, creado_el:new Date(), modificado_el:new Date()},
-    { _id:5, estado:'I', activo:false, creado_el:new Date(), modificado_el:new Date()},
-    { _id:6, estado:'I', activo:false, creado_el:new Date(), modificado_el:new Date()}*/
-  ];
-  estudios: Estudio[] = [
-    /*
-    {_id:1,estado:'A',tipo:'A',encuestas_esperadas:98},
-    {_id:2,estado:'A',tipo:'A',encuestas_esperadas:3},
-    {_id:3,estado:'A',tipo:'A',encuestas_esperadas:16},
-    {_id:4,estado:'A',tipo:'A',encuestas_esperadas:50},*/
-  ];
+  solicitudes: Solicitud[] = [];
+  ocupaciones: Ocupacion[] = [];
+  estudios: Estudio[] = [];
   dataSource: MatTableDataSource<Estudio>;
   userSelection: number = 0;
 
@@ -80,14 +75,38 @@ export class EstudiosComponent implements OnInit {
   displayedColumns: string[] = ['id', 'selector', 'ops'];
   columnsToDisplay: string[] = this.displayedColumns.slice();
   addForm:FormGroup;
+  poblacionForm:FormGroup;
   searchForm:FormGroup;
   firstFormGroup: FormGroup;
   secondFormGroup: FormGroup;
+  parroquias: Parroquia[]=[];
+  testPais: Pais = {
+    _id: 1,
+    nombre: 'Test pais',
+  };
+   testEstado: Estado = {
+    _id: 1,
+    nombre: 'Test estado',
+    pais: this.testPais,
+  };
+   testMunicipio: Municipio = {
+    _id: 1,
+    nombre: 'Test  municipio',
+    estado: this.testEstado,
+  };
+   testParroquia: Parroquia = {
+    _id: 1,
+    nombre: 'Test  parrroquia',
+    municipio:this.testMunicipio,
+    valorSocioEconomico: 8000,
+  };
   constructor(
     private modalService: NgbModal,
     private formBuilder: FormBuilder,
     private _estudioService: EstudioService,
-    private _solicitudService: SolicitudService
+    private _solicitudService: SolicitudService,
+    private _poblacionService: Muestra_poblacionService,
+    private _parroquiaService:ParroquiaService,
   ) {}
   testUser: Usuario = {
     _id:Math.floor(Math.random()*(1000-1)+1),
@@ -136,15 +155,60 @@ export class EstudiosComponent implements OnInit {
       estado:null,
       tipo:null,
       encuestasEsperadas:null,
-      solicitud:null,
       fk_usuario:null,
       fk_muestra_poblacion:null,
-      fk_solicitud: null,
+      solicitud: null,
       preguntas:[],
     });
+    this.poblacionForm=this.formBuilder.group({
+      /*{
+        "genero":"genero",
+        "nivelEconomico":int,
+        "nivelAcademico":String,
+        "rangoEdadInicio":int,
+        "rangoEdadFin":int,
+        "cantidadHijos":int,
+        "fk_lugar": int,
+        "fk_ocupacion":int
+      }*/
+      genero:null,
+      nivelEconomico:null,
+      nivelAcademico:null,
+      rangoEdadInicio:null,
+      rangoEdadFin:null,
+      cantidadHijos:null,
+      fk_lugar:null,
+      fk_ocupacion:null,
+    });
+    this.getOcupaciones();
+    this.getParroquias();
     this.setOperation('');
   }
+  addPoblacion(data){
+    this._poblacionService.createMuestraPoblacion(data).subscribe(
+      (response)=>{
 
+      },
+      (error) => {
+
+      }
+    );
+  }
+  getParroquias(){
+    this._parroquiaService.getParroquias().subscribe(
+      (response)=>{
+        this.parroquias = response.data;
+      },
+      (error) => {
+        this.parroquias =[this.testParroquia];
+      }
+    );
+  }
+  getOcupaciones(){
+    this.ocupaciones=[
+      {_id:1,nombre:'Ocupacion Test'},
+    ]
+  }
   getEstudios() {
     this._estudioService.getEstudios().subscribe(
       (response) => {
@@ -299,7 +363,16 @@ export class EstudiosComponent implements OnInit {
   doSearch() {
     this.searchState = 'I';
   }
-  stepCheck() {
+  stepCheck(ind,stepper) {
+    switch(ind){
+      case 0:
+        stepper.next();
+        break;
+      case 1:
+        break;
+      case 2:
+        break;
+    }
     console.log(this.addForm.value);
   }
 }

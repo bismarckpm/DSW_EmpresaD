@@ -26,7 +26,7 @@ export class DelPreguntaDialogComponent implements OnInit {
     private _preguntaService: PreguntaService
   ) {}
   @Input() _userSelection: number;
-  @Input() _pregunta: Pregunta;
+  @Input() _pregunta: any;
 
   ngOnInit(): void {
     this.opStatus = 'S';

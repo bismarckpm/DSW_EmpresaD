@@ -32,11 +32,11 @@ export class PreguntasComponent implements OnInit {
   searchForm: FormGroup;
   addForm: FormGroup;
   //LISTA DE USUARIOS DEVUELTOS EN BÚSQUEDA
-  preguntas: Pregunta[] = [];
-  dataSource: MatTableDataSource<Pregunta>;
-  minF: number = 0;
-  maxF: number = 0;
-  displayedColumns: string[] = ['id', 'desc', 'tipo', 'selector', 'ops'];
+  preguntas: any[] = [];
+  dataSource: MatTableDataSource<any>;
+  minF:number=0;
+  maxF:number=0;
+  displayedColumns: string[] = ['id', 'desc','tipo','selector', 'ops'];
   columnsToDisplay: string[] = this.displayedColumns.slice();
 
   optionList: OptionItem[] = [];
@@ -116,6 +116,7 @@ export class PreguntasComponent implements OnInit {
       nombre_pregunta: null,
       tipo: null,
       rango: null,
+      //RECORDAR CAMBIAR
       fk_usuario: 1,
       opciones: null,
     });
@@ -165,52 +166,65 @@ export class PreguntasComponent implements OnInit {
       },
       (error) => {
         console.log(error);
+        /*this.preguntas=[
+          {_id:1,tipo:'abierta',rango:null,opciones:null,pregunta:'ABIERTA',usuario:this.testUser},
+          {_id:2,tipo:'rango',rango:'1&100',opciones:null,pregunta:'RANGO',usuario:this.testUser},
+          {_id:3,tipo:'simple',rango:null,opciones:[
+            {nombre_opcion:'Nueva op1',_id:1},
+            {nombre_opcion:'Nueva op2',_id:2},
+          ],pregunta:'SIMPLE',usuario:this.testUser},
+          {_id:14,tipo:'multiple',rango:null,opciones:[
+            {nombre_opcion:'Nueva op1',_id:1},
+            {nombre_opcion:'Nueva op2',_id:2},
+          ],pregunta:'MULTIPLE',usuario:this.testUser},
+          {_id:17,tipo:'boolean',rango:null,opciones:null,pregunta:'V O F',usuario:this.testUser},
+        ];*/
         this.preguntas = [
           {
-            _id: 1,
-            tipo: 'abierta',
-            rango: null,
-            opciones: null,
-            pregunta: 'ABIERTA',
-            usuario: this.testUser,
+            "pregunta": {
+              "_id": 3,
+              "nombre": "Como fue su experiencia con el producto?",
+              "tipo": "abierta"
+            },
+            "usuario": {
+              "_id": 26,
+              "nombre": "Macon",
+              "apellido": "Mcleod",
+              "correo": "MM10@gmail.com",
+              "rol": "administrador"
+            }
           },
           {
-            _id: 2,
-            tipo: 'rango',
-            rango: '1&100',
-            opciones: null,
-            pregunta: 'RANGO',
-            usuario: this.testUser,
-          },
-          {
-            _id: 3,
-            tipo: 'simple',
-            rango: null,
-            opciones: [
-              { nombre_opcion: 'Nueva op1', _id: 1 },
-              { nombre_opcion: 'Nueva op2', _id: 2 },
-            ],
-            pregunta: 'SIMPLE',
-            usuario: this.testUser,
-          },
-          {
-            _id: 14,
-            tipo: 'multiple',
-            rango: null,
-            opciones: [
-              { nombre_opcion: 'Nueva op1', _id: 1 },
-              { nombre_opcion: 'Nueva op2', _id: 2 },
-            ],
-            pregunta: 'MULTIPLE',
-            usuario: this.testUser,
-          },
-          {
-            _id: 17,
-            tipo: 'boolean',
-            rango: null,
-            opciones: null,
-            pregunta: 'V O F',
-            usuario: this.testUser,
+            "pregunta": {
+              "_id": 4,
+              "nombre": "Como se entero del producto?",
+              "tipo": "simple",
+              "opciones": [
+                {
+                  "_id": 1,
+                  "nombre_nombre": "opcion 2: No la comprendo muy bien"
+                },
+                {
+                  "_id": 2,
+                  "nombre_nombre": "radio"
+                },
+                {
+                  "_id": 3,
+                  "nombre_nombre": "TV"
+                },
+                {
+                  "_id": 4,
+                  "nombre_nombre": "conocidos"
+                }
+              ]
+            },
+            "usuario": {
+              "_id": 27,
+              "nombre": "Warren",
+              "apellido": "Torres",
+              "correo": "WARREN@gmail.com",
+              "rol": "administrador"
+            }
           },
         ];
         this.dataSource = new MatTableDataSource<Pregunta>(
@@ -283,9 +297,9 @@ export class PreguntasComponent implements OnInit {
     this.searchState = 'P';
     this.getPreguntas();
   }
-  dataFilter(dataArray: Pregunta[]): Pregunta[] {
+  dataFilter(dataArray: any[]): any[] {
     console.log(this.searchForm.value);
-    let filtered: Pregunta[] = [];
+    let filtered: any[] = [];
     dataArray.forEach((res, ind) => {
       let inc = true;
       Object.entries(this.searchForm.value).forEach(([key, field], _ind) => {

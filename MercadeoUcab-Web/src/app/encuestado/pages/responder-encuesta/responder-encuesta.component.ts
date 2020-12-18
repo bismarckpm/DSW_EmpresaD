@@ -84,6 +84,7 @@ export class ResponderEncuestaComponent implements OnInit {
     rango_edad_fin: 50,
     cantidad_hijos: 0,
     parroquia: this.testParroquia,
+    Fk_ocupacion:{_id:1,nombre:'test ocupacion'}
   };
   sampleSolicitud: surveySolicitud = {
     _id: 1,
@@ -479,6 +480,7 @@ let testRes = {
       rango_edad_inicio: 10,
       rango_edad_fin: 50,
       cantidad_hijos: 2,
+      Fk_ocupacion:{_id:1,nombre:'test Ocupacion'},
       parroquia: {
         _id: 6,
         nombre: 'Eglise Notre Dame De Rumengol',

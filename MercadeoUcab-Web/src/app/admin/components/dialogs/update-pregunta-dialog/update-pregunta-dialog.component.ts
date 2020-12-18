@@ -27,7 +27,7 @@ export class UpdatePreguntaDialogComponent implements OnInit {
     private _preguntaService: PreguntaService
   ) {}
   @Input() _userSelection: number;
-  @Input() _pregunta: Pregunta;
+  @Input() _pregunta: any;
   minF:number=0;
   maxF:number=0;
   rangeConcat(limit,val){

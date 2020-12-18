@@ -73,9 +73,11 @@ export class UpdLugarDialogComponent implements OnInit {
       (response) => {
         console.log(response);
         //alert('Se modifico el pais correctamente');
+        this.opStatus="D";
       },
       (error) => {
         console.log(error);
+        this.opStatus="E";
       }
     );
   }
