@@ -33,7 +33,7 @@ export class DelLugarDialogComponent implements OnInit {
 
   @Input() _userSelection: number;
   @Input() _tipo: string;
-
+  @Input() _lugar: any;
   ngOnInit(): void {
     this.opStatus = 'S';
   }
@@ -42,9 +42,11 @@ export class DelLugarDialogComponent implements OnInit {
       (response) => {
         console.log(response);
         //alert('Se elimino el pais correctamente');
+        this.opStatus="D";
       },
       (error) => {
         console.log(error);
+        this.opStatus="E";
       }
     );
   }
@@ -54,9 +56,11 @@ export class DelLugarDialogComponent implements OnInit {
       (response) => {
         console.log(response);
         //alert('Se elimino el estado correctamente');
+        this.opStatus="D";
       },
       (error) => {
         console.log(error);
+        this.opStatus="E";
       }
     );
   }
@@ -65,9 +69,11 @@ export class DelLugarDialogComponent implements OnInit {
       (response) => {
         console.log(response);
         //alert('Se elimino la parroquia correctamente');
+        this.opStatus="D";
       },
       (error) => {
         console.log(error);
+        this.opStatus="E";
       }
     );
   }
@@ -76,9 +82,11 @@ export class DelLugarDialogComponent implements OnInit {
       (response) => {
         console.log(response);
         //alert('Se elimino el municipio correctamente');
+        this.opStatus="D";
       },
       (error) => {
         console.log(error);
+        this.opStatus="E";
       }
     );
   }

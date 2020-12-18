@@ -12,6 +12,7 @@ import { Presentacion } from '@models/presentacion';
 import { Solicitud } from '@models/solicitud';
 import { EstudioService } from '@core/services/estudio/estudio.service';
 import { SolicitudService } from '@core/services/solicitud/solicitud.service';
+import { Usuario } from '@core/models/usuario';
 
 @Component({
   selector: 'app-estudios',
@@ -88,7 +89,14 @@ export class EstudiosComponent implements OnInit {
     private _estudioService: EstudioService,
     private _solicitudService: SolicitudService
   ) {}
-
+  testUser: Usuario = {
+    _id:Math.floor(Math.random()*(1000-1)+1),
+    nombre:Math.random().toString(36).substr(2, 5),
+    apellido:Math.random().toString(36).substr(2, 5),
+    rol:'Administrador',
+    correo:Math.random().toString(36).substr(2, 5),
+    estado:'Activo',
+  }
   @ViewChild('updEstudio') private updComponent: UpdEstudioDialogComponent;
   async openUpdModal() {
     return await this.updComponent.open();
@@ -100,19 +108,39 @@ export class EstudiosComponent implements OnInit {
   ngOnInit(): void {
     this.opStatus = 'S';
     this.searchForm = this.formBuilder.group({});
+    this.getSolicitudes();
     //FORMUALRIO PARA SOLICITUD
+    /*
+  Las preguntas tienen que existir
+  {
+    "estado":String,
+    "tipo":String
+    "encuestasEsperadas":int,
+    "solicitud"int,
+    "fk_usuario":int,
+    "fk_muestra_poblacion":int,
+    "preguntas":[
+      {
+        "_id":int
+      },
+      .
+      .
+      .
+      {
+        "_id":int
+      }
+    ]
+  }
+  */
     this.addForm = this.formBuilder.group({
-      /*estado:'',
-      activo:1,
-      creado_el:'',
-      modificado_el:'',
-      fk_usuario:1,
-      fk_marca:0,
-      fk_subCategoria:0,
-      fk_presentacion:0,
-      fk_tipoSolicitud:0,
-      preguntas:[]*/
-      fk_solicitud: 0,
+      estado:null,
+      tipo:null,
+      encuestasEsperadas:null,
+      solicitud:null,
+      fk_usuario:null,
+      fk_muestra_poblacion:null,
+      fk_solicitud: null,
+      preguntas:[],
     });
     this.setOperation('');
   }
@@ -122,11 +150,13 @@ export class EstudiosComponent implements OnInit {
       (response) => {
         console.log(response);
         this.estudios = response.data;
+        this.dataSource = new MatTableDataSource<Estudio>(this.estudios);
         this.searchState="D";
       },
       (error) => {
         console.log(error);
         this.estudios = [];
+        this.dataSource = new MatTableDataSource<Estudio>(this.estudios);
         this.searchState="D";
       }
     );
@@ -178,6 +208,15 @@ export class EstudiosComponent implements OnInit {
       },
       (error) => {
         console.log(error);
+        this.solicitudes = [{
+         _id:13,
+         estado:'activo',
+         usuario: this.testUser,
+         marca: {_id:1,nombre:'TEST MARCA'},
+         tipos: [{_id:1,nombre:'test Tipo'}],
+         presentaciones: [{_id:1,tipo:'volumen',cantidad:'800ml'}],
+         subcategorias:[{_id:1,nombre:'test SubCategoria',categoria:{_id:1,nombre:'test Categoria'}}]
+        }];
       }
     );
   }
@@ -225,9 +264,8 @@ export class EstudiosComponent implements OnInit {
   invokeSearch() {
     this.estudios = [];
     this.userSelection = 0;
-    let toAdd: any = {};
-    //console.log('Search works');
-    //console.log(this.searchForm.value);
+    let toAdd: any = {...this.searchForm.value};
+    this.getEstudios();
     this.searchState = 'P';
     /*setTimeout(() => {
       this.dataSource = new MatTableDataSource<Estudio>(this.estudios);

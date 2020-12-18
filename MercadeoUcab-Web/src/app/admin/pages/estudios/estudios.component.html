@@ -52,12 +52,12 @@
                                 style="display: flex;flex-direction: row;margin-bottom: 5px;width: 95%; justify-content: space-between;height:calc(25% - 5px);">
                                     <div style="display: flex;flex-direction: row;">
                                         <mat-icon>assignment</mat-icon>
-                                        <h5>Solicitud #{{solicitud.id_solicitud}}</h5>
+                                        <h5>Solicitud #{{solicitud._id}}</h5>
                                     </div>
                                     <div>
                                         
                                     </div>
-                                    <mat-radio-button [value]="solicitud.id_solicitud"></mat-radio-button>
+                                    <mat-radio-button [value]="solicitud._id"></mat-radio-button>
                                 </div>
                             </mat-radio-group>
                             </div>
@@ -178,7 +178,6 @@
             <h4>Asistente de búsqueda</h4>
             <form [formGroup]="searchForm" (submit)="invokeSearch()" class="cForm">
                 <div class="cForm-field-row">
-                    
                     <div class="cForm-field-col">
                         <!--
                         <div class="form-group">

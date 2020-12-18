@@ -14,10 +14,19 @@
             <div class="cForm-field-row">
                 <div class="cForm-field-col">
                     <div class="form-group">
-                        <label for="locNewName">Nombre de locación</label>
+                        <label for="locNewName">
+                            <h5>
+                                Nombre de locación
+                            </h5>
+                        </label>
                         <input type="text" 
                         formControlName="nombre" class="form-control" id="locNewName"
                         aria-describedby="locNewNameHelp"/>
+                        <label>
+                            <h5>
+                            Nombre previo : {{_updData.nombre}}
+                            </h5>
+                        </label>
                     </div>
                 </div>
                 <div class="cForm-field-col">
