@@ -10,6 +10,7 @@ import { TipoService } from '@core/services/tipo/tipo.service';
 import { UpdateSolicitudDialogComponent } from '../../../cliente/components/dialogs/upd-solicitud-dialog/update-solicitud-dialog.component';
 import { DeleteUserDialogComponent } from '../../../admin/components/dialogs/delete-user-dialog/delete-user-dialog.component';
 import { Usuario } from '@models/usuario';
+import {UtilService} from '@core/services/utils/util.service';
 import { Marca } from '@models/marca';
 import { SubCategoria } from '@models/subcategoria';
 import { Presentacion } from '@models/presentacion';
@@ -27,6 +28,7 @@ export class SolicitudComponent implements OnInit {
     private formBuilder: FormBuilder,
     // tslint:disable-next-line:variable-name
     private _solicitudService: SolicitudService,
+    private _solicitudUtilService: UtilService,
     private marcaServices: MarcaService,
     private subcategoriaService: SubcategoriaService,
     private presentacionService: PresentacionService,
@@ -53,17 +55,18 @@ export class SolicitudComponent implements OnInit {
     });
   }
   // CONTROL DE ESTADO DEL COMPONENTE
-  public userLogged: number;
   op: string;
   searchState: string; // U.I,D
+  toSearch2: any = {};
   solicitudes: Solicitud[] = [];
+  solicitudes2: Solicitud[] = [];
   marcas: Marca[] = [];
   subcategorias: SubCategoria[] = [];
   presentaciones: Presentacion[] = [];
   tipos: Tipo[] = [];
 
   // COLUMNAS DE TABLA DE RESULTADOS
-  displayedColumns: string[] = ['id', 'selector', 'ops'];
+  displayedColumns: string[] = ['id', 'selector', 'estado' , 'Marca', 'presentacion', 'subcategoria' , 'tipos' ,'ops'];
   columnsToDisplay: string[] = this.displayedColumns.slice();
 
   // INDICE DE SOLICITUD SELECCIONADO
@@ -90,17 +93,6 @@ export class SolicitudComponent implements OnInit {
       }
     });
   };*/
-  getSolicitudes() {
-    this._solicitudService.getSolicitudes().subscribe(
-      (response) => {
-        console.log(response);
-        this.solicitudes = response.data;
-      },
-      (error) => {
-        console.log(error);
-      }
-    );
-  }
 
   getPresentacion() {
     this.presentacionService.getPresentaciones().subscribe(
@@ -152,9 +144,12 @@ export class SolicitudComponent implements OnInit {
 
   addSolicitud(data) {
     this._solicitudService.createSolicitud(data).subscribe(
-      (response) => {
-        //console.log(data.get('marcas'));
+      (response: any) => {
         console.log(response);
+        if (response.status === 200) {
+          // Se hace lo que se quiera en exito
+          alert(response.message);
+        }
       },
       (error) => {
         console.log(error);
@@ -189,42 +184,43 @@ export class SolicitudComponent implements OnInit {
   ngOnInit(): void {
     this.setOperation('');
     this.searchState = 'U';
-    this.getSolicitudes();
     this.getMarcas();
     this.getSubcategoria();
     this.getPresentacion();
     this.getTipos();
-    this.userLogged = Number(localStorage.getItem('_id'));
   }
   async openUpdModal() {
     return await this.updComponent.open();
   }
   serviceInvoke() {
     /*
-    "nombre": data.nombre,
-    "apellido": data.apellido,
-    "estado": data.estado,
-    "rol": data.rol,
-    "correo": data.correo
-    */
-    let toAdd: any = {};
-    let values = this.addForm.value;
+{
+    "estado":"solicitada",
+    "usuario":12,
+    "marca":1,
+    "tipo":1,
+    "subCategoria":1,
+    "presentacion":2
+}    */
+    // FALTA VALIDACION
+    // console.log(this.addForm.value);
+
+    const toAdd: any = {};
+    const values = this.addForm.value;
     toAdd.estado = values.estado;
     toAdd.usuario = 1;
+    toAdd.marca = values.marca;
     toAdd.tipo = values.tipo;
     toAdd.subCategoria = values.subCategoria;
     toAdd.presentacion = values.presentacion;
-    toAdd.marca = values.marca;
-    // FALTA VALIDACION
-    console.log(toAdd);
     this.addSolicitud(toAdd);
     this.opStatus = 'P';
-    //console.log(this.op);
-    //console.log(this.opStatus);
-    //console.log(this.addForm.get('marca').value);
-    //console.log(this.addForm.get('tipo').value);
-    //console.log(this.addForm.get('subCategoria').value);
-    //console.log(this.addForm.get('presentacion').value);
+    console.log(this.op);
+    console.log(this.opStatus);
+    console.log(this.addForm.get('marca').value);
+    console.log(this.addForm.get('tipo').value);
+    console.log(this.addForm.get('subCategoria').value);
+    console.log(this.addForm.get('presentacion').value);
     setTimeout(() => {
       this.addForm = this.formBuilder.group({
         marca: 1,
@@ -282,6 +278,25 @@ export class SolicitudComponent implements OnInit {
     //console.log(dataArray, filtered);
     return filtered;
   }
+
+  getSolicitudes(data) {
+    this._solicitudUtilService.getSolicitudesOfCliente(1).subscribe(
+      (response: any) => {
+        console.log(response);
+        this.solicitudes = response.data;
+        this.dataSource = new MatTableDataSource<Solicitud>(
+          this.dataFilter(this.solicitudes)
+      );
+        this.searchState = 'D';
+      },
+      (error) => {
+        console.log(error);
+      }
+    );
+  }
+
+
+
   invokeSearch() {
     this.solicitudes = [];
     this.solicitudSelection = 0;
@@ -297,30 +312,15 @@ export class SolicitudComponent implements OnInit {
     }
     // this.searchForm.get('');
     this.searchState = 'P';
-    setTimeout(() => {
-      for (let i = 0; i < Math.floor(Math.random() * (100 - 1) + 1); i++) {
-        /*this.solicitudes.push({
-          _id:Math.floor(Math.random()*(100-1)+1),
-          estado:"activo",
-          usuario:{
-            _id:Math.floor(Math.random()*(100-1)+1),
-            nombre:"A",
-            apellido:"B",
-            rol:"adminin",
-            correo:"a@g.com",
-            estado:"activo"
-          },
-          marca:{
-            _id:Math.floor(Math.random()*(100-1)+1),
-            nombre:"A"
-          }
-        });*/
-      }
-      this.dataSource = new MatTableDataSource<Solicitud>(
-        this.dataFilter(this.solicitudes)
-      );
-      this.searchState = 'D';
-    }, 3000);
+    const toSearch: any = {};
+    const values = this.searchForm.value;
+    toSearch.tipo = values.tipo;
+    toSearch._id=1,
+    toSearch.subCategoria = values.subCategoria;
+    toSearch.marca = values.marca;
+    toSearch.presentacion = values.presentacion;
+    this.getSolicitudes(toSearch);
+    // tslint:disable-next-line:only-arrow-functions
   }
   setOperation(chOp: string) {
     this.op = chOp;

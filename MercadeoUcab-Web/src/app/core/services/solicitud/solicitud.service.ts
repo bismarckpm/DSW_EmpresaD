@@ -39,7 +39,7 @@ export class SolicitudService {
   createSolicitud(data) {
     const headers = new HttpHeaders().set('Content-Type', 'application/json');
     return this._http.post(this.url + '/solicitudes/', JSON.stringify(data), {
-      headers: headers,
+      headers
     });
   }
 
