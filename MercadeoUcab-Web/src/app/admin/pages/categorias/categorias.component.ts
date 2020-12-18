@@ -63,9 +63,18 @@ export class CategoriasComponent implements OnInit {
       (response) => {
         console.log(response);
         this.categorias = response.data;
+        this.dataSource = new MatTableDataSource<Categoria>(
+          this.dataFilter(this.categorias)
+        );
+        this.searchState ="D";
       },
       (error) => {
         console.log(error);
+        this.categorias = [{_id:1,nombre:'test categoria'}];
+        this.dataSource = new MatTableDataSource<Categoria>(
+          this.dataFilter(this.categorias)
+        );
+        this.searchState ="D";
       }
     );
   }
@@ -115,30 +124,13 @@ export class CategoriasComponent implements OnInit {
     });
   }
   invokeSearch() {
-    this.searchState = 'P';
     this.categorias = [];
     this.userSelection = 0;
+    let toAdd: any = {};
+    toAdd.nombre = this.addForm.value.nombre;
+    this.searchState = 'P';
     this.getCategorias();
-    /*this._categoriaService.getCategorias().subscribe(
-      (response) => {
-        console.log(response);
-        this.categorias = response.data;
-        this.searchState = 'D';
-      },
-      (error) => {
-        console.log(error);
-        for (let i = 0; i < Math.floor(Math.random() * (100 - 1) + 1); i++) {
-          this.categorias.push({
-            _id: Math.floor(Math.random() * (1000 - 1) + 1),
-            nombre: Math.random().toString(36).substr(2, 5),
-          });
-        }
-        this.dataSource = new MatTableDataSource<Categoria>(
-          this.dataFilter(this.categorias)
-        );
-        this.searchState = 'D';
-      }
-    );*/
+
   }
   doSearch() {
     this.searchState = 'I';

@@ -55,12 +55,12 @@ export class UsuariosComponent implements OnInit {
     this.addForm = this.formBuilder.group({
       //CAMPOS REQUERIDOS PARA EL REGISTRO (SIN IMPORTAR LA DATA QUE ERCIBEN DEBEN SER INSTANCIADOS ACA)
       //(FORMCONTROLNAME)
-      //Falta agregar la contrasena
       nombre: null,
       apellido: null,
       rol: null,
       estado: 'Activo',
       correo: null,
+      password:null,
     });
 
     this.searchForm = this.formBuilder.group({
@@ -171,7 +171,14 @@ export class UsuariosComponent implements OnInit {
     this.opStatus = 'P';
     // En este caso los valores de los campos son iguales
     this.addUser(toAdd);
-
+    this.addForm = this.formBuilder.group({
+      nombre: null,
+      apellido: null,
+      rol: null,
+      estado: 'Activo',
+      correo: null,
+      password:null,
+    });
     /*setTimeout(() => {
       this.addForm = this.formBuilder.group({
         nombre: null,

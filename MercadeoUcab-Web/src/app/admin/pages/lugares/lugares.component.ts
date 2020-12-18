@@ -69,25 +69,31 @@ export class LugaresComponent implements OnInit {
   }
   //dataSource : MatTableDataSource<Lugar>;
   //CHEQUEO DE OPERACION
+   testPais: Pais = {
+    _id: 1,
+    nombre: 'Test pais',
+  };
+   testEstado: Estado = {
+    _id: 1,
+    nombre: 'Test estado',
+    pais: this.testPais,
+  };
+   testMunicipio: Municipio = {
+    _id: 1,
+    nombre: 'Test  municipio',
+    estado: this.testEstado,
+  };
+   testParroquia: Parroquia = {
+    _id: 1,
+    nombre: 'Test  parrroquia',
+    municipio:this.testMunicipio,
+    valorSocioEconomico: 8000,
+  };
   getAsociados() {
-    /*let testPais = {
-      _id: 1,
-      nombre: 'Test pais',
-    };
-    let testEstado = {
-      _id: 1,
-      nombre: 'Test estado',
-      pais: testPais,
-    };
-    let testMunicipio = {
-      _id: 1,
-      nombre: 'Test  municipio',
-      estado: testEstado,
-    };*/
     this.getPaises();
-    this.getEstados();
+    /*this.getEstados();
     this.getMunicipios();
-    this.getParroquias();
+    this.getParroquias();*/
   }
   checkForSearch(i: number) {
     if (this.searchLugar[i].do === 1) {
@@ -124,7 +130,7 @@ export class LugaresComponent implements OnInit {
     this.searchForm = this.formBuilder.group({
       nombre: '',
     });
-    this.getAsociados();
+    //this.getAsociados();
     this.addForm = this.formBuilder.group({
       nombre: null,
       pais: null,
@@ -138,9 +144,11 @@ export class LugaresComponent implements OnInit {
       (response) => {
         console.log(response);
         alert('Se agrego el pais correctamente');
+        this.opStatus = 'D';
       },
       (error) => {
         console.log(error);
+        this.opStatus = 'E';
       }
     );
   }
@@ -149,9 +157,15 @@ export class LugaresComponent implements OnInit {
       (response) => {
         console.log(response);
         this._paises = response.data;
+        this.getEstados();
       },
       (error) => {
         console.log(error);
+        this._paises = [this.testPais,{
+          "_id": 2,
+          "nombre": "Argentina"
+        },];
+        this.getEstados();
       }
     );
   }
@@ -161,9 +175,11 @@ export class LugaresComponent implements OnInit {
       (response) => {
         console.log(response);
         alert('Se agrego el estado correctamente');
+        this.opStatus = 'D';
       },
       (error) => {
         console.log(error);
+        this.opStatus = 'E';
       }
     );
   }
@@ -173,9 +189,12 @@ export class LugaresComponent implements OnInit {
       (response) => {
         console.log(response);
         this._estados = response.data;
+        this.getMunicipios();
       },
       (error) => {
         console.log(error);
+        this._estados=[this.testEstado];
+        this.getMunicipios();
       }
     );
   }
@@ -185,9 +204,12 @@ export class LugaresComponent implements OnInit {
       (response) => {
         console.log(response);
         this._municipios = response.data;
+        this.getParroquias();
       },
       (error) => {
         console.log(error);
+        this._municipios = [this.testMunicipio];
+        this.getParroquias();
       }
     );
   }
@@ -197,9 +219,14 @@ export class LugaresComponent implements OnInit {
       (response) => {
         console.log(response);
         this._parroquias = response.data;
+        this.setSearchResults();
+        this.searchState="D";
       },
       (error) => {
         console.log(error);
+        this._parroquias = [this.testParroquia];
+        this.setSearchResults();
+        this.searchState="D";
       }
     );
   }
@@ -209,9 +236,11 @@ export class LugaresComponent implements OnInit {
       (response) => {
         console.log(response);
         //alert('Se agrego la parroquia correctamente');
+        this.opStatus = 'D';
       },
       (error) => {
         console.log(error);
+        this.opStatus = 'E';
       }
     );
   }
@@ -221,48 +250,57 @@ export class LugaresComponent implements OnInit {
       (response) => {
         console.log(response);
         alert('Se agrego el municipio correctamente');
+        this.opStatus = 'D';
       },
       (error) => {
         console.log(error);
+        this.opStatus = 'E';
       }
     );
   }
 
-  filterData(byName: string) {}
+  dataFilter(dataArray){
+    //console.log(this.searchForm.value);
+    let filtered = [];
+    dataArray.forEach((res, ind) => {
+      let inc = true;
+      Object.entries(this.searchForm.value).forEach(([key, field], _ind) => {
+        if (inc === true && field !== null) {
+          if (
+            field instanceof Date &&
+            res[key] >= field &&
+            res[key] <= Date.now()
+          ) {
+            return;
+          } else if (typeof field === 'string' && res[key].startsWith(field)) {
+            return;
+          } else if (typeof field === 'boolean' && res[key] === field) {
+            return;
+          } else {
+            inc = false;
+          }
+        }
+      });
+      if (inc === true) {
+        filtered.push(res);
+      }
+    });
+    console.log(dataArray, filtered);
+    return filtered;
+  }
+  setSearchResults(){
+    this.searchResults = {
+      PA: this.searchLugar[0].do === 1 ? this.dataFilter(this._paises) : [],
+      ES: this.searchLugar[1].do === 1 ? this.dataFilter(this._estados) : [],
+      MU: this.searchLugar[2].do === 1 ? this.dataFilter(this._municipios) : [],
+      PR: this.searchLugar[3].do === 1 ? this.dataFilter(this._parroquias) : [],
+    };
+    console.log(this.searchResults);
+  }
   invokeSearch() {
-    let testPais = {
-      _id: 1,
-      nombre: 'Test pais',
-    };
-    let testEstado = {
-      _id: 1,
-      nombre: 'Test estado',
-      pais: testPais,
-    };
-    let testMunicipio = {
-      _id: 1,
-      nombre: 'Test  municipio',
-      estado: testEstado,
-    };
-    let testParroquia = {
-      _id: 1,
-      nombre: 'Test  parrroquia',
-      municipio: testMunicipio,
-      valor_socio_economico: 8000,
-    };
-
     //console.log(this.searchLugar, this.searchForm.value);
     this.searchState = 'P';
-    this.searchResults = {
-      PA: this.searchLugar[0].do === 1 ? [this._paises] : [],
-      ES: this.searchLugar[1].do === 1 ? [this._estados] : [],
-      MU: this.searchLugar[2].do === 1 ? [this._municipios] : [],
-      PR: this.searchLugar[3].do === 1 ? [this._parroquias] : [],
-    };
-    setTimeout(() => {
-      this.searchState = 'D';
-      //console.log(this.searchResults);
-    }, 3000);
+    this.getAsociados();
   }
   selectUser(id: number) {
     if (id === this.userSelection) {
@@ -321,6 +359,6 @@ export class LugaresComponent implements OnInit {
       default:
         break;
     }
-    this.getAsociados();
+    //this.getAsociados();
   }
 }

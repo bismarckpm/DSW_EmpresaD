@@ -7,12 +7,15 @@
         <!--INFORMATIVO-->
         <div class="cForm"  *ngIf="opStatus==='S'">
             <div class="cForm-field-row">
+                <h5>{{_presentacion.tipo}} : {{_presentacion.cantidad}}</h5>
+                <!--
                 <div class="cForm-field-col">
         
                 </div>
                 <div class="cForm-field-col">
         
                 </div>
+                -->
             </div>
             <div class="cForm-actions">
                 <button type="button" class="btn btn-danger" (click)="close()">Cancelar</button>

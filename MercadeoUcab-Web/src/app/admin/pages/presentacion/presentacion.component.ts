@@ -78,7 +78,7 @@ export class PresentacionComponent implements OnInit {
       },
       (error) => {
         console.log(error);
-        this.presentaciones = [{ _id: 1, cantidad: '1x2', tipo: 'pres test' }];
+        this.presentaciones = [{ _id: 1, cantidad: '1x2', tipo: 'vestimenta' }];
         this.dataSource = new MatTableDataSource<Presentacion>(
           this.dataFilter(this.presentaciones)
         );
@@ -160,10 +160,10 @@ export class PresentacionComponent implements OnInit {
     //Campos que se deben enviar
     //toAdd.cantidad
     //toAdd.tipo
-    let toAdd: any = {};
+    let toAdd: any = {...this.addForm.value};
     this.opStatus = 'P';
-    toAdd.cantidad = this.addForm.value.cantidad;
-    toAdd.tipo = this.addForm.value.tipo;
+    /*toAdd.cantidad = this.addForm.value.cantidad;
+    toAdd.tipo = this.addForm.value.tipo;*/
     this.addPresentacion(toAdd);
     this.addForm = this.formBuilder.group({
       cantidad: null,
@@ -185,7 +185,6 @@ export class PresentacionComponent implements OnInit {
     }*/
     this.searchState = 'P';
     this.getPresentaciones();
-
     /*setTimeout(() => {
       //DATA SOURCE EDIT
       this.dataSource = new MatTableDataSource<Presentacion>(

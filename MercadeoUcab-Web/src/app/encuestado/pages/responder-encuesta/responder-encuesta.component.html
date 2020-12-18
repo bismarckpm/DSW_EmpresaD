@@ -1,6 +1,7 @@
 <div class="container menu-container">
   <mat-card
     style="height: 90%; width: 50%; display: flex; flex-direction: column"
+    *ngIf="opStatus==='S'"
   >
     <div style="text-align: center">
       <h5>Estudio #{{ _Id }}</h5>
@@ -197,4 +198,55 @@
       </ng-container>
     </div>
   </mat-card>
+<mat-card style="height: 90%; width: 50%; display: flex; flex-direction: column" *ngIf="opStatus==='P'">
+  <div class="cForm">
+    <div class="cForm-field-row">
+      <div class="cForm-field-col">
+        <div class="text-center">
+          <h3>Procesando operación</h3>
+        </div>
+        <div class="text-center" style="flex: 1;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;">
+          <div class="spinner-border" style="width: 7.5rem; height: 7.5rem;" role="status">
+            <span class="sr-only">Loading...</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</mat-card>
+<mat-card style="height: 90%; width: 50%; display: flex; flex-direction: column" *ngIf="opStatus==='D'">
+  <div class="cForm">
+    <div class="cForm-field-row">
+      <div class="cForm-field-col" style="justify-content:center;align-items: center;">
+        <h3>Operación exitosa</h3>
+        <mat-icon style="width: 7.5rem; height: 7.5rem;font-size:7.5rem;">
+          fact_check
+        </mat-icon>
+      </div>
+    </div>
+    <div class="cForm-actions">
+      <button type="button" class="btn btn-outline-dark" (click)="onDir('encuestado/pending')">Volver a encuestas</button>
+    </div>
+  </div>
+</mat-card>
+<mat-card style="height: 90%; width: 50%; display: flex; flex-direction: column" *ngIf="opStatus==='E'">
+  <div class="cForm">
+    <div class="cForm-field-row">
+      <div class="cForm-field-col" style="justify-content:center;align-items: center;">
+        <h3>Ha ocurrido un error</h3>
+        <mat-icon style="width: 7.5rem; height: 7.5rem;font-size:7.5rem;">
+          report_problem
+        </mat-icon>
+        <h5>Su operación no pudo ser procesada</h5>
+      </div>
+    </div>
+    <div class="cForm-actions">
+      <button type="button" class="btn btn-outline-dark" (click)="onDir('encuestado/pending')">Volver a encuestas</button>
+    </div>
+  </div>
+</mat-card>
 </div>

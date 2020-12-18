@@ -18,7 +18,7 @@ import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 export class DelPreguntaDialogComponent implements OnInit {
   opStatus: string; //S,P,D
 
-  @ViewChild('updLugar')
+  @ViewChild('delPregunta')
   private modalContent: TemplateRef<DelPreguntaDialogComponent>;
   private modalRef: NgbModalRef;
   constructor(
@@ -44,17 +44,17 @@ export class DelPreguntaDialogComponent implements OnInit {
     this._preguntaService.deletePregunta(id, data).subscribe(
       (response) => {
         console.log(response);
+        this.opStatus = 'D';
       },
       (error) => {
         console.log(error);
+        this.opStatus = 'E';
       }
     );
   }
 
   invokeService() {
     this.opStatus = 'P';
-    setTimeout(() => {
-      this.opStatus = 'D';
-    }, 3000);
+    this.deletePregunta(this._pregunta._id,this._pregunta);
   }
 }

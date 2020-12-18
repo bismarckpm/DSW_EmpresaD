@@ -36,6 +36,7 @@ export class ResponderEncuestaComponent implements OnInit {
   _estudio: surveyEstudio = null;
   _respuestas: RespuestaModel[] = [];
   _sampleOption: Opcion = { _id: 0, nombre_opcion: '' };
+  opStatus: string;
   toAdd: toBackendAnswer[] = [];
   searchState: string = '';
   surveyReady: boolean = false;
@@ -260,6 +261,7 @@ export class ResponderEncuestaComponent implements OnInit {
     this.userLogged = 1;
     this._Id = parseInt(this.route.snapshot.paramMap.get('id'), 10);
     this.searchState = '';
+    this.opStatus="S";
     this.getData(this._Id);
     //this.getData(4);
   }
@@ -350,12 +352,15 @@ export class ResponderEncuestaComponent implements OnInit {
   }*/
 
   saveSurvey(data) {
+    this.opStatus="P";
     this._respuestaService.saveSurvey(data).subscribe(
       (response: any) => {
         console.log(response);
+        this.opStatus="D";
       },
       (error) => {
         console.log(error);
+        this.opStatus="E";
       }
     );
   }

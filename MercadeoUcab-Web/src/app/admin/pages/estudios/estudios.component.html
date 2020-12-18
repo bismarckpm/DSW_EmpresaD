@@ -41,7 +41,7 @@
     <div *ngIf="op==='add'" style="height: 90%;width: 90%;">
         
         <mat-card style="height: 100%;width: 100%;text-align: center;display: flex;flex-direction: column;">
-            <mat-horizontal-stepper [linear]="true" id="estudio-stepper">
+            <mat-horizontal-stepper [linear]="true" id="estudio-stepper" *ngIf="opStatus==='S'">
                 <mat-step state='solicitud' style="background-color: aqua;">
                     <div class="step-container">
                         <form class="cForm" [formGroup]="addForm" (submit)="stepCheck()" style="height: 100%; justify-content: space-around;">
@@ -52,12 +52,12 @@
                                 style="display: flex;flex-direction: row;margin-bottom: 5px;width: 95%; justify-content: space-between;height:calc(25% - 5px);">
                                     <div style="display: flex;flex-direction: row;">
                                         <mat-icon>assignment</mat-icon>
-                                        <h5>Solicitud #{{solicitud.id_solicitud}}</h5>
+                                        <h5>Solicitud #{{solicitud._id}}</h5>
                                     </div>
                                     <div>
                                         
                                     </div>
-                                    <mat-radio-button [value]="solicitud.id_solicitud"></mat-radio-button>
+                                    <mat-radio-button [value]="solicitud._id"></mat-radio-button>
                                 </div>
                             </mat-radio-group>
                             </div>
@@ -128,15 +128,58 @@
                   </ng-template>
 
             </mat-horizontal-stepper>
+            <div class="cForm" *ngIf="opStatus==='P'">
+                <div class="cForm-field-row">
+                    <div class="cForm-field-col">
+                        <h3>Procesando operación</h3>
+                        <div class="text-center" style="flex: 1;
+                                display: flex;
+                                flex-direction: column;
+                                align-items: center;
+                                justify-content: center;">
+                            <div class="spinner-border" style="width: 7.5rem; height: 7.5rem;" role="status">
+                                <span class="sr-only">Loading...</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="cForm" *ngIf="opStatus==='D'">
+                <div class="cForm-field-row">
+                    <div class="cForm-field-col" style="justify-content:center;align-items: center;">
+                        <h3>Operación exitosa</h3>
+                        <mat-icon style="width: 7.5rem; height: 7.5rem;font-size:7.5rem;">
+                            fact_check
+                        </mat-icon>
+                    </div>
+                </div>
+                <div class="cForm-actions">
+                    <button type="button" class="btn btn-outline-dark" (click)="setOperation('')">Volver a menú</button>
+                </div>
+            </div>
+            <div class="cForm" *ngIf="opStatus==='E'">
+                <div class="cForm-field-row">
+                    <div class="cForm-field-col" style="justify-content:center;align-items: center;">
+                        <h3>Ha ocurrido un error</h3>
+                        <mat-icon style="width: 7.5rem; height: 7.5rem;font-size:7.5rem;">
+                            report_problem
+                        </mat-icon>
+                        <h5>Su operación no pudo ser procesada</h5>
+                    </div>
+                </div>
+                <div class="cForm-actions">
+                    <button type="button" class="btn btn-outline-dark" (click)="setOperation('')">Continuar</button>
+                </div>
+            </div>
         </mat-card>
     </div>
     <div *ngIf="op!=='add' && searchState==='I'" style="height: 75%;width: 75%;">
         <mat-card style="height: 100%;width: 100%;text-align: center;display: flex;flex-direction: column;">
             <h4>Asistente de búsqueda</h4>
-            <form [formGroup]="searchForm" (submit)="invokeSearch()" style="flex:1">
-                <div style="width: 100%;height: 80%; display: flex; flex-direction: row;justify-content: space-around;">
-                    
-                    <div style="width: 45%;height: 100%;">
+            <form [formGroup]="searchForm" (submit)="invokeSearch()" class="cForm">
+                <div class="cForm-field-row">
+                    <div class="cForm-field-col">
+                        <!--
                         <div class="form-group">
                             <label for="userNewName">Nombre de usuario</label>
                             <input type="text" formControlName="nombre" class="form-control" id="userNewName" aria-describedby="newNameHelp">
@@ -149,8 +192,10 @@
                             <label for="reg-date">Fecha de registro</label>
                             <input type="date" class="form-control" formControlName="creado_el" id="reg-date"/>
                         </div>
+                        -->
                     </div>
-                    <div style="width: 45%;height: 100%;"   >
+                    <div class="cForm-field-col">
+                        <!--
                         <div class="form-group">
                             <label for="rolSelect">Rol de usuario</label>
                             <select class="form-control" id="rolSelect" formControlName="rol">
@@ -166,6 +211,7 @@
                                 <option>Inactivo</option>
                             </select>
                         </div>
+                        -->
                     </div>
                 </div>
                 <div class="cForm-actions">
@@ -188,7 +234,7 @@
                     <ng-container matColumnDef="selector">
                         <th mat-header-cell *matHeaderCellDef>Selección</th>
                         <td mat-cell *matCellDef="let element">
-                            <mat-checkbox [checked]="isSelected(element.id_estudio)" (change)="selectUser(element.id_estudio)">
+                            <mat-checkbox [checked]="isSelected(element.id_estudio)" (change)="selectUser(element.id_estudio,element)">
                             </mat-checkbox>
                         </td>
                     </ng-container>

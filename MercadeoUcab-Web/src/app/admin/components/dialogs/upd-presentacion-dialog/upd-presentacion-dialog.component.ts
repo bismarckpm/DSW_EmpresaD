@@ -77,8 +77,5 @@ export class UpdPresentacionDialogComponent implements OnInit {
     })
     this.opStatus = 'P';
     this.updatePresentacion(toUpdate.id, toUpdate);
-    /*setTimeout(() => {
-      this.opStatus = 'D';
-    }, 3000);*/
   }
 }

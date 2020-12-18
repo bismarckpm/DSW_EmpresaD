@@ -257,7 +257,7 @@
           </div>
         </div>
         <div class="cForm-actions">
-          <button
+          <button 
             type="button"
             class="btn btn-outline-dark"
             (click)="setOperation('')"
@@ -305,8 +305,8 @@
       "
     >
       <h4>Asistente de búsqueda</h4>
-      <form (submit)="invokeSearch()" [formGroup]="searchForm" style="flex: 1">
-        <div class="cForm-field-row">
+      <form (submit)="invokeSearch()" [formGroup]="searchForm" class="cForm" style="flex: 1;">
+        <div class="cForm-field-row" style="flex: 1;">
           <div class="cForm-field-col">
             <h4>Buscar en :</h4>
             <div
@@ -397,13 +397,14 @@
               <h3 *ngSwitchCase="'PR'">Parroquias</h3>
             </ng-container>
             <!--HEADER SPACE-->
+            <!--<div *ngFor="let innerResult of result" class="base-row"></div>-->
             <div *ngFor="let result of res.value" class="base-row">
-              <div>
-                <h4>
+              <div style="flex:1;flex-direction: row; justify-content: center; align-items: center;">
+                <h4 style="text-align: center;">
                   {{ result.nombre }}
                 </h4>
               </div>
-              <div>
+              <div style="flex:1;flex-direction: row; justify-content: center; align-items: center;">
                 <!--OP SPACE -->
                 <button
                   style="background-color: #00d8b4; color: white"
@@ -437,7 +438,9 @@
                 >
                   <mat-icon>delete_forever</mat-icon>
                 </button>
+              
               </div>
+              
             </div>
           </mat-card>
         </div>
@@ -503,4 +506,5 @@
 <app-del-lugar-dialog
   #delLugar
   [_userSelection]="userSelection"
+  [_lugar]="targetData"
 ></app-del-lugar-dialog>

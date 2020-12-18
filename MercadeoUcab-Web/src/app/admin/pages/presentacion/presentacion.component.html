@@ -49,6 +49,7 @@
         <h4 style="height: fit-content; width: 100%">Nueva Presentación</h4>
         <div class="cForm-field-row" style="flex: 1">
           <div class="cForm-field-col">
+            <!--
             <div class="form-group">
               <label for="categoriaNewName">Tipo de Presentación</label>
               <input
@@ -59,18 +60,18 @@
                 aria-describedby="newNameCategoriaHelp"
               />
             </div>
-            <!--<div class="form-group">
-              <label for="categoriaNewName">Tipo de presentacion</label>
+            -->
+            <div class="form-group">
+              <label for="tipoPres">Tipo de presentacion</label>
               <select
                 class="form-control"
-                id="categoriaNewName"
-                formControlName="tipo"
-              >
-                <option [ngValue]="vestimenta">Vestimenta</option>
-                <option [ngValue]="peso">Peso</option>
-                <option [ngValue]="volumen">Volumen</option>
+                id="tipoPres"
+                formControlName="tipo">
+                <option [ngValue]="'vestimenta'">Vestimenta</option>
+                <option [ngValue]="'peso'">Peso</option>
+                <option [ngValue]="'volumen'">Volumen</option>
               </select>
-            </div>-->
+            </div>
           </div>
           <div class="cForm-field-col">
             <div class="form-group">
@@ -95,7 +96,7 @@
           </button>
           <mat-divider [vertical]="true" [inset]="true"></mat-divider>
           <button type="submit" class="btn btn-primary" style="color: white">
-            Buscar
+            Registrar
           </button>
         </div>
       </form>
@@ -190,14 +191,16 @@
         <div class="cForm-field-row">
           <div class="cForm-field-col">
             <div class="form-group">
-              <label for="tipoName">Tipo de Presentación</label>
-              <input
-                type="text"
-                formControlName="tipo"
+              <label for="tipoPres">Tipo de presentacion</label>
+              <select
                 class="form-control"
-                id="tipoName"
-                aria-describedby="newNameCategoriaHelp"
-              />
+                id="tipoPres"
+                formControlName="tipo">
+                <option [ngValue]="null">Sin seleccionar...</option>
+                <option [ngValue]="'vestimenta'">Vestimenta</option>
+                <option [ngValue]="'peso'">Peso</option>
+                <option [ngValue]="'volumen'">Volumen</option>
+              </select>
             </div>
           </div>
           <div class="cForm-field-col">

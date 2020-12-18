@@ -9,14 +9,20 @@
             <div class="cForm-field-row">
                 <div class="cForm-field-col">
                     <div class="form-group">
-                        <label for="tipoNewName">Tipo de Presentación</label>
-                        <input type="text" formControlName="tipo" class="form-control" id="tipoNewName" aria-describedby="newNameCategoriaHelp">
+                        <label for="tipoPres">Tipo de presentacion</label>
+                        <select class="form-control" id="tipoPres" formControlName="tipo">
+                            <option [ngValue]="null">Sin seleccionar...</option>
+                            <option [ngValue]="'vestimenta'">Vestimenta</option>
+                            <option [ngValue]="'peso'">Peso</option>
+                            <option [ngValue]="'volumen'">Volumen</option>
+                        </select>
                     </div>
                 </div>
                 <div class="cForm-field-col">
                     <div class="form-group">
                         <label for="tipoNewQT">Cantidad de Presentación</label>
-                        <input type="text" formControlName="cantidad" class="form-control" id="tipoNewQT" aria-describedby="newNameCategoriaHelp">
+                        <input type="text" formControlName="cantidad" class="form-control" id="tipoNewQT"
+                            aria-describedby="newNameCategoriaHelp">
                     </div>
                 </div>
             </div>

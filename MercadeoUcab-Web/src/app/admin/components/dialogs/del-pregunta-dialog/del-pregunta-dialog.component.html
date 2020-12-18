@@ -1,18 +1,19 @@
-<ng-template  #updPregunta>
+<ng-template  #delPregunta>
     <!---->
     <div class="modal-header">
-        <h4 class="modal-title" id="modal-basic-title">Eliminar pregunta #{{_userSelection}}</h4>
+        <h4 class="modal-title" id="modal-basic-title">Eliminar pregunta #{{_pregunta._id}}</h4>
     </div>
     <div class="modal-body">
         <!--INFORMATIVO-->
         <div class="cForm"  *ngIf="opStatus==='S'">
             <div class="cForm-field-row">
-                <div class="cForm-field-col">
-        
+                <!--<div class="cForm-field-col">
+                    
                 </div>
                 <div class="cForm-field-col">
         
-                </div>
+                </div>-->
+                <h4>Nombre: {{_pregunta.pregunta}}</h4>
             </div>
             <div class="cForm-actions">
                 <button type="button" class="btn btn-danger" (click)="close()">Cancelar</button>
