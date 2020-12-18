@@ -1,218 +1,375 @@
 <div class="container menu-container">
-    <div *ngIf="op===''" class="container" style="height: 100%;width: 100%;">
-        <div class="row" style="height: 50%;">
-            <div class="col-8">
-                <mat-card class="menu-card" (click)="setOperation('add')">
-                    <mat-icon class="menu-card-icon">
-                        add_box
-                    </mat-icon>
-                    <h3>Registrar presentación</h3>
-                </mat-card>
-            </div>
-            <div class="col">
-                <mat-card class="menu-card" (click)="setOperation('del')">
-                    <mat-icon class="menu-card-icon">
-                        delete_outline
-                    </mat-icon>
-                    <h3>Eliminar presentación</h3>
-                </mat-card>
-            </div>
-        </div>
-        <div class="row" style="height: 50%;">
-            <div class="col">
-                <mat-card class="menu-card" (click)="setOperation('upd')">
-                    <mat-icon class="menu-card-icon">
-                        update
-                    </mat-icon>
-                    <h3>Modificar presentación</h3>
-                </mat-card>
-            </div>
-            <div class="col">
-                <mat-card class="menu-card" (click)="setOperation('list')">
-                    <mat-icon class="menu-card-icon">
-                        zoom_in
-                    </mat-icon>
-                    <h3>Consultar presentaciones</h3>
-                </mat-card>
-            </div>
-        </div>
-    </div>
-    <div *ngIf="op==='add'" style="height: 75%;width: 75%;">
-        <mat-card style="height: 100%;width: 100%;text-align: center;display: flex;flex-direction: column;">
-            <form class="cForm" [formGroup]="addForm" *ngIf="opStatus==='S'" (ngSubmit)="invokeService()" novalidate>
-                <h4 style="height: fit-content;width: 100%;">Nueva Presentación</h4>
-                <div class="cForm-field-row" style="flex: 1;">
-                    <div class="cForm-field-col">
-                        <div class="form-group">
-                            <label for="categoriaNewName">Tipo de Presentación</label>
-                            <input type="text" formControlName="tipo" class="form-control" id="categoriaNewName" aria-describedby="newNameCategoriaHelp">
-                        </div>
-                    </div>
-                    <div class="cForm-field-col">
-                        <div class="form-group">
-                            <label for="categoriaNewQT">Cantidad de Presentación</label>
-                            <input type="text" formControlName="cantidad" class="form-control" id="categoriaNewName" aria-describedby="newNameCategoriaHelp">
-                        </div>
-                    </div>
-                </div>
-                <div class="cForm-actions">
-                    <button type="button" class="btn btn-outline-dark" (click)="setOperation('')">Cancelar</button>
-                    <mat-divider [vertical]="true" [inset]="true"></mat-divider>
-                    <button type="submit" class="btn btn-primary" style="color: white;">Buscar</button>
-                </div>
-            </form>
-            <div class="cForm" *ngIf="opStatus==='P'">
-                <div class="cForm-field-row">
-                    <div class="cForm-field-col">
-                        <h3>Procesando operación</h3>
-                        <div class="text-center" style="flex: 1;
-                        display: flex;
-                        flex-direction: column;
-                        align-items: center;
-                        justify-content: center;">
-                            <div class="spinner-border" style="width: 7.5rem; height: 7.5rem;" role="status">
-                                <span class="sr-only">Loading...</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="cForm" *ngIf="opStatus==='D'">
-                <div class="cForm-field-row">
-                    <div class="cForm-field-col" style="justify-content:center;align-items: center;">
-                        <h3>Operación exitosa</h3>
-                        <mat-icon style="width: 7.5rem; height: 7.5rem;font-size:7.5rem;">
-                            fact_check
-                        </mat-icon>
-                    </div>
-                </div>
-                <div class="cForm-actions">
-                    <button type="button" class="btn btn-outline-dark" (click)="setOperation('')">Volver a menú</button>
-                </div>
-    
-            </div>
-            <div class="cForm" *ngIf="opStatus==='E'">
-                <div class="cForm-field-row">
-                    <div class="cForm-field-col" style="justify-content:center;align-items: center;">
-                        <h3>Ha ocurrido un error</h3>
-                        <mat-icon style="width: 7.5rem; height: 7.5rem;font-size:7.5rem;">
-                            report_problem
-                        </mat-icon>
-                        <h5>Su operación no pudo ser procesada</h5>
-                    </div>
-                </div>
-                <div class="cForm-actions">
-                    <button type="button" class="btn btn-outline-dark" (click)="setOperation('')">Continuar</button>
-                </div>
-            </div>
+  <div *ngIf="op === ''" class="container" style="height: 100%; width: 100%">
+    <div class="row" style="height: 50%">
+      <div class="col-8">
+        <mat-card class="menu-card" (click)="setOperation('add')">
+          <mat-icon class="menu-card-icon"> add_box </mat-icon>
+          <h3>Registrar presentación</h3>
         </mat-card>
+      </div>
+      <div class="col">
+        <mat-card class="menu-card" (click)="setOperation('del')">
+          <mat-icon class="menu-card-icon"> delete_outline </mat-icon>
+          <h3>Eliminar presentación</h3>
+        </mat-card>
+      </div>
     </div>
-    <!--COMPONENTE DE BÚSQUEDA-->
-    <div *ngIf="op!=='add' && searchState==='I'" style="height: 75%;width: 75%;">
-        <mat-card style="height: 100%;width: 100%;text-align: center;display: flex;flex-direction: column;">
-            <h4>Asistente de búsqueda</h4>
-            <form (submit)="invokeSearch()" [formGroup]="searchForm" class="cForm">
-                <div class="cForm-field-row">
-                    <div class="cForm-field-col">
-                        <div class="form-group">
-                            <label for="tipoName">Tipo de Presentación</label>
-                            <input type="text" formControlName="tipo" class="form-control" id="tipoName" aria-describedby="newNameCategoriaHelp">
-                        </div>
-                    </div>
-                    <div class="cForm-field-col">
-                        <div class="form-group">
-                            <label for="tipoQT">Cantidad de Presentación</label>
-                            <input type="text" formControlName="cantidad" class="form-control" id="tipoQT" aria-describedby="newNameCategoriaHelp">
-                        </div>
-                    </div>
-                </div>
-                <div class="cForm-actions">
-                    <button type="button" class="btn btn-outline-dark" (click)="setOperation('')">Cancelar</button>
-                    <mat-divider [vertical]="true" [inset]="true"></mat-divider>
-                    <button type="submit" class="btn btn-primary" style="color: white;">Buscar</button>
-                </div>
-                </form>
-            </mat-card>
+    <div class="row" style="height: 50%">
+      <div class="col">
+        <mat-card class="menu-card" (click)="setOperation('upd')">
+          <mat-icon class="menu-card-icon"> update </mat-icon>
+          <h3>Modificar presentación</h3>
+        </mat-card>
+      </div>
+      <div class="col">
+        <mat-card class="menu-card" (click)="setOperation('list')">
+          <mat-icon class="menu-card-icon"> zoom_in </mat-icon>
+          <h3>Consultar presentaciones</h3>
+        </mat-card>
+      </div>
     </div>
-    <!--COMPONENTE DE MUESTRA DE RESULTADOS-->
-    <div *ngIf="searchState!=='U' && searchState!=='I'"
-        style="width: 100%;height:100%; display: flex; flex-direction: column; justify-content: space-around; align-items: center;">
-        <app-data-table>
-            <!--TABLA DE DATOS-->
-            
-            <table mat-table [dataSource]="dataSource" class="mat-elevation-z8" style="flex:1; overflow-y: auto;" *ngIf="searchState==='D'">
-                <ng-container matColumnDef="id">
-                    <th mat-header-cell *matHeaderCellDef>Id</th>
-                    <td mat-cell *matCellDef="let element"> {{element._id}} </td>
-                </ng-container>
-                <ng-container matColumnDef="desc">
-                    <th mat-header-cell *matHeaderCellDef>Descripción</th>
-                    <td mat-cell *matCellDef="let element">
-                        {{element.tipo}} : {{element.cantidad}}
-                    </td>
-                </ng-container>
-                <ng-container matColumnDef="selector">
-                    <th mat-header-cell *matHeaderCellDef>Selección</th>
-                    <td mat-cell *matCellDef="let element">
-                        <mat-checkbox [checked]="isSelected(element._id)" (change)="selectUser(element._id,element)">
-                        </mat-checkbox>
-                    </td>
-                </ng-container>
-                <ng-container matColumnDef="ops">
-                    <th mat-header-cell *matHeaderCellDef>Operación</th>
-                    <td mat-cell *matCellDef="let element">
-                        <div *ngIf="isSelected(element._id)">
-                            <button style="background-color: #00d8b4; color:white" mat-mini-fab
-                                aria-label="Example icon button with a filter list icon" class="shadow-sm"
-                                >
-                                <mat-icon>info</mat-icon>
-                            </button>
-                            <button *ngIf="op==='upd'" style="background-color: #00d8b4; color:white; margin:0px 5px"
-                                mat-mini-fab aria-label="Example icon button with a filter list icon"
-                                (click)="openUpdModal()"
-                                class="shadow-sm">
-                                <mat-icon>autorenew</mat-icon>
-                            </button>
-                            <button *ngIf="op==='del'" style="background-color: #00d8b4; color:white" mat-mini-fab
-                                aria-label="Example icon button with a filter list icon" 
-                                (click)="openDelModal()"
-                                class="shadow-sm">
-                                <mat-icon>delete_forever</mat-icon>
-                            </button>
-                        </div>
-                    </td>
-                </ng-container>
-                <!--DEMÁS COLUMNAS REQUERIDAS-->
-                <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-                <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
-            </table>
-            <div class="cForm-field-col" style="justify-content:center;align-items: center; align-self: center;" *ngIf="searchState==='P'">
-                <div class="text-center">
-                    <h3>Procesando búsqueda</h3>
-                </div>
-                <div class="text-center" style="flex: 1;
+  </div>
+  <div *ngIf="op === 'add'" style="height: 75%; width: 75%">
+    <mat-card
+      style="
+        height: 100%;
+        width: 100%;
+        text-align: center;
+        display: flex;
+        flex-direction: column;
+      "
+    >
+      <form
+        class="cForm"
+        [formGroup]="addForm"
+        *ngIf="opStatus === 'S'"
+        (ngSubmit)="invokeService()"
+        novalidate
+      >
+        <h4 style="height: fit-content; width: 100%">Nueva Presentación</h4>
+        <div class="cForm-field-row" style="flex: 1">
+          <div class="cForm-field-col">
+            <div class="form-group">
+              <label for="categoriaNewName">Tipo de Presentación</label>
+              <input
+                type="text"
+                formControlName="tipo"
+                class="form-control"
+                id="categoriaNewName"
+                aria-describedby="newNameCategoriaHelp"
+              />
+            </div>
+            <!--<div class="form-group">
+              <label for="categoriaNewName">Tipo de presentacion</label>
+              <select
+                class="form-control"
+                id="categoriaNewName"
+                formControlName="tipo"
+              >
+                <option [ngValue]="vestimenta">Vestimenta</option>
+                <option [ngValue]="peso">Peso</option>
+                <option [ngValue]="volumen">Volumen</option>
+              </select>
+            </div>-->
+          </div>
+          <div class="cForm-field-col">
+            <div class="form-group">
+              <label for="categoriaNewQT">Cantidad de Presentación</label>
+              <input
+                type="text"
+                formControlName="cantidad"
+                class="form-control"
+                id="categoriaNewName"
+                aria-describedby="newNameCategoriaHelp"
+              />
+            </div>
+          </div>
+        </div>
+        <div class="cForm-actions">
+          <button
+            type="button"
+            class="btn btn-outline-dark"
+            (click)="setOperation('')"
+          >
+            Cancelar
+          </button>
+          <mat-divider [vertical]="true" [inset]="true"></mat-divider>
+          <button type="submit" class="btn btn-primary" style="color: white">
+            Buscar
+          </button>
+        </div>
+      </form>
+      <div class="cForm" *ngIf="opStatus === 'P'">
+        <div class="cForm-field-row">
+          <div class="cForm-field-col">
+            <h3>Procesando operación</h3>
+            <div
+              class="text-center"
+              style="
+                flex: 1;
                 display: flex;
                 flex-direction: column;
                 align-items: center;
-                justify-content: center;">
-                    <div class="spinner-border" style="width: 7.5rem; height: 7.5rem;" role="status">
-                        <span class="sr-only">Loading...</span>
-                    </div>
-                </div>
+                justify-content: center;
+              "
+            >
+              <div
+                class="spinner-border"
+                style="width: 7.5rem; height: 7.5rem"
+                role="status"
+              >
+                <span class="sr-only">Loading...</span>
+              </div>
             </div>
-        </app-data-table>
-        <div style="display: flex;flex-direction:row">
-            <button mat-raised-button class="shadow-sm" (click)="doSearch()"
-                style="color: white;background-color:#00d8b4;">
-                <mat-icon>
-                    search
-                </mat-icon>
-            </button>
-            <mat-divider [vertical]="true" [inset]="true" style="color: transparent;"></mat-divider>
-            <button mat-raised-button class="shadow-sm" (click)="setOperation('')"
-                style="color: white;background-color:#00d8b4;">Ir a menu principal</button>
+          </div>
         </div>
+      </div>
+      <div class="cForm" *ngIf="opStatus === 'D'">
+        <div class="cForm-field-row">
+          <div
+            class="cForm-field-col"
+            style="justify-content: center; align-items: center"
+          >
+            <h3>Operación exitosa</h3>
+            <mat-icon style="width: 7.5rem; height: 7.5rem; font-size: 7.5rem">
+              fact_check
+            </mat-icon>
+          </div>
+        </div>
+        <div class="cForm-actions">
+          <button
+            type="button"
+            class="btn btn-outline-dark"
+            (click)="setOperation('')"
+          >
+            Volver a menú
+          </button>
+        </div>
+      </div>
+      <div class="cForm" *ngIf="opStatus === 'E'">
+        <div class="cForm-field-row">
+          <div
+            class="cForm-field-col"
+            style="justify-content: center; align-items: center"
+          >
+            <h3>Ha ocurrido un error</h3>
+            <mat-icon style="width: 7.5rem; height: 7.5rem; font-size: 7.5rem">
+              report_problem
+            </mat-icon>
+            <h5>Su operación no pudo ser procesada</h5>
+          </div>
+        </div>
+        <div class="cForm-actions">
+          <button
+            type="button"
+            class="btn btn-outline-dark"
+            (click)="setOperation('')"
+          >
+            Continuar
+          </button>
+        </div>
+      </div>
+    </mat-card>
+  </div>
+  <!--COMPONENTE DE BÚSQUEDA-->
+  <div
+    *ngIf="op !== 'add' && searchState === 'I'"
+    style="height: 75%; width: 75%"
+  >
+    <mat-card
+      style="
+        height: 100%;
+        width: 100%;
+        text-align: center;
+        display: flex;
+        flex-direction: column;
+      "
+    >
+      <h4>Asistente de búsqueda</h4>
+      <form (submit)="invokeSearch()" [formGroup]="searchForm" class="cForm">
+        <div class="cForm-field-row">
+          <div class="cForm-field-col">
+            <div class="form-group">
+              <label for="tipoName">Tipo de Presentación</label>
+              <input
+                type="text"
+                formControlName="tipo"
+                class="form-control"
+                id="tipoName"
+                aria-describedby="newNameCategoriaHelp"
+              />
+            </div>
+          </div>
+          <div class="cForm-field-col">
+            <div class="form-group">
+              <label for="tipoQT">Cantidad de Presentación</label>
+              <input
+                type="text"
+                formControlName="cantidad"
+                class="form-control"
+                id="tipoQT"
+                aria-describedby="newNameCategoriaHelp"
+              />
+            </div>
+          </div>
+        </div>
+        <div class="cForm-actions">
+          <button
+            type="button"
+            class="btn btn-outline-dark"
+            (click)="setOperation('')"
+          >
+            Cancelar
+          </button>
+          <mat-divider [vertical]="true" [inset]="true"></mat-divider>
+          <button type="submit" class="btn btn-primary" style="color: white">
+            Buscar
+          </button>
+        </div>
+      </form>
+    </mat-card>
+  </div>
+  <!--COMPONENTE DE MUESTRA DE RESULTADOS-->
+  <div
+    *ngIf="searchState !== 'U' && searchState !== 'I'"
+    style="
+      width: 100%;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-around;
+      align-items: center;
+    "
+  >
+    <app-data-table>
+      <!--TABLA DE DATOS-->
+
+      <table
+        mat-table
+        [dataSource]="dataSource"
+        class="mat-elevation-z8"
+        style="flex: 1; overflow-y: auto"
+        *ngIf="searchState === 'D'"
+      >
+        <ng-container matColumnDef="id">
+          <th mat-header-cell *matHeaderCellDef>Id</th>
+          <td mat-cell *matCellDef="let element">{{ element._id }}</td>
+        </ng-container>
+        <ng-container matColumnDef="desc">
+          <th mat-header-cell *matHeaderCellDef>Descripción</th>
+          <td mat-cell *matCellDef="let element">
+            {{ element.tipo }} : {{ element.cantidad }}
+          </td>
+        </ng-container>
+        <ng-container matColumnDef="selector">
+          <th mat-header-cell *matHeaderCellDef>Selección</th>
+          <td mat-cell *matCellDef="let element">
+            <mat-checkbox
+              [checked]="isSelected(element._id)"
+              (change)="selectUser(element._id, element)"
+            >
+            </mat-checkbox>
+          </td>
+        </ng-container>
+        <ng-container matColumnDef="ops">
+          <th mat-header-cell *matHeaderCellDef>Operación</th>
+          <td mat-cell *matCellDef="let element">
+            <div *ngIf="isSelected(element._id)">
+              <button
+                style="background-color: #00d8b4; color: white"
+                mat-mini-fab
+                aria-label="Example icon button with a filter list icon"
+                class="shadow-sm"
+              >
+                <mat-icon>info</mat-icon>
+              </button>
+              <button
+                *ngIf="op === 'upd'"
+                style="background-color: #00d8b4; color: white; margin: 0px 5px"
+                mat-mini-fab
+                aria-label="Example icon button with a filter list icon"
+                (click)="openUpdModal()"
+                class="shadow-sm"
+              >
+                <mat-icon>autorenew</mat-icon>
+              </button>
+              <button
+                *ngIf="op === 'del'"
+                style="background-color: #00d8b4; color: white"
+                mat-mini-fab
+                aria-label="Example icon button with a filter list icon"
+                (click)="openDelModal()"
+                class="shadow-sm"
+              >
+                <mat-icon>delete_forever</mat-icon>
+              </button>
+            </div>
+          </td>
+        </ng-container>
+        <!--DEMÁS COLUMNAS REQUERIDAS-->
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+      </table>
+      <div
+        class="cForm-field-col"
+        style="justify-content: center; align-items: center; align-self: center"
+        *ngIf="searchState === 'P'"
+      >
+        <div class="text-center">
+          <h3>Procesando búsqueda</h3>
+        </div>
+        <div
+          class="text-center"
+          style="
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+          "
+        >
+          <div
+            class="spinner-border"
+            style="width: 7.5rem; height: 7.5rem"
+            role="status"
+          >
+            <span class="sr-only">Loading...</span>
+          </div>
+        </div>
+      </div>
+    </app-data-table>
+    <div style="display: flex; flex-direction: row">
+      <button
+        mat-raised-button
+        class="shadow-sm"
+        (click)="doSearch()"
+        style="color: white; background-color: #00d8b4"
+      >
+        <mat-icon> search </mat-icon>
+      </button>
+      <mat-divider
+        [vertical]="true"
+        [inset]="true"
+        style="color: transparent"
+      ></mat-divider>
+      <button
+        mat-raised-button
+        class="shadow-sm"
+        (click)="setOperation('')"
+        style="color: white; background-color: #00d8b4"
+      >
+        Ir a menu principal
+      </button>
     </div>
+  </div>
 </div>
-<app-upd-presentacion-dialog #updPresentacion [_userSelection]="userSelection" [_presentacion]="targetData"></app-upd-presentacion-dialog>
-<app-del-presentacion-dialog #delPresentacion [_userSelection]="userSelection" [_presentacion]="targetData"></app-del-presentacion-dialog>
+<app-upd-presentacion-dialog
+  #updPresentacion
+  [_userSelection]="userSelection"
+  [_presentacion]="targetData"
+></app-upd-presentacion-dialog>
+<app-del-presentacion-dialog
+  #delPresentacion
+  [_userSelection]="userSelection"
+  [_presentacion]="targetData"
+></app-del-presentacion-dialog>

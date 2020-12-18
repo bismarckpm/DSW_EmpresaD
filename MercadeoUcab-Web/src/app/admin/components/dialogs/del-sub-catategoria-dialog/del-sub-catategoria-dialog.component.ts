@@ -43,17 +43,17 @@ export class DelSubCategoriaDialogComponent implements OnInit {
 
   invokeService() {
     this.opStatus = 'P';
-    this._subcategoriaService
-      .deleteSubCategoria(this._subcategoria._id, null)
-      .subscribe(
-        (response) => {
-          console.log(response);
-          this.opStatus = 'D';
-        },
-        (error) => {
-          console.log(error);
-          this.opStatus = 'E';
-        }
-      );
+    console.log(this._subcategoria._id);
+    let toDelete = this._subcategoria._id;
+    this._subcategoriaService.deleteSubCategoria(toDelete, null).subscribe(
+      (response) => {
+        console.log(response);
+        this.opStatus = 'D';
+      },
+      (error) => {
+        console.log(error);
+        this.opStatus = 'E';
+      }
+    );
   }
 }

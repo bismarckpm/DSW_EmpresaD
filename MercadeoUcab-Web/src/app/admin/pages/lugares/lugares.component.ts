@@ -208,7 +208,7 @@ export class LugaresComponent implements OnInit {
     this._parroquiaService.createParroquia(data).subscribe(
       (response) => {
         console.log(response);
-        alert('Se agrego la parroquia correctamente');
+        //alert('Se agrego la parroquia correctamente');
       },
       (error) => {
         console.log(error);
@@ -228,9 +228,7 @@ export class LugaresComponent implements OnInit {
     );
   }
 
-  filterData(byName: string) {
-    
-  }
+  filterData(byName: string) {}
   invokeSearch() {
     let testPais = {
       _id: 1,
@@ -309,13 +307,13 @@ export class LugaresComponent implements OnInit {
         break;
       case 'MU':
         toCreate.nombre = values.nombre;
-        toCreate.fk_estado = values.estado;
+        toCreate.fk_estado = values.estado._id;
         console.log(toCreate);
         this.addMunicipio(toCreate);
         break;
       case 'PR':
         toCreate.nombre = values.nombre;
-        toCreate.fk_municipio = values.municipio;
+        toCreate.fk_municipio = values.municipio._id;
         toCreate.valor_socio_economico = values.valor_socio_economico;
         console.log(toCreate);
         this.addParroquia(toCreate);

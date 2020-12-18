@@ -113,7 +113,7 @@ public class ServicioAnalista extends AplicacionBase{
                                     for(Opcion opcion: encuestaEstudio.getFk_pregunta().getOpciones()){
                                         JsonObject option = Json.createObjectBuilder()
                                                 .add("_id", opcion.get_id())
-                                                .add("nombre",opcion.getNombre_opcion())
+                                                .add("nombre_nombre",opcion.getNombre_opcion())
                                                 .build();
                                         opcionesList.add(option);
                                     }
@@ -138,7 +138,7 @@ public class ServicioAnalista extends AplicacionBase{
                                     for(Opcion opcion: encuestaEstudio.getFk_pregunta().getOpciones()){
                                         JsonObject option = Json.createObjectBuilder()
                                                 .add("_id", opcion.get_id())
-                                                .add("nombre",opcion.getNombre_opcion())
+                                                .add("nombre_opcion",opcion.getNombre_opcion())
                                                 .build();
                                         opcionesList.add(option);
                                     }
@@ -213,7 +213,7 @@ public class ServicioAnalista extends AplicacionBase{
                                                             .add("parroquia",Json.createObjectBuilder()
                                                                     .add("_id",estudio.getFk_muestra_poblacion().getFk_lugar().get_id())
                                                                     .add("nombre",estudio.getFk_muestra_poblacion().getFk_lugar().getNombre())
-                                                                    .add("valor_socioeconomico", estudio.getFk_muestra_poblacion().getFk_lugar().getValor_socio_economico())
+                                                                    .add("valorSocioEconomico", estudio.getFk_muestra_poblacion().getFk_lugar().getValor_socio_economico())
                                                                     .add("municipio",Json.createObjectBuilder()
                                                                             .add("_id", estudio.getFk_muestra_poblacion().getFk_lugar().getFk_municipio().get_id())
                                                                             .add("nombre", estudio.getFk_muestra_poblacion().getFk_lugar().getFk_municipio().getNombre())

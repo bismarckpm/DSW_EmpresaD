@@ -37,7 +37,7 @@ export class RespuestaService {
     });
   }
 
-    /*
+  /*
     id en patj
   {
     "respuesta":String
@@ -57,5 +57,14 @@ export class RespuestaService {
     // Ignorar data por los momentos
     const headers = new HttpHeaders().set('Content-Type', 'application/json');
     return this._http.put(this.url + '/respuestas/' + id + '/eliminar', data);
+  }
+
+  saveSurvey(data) {
+    const headers = new HttpHeaders().set('Content-Type', 'application/json');
+    return this._http.post(
+      this.url + '/respuestas/encuesta',
+      JSON.stringify(data),
+      { headers: headers }
+    );
   }
 }

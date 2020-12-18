@@ -308,7 +308,7 @@ public class ServicioRespuesta extends AplicacionBase{
             }
             data = Json.createObjectBuilder()
                     .add("status", 200)
-                    .add("mensaje","Respuestas registradas con exito, gracias por su tiempo")
+                    .add("message","Respuestas registradas con exito, gracias por su tiempo")
                     .build();
             resultado = Response.status(Response.Status.OK)
                     .entity(data)

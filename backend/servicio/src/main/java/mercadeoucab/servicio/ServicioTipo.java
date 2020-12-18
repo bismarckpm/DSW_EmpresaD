@@ -145,6 +145,7 @@ public class ServicioTipo extends AplicacionBase {
                         .build();
             resultado = Response.status(Response.Status.OK)
                                 .entity(data)
+                                .header("Access-Control-Allow-Origin", "*")
                                 .build();
         }
         catch (Exception e) {

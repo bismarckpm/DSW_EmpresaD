@@ -59,7 +59,7 @@ public class ServicioPregunta extends AplicacionBase{
                             for (Opcion opcion : pregunta.getOpciones()) {
                                 JsonObject option = Json.createObjectBuilder()
                                         .add("_id", opcion.get_id())
-                                        .add("nombre", opcion.getNombre_opcion())
+                                        .add("nombre_opcion", opcion.getNombre_opcion())
                                         .build();
                                 opcionesList.add(option);
                             }
@@ -83,7 +83,7 @@ public class ServicioPregunta extends AplicacionBase{
                             for (Opcion opcion : pregunta.getOpciones()) {
                                 JsonObject option = Json.createObjectBuilder()
                                         .add("_id", opcion.get_id())
-                                        .add("nombre", opcion.getNombre_opcion())
+                                        .add("nombre_nombre", opcion.getNombre_opcion())
                                         .build();
                                 opcionesList.add(option);
                             }
@@ -226,7 +226,7 @@ public class ServicioPregunta extends AplicacionBase{
                     if( opcion.getActivo() != 0 ) {
                         JsonObject objetoOpcion = Json.createObjectBuilder()
                                 .add("_id", opcion.get_id())
-                                .add("nombre", opcion.getNombre_opcion())
+                                .add("nombre_opcion", opcion.getNombre_opcion())
                                 .build();
                         listaOpcion.add(objetoOpcion);
                     }

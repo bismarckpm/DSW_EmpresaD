@@ -62,6 +62,7 @@ export class DeleteUserDialogComponent implements OnInit {
   */
   invokeService() {
     this.opStatus = 'P';
+    console.log(this._userSelection);
     this.deleteUser(this._userSelection);
   }
 }

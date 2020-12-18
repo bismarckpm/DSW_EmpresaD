@@ -58,7 +58,7 @@ export class SubcategoriaService {
     // Ignorar data por los momentos
     return this._http.put(
       this.url + '/subcategorias/' + id + '/eliminar',
-      JSON.stringify(data),
+      {},
       { headers: headers }
     );
   }
