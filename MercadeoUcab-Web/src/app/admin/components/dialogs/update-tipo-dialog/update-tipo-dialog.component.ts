@@ -32,14 +32,14 @@ opStatus:string;//S,P,D,E
       nombre:null,
     });
     this.toService= {
-     // _id:null,
+      _id:null,
       nombre:null,
     }
   }
   open(){
     this.modalRef =this.modalService.open(this.modalContent);
     this.toService= {
-     // _id:this._tipo._id,
+      _id:this._tipo._id,
       nombre:null,
     }
     this.modalRef.result.then();
@@ -49,7 +49,7 @@ opStatus:string;//S,P,D,E
     this.modalRef.close();
   }
   updateTipo(data){
-    this._service.updateTipo(this._tipo._id,data).subscribe(
+    this._service.updateTipo(data._id,data).subscribe(
       (response) => {
         console.log(response);
         this.opStatus="D";

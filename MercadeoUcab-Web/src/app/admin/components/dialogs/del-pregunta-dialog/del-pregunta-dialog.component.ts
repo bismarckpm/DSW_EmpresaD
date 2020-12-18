@@ -6,6 +6,7 @@ import {
   ViewChild,
 } from '@angular/core';
 import { FormBuilder } from '@angular/forms';
+import { Pregunta } from '@core/models/pregunta';
 import { PreguntaService } from '@core/services/pregunta/pregunta.service';
 import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 
@@ -22,10 +23,10 @@ export class DelPreguntaDialogComponent implements OnInit {
   private modalRef: NgbModalRef;
   constructor(
     private modalService: NgbModal,
-    private formBuilder: FormBuilder,
     private _preguntaService: PreguntaService
   ) {}
   @Input() _userSelection: number;
+  @Input() _pregunta: Pregunta;
 
   ngOnInit(): void {
     this.opStatus = 'S';

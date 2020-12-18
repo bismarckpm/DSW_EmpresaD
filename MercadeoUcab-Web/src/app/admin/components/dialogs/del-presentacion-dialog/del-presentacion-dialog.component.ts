@@ -6,6 +6,7 @@ import {
   ViewChild,
 } from '@angular/core';
 import { FormBuilder } from '@angular/forms';
+import { Presentacion } from '@core/models/presentacion';
 import { PresentacionService } from '@core/services/presentacion/presentacion.service';
 import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 
@@ -26,6 +27,7 @@ export class DelPresentacionDialogComponent implements OnInit {
     private _presentacionService: PresentacionService
   ) {}
   @Input() _userSelection: number;
+  @Input() _presentacion: Presentacion;
 
   ngOnInit(): void {
     this.opStatus = 'S';
@@ -43,16 +45,20 @@ export class DelPresentacionDialogComponent implements OnInit {
       (response) => {
         console.log(response);
         alert('Se elimino la presentacion correctamente');
+        this.opStatus = 'D';
       },
       (error) => {
         console.log(error);
+        this.opStatus = 'E';
       }
     );
   }
   invokeService() {
     this.opStatus = 'P';
+    this.deletePresentacion(this._presentacion._id,this._presentacion);
+    /*
     setTimeout(() => {
       this.opStatus = 'D';
-    }, 3000);
+    }, 3000);*/
   }
 }

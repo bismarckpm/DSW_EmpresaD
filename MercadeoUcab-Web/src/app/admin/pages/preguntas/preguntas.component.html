@@ -40,25 +40,109 @@
     <div *ngIf="op==='add'" style="height: 75%;width: 75%;">
         <mat-card style="height: 100%;width: 100%;text-align: center;display: flex;flex-direction: column;">
         <form class="cForm" [formGroup]="addForm"
-            *ngIf="opStatus==='S'" (ngSubmit)="serviceInvoke()" novalidate>
+            *ngIf="opStatus==='S'" (submit)="serviceInvoke()" style="height: 100%;">
                 <h4 style="height: fit-content;width: 100%;">Nueva pregunta</h4>
-                <div class="cForm-field-row" style="flex: 1;">
+                <div class="cForm-field-row" style="height: 80%;">
                     <div class="cForm-field-col">
                         <div class="form-group">
-                            <label for="categoriaNewName">Nombre de Pregunta</label>
+                            <label for="pregNewName">Nombre de Pregunta</label>
                             <input type="text" 
-                            formControlName="nombre" class="form-control" id="categoriaNewName"
+                            formControlName="nombre_pregunta" class="form-control" id="pregNewName"
                                 aria-describedby="newNameHelp"/>
+                        </div>
+                        <div class="form-group">
+                            <label for="tipoSelect">Tipo de pregunta</label>
+                            <select class="form-control" id="tipoSelect" formControlName="tipo">
+                                <option [ngValue]="null">Sin seleccionar...</option>
+                                <option *ngFor="let el of pregTipos" [ngValue]="el.t">{{el.name}}</option>
+                            </select>
                         </div>
                     </div>
                     <div class="cForm-field-col">
-                        
+                        <ng-container [ngSwitch]="addForm.value.tipo">
+                            <div *ngSwitchCase="'simple'" style="height: 100%; display: flex;flex-direction: column; overflow-y: auto;align-items: center;">
+                                    <div class="form-group" *ngFor="let option of optionList;let i=index;">
+                                    <label for="{{'option-'+i}}">Pregunta #{{i+1}}</label>
+                                    <div style="
+                                    display: flex;
+                                    flex-direction: row;
+                                    width: 100%;
+                                    justify-content: space-around;">
+                                    <input type="text" 
+                                    class="form-control" id="{{'option-'+i}}"
+                                    (change)="setOption(i,$event.target.value)"
+                                    value="{{ option.nombre_opcion }}"
+                                    style="height: fit-content; width: 80%;"/>
+                                    <button mat-mini-fab color="primary" aria-label="Example icon button with a delete icon"
+                                    style="background-color: #00d8b4; color:white" (click)="resizeOptionList(i)">
+                                        <mat-icon>delete</mat-icon>
+                                    </button>
+                                    </div>
+                                    </div>
+                                <button mat-mini-fab color="primary"
+                                    type="button"
+                                    aria-label="add option aria"
+                                    style="background-color: #00d8b4; color:white" 
+                                    (click)="addOption()">
+                                    <mat-icon>add_box</mat-icon>
+                                </button>
+                            </div>
+                            <div *ngSwitchCase="'multiple'" style="height: 100%; display: flex;flex-direction: column; overflow-y: auto;align-items: center;">
+                                <div class="form-group" *ngFor="let option of optionList;let i=index;">
+                                <label for="{{'option-'+i}}">Pregunta #{{i+1}}</label>
+                                <div style="
+                                display: flex;
+                                flex-direction: row;
+                                width: 100%;
+                                justify-content: space-around;">
+                                <input type="text" 
+                                class="form-control" id="{{'option-'+i}}"
+                                (change)="setOption(i,$event.target.value)"
+                                value="{{ option.nombre_opcion }}"
+                                style="height: fit-content; width: 80%;"/>
+                                <button mat-mini-fab color="primary" aria-label="Example icon button with a delete icon"
+                                style="background-color: #00d8b4; color:white" (click)="resizeOptionList(i)">
+                                    <mat-icon>delete</mat-icon>
+                                </button>
+                                </div>
+                                </div>
+                            <button mat-mini-fab color="primary"
+                                type="button"
+                                aria-label="add option aria"
+                                style="background-color: #00d8b4; color:white" 
+                                (click)="addOption()">
+                                <mat-icon>add_box</mat-icon>
+                            </button>
+                        </div>
+                        <div *ngSwitchCase="'rango'" style="height: 100%; display: flex;flex-direction: column; overflow-y: auto;align-items: center;">
+                            <div class="form-group">
+                                <label>Rango permitido</label>
+                                <div style="
+                                display: flex;
+                                flex-direction: row;
+                                width: 100%;
+                                justify-content: space-around;">
+                                <input type="number" 
+                                class="form-control" id="rango-preg-min"
+                                min="0"
+                                (change)="rangeConcat(0,$event.target.value)"
+                                style="height: fit-content; width: 45%;"/>
+                                <h4>-</h4>
+                                <input type="number" 
+                                class="form-control" id="rango-preg-max"
+                                min="{{minF+1}}"
+                                (change)="rangeConcat(1,$event.target.value)"
+                                style="height: fit-content; width: 45%;"/>
+                                </div>
+                            </div>
+                        </div>
+                        </ng-container>
                     </div>
                 </div>
                 <div class="cForm-actions">
                     <button type="button" class="btn btn-outline-dark" (click)="setOperation('')">Cancelar</button>
                     <mat-divider [vertical]="true" [inset]="true"></mat-divider>
-                    <button type="submit" class="btn btn-primary" style="color: white;">Buscar</button>
+                    <button type="submit" class="btn btn-primary" style="color: white;">Crear pregunta</button>
                 </div>
             </form>
             <div class="cForm" *ngIf="opStatus==='P'">
@@ -114,27 +198,16 @@
                 <div class="cForm-field-row">
                     <div class="cForm-field-col">
                         <div class="form-group">
-                            <label for="reg-date">Fecha de registro</label>
-                            <input type="date" class="form-control" formControlName="creado_el" id="reg-date" />
-                        </div>
-                    </div>
-                    <div class="cForm-field-col">
-                        <div class="form-group">
-                            <label for="tipoSelect">Rol de usuario</label>
+                            <label for="tipoSelect">Tipo de pregunta</label>
                             <select class="form-control" id="tipoSelect" formControlName="tipo">
-                                <option value="TA">Adminsitrador</option>
-                                <option value="TB">Analista</option>
+                                <option [ngValue]="null">Sin seleccionar...</option>
+                                <option *ngFor="let el of pregTipos" [ngValue]="el.t">{{el.name}}</option>
                             </select>
                         </div>
                     </div>
-                    <!--
-                    <div style="width: 45%;height: 100%;">
-                        <div class="form-group">
-                            <label for="userNewName">Nombre de usuario</label>
-                            <input type="text" formControlName="nombre" class="form-control" id="userNewName" aria-describedby="newNameHelp">
-                        </div>
+                    <div class="cForm-field-col">
+                
                     </div>
-                    -->
                 </div>
                 <div class="cForm-actions">
                     <button type="button" class="btn btn-outline-dark" (click)="setOperation('')">Cancelar</button>
@@ -224,4 +297,4 @@
     </div>
 </div>
 <app-update-pregunta-dialog #updPregunta [_userSelection]="userSelection" [_pregunta]="targetPregunta"></app-update-pregunta-dialog>
-<app-del-pregunta-dialog  #delPregunta [_userSelection]="userSelection"></app-del-pregunta-dialog>
+<app-del-pregunta-dialog  #delPregunta [_userSelection]="userSelection" [_pregunta]="targetPregunta"></app-del-pregunta-dialog>

@@ -228,7 +228,9 @@ export class LugaresComponent implements OnInit {
     );
   }
 
-  filterData(byName: string) {}
+  filterData(byName: string) {
+    
+  }
   invokeSearch() {
     let testPais = {
       _id: 1,
@@ -254,10 +256,10 @@ export class LugaresComponent implements OnInit {
     //console.log(this.searchLugar, this.searchForm.value);
     this.searchState = 'P';
     this.searchResults = {
-      PA: this.searchLugar[0].do === 1 ? [testPais] : [],
-      ES: this.searchLugar[1].do === 1 ? [testEstado] : [],
-      MU: this.searchLugar[2].do === 1 ? [testMunicipio] : [],
-      PR: this.searchLugar[3].do === 1 ? [testParroquia] : [],
+      PA: this.searchLugar[0].do === 1 ? [this._paises] : [],
+      ES: this.searchLugar[1].do === 1 ? [this._estados] : [],
+      MU: this.searchLugar[2].do === 1 ? [this._municipios] : [],
+      PR: this.searchLugar[3].do === 1 ? [this._parroquias] : [],
     };
     setTimeout(() => {
       this.searchState = 'D';

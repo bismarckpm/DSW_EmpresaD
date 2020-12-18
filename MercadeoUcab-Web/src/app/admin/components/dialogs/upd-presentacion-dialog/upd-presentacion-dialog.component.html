@@ -5,13 +5,19 @@
     </div>
     <div class="modal-body">
         <!--INFORMATIVO-->
-        <div class="cForm"  *ngIf="opStatus==='S'">
+        <form [formGroup]="updForm" class="cForm" (submit)="invokeService()" *ngIf="opStatus==='S'">
             <div class="cForm-field-row">
                 <div class="cForm-field-col">
-        
+                    <div class="form-group">
+                        <label for="tipoNewName">Tipo de Presentación</label>
+                        <input type="text" formControlName="tipo" class="form-control" id="tipoNewName" aria-describedby="newNameCategoriaHelp">
+                    </div>
                 </div>
                 <div class="cForm-field-col">
-        
+                    <div class="form-group">
+                        <label for="tipoNewQT">Cantidad de Presentación</label>
+                        <input type="text" formControlName="cantidad" class="form-control" id="tipoNewQT" aria-describedby="newNameCategoriaHelp">
+                    </div>
                 </div>
             </div>
             <div class="cForm-actions">
@@ -19,7 +25,7 @@
                 <mat-divider [vertical]="true" [inset]="true"></mat-divider>
                 <button type="button" class="btn btn-primary" (click)="invokeService()">Modificar</button>
             </div>
-        </div>
+        </form>
         <div class="cForm" *ngIf="opStatus==='P'">
             <div class="cForm-field-row">
                 <div class="cForm-field-col">
@@ -45,6 +51,20 @@
                     <mat-icon style="width: 7.5rem; height: 7.5rem;font-size:7.5rem;">
                         fact_check
                     </mat-icon>
+                </div>
+            </div>
+            <div class="cForm-actions">
+                <button type="button" class="btn btn-outline-dark" (click)="close()">Continuar</button>
+            </div>
+        </div>
+        <div class="cForm" *ngIf="opStatus==='E'">
+            <div class="cForm-field-row">
+                <div class="cForm-field-col" style="justify-content:center;align-items: center;">
+                    <h3>Ha ocurrido un error</h3>
+                    <mat-icon style="width: 7.5rem; height: 7.5rem;font-size:7.5rem;">
+                        report_problem
+                    </mat-icon>
+                    <h5>Su operación no pudo ser procesada</h5>
                 </div>
             </div>
             <div class="cForm-actions">
