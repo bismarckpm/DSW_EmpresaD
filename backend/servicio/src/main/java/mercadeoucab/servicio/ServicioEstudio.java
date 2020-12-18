@@ -405,7 +405,7 @@ public class ServicioEstudio {
     }
 
     @PUT
-    @Path("/eliminar/{id}")
+    @Path("/{id}/eliminar")
     public Response eliminarEstudio(@PathParam("id") long id){
         JsonObject data;
         Response resultado = null;

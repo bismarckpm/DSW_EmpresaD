@@ -120,6 +120,7 @@ public class ServicioMuestraPoblacion extends AplicacionBase{
             data = Json.createObjectBuilder()
                     .add("status", 200)
                     .add("mensaje","Muestra actualizada con exito")
+                    .add("_id", resul.get_id())
                     .build();
             resultado = Response.status(Response.Status.OK)
                     .entity(data)

@@ -137,6 +137,7 @@ public class ServicioUsuario extends AplicacionBase{
                 data = Json.createObjectBuilder()
                         .add("status", 200)
                         .add("message", "Agregado exitosamente")
+                        .add("_id", resul.get_id())
                         .build();
                 resultado = Response.status(Response.Status.OK)
                         .entity(data)
