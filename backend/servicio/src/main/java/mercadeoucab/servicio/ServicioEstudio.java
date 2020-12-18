@@ -436,6 +436,123 @@ public class ServicioEstudio {
         return  resultado;
     }
 
+    @GET
+    @Path("/s")
+    public Response listarEstudios2(){
+        JsonObject data;
+        JsonArrayBuilder estudiosList = Json.createArrayBuilder();
+        Response resultado = null;
+        try {
+            DaoEstudio dao = new DaoEstudio();
+            List<Estudio> estudios = dao.findAll(Estudio.class);
+
+            for(Estudio estudio: estudios){
+
+                if(estudio.getActivo() == 1){
+                    JsonArrayBuilder tiposList = Json.createArrayBuilder();
+                    for(Tipo tipo: estudio.getSolicitud().getTipos()){
+                        JsonObject objecto = Json.createObjectBuilder()
+                                .add("_id", tipo.get_id())
+                                .add("nombre", tipo.getNombre())
+                                .build();
+                        tiposList.add(objecto);
+                    }
+
+                    JsonArrayBuilder presentacionlist = Json.createArrayBuilder();
+                    for(Presentacion presentacion: estudio.getSolicitud().getPresentaciones()){
+                        JsonObject objecto = Json.createObjectBuilder()
+                                .add("_id", presentacion.get_id())
+                                .add("tipo", presentacion.getTipo())
+                                .add("Cantidad",presentacion.getCantidad())
+                                .build();
+                        presentacionlist.add(objecto);
+                    }
+
+                    JsonArrayBuilder subCategoriaslist = Json.createArrayBuilder();
+                    for(SubCategoria subCategoria: estudio.getSolicitud().getSubCategorias()){
+                        JsonObject objecto = Json.createObjectBuilder()
+                                .add("_id", subCategoria.get_id())
+                                .add("nombre", subCategoria.getNombre())
+                                .add("categoria",Json.createObjectBuilder()
+                                        .add("_id", subCategoria.getCategoria().get_id())
+                                        .add("nombre", subCategoria.getCategoria().getNombre()))
+                                .build();
+                        subCategoriaslist.add(objecto);
+                    }
+                    JsonObject solicitud;
+                    solicitud = Json.createObjectBuilder()
+                            .add("_id",estudio.getSolicitud().get_id())
+                            .add("estado",estudio.getSolicitud().getEstado())
+                            .add("usuario",Json.createObjectBuilder()
+                                    .add("_id",estudio.getSolicitud().getUsuario().get_id())
+                                    .add("nombre",estudio.getSolicitud().getUsuario().getNombre())
+                                    .add("apellido",estudio.getSolicitud().getUsuario().getApellido())
+                                    .add("rol",estudio.getSolicitud().getUsuario().getRol())
+                                    .add("correo",estudio.getSolicitud().getUsuario().getCorreo()))
+                            .add("marca",Json.createObjectBuilder()
+                                    .add("_id",estudio.getSolicitud().getMarca().get_id())
+                                    .add("nombre",estudio.getSolicitud().getMarca().getNombre()))
+                            .add("tipos", tiposList)
+                            .add("presentaciones", presentacionlist)
+                            .add("subcategorias", subCategoriaslist)
+                            .build();
+                    JsonObject agregar = Json.createObjectBuilder()
+                            .add("_id",estudio.get_id())
+                            .add("estado", estudio.getEstado())
+                            .add("tipo", estudio.getTipo())
+                            .add("encuestas_esperadas", estudio.getEscuestasEsperadas())
+                            .add("solicitud", solicitud)
+                            .add("analista", Json.createObjectBuilder()
+                                    .add("_id", estudio.getFk_usuario().get_id())
+                                    .add("nombre",estudio.getFk_usuario().getNombre())
+                                    .add("apellido", estudio.getFk_usuario().getApellido())
+                                    .add("correo", estudio.getFk_usuario().getCorreo())
+                                    .add("rol", estudio.getFk_usuario().getRol()))
+                                    .add("estado", estudio.getFk_usuario().getEstado())
+                            .add("muestra_poblacion",Json.createObjectBuilder()
+                                    .add("_id",estudio.getFk_muestra_poblacion().get_id())
+                                    .add("genero",estudio.getFk_muestra_poblacion().getGenero())
+                                    .add("nivel_economico", estudio.getFk_muestra_poblacion().getNivelEconomico())
+                                    .add("nivel_academico", estudio.getFk_muestra_poblacion().getNivelAcademico())
+                                    .add("rango_edad_inicio", estudio.getFk_muestra_poblacion().getRangoEdadInicio())
+                                    .add("rango_edad_fin", estudio.getFk_muestra_poblacion().getRangoEdadFin())
+                                    .add("cantidad_hijos", estudio.getFk_muestra_poblacion().getCantidadHijos())
+                                    .add("parroquia",Json.createObjectBuilder()
+                                            .add("_id",estudio.getFk_muestra_poblacion().getFk_lugar().get_id())
+                                            .add("nombre",estudio.getFk_muestra_poblacion().getFk_lugar().getNombre())
+                                            .add("valorSocioEconomico", estudio.getFk_muestra_poblacion().getFk_lugar().getValor_socio_economico())
+                                            .add("municipio",Json.createObjectBuilder()
+                                                    .add("_id", estudio.getFk_muestra_poblacion().getFk_lugar().getFk_municipio().get_id())
+                                                    .add("nombre", estudio.getFk_muestra_poblacion().getFk_lugar().getFk_municipio().getNombre())
+                                                    .add("estado",Json.createObjectBuilder()
+                                                            .add("_id",estudio.getFk_muestra_poblacion().getFk_lugar().getFk_municipio().getFk_estado().get_id())
+                                                            .add("nombre",estudio.getFk_muestra_poblacion().getFk_lugar().getFk_municipio().getFk_estado().getNombre())
+                                                            .add("pais", Json.createObjectBuilder()
+                                                                    .add("_id",estudio.getFk_muestra_poblacion().getFk_lugar().getFk_municipio().getFk_estado().getFk_pais().get_id())
+                                                                    .add("nombre",estudio.getFk_muestra_poblacion().getFk_lugar().getFk_municipio().getFk_estado().getFk_pais().getNombre()))))))
+                            .build();
+                    estudiosList.add(agregar);
+                }
+            }
+            data = Json.createObjectBuilder()
+                    .add("status", 200)
+                    .add("data", estudiosList)
+                    .build();
+            resultado = Response.status(Response.Status.OK)
+                    .entity(data)
+                    .build();
+        }
+        catch (Exception e){
+            String problema = e.getMessage();
+            data = Json.createObjectBuilder()
+                    .add("status", 400)
+                    .add("mensaje",problema)
+                    .build();
+            resultado = Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(data).build();
+        }
+        return resultado;
+    }
+
     @PUT
     @Path("/{id}")
     public Response actualizarEstudio(@PathParam("id") long id, DtoEstudio dtoEstudio){

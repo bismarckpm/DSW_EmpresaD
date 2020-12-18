@@ -17,6 +17,9 @@ export class EstudioService {
     return this._http.get(this.url + '/estudios');
   }
 
+  getEstudioss(): Observable<any> {
+    return this._http.get(this.url + '/estudios/s');
+  }
   //id en path
   getEstudio(id): Observable<any> {
     return this._http.get(this.url + '/estudios/' + id);
@@ -51,7 +54,7 @@ export class EstudioService {
     });
   }
 
-   /*
+  /*
   id en el path
   {
     "estado":String,

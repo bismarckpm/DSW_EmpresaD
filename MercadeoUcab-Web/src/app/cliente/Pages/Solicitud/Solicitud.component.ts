@@ -10,7 +10,7 @@ import { TipoService } from '@core/services/tipo/tipo.service';
 import { UpdateSolicitudDialogComponent } from '../../../cliente/components/dialogs/upd-solicitud-dialog/update-solicitud-dialog.component';
 import { DeleteUserDialogComponent } from '../../../admin/components/dialogs/delete-user-dialog/delete-user-dialog.component';
 import { Usuario } from '@models/usuario';
-import {UtilService} from '@core/services/utils/util.service';
+import { UtilService } from '@core/services/utils/util.service';
 import { Marca } from '@models/marca';
 import { SubCategoria } from '@models/subcategoria';
 import { Presentacion } from '@models/presentacion';
@@ -66,7 +66,16 @@ export class SolicitudComponent implements OnInit {
   tipos: Tipo[] = [];
 
   // COLUMNAS DE TABLA DE RESULTADOS
-  displayedColumns: string[] = ['id', 'selector', 'estado' , 'Marca', 'presentacion', 'subcategoria' , 'tipos' ,'ops'];
+  displayedColumns: string[] = [
+    'id',
+    'selector',
+    'estado',
+    'Marca',
+    'presentacion',
+    'subcategoria',
+    'tipos',
+    'ops',
+  ];
   columnsToDisplay: string[] = this.displayedColumns.slice();
 
   // INDICE DE SOLICITUD SELECCIONADO
@@ -205,22 +214,30 @@ export class SolicitudComponent implements OnInit {
     // FALTA VALIDACION
     // console.log(this.addForm.value);
 
-    const toAdd: any = {};
+    const toAdd = {
+      usuario: { _id: undefined },
+      estado: undefined,
+      marca: { _id: undefined },
+      tipos: [],
+      subCategorias: [],
+      presentaciones: [],
+    };
     const values = this.addForm.value;
-    toAdd.estado = values.estado;
-    toAdd.usuario = 1;
-    toAdd.marca = values.marca;
-    toAdd.tipo = values.tipo;
-    toAdd.subCategoria = values.subCategoria;
-    toAdd.presentacion = values.presentacion;
+    toAdd.estado = 'solicitada';
+    toAdd.usuario._id = 5;
+    toAdd.marca._id = values.marca;
+    toAdd.tipos.push({ _id: values.tipo });
+    toAdd.subCategorias.push({ _id: values.subCategoria });
+    toAdd.presentaciones.push({ _id: values.presentacion });
+    console.log(toAdd);
     this.addSolicitud(toAdd);
     this.opStatus = 'P';
-    console.log(this.op);
-    console.log(this.opStatus);
-    console.log(this.addForm.get('marca').value);
-    console.log(this.addForm.get('tipo').value);
-    console.log(this.addForm.get('subCategoria').value);
-    console.log(this.addForm.get('presentacion').value);
+    //console.log(this.op);
+    //console.log(this.opStatus);
+    //console.log(this.addForm.get('marca').value);
+    //console.log(this.addForm.get('tipo').value);
+    //console.log(this.addForm.get('subCategoria').value);
+    //console.log(this.addForm.get('presentacion').value);
     setTimeout(() => {
       this.addForm = this.formBuilder.group({
         marca: 1,
@@ -286,7 +303,7 @@ export class SolicitudComponent implements OnInit {
         this.solicitudes = response.data;
         this.dataSource = new MatTableDataSource<Solicitud>(
           this.dataFilter(this.solicitudes)
-      );
+        );
         this.searchState = 'D';
       },
       (error) => {
@@ -294,8 +311,6 @@ export class SolicitudComponent implements OnInit {
       }
     );
   }
-
-
 
   invokeSearch() {
     this.solicitudes = [];
@@ -315,8 +330,7 @@ export class SolicitudComponent implements OnInit {
     const toSearch: any = {};
     const values = this.searchForm.value;
     toSearch.tipo = values.tipo;
-    toSearch._id=1,
-    toSearch.subCategoria = values.subCategoria;
+    (toSearch._id = 1), (toSearch.subCategoria = values.subCategoria);
     toSearch.marca = values.marca;
     toSearch.presentacion = values.presentacion;
     this.getSolicitudes(toSearch);

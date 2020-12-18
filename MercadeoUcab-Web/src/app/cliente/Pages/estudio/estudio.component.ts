@@ -6,6 +6,7 @@ import { SolicitudService } from '@core/services/solicitud/solicitud.service';
 import { UpdateSolicitudDialogComponent } from '../../components/dialogs/upd-solicitud-dialog/update-solicitud-dialog.component';
 import { Estudio } from '@models/estudio';
 import { EstudioService } from '@core/services/estudio/estudio.service';
+import { EstudioCliente } from '@core/models/estudioCliente';
 
 @Component({
   selector: 'app-estudio',
@@ -16,7 +17,7 @@ export class EstudioComponent implements OnInit {
   //CONTROL DE ESTADO DEL COMPONENTE
   op: string;
   searchState: string; //U.I,D
-  estudios: Estudio[] = [];
+  estudios: EstudioCliente[] = [];
 
   //COLUMNAS DE TABLA DE RESULTADOS
   displayedColumns: string[] = ['id', 'selector'];
@@ -26,7 +27,7 @@ export class EstudioComponent implements OnInit {
   estudioSelection: number = 0;
 
   //LISTA DE SOLICITUDES DEVUELTOS EN BÚSQUEDA
-  dataSource: MatTableDataSource<Estudio>;
+  dataSource: MatTableDataSource<EstudioCliente>;
   estudioTarget: Estudio;
   //FORMULARIOS
   searchForm: FormGroup;
@@ -57,7 +58,7 @@ export class EstudioComponent implements OnInit {
     });
   };*/
   getEstudios() {
-    this._estudioService.getEstudios().subscribe(
+    this._estudioService.getEstudioss().subscribe(
       (response) => {
         console.log(response);
         this.estudios = response.data;
@@ -72,7 +73,7 @@ export class EstudioComponent implements OnInit {
     this._estudioService.createEstudio(data).subscribe(
       (response) => {
         console.log(response);
-        alert('Se agrego el estudio correctamente');
+        //alert('Se agrego el estudio correctamente');
       },
       (error) => {
         console.log(error);
@@ -84,7 +85,7 @@ export class EstudioComponent implements OnInit {
     this._estudioService.updateEstudio(id, data).subscribe(
       (response) => {
         console.log(response);
-        alert('Se modifico el estudio correctamente');
+        //alert('Se modifico el estudio correctamente');
       },
       (error) => {
         console.log(error);
@@ -96,7 +97,7 @@ export class EstudioComponent implements OnInit {
     this._estudioService.deleteEstudio(id, data).subscribe(
       (response) => {
         console.log(response);
-        alert('Se elimino el estudio correctamente');
+        //alert('Se elimino el estudio correctamente');
       },
       (error) => {
         console.log(error);
@@ -121,7 +122,7 @@ export class EstudioComponent implements OnInit {
     this._solicitudService.createSolicitud(data).subscribe(
       (response) => {
         console.log(response);
-        alert('Se agrego la solicitud correctamente');
+        //alert('Se agrego la solicitud correctamente');
       },
       (error) => {
         console.log(error);
@@ -133,7 +134,7 @@ export class EstudioComponent implements OnInit {
     this._solicitudService.updateSolicitud(id, data).subscribe(
       (response) => {
         console.log(response);
-        alert('Se modifico la solicitud correctamente');
+        //alert('Se modifico la solicitud correctamente');
       },
       (error) => {
         console.log(error);
@@ -145,7 +146,7 @@ export class EstudioComponent implements OnInit {
     this._solicitudService.deleteSolicitud(id, data).subscribe(
       (response) => {
         console.log(response);
-        alert('Se elimino la solicitud correctamente');
+        //alert('Se elimino la solicitud correctamente');
       },
       (error) => {
         console.log(error);
@@ -200,9 +201,9 @@ export class EstudioComponent implements OnInit {
     }
     return false;
   }
-  dataFilter(dataArray: Estudio[]): Estudio[] {
+  dataFilter(dataArray: EstudioCliente[]): EstudioCliente[] {
     console.log(this.searchForm.value);
-    let filtered: Estudio[] = [];
+    let filtered: EstudioCliente[] = [];
     dataArray.forEach((res, ind) => {
       let inc = true;
       Object.entries(this.searchForm.value).forEach(([key, field], _ind) => {
@@ -257,7 +258,7 @@ export class EstudioComponent implements OnInit {
           modificado_el:new Date(),
         });*/
       }
-      this.dataSource = new MatTableDataSource<Estudio>(
+      this.dataSource = new MatTableDataSource<EstudioCliente>(
         this.dataFilter(this.estudios)
       );
       this.searchState = 'D';
@@ -265,7 +266,7 @@ export class EstudioComponent implements OnInit {
   }
   setOperation(chOp: string) {
     this.op = chOp;
-    console.log(this.searchState);
+    //console.log(this.searchState);
     if (chOp !== '') {
       this.searchState = 'I';
       this.opStatus = 'S';
