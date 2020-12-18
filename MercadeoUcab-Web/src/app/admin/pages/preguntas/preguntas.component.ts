@@ -9,9 +9,8 @@ import { DelPreguntaDialogComponent } from '../../components/dialogs/del-pregunt
 import { UpdatePreguntaDialogComponent } from '../../components/dialogs/update-pregunta-dialog/update-pregunta-dialog.component';
 
 interface OptionItem {
-  nombre_opcion:string;
+  nombre_opcion: string;
 }
-
 
 @Component({
   selector: 'app-preguntas',
@@ -35,53 +34,53 @@ export class PreguntasComponent implements OnInit {
   //LISTA DE USUARIOS DEVUELTOS EN BÚSQUEDA
   preguntas: Pregunta[] = [];
   dataSource: MatTableDataSource<Pregunta>;
-  minF:number=0;
-  maxF:number=0;
-  displayedColumns: string[] = ['id', 'desc','tipo','selector', 'ops'];
+  minF: number = 0;
+  maxF: number = 0;
+  displayedColumns: string[] = ['id', 'desc', 'tipo', 'selector', 'ops'];
   columnsToDisplay: string[] = this.displayedColumns.slice();
 
-  optionList:OptionItem[] = [];
+  optionList: OptionItem[] = [];
 
   pregTipos = [
-  {name:'Abierta',t:'abierta'},
-  {name:'Selección simple',t:'simple'},
-  {name:'Selección múltiple',t:'multiple'},
-  {name:'Verdadero o Falso',t:'boolean'},
-  {name:'Valor dentro de rango',t:'rango'}
- ];
+    { name: 'Abierta', t: 'abierta' },
+    { name: 'Selección simple', t: 'simple' },
+    { name: 'Selección múltiple', t: 'multiple' },
+    { name: 'Verdadero o Falso', t: 'boolean' },
+    { name: 'Valor dentro de rango', t: 'rango' },
+  ];
 
-  rangeConcat(limit,val){
-    if(limit === 0){
-      this.minF=val;
-    }
-    else if(limit === 1){
+  rangeConcat(limit, val) {
+    if (limit === 0) {
+      this.minF = val;
+    } else if (limit === 1) {
       this.maxF = val;
-    } 
-    if((this.minF !== 0) && (this.maxF !==0) && (this.minF < this.maxF)){
+    }
+    if (this.minF !== 0 && this.maxF !== 0 && this.minF < this.maxF) {
       this.addForm.get('rango').setValue(`${this.minF}&${this.maxF}`);
     }
   }
 
-  setOption(opInd,opName){
-    this.optionList[opInd].nombre_opcion=opName;
+  setOption(opInd, opName) {
+    this.optionList[opInd].nombre_opcion = opName;
   }
 
-  addOption(){
+  addOption() {
     this.optionList.push({
-      nombre_opcion:'Nueva opción',
+      nombre_opcion: 'Nueva opción',
     });
     console.log(this.optionList);
   }
-  
-  resizeOptionList(opInd){
-    this.optionList=this.optionList
-    .map((op,ind)=> {
-      if(ind !== opInd ){return op}
-      else{
-        return undefined;
-      }
-    })
-    .filter(el => el !== undefined);
+
+  resizeOptionList(opInd) {
+    this.optionList = this.optionList
+      .map((op, ind) => {
+        if (ind !== opInd) {
+          return op;
+        } else {
+          return undefined;
+        }
+      })
+      .filter((el) => el !== undefined);
   }
 
   setOperation(chOp: string) {
@@ -102,23 +101,23 @@ export class PreguntasComponent implements OnInit {
     return await this.updComponent.open();
   }
   testUser: Usuario = {
-    _id:Math.floor(Math.random()*(1000-1)+1),
-    nombre:Math.random().toString(36).substr(2, 5),
-    apellido:Math.random().toString(36).substr(2, 5),
-    rol:'Administrador',
-    correo:Math.random().toString(36).substr(2, 5),
-    estado:'Activo',
-  }
+    _id: Math.floor(Math.random() * (1000 - 1) + 1),
+    nombre: Math.random().toString(36).substr(2, 5),
+    apellido: Math.random().toString(36).substr(2, 5),
+    rol: 'Administrador',
+    correo: Math.random().toString(36).substr(2, 5),
+    estado: 'Activo',
+  };
   ngOnInit(): void {
     this.setOperation('');
     this.searchState = 'U';
     this.opStatus = 'S';
-    this.addForm= this.formBuilder.group({
+    this.addForm = this.formBuilder.group({
       nombre_pregunta: null,
-      tipo:null,
-      rango:null,
-      fk_usuario:(localStorage.getItem('_id') !== undefined)?localStorage.getItem('_id'):1,
-      opciones:null,
+      tipo: null,
+      rango: null,
+      fk_usuario: 1,
+      opciones: null,
     });
     this.searchForm = this.formBuilder.group({
       tipo: null,
@@ -143,12 +142,12 @@ export class PreguntasComponent implements OnInit {
     this._preguntaService.createPregunta(data).subscribe(
       (response: any) => {
         console.log(response);
-        alert(response.message);
+        //alert(response.message);
         this.opStatus = 'D';
       },
       (error) => {
         console.log(error);
-        alert(error.error.message);
+        //alert(error.error.message);
         this.opStatus = 'E';
       }
     );
@@ -159,25 +158,64 @@ export class PreguntasComponent implements OnInit {
       (response) => {
         console.log(response);
         this.preguntas = response.data;
-        this.dataSource=new  MatTableDataSource<Pregunta>(this.dataFilter(this.preguntas));
+        this.dataSource = new MatTableDataSource<Pregunta>(
+          this.dataFilter(this.preguntas)
+        );
         this.searchState = 'D';
       },
       (error) => {
         console.log(error);
-        this.preguntas=[
-          {_id:1,tipo:'abierta',rango:null,opciones:null,pregunta:'ABIERTA',usuario:this.testUser},
-          {_id:2,tipo:'rango',rango:'1&100',opciones:null,pregunta:'RANGO',usuario:this.testUser},
-          {_id:3,tipo:'simple',rango:null,opciones:[
-            {nombre_opcion:'Nueva op1',_id:1},
-            {nombre_opcion:'Nueva op2',_id:2},
-          ],pregunta:'SIMPLE',usuario:this.testUser},
-          {_id:14,tipo:'multiple',rango:null,opciones:[
-            {nombre_opcion:'Nueva op1',_id:1},
-            {nombre_opcion:'Nueva op2',_id:2},
-          ],pregunta:'MULTIPLE',usuario:this.testUser},
-          {_id:17,tipo:'boolean',rango:null,opciones:null,pregunta:'V O F',usuario:this.testUser},
+        this.preguntas = [
+          {
+            _id: 1,
+            tipo: 'abierta',
+            rango: null,
+            opciones: null,
+            pregunta: 'ABIERTA',
+            usuario: this.testUser,
+          },
+          {
+            _id: 2,
+            tipo: 'rango',
+            rango: '1&100',
+            opciones: null,
+            pregunta: 'RANGO',
+            usuario: this.testUser,
+          },
+          {
+            _id: 3,
+            tipo: 'simple',
+            rango: null,
+            opciones: [
+              { nombre_opcion: 'Nueva op1', _id: 1 },
+              { nombre_opcion: 'Nueva op2', _id: 2 },
+            ],
+            pregunta: 'SIMPLE',
+            usuario: this.testUser,
+          },
+          {
+            _id: 14,
+            tipo: 'multiple',
+            rango: null,
+            opciones: [
+              { nombre_opcion: 'Nueva op1', _id: 1 },
+              { nombre_opcion: 'Nueva op2', _id: 2 },
+            ],
+            pregunta: 'MULTIPLE',
+            usuario: this.testUser,
+          },
+          {
+            _id: 17,
+            tipo: 'boolean',
+            rango: null,
+            opciones: null,
+            pregunta: 'V O F',
+            usuario: this.testUser,
+          },
         ];
-        this.dataSource=new  MatTableDataSource<Pregunta>(this.dataFilter(this.preguntas));
+        this.dataSource = new MatTableDataSource<Pregunta>(
+          this.dataFilter(this.preguntas)
+        );
         this.searchState = 'D';
       }
     );
@@ -205,28 +243,39 @@ export class PreguntasComponent implements OnInit {
     );
   }
   serviceInvoke() {
-    if((this.addForm.get('tipo').value === 'simple' || this.addForm.get('tipo').value === 'multiple' ) && this.optionList.length > 0){
+    if (
+      (this.addForm.get('tipo').value === 'simple' ||
+        this.addForm.get('tipo').value === 'multiple') &&
+      this.optionList.length > 0
+    ) {
       this.addForm.get('opciones').setValue(this.optionList);
-      console.log('')
+      console.log('');
     }
     //console.log('Submit trigered', this.addForm.value);
     this.opStatus = 'P';
     let toAdd: any = {};
-    toAdd = this.addForm.value;
+    let values = this.addForm.value;
+    //toAdd = this.addForm.value;
     // Campos que se deben pasar al Back
     //toAdd.tipo;
     //toAdd.rango;
     //toAdd.fk_usuario;
-    //toAdd.opciones;
+    //toAdd.opciones
+    toAdd.nombre_pregunta = values.nombre_pregunta;
+    toAdd.tipo = values.tipo;
+    toAdd.rango = values.rango;
+    toAdd.opciones = values.opciones;
+    toAdd.usuarioDto = values.fk_usuario;
+    console.log(toAdd);
     this.addPregunta(toAdd);
     this.addForm = this.formBuilder.group({
       nombre_pregunta: null,
-      tipo:null,
-      rango:null,
-      fk_usuario:(localStorage.getItem('_id') !== undefined)?localStorage.getItem('_id'):1,
-      opciones:null,
+      tipo: null,
+      rango: null,
+      fk_usuario: 1,
+      opciones: null,
     });
-    this.optionList=[];
+    this.optionList = [];
   }
   invokeSearch() {
     this.preguntas = [];

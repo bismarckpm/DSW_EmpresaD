@@ -162,7 +162,7 @@ public class ServicioTipo extends AplicacionBase {
     }
 
     @PUT
-    @Path("/eliminar/{id}")
+    @Path("/{id}/eliminar")
     public Response eliminarTipo( @PathParam("id") Long id){
         JsonObject data;
         Response resultado = null;

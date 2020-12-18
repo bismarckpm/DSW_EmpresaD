@@ -174,7 +174,7 @@ public class ServicioSubCategoria extends AplicacionBase{
     }
 
     @PUT
-    @Path("/eliminar/{id}")
+    @Path("/{id}/eliminar")
     public Response  eliminarSubCategoria(@PathParam("id") Long id){
         JsonObject data;
         Response resultado = null;

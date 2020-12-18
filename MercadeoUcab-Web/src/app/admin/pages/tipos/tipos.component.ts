@@ -40,12 +40,12 @@ export class TiposComponent implements OnInit {
     private formBuilder: FormBuilder,
     private _tipoService: TipoService
   ) {}
-  
-  @ViewChild('updTipo') private updComponent:UpdateTipoDialogComponent;
+
+  @ViewChild('updTipo') private updComponent: UpdateTipoDialogComponent;
   async openUpdModal() {
     return await this.updComponent.open();
   }
-  @ViewChild('delTipo') private delComponent:DeleteTipoDialogComponent;
+  @ViewChild('delTipo') private delComponent: DeleteTipoDialogComponent;
   async openDelModal() {
     return await this.delComponent.open();
   }
@@ -70,15 +70,15 @@ export class TiposComponent implements OnInit {
         this.dataSource = new MatTableDataSource<Tipo>(
           this.dataFilter(this.tipos)
         );
-        this.searchState="D";
+        this.searchState = 'D';
       },
       (error) => {
         console.log(error);
-        this.tipos=[{_id:1,nombre:'testTipo'}];
+        this.tipos = [{ _id: 1, nombre: 'testTipo' }];
         this.dataSource = new MatTableDataSource<Tipo>(
           this.dataFilter(this.tipos)
         );
-        this.searchState="D";
+        this.searchState = 'D';
       }
     );
   }
@@ -95,11 +95,11 @@ export class TiposComponent implements OnInit {
         // Obtener el tipo con response.data
       },
       (error) => {
-        this.tipos=[{_id:1,nombre:'testTipo'}];
+        this.tipos = [{ _id: 1, nombre: 'testTipo' }];
         this.dataSource = new MatTableDataSource<Tipo>(
           this.dataFilter(this.tipos)
         );
-        this.searchState="D";
+        this.searchState = 'D';
         console.log(error);
       }
     );
@@ -109,12 +109,12 @@ export class TiposComponent implements OnInit {
     this._tipoService.createTipo(data).subscribe(
       (response) => {
         console.log(response);
-        alert('Se agrego el Tipo correctamente');
-        this.opStatus="D";
+        //alert('Se agrego el Tipo correctamente');
+        this.opStatus = 'D';
       },
       (error) => {
         console.log(error);
-        this.opStatus="E";
+        this.opStatus = 'E';
       }
     );
   }
@@ -123,7 +123,7 @@ export class TiposComponent implements OnInit {
     this._tipoService.updateTipo(id, data).subscribe(
       (response) => {
         console.log(response);
-        alert('Se modifico el Tipo correctamente');
+        //alert('Se modifico el Tipo correctamente');
       },
       (error) => {
         console.log(error);
@@ -158,36 +158,37 @@ export class TiposComponent implements OnInit {
     }
     return false;
   }
-  dataFilter(dataArray:Tipo[]): Tipo[]{
+  dataFilter(dataArray: Tipo[]): Tipo[] {
     console.log(this.searchForm.value);
     let filtered: Tipo[] = [];
-    dataArray.forEach((res,ind) => {
+    dataArray.forEach((res, ind) => {
       let inc = true;
-      Object.entries(this.searchForm.value).forEach(([key,field],_ind)=>{
-        if(inc === true && field !== null){
-          if(field instanceof Date && (res[key] >= field && res[key] <= Date.now())){
+      Object.entries(this.searchForm.value).forEach(([key, field], _ind) => {
+        if (inc === true && field !== null) {
+          if (
+            field instanceof Date &&
+            res[key] >= field &&
+            res[key] <= Date.now()
+          ) {
             return;
-          }
-          else if(typeof(field)==='string' && res[key].startsWith(field)){
+          } else if (typeof field === 'string' && res[key].startsWith(field)) {
             return;
-          }
-          else if(typeof(field)==='boolean' && res[key]===field){
+          } else if (typeof field === 'boolean' && res[key] === field) {
             return;
-          }
-          else{
+          } else {
             inc = false;
           }
         }
-      })
-      if(inc === true){
+      });
+      if (inc === true) {
         filtered.push(res);
       }
-    })
+    });
     //console.log(dataArray,filtered);
     return filtered;
   }
   invokeSearch() {
-    this.searchState="P";
+    this.searchState = 'P';
     this.getTipos();
     /* this.presentaciones = [];
     this.userSelection=0;
@@ -201,7 +202,7 @@ export class TiposComponent implements OnInit {
       this.searchState="D";
     },3000);*/
   }
-  invokeService(){
+  invokeService() {
     this.opStatus = 'P';
     this.addTipo(this.addForm.value);
     this.addForm = this.formBuilder.group({

@@ -57,6 +57,7 @@ export class DelCategoriaDialogComponent implements OnInit {
     setTimeout(()=>{
       this.opStatus="D";
     },3000);*/
+    console.log(this._userSelection);
     this.deleteCategoria(this._userSelection);
   }
 }

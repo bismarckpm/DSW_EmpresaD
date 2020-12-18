@@ -182,13 +182,14 @@ public class ServicioPregunta extends AplicacionBase{
             pregunta.setUsuario(usuario);
             pregunta.setActivo(1);
             pregunta.setCreado_el(new Date(Calendar.getInstance().getTime().getTime()));
-            
-            for (DtoOpcion opcion: dtoPregunta.getOpciones()){
-                Opcion paraInsertar = new Opcion();
-                paraInsertar.setActivo( 1);
-                paraInsertar.setCreado_el(new Date(Calendar.getInstance().getTime().getTime()));
-                paraInsertar.setNombre_opcion(opcion.getNombre_opcion());
-                pregunta.addOpcion( paraInsertar);
+            if ( dtoPregunta.getOpciones() != null) {
+                for (DtoOpcion opcion : dtoPregunta.getOpciones()) {
+                    Opcion paraInsertar = new Opcion();
+                    paraInsertar.setActivo(1);
+                    paraInsertar.setCreado_el(new Date(Calendar.getInstance().getTime().getTime()));
+                    paraInsertar.setNombre_opcion(opcion.getNombre_opcion());
+                    pregunta.addOpcion(paraInsertar);
+                }
             }
             Pregunta resul = dao.insert(pregunta);
             data = Json.createObjectBuilder()
@@ -200,13 +201,12 @@ public class ServicioPregunta extends AplicacionBase{
                     .build();
         }
         catch (Exception e){
-            String problema = e.getMessage();
+            e.printStackTrace();
             data = Json.createObjectBuilder()
                     .add("status", 400)
-                    .add("mensaje",problema)
+                    .add("mensaje","Error")
                     .build();
-            resultado = Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(data).build();
-
+            resultado = Response.status(Response.Status.BAD_REQUEST).entity(data).build();
         }
         return resultado;
     }

@@ -149,7 +149,7 @@ public class ServicioPresentacion extends AplicacionBase{
     }
 
     @PUT
-    @Path("/eliminar/{id}")
+    @Path("/{id}/eliminar")
     // @PathParam("id") Long id
     public Response eliminarPresentacion(@PathParam("id") long id){
         JsonObject data;
