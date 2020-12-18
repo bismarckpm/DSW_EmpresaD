@@ -62,6 +62,7 @@ export class CategoriasComponent implements OnInit {
     this._categoriaService.getCategorias().subscribe(
       (response) => {
         console.log(response);
+        this.categorias = response.data;
       },
       (error) => {
         console.log(error);
@@ -106,7 +107,9 @@ export class CategoriasComponent implements OnInit {
   }
   serviceInvoke() {
     this.opStatus = 'P';
-    this.addCategoria(this.addForm.value);
+    let toAdd: any = {};
+    toAdd.nombre = this.addForm.value.nombre;
+    this.addCategoria(toAdd);
     this.addForm = this.formBuilder.group({
       nombre: null,
     });
@@ -115,9 +118,7 @@ export class CategoriasComponent implements OnInit {
     this.searchState = 'P';
     this.categorias = [];
     this.userSelection = 0;
-    let toAdd: any = {};
-    toAdd.nombre = this.addForm.value.nombre;
-    this.addCategoria(toAdd);
+    this.getCategorias();
     /*this._categoriaService.getCategorias().subscribe(
       (response) => {
         console.log(response);

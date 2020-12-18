@@ -18,7 +18,7 @@ export class EncuestasPendientesComponent implements OnInit {
     private router: Router,
     private _utilService: UtilService
   ) {}
-  public idUserLogged: number = 1;
+  public idUserLogged: number = 2;
   enc: string = '';
   searchState: string = '';
   encuestas: Encuesta[] = [];
@@ -52,7 +52,7 @@ export class EncuestasPendientesComponent implements OnInit {
           console.log(response);
           this.encuestas = response.data;
         } else {
-          alert(response.message);
+          //alert(response.message);
         }
       },
       (error) => {

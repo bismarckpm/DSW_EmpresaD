@@ -100,12 +100,12 @@ export class UsuariosComponent implements OnInit {
         console.log(response);
         if (response.status === 200) {
           //Se hace lo que se quiera en exito
-          alert(response.message);
+          //alert(response.message);
         }
       },
       (error) => {
         console.log(error);
-        alert(error.error.message);
+        //alert(error.error.message);
       }
     );
   }
@@ -114,7 +114,7 @@ export class UsuariosComponent implements OnInit {
     this._userService.updateUser(id, data).subscribe(
       (response) => {
         console.log(response);
-        alert('Se modifico el usuario correctamente');
+        //alert('Se modifico el usuario correctamente');
       },
       (error) => {
         console.log(error);
