@@ -1,6 +1,5 @@
-<div class="container menu-container">
+<div class="menu-container" style="width: 91.5vw !important; justify-content: unset;flex-direction: row;">
     <div *ngIf="op===''" class="container" style="height: 100%;width: 100%;">
-        
         <div class="row" style="height: 50%;">
             <div class="col-8">
                 <mat-card class="menu-card" (click)="setOperation('add')">
@@ -38,8 +37,7 @@
             </div>
         </div>
     </div>
-    <div *ngIf="op==='add'" style="height: 90%;width: 90%;">
-        
+    <div *ngIf="op==='add'" style="height: 90%;width: 62.5%;left:calc(18.75%);position: relative;" id="addStepper">
         <mat-card style="height: 100%;width: 100%;text-align: center;display: flex;flex-direction: column;">
             <mat-horizontal-stepper [linear]="true" #estudio_stepper *ngIf="opStatus==='S'">
                 <mat-step state='solicitud' style="background-color: aqua;">
@@ -73,7 +71,7 @@
                     <div class="step-container">
                         <!--<h4>Información de solicitud {{addForm.value.solicitud}}</h4>-->
                         <h4>Población de estudio</h4>
-                        <form class="cForm" [formGroup]="poblacionForm">
+                        <form class="cForm" [formGroup]="poblacionForm" (submit)="stepCheck(1,estudio_stepper)" >
                             <div class="cForm-field-row">
                                 <div class="cForm-field-col">
                                     <div class="form-group">
@@ -217,6 +215,10 @@
                     <button type="button" class="btn btn-outline-dark" (click)="setOperation('')">Continuar</button>
                 </div>
             </div>
+        </mat-card>
+    </div>
+    <div  *ngIf="op==='add' && currentStep !==0" style="height: 90%;width: 30%;" class="SlideIn"  id="suggests"> 
+        <mat-card style="height: 100%;width: 100%;text-align: center;display: flex;flex-direction: column;">
         </mat-card>
     </div>
     <div *ngIf="op!=='add' && searchState==='I'" style="height: 75%;width: 75%;">

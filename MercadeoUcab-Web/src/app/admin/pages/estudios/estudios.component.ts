@@ -20,6 +20,7 @@ import { ParroquiaService } from '@core/services/parroquia/parroquia.service';
 import { Municipio } from '@core/models/municipio';
 import { Estado } from '@core/models/estado';
 import { Pais } from '@core/models/pais';
+import { animate, state, style, transition, trigger } from '@angular/animations';
 
 @Component({
   selector: 'app-estudios',
@@ -31,12 +32,14 @@ import { Pais } from '@core/models/pais';
       useValue: { displayDefaultIndicatorType: false },
     },
   ],
+  animations:[]
 })
 export class EstudiosComponent implements OnInit {
   op: string;
   searchState: string; //U,I,P,D
   solicitudSelec: number;
   opStatus: string;
+  currentStep : number= 0;
   solicitudes: Solicitud[] = [];
   ocupaciones: Ocupacion[] = [];
   estudios: Estudio[] = [];
@@ -280,7 +283,62 @@ export class EstudiosComponent implements OnInit {
          tipos: [{_id:1,nombre:'test Tipo'}],
          presentaciones: [{_id:1,tipo:'volumen',cantidad:'800ml'}],
          subcategorias:[{_id:1,nombre:'test SubCategoria',categoria:{_id:1,nombre:'test Categoria'}}]
-        }];
+        },
+        {
+          _id:34,
+          estado:'activo',
+          usuario: this.testUser,
+          marca: {_id:1,nombre:'TEST MARCA'},
+          tipos: [{_id:1,nombre:'test Tipo'}],
+          presentaciones: [{_id:1,tipo:'volumen',cantidad:'800ml'}],
+          subcategorias:[{_id:1,nombre:'test SubCategoria',categoria:{_id:1,nombre:'test Categoria'}}]
+         },
+         {
+          _id:107,
+          estado:'activo',
+          usuario: this.testUser,
+          marca: {_id:1,nombre:'TEST MARCA'},
+          tipos: [{_id:1,nombre:'test Tipo'}],
+          presentaciones: [{_id:1,tipo:'volumen',cantidad:'800ml'}],
+          subcategorias:[{_id:1,nombre:'test SubCategoria',categoria:{_id:1,nombre:'test Categoria'}}]
+         },
+         {
+          _id:113,
+          estado:'activo',
+          usuario: this.testUser,
+          marca: {_id:1,nombre:'TEST MARCA'},
+          tipos: [{_id:1,nombre:'test Tipo'}],
+          presentaciones: [{_id:1,tipo:'volumen',cantidad:'800ml'}],
+          subcategorias:[{_id:1,nombre:'test SubCategoria',categoria:{_id:1,nombre:'test Categoria'}}]
+         },
+         {
+          _id:12,
+          estado:'activo',
+          usuario: this.testUser,
+          marca: {_id:1,nombre:'TEST MARCA'},
+          tipos: [{_id:1,nombre:'test Tipo'}],
+          presentaciones: [{_id:1,tipo:'volumen',cantidad:'800ml'}],
+          subcategorias:[{_id:1,nombre:'test SubCategoria',categoria:{_id:1,nombre:'test Categoria'}}]
+         },
+         {
+          _id:5,
+          estado:'activo',
+          usuario: this.testUser,
+          marca: {_id:1,nombre:'TEST MARCA'},
+          tipos: [{_id:1,nombre:'test Tipo'}],
+          presentaciones: [{_id:1,tipo:'volumen',cantidad:'800ml'}],
+          subcategorias:[{_id:1,nombre:'test SubCategoria',categoria:{_id:1,nombre:'test Categoria'}}]
+         },
+         {
+          _id:90,
+          estado:'activo',
+          usuario: this.testUser,
+          marca: {_id:1,nombre:'TEST MARCA'},
+          tipos: [{_id:1,nombre:'test Tipo'}],
+          presentaciones: [{_id:1,tipo:'volumen',cantidad:'800ml'}],
+          subcategorias:[{_id:1,nombre:'test SubCategoria',categoria:{_id:1,nombre:'test Categoria'}}]
+         }
+      ];
       }
     );
   }
@@ -366,9 +424,20 @@ export class EstudiosComponent implements OnInit {
   stepCheck(ind,stepper) {
     switch(ind){
       case 0:
+        document.getElementById('addStepper').classList.add('leftSlider');
+        this.currentStep = 1; 
         stepper.next();
         break;
       case 1:
+        document.getElementById('addStepper').classList.remove('leftSlider');
+        document.getElementById('addStepper').classList.add('rightSlider');
+        document.getElementById('suggests').classList.add('SlideOut');
+        this.currentStep = 2; 
+        setTimeout(() => {
+          //document.getElementById('addStepper').classList.remove('rightSlider');
+          this.currentStep = 0;
+        },1500);
+        stepper.next();
         break;
       case 2:
         break;

@@ -4,3 +4,61 @@
     flex-direction: column;
 }
 
+@-webkit-keyframes slide {
+    100% { right: calc((3.75%) * -1); }
+}
+
+@keyframes slide {
+    100% { right: calc((3.75%) * -1); }
+}
+
+@-webkit-keyframes slideOut {
+    100% { right: -600px; }
+}
+
+@keyframes slideOut {
+    100% { right: -600px; }
+}
+
+@-webkit-keyframes slideLeft {
+    100% { left:calc((1.875%)); }
+}
+
+@keyframes slideLeft {
+   100% { left: calc((1.875%)); }
+}
+
+@-webkit-keyframes slideRight {
+    100% { left: calc((18.75%) ); }
+}
+
+@keyframes slideRight {
+    100% { left: calc((18.75%)); }
+}
+
+.SlideIn {
+    position: relative;
+    right: -600px;
+    -webkit-animation: slide 1.5s forwards;
+    animation: slide 1.5s forwards;
+}
+.SlideOut {
+    position: relative;
+    right: 0px;
+    -webkit-animation: slideOut 1.5s forwards;
+    animation: slideOut 1.5s forwards;
+}
+
+.leftSlider {
+    position: relative;
+    left: calc(18.75%);
+    -webkit-animation: slideLeft 1.5s forwards;
+    animation: slideLeft 1.5s forwards; 
+}
+
+.rightSlider {
+    position: relative;
+    left:calc((1.875%));
+    -webkit-animation: slideRight 1.5s forwards;
+    animation: slideRight  1.5s forwards; 
+}

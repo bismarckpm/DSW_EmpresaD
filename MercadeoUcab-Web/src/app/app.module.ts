@@ -25,6 +25,7 @@ import { AuthModule } from './auth/auth.module';
     AnalistaModule,
     AdminModule,
     AuthModule,
+    BrowserModule,
     //MaterialModule,
     //LocalNgbModule,
     CoreModule,
