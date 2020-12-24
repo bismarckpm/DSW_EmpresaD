@@ -73,9 +73,9 @@ public class DaoEstudio extends Dao<Estudio>{
         try {
             _handler.beginTransaction();
             TypedQuery<Estudio> estudios = this._em.createNamedQuery("preguntas_similares",Estudio.class);
-            estudios.setParameter("presentaciones", solicitud.getPresentaciones().get(0));
-            estudios.setParameter("tipos", solicitud.getTipos().get(0));
-            estudios.setParameter("subcategorias",solicitud.getSubCategorias().get(0));
+            estudios.setParameter("presentaciones", solicitud.getPresentaciones());
+            estudios.setParameter("tipos", solicitud.getTipos());
+            estudios.setParameter("subcategorias",solicitud.getSubCategorias());
             resultado = estudios.getResultList();
             _em.flush();
             _em.clear();

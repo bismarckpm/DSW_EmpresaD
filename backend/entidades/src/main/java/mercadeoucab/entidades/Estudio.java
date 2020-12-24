@@ -26,9 +26,10 @@ import java.util.List;
         @NamedQuery(
                 name = "preguntas_similares",
                 query = "select e from Estudio e " +
-                        "where e.solicitud.presentaciones = :presentaciones " +
-                        "and e.solicitud.tipos = :tipos " +
-                        "and e.solicitud.subCategorias = :subcategorias"
+                        "join e.solicitud s " +
+                        "where s.presentaciones in :presentaciones " +
+                        "and s.tipos in :tipos " +
+                        "and s.subCategorias in :subcategorias"
 
         )
 })
