@@ -1,8 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
-import {NgbPopover, NgbPopoverConfig} from '@ng-bootstrap/ng-bootstrap';
-
-
 @Component({
   selector: 'app-dashboard',
   templateUrl: './dashboard.component.html',

@@ -8,11 +8,17 @@ import { Router, ActivatedRoute } from '@angular/router';
 })
 export class DashboardComponent implements OnInit {
   constructor(private route: ActivatedRoute, private router: Router) {}
-
+  openNote: boolean=false;
   ngOnInit(): void {
     this.onDir('encuestado/home');
+    setTimeout(()=>{
+      this.openNote=true;
+      setTimeout(() => {
+        this.openNote=false;
+      },10000)
+    },2000);
   }
-
+  
   onDir(_route: string): void {
     try {
       //console.log(_route);
