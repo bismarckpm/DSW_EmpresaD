@@ -3,6 +3,7 @@ package mercadeoucab.accesodatos;
 import mercadeoucab.dtos.DtoUsuario;
 import mercadeoucab.entidades.DatoEncuestado;
 import mercadeoucab.entidades.Estudio;
+import mercadeoucab.entidades.Solicitud;
 import mercadeoucab.entidades.Usuario;
 
 import javax.persistence.EntityManager;
@@ -64,5 +65,26 @@ public class DaoEstudio extends Dao<Estudio>{
         }
         return resultado;
 
+    }
+
+    public  List<Estudio> preguntasSimilares(Solicitud solicitud){
+        _em = _handler.getSession();
+        List<Estudio> resultado = null;
+        try {
+            _handler.beginTransaction();
+            TypedQuery<Estudio> estudios = this._em.createNamedQuery("preguntas_similares",Estudio.class);
+            estudios.setParameter("presentaciones", solicitud.getPresentaciones().get(0));
+            estudios.setParameter("tipos", solicitud.getTipos().get(0));
+            estudios.setParameter("subcategorias",solicitud.getSubCategorias().get(0));
+            resultado = estudios.getResultList();
+            _em.flush();
+            _em.clear();
+            _handler.finishTransaction();
+        }
+        catch (Exception e){
+            String problema = e.getMessage();
+            System.out.println(problema);
+        }
+        return  resultado;
     }
 }

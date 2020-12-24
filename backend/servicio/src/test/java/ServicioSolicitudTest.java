@@ -71,4 +71,11 @@ public class ServicioSolicitudTest {
         Response resultado = servicio.listarSolicitudEstado("solicitada");
         Assert.assertEquals(200, resultado.getStatus());
     }
+
+    @Test
+    public void preguntasRecomendadasTest() throws Exception{
+        ServicioSolicitud servicio = new ServicioSolicitud();
+        Response resultado = servicio.preguntasRecomendadas(1);
+        Assert.assertEquals(200, resultado.getStatus());
+    }
 }

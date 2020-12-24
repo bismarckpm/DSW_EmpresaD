@@ -22,6 +22,14 @@ import java.util.List;
                         "  and e.fk_muestra_poblacion.rangoEdadFin >= :edad " +
                         "  and e.fk_muestra_poblacion.fk_lugar = :lugar " +
                         "  and e.fk_muestra_poblacion.fk_ocupacion = :ocupacion"
+        ),
+        @NamedQuery(
+                name = "preguntas_similares",
+                query = "select e from Estudio e " +
+                        "where e.solicitud.presentaciones = :presentaciones " +
+                        "and e.solicitud.tipos = :tipos " +
+                        "and e.solicitud.subCategorias = :subcategorias"
+
         )
 })
 public class Estudio extends EntidadBase{
