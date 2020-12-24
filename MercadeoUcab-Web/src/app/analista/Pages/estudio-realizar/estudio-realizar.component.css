@@ -1,12 +1,12 @@
 .analista-estudio {
     width: 80vw;
-    height: 75vh;
+    height: 85vh;
     display: flex;    
     flex-direction: column;
 }
 .estudio-poblacion{
     width: 80%;
-    height: 90%;
+    height: 95%;
     background-color: white;
     align-self: start;
     display: flex;
@@ -51,7 +51,6 @@
 }
 
 .pregunta-content {
-    height: 22.5%;
     margin-bottom: 2.5%;
     margin-left:2.5%;
     margin-right: 2.5%;
@@ -59,6 +58,8 @@
     justify-content: space-around;
     display: flex;
     flex-direction: row;
+    min-height: 22.5%;
+    height: fit-content;
 }
 
 .pregunta-descripcion {

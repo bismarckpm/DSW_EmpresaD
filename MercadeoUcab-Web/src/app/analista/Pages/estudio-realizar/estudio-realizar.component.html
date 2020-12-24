@@ -5,9 +5,13 @@
         [rowspan]="4"
         >
             <mat-card class="estudio-poblacion">
-                <mat-card-header style="justify-content: space-around;">
-                    <mat-card-title>Población de estudio</mat-card-title>
-                    <button class="btn btn-outline-dark shadow-sm">
+                <mat-card-header style="padding:5px 0px;justify-content: space-around;">
+                    <mat-card-title>
+                       <h6>Población de estudio</h6>
+                    </mat-card-title>
+                    <button class="btn btn-outline-dark shadow-sm" style="padding: 0.15rem 0.15rem;
+                    height: fit-content;
+                    display: flex;">
                         <mat-icon>
                             more_horiz
                         </mat-icon>
@@ -40,34 +44,35 @@
         >
             <mat-card class="estudio-preguntas">
                 <mat-card-header>
-                    <mat-card-title>Preguntas de estudio</mat-card-title>
+                    <mat-card-title>
+                        <h6>Preguntas de estudio</h6>
+                    </mat-card-title>
                 </mat-card-header>
                 <mat-card-content class="card-content">
                     <!--PREGUNTAS ESTUDIO-->
-                    <!--
-                    <div class="pregunta-content" *ngFor="let pregunta of _Estudio.preguntas">
-                        <mat-icon style="
-                        color: #00d8b4; 
-                        font-size: 28px;
-                        height: 28px;
-                        width: 28px;">
-                            help_center
+                    <div class="pregunta-content" *ngFor="let pregunta of _Estudio.encuesta">
+                        <button disabled
+                        type="button"
+                        style="background-color: #00d8b4; color: white;
+                        padding: 0.15rem 0.15rem;
+                        height: fit-content;
+                        display: flex;"
+                        class="shadom-sm btn">
+                        <mat-icon style="font-size: 28px;height: 28px;width: 28px;">
+                            border_color
                         </mat-icon>
+                        </button>
                         <div class="pregunta-descripcion">
-
+                            <a>{{pregunta.pregunta.pregunta}}</a> 
                         </div>
+                        <!--
                         <button mat-raised-button aria-label="pregunta explain button">
                             <mat-icon>
                                 more_vert
                             </mat-icon>
                         </button>
-                        
-                        <a>{{pregunta.id}}</a>
-                        <a>{{pregunta.descripcion}}</a>
-                        <a>{{pregunta.estado}}</a>
-                        
+                        -->                   
                     </div>
-                -->
                 </mat-card-content>
             </mat-card>
         </mat-grid-tile>
@@ -77,7 +82,9 @@
         >
             <mat-card class="estudio-progreso">
                 <mat-card-header>
-                    <mat-card-title>Progreso del estudio</mat-card-title>
+                    <mat-card-title>
+                       <h6>Progreso del estudio</h6>
+                    </mat-card-title>
                 </mat-card-header>
                 <mat-card-content>
                     <!--PROGRESO ( Finalizados/ No finalizados/ N poblacion )-->
