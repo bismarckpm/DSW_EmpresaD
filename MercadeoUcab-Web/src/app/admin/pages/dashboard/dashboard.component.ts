@@ -1,5 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
+import {NgbPopover, NgbPopoverConfig} from '@ng-bootstrap/ng-bootstrap';
+
+
 @Component({
   selector: 'app-dashboard',
   templateUrl: './dashboard.component.html',
@@ -7,10 +10,21 @@ import { Router, ActivatedRoute } from '@angular/router';
 })
 export class DashboardComponent implements OnInit {
   constructor(private route: ActivatedRoute, private router: Router) {}
+  //CONTROL DE MUESTRA DE NOTIFICACIONES
+  openNote: boolean=false;
+  
+  getOpenNote():boolean{
+    return this.openNote;
+  };
 
-  slideConfig = { slidesToShow: 4, slidesToScroll: 4 };
-
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    setTimeout(()=>{
+      this.openNote=true;
+      setTimeout(() => {
+        this.openNote=false;
+      },10000)
+    },2000);
+  }
   onDir(_route: string): void {
     try {
       //console.log(_route);
