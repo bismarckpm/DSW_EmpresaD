@@ -4,6 +4,13 @@ import javax.persistence.*;
 
 @Entity
 @Table(name = "respuesta")
+@NamedQueries({
+        @NamedQuery(
+                name = "usuarios_respondieron",
+                query = "select distinct (r.fk_usuario._id) from Respuesta r " +
+                        "where r.encuesta_estudio.fk_estudio._id = :idEstudio"
+        )
+})
 public class Respuesta extends EntidadBase {
 
     @Column(name = "respuesta")
