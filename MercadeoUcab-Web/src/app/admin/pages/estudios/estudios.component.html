@@ -37,7 +37,7 @@
             </div>
         </div>
     </div>
-    <div *ngIf="op==='add'" style="height: 90%;width: 62.5%;left:calc(18.75%);position: relative;" id="addStepper">
+    <div *ngIf="op==='add'" class="estudio-section initLeft" id="addStepper">
         <mat-card style="height: 100%;width: 100%;text-align: center;display: flex;flex-direction: column;">
             <mat-horizontal-stepper [linear]="true" #estudio_stepper *ngIf="opStatus==='S'">
                 <mat-step state='solicitud' style="background-color: aqua;">
@@ -45,17 +45,29 @@
                         <form class="cForm" [formGroup]="addForm" (submit)="stepCheck(0,estudio_stepper)" style="height: 100%; justify-content: space-around;">
                             <div  style="height: 85%;
                             overflow-y: auto; display: flex; flex-direction: column;">
-                            <mat-radio-group formControlName="solicitud" style="display: flex; flex-direction: column; align-items: center;min-height: 100%;">
-                                <div *ngFor="let solicitud of solicitudes" class="shadow-sm mat-card"
-                                style="display: flex;flex-direction: row;margin-bottom: 5px;width: 95%; justify-content: space-between;height:calc(25% - 5px);">
-                                    <div style="display: flex;flex-direction: row;">
-                                        <mat-icon>assignment</mat-icon>
+                            <mat-radio-group formControlName="solicitud" 
+                            class="assignList">
+                                <div *ngFor="let solicitud of solicitudes" class="assignmentItem shadow-sm mat-card">
+                                    <div class="assingTitle">
                                         <h5>Solicitud #{{solicitud._id}}</h5>
                                     </div>
-                                    <div>
-                                        
+                                    <div 
+                                    style="flex:1;    
+                                    display: flex;
+                                    flex-direction: row;">
+                                        <div class="assignIcon">
+                                            <mat-icon style="   
+                                            height: 40px;
+                                            width: 40px;
+                                            font-size: 40px;">
+                                            assignment
+                                            </mat-icon>    
+                                        </div>
+                                        <div 
+                                        class="assignRadio">
+                                            <mat-radio-button [value]="solicitud._id"></mat-radio-button>
+                                        </div>
                                     </div>
-                                    <mat-radio-button [value]="solicitud._id"></mat-radio-button>
                                 </div>
                             </mat-radio-group>
                             </div>
@@ -118,46 +130,57 @@
                         </form>
                     </div>
                 </mat-step>
-                
                 <mat-step state="preguntas"> 
                     <div class="step-container">
-                        <form class="cForm" [formGroup]="addForm" (submit)="stepCheck(1,estudio_stepper)">
-                            <div class="cForm-field-row">
-                                <div class="cForm-field-col">
-                                    <div style="display: flex;flex-direction: row; width: 100%;">
-                                        <div style="width: 20%;"></div>
+                        <form class="cForm" [formGroup]="addForm" (submit)="stepCheck(1,estudio_stepper)" style="height: 100%;flex:unset;">
+                            <div class="cForm-field-row"  style="height: 87.5%;flex:unset;">
+                                <div class="cForm-field-col" style="width: 95%">
+                                    <div style="display: flex;flex-direction: row; 
+                                    width: 100%;height: 10%;justify-content: center;">
                                         <div style="width: 60%;">
                                             <h5>Preguntas a asignar</h5>
                                         </div>
-                                        <div style="width: 20%;">
-                                        <button mat-mini-fab color="primary" aria-label="Example icon button with a delete icon" 
-                                        style="background-color: #00d8b4; color:white;"
-                                        class="shadow-sm"
-                                        >
-                                            <mat-icon>add</mat-icon>
-                                        </button>
-                                        </div>
                                     </div>
                                     <div style="height: 80%;display: flex;flex-direction: column; overflow-y: auto;">
-                                        
-                                    </div>
-                                </div>
-                                <div class="cForm-field-col">
-                                    <div style="display: flex;flex-direction: row; width: 100%;">
-                                        <div style="width: 20%;"></div>
-                                        <div style="width: 60%;">
-                                            <h5>Preguntas existentes</h5>
-                                        </div>
-                                        <div style="width: 20%;"></div>
-                                    </div>
-                                    <div style="height: 80%;display: flex;flex-direction: column; overflow-y: auto;">
-                                        <div *ngFor="let pregunta of preguntas" class="mat-card" style="height: 20%;margin-bottom: 5%;">
-                                            <h6>{{pregunta.nombre_pregunta}}</h6>
+                                        <div *ngFor="let p of pregAsoc; let s = index;" class="border rounded pregAsoc">
+                                            <div style="width: 20%;display: flex; flex-direction: row; align-items: center;justify-content: center;">
+                                                <mat-icon style="   
+                                                    height: 30px;
+                                                    width: 30px;
+                                                    font-size: 30px;">
+                                                    help_center
+                                                </mat-icon> 
+                                            </div>
+                                            <div style="width: 60%;">
+                                                <h6 style="text-align: center;">    
+                                                    {{ p }}
+                                                </h6>
+                                            </div>
+                                            <div style="width: 20%;display: flex; flex-direction: row; align-items: center;justify-content: center;">
+                                                <button
+                                                type="button"
+                                                class="btn btn-outline-dark"
+                                                style="padding: 0.15rem;
+                                                justify-content: center;
+                                                display: flex;"
+                                                >
+                                                   <mat-icon style="   
+                                                    height: 30px;
+                                                    width: 30px;
+                                                    font-size: 30px;">
+                                                    highlight_off
+                                                     </mat-icon>  
+                                                </button>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
-
+                            <div class="cForm-actions" style="height: 12.5%;">
+                                <button type="button" class="btn btn-outline-dark">Cancelar</button>
+                                <mat-divider [vertical]="true" [inset]="true" style="color: transparent;"></mat-divider>
+                                <button type="submit" class="btn btn-primary" style="color: white;">Siguiente</button>
+                            </div>
                         </form>
                     </div> 
                 </mat-step>
@@ -218,7 +241,42 @@
         </mat-card>
     </div>
     <div  *ngIf="op==='add' && currentStep !==0" style="height: 90%;width: 30%;" class="SlideIn"  id="suggests"> 
-        <mat-card style="height: 100%;width: 100%;text-align: center;display: flex;flex-direction: column;">
+        <mat-card style="height: 100%;width: 100%;
+        display: flex;text-align: center;flex-direction: column;" *ngIf="currentStep === 1">
+            <div style="height: 15%; width: 100%">
+                <h5 style="text-align: center;">
+                Muestras de población sugeridas
+                </h5>
+            </div>
+            <div style="height: 85%; width: 100%; display: flex;flex-direction: column; align-items: center;overflow-y: auto;">
+                <div *ngFor="let pobSug of poblacionSuggests; let s = index;" class="border rounded suggestionP sliderTop">
+                   
+                </div>
+            </div>
+        </mat-card>
+        <mat-card style="height: 100%;width: 100%;
+        display: flex;text-align: center;flex-direction: column;" *ngIf="currentStep === 2">
+            <div style="height: 15%; width: 100%">
+                <h5 style="text-align: center;">
+                Preguntas sugeridas
+                </h5>
+            </div>
+            <div style="height: 85%; width: 100%; display: flex;flex-direction: column; align-items: center;overflow-y: auto;"> 
+                <div *ngFor="let pregSug of preguntaSuggests; let s = index;" class="border rounded suggestionQ sliderTop">
+                    <div style="width: 20%;display: flex; flex-direction: row; align-items: center;justify-content: center;">
+                         <button type="button" class="btn btn-outline-dark" style="padding: 0.15rem;
+                            justify-content: center;
+                            display: flex;">
+                            <mat-icon style="height: 30px;width: 30px;font-size: 30px;">
+                            check_circle_outline
+                            </mat-icon>  
+                        </button>
+                    </div>
+                    <div style="width: 80%">
+                        
+                    </div>     
+                </div>
+            </div>
         </mat-card>
     </div>
     <div *ngIf="op!=='add' && searchState==='I'" style="height: 75%;width: 75%;">
@@ -342,6 +400,8 @@
 </div>
 <app-upd-estudio-dialog #updEstudio [_userSelection]="userSelection"></app-upd-estudio-dialog>
 <app-del-estudio-dialog #delEstudio [_userSelection]="userSelection"></app-del-estudio-dialog>
+<app-add-pregunta-dialog #addPreg></app-add-pregunta-dialog>
+
  <!--
                 <mat-step state='solicitud' style="background-color: aqua;">
                     <div class="step-container">

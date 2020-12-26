@@ -5,6 +5,7 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { STEPPER_GLOBAL_OPTIONS } from '@angular/cdk/stepper';
 import { DelEstudioDialogComponent } from '../../components/dialogs/del-estudio-dialog/del-estudio-dialog.component';
 import { UpdEstudioDialogComponent } from '../../components/dialogs/upd-estudio-dialog/upd-estudio-dialog.component';
+import { AddPreguntaDialogComponent } from '../../components/dialogs/add-pregunta-dialog/add-pregunta-dialog.component';
 import { Estudio } from '@models/estudio';
 import { Marca } from '@models/marca';
 import { Pregunta } from '@models/pregunta';
@@ -46,11 +47,6 @@ export class EstudiosComponent implements OnInit {
   dataSource: MatTableDataSource<Estudio>;
   userSelection: number = 0;
 
-  marcas: Marca[] = [
-    /*{_id:1},
-    {_id:2},
-    {_id:3},*/
-  ];
   preguntas: Pregunta[] = [
     /*
   {_id:1,nombre_pregunta:'Preg 1',tipo:'simple',rango:''},
@@ -61,22 +57,14 @@ export class EstudiosComponent implements OnInit {
   {_id:6,nombre_pregunta:'Preg 6',tipo:'simple',rango:''},
   */
   ];
-  pregAsoc: Pregunta[] = [];
-  presentaciones: Presentacion[] = [
-    /*{
-      _id: 1,
-      tipo: 'empaque',
-      cantidad: '1x16',
-      activo: true,
-      creado_el: new Date(),
-      modificado_el: new Date(),
-    },*/
-  ];
+  pregAsoc: any[] = [1,2,3,4,5,6,7];
 
   targetEstudio:Estudio;
 
   displayedColumns: string[] = ['id', 'selector', 'ops'];
   columnsToDisplay: string[] = this.displayedColumns.slice();
+  poblacionSuggests : any[] = [1,2,3,4];
+  preguntaSuggests : any[] = [1,2,3,4,5,6,7,8,9];
   addForm:FormGroup;
   poblacionForm:FormGroup;
   searchForm:FormGroup;
@@ -126,6 +114,10 @@ export class EstudiosComponent implements OnInit {
   @ViewChild('delEstudio') private delComponent: DelEstudioDialogComponent;
   async openDelModal() {
     return await this.delComponent.open();
+  }
+  @ViewChild('addPreg') private addPregComponent: AddPreguntaDialogComponent;
+  async openAddPregModal() {
+    return await this.addPregComponent.open();
   }
   ngOnInit(): void {
     this.opStatus = 'S';
@@ -187,6 +179,12 @@ export class EstudiosComponent implements OnInit {
     this.getParroquias();
     this.setOperation('');
   }
+  removePregAsoc(){
+
+  }
+  addPregAsoc(){
+    
+  }
   addPoblacion(data){
     this._poblacionService.createMuestraPoblacion(data).subscribe(
       (response)=>{
@@ -196,6 +194,12 @@ export class EstudiosComponent implements OnInit {
 
       }
     );
+  }
+  getSuggestPoblacion(){
+
+  }
+  getSuggestPregunta(){
+    
   }
   getParroquias(){
     this._parroquiaService.getParroquias().subscribe(
@@ -380,7 +384,17 @@ export class EstudiosComponent implements OnInit {
   }
 */
   invokeService() {
-    
+    this.opStatus = "P";
+    this._estudioService.createEstudio(this.addForm.value).subscribe(
+      (response) => {
+        console.log(response);
+        this.opStatus="D";
+      },
+      (error) => {
+        console.log(error);
+        this.opStatus="E";
+      }
+    );
   }
 
   invokeSearch() {
@@ -425,18 +439,19 @@ export class EstudiosComponent implements OnInit {
     switch(ind){
       case 0:
         document.getElementById('addStepper').classList.add('leftSlider');
+        document.getElementById('addStepper').classList.remove('initLeft');
         this.currentStep = 1; 
         stepper.next();
         break;
       case 1:
-        document.getElementById('addStepper').classList.remove('leftSlider');
-        document.getElementById('addStepper').classList.add('rightSlider');
-        document.getElementById('suggests').classList.add('SlideOut');
+        //document.getElementById('addStepper').classList.add('rightSlider');
+        //document.getElementById('suggests').classList.add('SlideOut');
         this.currentStep = 2; 
-        setTimeout(() => {
-          //document.getElementById('addStepper').classList.remove('rightSlider');
-          this.currentStep = 0;
-        },1500);
+        /*setTimeout(() => {
+          //this.currentStep = 0;
+          document.getElementById('addStepper').classList.add('initleft');
+          document.getElementById('addStepper').classList.remove('rightSlider');
+        },1500);*/
         stepper.next();
         break;
       case 2:

@@ -19,7 +19,15 @@ export class AddPreguntaDialogComponent implements OnInit {
     private formBuilder: FormBuilder,
     private _preguntaService: PreguntaService,){}
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.addForm = this.formBuilder.group({
+      nombre_pregunta: null,
+      tipo: null,
+      rango: null,
+      fk_usuario: null,
+      opciones: null,
+    });
+  }
   
   open(){
     this.modalRef =this.modalService.open(this.modalContent);
@@ -28,6 +36,13 @@ export class AddPreguntaDialogComponent implements OnInit {
   close(){
     this.opStatus="S";
     this.modalRef.close();
+    this.addForm = this.formBuilder.group({
+      nombre_pregunta: null,
+      tipo: null,
+      rango: null,
+      fk_usuario: null,
+      opciones: null,
+    });
   }
   addPregunta(data){
     /*this._preguntaService.createPregunta(data).subscribe(
@@ -44,8 +59,5 @@ export class AddPreguntaDialogComponent implements OnInit {
   invokeService(){
     this.opStatus="P";
     this.addPregunta(this.addForm.value);
-    this.addForm = this.formBuilder.group({
-      nombre:null,
-    });
   }
 }
