@@ -1,6 +1,4 @@
 package mercadeoucab.servicio;
-
-import jdk.nashorn.internal.objects.annotations.Getter;
 import mercadeoucab.accesodatos.DaoTelefono;
 import mercadeoucab.dtos.DtoTelefono;
 import mercadeoucab.entidades.DatoEncuestado;

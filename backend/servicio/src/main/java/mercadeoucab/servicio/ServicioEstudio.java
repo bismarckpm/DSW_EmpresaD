@@ -4,8 +4,6 @@ import mercadeoucab.accesodatos.DaoEstudio;
 import mercadeoucab.dtos.DtoEstudio;
 import mercadeoucab.dtos.DtoPregunta;
 import mercadeoucab.entidades.*;
-import org.omg.PortableInterceptor.SYSTEM_EXCEPTION;
-
 import javax.json.Json;
 import javax.json.JsonArrayBuilder;
 import javax.json.JsonObject;
