@@ -71,4 +71,12 @@ public class ServicioEstudioTest {
         Response resultado = servicio.actualizarEstudio(1, dtoEstudio);
         Assert.assertEquals(200, resultado.getStatus());
     }
+    
+    @Test
+    public void usuariosRespondieronEncuestaTest() throws Exception{
+        ServicioEstudio servicio = new ServicioEstudio();
+        DtoEstudio dtoEstudio = new DtoEstudio(1);
+        Response resultado = servicio.usuariosRespondieronEncuesta(dtoEstudio.get_id());
+        Assert.assertEquals(200, resultado.getStatus());
+    }
 }
