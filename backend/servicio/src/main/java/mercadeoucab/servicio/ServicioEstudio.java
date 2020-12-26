@@ -610,6 +610,8 @@ public class ServicioEstudio {
                                              .add("_id", add.get_id())
                                              .add("nombre", add.getNombre())
                                              .add("apellido", add.getApellido())
+                                             .add("rol", add.getRol())
+                                             .add("estado", add.getEstado())
                                              .add("correo", add.getCorreo())
                                              .build();
                     usuariosList.add(agregar);
