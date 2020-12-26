@@ -1,8 +1,11 @@
 package mercadeoucab.servicio;
 
 import mercadeoucab.accesodatos.DaoEstudio;
+import mercadeoucab.accesodatos.DaoRespuesta;
+import mercadeoucab.accesodatos.DaoUsuario;
 import mercadeoucab.dtos.DtoEstudio;
 import mercadeoucab.dtos.DtoPregunta;
+import mercadeoucab.dtos.DtoUsuario;
 import mercadeoucab.entidades.*;
 import org.omg.PortableInterceptor.SYSTEM_EXCEPTION;
 
@@ -13,6 +16,7 @@ import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import java.sql.Date;
+import java.util.Arrays;
 import java.util.Calendar;
 import java.util.List;
 
@@ -576,6 +580,58 @@ public class ServicioEstudio {
         }
         catch (Exception e){
             String problema = e.getMessage();
+            data = Json.createObjectBuilder()
+                    .add("status", 400)
+                    .add("problema", problema)
+                    .build();
+            resultado = Response.status(Response.Status.BAD_REQUEST)
+                    .entity(data)
+                    .build();
+        }
+        return resultado;
+    }
+
+    @GET
+    @Path("/{id}/usuarios_respondieron")
+    public Response usuariosRespondieronEncuesta(@PathParam("id") long id){
+        JsonObject data;
+        JsonArrayBuilder usuariosList = Json.createArrayBuilder();
+        Response resultado = null;
+        try {
+            DaoRespuesta daoRespuesta = new DaoRespuesta();
+            DaoEstudio daoEstudio = new DaoEstudio();
+            DaoUsuario daoUsuario = new DaoUsuario();
+            List<Long> ids = daoRespuesta.usuariosRespondidoEncuesta(daoEstudio.find(id, Estudio.class));
+            if(!(ids.isEmpty())){
+                for( int i = 0; i < ids.size(); i++){
+
+                    Usuario add = daoUsuario.find(ids.get(i),Usuario.class);
+                    JsonObject agregar = Json.createObjectBuilder()
+                                             .add("_id", add.get_id())
+                                             .add("nombre", add.getNombre())
+                                             .add("apellido", add.getApellido())
+                                             .add("correo", add.getCorreo())
+                                             .build();
+                    usuariosList.add(agregar);
+                }
+            }
+            else{
+                JsonObject agregar = Json.createObjectBuilder()
+                        .add("usuarios", "Actualmente ningun usuario ha respondido a esta encuesta")
+                        .build();
+                usuariosList.add(agregar);
+            }
+            data = Json.createObjectBuilder()
+                    .add("status", 200)
+                    .add("data", usuariosList)
+                    .build();
+            resultado = Response.status(Response.Status.OK)
+                    .entity(data)
+                    .build();
+        }
+        catch (Exception e){
+            String problema = e.getMessage();
+            System.out.println(problema);
             data = Json.createObjectBuilder()
                     .add("status", 400)
                     .add("problema", problema)
