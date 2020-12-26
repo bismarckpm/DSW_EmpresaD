@@ -390,7 +390,7 @@ public class ServicioSolicitud extends AplicacionBase{
     }
 
     @GET
-    @Path("/preguntas_recomendadas/{id}")
+    @Path("/{id}/preguntas_recomendadas")
     public Response preguntasRecomendadas(@PathParam("id") long id){
         JsonObject data;
         JsonArrayBuilder preguntaslist = Json.createArrayBuilder();
