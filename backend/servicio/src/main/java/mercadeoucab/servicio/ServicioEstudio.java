@@ -642,4 +642,54 @@ public class ServicioEstudio {
         }
         return resultado;
     }
+
+    @GET
+    @Path("/{id}/usuarios_aplican")
+    public Response usuariosAplicanEncuesta(@PathParam("id") long id){
+        JsonObject data;
+        JsonArrayBuilder usuariosList = Json.createArrayBuilder();
+        Response resultado = null;
+        try {
+            DaoEstudio daoEstudio = new DaoEstudio();
+            List<Usuario> usuarios = daoEstudio.personasAplicanEstudio(daoEstudio.find(id, Estudio.class));
+            if (!(usuarios.isEmpty())){
+                for(Usuario usuario: usuarios){
+                    JsonObject agregar = Json.createObjectBuilder()
+                            .add("_id", usuario.get_id())
+                            .add("nombre", usuario.getNombre())
+                            .add("apellido", usuario.getApellido())
+                            .add("rol", usuario.getRol())
+                            .add("estado", usuario.getEstado())
+                            .add("correo", usuario.getCorreo())
+                            .build();
+                    usuariosList.add(agregar);
+                }
+            }
+            else{
+                JsonObject agregar = Json.createObjectBuilder()
+                        .add("usuarios", "Actualmente ningun usuario califica a esta encuesta")
+                        .build();
+                usuariosList.add(agregar);
+            }
+            data = Json.createObjectBuilder()
+                    .add("status", 200)
+                    .add("data", usuariosList)
+                    .build();
+            resultado = Response.status(Response.Status.OK)
+                    .entity(data)
+                    .build();
+        }
+        catch (Exception e){
+            String problema = e.getMessage();
+            System.out.println(problema);
+            data = Json.createObjectBuilder()
+                    .add("status", 400)
+                    .add("problema", problema)
+                    .build();
+            resultado = Response.status(Response.Status.BAD_REQUEST)
+                    .entity(data)
+                    .build();
+        }
+        return resultado;
+    }
 }
