@@ -31,6 +31,17 @@ import java.util.List;
                         "and s.tipos in :tipos " +
                         "and s.subCategorias in :subcategorias"
 
+        ),
+        @NamedQuery(
+                name = "personas_aplican",
+                query = "select e.usuario from DatoEncuestado e " +
+                        "where  e.nive_economico = :nivelEcon " +
+                        "  and  e.genero = :genero " +
+                        //"  and  e.hijos.size = :cantidadHijos " +
+                        "  and  e.nivelAcademico = :nivelAcademico " +
+                        "  and  e.fk_lugar = :lugar " +
+                        "  and  e.ocupacion = :ocupacion "
+                        //"  and  e.edad between :edadInicial and :edadFinal"
         )
 })
 public class Estudio extends EntidadBase{
