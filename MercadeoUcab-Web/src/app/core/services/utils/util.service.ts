@@ -31,4 +31,16 @@ export class UtilService {
   getSolicitudesOfCliente(id) {
     return this._http.get(this.url + '/cliente/' + id + '/solicitudes');
   }
+
+  getPreguntasRecomendadasOfSolicitud(id) {
+    return this._http.get(
+      this.url + '/solicitudes/' + id + '/preguntas_recomendadas'
+    );
+  }
+
+  getUsuariosOfEncuesta(idEstudio) {
+    return this._http.get(
+      this.url + '/estudios/' + idEstudio + '/usuarios_respondieron'
+    );
+  }
 }
