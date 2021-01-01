@@ -41,7 +41,7 @@
         <mat-card style="height: 100%;width: 100%;text-align: center;display: flex;flex-direction: column;">
             <mat-horizontal-stepper [linear]="true" #estudio_stepper *ngIf="opStatus==='S'">
                 <mat-step state='solicitud' style="background-color: aqua;">
-                    <div class="step-container">
+                    <div class="step-container" style="overflow-y: scroll;">
                         <form class="cForm" [formGroup]="addForm" (submit)="stepCheck(0,estudio_stepper)" style="height: 100%; justify-content: space-around;">
                             <div  style="height: 85%;
                             overflow-y: auto; display: flex; flex-direction: column;">
@@ -64,7 +64,7 @@
                                             </mat-icon>    
                                         </div>
                                         <div 
-                                        class="assignRadio">
+                                        class="assignRadio">                                            
                                             <mat-radio-button [value]="solicitud._id"></mat-radio-button>
                                         </div>
                                     </div>
@@ -80,10 +80,10 @@
                     </div>
                 </mat-step>
                 <mat-step state='review' style="background-color: aqua;">
-                    <div class="step-container">
-                        <!--<h4>Información de solicitud {{addForm.value.solicitud}}</h4>-->
+                    <div class="step-container" style="overflow-y: scroll;">
                         <h4>Población de estudio</h4>
-                        <form class="cForm" [formGroup]="poblacionForm" (submit)="stepCheck(1,estudio_stepper)" >
+                        <form class="cForm" [formGroup]="poblacionForm" 
+                        (submit)="addPoblacion(poblacionForm.value,estudio_stepper)" >
                             <div class="cForm-field-row">
                                 <div class="cForm-field-col">
                                     <div class="form-group">
@@ -94,23 +94,70 @@
                                             <option [ngValue]="'masculino'">Masculino</option>
                                         </select>
                                     </div>
-                                    <!--
                                     <div class="form-group">
-                                        <label for="tipoEstSelect">Tipo de estudio</label>
-                                        <select class="form-control" id="tipoEstSelect" formControlName="tipo">
-                                            <option [ngValue]="null">Sin seleccionar...</option>
-                                            <option  [ngValue]="'en linea'">En línea</option>
-                                            <option  [ngValue]="'encuesta'">Encuesta</option>
-                                        </select>
-                                    </div>w
-                                    -->
+                                        <label>Edad de participantes</label>
+                                        <div style="display: flex;flex-direction: row">
+                                        <input
+                                        type="number"
+                                        formControlName="rangoEdadInicio"
+                                        class="form-control"
+                                        id="edadI"
+                                        aria-describedby="edadIHelp"
+                                        min="0"
+                                        style="width: 45%;margin-right: 5%;"
+                                        />
+                                        <input
+                                        type="number"
+                                        formControlName="rangoEdadFin"
+                                        class="form-control"
+                                        id="edadF"
+                                        aria-describedby="edadFHelp"
+                                        min="0"
+                                        style="width: 45%;"
+                                        />
+                                        </div>
+                                        <div style="display: flex;flex-direction: row">
+                                        <h6 style="width: 50%;text-align: start;">Edad minima</h6>
+                                        <h6 style="width: 50%;text-align: start;">Edad máxima</h6>   
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Cantidad de hijos</label>
+                                        <input
+                                        type="number"
+                                        formControlName="cantidadHijos"
+                                        class="form-control"
+                                        id="hijosQTY"
+                                        aria-describedby="hijosQTYHelp"
+                                        min="0"/>
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Nivel económico</label>
+                                        <input
+                                        type="number"
+                                        formControlName="nivelEconomico"
+                                        class="form-control"
+                                        id="neQTY"
+                                        aria-describedby="neQTYHelp"
+                                        min="0"/>
+                                    </div>
                                 </div>
                                 <div class="cForm-field-col">
+                                    <div class="form-group">
+                                        <label for="naSelect">Nivel Académico</label>
+                                        <select class="form-control" id="naSelect" formControlName="nivelAcademico">
+                                            <option [ngValue]="null">Sin seleccionar...</option>
+                                            <option [ngValue]="'Bachiller'">Bachiller</option>
+                                            <option [ngValue]="'Tecnico superior'">Técnico superior</option>
+                                            <option [ngValue]="'Licenciatura'">Licenciado/a</option>
+                                        </select>
+                                    </div>
                                     <div class="form-group">
                                         <label for="ocupacionSelect">Ocupación</label>
                                         <select class="form-control" id="ocupacionSelect" formControlName="fk_ocupacion">
                                             <option [ngValue]="null">Sin seleccionar...</option>
-                                            <option *ngFor="let ocup of ocupaciones" [ngValue]="ocup._id">{{ocup.nombre}}</option>
+                                            <option *ngFor="let ocup of ocupaciones" 
+                                            [ngValue]="ocup._id">{{ocup.nombre}}</option>
                                         </select>
                                     </div>
                                     <div class="form-group">
@@ -132,7 +179,7 @@
                 </mat-step>
                 <mat-step state="preguntas"> 
                     <div class="step-container">
-                        <form class="cForm" [formGroup]="addForm" (submit)="stepCheck(1,estudio_stepper)" style="height: 100%;flex:unset;">
+                        <form class="cForm" [formGroup]="addForm" (submit)="stepCheck(2,estudio_stepper)" style="height: 100%;flex:unset;">
                             <div class="cForm-field-row"  style="height: 87.5%;flex:unset;">
                                 <div class="cForm-field-col" style="width: 95%">
                                     <div style="display: flex;flex-direction: row; 
@@ -153,7 +200,7 @@
                                             </div>
                                             <div style="width: 60%;">
                                                 <h6 style="text-align: center;">    
-                                                    {{ p }}
+                                                    {{ p.pregunta }}
                                                 </h6>
                                             </div>
                                             <div style="width: 20%;display: flex; flex-direction: row; align-items: center;justify-content: center;">
@@ -163,6 +210,7 @@
                                                 style="padding: 0.15rem;
                                                 justify-content: center;
                                                 display: flex;"
+                                                (click)="removePregAsoc(p._id)"
                                                 >
                                                    <mat-icon style="   
                                                     height: 30px;
@@ -184,16 +232,61 @@
                         </form>
                     </div> 
                 </mat-step>
-                  <ng-template matStepperIcon="solicitud">
-                    <mat-icon>assignment</mat-icon>
-                  </ng-template>
-                  <ng-template matStepperIcon="review">
-                    <mat-icon>chrome_reader_mode</mat-icon>
-                  </ng-template>
-                  <ng-template matStepperIcon="preguntas">
-                    <mat-icon>help_center</mat-icon>
-                  </ng-template>
-
+                <mat-step state="est_data">
+                    <div class="step-container">
+                        <form class="cForm" [formGroup]="addForm" (submit)="stepCheck(3,estudio_stepper)" style="height: 100%;flex:unset;">
+                            <h4>Datos de estudio</h4>
+                            <div class="cForm-field-row">
+                                <div class="cForm-field-col" style="width: 95%">
+                                    <div class="form-group">
+                                        <label for="estSelect">Tipo de estudio</label>
+                                        <select class="form-control" id="estSelect" formControlName="tipo">
+                                            <option [ngValue]="null">Sin seleccionar...</option>
+                                            <option [ngValue]="'En linea'">En línea</option>
+                                            <option [ngValue]="'Encuesta'">Encuesta</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="cForm-field-col" style="width: 95%">
+                                    <div class="form-group">
+                                        <label for="encQTY">Nº de encuestas esperadas</label>
+                                        <input
+                                        type="number"
+                                        formControlName="encuestasEsperadas"
+                                        class="form-control"
+                                        id="encQTY"
+                                        aria-describedby="encQTYHelp"
+                                        min="0"/>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="analistSelect">Analista asignado</label>
+                                        <select class="form-control" id="analistSelect" formControlName="fk_usuario">
+                                            <option [ngValue]="null">Sin seleccionar...</option>
+                                            <option *ngFor="let us of analistasDisp" [ngValue]="us._id">{{us.nombre}}</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="cForm-actions" style="height: 12.5%;">
+                                <button type="button" class="btn btn-outline-dark">Cancelar</button>
+                                <mat-divider [vertical]="true" [inset]="true" style="color: transparent;"></mat-divider>
+                                <button type="submit" class="btn btn-primary" style="color: white;">Siguiente</button>
+                            </div>
+                        </form>
+                    </div>
+                </mat-step> 
+                <ng-template matStepperIcon="solicitud">
+                   <mat-icon>assignment</mat-icon>
+                </ng-template>
+                <ng-template matStepperIcon="review">
+                   <mat-icon>chrome_reader_mode</mat-icon>
+                </ng-template>
+                <ng-template matStepperIcon="preguntas">
+                   <mat-icon>help_center</mat-icon>
+                </ng-template>
+                <ng-template matStepperIcon="est_data">
+                   <mat-icon>fact_check</mat-icon>
+                </ng-template>
             </mat-horizontal-stepper>
             <div class="cForm" *ngIf="opStatus==='P'">
                 <div class="cForm-field-row">
@@ -240,22 +333,73 @@
             </div>
         </mat-card>
     </div>
-    <div  *ngIf="op==='add' && currentStep !==0" style="height: 90%;width: 30%;" class="SlideIn"  id="suggests"> 
+    <div  *ngIf="op==='add' && currentStep > 0 && currentStep < 3" style="height: 90%;width: 30%;" class="SlideIn"  id="suggests">
         <mat-card style="height: 100%;width: 100%;
-        display: flex;text-align: center;flex-direction: column;" *ngIf="currentStep === 1">
+        display: flex;text-align: center;flex-direction: column;" *ngIf="currentStep !== 0 && suggestLoading==='P'">
+            <div class="text-center" style="flex: 1;
+                    display: flex;
+                    flex-direction: column;
+                    align-items: center;
+                    justify-content: center;">
+                    <div class="spinner-border" style="width: 7.5rem; height: 7.5rem;" role="status">
+                        <span class="sr-only">Loading...</span>
+                    </div>
+            </div>
+        </mat-card> 
+        <mat-card style="height: 100%;width: 100%;
+        display: flex;text-align: center;flex-direction: column;" *ngIf="currentStep === 1 && suggestLoading==='D'">
             <div style="height: 15%; width: 100%">
                 <h5 style="text-align: center;">
                 Muestras de población sugeridas
                 </h5>
             </div>
             <div style="height: 85%; width: 100%; display: flex;flex-direction: column; align-items: center;overflow-y: auto;">
-                <div *ngFor="let pobSug of poblacionSuggests; let s = index;" class="border rounded suggestionP sliderTop">
-                   
+                <div *ngFor="let pobSug of poblacionSuggests; let s = index;" class="border rounded suggestionP sliderTop" >
+                   <div style="width: 20%;height: 100%;
+                   display: flex; flex-direction: column; align-items: center;justify-content: center;">
+                        <button type="button" class="btn btn-outline-dark" style="padding: 0.15rem;
+                            justify-content: center;
+                            display: flex;"
+                            (click)="setPoblacion(null)"
+                            *ngIf="targetPoblacion !== null && targetPoblacion._id === pobSug._id; else elseSPB">
+                                <mat-icon style="height: 30px;width: 30px;font-size: 30px;">
+                                check_circle_outline
+                                </mat-icon>
+                        </button>
+                        <ng-template #elseSPB>
+                             <button type="button" class="btn btn-outline-dark" style="padding: 0.15rem;
+                            justify-content: center;
+                            display: flex;"
+                            (click)="setPoblacion(pobSug)">
+                            <mat-icon style="height: 30px;width: 30px;font-size: 30px;transform: scale(-1,1);">
+                            label_important
+                            </mat-icon>
+                            </button>
+                        </ng-template>
+                    </div>
+                    <div style="width: 80%;height: 100%;display: flex;flex-direction: column; align-items: center;justify-content: center;">
+                        <div style="width: 100%;display: flex;flex-direction: column;">
+                            <label>
+                                <h6>Género</h6>
+                            </label>
+                            <label>
+                                {{pobSug.genero}}
+                            </label>
+                        </div>
+                        <div style="width: 100%;display: flex;flex-direction: column;">
+                            <label>
+                                <h6>Rango de edad</h6>
+                            </label>
+                            <label>
+                                {{pobSug.rango_edad_inicio+"-"+pobSug.rango_edad_fin}}
+                            </label>
+                        </div>
+                    </div>  
                 </div>
             </div>
         </mat-card>
         <mat-card style="height: 100%;width: 100%;
-        display: flex;text-align: center;flex-direction: column;" *ngIf="currentStep === 2">
+        display: flex;text-align: center;flex-direction: column;" *ngIf="currentStep === 2 && suggestLoading==='D'">
             <div style="height: 15%; width: 100%">
                 <h5 style="text-align: center;">
                 Preguntas sugeridas
@@ -264,16 +408,31 @@
             <div style="height: 85%; width: 100%; display: flex;flex-direction: column; align-items: center;overflow-y: auto;"> 
                 <div *ngFor="let pregSug of preguntaSuggests; let s = index;" class="border rounded suggestionQ sliderTop">
                     <div style="width: 20%;display: flex; flex-direction: row; align-items: center;justify-content: center;">
-                         <button type="button" class="btn btn-outline-dark" style="padding: 0.15rem;
+                        <button type="button" class="btn btn-outline-dark" style="padding: 0.15rem;
                             justify-content: center;
-                            display: flex;">
+                            display: flex;"
+                            (click)="addPregAsoc(pregSug.pregunta)" 
+                            *ngIf="checkPregAsoc(pregSug.pregunta._id) === false ;else elsePreg">
+                            <mat-icon style="height: 30px;width: 30px;font-size: 30px;transform: scale(-1,1);">
+                            label_important
+                            </mat-icon>
+                        </button>
+                        <ng-template #elsePreg>
+                            <button type="button" class="btn btn-outline-dark" style="padding: 0.15rem;
+                            justify-content: center;
+                            display: flex;"
+                            disabled 
+                            >
                             <mat-icon style="height: 30px;width: 30px;font-size: 30px;">
                             check_circle_outline
                             </mat-icon>  
-                        </button>
+                            </button>
+                        </ng-template>
                     </div>
                     <div style="width: 80%">
-                        
+                        <h6 style="text-align: center;">    
+                            {{ pregSug.pregunta.pregunta }}
+                        </h6>
                     </div>     
                 </div>
             </div>
