@@ -360,7 +360,7 @@ export class EstudiosComponent implements OnInit {
     //OBTENCION DE ANALSITAS REGISTRADOS
     this._utilsService.getUsuariosAnalistas().subscribe(
       (response)=>{
-        this.analistasDisp = response.data;
+        this.analistasDisp = response['data'];
       },
       (error)=>{
         this.analistasDisp = [

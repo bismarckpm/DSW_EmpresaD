@@ -1,9 +1,9 @@
 import { NgModule } from '@angular/core';
-import {NgbPaginationModule, NgbAlertModule, NgbModalModule} from '@ng-bootstrap/ng-bootstrap';
+import { NgbModalModule, NgbPopoverModule,} from '@ng-bootstrap/ng-bootstrap';
 
 @NgModule({
-  imports: [NgbPaginationModule, NgbAlertModule, NgbModalModule],
-  exports:[NgbModalModule]
+  imports: [NgbModalModule, NgbPopoverModule,],
+  exports:[NgbModalModule, NgbPopoverModule,]
 })
 export class LocalNgbModule {
 }

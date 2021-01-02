@@ -7,10 +7,16 @@ import { Router, ActivatedRoute } from '@angular/router';
 })
 export class dashboardClienteComponent implements OnInit {
   constructor(private route: ActivatedRoute, private router: Router) {}
+  openNote: boolean=false;
 
-  slideConfig = { slidesToShow: 4, slidesToScroll: 4 };
-
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    setTimeout(()=>{
+      this.openNote=true;
+      setTimeout(() => {
+        this.openNote=false;
+      },10000)
+    },2000);
+  }
   onDir(_route: string): void {
     try {
       //console.log(_route);
