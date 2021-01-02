@@ -14,7 +14,7 @@ import java.sql.Date;
 import java.util.Calendar;
 import java.util.List;
 
-@Path( "/ocupacion" )
+@Path( "/ocupaciones" )
 @Produces( MediaType.APPLICATION_JSON )
 @Consumes( MediaType.APPLICATION_JSON )
 public class ServicioOcupacion extends AplicacionBase{
