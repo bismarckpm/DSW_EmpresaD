@@ -243,7 +243,7 @@
                                         <select class="form-control" id="estSelect" formControlName="tipo">
                                             <option [ngValue]="null">Sin seleccionar...</option>
                                             <option [ngValue]="'En linea'">En línea</option>
-                                            <option [ngValue]="'Encuesta'">Encuesta</option>
+                                            <option [ngValue]="'encuesta'">Encuesta</option>
                                         </select>
                                     </div>
                                 </div>
@@ -438,45 +438,38 @@
             </div>
         </mat-card>
     </div>
-    <div *ngIf="op!=='add' && searchState==='I'" style="height: 75%;width: 75%;">
-        <mat-card style="height: 100%;width: 100%;text-align: center;display: flex;flex-direction: column;">
+    <div *ngIf="op!=='add' && searchState==='I'" style="height: 75%;width: 100%;display: flex;justify-content: center;">
+        <mat-card style="height: 100%;width: 75%;text-align: center;display: flex;flex-direction: column;">
             <h4>Asistente de búsqueda</h4>
             <form [formGroup]="searchForm" (submit)="invokeSearch()" class="cForm">
                 <div class="cForm-field-row">
                     <div class="cForm-field-col">
-                        <!--
                         <div class="form-group">
-                            <label for="userNewName">Nombre de usuario</label>
-                            <input type="text" formControlName="nombre" class="form-control" id="userNewName" aria-describedby="newNameHelp">
+                            <label for="sestadoSelect">Estado de estudio</label>
+                            <select class="form-control" id="sestadoSelect" formControlName="estado">
+                                <option [ngValue]="null">Sin seleccionar...</option>
+                                <option [ngValue]="'En ejecucion'">Iniciado</option>
+                                <option [ngValue]="'Procesando'">En proceso</option>
+                                <option [ngValue]="'Culminado'">Finalizado</option>
+                            </select>
                         </div>
                         <div class="form-group">
-                            <label for="userNewLName">Apellido de usuario</label>
-                            <input type="text" formControlName="apellido" class="form-control" id="userNewLName" aria-describedby="newLNameHelp">
+                            <label for="stipoSelect">Tipo de estudio</label>
+                            <select class="form-control" id="stipoSelect" formControlName="tipo">
+                                <option [ngValue]="null">Sin seleccionar...</option>
+                                <option [ngValue]="'En linea'">En línea</option>
+                                <option [ngValue]="'encuesta'">Encuesta</option>
+                            </select>
                         </div>
-                        <div class="form-group">
-                            <label for="reg-date">Fecha de registro</label>
-                            <input type="date" class="form-control" formControlName="creado_el" id="reg-date"/>
-                        </div>
-                        -->
                     </div>
                     <div class="cForm-field-col">
-                        <!--
                         <div class="form-group">
-                            <label for="rolSelect">Rol de usuario</label>
-                            <select class="form-control" id="rolSelect" formControlName="rol">
-                                <option>A</option>
-                                <option>B</option>
-                                <option>C</option>
+                            <label for="sanalistaSelect">Analista asignado</label>
+                            <select class="form-control" id="sanalistaSelect" formControlName="analista">
+                                <option [ngValue]="null">Sin seleccionar...</option>
+                                <option *ngFor="let us of analistasDisp" [ngValue]="us._id">{{us.nombre}}</option>
                             </select>
                         </div>
-                        <div class="form-group">
-                            <label for="estadoSelect">Estado de usuario</label>
-                            <select class="form-control" id="estadoSelect" formControlName="estado">
-                                <option>Activo</option>
-                                <option>Inactivo</option>
-                            </select>
-                        </div>
-                        -->
                     </div>
                 </div>
                 <div class="cForm-actions">
@@ -493,9 +486,16 @@
                 <table mat-table [dataSource]="dataSource" class="mat-elevation-z8" style="flex:1; overflow-y: auto;" *ngIf="searchState==='D'">
                     <ng-container matColumnDef="id">
                         <th mat-header-cell *matHeaderCellDef>Id</th>
-                        <td mat-cell *matCellDef="let element"> {{element.id_estudio}} </td>
+                        <td mat-cell *matCellDef="let element"> {{element._id}} </td>
                     </ng-container>
-                    <!--RESTO DE COLUMNAS RELEVANTES-->
+                    <ng-container matColumnDef="estado">
+                        <th mat-header-cell *matHeaderCellDef>Estado</th>
+                        <td mat-cell *matCellDef="let element"> {{element.estado}} </td>
+                    </ng-container>
+                    <ng-container matColumnDef="asignado">
+                        <th mat-header-cell *matHeaderCellDef>Analista asignado</th>
+                        <td mat-cell *matCellDef="let element"> {{element.analista._id}} </td>
+                    </ng-container>
                     <ng-container matColumnDef="selector">
                         <th mat-header-cell *matHeaderCellDef>Selección</th>
                         <td mat-cell *matCellDef="let element">
@@ -557,112 +557,6 @@
             </div>
         </div>
 </div>
-<app-upd-estudio-dialog #updEstudio [_userSelection]="userSelection"></app-upd-estudio-dialog>
-<app-del-estudio-dialog #delEstudio [_userSelection]="userSelection"></app-del-estudio-dialog>
+<app-upd-estudio-dialog #updEstudio [_userSelection]="userSelection" [_estudio]="targetEstudio"></app-upd-estudio-dialog>
+<app-del-estudio-dialog #delEstudio [_userSelection]="userSelection" [_estudio]="targetEstudio"></app-del-estudio-dialog>
 <app-add-pregunta-dialog #addPreg></app-add-pregunta-dialog>
-
- <!--
-                <mat-step state='solicitud' style="background-color: aqua;">
-                    <div class="step-container">
-                        <form class="cForm" [formGroup]="addForm" (submit)="stepCheck()">
-                            <div class="cForm-field-row">
-                                <div class="cForm-field-col">
-                                    <div class="form-group">
-                                        <label for="marcaSelect">Marca asociada</label>
-                                        <select class="form-control" id="marcaSelect" formControlName="fk_marca">
-                                            <option [ngValue]="0" selected>...</option>
-                                            <option  *ngFor="let marca of marcas" [ngValue]='marca.id_marca'>Marca #{{marca.id_marca}}</option>
-                                        </select>
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="tipoSelect">Tipo de solicitud</label>
-                                        <select class="form-control" id="tipoSelect" formControlName="fk_tipoSolicitud">
-                                            <option [ngValue]="0" selected>...</option>
-                                            <option [ngValue]="1">Tipo solicitud #1</option>
-                                            <option [ngValue]="2">Tipo solicitud #2</option>
-                                        </select>
-                                    </div>
-                                </div>
-                                <div class="cForm-field-col">
-
-                                </div>
-                            </div>
-                            <div class="cForm-actions">
-                                <button type="button" class="btn btn-outline-dark">Cancelar</button>
-                                <mat-divider [vertical]="true" [inset]="true" style="color: transparent;"></mat-divider>
-                                <button type="submit" class="btn btn-primary" style="color: white;">Buscar</button>
-                            </div>
-                        </form>
-                    </div>
-                </mat-step>
-                -->
-                <!--
-                <mat-step  state="producto">
-                    <div class="step-container">
-                        <form class="cForm" [formGroup]="addForm" (submit)="stepCheck()">
-                            <div class="cForm-field-row">
-                                <div class="cForm-field-col">
-                                    <div class="form-group">
-                                        <label for="presentacionSelect">Presentación del producto</label>
-                                        <select class="form-control" id="presentacionSelect" formControlName="fk_presentacion">
-                                            <option [ngValue]="0" selected>...</option>
-                                            <option  *ngFor="let pres of presentaciones" [ngValue]='pres.id_presentacion'>{{pres.cantidad}}</option>
-                                        </select>
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="subCatSelect">Presentación del producto</label>
-                                        <select class="form-control" id="subCatSelect" formControlName="fk_subCategoria">
-                                            <option [ngValue]="0" selected>...</option>
-                                        </select>
-                                    </div>
-                                    <div class="form-group">
-
-                                    </div>
-                                </div>
-                                <div class="cForm-field-col">
-
-                                </div>
-                            </div>
-                            <div class="cForm-actions">
-                                <button type="button" class="btn btn-outline-dark" (click)="setOperation('')">Cancelar</button>
-                                <mat-divider [vertical]="true" [inset]="true" style="color: transparent;"></mat-divider>
-                                <button type="submit" class="btn btn-primary" style="color: white;">Buscar</button>
-                            </div>
-                        </form>
-                    </div>
-                </mat-step>
-                -->
-                <!--
-                            <div class="cForm-actions">
-                                <button type="button" class="btn btn-outline-dark" (click)="setOperation('')">Cancelar</button>
-                                <mat-divider [vertical]="true" [inset]="true" style="color: transparent;"></mat-divider>
-                                <button type="submit" class="btn btn-primary" style="color: white;">Buscar</button>
-                            </div>
-                            -->
-                            <!--
-                <mat-step state="review"> 
-                    <div class="step-container">
-                        <form class="cForm">
-                            <div class="cForm-field-row">
-                                <h2>Resumen de solicitud</h2>
-                            </div>
-                            <div class="cForm-actions">
-                                <button type="button" class="btn btn-outline-dark" (click)="setOperation('')">Cancelar</button>
-                                <mat-divider [vertical]="true" [inset]="true" style="color: transparent;"></mat-divider>
-                                <button type="submit" class="btn btn-primary" style="color: white;">Buscar</button>
-                            </div>
-                        </form>
-                    </div>
-                </mat-step>
-                -->
-                <!--
-                  <ng-template matStepperIcon="producto">
-                    <mat-icon>list_alt</mat-icon>
-                  </ng-template>
-                  <ng-template matStepperIcon="preguntas">
-                    <mat-icon>help_center</mat-icon>
-                  </ng-template>
-                  <ng-template matStepperIcon="review">
-                    <mat-icon>fact_check</mat-icon>
-                  </ng-template>
-                    -->
