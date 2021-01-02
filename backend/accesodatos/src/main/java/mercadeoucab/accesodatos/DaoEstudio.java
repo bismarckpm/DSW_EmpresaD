@@ -1,10 +1,7 @@
 package mercadeoucab.accesodatos;
 
 import mercadeoucab.dtos.DtoUsuario;
-import mercadeoucab.entidades.DatoEncuestado;
-import mercadeoucab.entidades.Estudio;
-import mercadeoucab.entidades.Solicitud;
-import mercadeoucab.entidades.Usuario;
+import mercadeoucab.entidades.*;
 
 import javax.persistence.EntityManager;
 import javax.persistence.TypedQuery;
@@ -103,6 +100,27 @@ public class DaoEstudio extends Dao<Estudio>{
             estudios.setParameter("tipos", solicitud.getTipos());
             estudios.setParameter("subcategorias",solicitud.getSubCategorias());
             resultado = estudios.getResultList();
+            _em.flush();
+            _em.clear();
+            _handler.finishTransaction();
+        }
+        catch (Exception e){
+            String problema = e.getMessage();
+            System.out.println(problema);
+        }
+        return  resultado;
+    }
+
+    public  List<MuestraPoblacion> poblacionesSimilares(Solicitud solicitud){
+        _em = _handler.getSession();
+        List<MuestraPoblacion> resultado = null;
+        try {
+            _handler.beginTransaction();
+            TypedQuery<MuestraPoblacion> muestras = this._em.createNamedQuery("poblaciones_similares",MuestraPoblacion.class);
+            muestras.setParameter("presentaciones", solicitud.getPresentaciones());
+            muestras.setParameter("tipos", solicitud.getTipos());
+            muestras.setParameter("subcategorias",solicitud.getSubCategorias());
+            resultado = muestras.getResultList();
             _em.flush();
             _em.clear();
             _handler.finishTransaction();
