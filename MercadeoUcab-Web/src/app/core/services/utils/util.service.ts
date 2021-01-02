@@ -12,23 +12,23 @@ export class UtilService {
     this.url = GLOBAL.urlOscar;
   }
 
-  getPreguntasOfAnAdministrador(id) {
+  getPreguntasOfAnAdministrador(id): Observable<any> {
     return this._http.get(this.url + '/administrador/' + id + '/preguntas');
   }
 
-  getEstudiosOfEncuestado(id) {
+  getEstudiosOfEncuestado(id): Observable<any> {
     return this._http.get(this.url + '/encuestados/estudios/' + id);
   }
 
-  getUsuariosAnalistas() {
+  getUsuariosAnalistas(): Observable<any> {
     return this._http.get(this.url + '/analista');
   }
 
-  getEstudiosOfAnalista(id) {
+  getEstudiosOfAnalista(id): Observable<any> {
     return this._http.get(this.url + '/analista/' + id + '/estudios');
   }
 
-  getSolicitudesOfCliente(id) {
+  getSolicitudesOfCliente(id): Observable<any> {
     return this._http.get(this.url + '/cliente/' + id + '/solicitudes');
   }
 }
