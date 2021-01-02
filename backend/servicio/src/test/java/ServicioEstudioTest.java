@@ -17,7 +17,7 @@ public class ServicioEstudioTest {
         //Datos Estudio
         dtoEstudio.setEstado("En ejecucion");
         dtoEstudio.setTipo("En linea");
-        dtoEstudio.setEscuestasEsperadas(100);
+        dtoEstudio.setEncuestasEsperadas(100);
         //Datos estudio
         //Usuario
         dtoEstudio.setFk_usuario(new DtoUsuario(1));
@@ -66,7 +66,7 @@ public class ServicioEstudioTest {
         //Datos Estudio
         dtoEstudio.setEstado("En ejecucion");
         dtoEstudio.setTipo("En linea");
-        dtoEstudio.setEscuestasEsperadas(30000);
+        dtoEstudio.setEncuestasEsperadas(30000);
         //Datos estudio
         Response resultado = servicio.actualizarEstudio(1, dtoEstudio);
         Assert.assertEquals(200, resultado.getStatus());

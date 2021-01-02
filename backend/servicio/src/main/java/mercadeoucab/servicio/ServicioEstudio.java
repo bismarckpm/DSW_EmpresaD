@@ -153,7 +153,7 @@ public class ServicioEstudio {
                                              .add("_id",estudio.get_id())
                                              .add("estado", estudio.getEstado())
                                              .add("tipo", estudio.getTipo())
-                                             .add("encuestas_esperadas", estudio.getEscuestasEsperadas())
+                                             .add("encuestas_esperadas", estudio.getEncuestasEsperadas())
                                              .add("solicitud",Json.createObjectBuilder()
                                                                      .add("_id", estudio.getSolicitud().get_id())
                                                                      .add("estado",estudio.getSolicitud().getEstado()))
@@ -218,7 +218,7 @@ public class ServicioEstudio {
             Estudio estudio = new Estudio();
             estudio.setEstado(dtoEstudio.getEstado());
             estudio.setTipo(dtoEstudio.getTipo());
-            estudio.setEscuestasEsperadas(dtoEstudio.getEscuestasEsperadas());
+            estudio.setEncuestasEsperadas(dtoEstudio.getEncuestasEsperadas());
             estudio.setActivo(1);
             estudio.setCreado_el(new Date(Calendar.getInstance().getTime().getTime()));
             Solicitud solicitud = new Solicitud(dtoEstudio.getSolicitud().get_id());
@@ -351,7 +351,7 @@ public class ServicioEstudio {
                     .add("_id",estudio.get_id())
                     .add("estado", estudio.getEstado())
                     .add("tipo", estudio.getTipo())
-                    .add("encuestas_esperadas", estudio.getEscuestasEsperadas())
+                    .add("encuestas_esperadas", estudio.getEncuestasEsperadas())
                     .add("solicitud",Json.createObjectBuilder()
                             .add("_id", estudio.getSolicitud().get_id())
                             .add("estado",estudio.getSolicitud().getEstado()))
@@ -502,7 +502,7 @@ public class ServicioEstudio {
                             .add("_id",estudio.get_id())
                             .add("estado", estudio.getEstado())
                             .add("tipo", estudio.getTipo())
-                            .add("encuestas_esperadas", estudio.getEscuestasEsperadas())
+                            .add("encuestas_esperadas", estudio.getEncuestasEsperadas())
                             .add("solicitud", solicitud)
                             .add("analista", Json.createObjectBuilder()
                                     .add("_id", estudio.getFk_usuario().get_id())
@@ -565,7 +565,7 @@ public class ServicioEstudio {
             Estudio estudio = dao.find(id, Estudio.class);
             estudio.setEstado(dtoEstudio.getEstado());
             estudio.setTipo(dtoEstudio.getTipo());
-            estudio.setEscuestasEsperadas(dtoEstudio.getEscuestasEsperadas());
+            estudio.setEncuestasEsperadas(dtoEstudio.getEncuestasEsperadas());
             estudio.setModificado_el(new Date(Calendar.getInstance().getTime().getTime()));
             Estudio resul = dao.update(estudio);
             data = Json.createObjectBuilder()

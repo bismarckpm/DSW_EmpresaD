@@ -1,562 +1,949 @@
-<div class="menu-container" style="width: 91.5vw !important; justify-content: unset;flex-direction: row;">
-    <div *ngIf="op===''" class="container" style="height: 100%;width: 100%;">
-        <div class="row" style="height: 50%;">
-            <div class="col-8">
-                <mat-card class="menu-card" (click)="setOperation('add')">
-                    <mat-icon class="menu-card-icon">
-                        add_box
-                    </mat-icon>
-                    <h3>Registrar estudios</h3>
-                </mat-card>
-            </div>
-            <div class="col">
-                <mat-card class="menu-card" (click)="setOperation('del')">
-                    <mat-icon class="menu-card-icon">
-                        delete_outline
-                    </mat-icon>
-                    <h3>Eliminar estudios</h3>
-                </mat-card>
-            </div>
-        </div>
-        <div class="row" style="height: 50%;">
-            <div class="col">
-                <mat-card class="menu-card" (click)="setOperation('upd')">
-                    <mat-icon class="menu-card-icon">
-                        update
-                    </mat-icon>
-                    <h3>Modificar estudios</h3>
-                </mat-card>
-            </div>
-            <div class="col">
-                <mat-card class="menu-card" (click)="setOperation('list')">
-                    <mat-icon class="menu-card-icon">
-                        zoom_in
-                    </mat-icon>
-                    <h3>Consultar estudios</h3>
-                </mat-card>
-            </div>
-        </div>
+<div
+  class="menu-container"
+  style="width: 91.5vw !important; justify-content: unset; flex-direction: row"
+>
+  <div *ngIf="op === ''" class="container" style="height: 100%; width: 100%">
+    <div class="row" style="height: 50%">
+      <div class="col-8">
+        <mat-card class="menu-card" (click)="setOperation('add')">
+          <mat-icon class="menu-card-icon"> add_box </mat-icon>
+          <h3>Registrar estudios</h3>
+        </mat-card>
+      </div>
+      <div class="col">
+        <mat-card class="menu-card" (click)="setOperation('del')">
+          <mat-icon class="menu-card-icon"> delete_outline </mat-icon>
+          <h3>Eliminar estudios</h3>
+        </mat-card>
+      </div>
     </div>
-    <div *ngIf="op==='add'" class="estudio-section initLeft" id="addStepper">
-        <mat-card style="height: 100%;width: 100%;text-align: center;display: flex;flex-direction: column;">
-            <mat-horizontal-stepper [linear]="true" #estudio_stepper *ngIf="opStatus==='S'">
-                <mat-step state='solicitud' style="background-color: aqua;">
-                    <div class="step-container" style="overflow-y: scroll;">
-                        <form class="cForm" [formGroup]="addForm" (submit)="stepCheck(0,estudio_stepper)" style="height: 100%; justify-content: space-around;">
-                            <div  style="height: 85%;
-                            overflow-y: auto; display: flex; flex-direction: column;">
-                            <mat-radio-group formControlName="solicitud" 
-                            class="assignList">
-                                <div *ngFor="let solicitud of solicitudes" class="assignmentItem shadow-sm mat-card">
-                                    <div class="assingTitle">
-                                        <h5>Solicitud #{{solicitud._id}}</h5>
-                                    </div>
-                                    <div 
-                                    style="flex:1;    
-                                    display: flex;
-                                    flex-direction: row;">
-                                        <div class="assignIcon">
-                                            <mat-icon style="   
-                                            height: 40px;
-                                            width: 40px;
-                                            font-size: 40px;">
-                                            assignment
-                                            </mat-icon>    
-                                        </div>
-                                        <div 
-                                        class="assignRadio">                                            
-                                            <mat-radio-button [value]="solicitud._id"></mat-radio-button>
-                                        </div>
-                                    </div>
-                                </div>
-                            </mat-radio-group>
-                            </div>
-                        <div class="cForm-actions" style="height: 12.5%;">
-                            <button type="button" class="btn btn-outline-dark">Cancelar</button>
-                            <mat-divider [vertical]="true" [inset]="true" style="color: transparent;"></mat-divider>
-                            <button type="submit" class="btn btn-primary" style="color: white;">Siguiente</button>
-                        </div>
-                        </form>
+    <div class="row" style="height: 50%">
+      <div class="col">
+        <mat-card class="menu-card" (click)="setOperation('upd')">
+          <mat-icon class="menu-card-icon"> update </mat-icon>
+          <h3>Modificar estudios</h3>
+        </mat-card>
+      </div>
+      <div class="col">
+        <mat-card class="menu-card" (click)="setOperation('list')">
+          <mat-icon class="menu-card-icon"> zoom_in </mat-icon>
+          <h3>Consultar estudios</h3>
+        </mat-card>
+      </div>
+    </div>
+  </div>
+  <div *ngIf="op === 'add'" class="estudio-section initLeft" id="addStepper">
+    <mat-card
+      style="
+        height: 100%;
+        width: 100%;
+        text-align: center;
+        display: flex;
+        flex-direction: column;
+      "
+    >
+      <mat-horizontal-stepper
+        [linear]="true"
+        #estudio_stepper
+        *ngIf="opStatus === 'S'"
+      >
+        <mat-step state="solicitud" style="background-color: aqua">
+          <div class="step-container" style="overflow-y: scroll">
+            <form
+              class="cForm"
+              [formGroup]="addForm"
+              (submit)="stepCheck(0, estudio_stepper)"
+              style="height: 100%; justify-content: space-around"
+            >
+              <div
+                style="
+                  height: 85%;
+                  overflow-y: auto;
+                  display: flex;
+                  flex-direction: column;
+                "
+              >
+                <mat-radio-group formControlName="solicitud" class="assignList">
+                  <div
+                    *ngFor="let solicitud of solicitudes"
+                    class="assignmentItem shadow-sm mat-card"
+                  >
+                    <div class="assingTitle">
+                      <h5>Solicitud #{{ solicitud._id }}</h5>
                     </div>
-                </mat-step>
-                <mat-step state='review' style="background-color: aqua;">
-                    <div class="step-container" style="overflow-y: scroll;">
-                        <h4>Población de estudio</h4>
-                        <form class="cForm" [formGroup]="poblacionForm" 
-                        (submit)="addPoblacion(poblacionForm.value,estudio_stepper)" >
-                            <div class="cForm-field-row">
-                                <div class="cForm-field-col">
-                                    <div class="form-group">
-                                        <label for="generoSelect">Género a participar</label>
-                                        <select class="form-control" id="generoSelect" formControlName="genero">
-                                            <option [ngValue]="null">Sin seleccionar...</option>
-                                            <option [ngValue]="'femenino'">Femenino</option>
-                                            <option [ngValue]="'masculino'">Masculino</option>
-                                        </select>
-                                    </div>
-                                    <div class="form-group">
-                                        <label>Edad de participantes</label>
-                                        <div style="display: flex;flex-direction: row">
-                                        <input
-                                        type="number"
-                                        formControlName="rangoEdadInicio"
-                                        class="form-control"
-                                        id="edadI"
-                                        aria-describedby="edadIHelp"
-                                        min="0"
-                                        style="width: 45%;margin-right: 5%;"
-                                        />
-                                        <input
-                                        type="number"
-                                        formControlName="rangoEdadFin"
-                                        class="form-control"
-                                        id="edadF"
-                                        aria-describedby="edadFHelp"
-                                        min="0"
-                                        style="width: 45%;"
-                                        />
-                                        </div>
-                                        <div style="display: flex;flex-direction: row">
-                                        <h6 style="width: 50%;text-align: start;">Edad minima</h6>
-                                        <h6 style="width: 50%;text-align: start;">Edad máxima</h6>   
-                                        </div>
-                                    </div>
-                                    <div class="form-group">
-                                        <label>Cantidad de hijos</label>
-                                        <input
-                                        type="number"
-                                        formControlName="cantidadHijos"
-                                        class="form-control"
-                                        id="hijosQTY"
-                                        aria-describedby="hijosQTYHelp"
-                                        min="0"/>
-                                    </div>
-                                    <div class="form-group">
-                                        <label>Nivel económico</label>
-                                        <input
-                                        type="number"
-                                        formControlName="nivelEconomico"
-                                        class="form-control"
-                                        id="neQTY"
-                                        aria-describedby="neQTYHelp"
-                                        min="0"/>
-                                    </div>
-                                </div>
-                                <div class="cForm-field-col">
-                                    <div class="form-group">
-                                        <label for="naSelect">Nivel Académico</label>
-                                        <select class="form-control" id="naSelect" formControlName="nivelAcademico">
-                                            <option [ngValue]="null">Sin seleccionar...</option>
-                                            <option [ngValue]="'Bachiller'">Bachiller</option>
-                                            <option [ngValue]="'Tecnico superior'">Técnico superior</option>
-                                            <option [ngValue]="'Licenciatura'">Licenciado/a</option>
-                                        </select>
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="ocupacionSelect">Ocupación</label>
-                                        <select class="form-control" id="ocupacionSelect" formControlName="fk_ocupacion">
-                                            <option [ngValue]="null">Sin seleccionar...</option>
-                                            <option *ngFor="let ocup of ocupaciones" 
-                                            [ngValue]="ocup._id">{{ocup.nombre}}</option>
-                                        </select>
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="lugarSelect">Parroquia de estudio</label>
-                                        <select class="form-control" id="lugarSelect" formControlName="fk_lugar">
-                                            <option [ngValue]="null">Sin seleccionar...</option>
-                                            <option *ngFor="let el of parroquias" [ngValue]="el._id">{{el.nombre}}</option>
-                                        </select>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="cForm-actions" style="height: 12.5%;padding: 5px 0px 5px 0px">
-                                <button type="button" class="btn btn-outline-dark">Cancelar</button>
-                                <mat-divider [vertical]="true" [inset]="true" style="color: transparent;"></mat-divider>
-                                <button type="submit" class="btn btn-primary" style="color: white;">Siguiente</button>
-                            </div>
-                        </form>
-                    </div>
-                </mat-step>
-                <mat-step state="preguntas"> 
-                    <div class="step-container">
-                        <form class="cForm" [formGroup]="addForm" (submit)="stepCheck(2,estudio_stepper)" style="height: 100%;flex:unset;">
-                            <div class="cForm-field-row"  style="height: 87.5%;flex:unset;">
-                                <div class="cForm-field-col" style="width: 95%">
-                                    <div style="display: flex;flex-direction: row; 
-                                    width: 100%;height: 10%;justify-content: center;">
-                                        <div style="width: 60%;">
-                                            <h5>Preguntas a asignar</h5>
-                                        </div>
-                                    </div>
-                                    <div style="height: 80%;display: flex;flex-direction: column; overflow-y: auto;">
-                                        <div *ngFor="let p of pregAsoc; let s = index;" class="border rounded pregAsoc">
-                                            <div style="width: 20%;display: flex; flex-direction: row; align-items: center;justify-content: center;">
-                                                <mat-icon style="   
-                                                    height: 30px;
-                                                    width: 30px;
-                                                    font-size: 30px;">
-                                                    help_center
-                                                </mat-icon> 
-                                            </div>
-                                            <div style="width: 60%;">
-                                                <h6 style="text-align: center;">    
-                                                    {{ p.pregunta }}
-                                                </h6>
-                                            </div>
-                                            <div style="width: 20%;display: flex; flex-direction: row; align-items: center;justify-content: center;">
-                                                <button
-                                                type="button"
-                                                class="btn btn-outline-dark"
-                                                style="padding: 0.15rem;
-                                                justify-content: center;
-                                                display: flex;"
-                                                (click)="removePregAsoc(p._id)"
-                                                >
-                                                   <mat-icon style="   
-                                                    height: 30px;
-                                                    width: 30px;
-                                                    font-size: 30px;">
-                                                    highlight_off
-                                                     </mat-icon>  
-                                                </button>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="cForm-actions" style="height: 12.5%;">
-                                <button type="button" class="btn btn-outline-dark">Cancelar</button>
-                                <mat-divider [vertical]="true" [inset]="true" style="color: transparent;"></mat-divider>
-                                <button type="submit" class="btn btn-primary" style="color: white;">Siguiente</button>
-                            </div>
-                        </form>
-                    </div> 
-                </mat-step>
-                <mat-step state="est_data">
-                    <div class="step-container">
-                        <form class="cForm" [formGroup]="addForm" (submit)="stepCheck(3,estudio_stepper)" style="height: 100%;flex:unset;">
-                            <h4>Datos de estudio</h4>
-                            <div class="cForm-field-row">
-                                <div class="cForm-field-col" style="width: 95%">
-                                    <div class="form-group">
-                                        <label for="estSelect">Tipo de estudio</label>
-                                        <select class="form-control" id="estSelect" formControlName="tipo">
-                                            <option [ngValue]="null">Sin seleccionar...</option>
-                                            <option [ngValue]="'En linea'">En línea</option>
-                                            <option [ngValue]="'encuesta'">Encuesta</option>
-                                        </select>
-                                    </div>
-                                </div>
-                                <div class="cForm-field-col" style="width: 95%">
-                                    <div class="form-group">
-                                        <label for="encQTY">Nº de encuestas esperadas</label>
-                                        <input
-                                        type="number"
-                                        formControlName="encuestasEsperadas"
-                                        class="form-control"
-                                        id="encQTY"
-                                        aria-describedby="encQTYHelp"
-                                        min="0"/>
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="analistSelect">Analista asignado</label>
-                                        <select class="form-control" id="analistSelect" formControlName="fk_usuario">
-                                            <option [ngValue]="null">Sin seleccionar...</option>
-                                            <option *ngFor="let us of analistasDisp" [ngValue]="us._id">{{us.nombre}}</option>
-                                        </select>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="cForm-actions" style="height: 12.5%;">
-                                <button type="button" class="btn btn-outline-dark">Cancelar</button>
-                                <mat-divider [vertical]="true" [inset]="true" style="color: transparent;"></mat-divider>
-                                <button type="submit" class="btn btn-primary" style="color: white;">Siguiente</button>
-                            </div>
-                        </form>
-                    </div>
-                </mat-step> 
-                <ng-template matStepperIcon="solicitud">
-                   <mat-icon>assignment</mat-icon>
-                </ng-template>
-                <ng-template matStepperIcon="review">
-                   <mat-icon>chrome_reader_mode</mat-icon>
-                </ng-template>
-                <ng-template matStepperIcon="preguntas">
-                   <mat-icon>help_center</mat-icon>
-                </ng-template>
-                <ng-template matStepperIcon="est_data">
-                   <mat-icon>fact_check</mat-icon>
-                </ng-template>
-            </mat-horizontal-stepper>
-            <div class="cForm" *ngIf="opStatus==='P'">
-                <div class="cForm-field-row">
-                    <div class="cForm-field-col">
-                        <h3>Procesando operación</h3>
-                        <div class="text-center" style="flex: 1;
-                                display: flex;
-                                flex-direction: column;
-                                align-items: center;
-                                justify-content: center;">
-                            <div class="spinner-border" style="width: 7.5rem; height: 7.5rem;" role="status">
-                                <span class="sr-only">Loading...</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="cForm" *ngIf="opStatus==='D'">
-                <div class="cForm-field-row">
-                    <div class="cForm-field-col" style="justify-content:center;align-items: center;">
-                        <h3>Operación exitosa</h3>
-                        <mat-icon style="width: 7.5rem; height: 7.5rem;font-size:7.5rem;">
-                            fact_check
+                    <div style="flex: 1; display: flex; flex-direction: row">
+                      <div class="assignIcon">
+                        <mat-icon
+                          style="height: 40px; width: 40px; font-size: 40px"
+                        >
+                          assignment
                         </mat-icon>
+                      </div>
+                      <div class="assignRadio">
+                        <mat-radio-button
+                          [value]="solicitud._id"
+                        ></mat-radio-button>
+                      </div>
                     </div>
-                </div>
-                <div class="cForm-actions">
-                    <button type="button" class="btn btn-outline-dark" (click)="setOperation('')">Volver a menú</button>
-                </div>
-            </div>
-            <div class="cForm" *ngIf="opStatus==='E'">
-                <div class="cForm-field-row">
-                    <div class="cForm-field-col" style="justify-content:center;align-items: center;">
-                        <h3>Ha ocurrido un error</h3>
-                        <mat-icon style="width: 7.5rem; height: 7.5rem;font-size:7.5rem;">
-                            report_problem
-                        </mat-icon>
-                        <h5>Su operación no pudo ser procesada</h5>
-                    </div>
-                </div>
-                <div class="cForm-actions">
-                    <button type="button" class="btn btn-outline-dark" (click)="setOperation('')">Continuar</button>
-                </div>
-            </div>
-        </mat-card>
-    </div>
-    <div  *ngIf="op==='add' && currentStep > 0 && currentStep < 3" style="height: 90%;width: 30%;" class="SlideIn"  id="suggests">
-        <mat-card style="height: 100%;width: 100%;
-        display: flex;text-align: center;flex-direction: column;" *ngIf="currentStep !== 0 && suggestLoading==='P'">
-            <div class="text-center" style="flex: 1;
-                    display: flex;
-                    flex-direction: column;
-                    align-items: center;
-                    justify-content: center;">
-                    <div class="spinner-border" style="width: 7.5rem; height: 7.5rem;" role="status">
-                        <span class="sr-only">Loading...</span>
-                    </div>
-            </div>
-        </mat-card> 
-        <mat-card style="height: 100%;width: 100%;
-        display: flex;text-align: center;flex-direction: column;" *ngIf="currentStep === 1 && suggestLoading==='D'">
-            <div style="height: 15%; width: 100%">
-                <h5 style="text-align: center;">
-                Muestras de población sugeridas
-                </h5>
-            </div>
-            <div style="height: 85%; width: 100%; display: flex;flex-direction: column; align-items: center;overflow-y: auto;">
-                <div *ngFor="let pobSug of poblacionSuggests; let s = index;" class="border rounded suggestionP sliderTop" >
-                   <div style="width: 20%;height: 100%;
-                   display: flex; flex-direction: column; align-items: center;justify-content: center;">
-                        <button type="button" class="btn btn-outline-dark" style="padding: 0.15rem;
-                            justify-content: center;
-                            display: flex;"
-                            (click)="setPoblacion(null)"
-                            *ngIf="targetPoblacion !== null && targetPoblacion._id === pobSug._id; else elseSPB">
-                                <mat-icon style="height: 30px;width: 30px;font-size: 30px;">
-                                check_circle_outline
-                                </mat-icon>
-                        </button>
-                        <ng-template #elseSPB>
-                             <button type="button" class="btn btn-outline-dark" style="padding: 0.15rem;
-                            justify-content: center;
-                            display: flex;"
-                            (click)="setPoblacion(pobSug)">
-                            <mat-icon style="height: 30px;width: 30px;font-size: 30px;transform: scale(-1,1);">
-                            label_important
-                            </mat-icon>
-                            </button>
-                        </ng-template>
-                    </div>
-                    <div style="width: 80%;height: 100%;display: flex;flex-direction: column; align-items: center;justify-content: center;">
-                        <div style="width: 100%;display: flex;flex-direction: column;">
-                            <label>
-                                <h6>Género</h6>
-                            </label>
-                            <label>
-                                {{pobSug.genero}}
-                            </label>
-                        </div>
-                        <div style="width: 100%;display: flex;flex-direction: column;">
-                            <label>
-                                <h6>Rango de edad</h6>
-                            </label>
-                            <label>
-                                {{pobSug.rango_edad_inicio+"-"+pobSug.rango_edad_fin}}
-                            </label>
-                        </div>
-                    </div>  
-                </div>
-            </div>
-        </mat-card>
-        <mat-card style="height: 100%;width: 100%;
-        display: flex;text-align: center;flex-direction: column;" *ngIf="currentStep === 2 && suggestLoading==='D'">
-            <div style="height: 15%; width: 100%">
-                <h5 style="text-align: center;">
-                Preguntas sugeridas
-                </h5>
-            </div>
-            <div style="height: 85%; width: 100%; display: flex;flex-direction: column; align-items: center;overflow-y: auto;"> 
-                <div *ngFor="let pregSug of preguntaSuggests; let s = index;" class="border rounded suggestionQ sliderTop">
-                    <div style="width: 20%;display: flex; flex-direction: row; align-items: center;justify-content: center;">
-                        <button type="button" class="btn btn-outline-dark" style="padding: 0.15rem;
-                            justify-content: center;
-                            display: flex;"
-                            (click)="addPregAsoc(pregSug.pregunta)" 
-                            *ngIf="checkPregAsoc(pregSug.pregunta._id) === false ;else elsePreg">
-                            <mat-icon style="height: 30px;width: 30px;font-size: 30px;transform: scale(-1,1);">
-                            label_important
-                            </mat-icon>
-                        </button>
-                        <ng-template #elsePreg>
-                            <button type="button" class="btn btn-outline-dark" style="padding: 0.15rem;
-                            justify-content: center;
-                            display: flex;"
-                            disabled 
-                            >
-                            <mat-icon style="height: 30px;width: 30px;font-size: 30px;">
-                            check_circle_outline
-                            </mat-icon>  
-                            </button>
-                        </ng-template>
-                    </div>
-                    <div style="width: 80%">
-                        <h6 style="text-align: center;">    
-                            {{ pregSug.pregunta.pregunta }}
-                        </h6>
-                    </div>     
-                </div>
-            </div>
-        </mat-card>
-    </div>
-    <div *ngIf="op!=='add' && searchState==='I'" style="height: 75%;width: 100%;display: flex;justify-content: center;">
-        <mat-card style="height: 100%;width: 75%;text-align: center;display: flex;flex-direction: column;">
-            <h4>Asistente de búsqueda</h4>
-            <form [formGroup]="searchForm" (submit)="invokeSearch()" class="cForm">
-                <div class="cForm-field-row">
-                    <div class="cForm-field-col">
-                        <div class="form-group">
-                            <label for="sestadoSelect">Estado de estudio</label>
-                            <select class="form-control" id="sestadoSelect" formControlName="estado">
-                                <option [ngValue]="null">Sin seleccionar...</option>
-                                <option [ngValue]="'En ejecucion'">Iniciado</option>
-                                <option [ngValue]="'Procesando'">En proceso</option>
-                                <option [ngValue]="'Culminado'">Finalizado</option>
-                            </select>
-                        </div>
-                        <div class="form-group">
-                            <label for="stipoSelect">Tipo de estudio</label>
-                            <select class="form-control" id="stipoSelect" formControlName="tipo">
-                                <option [ngValue]="null">Sin seleccionar...</option>
-                                <option [ngValue]="'En linea'">En línea</option>
-                                <option [ngValue]="'encuesta'">Encuesta</option>
-                            </select>
-                        </div>
-                    </div>
-                    <div class="cForm-field-col">
-                        <div class="form-group">
-                            <label for="sanalistaSelect">Analista asignado</label>
-                            <select class="form-control" id="sanalistaSelect" formControlName="analista">
-                                <option [ngValue]="null">Sin seleccionar...</option>
-                                <option *ngFor="let us of analistasDisp" [ngValue]="us._id">{{us.nombre}}</option>
-                            </select>
-                        </div>
-                    </div>
-                </div>
-                <div class="cForm-actions">
-                    <button type="button" class="btn btn-outline-dark" (click)="setOperation('')">Cancelar</button>
-                    <mat-divider [vertical]="true" [inset]="true"></mat-divider>
-                    <button type="submit" class="btn btn-primary" style="color: white;">Buscar</button>
-                </div>
-                </form>
-            </mat-card>
-        </div>
-        <div *ngIf="searchState!=='U' && searchState!=='I'"
-            style="width: 100%;height:100%; display: flex; flex-direction: column; justify-content: space-around; align-items: center;">
-            <app-data-table>
-                <table mat-table [dataSource]="dataSource" class="mat-elevation-z8" style="flex:1; overflow-y: auto;" *ngIf="searchState==='D'">
-                    <ng-container matColumnDef="id">
-                        <th mat-header-cell *matHeaderCellDef>Id</th>
-                        <td mat-cell *matCellDef="let element"> {{element._id}} </td>
-                    </ng-container>
-                    <ng-container matColumnDef="estado">
-                        <th mat-header-cell *matHeaderCellDef>Estado</th>
-                        <td mat-cell *matCellDef="let element"> {{element.estado}} </td>
-                    </ng-container>
-                    <ng-container matColumnDef="asignado">
-                        <th mat-header-cell *matHeaderCellDef>Analista asignado</th>
-                        <td mat-cell *matCellDef="let element"> {{element.analista._id}} </td>
-                    </ng-container>
-                    <ng-container matColumnDef="selector">
-                        <th mat-header-cell *matHeaderCellDef>Selección</th>
-                        <td mat-cell *matCellDef="let element">
-                            <mat-checkbox [checked]="isSelected(element.id_estudio)" (change)="selectUser(element.id_estudio,element)">
-                            </mat-checkbox>
-                        </td>
-                    </ng-container>
-                    <ng-container matColumnDef="ops">
-                        <th mat-header-cell *matHeaderCellDef>Operación</th>
-                        <td mat-cell *matCellDef="let element">
-                            <div *ngIf="isSelected(element.id_estudio)">
-                                <button style="background-color: #00d8b4; color:white" mat-mini-fab
-                                    aria-label="Example icon button with a filter list icon" class="shadow-sm"
-                                    >
-                                    <mat-icon>info</mat-icon>
-                                </button>
-                                <button *ngIf="op==='upd'" style="background-color: #00d8b4; color:white; margin:0px 5px"
-                                    mat-mini-fab aria-label="Example icon button with a filter list icon"
-                                    (click)="openUpdModal()" 
-                                    class="shadow-sm">
-                                    <mat-icon>autorenew</mat-icon>
-                                </button>
-                                <button *ngIf="op==='del'" style="background-color: #00d8b4; color:white" mat-mini-fab
-                                    aria-label="Example icon button with a filter list icon" 
-                                    (click)="openDelModal()"
-                                    class="shadow-sm">
-                                    <mat-icon>delete_forever</mat-icon>
-                                </button>
-                            </div>
-                        </td>
-                    </ng-container>
-                    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-                    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
-                </table>
-                <div class="cForm-field-col" style="justify-content:center;align-items: center; align-self: center;" *ngIf="searchState==='P'">
-                    <div class="text-center">
-                        <h3>Procesando búsqueda</h3>
-                    </div>
-                    <div class="text-center" style="flex: 1;
-                    display: flex;
-                    flex-direction: column;
-                    align-items: center;
-                    justify-content: center;">
-                        <div class="spinner-border" style="width: 7.5rem; height: 7.5rem;" role="status">
-                            <span class="sr-only">Loading...</span>
-                        </div>
-                    </div>
-                </div>
-            </app-data-table>
-            <div style="display: flex;flex-direction:row">
-                <button mat-raised-button class="shadow-sm" (click)="doSearch()" style="color: white;background-color:#00d8b4;">
-                    <mat-icon>
-                        search
-                    </mat-icon>
+                  </div>
+                </mat-radio-group>
+              </div>
+              <div class="cForm-actions" style="height: 12.5%">
+                <button type="button" class="btn btn-outline-dark">
+                  Cancelar
                 </button>
-                <mat-divider [vertical]="true" [inset]="true" style="color: transparent;"></mat-divider>
-                <button mat-raised-button class="shadow-sm" (click)="setOperation('')"
-                    style="color: white;background-color:#00d8b4;">Ir a menu principal</button>
+                <mat-divider
+                  [vertical]="true"
+                  [inset]="true"
+                  style="color: transparent"
+                ></mat-divider>
+                <button
+                  type="submit"
+                  class="btn btn-primary"
+                  style="color: white"
+                >
+                  Siguiente
+                </button>
+              </div>
+            </form>
+          </div>
+        </mat-step>
+        <mat-step state="review" style="background-color: aqua">
+          <div class="step-container" style="overflow-y: scroll">
+            <h4>Población de estudio</h4>
+            <form
+              class="cForm"
+              [formGroup]="poblacionForm"
+              (submit)="addPoblacion(poblacionForm.value, estudio_stepper)"
+            >
+              <div class="cForm-field-row">
+                <div class="cForm-field-col">
+                  <div class="form-group">
+                    <label for="generoSelect">Género a participar</label>
+                    <select
+                      class="form-control"
+                      id="generoSelect"
+                      formControlName="genero"
+                    >
+                      <option [ngValue]="null">Sin seleccionar...</option>
+                      <option [ngValue]="'femenino'">Femenino</option>
+                      <option [ngValue]="'masculino'">Masculino</option>
+                    </select>
+                  </div>
+                  <div class="form-group">
+                    <label>Edad de participantes</label>
+                    <div style="display: flex; flex-direction: row">
+                      <input
+                        type="number"
+                        formControlName="rangoEdadInicio"
+                        class="form-control"
+                        id="edadI"
+                        aria-describedby="edadIHelp"
+                        min="0"
+                        style="width: 45%; margin-right: 5%"
+                      />
+                      <input
+                        type="number"
+                        formControlName="rangoEdadFin"
+                        class="form-control"
+                        id="edadF"
+                        aria-describedby="edadFHelp"
+                        min="0"
+                        style="width: 45%"
+                      />
+                    </div>
+                    <div style="display: flex; flex-direction: row">
+                      <h6 style="width: 50%; text-align: start">Edad minima</h6>
+                      <h6 style="width: 50%; text-align: start">Edad máxima</h6>
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <label>Cantidad de hijos</label>
+                    <input
+                      type="number"
+                      formControlName="cantidadHijos"
+                      class="form-control"
+                      id="hijosQTY"
+                      aria-describedby="hijosQTYHelp"
+                      min="0"
+                    />
+                  </div>
+                  <div class="form-group">
+                    <label>Nivel económico</label>
+                    <input
+                      type="number"
+                      formControlName="nivelEconomico"
+                      class="form-control"
+                      id="neQTY"
+                      aria-describedby="neQTYHelp"
+                      min="0"
+                    />
+                  </div>
+                </div>
+                <div class="cForm-field-col">
+                  <div class="form-group">
+                    <label for="naSelect">Nivel Académico</label>
+                    <select
+                      class="form-control"
+                      id="naSelect"
+                      formControlName="nivelAcademico"
+                    >
+                      <option [ngValue]="null">Sin seleccionar...</option>
+                      <option [ngValue]="'Bachiller'">Bachiller</option>
+                      <option [ngValue]="'Tecnico superior'">
+                        Técnico superior
+                      </option>
+                      <option [ngValue]="'Licenciatura'">Licenciado/a</option>
+                    </select>
+                  </div>
+                  <div class="form-group">
+                    <label for="ocupacionSelect">Ocupación</label>
+                    <select
+                      class="form-control"
+                      id="ocupacionSelect"
+                      formControlName="fk_ocupacion"
+                    >
+                      <option [ngValue]="null">Sin seleccionar...</option>
+                      <option
+                        *ngFor="let ocup of ocupaciones"
+                        [ngValue]="ocup._id"
+                      >
+                        {{ ocup.nombre }}
+                      </option>
+                    </select>
+                  </div>
+                  <div class="form-group">
+                    <label for="lugarSelect">Parroquia de estudio</label>
+                    <select
+                      class="form-control"
+                      id="lugarSelect"
+                      formControlName="fk_lugar"
+                    >
+                      <option [ngValue]="null">Sin seleccionar...</option>
+                      <option *ngFor="let el of parroquias" [ngValue]="el._id">
+                        {{ el.nombre }}
+                      </option>
+                    </select>
+                  </div>
+                </div>
+              </div>
+              <div
+                class="cForm-actions"
+                style="height: 12.5%; padding: 5px 0px 5px 0px"
+              >
+                <button type="button" class="btn btn-outline-dark">
+                  Cancelar
+                </button>
+                <mat-divider
+                  [vertical]="true"
+                  [inset]="true"
+                  style="color: transparent"
+                ></mat-divider>
+                <button
+                  type="submit"
+                  class="btn btn-primary"
+                  style="color: white"
+                >
+                  Siguiente
+                </button>
+              </div>
+            </form>
+          </div>
+        </mat-step>
+        <mat-step state="preguntas">
+          <div class="step-container">
+            <form
+              class="cForm"
+              [formGroup]="addForm"
+              (submit)="stepCheck(2, estudio_stepper)"
+              style="height: 100%; flex: unset"
+            >
+              <div class="cForm-field-row" style="height: 87.5%; flex: unset">
+                <div class="cForm-field-col" style="width: 95%">
+                  <div
+                    style="
+                      display: flex;
+                      flex-direction: row;
+                      width: 100%;
+                      height: 10%;
+                      justify-content: center;
+                    "
+                  >
+                    <div style="width: 60%">
+                      <h5>Preguntas a asignar</h5>
+                    </div>
+                  </div>
+                  <div
+                    style="
+                      height: 80%;
+                      display: flex;
+                      flex-direction: column;
+                      overflow-y: auto;
+                    "
+                  >
+                    <div
+                      *ngFor="let p of pregAsoc; let s = index"
+                      class="border rounded pregAsoc"
+                    >
+                      <div
+                        style="
+                          width: 20%;
+                          display: flex;
+                          flex-direction: row;
+                          align-items: center;
+                          justify-content: center;
+                        "
+                      >
+                        <mat-icon
+                          style="height: 30px; width: 30px; font-size: 30px"
+                        >
+                          help_center
+                        </mat-icon>
+                      </div>
+                      <div style="width: 60%">
+                        <h6 style="text-align: center">
+                          {{ p.nombre }}
+                        </h6>
+                      </div>
+                      <div
+                        style="
+                          width: 20%;
+                          display: flex;
+                          flex-direction: row;
+                          align-items: center;
+                          justify-content: center;
+                        "
+                      >
+                        <button
+                          type="button"
+                          class="btn btn-outline-dark"
+                          style="
+                            padding: 0.15rem;
+                            justify-content: center;
+                            display: flex;
+                          "
+                          (click)="removePregAsoc(p._id)"
+                        >
+                          <mat-icon
+                            style="height: 30px; width: 30px; font-size: 30px"
+                          >
+                            highlight_off
+                          </mat-icon>
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="cForm-actions" style="height: 12.5%">
+                <button type="button" class="btn btn-outline-dark">
+                  Cancelar
+                </button>
+                <mat-divider
+                  [vertical]="true"
+                  [inset]="true"
+                  style="color: transparent"
+                ></mat-divider>
+                <button
+                  type="submit"
+                  class="btn btn-primary"
+                  style="color: white"
+                >
+                  Siguiente
+                </button>
+              </div>
+            </form>
+          </div>
+        </mat-step>
+        <mat-step state="est_data">
+          <div class="step-container">
+            <form
+              class="cForm"
+              [formGroup]="addForm"
+              (submit)="stepCheck(3, estudio_stepper)"
+              style="height: 100%; flex: unset"
+            >
+              <h4>Datos de estudio</h4>
+              <div class="cForm-field-row">
+                <div class="cForm-field-col" style="width: 95%">
+                  <div class="form-group">
+                    <label for="estSelect">Tipo de estudio</label>
+                    <select
+                      class="form-control"
+                      id="estSelect"
+                      formControlName="tipo"
+                    >
+                      <option [ngValue]="null">Sin seleccionar...</option>
+                      <option [ngValue]="'En linea'">En línea</option>
+                      <option [ngValue]="'encuesta'">Encuesta</option>
+                    </select>
+                  </div>
+                </div>
+                <div class="cForm-field-col" style="width: 95%">
+                  <div class="form-group">
+                    <label for="encQTY">Nº de encuestas esperadas</label>
+                    <input
+                      type="number"
+                      formControlName="encuestasEsperadas"
+                      class="form-control"
+                      id="encQTY"
+                      aria-describedby="encQTYHelp"
+                      min="0"
+                    />
+                  </div>
+                  <div class="form-group">
+                    <label for="analistSelect">Analista asignado</label>
+                    <select
+                      class="form-control"
+                      id="analistSelect"
+                      formControlName="fk_usuario"
+                    >
+                      <option [ngValue]="null">Sin seleccionar...</option>
+                      <option
+                        *ngFor="let us of analistasDisp"
+                        [ngValue]="us._id"
+                      >
+                        {{ us.nombre }}
+                      </option>
+                    </select>
+                  </div>
+                </div>
+              </div>
+              <div class="cForm-actions" style="height: 12.5%">
+                <button type="button" class="btn btn-outline-dark">
+                  Cancelar
+                </button>
+                <mat-divider
+                  [vertical]="true"
+                  [inset]="true"
+                  style="color: transparent"
+                ></mat-divider>
+                <button
+                  type="submit"
+                  class="btn btn-primary"
+                  style="color: white"
+                >
+                  Siguiente
+                </button>
+              </div>
+            </form>
+          </div>
+        </mat-step>
+        <ng-template matStepperIcon="solicitud">
+          <mat-icon>assignment</mat-icon>
+        </ng-template>
+        <ng-template matStepperIcon="review">
+          <mat-icon>chrome_reader_mode</mat-icon>
+        </ng-template>
+        <ng-template matStepperIcon="preguntas">
+          <mat-icon>help_center</mat-icon>
+        </ng-template>
+        <ng-template matStepperIcon="est_data">
+          <mat-icon>fact_check</mat-icon>
+        </ng-template>
+      </mat-horizontal-stepper>
+      <div class="cForm" *ngIf="opStatus === 'P'">
+        <div class="cForm-field-row">
+          <div class="cForm-field-col">
+            <h3>Procesando operación</h3>
+            <div
+              class="text-center"
+              style="
+                flex: 1;
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                justify-content: center;
+              "
+            >
+              <div
+                class="spinner-border"
+                style="width: 7.5rem; height: 7.5rem"
+                role="status"
+              >
+                <span class="sr-only">Loading...</span>
+              </div>
             </div>
+          </div>
         </div>
+      </div>
+      <div class="cForm" *ngIf="opStatus === 'D'">
+        <div class="cForm-field-row">
+          <div
+            class="cForm-field-col"
+            style="justify-content: center; align-items: center"
+          >
+            <h3>Operación exitosa</h3>
+            <mat-icon style="width: 7.5rem; height: 7.5rem; font-size: 7.5rem">
+              fact_check
+            </mat-icon>
+          </div>
+        </div>
+        <div class="cForm-actions">
+          <button
+            type="button"
+            class="btn btn-outline-dark"
+            (click)="setOperation('')"
+          >
+            Volver a menú
+          </button>
+        </div>
+      </div>
+      <div class="cForm" *ngIf="opStatus === 'E'">
+        <div class="cForm-field-row">
+          <div
+            class="cForm-field-col"
+            style="justify-content: center; align-items: center"
+          >
+            <h3>Ha ocurrido un error</h3>
+            <mat-icon style="width: 7.5rem; height: 7.5rem; font-size: 7.5rem">
+              report_problem
+            </mat-icon>
+            <h5>Su operación no pudo ser procesada</h5>
+          </div>
+        </div>
+        <div class="cForm-actions">
+          <button
+            type="button"
+            class="btn btn-outline-dark"
+            (click)="setOperation('')"
+          >
+            Continuar
+          </button>
+        </div>
+      </div>
+    </mat-card>
+  </div>
+  <div
+    *ngIf="op === 'add' && currentStep > 0 && currentStep < 3"
+    style="height: 90%; width: 30%"
+    class="SlideIn"
+    id="suggests"
+  >
+    <mat-card
+      style="
+        height: 100%;
+        width: 100%;
+        display: flex;
+        text-align: center;
+        flex-direction: column;
+      "
+      *ngIf="currentStep !== 0 && suggestLoading === 'P'"
+    >
+      <div
+        class="text-center"
+        style="
+          flex: 1;
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          justify-content: center;
+        "
+      >
+        <div
+          class="spinner-border"
+          style="width: 7.5rem; height: 7.5rem"
+          role="status"
+        >
+          <span class="sr-only">Loading...</span>
+        </div>
+      </div>
+    </mat-card>
+    <mat-card
+      style="
+        height: 100%;
+        width: 100%;
+        display: flex;
+        text-align: center;
+        flex-direction: column;
+      "
+      *ngIf="currentStep === 1 && suggestLoading === 'D'"
+    >
+      <div style="height: 15%; width: 100%">
+        <h5 style="text-align: center">Muestras de población sugeridas</h5>
+      </div>
+      <div
+        style="
+          height: 85%;
+          width: 100%;
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          overflow-y: auto;
+        "
+      >
+        <div
+          *ngFor="let pobSug of poblacionSuggests; let s = index"
+          class="border rounded suggestionP sliderTop"
+        >
+          <div
+            style="
+              width: 20%;
+              height: 100%;
+              display: flex;
+              flex-direction: column;
+              align-items: center;
+              justify-content: center;
+            "
+          >
+            <button
+              type="button"
+              class="btn btn-outline-dark"
+              style="padding: 0.15rem; justify-content: center; display: flex"
+              (click)="setPoblacion(null)"
+              *ngIf="
+                targetPoblacion !== null && targetPoblacion._id === pobSug._id;
+                else elseSPB
+              "
+            >
+              <mat-icon style="height: 30px; width: 30px; font-size: 30px">
+                check_circle_outline
+              </mat-icon>
+            </button>
+            <ng-template #elseSPB>
+              <button
+                type="button"
+                class="btn btn-outline-dark"
+                style="padding: 0.15rem; justify-content: center; display: flex"
+                (click)="setPoblacion(pobSug)"
+              >
+                <mat-icon
+                  style="
+                    height: 30px;
+                    width: 30px;
+                    font-size: 30px;
+                    transform: scale(-1, 1);
+                  "
+                >
+                  label_important
+                </mat-icon>
+              </button>
+            </ng-template>
+          </div>
+          <div
+            style="
+              width: 80%;
+              height: 100%;
+              display: flex;
+              flex-direction: column;
+              align-items: center;
+              justify-content: center;
+            "
+          >
+            <div style="width: 100%; display: flex; flex-direction: column">
+              <label>
+                <h6>Género</h6>
+              </label>
+              <label>
+                {{ pobSug.genero }}
+              </label>
+            </div>
+            <div style="width: 100%; display: flex; flex-direction: column">
+              <label>
+                <h6>Rango de edad</h6>
+              </label>
+              <label>
+                {{ pobSug.rango_edad_inicio + "-" + pobSug.rango_edad_fin }}
+              </label>
+            </div>
+          </div>
+        </div>
+      </div>
+    </mat-card>
+    <mat-card
+      style="
+        height: 100%;
+        width: 100%;
+        display: flex;
+        text-align: center;
+        flex-direction: column;
+      "
+      *ngIf="currentStep === 2 && suggestLoading === 'D'"
+    >
+      <div style="height: 15%; width: 100%">
+        <h5 style="text-align: center">Preguntas sugeridas</h5>
+      </div>
+      <div
+        style="
+          height: 85%;
+          width: 100%;
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          overflow-y: auto;
+        "
+      >
+        <div
+          *ngFor="let pregSug of preguntaSuggests; let s = index"
+          class="border rounded suggestionQ sliderTop"
+        >
+          <div
+            style="
+              width: 20%;
+              display: flex;
+              flex-direction: row;
+              align-items: center;
+              justify-content: center;
+            "
+          >
+            <button
+              type="button"
+              class="btn btn-outline-dark"
+              style="padding: 0.15rem; justify-content: center; display: flex"
+              (click)="addPregAsoc(pregSug.pregunta)"
+              *ngIf="
+                checkPregAsoc(pregSug.pregunta._id) === false;
+                else elsePreg
+              "
+            >
+              <mat-icon
+                style="
+                  height: 30px;
+                  width: 30px;
+                  font-size: 30px;
+                  transform: scale(-1, 1);
+                "
+              >
+                label_important
+              </mat-icon>
+            </button>
+            <ng-template #elsePreg>
+              <button
+                type="button"
+                class="btn btn-outline-dark"
+                style="padding: 0.15rem; justify-content: center; display: flex"
+                disabled
+              >
+                <mat-icon style="height: 30px; width: 30px; font-size: 30px">
+                  check_circle_outline
+                </mat-icon>
+              </button>
+            </ng-template>
+          </div>
+          <div style="width: 80%">
+            <h6 style="text-align: center">
+              {{ pregSug.pregunta.nombre }}
+            </h6>
+          </div>
+        </div>
+      </div>
+    </mat-card>
+  </div>
+  <div
+    *ngIf="op !== 'add' && searchState === 'I'"
+    style="height: 75%; width: 100%; display: flex; justify-content: center"
+  >
+    <mat-card
+      style="
+        height: 100%;
+        width: 75%;
+        text-align: center;
+        display: flex;
+        flex-direction: column;
+      "
+    >
+      <h4>Asistente de búsqueda</h4>
+      <form [formGroup]="searchForm" (submit)="invokeSearch()" class="cForm">
+        <div class="cForm-field-row">
+          <div class="cForm-field-col">
+            <div class="form-group">
+              <label for="sestadoSelect">Estado de estudio</label>
+              <select
+                class="form-control"
+                id="sestadoSelect"
+                formControlName="estado"
+              >
+                <option [ngValue]="null">Sin seleccionar...</option>
+                <option [ngValue]="'En ejecucion'">Iniciado</option>
+                <option [ngValue]="'Procesando'">En proceso</option>
+                <option [ngValue]="'Culminado'">Finalizado</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label for="stipoSelect">Tipo de estudio</label>
+              <select
+                class="form-control"
+                id="stipoSelect"
+                formControlName="tipo"
+              >
+                <option [ngValue]="null">Sin seleccionar...</option>
+                <option [ngValue]="'En linea'">En línea</option>
+                <option [ngValue]="'encuesta'">Encuesta</option>
+              </select>
+            </div>
+          </div>
+          <div class="cForm-field-col">
+            <div class="form-group">
+              <label for="sanalistaSelect">Analista asignado</label>
+              <select
+                class="form-control"
+                id="sanalistaSelect"
+                formControlName="analista"
+              >
+                <option [ngValue]="null">Sin seleccionar...</option>
+                <option *ngFor="let us of analistasDisp" [ngValue]="us._id">
+                  {{ us.nombre }}
+                </option>
+              </select>
+            </div>
+          </div>
+        </div>
+        <div class="cForm-actions">
+          <button
+            type="button"
+            class="btn btn-outline-dark"
+            (click)="setOperation('')"
+          >
+            Cancelar
+          </button>
+          <mat-divider [vertical]="true" [inset]="true"></mat-divider>
+          <button type="submit" class="btn btn-primary" style="color: white">
+            Buscar
+          </button>
+        </div>
+      </form>
+    </mat-card>
+  </div>
+  <div
+    *ngIf="searchState !== 'U' && searchState !== 'I'"
+    style="
+      width: 100%;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-around;
+      align-items: center;
+    "
+  >
+    <app-data-table>
+      <table
+        mat-table
+        [dataSource]="dataSource"
+        class="mat-elevation-z8"
+        style="flex: 1; overflow-y: auto"
+        *ngIf="searchState === 'D'"
+      >
+        <ng-container matColumnDef="id">
+          <th mat-header-cell *matHeaderCellDef>Id</th>
+          <td mat-cell *matCellDef="let element">{{ element._id }}</td>
+        </ng-container>
+        <ng-container matColumnDef="estado">
+          <th mat-header-cell *matHeaderCellDef>Estado</th>
+          <td mat-cell *matCellDef="let element">{{ element.estado }}</td>
+        </ng-container>
+        <ng-container matColumnDef="asignado">
+          <th mat-header-cell *matHeaderCellDef>Analista asignado</th>
+          <td mat-cell *matCellDef="let element">{{ element.analista._id }}</td>
+        </ng-container>
+        <ng-container matColumnDef="selector">
+          <th mat-header-cell *matHeaderCellDef>Selección</th>
+          <td mat-cell *matCellDef="let element">
+            <mat-checkbox
+              [checked]="isSelected(element.id_estudio)"
+              (change)="selectUser(element.id_estudio, element)"
+            >
+            </mat-checkbox>
+          </td>
+        </ng-container>
+        <ng-container matColumnDef="ops">
+          <th mat-header-cell *matHeaderCellDef>Operación</th>
+          <td mat-cell *matCellDef="let element">
+            <div *ngIf="isSelected(element.id_estudio)">
+              <button
+                style="background-color: #00d8b4; color: white"
+                mat-mini-fab
+                aria-label="Example icon button with a filter list icon"
+                class="shadow-sm"
+              >
+                <mat-icon>info</mat-icon>
+              </button>
+              <button
+                *ngIf="op === 'upd'"
+                style="background-color: #00d8b4; color: white; margin: 0px 5px"
+                mat-mini-fab
+                aria-label="Example icon button with a filter list icon"
+                (click)="openUpdModal()"
+                class="shadow-sm"
+              >
+                <mat-icon>autorenew</mat-icon>
+              </button>
+              <button
+                *ngIf="op === 'del'"
+                style="background-color: #00d8b4; color: white"
+                mat-mini-fab
+                aria-label="Example icon button with a filter list icon"
+                (click)="openDelModal()"
+                class="shadow-sm"
+              >
+                <mat-icon>delete_forever</mat-icon>
+              </button>
+            </div>
+          </td>
+        </ng-container>
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+      </table>
+      <div
+        class="cForm-field-col"
+        style="justify-content: center; align-items: center; align-self: center"
+        *ngIf="searchState === 'P'"
+      >
+        <div class="text-center">
+          <h3>Procesando búsqueda</h3>
+        </div>
+        <div
+          class="text-center"
+          style="
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+          "
+        >
+          <div
+            class="spinner-border"
+            style="width: 7.5rem; height: 7.5rem"
+            role="status"
+          >
+            <span class="sr-only">Loading...</span>
+          </div>
+        </div>
+      </div>
+    </app-data-table>
+    <div style="display: flex; flex-direction: row">
+      <button
+        mat-raised-button
+        class="shadow-sm"
+        (click)="doSearch()"
+        style="color: white; background-color: #00d8b4"
+      >
+        <mat-icon> search </mat-icon>
+      </button>
+      <mat-divider
+        [vertical]="true"
+        [inset]="true"
+        style="color: transparent"
+      ></mat-divider>
+      <button
+        mat-raised-button
+        class="shadow-sm"
+        (click)="setOperation('')"
+        style="color: white; background-color: #00d8b4"
+      >
+        Ir a menu principal
+      </button>
+    </div>
+  </div>
 </div>
-<app-upd-estudio-dialog #updEstudio [_userSelection]="userSelection" [_estudio]="targetEstudio"></app-upd-estudio-dialog>
-<app-del-estudio-dialog #delEstudio [_userSelection]="userSelection" [_estudio]="targetEstudio"></app-del-estudio-dialog>
+<app-upd-estudio-dialog
+  #updEstudio
+  [_userSelection]="userSelection"
+  [_estudio]="targetEstudio"
+></app-upd-estudio-dialog>
+<app-del-estudio-dialog
+  #delEstudio
+  [_userSelection]="userSelection"
+  [_estudio]="targetEstudio"
+></app-del-estudio-dialog>
 <app-add-pregunta-dialog #addPreg></app-add-pregunta-dialog>

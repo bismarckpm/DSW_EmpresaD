@@ -25,6 +25,7 @@ import { Muestra_poblacionService } from '@core/services/muestra_poblacion/muest
 import { Ocupacion } from '@core/models/ocupacion';
 import { Parroquia } from '@core/models/parroquia';
 import { ParroquiaService } from '@core/services/parroquia/parroquia.service';
+import { OcupacionService } from '@core/services/ocupacion/ocupacion.service';
 import { Municipio } from '@core/models/municipio';
 import { Estado } from '@core/models/estado';
 import { Pais } from '@core/models/pais';
@@ -97,7 +98,8 @@ export class EstudiosComponent implements OnInit {
     private _solicitudService: SolicitudService,
     private _poblacionService: Muestra_poblacionService,
     private _parroquiaService: ParroquiaService,
-    private _utilsService: UtilService
+    private _utilsService: UtilService,
+    private _ocupacionService: OcupacionService
   ) {}
   testUser: Usuario = {
     _id: Math.floor(Math.random() * (1000 - 1) + 1),
@@ -214,11 +216,9 @@ export class EstudiosComponent implements OnInit {
     if (this.targetPoblacion === null) {
       console.log(data);
       this._poblacionService.createMuestraPoblacion(data).subscribe(
-        (response) => {
+        (response: any) => {
           console.log(response);
-          this.addForm
-            .get('fk_muestra_poblacion')
-            .setValue(response['data']._id);
+          this.addForm.get('fk_muestra_poblacion').setValue(response._id);
           this.stepCheck(1, stepper);
         },
         (error) => {
@@ -243,7 +243,7 @@ export class EstudiosComponent implements OnInit {
       this.suggestLoading = 'D';
       this.poblacionSuggests = [
         {
-          _id: Math.floor(Math.random() * (1000 - 1) + 1),
+          _id: 1,
           genero: 'masculino',
           nivel_academico: 'Bachiller',
           nivel_economico: 3,
@@ -271,7 +271,7 @@ export class EstudiosComponent implements OnInit {
           },
         },
         {
-          _id: Math.floor(Math.random() * (1000 - 1) + 1),
+          _id: 5,
           genero: 'masculino',
           nivel_academico: 'Bachiller',
           nivel_economico: 3,
@@ -300,6 +300,59 @@ export class EstudiosComponent implements OnInit {
         },
       ];
     }, 2000);
+  }
+  getPreguntasSugeridas() {
+    this.suggestLoading = 'P';
+    this._utilsService
+      .getPreguntasRecomendadasOfSolicitud(this.addForm.value.solicitud)
+      .subscribe(
+        (response: any) => {
+          this.suggestLoading = 'D';
+          console.log(response);
+          this.preguntaSuggests = response.data;
+        },
+        (error) => {
+          console.log(<any>error);
+          this.preguntaSuggests = [
+            {
+              _id: 1,
+              pregunta: {
+                _id: 1,
+                pregunta: 'Pregunta 1: Le parecio comodo el mueble? ',
+                tipo: 'abierta',
+              },
+            },
+            {
+              _id: 7,
+              pregunta: {
+                _id: 2,
+                pregunta:
+                  'Pregunta 2: Recomendaria este mueble a otras personas?',
+                tipo: 'boolean',
+              },
+            },
+            {
+              _id: 3,
+              pregunta: {
+                _id: 3,
+                pregunta:
+                  'Pregunta 3: El precio del mueble le parece que esta bien justificado?',
+                tipo: 'abierta',
+                rango: '',
+              },
+            },
+            {
+              _id: 24,
+              pregunta: {
+                _id: 4,
+                pregunta:
+                  'Pregunta 4: Que problemas encontro en nuestro mueble?',
+                tipo: 'abierta',
+              },
+            },
+          ];
+        }
+      );
   }
   getSuggestPregunta() {
     //OBTENCION DE PREGUNTAS REGISTRADAS SUGERIDAS
@@ -425,7 +478,15 @@ export class EstudiosComponent implements OnInit {
   }
   getOcupaciones() {
     //OBTENCION DE OCUPACIONES REGISTRADAS
-    this.ocupaciones = [{ _id: 1, nombre: 'Ocupacion Test' }];
+    this._ocupacionService.getOcupaciones().subscribe(
+      (response) => {
+        this.ocupaciones = response.data;
+      },
+      (error) => {
+        console.log(<any>error);
+        this.ocupaciones = [{ _id: 1, nombre: 'Ocupacion Test' }];
+      }
+    );
   }
   getEstudios() {
     this._estudioService.getEstudios().subscribe(
@@ -534,7 +595,7 @@ export class EstudiosComponent implements OnInit {
     this._estudioService.createEstudio(data).subscribe(
       (response) => {
         console.log(response);
-        alert('Se agrego el estudio correctamente');
+        //alert('Se agrego el estudio correctamente');
         this.opStatus = 'D';
       },
       (error) => {
@@ -665,7 +726,8 @@ export class EstudiosComponent implements OnInit {
 */
   invokeService() {
     this.opStatus = 'P';
-    console.log(this.addForm.value);
+    let toAdd: any = { ...this.searchForm.value };
+    console.log(toAdd);
     this._estudioService.createEstudio(this.addForm.value).subscribe(
       (response) => {
         console.log(response);
@@ -681,7 +743,6 @@ export class EstudiosComponent implements OnInit {
   invokeSearch() {
     this.estudios = [];
     this.userSelection = 0;
-    let toAdd: any = { ...this.searchForm.value };
     this.getEstudios();
     this.searchState = 'P';
   }
@@ -730,7 +791,8 @@ export class EstudiosComponent implements OnInit {
           document.getElementById('addStepper').classList.add('initleft');
           document.getElementById('addStepper').classList.remove('rightSlider');
         },1500);*/
-        this.getSuggestPregunta();
+        //this.getSuggestPregunta();
+        this.getPreguntasSugeridas();
         this.currentStep = 2;
         stepper.next();
         break;
@@ -750,6 +812,6 @@ export class EstudiosComponent implements OnInit {
         this.invokeService();
         break;
     }
-    console.log(this.addForm.value);
+    //console.log(this.addForm.value);
   }
 }

@@ -53,7 +53,7 @@ public class Estudio extends EntidadBase{
     private String tipo;
 
     @Column(name = "encuestas_esperadas")
-    private int escuestasEsperadas;
+    private int encuestasEsperadas;
 
     @ManyToOne
     @JoinColumn(name = "fk_solicitud")
@@ -100,12 +100,12 @@ public class Estudio extends EntidadBase{
         this.tipo = tipo;
     }
 
-    public int getEscuestasEsperadas() {
-        return escuestasEsperadas;
+    public int getEncuestasEsperadas() {
+        return encuestasEsperadas;
     }
 
-    public void setEscuestasEsperadas(int escuestasEsperadas) {
-        this.escuestasEsperadas = escuestasEsperadas;
+    public void setEncuestasEsperadas(int encuestasEsperadas) {
+        this.encuestasEsperadas = encuestasEsperadas;
     }
 
     public Solicitud getSolicitud() {

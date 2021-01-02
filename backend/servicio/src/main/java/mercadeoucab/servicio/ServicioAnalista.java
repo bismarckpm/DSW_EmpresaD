@@ -199,7 +199,7 @@ public class ServicioAnalista extends AplicacionBase{
                             .add("_id",estudio.get_id())
                             .add("estado", estudio.getEstado())
                             .add("tipo", estudio.getTipo())
-                            .add("encuestas_esperadas", estudio.getEscuestasEsperadas())
+                            .add("encuestas_esperadas", estudio.getEncuestasEsperadas())
                             .add("solicitud",Json.createObjectBuilder()
                                                     .add("_id", estudio.getSolicitud().get_id())
                                                     .add("estado",estudio.getSolicitud().getEstado()))

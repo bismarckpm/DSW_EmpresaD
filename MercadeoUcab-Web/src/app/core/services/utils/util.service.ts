@@ -32,15 +32,21 @@ export class UtilService {
     return this._http.get(this.url + '/cliente/' + id + '/solicitudes');
   }
 
-  getPreguntasRecomendadasOfSolicitud(id) {
+  getPreguntasRecomendadasOfSolicitud(id): Observable<any> {
     return this._http.get(
       this.url + '/solicitudes/' + id + '/preguntas_recomendadas'
     );
   }
 
-  getUsuariosOfEncuesta(idEstudio) {
+  getUsuariosOfEncuesta(idEstudio): Observable<any> {
     return this._http.get(
       this.url + '/estudios/' + idEstudio + '/usuarios_respondieron'
+    );
+  }
+
+  getUsuariosCanApplyToEstudio(idEstudio): Observable<any> {
+    return this._http.get(
+      this.url + '/estudios/' + idEstudio + '/usuarios_aplican'
     );
   }
 }
