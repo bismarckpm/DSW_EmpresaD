@@ -101,3 +101,32 @@ button:focus {
 .modal-body {
     display: flex;
 }
+
+.user-info {
+    width: 90%;
+    height: 65%;
+    background-color: white;
+    padding: 8px !important;
+}
+
+.elementToFadeInAndOut {
+    -webkit-animation: fadeinout 10s linear forwards;
+    animation: fadeinout 10s linear forwards;
+}
+
+@-webkit-keyframes fadeinout {
+    0%,100% {opacity: 0;background-color: white;}
+    10%{ opacity: 1;}
+    90%{ opacity: 1;}
+}
+
+@keyframes fadeinout {
+    0%,100% {opacity: 0;background-color: white;}
+    10%{ opacity: 1;}
+    90%{ opacity: 1;}
+}
+
+.mat-radio-outer-circle {
+    position: absolute !important;
+    top: 1.25px !important; 
+}

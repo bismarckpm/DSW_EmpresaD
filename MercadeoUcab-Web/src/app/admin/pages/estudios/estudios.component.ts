@@ -1,10 +1,17 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { Form, FormBuilder, FormGroup, Validators } from '@angular/forms';
+import {
+  Form,
+  FormBuilder,
+  FormGroup,
+  Validators,
+  FormControl,
+} from '@angular/forms';
 import { MatTableDataSource } from '@angular/material/table';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { STEPPER_GLOBAL_OPTIONS } from '@angular/cdk/stepper';
 import { DelEstudioDialogComponent } from '../../components/dialogs/del-estudio-dialog/del-estudio-dialog.component';
 import { UpdEstudioDialogComponent } from '../../components/dialogs/upd-estudio-dialog/upd-estudio-dialog.component';
+import { AddPreguntaDialogComponent } from '../../components/dialogs/add-pregunta-dialog/add-pregunta-dialog.component';
 import { Estudio } from '@models/estudio';
 import { Marca } from '@models/marca';
 import { Pregunta } from '@models/pregunta';
@@ -12,6 +19,7 @@ import { Presentacion } from '@models/presentacion';
 import { Solicitud } from '@models/solicitud';
 import { EstudioService } from '@core/services/estudio/estudio.service';
 import { SolicitudService } from '@core/services/solicitud/solicitud.service';
+import { UtilService } from '@core/services/utils/util.service';
 import { Usuario } from '@core/models/usuario';
 import { Muestra_poblacionService } from '@core/services/muestra_poblacion/muestra_poblacion.service';
 import { Ocupacion } from '@core/models/ocupacion';
@@ -31,73 +39,55 @@ import { Pais } from '@core/models/pais';
       useValue: { displayDefaultIndicatorType: false },
     },
   ],
+  animations: [],
 })
 export class EstudiosComponent implements OnInit {
   op: string;
   searchState: string; //U,I,P,D
   solicitudSelec: number;
   opStatus: string;
+  currentStep: number = 0;
   solicitudes: Solicitud[] = [];
   ocupaciones: Ocupacion[] = [];
-  estudios: Estudio[] = [];
-  dataSource: MatTableDataSource<Estudio>;
+  estudios: any[] = [];
+  dataSource: MatTableDataSource<any>;
   userSelection: number = 0;
+  suggestLoading: string = ''; //I,P,D
+  preguntas: Pregunta[] = [];
+  pregAsoc: any[] = [];
 
-  marcas: Marca[] = [
-    /*{_id:1},
-    {_id:2},
-    {_id:3},*/
-  ];
-  preguntas: Pregunta[] = [
-    /*
-  {_id:1,nombre_pregunta:'Preg 1',tipo:'simple',rango:''},
-  {_id:2,nombre_pregunta:'Preg 2',tipo:'simple',rango:''},
-  {_id:3,nombre_pregunta:'Preg 3',tipo:'simple',rango:''},
-  {_id:4,nombre_pregunta:'Preg 4',tipo:'simple',rango:''},
-  {_id:5,nombre_pregunta:'Preg 5',tipo:'simple',rango:''},
-  {_id:6,nombre_pregunta:'Preg 6',tipo:'simple',rango:''},
-  */
-  ];
-  pregAsoc: Pregunta[] = [];
-  presentaciones: Presentacion[] = [
-    /*{
-      _id: 1,
-      tipo: 'empaque',
-      cantidad: '1x16',
-      activo: true,
-      creado_el: new Date(),
-      modificado_el: new Date(),
-    },*/
-  ];
+  targetEstudio: any;
+  targetPoblacion: any = null;
 
-  targetEstudio:Estudio;
-
-  displayedColumns: string[] = ['id', 'selector', 'ops'];
+  displayedColumns: string[] = ['id', 'estado', 'asignado', 'selector', 'ops'];
   columnsToDisplay: string[] = this.displayedColumns.slice();
-  addForm:FormGroup;
-  poblacionForm:FormGroup;
-  searchForm:FormGroup;
+  poblacionSuggests: any[] = [];
+  preguntaSuggests: any[] = [];
+  addForm: FormGroup;
+  poblacionForm: FormGroup;
+  searchForm: FormGroup;
   firstFormGroup: FormGroup;
   secondFormGroup: FormGroup;
-  parroquias: Parroquia[]=[];
+  analistasDisp: any[] = [];
+  parroquias: any[] = [];
   testPais: Pais = {
     _id: 1,
     nombre: 'Test pais',
   };
-   testEstado: Estado = {
+  testEstado: Estado = {
     _id: 1,
     nombre: 'Test estado',
     pais: this.testPais,
   };
-   testMunicipio: Municipio = {
+  testMunicipio: Municipio = {
     _id: 1,
     nombre: 'Test  municipio',
     estado: this.testEstado,
   };
-   testParroquia: Parroquia = {
+  testParroquia: Parroquia = {
     _id: 1,
     nombre: 'Test  parrroquia',
-    municipio:this.testMunicipio,
+    municipio: this.testMunicipio,
     valorSocioEconomico: 8000,
   };
   constructor(
@@ -106,16 +96,17 @@ export class EstudiosComponent implements OnInit {
     private _estudioService: EstudioService,
     private _solicitudService: SolicitudService,
     private _poblacionService: Muestra_poblacionService,
-    private _parroquiaService:ParroquiaService,
+    private _parroquiaService: ParroquiaService,
+    private _utilsService: UtilService
   ) {}
   testUser: Usuario = {
-    _id:Math.floor(Math.random()*(1000-1)+1),
-    nombre:Math.random().toString(36).substr(2, 5),
-    apellido:Math.random().toString(36).substr(2, 5),
-    rol:'Administrador',
-    correo:Math.random().toString(36).substr(2, 5),
-    estado:'Activo',
-  }
+    _id: Math.floor(Math.random() * (1000 - 1) + 1),
+    nombre: Math.random().toString(36).substr(2, 5),
+    apellido: Math.random().toString(36).substr(2, 5),
+    rol: 'Administrador',
+    correo: Math.random().toString(36).substr(2, 5),
+    estado: 'Activo',
+  };
   @ViewChild('updEstudio') private updComponent: UpdEstudioDialogComponent;
   async openUpdModal() {
     return await this.updComponent.open();
@@ -124,9 +115,19 @@ export class EstudiosComponent implements OnInit {
   async openDelModal() {
     return await this.delComponent.open();
   }
+  @ViewChild('addPreg') private addPregComponent: AddPreguntaDialogComponent;
+  async openAddPregModal() {
+    return await this.addPregComponent.open();
+  }
   ngOnInit(): void {
     this.opStatus = 'S';
-    this.searchForm = this.formBuilder.group({});
+    this.suggestLoading = 'I';
+    this.searchForm = this.formBuilder.group({
+      /**/
+      estado: null,
+      tipo: null,
+      analista: null,
+    });
     this.getSolicitudes();
     //FORMUALRIO PARA SOLICITUD
     /*
@@ -152,15 +153,15 @@ export class EstudiosComponent implements OnInit {
   }
   */
     this.addForm = this.formBuilder.group({
-      estado:null,
-      tipo:null,
-      encuestasEsperadas:null,
-      fk_usuario:null,
-      fk_muestra_poblacion:null,
+      estado: 'en ejecución',
+      tipo: null,
+      encuestasEsperadas: null,
+      fk_usuario: null,
+      fk_muestra_poblacion: null,
       solicitud: null,
-      preguntas:[],
+      preguntas: [],
     });
-    this.poblacionForm=this.formBuilder.group({
+    this.poblacionForm = this.formBuilder.group({
       /*{
         "genero":"genero",
         "nivelEconomico":int,
@@ -171,57 +172,360 @@ export class EstudiosComponent implements OnInit {
         "fk_lugar": int,
         "fk_ocupacion":int
       }*/
-      genero:null,
-      nivelEconomico:null,
-      nivelAcademico:null,
-      rangoEdadInicio:null,
-      rangoEdadFin:null,
-      cantidadHijos:null,
-      fk_lugar:null,
-      fk_ocupacion:null,
+      genero: null,
+      nivelEconomico: null,
+      nivelAcademico: null,
+      rangoEdadInicio: null,
+      rangoEdadFin: null,
+      cantidadHijos: null,
+      fk_lugar: null,
+      fk_ocupacion: null,
     });
     this.getOcupaciones();
     this.getParroquias();
     this.setOperation('');
+    this.getAnalistasDisp();
   }
-  addPoblacion(data){
-    this._poblacionService.createMuestraPoblacion(data).subscribe(
-      (response)=>{
-
+  removePregAsoc(toFilter: number) {
+    this.pregAsoc = this.pregAsoc.filter((preg) => preg._id !== toFilter);
+  }
+  addPregAsoc(toPush) {
+    let _push = true;
+    this.pregAsoc.forEach((preg, ind) => {
+      if (preg._id === toPush._id) {
+        _push = false;
+      }
+    });
+    if (_push === true) {
+      this.pregAsoc.push(toPush);
+    }
+  }
+  checkPregAsoc(checkId: number): boolean {
+    let _in = false;
+    for (let preg of this.pregAsoc) {
+      if (preg._id === checkId) {
+        _in = true;
+        break;
+      }
+    }
+    return _in;
+  }
+  addPoblacion(data, stepper) {
+    if (this.targetPoblacion === null) {
+      console.log(data);
+      this._poblacionService.createMuestraPoblacion(data).subscribe(
+        (response) => {
+          console.log(response);
+          this.addForm
+            .get('fk_muestra_poblacion')
+            .setValue(response['data']._id);
+          this.stepCheck(1, stepper);
+        },
+        (error) => {
+          console.log(error);
+          this.addForm
+            .get('fk_muestra_poblacion')
+            .setValue(Math.floor(Math.random() * (1000 - 1) + 1));
+          this.stepCheck(1, stepper);
+        }
+      );
+    } else {
+      this.addForm
+        .get('fk_muestra_poblacion')
+        .setValue(this.targetPoblacion._id);
+      this.stepCheck(1, stepper);
+    }
+  }
+  getSuggestPoblacion() {
+    //ESPACIO DE SOLICITUD DE POBLACIONES SUGERIDAS
+    this.suggestLoading = 'P';
+    setTimeout(() => {
+      this.suggestLoading = 'D';
+      this.poblacionSuggests = [
+        {
+          _id: Math.floor(Math.random() * (1000 - 1) + 1),
+          genero: 'masculino',
+          nivel_academico: 'Bachiller',
+          nivel_economico: 3,
+          rango_edad_inicio: 10,
+          rango_edad_fin: 50,
+          cantidad_hijos: 2,
+          Fk_ocupacion: { _id: 1, nombre: 'test Ocupacion' },
+          parroquia: {
+            _id: 6,
+            nombre: 'Eglise Notre Dame De Rumengol',
+            valorSocioEconomico: 3,
+            nivel_economico: 3,
+            municipio: {
+              _id: 7,
+              nombre: 'Le Faou',
+              estado: {
+                _id: 7,
+                nombre: 'Breteña',
+                pais: {
+                  _id: 4,
+                  nombre: 'Francia',
+                },
+              },
+            },
+          },
+        },
+        {
+          _id: Math.floor(Math.random() * (1000 - 1) + 1),
+          genero: 'masculino',
+          nivel_academico: 'Bachiller',
+          nivel_economico: 3,
+          rango_edad_inicio: 10,
+          rango_edad_fin: 50,
+          cantidad_hijos: 2,
+          Fk_ocupacion: { _id: 1, nombre: 'test Ocupacion' },
+          parroquia: {
+            _id: 6,
+            nombre: 'Eglise Notre Dame De Rumengol',
+            valorSocioEconomico: 3,
+            nivel_economico: 3,
+            municipio: {
+              _id: 7,
+              nombre: 'Le Faou',
+              estado: {
+                _id: 7,
+                nombre: 'Breteña',
+                pais: {
+                  _id: 4,
+                  nombre: 'Francia',
+                },
+              },
+            },
+          },
+        },
+      ];
+    }, 2000);
+  }
+  getSuggestPregunta() {
+    //OBTENCION DE PREGUNTAS REGISTRADAS SUGERIDAS
+    this.suggestLoading = 'P';
+    setTimeout(() => {
+      this.suggestLoading = 'D';
+      this.preguntaSuggests = [
+        {
+          _id: 1,
+          pregunta: {
+            _id: 1,
+            pregunta: 'Pregunta 1: Le parecio comodo el mueble? ',
+            tipo: 'abierta',
+          },
+        },
+        {
+          _id: 7,
+          pregunta: {
+            _id: 2,
+            pregunta: 'Pregunta 2: Recomendaria este mueble a otras personas?',
+            tipo: 'boolean',
+          },
+        },
+        {
+          _id: 3,
+          pregunta: {
+            _id: 3,
+            pregunta:
+              'Pregunta 3: El precio del mueble le parece que esta bien justificado?',
+            tipo: 'abierta',
+            rango: '',
+          },
+        },
+        {
+          _id: 24,
+          pregunta: {
+            _id: 4,
+            pregunta: 'Pregunta 4: Que problemas encontro en nuestro mueble?',
+            tipo: 'abierta',
+          },
+        },
+      ];
+    }, 2000);
+  }
+  setPoblacion(data) {
+    this.targetPoblacion = data;
+    if (data !== null) {
+      console.log(data);
+      //SETEAR CAMPOS DE FORMULARIO
+      this.poblacionForm.setValue({
+        genero: data.genero,
+        nivelEconomico: data.nivel_economico,
+        nivelAcademico: data.nivel_academico,
+        rangoEdadInicio: data.rango_edad_inicio,
+        rangoEdadFin: data.rango_edad_fin,
+        cantidadHijos: data.cantidad_hijos,
+        fk_lugar: data.parroquia._id,
+        fk_ocupacion: data.Fk_ocupacion._id,
+      });
+    } else {
+      this.poblacionForm.setValue({
+        genero: null,
+        nivelEconomico: null,
+        nivelAcademico: null,
+        rangoEdadInicio: null,
+        rangoEdadFin: null,
+        cantidadHijos: null,
+        fk_lugar: null,
+        fk_ocupacion: null,
+      });
+    }
+  }
+  getAnalistasDisp() {
+    //OBTENCION DE ANALSITAS REGISTRADOS
+    this._utilsService.getUsuariosAnalistas().subscribe(
+      (response) => {
+        this.analistasDisp = response['data'];
       },
       (error) => {
-
+        this.analistasDisp = [
+          {
+            _id: Math.floor(Math.random() * (1000 - 1) + 1),
+            nombre: 'Test Analista',
+            apellido: Math.random().toString(36).substr(2, 5),
+            rol: 'Analista',
+            correo: Math.random().toString(36).substr(2, 5),
+            estado: 'Activo',
+          },
+        ];
       }
     );
   }
-  getParroquias(){
+  getParroquias() {
+    //OBTENCION DE PARROQUIAS REGISTRADAS
     this._parroquiaService.getParroquias().subscribe(
-      (response)=>{
+      (response) => {
         this.parroquias = response.data;
       },
       (error) => {
-        this.parroquias =[this.testParroquia];
+        this.parroquias = [
+          this.testParroquia,
+          {
+            _id: 6,
+            nombre: 'Eglise Notre Dame De Rumengol',
+            valorSocioEconomico: 3,
+            nivel_economico: 3,
+            municipio: {
+              _id: 7,
+              nombre: 'Le Faou',
+              estado: {
+                _id: 7,
+                nombre: 'Breteña',
+                pais: {
+                  _id: 4,
+                  nombre: 'Francia',
+                },
+              },
+            },
+          },
+        ];
       }
     );
   }
-  getOcupaciones(){
-    this.ocupaciones=[
-      {_id:1,nombre:'Ocupacion Test'},
-    ]
+  getOcupaciones() {
+    //OBTENCION DE OCUPACIONES REGISTRADAS
+    this.ocupaciones = [{ _id: 1, nombre: 'Ocupacion Test' }];
   }
   getEstudios() {
     this._estudioService.getEstudios().subscribe(
       (response) => {
         console.log(response);
         this.estudios = response.data;
-        this.dataSource = new MatTableDataSource<Estudio>(this.estudios);
-        this.searchState="D";
+        this.dataSource = new MatTableDataSource<any>(this.estudios);
+        this.searchState = 'D';
       },
       (error) => {
         console.log(error);
-        this.estudios = [];
-        this.dataSource = new MatTableDataSource<Estudio>(this.estudios);
-        this.searchState="D";
+        this.estudios = [
+          {
+            _id: 1,
+            estado: 'En ejecucion',
+            tipo: 'En linea',
+            encuestas_esperadas: 1,
+            solicitud: {
+              _id: 1,
+              estado: 'solicitada',
+            },
+            analista: {
+              _id: 6,
+              nombre: 'Macon',
+              apellido: 'Mcleod',
+              correo: 'MM10@gmail.com',
+              rol: 'administrador',
+              estado: 'test',
+            },
+            muestra_poblacion: {
+              _id: 1,
+              genero: 'masculino',
+              nivel_academico: 'Bachiller',
+              nivel_economico: 3,
+              rango_edad_inicio: 10,
+              rango_edad_fin: 50,
+              cantidad_hijos: 2,
+              Fk_ocupacion: { _id: 1, nombre: 'test Ocupacion' },
+              parroquia: {
+                _id: 6,
+                nombre: 'Eglise Notre Dame De Rumengol',
+                // "valor_socioeconomico": 1,
+                valorSocioEconomico: 3,
+                nivel_economico: 3,
+                municipio: {
+                  _id: 7,
+                  nombre: 'Le Faou',
+                  estado: {
+                    _id: 7,
+                    nombre: 'Breteña',
+                    pais: {
+                      _id: 4,
+                      nombre: 'Francia',
+                    },
+                  },
+                },
+              },
+            },
+            encuesta: [
+              {
+                _id: 1,
+                pregunta: {
+                  _id: 1,
+                  pregunta: 'Pregunta 1: Le parecio comodo el mueble? ',
+                  tipo: 'abierta',
+                },
+              },
+              {
+                _id: 7,
+                pregunta: {
+                  _id: 2,
+                  pregunta:
+                    'Pregunta 2: Recomendaria este mueble a otras personas?',
+                  tipo: 'boolean',
+                },
+              },
+              {
+                _id: 3,
+                pregunta: {
+                  _id: 3,
+                  pregunta:
+                    'Pregunta 3: El precio del mueble le parece que esta bien justificado?',
+                  tipo: 'abierta',
+                  rango: '',
+                },
+              },
+              {
+                _id: 24,
+                pregunta: {
+                  _id: 4,
+                  pregunta:
+                    'Pregunta 4: Que problemas encontro en nuestro mueble?',
+                  tipo: 'abierta',
+                },
+              },
+            ],
+          },
+        ];
+        this.dataSource = new MatTableDataSource<any>(this.estudios);
+        this.searchState = 'D';
       }
     );
   }
@@ -231,15 +535,15 @@ export class EstudiosComponent implements OnInit {
       (response) => {
         console.log(response);
         alert('Se agrego el estudio correctamente');
-        this.opStatus="D";
+        this.opStatus = 'D';
       },
       (error) => {
         console.log(error);
-        this.opStatus="E";
+        this.opStatus = 'E';
       }
     );
   }
-
+  /*
   updateEstudio(id, data) {
     this._estudioService.updateEstudio(id, data).subscribe(
       (response) => {
@@ -262,7 +566,7 @@ export class EstudiosComponent implements OnInit {
         console.log(error);
       }
     );
-  }
+  }*/
 
   getSolicitudes() {
     this._solicitudService.getSolicitudes().subscribe(
@@ -272,19 +576,57 @@ export class EstudiosComponent implements OnInit {
       },
       (error) => {
         console.log(error);
-        this.solicitudes = [{
-         _id:13,
-         estado:'activo',
-         usuario: this.testUser,
-         marca: {_id:1,nombre:'TEST MARCA'},
-         tipos: [{_id:1,nombre:'test Tipo'}],
-         presentaciones: [{_id:1,tipo:'volumen',cantidad:'800ml'}],
-         subcategorias:[{_id:1,nombre:'test SubCategoria',categoria:{_id:1,nombre:'test Categoria'}}]
-        }];
+        this.solicitudes = [
+          {
+            _id: 13,
+            estado: 'activo',
+            usuario: this.testUser,
+            marca: { _id: 1, nombre: 'TEST MARCA' },
+            tipos: [{ _id: 1, nombre: 'test Tipo' }],
+            presentaciones: [{ _id: 1, tipo: 'volumen', cantidad: '800ml' }],
+            subcategorias: [
+              {
+                _id: 1,
+                nombre: 'test SubCategoria',
+                categoria: { _id: 1, nombre: 'test Categoria' },
+              },
+            ],
+          },
+          {
+            _id: 34,
+            estado: 'activo',
+            usuario: this.testUser,
+            marca: { _id: 1, nombre: 'TEST MARCA' },
+            tipos: [{ _id: 1, nombre: 'test Tipo' }],
+            presentaciones: [{ _id: 1, tipo: 'volumen', cantidad: '800ml' }],
+            subcategorias: [
+              {
+                _id: 1,
+                nombre: 'test SubCategoria',
+                categoria: { _id: 1, nombre: 'test Categoria' },
+              },
+            ],
+          },
+          {
+            _id: 107,
+            estado: 'activo',
+            usuario: this.testUser,
+            marca: { _id: 1, nombre: 'TEST MARCA' },
+            tipos: [{ _id: 1, nombre: 'test Tipo' }],
+            presentaciones: [{ _id: 1, tipo: 'volumen', cantidad: '800ml' }],
+            subcategorias: [
+              {
+                _id: 1,
+                nombre: 'test SubCategoria',
+                categoria: { _id: 1, nombre: 'test Categoria' },
+              },
+            ],
+          },
+        ];
       }
     );
   }
-/*
+  /*
   addSolicitud(data) {
     this._solicitudService.createSolicitud(data).subscribe(
       (response) => {
@@ -322,36 +664,44 @@ export class EstudiosComponent implements OnInit {
   }
 */
   invokeService() {
-    
+    this.opStatus = 'P';
+    console.log(this.addForm.value);
+    this._estudioService.createEstudio(this.addForm.value).subscribe(
+      (response) => {
+        console.log(response);
+        this.opStatus = 'D';
+      },
+      (error) => {
+        console.log(error);
+        this.opStatus = 'E';
+      }
+    );
   }
 
   invokeSearch() {
     this.estudios = [];
     this.userSelection = 0;
-    let toAdd: any = {...this.searchForm.value};
+    let toAdd: any = { ...this.searchForm.value };
     this.getEstudios();
     this.searchState = 'P';
-    /*setTimeout(() => {
-      this.dataSource = new MatTableDataSource<Estudio>(this.estudios);
-      this.searchState = 'D';
-    }, 3000);*/
   }
   setOperation(chOp: string) {
     this.op = chOp;
     if (chOp !== '') {
       this.searchState = 'I';
+      this.opStatus = 'S';
     } else {
       this.searchState = 'U';
     }
   }
   //CONTROL DE SELECCIÓN EN TABLA DE DATOS
-  selectUser(id: number,data:Estudio) {
+  selectUser(id: number, data: any) {
     if (id === this.userSelection) {
       this.userSelection = 0;
-      this.targetEstudio=null;
+      this.targetEstudio = null;
     } else {
       this.userSelection = id;
-      this.targetEstudio=data;
+      this.targetEstudio = data;
     }
   }
   isSelected(id: number): boolean {
@@ -363,14 +713,41 @@ export class EstudiosComponent implements OnInit {
   doSearch() {
     this.searchState = 'I';
   }
-  stepCheck(ind,stepper) {
-    switch(ind){
+  stepCheck(ind, stepper) {
+    switch (ind) {
       case 0:
+        document.getElementById('addStepper').classList.add('leftSlider');
+        document.getElementById('addStepper').classList.remove('initLeft');
+        this.getSuggestPoblacion();
+        this.currentStep = 1;
         stepper.next();
         break;
       case 1:
+        //document.getElementById('addStepper').classList.add('rightSlider');
+        //document.getElementById('suggests').classList.add('SlideOut');
+        /*setTimeout(() => {
+          //this.currentStep = 0;
+          document.getElementById('addStepper').classList.add('initleft');
+          document.getElementById('addStepper').classList.remove('rightSlider');
+        },1500);*/
+        this.getSuggestPregunta();
+        this.currentStep = 2;
+        stepper.next();
         break;
       case 2:
+        //this.invokeService();
+        this.addForm.get('preguntas').setValue(
+          this.pregAsoc.map((p, ind) => {
+            return { _id: p._id };
+          })
+        );
+        document.getElementById('addStepper').classList.add('rightSlider');
+        document.getElementById('suggests').classList.add('SlideOut');
+        this.currentStep = 3;
+        stepper.next();
+        break;
+      case 3:
+        this.invokeService();
         break;
     }
     console.log(this.addForm.value);

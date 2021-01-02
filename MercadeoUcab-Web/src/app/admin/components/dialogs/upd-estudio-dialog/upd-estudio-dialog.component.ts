@@ -13,6 +13,8 @@ export class UpdEstudioDialogComponent implements OnInit {
   private modalRef: NgbModalRef;
   constructor(private modalService: NgbModal,private formBuilder: FormBuilder){}
   @Input() _userSelection : number;
+  @Input() _estudio : any;
+
 
   ngOnInit(): void {
     this.opStatus="S";

@@ -21,7 +21,7 @@ const routes: Routes = [
         component: EstudioRealizarComponent,
         pathMatch: 'prefix',
       },
-      { path: '', redirectTo: 'analist/overview', pathMatch: 'prefix' },
+      { path: '', redirectTo: 'analista/overview', pathMatch: 'prefix' },
     ],
   },
 ];

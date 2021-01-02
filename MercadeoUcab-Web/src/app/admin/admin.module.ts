@@ -41,6 +41,8 @@ import { UpdSubCategoriaDialogComponent } from './components/dialogs/upd-sub-cat
 import { DelSubCategoriaDialogComponent } from './components/dialogs/del-sub-catategoria-dialog/del-sub-catategoria-dialog.component';
 import { DelMarcaDialogComponent } from './components/dialogs/del-marca-dialog/del-marca-dialog.component';
 import { UpdMarcaDialogComponent } from './components/dialogs/upd-marca-dialog/upd-marca-dialog.component';
+import { BrowserModule } from '@angular/platform-browser';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 @NgModule({
   declarations: [
     EstudiosComponent,

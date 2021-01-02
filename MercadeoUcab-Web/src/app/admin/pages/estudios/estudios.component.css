@@ -4,3 +4,153 @@
     flex-direction: column;
 }
 
+.assignList { 
+    display: flex;
+    flex-direction: row;
+    min-height: 100%;
+    align-items: flex-start;
+    overflow-y: auto;
+    flex-flow: wrap;
+}
+
+.assignmentItem {
+    display: flex;
+    flex-direction:column;
+    margin:0 0.91% 2.5% 0.916%;
+    width: 31.5%;
+    justify-content: space-between;
+    height:45%;
+}
+
+.assignTitle {
+    height: fit-content; 
+    max-height: 20%; 
+    width: 100%
+}
+
+.assignIcon {
+    width: 65%;
+    flex-direction: column;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.assignRadio {
+    align-items: center;
+    width: 35%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+@-webkit-keyframes slideTop {
+    100% { top:0; }
+}
+
+@keyframes slideTop {
+    100% { top:0; }
+}
+
+.sliderTop {
+    position: relative;
+    top: calc(100%);
+    -webkit-animation: slideTop 1.5s forwards;
+    animation: slideTop  1.5s forwards; 
+}
+
+.suggestionP {
+    width: 95%;
+    min-height:90%;
+    margin-top: 5%;
+    margin-bottom: 5%;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+}
+
+.suggestionQ {
+    width: 95%;
+    min-height: calc((100%)/5);
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+}
+
+.pregAsoc {
+    width: 95%;
+    min-height: calc((100%)/4);
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+@-webkit-keyframes slide {
+    100% { right: calc((3.75%) * -1); }
+}
+
+@keyframes slide {
+    100% { right: calc((3.75%) * -1); }
+}
+
+@-webkit-keyframes slideOut {
+    100% { right: -600px; }
+}
+
+@keyframes slideOut {
+    100% { right: -600px; }
+}
+
+@-webkit-keyframes slideLeft {
+    100% { left:calc((1.875%)); }
+}
+
+@keyframes slideLeft {
+   100% { left: calc((1.875%)); }
+}
+
+@-webkit-keyframes slideRight {
+    100% { left: calc((18.75%) ); }
+}
+
+@keyframes slideRight {
+    100% { left: calc((18.75%)); }
+}
+
+.SlideIn {
+    position: relative;
+    right: -600px;
+    -webkit-animation: slide 1.5s forwards;
+    animation: slide 1.5s forwards;
+}
+.SlideOut {
+    position: relative;
+    right: 0px;
+    -webkit-animation: slideOut 1.5s forwards;
+    animation: slideOut 1.5s forwards;
+}
+
+.leftSlider {
+    position: relative;
+    left: calc(18.75%);
+    -webkit-animation: slideLeft 1.5s forwards;
+    animation: slideLeft 1.5s forwards; 
+}
+
+.rightSlider {
+    left:calc((1.875%));
+    -webkit-animation: slideRight 1.5s forwards;
+    animation: slideRight  1.5s forwards; 
+}
+
+.estudio-section {
+    height: 90%;
+    width: 62.5%;
+    position: relative;
+}
+
+.initLeft {
+    left:calc(18.75%);
+}

@@ -9,7 +9,17 @@ import { EstudioService } from '../../../shared/Services/estudio/estudio.service
 })
 export class AnalistaComponent implements OnInit {
   constructor(private route: ActivatedRoute, private router: Router) {}
-  ngOnInit(): void {}
+  
+  openNote: boolean=false;
+
+  ngOnInit(): void {
+    setTimeout(()=>{
+      this.openNote=true;
+      setTimeout(() => {
+        this.openNote=false;
+      },10000)
+    },2000);
+  }
 
   onDir(_route: string): void {
     try {
