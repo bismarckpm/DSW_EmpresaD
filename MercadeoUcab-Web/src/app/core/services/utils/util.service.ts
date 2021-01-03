@@ -38,6 +38,12 @@ export class UtilService {
     );
   }
 
+  getPoblacionRecomendadasOfSolicitud(id): Observable<any> {
+    return this._http.get(
+      this.url + '/solicitudes/' + id + '/poblaciones_recomendadas'
+    );
+  }
+
   getUsuariosOfEncuesta(idEstudio): Observable<any> {
     return this._http.get(
       this.url + '/estudios/' + idEstudio + '/usuarios_respondieron'

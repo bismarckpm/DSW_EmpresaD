@@ -479,7 +479,8 @@ public class ServicioSolicitud extends AplicacionBase{
             }
             else{
                 JsonObject agregar = Json.createObjectBuilder()
-                        .add("preguntas", "Actualmente no hay preguntas que se puedan recomendar para este estudio")
+                        .add("status", 204)
+                        .add("message", "Actualmente no hay preguntas que se puedan recomendar para este estudio")
                         .build();
                 preguntaslist.add(agregar);
             }
@@ -496,7 +497,78 @@ public class ServicioSolicitud extends AplicacionBase{
             System.out.println(problema);
             data = Json.createObjectBuilder()
                     .add("status", 400)
-                    .add("problema", problema)
+                    .add("message", problema)
+                    .build();
+            resultado = Response.status(Response.Status.BAD_REQUEST)
+                    .entity(data)
+                    .build();
+        }
+        return resultado;
+    }
+    
+    @GET
+    @Path("/{id}/poblaciones_recomendadas")
+    public Response poblacionesRecomendadas(@PathParam("id") long id){
+        JsonObject data;
+        JsonArrayBuilder muestrasList = Json.createArrayBuilder();
+        Response resultado = null;
+        try {
+            DaoSolicitud daoSolicitud = new DaoSolicitud();
+            DaoEstudio daoEstudio = new DaoEstudio();
+            List<MuestraPoblacion> muestras = daoEstudio.poblacionesSimilares(daoSolicitud.find(id, Solicitud.class));
+            if(!(muestras.isEmpty())){
+                for(MuestraPoblacion muestra: muestras){
+                    JsonObject objetoOcupacion = Json.createObjectBuilder()
+                            .add("_id", muestra.getFk_ocupacion().get_id())
+                            .add("nombre", muestra.getFk_ocupacion().getNombre())
+                            .build();
+                    JsonObject agregar = Json.createObjectBuilder()
+                                    .add("_id",muestra.get_id())
+                                    .add("genero",muestra.getGenero())
+                                    .add("nivel_economico", muestra.getNivelEconomico())
+                                    .add("nivel_academico", muestra.getNivelAcademico())
+                                    .add("rango_edad_inicio", muestra.getRangoEdadInicio())
+                                    .add("rango_edad_fin", muestra.getRangoEdadFin())
+                                    .add("ocupacion", objetoOcupacion)
+                                    .add("cantidad_hijos", muestra.getCantidadHijos())
+                                    .add("parroquia",Json.createObjectBuilder()
+                                            .add("_id",muestra.getFk_lugar().get_id())
+                                            .add("nombre",muestra.getFk_lugar().getNombre())
+                                            .add("valorSocioEconomico", muestra.getFk_lugar().getValor_socio_economico())
+                                            .add("municipio",Json.createObjectBuilder()
+                                                    .add("_id", muestra.getFk_lugar().getFk_municipio().get_id())
+                                                    .add("nombre", muestra.getFk_lugar().getFk_municipio().getNombre())
+                                                    .add("estado",Json.createObjectBuilder()
+                                                            .add("_id",muestra.getFk_lugar().getFk_municipio().getFk_estado().get_id())
+                                                            .add("nombre",muestra.getFk_lugar().getFk_municipio().getFk_estado().getNombre())
+                                                            .add("pais", Json.createObjectBuilder()
+                                                                    .add("_id",muestra.getFk_lugar().getFk_municipio().getFk_estado().getFk_pais().get_id())
+                                                                    .add("nombre",muestra.getFk_lugar().getFk_municipio().getFk_estado().getFk_pais().getNombre())))))
+                                    .build();
+                    muestrasList.add(agregar);
+                }
+            }
+            else {
+                JsonObject agregar = Json.createObjectBuilder()
+                        .add("status", 204)
+                        .add("message", "Actualmente no ninguna muestra que pueda ser recomendada a este estudio")
+                        .build();
+                muestrasList.add(agregar);
+            }
+            data = Json.createObjectBuilder()
+                    .add("status", 200)
+                    .add("data", muestrasList)
+                    .build();
+            resultado = Response.status(Response.Status.OK)
+                    .entity(data)
+                    .build();
+        }
+        catch (Exception e){
+            String problema = e.getMessage();
+            System.out.println(problema);
+            data = Json.createObjectBuilder()
+                    .add("status", 400)
+                    .add("message", problema)
                     .build();
             resultado = Response.status(Response.Status.BAD_REQUEST)
                     .entity(data)

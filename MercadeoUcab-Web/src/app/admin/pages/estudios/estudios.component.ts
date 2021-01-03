@@ -244,6 +244,77 @@ export class EstudiosComponent implements OnInit {
   getSuggestPoblacion() {
     //ESPACIO DE SOLICITUD DE POBLACIONES SUGERIDAS
     this.suggestLoading = 'P';
+    this._utilsService
+      .getPoblacionRecomendadasOfSolicitud(this.addForm.value.solicitud)
+      .subscribe(
+        (response: any) => {
+          console.log(response.data);
+          this.poblacionSuggests = response.data;
+          this.suggestLoading = 'D';
+        },
+        (error) => {
+          console.log(<any>error);
+          this.poblacionSuggests = [
+            {
+              _id: 1,
+              genero: 'masculino',
+              nivel_academico: 'Bachiller',
+              nivel_economico: 3,
+              rango_edad_inicio: 10,
+              rango_edad_fin: 50,
+              cantidad_hijos: 2,
+              Fk_ocupacion: { _id: 1, nombre: 'test Ocupacion' },
+              parroquia: {
+                _id: 6,
+                nombre: 'Eglise Notre Dame De Rumengol',
+                valorSocioEconomico: 3,
+                nivel_economico: 3,
+                municipio: {
+                  _id: 7,
+                  nombre: 'Le Faou',
+                  estado: {
+                    _id: 7,
+                    nombre: 'Breteña',
+                    pais: {
+                      _id: 4,
+                      nombre: 'Francia',
+                    },
+                  },
+                },
+              },
+            },
+            {
+              _id: 5,
+              genero: 'masculino',
+              nivel_academico: 'Bachiller',
+              nivel_economico: 3,
+              rango_edad_inicio: 10,
+              rango_edad_fin: 50,
+              cantidad_hijos: 2,
+              Fk_ocupacion: { _id: 1, nombre: 'test Ocupacion' },
+              parroquia: {
+                _id: 6,
+                nombre: 'Eglise Notre Dame De Rumengol',
+                valorSocioEconomico: 3,
+                nivel_economico: 3,
+                municipio: {
+                  _id: 7,
+                  nombre: 'Le Faou',
+                  estado: {
+                    _id: 7,
+                    nombre: 'Breteña',
+                    pais: {
+                      _id: 4,
+                      nombre: 'Francia',
+                    },
+                  },
+                },
+              },
+            },
+          ];
+        }
+      );
+    /*
     setTimeout(() => {
       this.suggestLoading = 'D';
       this.poblacionSuggests = [
@@ -304,7 +375,7 @@ export class EstudiosComponent implements OnInit {
           },
         },
       ];
-    }, 2000);
+    }, 2000);*/
   }
   getPreguntasSugeridas() {
     this.suggestLoading = 'P';
@@ -312,9 +383,13 @@ export class EstudiosComponent implements OnInit {
       .getPreguntasRecomendadasOfSolicitud(this.addForm.value.solicitud)
       .subscribe(
         (response: any) => {
-          this.suggestLoading = 'D';
-          console.log(response);
-          this.preguntaSuggests = response.data;
+          if (response.status != 204) {
+            this.suggestLoading = 'D';
+            console.log(response);
+            this.preguntaSuggests = response.data;
+          } else {
+            // Caso de que no existan preguntas sugeridas
+          }
         },
         (error) => {
           console.log(<any>error);
@@ -416,7 +491,7 @@ export class EstudiosComponent implements OnInit {
         rangoEdadFin: data.rango_edad_fin,
         cantidadHijos: data.cantidad_hijos,
         fk_lugar: data.parroquia._id,
-        fk_ocupacion: data.Fk_ocupacion._id,
+        fk_ocupacion: data.ocupacion._id,
       });
     } else {
       this.poblacionForm.setValue({
