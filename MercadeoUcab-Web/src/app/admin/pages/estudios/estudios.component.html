@@ -89,7 +89,9 @@
                 </mat-radio-group>
               </div>
               <div class="cForm-actions" style="height: 12.5%">
-                <button type="button" class="btn btn-outline-dark">
+                <button type="button" class="btn btn-outline-dark"
+                (click)="setOperation('')"
+                >
                   Cancelar
                 </button>
                 <mat-divider
@@ -302,7 +304,7 @@
                       </div>
                       <div style="width: 60%">
                         <h6 style="text-align: center">
-                          {{ p.nombre }}
+                          {{ p.pregunta }}
                         </h6>
                       </div>
                       <div
@@ -331,6 +333,25 @@
                           </mat-icon>
                         </button>
                       </div>
+                    </div>
+                    <!--CREAR PREGUNTA-->
+                    <div style="height: fit-content;display: flex;flex-direction: column;align-items: center;justify-content: center;padding: 5px 0px;">
+                        <button
+                          type="button"
+                          class="btn btn-outline-dark"
+                          style="
+                            padding: 0.15rem;
+                            justify-content: center;
+                            display: flex;
+                          "
+                          (click)="openAddPregModal()"
+                          >
+                          <mat-icon
+                            style="height: 30px; width: 30px; font-size: 30px"
+                          >
+                            add_box
+                          </mat-icon>
+                        </button>
                     </div>
                   </div>
                 </div>
@@ -722,7 +743,7 @@
           </div>
           <div style="width: 80%">
             <h6 style="text-align: center">
-              {{ pregSug.pregunta.nombre }}
+              {{ pregSug.pregunta.pregunta }}
             </h6>
           </div>
         </div>
@@ -946,4 +967,7 @@
   [_userSelection]="userSelection"
   [_estudio]="targetEstudio"
 ></app-del-estudio-dialog>
-<app-add-pregunta-dialog #addPreg></app-add-pregunta-dialog>
+<app-add-pregunta-dialog #addPreg
+  style="height: 75vh;"
+  (sharePregunta)="addCreatedPreg($event)"
+></app-add-pregunta-dialog>

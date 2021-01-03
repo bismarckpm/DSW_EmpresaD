@@ -6,12 +6,16 @@
     <div class="modal-body">
         <!--INFORMATIVO-->
         <div class="cForm"  *ngIf="opStatus==='S'">
-            <div class="cForm-field-row">
+            <div class="cForm-field-row" style="overflow-y: auto;">
                 <div class="cForm-field-col">
-        
+                    <h6>Estado</h6>
+                    <label>{{_estudio.estado}}</label>
+                    <h6>Encuestas esperadas</h6>
+                    <label>{{_estudio.encuestas_esperadas}}</label>
                 </div>
                 <div class="cForm-field-col">
-        
+                    <h6>Analista asignado</h6>
+                    <label>{{_estudio.analista.nombre + " " + _estudio.analista.apellido }}</label>
                 </div>
             </div>
             <div class="cForm-actions">
@@ -45,6 +49,20 @@
                     <mat-icon style="width: 7.5rem; height: 7.5rem;font-size:7.5rem;">
                         fact_check
                     </mat-icon>
+                </div>
+            </div>
+            <div class="cForm-actions">
+                <button type="button" class="btn btn-outline-dark" (click)="close()">Continuar</button>
+            </div>
+        </div>
+        <div class="cForm" *ngIf="opStatus==='E'">
+            <div class="cForm-field-row">
+                <div class="cForm-field-col" style="justify-content:center;align-items: center;">
+                    <h3>Ha ocurrido un error</h3>
+                    <mat-icon style="width: 7.5rem; height: 7.5rem;font-size:7.5rem;">
+                        report_problem
+                    </mat-icon>
+                    <h5>Su operación no pudo ser procesada</h5>
                 </div>
             </div>
             <div class="cForm-actions">

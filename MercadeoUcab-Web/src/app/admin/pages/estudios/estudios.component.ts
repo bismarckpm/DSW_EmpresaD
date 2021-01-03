@@ -188,6 +188,11 @@ export class EstudiosComponent implements OnInit {
     this.setOperation('');
     this.getAnalistasDisp();
   }
+  addCreatedPreg(newPreg:any){
+    this.preguntaSuggests.push(newPreg);
+    this.pregAsoc.push(newPreg.pregunta);
+    //console.log(newPreg);
+  }
   removePregAsoc(toFilter: number) {
     this.pregAsoc = this.pregAsoc.filter((preg) => preg._id !== toFilter);
   }
@@ -313,6 +318,7 @@ export class EstudiosComponent implements OnInit {
         },
         (error) => {
           console.log(<any>error);
+          this.suggestLoading = 'D';
           this.preguntaSuggests = [
             {
               _id: 1,

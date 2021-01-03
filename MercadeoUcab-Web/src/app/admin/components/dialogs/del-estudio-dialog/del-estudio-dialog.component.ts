@@ -1,6 +1,7 @@
 import { Component, Input, OnInit, TemplateRef, ViewChild } from '@angular/core';
 import { FormBuilder } from '@angular/forms';
 import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
+import { EstudioService } from '@core/services/estudio/estudio.service';
 
 
 @Component({
@@ -14,7 +15,10 @@ export class DelEstudioDialogComponent implements OnInit {
 
   @ViewChild('delEstudio') private modalContent: TemplateRef<DelEstudioDialogComponent>;
   private modalRef: NgbModalRef;
-  constructor(private modalService: NgbModal,private formBuilder: FormBuilder){}
+  constructor(
+    private modalService: NgbModal,
+    private formBuilder: FormBuilder,
+    private _estudioService: EstudioService,){}
   @Input() _userSelection : number;
   @Input() _estudio : any;
 
@@ -31,8 +35,17 @@ export class DelEstudioDialogComponent implements OnInit {
   }
   invokeService(){
     this.opStatus="P";
-    setTimeout(()=>{
-      this.opStatus="D";
-    },3000);
+    this._estudioService.deleteEstudio(this._estudio._id, null).subscribe(
+      (response) => {
+        console.log(response);
+        alert('Se elimino el estudio correctamente');
+        this.opStatus="D";
+      },
+      (error) => {
+        console.log(error);
+        this.opStatus="E";
+      }
+    );
+    
   }
 }
