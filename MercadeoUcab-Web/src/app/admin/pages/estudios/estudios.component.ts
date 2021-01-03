@@ -263,7 +263,7 @@ export class EstudiosComponent implements OnInit {
               rango_edad_inicio: 10,
               rango_edad_fin: 50,
               cantidad_hijos: 2,
-              Fk_ocupacion: { _id: 1, nombre: 'test Ocupacion' },
+              ocupacion: { _id: 1, nombre: 'test Ocupacion' },
               parroquia: {
                 _id: 6,
                 nombre: 'Eglise Notre Dame De Rumengol',
@@ -291,7 +291,7 @@ export class EstudiosComponent implements OnInit {
               rango_edad_inicio: 10,
               rango_edad_fin: 50,
               cantidad_hijos: 2,
-              Fk_ocupacion: { _id: 1, nombre: 'test Ocupacion' },
+              ocupacion: { _id: 1, nombre: 'test Ocupacion' },
               parroquia: {
                 _id: 6,
                 nombre: 'Eglise Notre Dame De Rumengol',
@@ -312,6 +312,8 @@ export class EstudiosComponent implements OnInit {
               },
             },
           ];
+          this.suggestLoading = 'D';
+
         }
       );
     /*
@@ -386,7 +388,7 @@ export class EstudiosComponent implements OnInit {
           if (response.status != 204) {
             this.suggestLoading = 'D';
             console.log(response);
-            this.preguntaSuggests = response.data;
+            this.preguntaSuggests = [...response.data];
           } else {
             // Caso de que no existan preguntas sugeridas
           }
@@ -399,7 +401,7 @@ export class EstudiosComponent implements OnInit {
               _id: 1,
               pregunta: {
                 _id: 1,
-                pregunta: 'Pregunta 1: Le parecio comodo el mueble? ',
+                nombre: 'Pregunta 1: Le parecio comodo el mueble? ',
                 tipo: 'abierta',
               },
             },
@@ -407,7 +409,7 @@ export class EstudiosComponent implements OnInit {
               _id: 7,
               pregunta: {
                 _id: 2,
-                pregunta:
+                nombre:
                   'Pregunta 2: Recomendaria este mueble a otras personas?',
                 tipo: 'boolean',
               },
@@ -416,7 +418,7 @@ export class EstudiosComponent implements OnInit {
               _id: 3,
               pregunta: {
                 _id: 3,
-                pregunta:
+                nombre:
                   'Pregunta 3: El precio del mueble le parece que esta bien justificado?',
                 tipo: 'abierta',
                 rango: '',
@@ -424,7 +426,7 @@ export class EstudiosComponent implements OnInit {
             },
             {
               _id: 24,
-              pregunta: {
+              nombre: {
                 _id: 4,
                 pregunta:
                   'Pregunta 4: Que problemas encontro en nuestro mueble?',
@@ -631,7 +633,7 @@ export class EstudiosComponent implements OnInit {
                 _id: 1,
                 pregunta: {
                   _id: 1,
-                  pregunta: 'Pregunta 1: Le parecio comodo el mueble? ',
+                  nombre: 'Pregunta 1: Le parecio comodo el mueble? ',
                   tipo: 'abierta',
                 },
               },
@@ -639,7 +641,7 @@ export class EstudiosComponent implements OnInit {
                 _id: 7,
                 pregunta: {
                   _id: 2,
-                  pregunta:
+                  nombre:
                     'Pregunta 2: Recomendaria este mueble a otras personas?',
                   tipo: 'boolean',
                 },
@@ -648,7 +650,7 @@ export class EstudiosComponent implements OnInit {
                 _id: 3,
                 pregunta: {
                   _id: 3,
-                  pregunta:
+                  nombre:
                     'Pregunta 3: El precio del mueble le parece que esta bien justificado?',
                   tipo: 'abierta',
                   rango: '',
@@ -658,7 +660,7 @@ export class EstudiosComponent implements OnInit {
                 _id: 24,
                 pregunta: {
                   _id: 4,
-                  pregunta:
+                  nombre:
                     'Pregunta 4: Que problemas encontro en nuestro mueble?',
                   tipo: 'abierta',
                 },

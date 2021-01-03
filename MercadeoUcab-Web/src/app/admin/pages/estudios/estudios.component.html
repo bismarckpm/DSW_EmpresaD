@@ -195,7 +195,8 @@
                       <option [ngValue]="'Tecnico superior'">
                         Técnico superior
                       </option>
-                      <option [ngValue]="'Licenciatura'">Licenciado/a</option>
+                      <option [ngValue]="'Universitario'">Universitario</option>
+                      <option [ngValue]="'Licenciado'">Licenciado/a</option>
                     </select>
                   </div>
                   <div class="form-group">
@@ -304,7 +305,7 @@
                       </div>
                       <div style="width: 60%">
                         <h6 style="text-align: center">
-                          {{ p.pregunta }}
+                          {{ p.nombre }}
                         </h6>
                       </div>
                       <div
@@ -743,7 +744,7 @@
           </div>
           <div style="width: 80%">
             <h6 style="text-align: center">
-              {{ pregSug.pregunta.pregunta }}
+              {{ pregSug.pregunta.nombre }}
             </h6>
           </div>
         </div>

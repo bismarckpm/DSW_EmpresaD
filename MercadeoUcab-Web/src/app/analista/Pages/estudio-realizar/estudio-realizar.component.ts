@@ -3,6 +3,7 @@ import { EstudioService } from '@core/services/estudio/estudio.service';
 import { Muestra_poblacionService } from '@core/services/muestra_poblacion/muestra_poblacion.service';
 import { Router, ActivatedRoute,} from '@angular/router';
 import { MuestraPoblacion } from '@models/muestraPoblacion';
+import { UtilService } from '@core/services/utils/util.service';
 import { Estudio } from '@models/estudio';
 @Component({
   selector: 'app-estudio-realizar',
@@ -15,10 +16,12 @@ export class EstudioRealizarComponent implements OnInit {
   _poblacion: MuestraPoblacion;
   _Id:number = 0;
   searchState: string;//I.P,D
+  _encuestados : any[] = [];
   constructor(
     private route: ActivatedRoute,
     private _estudioService: EstudioService,
-    private _poblacionService: Muestra_poblacionService
+    private _poblacionService: Muestra_poblacionService,
+    private _utilsService: UtilService,
     ){}
     testRes = {
       status: 200,
@@ -110,17 +113,31 @@ export class EstudioRealizarComponent implements OnInit {
     this._Id = parseInt(this.route.snapshot.paramMap.get('id'),10);
     if(this._Id !== 0){this._Estudio= this.testRes.data;}
   }
+  getEncuestados(id:number){
+    this._utilsService.getUsuariosOfEncuesta(id).subscribe(
+      (res)=>{
+        this._encuestados = res.data;
+      },
+      (err)=> {
+        console.log(err.message);
+        this._encuestados = [];
+      }
+    );
+  }
   getEstudio(){
     this.searchState="P";
     this._estudioService.getEstudio(this._Id).subscribe(
       (res)=>{
         this._Estudio = res.data;
         this.searchState="D";
+        this.getEncuestados(this._Id);
       },
       (err)=> {
         console.log(err.message);
         this._Estudio = this.testRes.data;
         this.searchState="D";
+        this.getEncuestados(this._Id);
+
       }
     );
   }
