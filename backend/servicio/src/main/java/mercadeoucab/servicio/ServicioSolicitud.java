@@ -479,7 +479,8 @@ public class ServicioSolicitud extends AplicacionBase{
             }
             else{
                 JsonObject agregar = Json.createObjectBuilder()
-                        .add("preguntas", "Actualmente no hay preguntas que se puedan recomendar para este estudio")
+                        .add("status", 204)
+                        .add("message", "Actualmente no hay preguntas que se puedan recomendar para este estudio")
                         .build();
                 preguntaslist.add(agregar);
             }
@@ -496,7 +497,7 @@ public class ServicioSolicitud extends AplicacionBase{
             System.out.println(problema);
             data = Json.createObjectBuilder()
                     .add("status", 400)
-                    .add("problema", problema)
+                    .add("message", problema)
                     .build();
             resultado = Response.status(Response.Status.BAD_REQUEST)
                     .entity(data)
@@ -517,6 +518,10 @@ public class ServicioSolicitud extends AplicacionBase{
             List<MuestraPoblacion> muestras = daoEstudio.poblacionesSimilares(daoSolicitud.find(id, Solicitud.class));
             if(!(muestras.isEmpty())){
                 for(MuestraPoblacion muestra: muestras){
+                    JsonObject objetoOcupacion = Json.createObjectBuilder()
+                            .add("_id", muestra.getFk_ocupacion().get_id())
+                            .add("nombre", muestra.getFk_ocupacion().getNombre())
+                            .build();
                     JsonObject agregar = Json.createObjectBuilder()
                                     .add("_id",muestra.get_id())
                                     .add("genero",muestra.getGenero())
@@ -524,6 +529,7 @@ public class ServicioSolicitud extends AplicacionBase{
                                     .add("nivel_academico", muestra.getNivelAcademico())
                                     .add("rango_edad_inicio", muestra.getRangoEdadInicio())
                                     .add("rango_edad_fin", muestra.getRangoEdadFin())
+                                    .add("ocupacion", objetoOcupacion)
                                     .add("cantidad_hijos", muestra.getCantidadHijos())
                                     .add("parroquia",Json.createObjectBuilder()
                                             .add("_id",muestra.getFk_lugar().get_id())
@@ -544,7 +550,8 @@ public class ServicioSolicitud extends AplicacionBase{
             }
             else {
                 JsonObject agregar = Json.createObjectBuilder()
-                        .add("Muestras", "Actualmente no ninguna muestra que pueda ser recomendada a este estudio")
+                        .add("status", 204)
+                        .add("message", "Actualmente no ninguna muestra que pueda ser recomendada a este estudio")
                         .build();
                 muestrasList.add(agregar);
             }
@@ -561,7 +568,7 @@ public class ServicioSolicitud extends AplicacionBase{
             System.out.println(problema);
             data = Json.createObjectBuilder()
                     .add("status", 400)
-                    .add("problema", problema)
+                    .add("message", problema)
                     .build();
             resultado = Response.status(Response.Status.BAD_REQUEST)
                     .entity(data)
