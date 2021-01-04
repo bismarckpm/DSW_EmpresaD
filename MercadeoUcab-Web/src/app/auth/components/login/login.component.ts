@@ -1,10 +1,11 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ViewEncapsulation } from '@angular/core';
 import { UsuarioService } from '@core/services/usuario/usuario.service';
 import { Usuario } from '@core/models/usuario';
 import { NgForm } from '@angular/forms';
 import { Ldap } from '@core/models/ldap';
+import { AddClienteDialogComponent } from '../add-cliente-dialog/add-cliente-dialog.component';
 
 @Component({
   selector: 'app-Login',
@@ -22,6 +23,11 @@ export class LoginComponent implements OnInit {
     private _router: Router,
     private _userService: UsuarioService
   ) {}
+  
+  @ViewChild('addUserCliente') private addComponent:AddClienteDialogComponent;
+  async openAddModal() {
+    return await this.addComponent.open();
+  }
 
   ngOnInit() {}
 

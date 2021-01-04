@@ -9,6 +9,8 @@ import { ChangePasswordComponent } from './components/change-password/change-pas
 import {RegistroComponent} from "./components/registro/registro.component";
 import {RegistroDatoEncuestadoComponent} from "./components/registro-dato-encuestado/registro-dato-encuestado.component";
 import {AgregarTelefonoComponent} from "./components/agregar-telefono/agregar-telefono.component";
+import { AddClienteDialogComponent } from './components/add-cliente-dialog/add-cliente-dialog.component';
+import { MaterialModule } from '../material.module';
 
 @NgModule({
   declarations: [
@@ -18,7 +20,8 @@ import {AgregarTelefonoComponent} from "./components/agregar-telefono/agregar-te
     RegistroComponent,
     RegistroDatoEncuestadoComponent,
     AgregarTelefonoComponent,
+    AddClienteDialogComponent,
   ],
-  imports: [CommonModule, FormsModule, AuthRoutingModule, ReactiveFormsModule],
+  imports: [CommonModule, FormsModule, AuthRoutingModule, ReactiveFormsModule, MaterialModule],
 })
 export class AuthModule {}

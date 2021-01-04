@@ -1,6 +1,6 @@
 <div class="form_bg">
   <div class="container">
-    <div class="row justify-content-center">
+    <div class="row justify-content-center" style="flex-direction: column; align-items: center;">
       <div class="col-md-offset-4 col-md-4 col-sm-offset-3 col-sm-6">
         <form #f="ngForm" (ngSubmit)="onSubmit()" class="form_horizontal">
           <h2 class="title-principal">Mercadeo Ucab</h2>
@@ -37,6 +37,7 @@
           <button type="submit" class="btn btn-primary" [disabled]="f.invalid">
             Login <i class="fas fa-sign-in-alt"></i>
           </button>
+          
           <ul class="form-options">
             <li>
               <button
@@ -44,10 +45,11 @@
                 routerLink="/reset-password"
                 routerLinkActive="active"
               >
-                Forgot Password
+                recuperar contraseña
               </button>
             </li>
             <li>
+              <!--
               <button
                 class="btn btn-primary"
                 routerLink="/"
@@ -55,10 +57,45 @@
               >
                 Register <i class="fas fa-arrow-right"></i>
               </button>
+              -->
             </li>
           </ul>
         </form>
       </div>
+      <div style="display: flex;flex-direction: row;">
+        <button
+        class="btn btn-primary"
+        style="
+        font-size: 15px;
+        font-weight: 600;
+        letter-spacing: 1px;
+        padding: 10px 20px;
+        margin: 0 7.5px 0px 0;
+        border: none;
+        border-radius: 20px;
+        text-transform: uppercase;
+        "
+        (click)="openAddModal()"
+        >
+        Nuevo Cliente
+        </button>
+        <button
+        class="btn btn-primary"
+        style="
+        font-size: 15px;
+        font-weight: 600;
+        letter-spacing: 1px;
+        padding: 10px 20px;
+        margin: 0 7.5px 0px 0;
+        border: none;
+        border-radius: 20px;
+        text-transform: uppercase;
+        "
+        >
+        Nuevo Encuestado
+        </button>
+      </div>
     </div>
   </div>
 </div>
+<app-add-cliente-dialog #addUserCliente></app-add-cliente-dialog>

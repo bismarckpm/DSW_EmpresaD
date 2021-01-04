@@ -92,9 +92,9 @@ button:focus {
 }
 
 .modal-content{
-    min-height: 60vh;
+    min-height: 75vh;
     min-width: 60vw;
-    height: 60vh;
+    height: 75vh;
     width: 60vw;
 }
 
