@@ -26,7 +26,6 @@ interface SearchLug {
 })
 export class LugaresComponent implements OnInit {
   constructor(
-    private modalService: NgbModal,
     private formBuilder: FormBuilder,
     private _paisService: PaisService,
     private _estadoService: EstadoService,
@@ -39,6 +38,7 @@ export class LugaresComponent implements OnInit {
   searchState: string = 'U';
   tipoLugar: string = ''; //PR,MU,ES,PA
   opStatus: string; //S,P,D
+  showRes:number = 0;
   targetData: any;
   searchForm: FormGroup;
   addForm: FormGroup;
@@ -121,7 +121,7 @@ export class LugaresComponent implements OnInit {
   ngOnInit(): void {
     this.setOperation('');
     this.searchState = 'U';
-
+    this.showRes = 0;
     this.searchLugar = [
       { t: 'PA', do: 0 },
       { t: 'ES', do: 0 },

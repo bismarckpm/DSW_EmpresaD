@@ -41,10 +41,6 @@ export class UpdatePreguntaDialogComponent implements OnInit {
       this.updForm.get('rango').setValue(`${this.minF}&${this.maxF}`);
     }
   }
-  /*
-  setOption(opInd,opName){
-    this._pregunta[opInd].nombre_opcion=opName;
-  }*/
   ngOnInit(): void {
     this.opStatus = 'S';
     this.updForm = this.formBuilder.group({
@@ -74,29 +70,20 @@ export class UpdatePreguntaDialogComponent implements OnInit {
     );
   }
   invokeService() {
-    /*if((this.updForm.get('tipo').value === 'simple' || this.updForm.get('tipo').value === 'multiple' ) && this._pregunta.opciones.length > 0){
-      this.updForm.get('opciones').setValue(this._pregunta.opciones);
-      console.log('')
-    }*/
-    let toUpdate: any = {id:this._pregunta._id,...this.updForm.value};
-    Object.entries(this.updForm.value).forEach(([key, field], ind) => {
-      if (field !== null) {
-        toUpdate[key] = field;
-      } else {
-        toUpdate[key] = this._pregunta[key];
-      }
-    });
+    let toUpdate: any = {
+      id:this._pregunta._id,
+      tipo:(this.updForm.value.tipo !== null)? this.updForm.value.tipo : this._pregunta.tipo,
+      nombre_pregunta:(this.updForm.value.nombre_pregunta !== null)? this.updForm.value.nombre_pregunta : this._pregunta.nombre,
+      rango:(this.updForm.value.rango !== null)? this.updForm.value.rango : (this._pregunta.rango !== undefined)?this._pregunta.rango:null,
+    };
     // Campos que se deben enviar al Back
     // toUpdate.id
     // toUpdate.nombre_pregunta
     // toUpdate.tipo
     // toUpdate.rango
-    console.log(toUpdate);
-    this.updatePregunta(toUpdate.id, toUpdate);
+    //console.log(toUpdate,this._pregunta);
     this.opStatus = 'P';
-    /*setTimeout(() => {
-      this.opStatus = 'D';
-    }, 3000);*/
+    this.updatePregunta(toUpdate.id, toUpdate);
     this.updForm = this.formBuilder.group({
       nombre_pregunta:null,
       rango:null,

@@ -86,9 +86,11 @@ export class UpdLugarDialogComponent implements OnInit {
       (response) => {
         console.log(response);
         //alert('Se modifico el estado correctamente');
+        this.opStatus="D";
       },
       (error) => {
         console.log(error);
+        this.opStatus="E";
       }
     );
   }
@@ -97,9 +99,11 @@ export class UpdLugarDialogComponent implements OnInit {
       (response) => {
         console.log(response);
         //alert('Se modifico la parroquia correctamente');
+        this.opStatus="D";
       },
       (error) => {
         console.log(error);
+        this.opStatus="E";
       }
     );
   }
@@ -109,9 +113,11 @@ export class UpdLugarDialogComponent implements OnInit {
       (response) => {
         console.log(response);
         //alert('Se modifico el municipio correctamente');
+        this.opStatus="D";
       },
       (error) => {
         console.log(error);
+        this.opStatus="E";
       }
     );
   }
