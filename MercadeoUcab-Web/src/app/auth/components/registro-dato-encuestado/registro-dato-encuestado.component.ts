@@ -21,6 +21,7 @@ import { Pais } from '@models/pais';
 import { Ocupacion } from '@models/ocupacion';
 import { AgregarTelefonoComponent } from '../agregar-telefono/agregar-telefono.component';
 import { DatoEncuestadoService } from '@core/services/datoEncuestado/datoEncuestado.service';
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'app-registro-dato-encuestado',
@@ -51,6 +52,7 @@ export class RegistroDatoEncuestadoComponent implements OnInit {
     private lugarServices: ParroquiaService,
     private formBuilder: FormBuilder,
     private ocupacionServices: OcupacionService,
+    private router:Router,
     private datosUsuarioService: DatoEncuestadoService
   ) {}
   cont = 0;
@@ -237,6 +239,7 @@ export class RegistroDatoEncuestadoComponent implements OnInit {
       toAdd2.telefonos = values2.telefonos;
       console.log(toAdd2);
       this.addDatosUsuarios(toAdd2);
+      this.router.navigate(['login']);
       this.close();
     } else {
       alert(
