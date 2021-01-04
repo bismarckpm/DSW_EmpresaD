@@ -49,7 +49,7 @@ public class ServicioTipo extends AplicacionBase {
             String problema = e.getMessage();
             data = Json.createObjectBuilder()
                     .add("status", 400)
-                    .add("mensaje",problema)
+                    .add("message",problema)
                     .build();
             resultado = Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(data).build();
         }
@@ -81,7 +81,7 @@ public class ServicioTipo extends AplicacionBase {
             String problema = e.getMessage();
             data = Json.createObjectBuilder()
                     .add("status", 400)
-                    .add("problema", problema)
+                    .add("message", problema)
                     .build();
             resultado = Response.status(Response.Status.BAD_REQUEST)
                     .entity(data)
@@ -116,7 +116,7 @@ public class ServicioTipo extends AplicacionBase {
             String problema = e.getMessage();
             data = Json.createObjectBuilder()
                     .add("status", 400)
-                    .add("mensaje",problema)
+                    .add("message",problema)
                     .build();
             resultado = Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(data).build();
         }
@@ -152,7 +152,7 @@ public class ServicioTipo extends AplicacionBase {
             String problema = e.getMessage();
             data = Json.createObjectBuilder()
                     .add("status", 400)
-                    .add("problema", problema)
+                    .add("message", problema)
                     .build();
             resultado = Response.status(Response.Status.BAD_REQUEST)
                     .entity(data)
@@ -188,7 +188,7 @@ public class ServicioTipo extends AplicacionBase {
             String problema = e.getMessage();
             data = Json.createObjectBuilder()
                         .add("status", 400)
-                        .add("problema", problema)
+                        .add("message", problema)
                         .build();
             resultado = Response.status(Response.Status.BAD_REQUEST)
                                 .entity(data)

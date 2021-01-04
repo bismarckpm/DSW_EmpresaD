@@ -39,7 +39,7 @@ public class ServicioEncuestado extends AplicacionBase{
             List<Estudio> estudios = dao.estudiosAplicanUsuario(datoEncuestado);
             if(!(estudios.isEmpty())){
                 for(Estudio estudio: estudios){
-
+                    if(estudio.getActivo() == 1){
                     /*JsonArrayBuilder tiposList = Json.createArrayBuilder();
                     for(Tipo tipo: estudio.getSolicitud().getTipos()){
                         JsonObject objecto = Json.createObjectBuilder()
@@ -75,6 +75,7 @@ public class ServicioEncuestado extends AplicacionBase{
                             .add("_id",estudio.get_id())
                             .build();
                     estudiosList.add(agregar);
+                    }
                 }
                 data = Json.createObjectBuilder()
                         .add("status", 200)
