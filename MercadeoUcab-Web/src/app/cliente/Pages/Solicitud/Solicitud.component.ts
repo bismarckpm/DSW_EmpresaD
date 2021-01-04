@@ -62,6 +62,7 @@ export class SolicitudComponent implements OnInit {
   toSearch2: any = {};
   solicitudes: Solicitud[] = [];
   solicitudes2: Solicitud[] = [];
+  //  ID = parseInt(localStorage.getItem('_id'));
   // tslint:disable-next-line:radix
   ID = parseInt(localStorage.getItem('_id'));
   marcas: Marca[] = [];
