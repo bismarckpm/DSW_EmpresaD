@@ -139,7 +139,7 @@ export class EstudioRealizarComponent implements OnInit {
       (response) => {
         console.log(response.data);
         if(response.data !== undefined){
-          this._encuestados = [...this._encuestados,response.data.map((p,ind) => { return {...p,done:false} })];
+          this._encuestados = [...this._encuestados,...response.data.map((p,ind) => { return {...p,done:false} })];
         }
       },
       (error) => {
