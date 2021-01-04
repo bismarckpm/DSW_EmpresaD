@@ -202,54 +202,64 @@ export class SolicitudComponent implements OnInit {
     return await this.updComponent.open();
   }
   serviceInvoke() {
-    /*
-{
-    "estado":"solicitada",
-    "usuario":12,
-    "marca":1,
-    "tipo":1,
-    "subCategoria":1,
-    "presentacion":2
-}    */
-    // FALTA VALIDACION
-    // console.log(this.addForm.value);
+    if(this.addForm.valid){
 
-    const toAdd = {
-      usuario: { _id: undefined },
-      estado: undefined,
-      marca: { _id: undefined },
-      tipos: [],
-      subCategorias: [],
-      presentaciones: [],
-    };
-    const values = this.addForm.value;
-    toAdd.estado = 'solicitada';
-    toAdd.usuario._id = 5;
-    toAdd.marca._id = values.marca;
-    toAdd.tipos.push({ _id: values.tipo });
-    toAdd.subCategorias.push({ _id: values.subCategoria });
-    toAdd.presentaciones.push({ _id: values.presentacion });
-    console.log(toAdd);
-    this.addSolicitud(toAdd);
-    this.opStatus = 'P';
-    //console.log(this.op);
-    //console.log(this.opStatus);
-    //console.log(this.addForm.get('marca').value);
-    //console.log(this.addForm.get('tipo').value);
-    //console.log(this.addForm.get('subCategoria').value);
-    //console.log(this.addForm.get('presentacion').value);
-    setTimeout(() => {
-      this.addForm = this.formBuilder.group({
-        marca: 1,
-        presentacion: 1,
-        usuario: 1,
-        tipo: 1,
-        subCategoria: 1,
-        estado: 'solicitada',
+      /*
+{
+   "estado":"solicitada",
+   "usuario":12,
+   "marca":1,
+   "tipo":1,
+   "subCategoria":1,
+   "presentacion":2
+}    */
+      // FALTA VALIDACION
+      // console.log(this.addForm.value);
+
+      const toAdd = {
+        usuario: { _id: undefined },
+        estado: undefined,
+        marca: { _id: undefined },
+        tipos: [],
+        subCategorias: [],
+        presentaciones: [],
+      };
+      const values = this.addForm.value;
+      toAdd.estado = 'solicitada';
+      toAdd.usuario._id = 5;
+      toAdd.marca._id = values.marca;
+      values.tipo.forEach(function (item) {
+        toAdd.tipos.push({ _id: item });
       });
-      this.opStatus = 'D';
-    }, 3000);
+      values.subCategoria.forEach(function (item) {
+        toAdd.subCategorias.push({ _id: item });
+      });
+      values.presentacion.forEach(function (item) {
+        toAdd.presentaciones.push({ _id: item });
+      });
+      console.log(toAdd);
+      this.addSolicitud(toAdd);
+      this.opStatus = 'P';
+      //console.log(this.op);
+      //console.log(this.opStatus);
+      //console.log(this.addForm.get('marca').value);
+      //console.log(this.addForm.get('tipo').value);
+      //console.log(this.addForm.get('subCategoria').value);
+      //console.log(this.addForm.get('presentacion').value);
+      setTimeout(() => {
+        this.addForm = this.formBuilder.group({
+          marca: 1,
+          presentacion: 1,
+          usuario: 1,
+          tipo: 1,
+          subCategoria: 1,
+          estado: 'solicitada',
+        });
+        this.opStatus = 'D';
+      }, 3000);
+    }else{alert("Se equivoco a la hora de registrar los campos(Marca del producto, Subcategoria del producto, Tipo de producto y presentacion de producto son campos obligatorios no pueden estar vacios)")}
   }
+
   selectSolicitud(id: number, data: Solicitud) {
     if (id === this.solicitudSelection) {
       this.solicitudSelection = 0;
