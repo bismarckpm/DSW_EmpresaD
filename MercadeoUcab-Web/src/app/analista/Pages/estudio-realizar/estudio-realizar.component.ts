@@ -130,7 +130,7 @@ export class EstudioRealizarComponent implements OnInit {
     this.searchState = 'I';
     this._Id = parseInt(this.route.snapshot.paramMap.get('id'), 10);
     if (this._Id !== 0) {
-      this.getEstudio();0
+      this.getEstudio();
     }
   }
 
@@ -144,14 +144,41 @@ export class EstudioRealizarComponent implements OnInit {
         console.log(error);
         this._encuestados = [
           ...this._encuestados,{
-            "_id":102,
-            "nombre": "Test nombre 2",
-            "apellido": "Test apellido 2",
-            "correo": "test@gmail.com",
-            "estado":"activo",
-            "rol":"encuestado",
+            "_id": 2,
+            "nombre": "Zeus",
+            "apellido": "Berg",
+            "rol": "encuestado",
+            "estado": "activo",
+            "correo": "ZB@gmail.com",
             "done":false,
-          }
+        },
+        {
+            "_id": 3,
+            "nombre": "No se",
+            "apellido": "op",
+            "rol": "encuestado",
+            "estado": "activo",
+            "correo": "ADDG@gmail.com",
+            "done":false,
+        },
+        {
+            "_id": 4,
+            "nombre": "Jamal",
+            "apellido": "Stevenson",
+            "rol": "encuestado",
+            "estado": "activo",
+            "correo": "jamal_Stevenson@gmail.com",
+            "done":false,
+        },
+        {
+            "_id": 5,
+            "nombre": "Camrock",
+            "apellido": "soteldo",
+            "rol": "encuestado",
+            "estado": "activo",
+            "correo": "Elmo@gmail.com",
+            "done":false,
+        }
         ];
       }
     );
@@ -161,11 +188,12 @@ export class EstudioRealizarComponent implements OnInit {
       (res) => {
         this._encuestados = res.data.map((p,ind) => { return {...p,done:true} });
         console.log(res.data);
+        this.getEncuestadosCanAnswerEstudio(id);
       },
       (err) => {
         console.log(err.message);
         this._encuestados = [
-          ...this._encuestados,{
+          {
             "_id":102,
             "nombre": "Test nombre 1",
             "apellido": "Test apellido 1",
@@ -175,6 +203,7 @@ export class EstudioRealizarComponent implements OnInit {
             "done":true,
           }
         ];
+        this.getEncuestadosCanAnswerEstudio(id);
       }
     );
   }
@@ -186,14 +215,12 @@ export class EstudioRealizarComponent implements OnInit {
         this._Estudio = res.data;
         this.searchState = 'D';
         this.getEncuestados(this._Id);
-        this.getEncuestadosCanAnswerEstudio(this._Id);
       },
       (err) => {
         console.log(err.message);
         this._Estudio = this.testRes["data"];
         this.searchState = 'D';
         this.getEncuestados(this._Id);
-        this.getEncuestadosCanAnswerEstudio(this._Id);
       }
     );
   }
