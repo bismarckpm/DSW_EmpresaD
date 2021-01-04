@@ -91,7 +91,7 @@ public class ServicioSolicitud extends AplicacionBase{
             String problema = e.getMessage();
             data = Json.createObjectBuilder()
                     .add("status", 400)
-                    .add("mensaje",problema)
+                    .add("message",problema)
                     .build();
             resultado = Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(data).build();
         }
@@ -169,7 +169,14 @@ public class ServicioSolicitud extends AplicacionBase{
                     .build();
         }
         catch (Exception e){
-
+            String problema = e.getMessage();
+            data = Json.createObjectBuilder()
+                    .add("status", 400)
+                    .add("message", problema)
+                    .build();
+            resultado = Response.status(Response.Status.BAD_REQUEST)
+                    .entity(data)
+                    .build();
         }
         return resultado;
     }
@@ -223,12 +230,13 @@ public class ServicioSolicitud extends AplicacionBase{
             resultado = Response.status(Response.Status.OK).entity(data).build();
         }catch (Exception e) {
             String problema = e.getMessage();
-            System.out.print(problema);
             data = Json.createObjectBuilder()
                     .add("status", 400)
-                    .add("mensaje",problema)
+                    .add("message", problema)
                     .build();
-            resultado = Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(data).build();
+            resultado = Response.status(Response.Status.BAD_REQUEST)
+                    .entity(data)
+                    .build();
         }
         return resultado;
     }
@@ -259,7 +267,7 @@ public class ServicioSolicitud extends AplicacionBase{
             String problema = e.getMessage();
             data = Json.createObjectBuilder()
                     .add("status", 400)
-                    .add("problema", problema)
+                    .add("message", problema)
                     .build();
             resultado = Response.status(Response.Status.BAD_REQUEST)
                     .entity(data)
@@ -295,7 +303,7 @@ public class ServicioSolicitud extends AplicacionBase{
             String problema = e.getMessage();
             data = Json.createObjectBuilder()
                     .add("status", 400)
-                    .add("problema", problema)
+                    .add("message", problema)
                     .build();
             resultado = Response.status(Response.Status.BAD_REQUEST)
                     .entity(data)
@@ -316,62 +324,62 @@ public class ServicioSolicitud extends AplicacionBase{
             if(solicitudes.size() > 0){
 
                 for (Solicitud resul: solicitudes){
+                        if(resul.getActivo() == 1) {
+                            JsonArrayBuilder tiposList = Json.createArrayBuilder();
+                            for (Tipo tipo : resul.getTipos()) {
+                                JsonObject objecto = Json.createObjectBuilder()
+                                        .add("_id", tipo.get_id())
+                                        .add("nombre", tipo.getNombre())
+                                        .build();
+                                tiposList.add(objecto);
+                            }
 
-                        JsonArrayBuilder tiposList = Json.createArrayBuilder();
-                        for(Tipo tipo: resul.getTipos()){
-                            JsonObject objecto = Json.createObjectBuilder()
-                                    .add("_id", tipo.get_id())
-                                    .add("nombre", tipo.getNombre())
+                            JsonArrayBuilder presentacionlist = Json.createArrayBuilder();
+                            for (Presentacion presentacion : resul.getPresentaciones()) {
+                                JsonObject objecto = Json.createObjectBuilder()
+                                        .add("_id", presentacion.get_id())
+                                        .add("tipo", presentacion.getTipo())
+                                        .add("Cantidad", presentacion.getCantidad())
+                                        .build();
+                                presentacionlist.add(objecto);
+                            }
+
+                            JsonArrayBuilder subCategoriaslist = Json.createArrayBuilder();
+                            for (SubCategoria subCategoria : resul.getSubCategorias()) {
+                                JsonObject objecto = Json.createObjectBuilder()
+                                        .add("_id", subCategoria.get_id())
+                                        .add("nombre", subCategoria.getNombre())
+                                        .add("categoria", Json.createObjectBuilder()
+                                                .add("_id", subCategoria.getCategoria().get_id())
+                                                .add("nombre", subCategoria.getCategoria().getNombre()))
+                                        .build();
+                                subCategoriaslist.add(objecto);
+                            }
+                            JsonObject object = Json.createObjectBuilder()
+                                    .add("_id", resul.get_id())
+                                    .add("estado", resul.getEstado())
+                                    .add("marca", Json.createObjectBuilder()
+                                            .add("_id", resul.getMarca().get_id())
+                                            .add("nombre", resul.getMarca().getNombre()))
+                                    .add("tipos", tiposList)
+                                    .add("presentaciones", presentacionlist)
+                                    .add("subcategorias", subCategoriaslist)
                                     .build();
-                            tiposList.add(objecto);
+                            solicitudesList.add(object);
                         }
-
-                        JsonArrayBuilder presentacionlist = Json.createArrayBuilder();
-                        for(Presentacion presentacion: resul.getPresentaciones()){
-                            JsonObject objecto = Json.createObjectBuilder()
-                                    .add("_id", presentacion.get_id())
-                                    .add("tipo", presentacion.getTipo())
-                                    .add("Cantidad",presentacion.getCantidad())
-                                    .build();
-                            presentacionlist.add(objecto);
-                        }
-
-                        JsonArrayBuilder subCategoriaslist = Json.createArrayBuilder();
-                        for(SubCategoria subCategoria: resul.getSubCategorias()){
-                            JsonObject objecto = Json.createObjectBuilder()
-                                    .add("_id", subCategoria.get_id())
-                                    .add("nombre", subCategoria.getNombre())
-                                    .add("categoria",Json.createObjectBuilder()
-                                            .add("_id", subCategoria.getCategoria().get_id())
-                                            .add("nombre", subCategoria.getCategoria().getNombre()))
-                                    .build();
-                            subCategoriaslist.add(objecto);
-                        }
-                        JsonObject object = Json.createObjectBuilder()
-                                .add("_id", resul.get_id())
-                                .add("estado",resul.getEstado())
-                                .add("marca",Json.createObjectBuilder()
-                                        .add("_id",resul.getMarca().get_id())
-                                        .add("nombre",resul.getMarca().getNombre()))
-                                .add("tipos", tiposList)
-                                .add("presentaciones", presentacionlist)
-                                .add("subcategorias", subCategoriaslist)
-                                .build();
-                        solicitudesList.add(object);
-
                 } //final for
+                data = Json.createObjectBuilder()
+                        .add("status", 200)
+                        .add("data", solicitudesList)
+                        .build();
             }
             else{
-                JsonObject agregar = Json.createObjectBuilder()
-                        .add("Solicitudes", "Actualmente no existen solicitudes con ese estado")
+                data = Json.createObjectBuilder()
+                        .add("status", 200)
+                        .add("message", "Actualmente no existen solicitudes con ese estado")
                         .build();
-                solicitudesList.add(agregar);
             }
 
-            data = Json.createObjectBuilder()
-                    .add("status", 200)
-                    .add("data", solicitudesList)
-                    .build();
             resultado = Response.status(Response.Status.OK)
                     .entity(data)
                     .build();
@@ -380,7 +388,7 @@ public class ServicioSolicitud extends AplicacionBase{
             String problema = e.getMessage();
             data = Json.createObjectBuilder()
                     .add("status", 400)
-                    .add("problema", problema)
+                    .add("message", problema)
                     .build();
             resultado = Response.status(Response.Status.BAD_REQUEST)
                     .entity(data)
@@ -402,77 +410,80 @@ public class ServicioSolicitud extends AplicacionBase{
             if(!(estudios.isEmpty())){
                 for (Estudio estudio: estudios){
                     for(Pregunta pregunta: estudio.getPreguntas()){
-                        String tipo = pregunta.getTipo();
-                        JsonObject objeto = null;
-                        JsonArrayBuilder opcionesList = null;
+                        if (pregunta.getActivo() == 1)
+                        {
+                            String tipo = pregunta.getTipo();
+                            JsonObject objeto = null;
+                            JsonArrayBuilder opcionesList = null;
 
-                        switch (tipo) {
-                            case "abierta":
-                                objeto = Json.createObjectBuilder()
-                                        .add("pregunta", Json.createObjectBuilder()
-                                                .add("_id", pregunta.get_id())
-                                                .add("nombre", pregunta.getNombrePregunta())
-                                                .add("tipo", pregunta.getTipo()))
-                                        .build();
-                                preguntaslist.add(objeto);
-                                break;
+                            switch (tipo) {
+                                case "abierta":
+                                    objeto = Json.createObjectBuilder()
+                                            .add("pregunta", Json.createObjectBuilder()
+                                                    .add("_id", pregunta.get_id())
+                                                    .add("nombre", pregunta.getNombrePregunta())
+                                                    .add("tipo", pregunta.getTipo()))
+                                            .build();
+                                    preguntaslist.add(objeto);
+                                    break;
 
-                            case "multiple":
-                                opcionesList = Json.createArrayBuilder();
-                                for (Opcion opcion : pregunta.getOpciones()) {
-                                    JsonObject option = Json.createObjectBuilder()
-                                            .add("_id", opcion.get_id())
-                                            .add("nombre_opcion", opcion.getNombre_opcion())
+                                case "multiple":
+                                    opcionesList = Json.createArrayBuilder();
+                                    for (Opcion opcion : pregunta.getOpciones()) {
+                                        JsonObject option = Json.createObjectBuilder()
+                                                .add("_id", opcion.get_id())
+                                                .add("nombre_opcion", opcion.getNombre_opcion())
+                                                .build();
+                                        opcionesList.add(option);
+                                    }
+                                    objeto = Json.createObjectBuilder()
+                                            .add("pregunta", Json.createObjectBuilder()
+                                                    .add("_id", pregunta.get_id())
+                                                    .add("nombre", pregunta.getNombrePregunta())
+                                                    .add("tipo", pregunta.getTipo())
+                                                    .add("opciones", opcionesList))
                                             .build();
-                                    opcionesList.add(option);
-                                }
-                                objeto = Json.createObjectBuilder()
-                                        .add("pregunta", Json.createObjectBuilder()
-                                                .add("_id", pregunta.get_id())
-                                                .add("nombre", pregunta.getNombrePregunta())
-                                                .add("tipo", pregunta.getTipo())
-                                                .add("opciones", opcionesList))
-                                        .build();
-                                preguntaslist.add(objeto);
-                                break;
-                            case "simple":
-                                opcionesList = Json.createArrayBuilder();
-                                for (Opcion opcion : pregunta.getOpciones()) {
-                                    JsonObject option = Json.createObjectBuilder()
-                                            .add("_id", opcion.get_id())
-                                            .add("nombre_nombre", opcion.getNombre_opcion())
+                                    preguntaslist.add(objeto);
+                                    break;
+                                case "simple":
+                                    opcionesList = Json.createArrayBuilder();
+                                    for (Opcion opcion : pregunta.getOpciones()) {
+                                        JsonObject option = Json.createObjectBuilder()
+                                                .add("_id", opcion.get_id())
+                                                .add("nombre_nombre", opcion.getNombre_opcion())
+                                                .build();
+                                        opcionesList.add(option);
+                                    }
+                                    objeto = Json.createObjectBuilder()
+                                            .add("pregunta", Json.createObjectBuilder()
+                                                    .add("_id", pregunta.get_id())
+                                                    .add("nombre", pregunta.getNombrePregunta())
+                                                    .add("tipo", pregunta.getTipo())
+                                                    .add("opciones", opcionesList))
                                             .build();
-                                    opcionesList.add(option);
-                                }
-                                objeto = Json.createObjectBuilder()
-                                        .add("pregunta", Json.createObjectBuilder()
-                                                .add("_id", pregunta.get_id())
-                                                .add("nombre", pregunta.getNombrePregunta())
-                                                .add("tipo", pregunta.getTipo())
-                                                .add("opciones", opcionesList))
-                                        .build();
-                                preguntaslist.add(objeto);
-                                break;
-                            case "boolean":
-                                objeto = Json.createObjectBuilder()
-                                        .add("pregunta", Json.createObjectBuilder()
-                                                .add("_id", pregunta.get_id())
-                                                .add("nombre", pregunta.getNombrePregunta())
-                                                .add("tipo", pregunta.getTipo()))
-                                        .build();
-                                preguntaslist.add(objeto);
-                                break;
-                            case "rango":
-                                objeto = Json.createObjectBuilder()
-                                        .add("pregunta", Json.createObjectBuilder()
-                                                .add("_id",pregunta.get_id())
-                                                .add("nombre", pregunta.getNombrePregunta())
-                                                .add("tipo", pregunta.getTipo())
-                                                .add("rango", pregunta.getRango()))
-                                        .build();
-                                preguntaslist.add(objeto);
-                                break;
-                        }//final switch
+                                    preguntaslist.add(objeto);
+                                    break;
+                                case "boolean":
+                                    objeto = Json.createObjectBuilder()
+                                            .add("pregunta", Json.createObjectBuilder()
+                                                    .add("_id", pregunta.get_id())
+                                                    .add("nombre", pregunta.getNombrePregunta())
+                                                    .add("tipo", pregunta.getTipo()))
+                                            .build();
+                                    preguntaslist.add(objeto);
+                                    break;
+                                case "rango":
+                                    objeto = Json.createObjectBuilder()
+                                            .add("pregunta", Json.createObjectBuilder()
+                                                    .add("_id", pregunta.get_id())
+                                                    .add("nombre", pregunta.getNombrePregunta())
+                                                    .add("tipo", pregunta.getTipo())
+                                                    .add("rango", pregunta.getRango()))
+                                            .build();
+                                    preguntaslist.add(objeto);
+                                    break;
+                            }//final switch
+                        }
                     }
 
                 }
@@ -518,34 +529,36 @@ public class ServicioSolicitud extends AplicacionBase{
             List<MuestraPoblacion> muestras = daoEstudio.poblacionesSimilares(daoSolicitud.find(id, Solicitud.class));
             if(!(muestras.isEmpty())){
                 for(MuestraPoblacion muestra: muestras){
-                    JsonObject objetoOcupacion = Json.createObjectBuilder()
-                            .add("_id", muestra.getFk_ocupacion().get_id())
-                            .add("nombre", muestra.getFk_ocupacion().getNombre())
-                            .build();
-                    JsonObject agregar = Json.createObjectBuilder()
-                                    .add("_id",muestra.get_id())
-                                    .add("genero",muestra.getGenero())
-                                    .add("nivel_economico", muestra.getNivelEconomico())
-                                    .add("nivel_academico", muestra.getNivelAcademico())
-                                    .add("rango_edad_inicio", muestra.getRangoEdadInicio())
-                                    .add("rango_edad_fin", muestra.getRangoEdadFin())
-                                    .add("ocupacion", objetoOcupacion)
-                                    .add("cantidad_hijos", muestra.getCantidadHijos())
-                                    .add("parroquia",Json.createObjectBuilder()
-                                            .add("_id",muestra.getFk_lugar().get_id())
-                                            .add("nombre",muestra.getFk_lugar().getNombre())
-                                            .add("valorSocioEconomico", muestra.getFk_lugar().getValor_socio_economico())
-                                            .add("municipio",Json.createObjectBuilder()
-                                                    .add("_id", muestra.getFk_lugar().getFk_municipio().get_id())
-                                                    .add("nombre", muestra.getFk_lugar().getFk_municipio().getNombre())
-                                                    .add("estado",Json.createObjectBuilder()
-                                                            .add("_id",muestra.getFk_lugar().getFk_municipio().getFk_estado().get_id())
-                                                            .add("nombre",muestra.getFk_lugar().getFk_municipio().getFk_estado().getNombre())
-                                                            .add("pais", Json.createObjectBuilder()
-                                                                    .add("_id",muestra.getFk_lugar().getFk_municipio().getFk_estado().getFk_pais().get_id())
-                                                                    .add("nombre",muestra.getFk_lugar().getFk_municipio().getFk_estado().getFk_pais().getNombre())))))
-                                    .build();
-                    muestrasList.add(agregar);
+                    if (muestra.getActivo() == 1) {
+                        JsonObject objetoOcupacion = Json.createObjectBuilder()
+                                .add("_id", muestra.getFk_ocupacion().get_id())
+                                .add("nombre", muestra.getFk_ocupacion().getNombre())
+                                .build();
+                        JsonObject agregar = Json.createObjectBuilder()
+                                .add("_id", muestra.get_id())
+                                .add("genero", muestra.getGenero())
+                                .add("nivel_economico", muestra.getNivelEconomico())
+                                .add("nivel_academico", muestra.getNivelAcademico())
+                                .add("rango_edad_inicio", muestra.getRangoEdadInicio())
+                                .add("rango_edad_fin", muestra.getRangoEdadFin())
+                                .add("ocupacion", objetoOcupacion)
+                                .add("cantidad_hijos", muestra.getCantidadHijos())
+                                .add("parroquia", Json.createObjectBuilder()
+                                        .add("_id", muestra.getFk_lugar().get_id())
+                                        .add("nombre", muestra.getFk_lugar().getNombre())
+                                        .add("valorSocioEconomico", muestra.getFk_lugar().getValor_socio_economico())
+                                        .add("municipio", Json.createObjectBuilder()
+                                                .add("_id", muestra.getFk_lugar().getFk_municipio().get_id())
+                                                .add("nombre", muestra.getFk_lugar().getFk_municipio().getNombre())
+                                                .add("estado", Json.createObjectBuilder()
+                                                        .add("_id", muestra.getFk_lugar().getFk_municipio().getFk_estado().get_id())
+                                                        .add("nombre", muestra.getFk_lugar().getFk_municipio().getFk_estado().getNombre())
+                                                        .add("pais", Json.createObjectBuilder()
+                                                                .add("_id", muestra.getFk_lugar().getFk_municipio().getFk_estado().getFk_pais().get_id())
+                                                                .add("nombre", muestra.getFk_lugar().getFk_municipio().getFk_estado().getFk_pais().getNombre())))))
+                                .build();
+                        muestrasList.add(agregar);
+                    }
                 }
             }
             else {

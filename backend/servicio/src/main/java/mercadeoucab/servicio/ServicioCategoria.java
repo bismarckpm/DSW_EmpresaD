@@ -50,7 +50,7 @@ public class ServicioCategoria extends AplicacionBase{
             String problema = e.getMessage();
             data = Json.createObjectBuilder()
                     .add("status", 400)
-                    .add("mensaje",problema)
+                    .add("message",problema)
                     .build();
             resultado = Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(data).build();
         }
@@ -71,7 +71,7 @@ public class ServicioCategoria extends AplicacionBase{
             Categoria resul = dao.insert(categoria);
             data = Json.createObjectBuilder()
                     .add("status", 200)
-                    .add("mensaje","Categotia creada con exito")
+                    .add("mensaje","Categoria creada con exito")
                     .build();
             resultado = Response.status(Response.Status.OK).entity(data).build();
         }
@@ -79,7 +79,7 @@ public class ServicioCategoria extends AplicacionBase{
             String problema = e.getMessage();
             data = Json.createObjectBuilder()
                     .add("status", 400)
-                    .add("mensaje",problema)
+                    .add("message",problema)
                     .build();
             resultado = Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(data).build();
         }
@@ -111,7 +111,7 @@ public class ServicioCategoria extends AplicacionBase{
             String problema = e.getMessage();
             data = Json.createObjectBuilder()
                     .add("status", 400)
-                    .add("problema", problema)
+                    .add("message", problema)
                     .build();
             resultado = Response.status(Response.Status.BAD_REQUEST)
                     .entity(data)
@@ -143,7 +143,7 @@ public class ServicioCategoria extends AplicacionBase{
             String problema = e.getMessage();
             data = Json.createObjectBuilder()
                     .add("status", 400)
-                    .add("problema", problema)
+                    .add("message", problema)
                     .build();
             resultado = Response.status(Response.Status.BAD_REQUEST)
                     .entity(data)
@@ -175,7 +175,7 @@ public class ServicioCategoria extends AplicacionBase{
             String problema = e.getMessage();
             data = Json.createObjectBuilder()
                         .add("status", 400)
-                        .add("problema", problema)
+                        .add("message", problema)
                         .build();
             resultado = Response.status(Response.Status.BAD_REQUEST)
                     .entity(data)

@@ -75,19 +75,18 @@ public class ServicioCliente extends AplicacionBase{
                         solicitudesList.add(object);
                     }
                 } //final for
-
+                data = Json.createObjectBuilder()
+                        .add("status", 200)
+                        .add("data", solicitudesList)
+                        .build();
             }
             else{
-                JsonObject agregar = Json.createObjectBuilder()
-                        .add("Solicitudes", "No posee solicitudes asociadas")
+                data = Json.createObjectBuilder()
+                        .add("status", 204)
+                        .add("message", "No posee solicitudes asociadas")
                         .build();
-                solicitudesList.add(agregar);
             }
 
-            data = Json.createObjectBuilder()
-                    .add("status", 200)
-                    .add("data", solicitudesList)
-                    .build();
             resultado = Response.status(Response.Status.OK)
                     .entity(data)
                     .build();
@@ -96,7 +95,7 @@ public class ServicioCliente extends AplicacionBase{
             String problema = e.getMessage();
             data = Json.createObjectBuilder()
                     .add("status", 400)
-                    .add("problema", problema)
+                    .add("message", problema)
                     .build();
             resultado = Response.status(Response.Status.BAD_REQUEST)
                     .entity(data)

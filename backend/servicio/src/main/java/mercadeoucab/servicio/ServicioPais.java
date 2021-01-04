@@ -49,6 +49,7 @@ public class ServicioPais extends AplicacionBase{
             String problema = e.getMessage();
             data = Json.createObjectBuilder()
                     .add("status", 400)
+                    .add("message", problema)
                     .build();
             resultado = Response.status(Response.Status.BAD_REQUEST)
                     .entity(data)
@@ -89,6 +90,7 @@ public class ServicioPais extends AplicacionBase{
             String problema = e.getMessage();
             data = Json.createObjectBuilder()
                     .add("status", 400)
+                    .add("message", problema)
                     .build();
             resultado = Response.status(Response.Status.BAD_REQUEST)
                     .entity(data)
@@ -122,6 +124,7 @@ public class ServicioPais extends AplicacionBase{
             System.out.println(problema);
             data = Json.createObjectBuilder()
                     .add("status", 400)
+                    .add("message", problema)
                     .build();
             resultado = Response.status(Response.Status.BAD_REQUEST)
                     .entity(data)
@@ -153,6 +156,7 @@ public class ServicioPais extends AplicacionBase{
             String problema = e.getMessage();
             data = Json.createObjectBuilder()
                     .add("status", 400)
+                    .add("message", problema)
                     .build();
             resultado = Response.status(Response.Status.BAD_REQUEST)
                     .entity(data)
@@ -182,6 +186,13 @@ public class ServicioPais extends AplicacionBase{
         }
         catch (Exception e){
             String problema = e.getMessage();
+            data = Json.createObjectBuilder()
+                    .add("status", 400)
+                    .add("message", problema)
+                    .build();
+            resultado = Response.status(Response.Status.BAD_REQUEST)
+                    .entity(data)
+                    .build();
         }
         return resultado;
     }

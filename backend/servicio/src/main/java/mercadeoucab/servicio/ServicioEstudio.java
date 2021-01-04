@@ -201,7 +201,7 @@ public class ServicioEstudio {
             String problema = e.getMessage();
             data = Json.createObjectBuilder()
                     .add("status", 400)
-                    .add("mensaje",problema)
+                    .add("message",problema)
                     .build();
             resultado = Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(data).build();
         }
@@ -246,7 +246,7 @@ public class ServicioEstudio {
             String problema = e.getMessage();
             data = Json.createObjectBuilder()
                     .add("status", 400)
-                    .add("mensaje",problema)
+                    .add("message",problema)
                     .build();
             resultado = Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(data).build();
 
@@ -396,7 +396,7 @@ public class ServicioEstudio {
             String problema = e.getMessage();
             data = Json.createObjectBuilder()
                     .add("status", 400)
-                    .add("problema", problema)
+                    .add("message", problema)
                     .build();
             resultado = Response.status(Response.Status.BAD_REQUEST)
                     .entity(data)
@@ -429,7 +429,7 @@ public class ServicioEstudio {
             String problema = e.getMessage();
             data = Json.createObjectBuilder()
                     .add("status", 400)
-                    .add("problema", problema)
+                    .add("message", problema)
                     .build();
             resultado = Response.status(Response.Status.BAD_REQUEST)
                     .entity(data)
@@ -548,7 +548,7 @@ public class ServicioEstudio {
             String problema = e.getMessage();
             data = Json.createObjectBuilder()
                     .add("status", 400)
-                    .add("mensaje",problema)
+                    .add("message",problema)
                     .build();
             resultado = Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(data).build();
         }
@@ -604,6 +604,7 @@ public class ServicioEstudio {
                 for( int i = 0; i < ids.size(); i++){
 
                     Usuario add = daoUsuario.find(ids.get(i),Usuario.class);
+
                     JsonObject agregar = Json.createObjectBuilder()
                                              .add("_id", add.get_id())
                                              .add("nombre", add.getNombre())
@@ -614,17 +615,18 @@ public class ServicioEstudio {
                                              .build();
                     usuariosList.add(agregar);
                 }
+                data = Json.createObjectBuilder()
+                        .add("status", 200)
+                        .add("data", usuariosList)
+                        .build();
             }
             else{
-                JsonObject agregar = Json.createObjectBuilder()
-                        .add("usuarios", "Actualmente ningun usuario ha respondido a esta encuesta")
+                data = Json.createObjectBuilder()
+                        .add("status", 204)
+                        .add("message", "Actualmente ningun usuario ha respondido a esta encuesta")
                         .build();
-                usuariosList.add(agregar);
             }
-            data = Json.createObjectBuilder()
-                    .add("status", 200)
-                    .add("data", usuariosList)
-                    .build();
+
             resultado = Response.status(Response.Status.OK)
                     .entity(data)
                     .build();
@@ -634,7 +636,7 @@ public class ServicioEstudio {
             System.out.println(problema);
             data = Json.createObjectBuilder()
                     .add("status", 400)
-                    .add("problema", problema)
+                    .add("message", problema)
                     .build();
             resultado = Response.status(Response.Status.BAD_REQUEST)
                     .entity(data)
@@ -654,27 +656,29 @@ public class ServicioEstudio {
             List<Usuario> usuarios = daoEstudio.personasAplicanEstudio(daoEstudio.find(id, Estudio.class));
             if (!(usuarios.isEmpty())){
                 for(Usuario usuario: usuarios){
-                    JsonObject agregar = Json.createObjectBuilder()
-                            .add("_id", usuario.get_id())
-                            .add("nombre", usuario.getNombre())
-                            .add("apellido", usuario.getApellido())
-                            .add("rol", usuario.getRol())
-                            .add("estado", usuario.getEstado())
-                            .add("correo", usuario.getCorreo())
-                            .build();
-                    usuariosList.add(agregar);
+                    if(usuario.getActivo() == 1) {
+                        JsonObject agregar = Json.createObjectBuilder()
+                                .add("_id", usuario.get_id())
+                                .add("nombre", usuario.getNombre())
+                                .add("apellido", usuario.getApellido())
+                                .add("rol", usuario.getRol())
+                                .add("estado", usuario.getEstado())
+                                .add("correo", usuario.getCorreo())
+                                .build();
+                        usuariosList.add(agregar);
+                    }
                 }
+                data = Json.createObjectBuilder()
+                        .add("status", 200)
+                        .add("data", usuariosList)
+                        .build();
             }
             else{
-                JsonObject agregar = Json.createObjectBuilder()
-                        .add("usuarios", "Actualmente ningun usuario califica a esta encuesta")
+                data = Json.createObjectBuilder()
+                        .add("status", 204)
+                        .add("message", "Actualmente ningun usuario califica a esta encuesta")
                         .build();
-                usuariosList.add(agregar);
             }
-            data = Json.createObjectBuilder()
-                    .add("status", 200)
-                    .add("data", usuariosList)
-                    .build();
             resultado = Response.status(Response.Status.OK)
                     .entity(data)
                     .build();
@@ -684,7 +688,7 @@ public class ServicioEstudio {
             System.out.println(problema);
             data = Json.createObjectBuilder()
                     .add("status", 400)
-                    .add("problema", problema)
+                    .add("message", problema)
                     .build();
             resultado = Response.status(Response.Status.BAD_REQUEST)
                     .entity(data)
