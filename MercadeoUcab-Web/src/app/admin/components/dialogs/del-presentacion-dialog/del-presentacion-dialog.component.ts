@@ -44,7 +44,7 @@ export class DelPresentacionDialogComponent implements OnInit {
     this._presentacionService.deletePresentacion(id, data).subscribe(
       (response) => {
         console.log(response);
-        alert('Se elimino la presentacion correctamente');
+        //alert('Se elimino la presentacion correctamente');
         this.opStatus = 'D';
       },
       (error) => {
@@ -55,7 +55,7 @@ export class DelPresentacionDialogComponent implements OnInit {
   }
   invokeService() {
     this.opStatus = 'P';
-    this.deletePresentacion(this._presentacion._id,this._presentacion);
+    this.deletePresentacion(this._presentacion._id, this._presentacion);
     /*
     setTimeout(() => {
       this.opStatus = 'D';

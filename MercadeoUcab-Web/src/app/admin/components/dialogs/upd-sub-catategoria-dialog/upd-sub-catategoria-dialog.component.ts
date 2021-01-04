@@ -56,11 +56,11 @@ export class UpdSubCategoriaDialogComponent implements OnInit {
     this._service.updateSubCategoria(id, data).subscribe(
       (response) => {
         console.log(response);
-        alert('Se ha modificado correctamente');
+        //alert('Se ha modificado correctamente');
         this.opStatus = 'D';
       },
       (error) => {
-        alert(error.error.message);
+        //alert(error.error.message);
         this.opStatus = 'E';
       }
     );

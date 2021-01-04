@@ -17,7 +17,7 @@ import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 })
 export class UpdPresentacionDialogComponent implements OnInit {
   opStatus: string; //S,P,D
-  updForm:FormGroup;
+  updForm: FormGroup;
   @ViewChild('updPresentacion')
   private modalContent: TemplateRef<UpdPresentacionDialogComponent>;
   private modalRef: NgbModalRef;
@@ -31,9 +31,9 @@ export class UpdPresentacionDialogComponent implements OnInit {
 
   ngOnInit(): void {
     this.opStatus = 'S';
-    this.updForm= this.formBuilder.group({
-      cantidad:null,
-      tipo:null,
+    this.updForm = this.formBuilder.group({
+      cantidad: null,
+      tipo: null,
     });
   }
   open() {
@@ -48,7 +48,7 @@ export class UpdPresentacionDialogComponent implements OnInit {
     this._presentacionService.updatePresentacion(id, data).subscribe(
       (response) => {
         console.log(response);
-        alert('Se modifico la presentacion correctamente');
+        //alert('Se modifico la presentacion correctamente');
         this.opStatus = 'D';
       },
       (error) => {
@@ -59,22 +59,21 @@ export class UpdPresentacionDialogComponent implements OnInit {
   }
   invokeService() {
     let toUpdate: any = {
-      id:this._presentacion._id,
-      cantidad:null,
-      tipo:null,
+      id: this._presentacion._id,
+      cantidad: null,
+      tipo: null,
     };
     // Campos que se deben enviar al Back
     // toUpdate.id
     // toUpdate.cantidad
     // toUpdate.tipo
-    Object.entries(this.updForm.value).forEach(([key,field],ind)=>{
-      if(field !== null){
-        toUpdate[key]=field;
-      }
-      else{
+    Object.entries(this.updForm.value).forEach(([key, field], ind) => {
+      if (field !== null) {
+        toUpdate[key] = field;
+      } else {
         toUpdate[key] = this._presentacion[key];
       }
-    })
+    });
     this.opStatus = 'P';
     this.updatePresentacion(toUpdate.id, toUpdate);
   }
