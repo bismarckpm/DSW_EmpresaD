@@ -138,7 +138,9 @@ export class EstudioRealizarComponent implements OnInit {
     this._utilsService.getUsuariosCanApplyToEstudio(id).subscribe(
       (response) => {
         console.log(response.data);
-        this._encuestados = [...this._encuestados,response.data.map((p,ind) => { return {...p,done:false} })];
+        if(response.data !== undefined){
+          this._encuestados = [...this._encuestados,response.data.map((p,ind) => { return {...p,done:false} })];
+        }
       },
       (error) => {
         console.log(error);
@@ -186,9 +188,11 @@ export class EstudioRealizarComponent implements OnInit {
   getEncuestados(id: number) {
     this._utilsService.getUsuariosOfEncuesta(id).subscribe(
       (res) => {
-        this._encuestados = res.data.map((p,ind) => { return {...p,done:true} });
-        console.log(res.data);
-        this.getEncuestadosCanAnswerEstudio(id);
+        if(res.data !== undefined){
+          this._encuestados = res.data.map((p,ind) => { return {...p,done:true} });
+          console.log(res.data);
+          this.getEncuestadosCanAnswerEstudio(id);
+        }
       },
       (err) => {
         console.log(err.message);
