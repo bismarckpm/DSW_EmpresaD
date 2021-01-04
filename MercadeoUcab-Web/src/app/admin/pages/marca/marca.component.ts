@@ -87,7 +87,7 @@ export class MarcaComponent implements OnInit {
     this._marcaService.createMarca(data).subscribe(
       (response) => {
         console.log(response);
-        alert('Se agrego la marca correctamente');
+        //alert('Se agrego la marca correctamente');
       },
       (error) => {
         console.log(error);
@@ -98,7 +98,7 @@ export class MarcaComponent implements OnInit {
     this._marcaService.updateMarca(id, data).subscribe(
       (response) => {
         console.log(response);
-        alert('Se modifico la marca correctamente');
+        //alert('Se modifico la marca correctamente');
       },
       (error) => {
         console.log(error);
@@ -110,7 +110,7 @@ export class MarcaComponent implements OnInit {
     this._marcaService.deleteMarca(id, data).subscribe(
       (response) => {
         console.log(response);
-        alert('Se elimino la marca correctamente');
+        //alert('Se elimino la marca correctamente');
       },
       (error) => {
         console.log(error);

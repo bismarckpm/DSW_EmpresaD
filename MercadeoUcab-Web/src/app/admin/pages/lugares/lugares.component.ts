@@ -64,8 +64,8 @@ export class LugaresComponent implements OnInit {
     return await this.updComponent.open(tipo, this.targetData);
   }
   @ViewChild('delLugar') private delComponent: DelLugarDialogComponent;
-  async openDelModal(id: number, tipo: string,data: any) {
-    return await this.delComponent.open(id, tipo,data);
+  async openDelModal(id: number, tipo: string, data: any) {
+    return await this.delComponent.open(id, tipo, data);
   }
   //dataSource : MatTableDataSource<Lugar>;
   //CHEQUEO DE OPERACION
@@ -148,7 +148,7 @@ export class LugaresComponent implements OnInit {
     this._paisService.createPais(data).subscribe(
       (response) => {
         console.log(response);
-        alert('Se agrego el pais correctamente');
+        //alert('Se agrego el pais correctamente');
         this.opStatus = 'D';
       },
       (error) => {
@@ -182,7 +182,7 @@ export class LugaresComponent implements OnInit {
     this._estadoService.createEstado(data).subscribe(
       (response) => {
         console.log(response);
-        alert('Se agrego el estado correctamente');
+        //alert('Se agrego el estado correctamente');
         this.opStatus = 'D';
       },
       (error) => {
@@ -257,7 +257,7 @@ export class LugaresComponent implements OnInit {
     this._municipioService.createMunicipio(data).subscribe(
       (response) => {
         console.log(response);
-        alert('Se agrego el municipio correctamente');
+        //alert('Se agrego el municipio correctamente');
         this.opStatus = 'D';
       },
       (error) => {

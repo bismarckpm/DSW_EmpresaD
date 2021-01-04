@@ -188,7 +188,7 @@ export class EstudiosComponent implements OnInit {
     this.setOperation('');
     this.getAnalistasDisp();
   }
-  addCreatedPreg(newPreg:any){
+  addCreatedPreg(newPreg: any) {
     this.preguntaSuggests.push(newPreg);
     this.pregAsoc.push(newPreg.pregunta);
     //console.log(newPreg);
@@ -313,7 +313,6 @@ export class EstudiosComponent implements OnInit {
             },
           ];
           this.suggestLoading = 'D';
-
         }
       );
     /*
@@ -377,7 +376,8 @@ export class EstudiosComponent implements OnInit {
           },
         },
       ];
-    }, 2000);*/
+    }, 2000);
+    */
   }
   getPreguntasSugeridas() {
     this.suggestLoading = 'P';

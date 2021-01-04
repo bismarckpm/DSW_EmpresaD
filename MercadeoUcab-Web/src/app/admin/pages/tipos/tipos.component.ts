@@ -135,7 +135,7 @@ export class TiposComponent implements OnInit {
     this._tipoService.deleteTipo(id, data).subscribe(
       (response) => {
         console.log(response);
-        alert('Se elimino el Tipo correctamente');
+        //alert('Se elimino el Tipo correctamente');
       },
       (error) => {
         console.log(error);

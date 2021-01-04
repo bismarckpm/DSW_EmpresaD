@@ -191,9 +191,11 @@ public class ServicioPregunta extends AplicacionBase{
                     pregunta.addOpcion(paraInsertar);
                 }
             }
+
             Pregunta resul = dao.insert(pregunta);
             data = Json.createObjectBuilder()
                     .add("status", 200)
+                    .add("_id", resul.get_id())
                     .add("mensaje", "pregunta creada con exito")
                     .build();
             resultado = Response.status(Response.Status.OK)
