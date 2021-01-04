@@ -338,7 +338,7 @@ public class ServicioEstudio {
                                     .add("_id", encuestaEstudio.get_id())
                                     .add("pregunta",Json.createObjectBuilder()
                                             .add("_id",encuestaEstudio.getFk_pregunta().get_id())
-                                            .add("pregunta", encuestaEstudio.getFk_pregunta().getNombrePregunta())
+                                            .add("nombre", encuestaEstudio.getFk_pregunta().getNombrePregunta())
                                             .add("tipo",encuestaEstudio.getFk_pregunta().getTipo())
                                             .add("rango",encuestaEstudio.getFk_pregunta().getRango()))
                                     .build();
