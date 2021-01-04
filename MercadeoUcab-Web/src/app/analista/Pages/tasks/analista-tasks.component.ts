@@ -70,91 +70,108 @@ export class AnalistaTasksComponent implements OnInit {
     subcategorias: [{ _id: 1, nombre: 'test SubCategoria', categoria: { _id: 1, nombre: 'test Categoria' } }]
   }
   testRes = {
-    status: 200,
-    data: {
-      _id: 1,
-      estado: 'En ejecucion',
-      tipo: 'En linea',
-      encuestas_esperadas: 1,
-      solicitud: {
-        _id: 1,
-        estado: 'solicitada',
+    "status": 200,
+    "data": {
+      "_id": 2,
+      "estado": "Culminado",
+      "tipo": "En linea",
+      "encuestas_esperadas": 20,
+      "solicitud": {
+        "_id": 2,
+        "estado": "solicitada"
       },
-      analista: {
-        _id: 6,
-        nombre: 'Macon',
-        apellido: 'Mcleod',
-        correo: 'MM10@gmail.com',
-        rol: 'administrador',
-        estado: 'test',
+      "analista": {
+        "_id": 37,
+        "nombre": "Harrison",
+        "apellido": "Dorsey",
+        "correo": "HARRI@gmail.com",
+        "rol": "analista"
       },
-      muestra_poblacion: {
-        _id: 1,
-        genero: 'masculino',
-        nivel_academico: 'Bachiller',
-        nivel_economico: 3,
-        rango_edad_inicio: 10,
-        rango_edad_fin: 50,
-        cantidad_hijos: 2,
-        Fk_ocupacion: { _id: 1, nombre: 'test Ocupacion' },
-        parroquia: {
-          _id: 6,
-          nombre: 'Eglise Notre Dame De Rumengol',
-          // "valor_socioeconomico": 1,
-          valorSocioEconomico: 3,
-          nivel_economico: 3,
-          municipio: {
-            _id: 7,
-            nombre: 'Le Faou',
-            estado: {
-              _id: 7,
-              nombre: 'Breteña',
-              pais: {
-                _id: 4,
-                nombre: 'Francia',
+      "muestra_poblacion": {
+        "_id": 2,
+        "genero": "masculino",
+        "nivel_academico": "licenciado",
+        "rango_edad_inicio": 15,
+        "rango_edad_fin": 80,
+        "cantidad_hijos": 1,
+        "parroquia": {
+          "_id": 1,
+          "nombre": "petare",
+          "valorSocioEconomico": 1000,
+          "municipio": {
+            "_id": 1,
+            "nombre": "Libertador",
+            "estado": {
+              "_id": 1,
+              "nombre": "Guarico",
+              "pais": {
+                "_id": 1,
+                "nombre": "Venezuela"
+              }
+            }
+          }
+        }
+      },
+      "encuesta": [
+        {
+          "_id": 4,
+          "pregunta": {
+            "_id": 4,
+            "nombre": "Como se entero del producto?",
+            "tipo": "simple",
+            "opciones": [
+              {
+                "_id": 1,
+                "nombre_opcion": "opcion 2: No la comprendo muy bien"
               },
-            },
-          },
-        },
-      },
-      encuesta: [
-        {
-          _id: 1,
-          pregunta: {
-            _id: 1,
-            pregunta: 'Pregunta 1: Le parecio comodo el mueble? ',
-            tipo: 'abierta',
-          },
-        },
-        {
-          _id: 7,
-          pregunta: {
-            _id: 2,
-            pregunta: 'Pregunta 2: Recomendaria este mueble a otras personas?',
-            tipo: 'boolean',
-          },
+              {
+                "_id": 2,
+                "nombre_opcion": "radio"
+              },
+              {
+                "_id": 3,
+                "nombre_opcion": "TV"
+              },
+              {
+                "_id": 4,
+                "nombre_opcion": "conocidos"
+              }
+            ]
+          }
         },
         {
-          _id: 3,
-          pregunta: {
-            _id: 3,
-            pregunta:
-              'Pregunta 3: El precio del mueble le parece que esta bien justificado?',
-            tipo: 'abierta',
-            rango: '',
-          },
+          "_id": 5,
+          "pregunta": {
+            "_id": 5,
+            "nombre": "cuanto uso el producto?",
+            "tipo": "simple",
+            "opciones": [
+              {
+                "_id": 5,
+                "nombre_opcion": "Mucho"
+              },
+              {
+                "_id": 6,
+                "nombre_opcion": "Poco"
+              },
+              {
+                "_id": 7,
+                "nombre_opcion": "Nada"
+              }
+            ]
+          }
         },
         {
-          _id: 24,
-          pregunta: {
-            _id: 4,
-            pregunta: 'Pregunta 4: Que problemas encontro en nuestro mueble?',
-            tipo: 'abierta',
-          },
-        },
-      ],
-    },
-  };
+          "_id": 6,
+          "pregunta": {
+            "_id": 7,
+            "nombre": "Recomendaria el producto?",
+            "tipo": "boolean"
+          }
+        }
+      ]
+    }
+  }
 
   ngOnInit(): void {
     //SERVICE INVOKE
@@ -174,14 +191,14 @@ export class AnalistaTasksComponent implements OnInit {
   invokeService() {
     this.searchState = "I";
     this._estudioService.getEstudios().subscribe(
-      (res) =>{
+      (res) => {
         this.estudios = res.data;
         this.dataSource = new MatTableDataSource<Estudio>(this.dataFilter(this.estudios));
         this.searchState = "D";
-       },
+      },
       (err) => {
         console.log(err.message);
-        this.estudios = [this.testRes.data];
+        this.estudios = [this.testRes["data"]];
         this.dataSource = new MatTableDataSource<Estudio>(this.dataFilter(this.estudios));
         this.searchState = "D";
       }

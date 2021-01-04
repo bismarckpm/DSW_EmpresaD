@@ -1,5 +1,5 @@
 <div class="analista-estudio">
-    <mat-grid-list cols="10" rowHeight="25%">
+    <mat-grid-list cols="10" rowHeight="25%" *ngIf="_Estudio !== null else elseEstudio">
         <mat-grid-tile
         [colspan]="4"
         [rowspan]="4"
@@ -18,23 +18,25 @@
                     </button>
                 </mat-card-header>
                 <mat-card-content class="card-content">
-                    <!--ENCUESTADOS-->
-                    <!--
-                    <div class="encuestado-content" *ngFor="let person of _Estudio.poblacion">
-                        <mat-icon style="color: #00d8b4;">
-                            account_box
-                        </mat-icon>
-                        <a>DATA_ENCUESTADO</a>
-                        <mat-icon  style="color: greenyellow;" *ngIf="person.done === true; else notdone">
-                            assignment_turned_in
-                        </mat-icon>
-                        <ng-template #notdone>
-                            <mat-icon style="color: orange">
-                                assignment_late
+                    <div class="encuestado-content" *ngFor="let person of _encuestados">
+                        <div style="display: flex;flex-direction:column;width: 20%;height: 100%;justify-content: space-around;align-items:center;">
+                            <mat-icon style="color: #00d8b4;">
+                                account_box
                             </mat-icon>
-                        </ng-template>
+                            <mat-icon  style="color: greenyellow;" *ngIf="person.done === true; else notdone">
+                                assignment_turned_in
+                            </mat-icon>
+                            <ng-template #notdone>
+                                <mat-icon style="color: orange">
+                                    assignment_late
+                                </mat-icon>
+                            </ng-template>
+                        </div>
+                        <div style="display: flex;flex-direction: column;width: 80%;height: 100%;justify-content: space-around;align-items:center;">
+                            <label>{{person.nombre}}</label>
+                            <label>{{person.apellido}}</label>
+                        </div>
                     </div>
-                    -->
                 </mat-card-content>
             </mat-card>
         </mat-grid-tile>
@@ -63,7 +65,7 @@
                         </mat-icon>
                         </button>
                         <div class="pregunta-descripcion">
-                            <a>{{pregunta.pregunta.pregunta}}</a> 
+                            <a>{{pregunta.pregunta.nombre}}</a> 
                         </div>
                         <!--
                         <button mat-raised-button aria-label="pregunta explain button">
@@ -92,4 +94,17 @@
             </mat-card>
         </mat-grid-tile>
     </mat-grid-list>
+    <ng-template #elseEstudio>
+        <div class="text-center" style="
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+          ">
+            <div class="spinner-border" style="width: 7.5rem; height: 7.5rem" role="status">
+                <span class="sr-only">Loading...</span>
+            </div>
+        </div>
+    </ng-template>
 </div>
