@@ -1,0 +1,43 @@
+<ng-template #agregarTelefonos>
+  <div class="form_bg">
+    <div class="container">
+      <div class="row justify-content-center">
+        <div class="col-md-offset-4 col-md-4 col-sm-offset-3 col-sm-6">
+          <form >
+            <h3 class="title">Registrar datos</h3>
+
+            <div class="form-group">
+              <a class="btn btn-primary" (click)="agregarTelefono()">Agregar telefono</a>
+            </div>
+
+            <div [formGroup]="Form">
+              <div formArrayName="telefonos" *ngFor="let telefono of Telefonos.controls; index as i">
+                <div class="form-group row">
+                  <label class="col-md-1" [attr.for]="'telefono'+i">Telefono</label>
+                  <div class="col-md-3">
+                    <input type="text" [attr.id]="'telefono'+i" class="form-control" [formControlName]="i" >
+                  </div>
+                  <div class="col-md-2">
+                    <button class="btn btn-danger" (click)="removerTelefono(i)">Remover</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+
+
+            <button type="submit" class="btn btn-primary">
+              Login <i class="fas fa-sign-in-alt"></i>
+            </button>
+
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!--
+
+    {{this.IDusuario}}
+  -->
+
+</ng-template>

@@ -1,0 +1,181 @@
+<ng-template #registroDatoEncuestado>
+  <div class="form_bg">
+    <div class="container">
+      <div class="row justify-content-center">
+        <div class="col-md-offset-4 col-md-4 col-sm-offset-3 col-sm-6">
+          <form (ngSubmit)="serviceInvoke()" [formGroup]="listaHijos">
+            <h3 class="title">Registrar datos</h3>
+
+            <div class="form-group">
+            <input
+              type="text"
+              class="form-control"
+              id="registroSegundoNombre"
+              formControlName="segundoNombre"
+              placeholder="Segundo Nombre"
+            />
+        </div>
+
+            <div class="form-group">
+              <input
+                type="text"
+                class="form-control"
+                id="registroSegundoApellido"
+                placeholder="Segundo Apellido"
+                formControlName="segundoapellido"
+              />
+            </div>
+
+            <div class="form-group">
+              <input
+                type="text"
+                class="form-control"
+                id="registroCI"
+                placeholder="Cedula"
+                formControlName="cedula"
+                required
+              />
+            </div>
+
+            <div class="form-group">
+              <p>Medio de conexion:</p>
+              <select class="form-control" id="medioConexion" formControlName="medioConexion"  required>
+                <option [ngValue]="'laptop'"> laptop</option>
+                <option [ngValue]="'pc'"> pc</option>
+                <option [ngValue]="'tableta'"> tableta</option>
+                <option [ngValue]="'telefono'"> telefono</option>
+              </select>
+            </div>
+
+            <div class="form-group">
+              <p>Fecha nacimiento:</p>
+              <input
+                type="date"
+                class="form-control"
+                formControlName="edad"
+                id="registroEdad"
+                required
+              />
+            </div>
+
+            <div class="form-group">
+              <p>Genero:</p>
+              <select class="form-control" id="genero" formControlName="genero" required>
+                <option [ngValue]="'masculino'"> masculino</option>
+                <option [ngValue]="'femenino'"> femenino</option>
+              </select>
+            </div>
+
+            <div class="form-group">
+              <p>Nivel economico:</p>
+              <input
+                type="number"
+                class="form-control"
+                id="registroNivelEconomico"
+                formControlName="nive_economico"
+                required
+              />
+            </div>
+
+            <div class="form-group">
+              <p>Nivel academico:</p>
+              <select class="form-control" id="niverl_academico" formControlName="nivelAcademico" required>
+                <option [ngValue]="'Licenciado'"> Licenciado</option>
+                <option [ngValue]="'Magíster'"> Magíster</option>
+                <option [ngValue]="'Doctorado'"> Doctorado</option>
+                <option [ngValue]="'Bachiller'"> Bachiller</option>
+              </select>
+            </div>
+
+            <div class="form-group">
+              <p>Cantidad de personas en hogar:</p>
+              <input
+                type="number"
+                class="form-control"
+                id="registroCantidadPersonas"
+                formControlName="personasHogar"
+                required
+              />
+            </div>
+
+            <div class="form-group">
+              <p>lugar de residencia:</p>
+              <select class="form-control" id="lugar" formControlName="fk_lugar" required>
+                <option *ngFor="let lugar of this.parroquias" [ngValue]=lugar._id>{{"Pais:"+lugar.municipio.estado.pais.nombre+"---"
+                +"Estado:"+lugar.municipio.estado.nombre+"---"
+                +"Municipio:"+lugar.municipio.nombre+"---"
+                +"Parroquia:"+lugar.nombre}}</option>
+              </select>
+            </div>
+
+            <div class="form-group">
+              <p>Ocupacion:</p>
+              <select class="form-control" id="Ocupacion" formControlName="ocupacion" required>
+                <option *ngFor="let ocupacion of this.ocupaciones" [ngValue]=this.ocupacion._id>{{this.ocupacion.nombre}}</option>
+              </select>
+            </div>
+
+            <div class="form-group">
+
+              <div class="form-group">
+                <a class="btn btn-primary" (click)="addNewHijo()">Agregar hijos</a>
+              </div>
+
+              <div formArrayName="hijos">
+                <div *ngFor="let hijo of Hijos.controls;index as i">
+                  <div [formGroupName]="i">
+                    <label class="col-md-1" [attr.for]="'hijo'+i">Genero</label>
+                    <div class="col-md-auto" >
+                      <p>Genero:</p>
+                      <select class="form-control" id="generoU" formControlName="genero" required>
+                        <option [ngValue]="'masculino'"> masculino</option>
+                        <option [ngValue]="'femenino'"> femenino</option>
+                      </select>
+                    </div>
+                      <label class="col-md-1" [attr.for]="'hijo'+i">Fecha nacimiento</label>
+                    <div class="col-md-auto" >
+                      <input type="date" [attr.id]="'hijo'+i" class="form-control" formControlName="edad" required>
+                    </div>
+                    <div class="col-md-auto" >
+                      <button class="btn btn-danger" (click)="removerHijos(i)">Remover</button>
+                    </div>
+                  </div>
+                </div>
+                  </div>
+                </div>
+
+            <div class="form-group">
+              <div class="form-group">
+                <a class="btn btn-primary" (click)="agregarTelefono()">Agregar telefono</a>
+              </div>
+
+              <div formArrayName="telefonos">
+                <div *ngFor="let telefono of Telefonos.controls;index as i">
+                  <div [formGroupName]="i">
+                    <label class="col-md-1" [attr.for]="'telefono'+i">Telefono:</label>
+                    <div class="col-md-auto" >
+                      <input type="text" [attr.id]="'telefono'+i" class="form-control" formControlName="telefono" required>
+                    </div>
+                    <div class="col-md-2" >
+                      <button class="btn btn-danger" (click)="removerTelefono(i)">Remover</button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <button type="submit" class="btn btn-primary">
+              Login <i class="fas fa-sign-in-alt"></i>
+            </button>
+
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+<!--
+
+  {{this.IDusuario}}
+-->
+
+</ng-template>
