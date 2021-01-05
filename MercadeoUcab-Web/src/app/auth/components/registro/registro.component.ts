@@ -42,7 +42,7 @@ export class RegistroComponent implements OnInit {
         console.log(response);
         if (response.status === 200) {
           // Se hace lo que se quiera en exito
-          alert(response.message);
+          //alert(response.message);
           this.IDusuario = response._id;
         }
       },

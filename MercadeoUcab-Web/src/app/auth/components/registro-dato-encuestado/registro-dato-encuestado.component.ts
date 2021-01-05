@@ -21,7 +21,7 @@ import { Pais } from '@models/pais';
 import { Ocupacion } from '@models/ocupacion';
 import { AgregarTelefonoComponent } from '../agregar-telefono/agregar-telefono.component';
 import { DatoEncuestadoService } from '@core/services/datoEncuestado/datoEncuestado.service';
-import {Router} from "@angular/router";
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-registro-dato-encuestado',
@@ -52,7 +52,7 @@ export class RegistroDatoEncuestadoComponent implements OnInit {
     private lugarServices: ParroquiaService,
     private formBuilder: FormBuilder,
     private ocupacionServices: OcupacionService,
-    private router:Router,
+    private router: Router,
     private datosUsuarioService: DatoEncuestadoService
   ) {}
   cont = 0;
@@ -157,7 +157,7 @@ export class RegistroDatoEncuestadoComponent implements OnInit {
         console.log(response);
         if (response.status === 200) {
           // Se hace lo que se quiera en exito
-          alert(response.message);
+          //alert(response.message);
         }
       },
       (error) => {

@@ -62,9 +62,9 @@ export class SolicitudComponent implements OnInit {
   toSearch2: any = {};
   solicitudes: Solicitud[] = [];
   solicitudes2: Solicitud[] = [];
-  //  ID = parseInt(localStorage.getItem('_id'));
   // tslint:disable-next-line:radix
-  ID = parseInt(localStorage.getItem('_id'));
+  //ID = parseInt(localStorage.getItem('_id'));
+  ID = 5;
   marcas: Marca[] = [];
   subcategorias: SubCategoria[] = [];
   presentaciones: Presentacion[] = [];
@@ -164,7 +164,7 @@ export class SolicitudComponent implements OnInit {
         console.log(response);
         if (response.status === 200) {
           // Se hace lo que se quiera en exito
-          alert(response.message);
+          //alert(response.message);
         }
       },
       (error) => {
@@ -177,7 +177,7 @@ export class SolicitudComponent implements OnInit {
     this._solicitudService.updateSolicitud(id, data).subscribe(
       (response) => {
         console.log(response);
-        alert('Se modifico la solicitud correctamente');
+        //alert('Se modifico la solicitud correctamente');
       },
       (error) => {
         console.log(error);
@@ -189,7 +189,7 @@ export class SolicitudComponent implements OnInit {
     this._solicitudService.deleteSolicitud(id, data).subscribe(
       (response) => {
         console.log(response);
-        alert('Se elimino la solicitud correctamente');
+        //alert('Se elimino la solicitud correctamente');
       },
       (error) => {
         console.log(error);
@@ -212,7 +212,6 @@ export class SolicitudComponent implements OnInit {
 
   serviceInvoke() {
     if (this.addForm.valid) {
-
       /*
 {
    "estado":"solicitada",
@@ -226,9 +225,9 @@ export class SolicitudComponent implements OnInit {
       // console.log(this.addForm.value);
 
       const toAdd = {
-        usuario: {_id: undefined},
+        usuario: { _id: undefined },
         estado: undefined,
-        marca: {_id: undefined},
+        marca: { _id: undefined },
         tipos: [],
         subCategorias: [],
         presentaciones: [],
@@ -237,14 +236,14 @@ export class SolicitudComponent implements OnInit {
       toAdd.estado = 'solicitada';
       toAdd.usuario._id = 5;
       toAdd.marca._id = values.marca;
-      values.tipo.forEach(function(item) {
-        toAdd.tipos.push({_id: item});
+      values.tipo.forEach(function (item) {
+        toAdd.tipos.push({ _id: item });
       });
-      values.subCategoria.forEach(function(item) {
-        toAdd.subCategorias.push({_id: item});
+      values.subCategoria.forEach(function (item) {
+        toAdd.subCategorias.push({ _id: item });
       });
-      values.presentacion.forEach(function(item) {
-        toAdd.presentaciones.push({_id: item});
+      values.presentacion.forEach(function (item) {
+        toAdd.presentaciones.push({ _id: item });
       });
       console.log(toAdd);
       this.addSolicitud(toAdd);
@@ -267,7 +266,9 @@ export class SolicitudComponent implements OnInit {
         this.opStatus = 'D';
       }, 3000);
     } else {
-      alert('Se equivoco a la hora de registrar los campos(Marca del producto, Subcategoria del producto, Tipo de producto y presentacion de producto son campos obligatorios no pueden estar vacios)');
+      alert(
+        'Se equivoco a la hora de registrar los campos(Marca del producto, Subcategoria del producto, Tipo de producto y presentacion de producto son campos obligatorios no pueden estar vacios)'
+      );
     }
   }
 
