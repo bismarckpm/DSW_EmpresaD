@@ -84,7 +84,7 @@ export class ResponderEncuestaComponent implements OnInit {
     rango_edad_fin: 50,
     cantidad_hijos: 0,
     parroquia: this.testParroquia,
-    Fk_ocupacion:{_id:1,nombre:'test ocupacion'}
+    Fk_ocupacion: { _id: 1, nombre: 'test ocupacion' },
   };
   sampleSolicitud: surveySolicitud = {
     _id: 1,
@@ -259,10 +259,10 @@ export class ResponderEncuestaComponent implements OnInit {
   ngOnInit(): void {
     //console.log(this.route.snapshot.paramMap.get('id'));
     // this.userLogged = Number(localStorage.getItem('_id'));
-    this.userLogged = 1;
+    this.userLogged = parseInt(localStorage.getItem('_id'));
     this._Id = parseInt(this.route.snapshot.paramMap.get('id'), 10);
     this.searchState = '';
-    this.opStatus="S";
+    this.opStatus = 'S';
     this.getData(this._Id);
     //this.getData(4);
   }
@@ -353,15 +353,15 @@ export class ResponderEncuestaComponent implements OnInit {
   }*/
 
   saveSurvey(data) {
-    this.opStatus="P";
+    this.opStatus = 'P';
     this._respuestaService.saveSurvey(data).subscribe(
       (response: any) => {
         console.log(response);
-        this.opStatus="D";
+        this.opStatus = 'D';
       },
       (error) => {
         console.log(error);
-        this.opStatus="E";
+        this.opStatus = 'E';
       }
     );
   }
@@ -480,7 +480,7 @@ let testRes = {
       rango_edad_inicio: 10,
       rango_edad_fin: 50,
       cantidad_hijos: 2,
-      Fk_ocupacion:{_id:1,nombre:'test Ocupacion'},
+      Fk_ocupacion: { _id: 1, nombre: 'test Ocupacion' },
       parroquia: {
         _id: 6,
         nombre: 'Eglise Notre Dame De Rumengol',

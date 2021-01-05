@@ -171,7 +171,13 @@ insert ocupacion values(3,"Cocinero",1,"2019-05-23",null);
 insert ocupacion values(4,"Comerciante",1,"2019-05-23",null);
 insert ocupacion values(5,"Policia",1,"2019-05-23",null);
 insert ocupacion values(6,"Arquitecto",1,"2019-05-23",null);
-  
+insert ocupacion values(7,"Contador",1,"2019-05-23",null);
+insert ocupacion values(8,"Actor",1,"2019-05-23",null);
+insert ocupacion values(9,"Panadero",1,"2019-05-23",null);
+insert ocupacion values(10,"Carpintero",1,"2019-05-23",null);
+insert ocupacion values(11,"Doctor",1,"2019-05-23",null);
+insert ocupacion values(12,"Pescador",1,"2019-05-23",null);
+insert ocupacion values(13,"Abogado",1,"2019-05-23",null);
 -- -----------------------------------------------------
 -- Table `mercadeoucab`.`dato_encuestado`
 -- -----------------------------------------------------
@@ -182,12 +188,12 @@ insert ocupacion values(6,"Arquitecto",1,"2019-05-23",null);
   insert dato_encuestado values (4,null,"Schultz","4","laptop","1997-05-14","masculino",1,"Licenciado",1,1,"2019-07-23",null,4,1,1);
   insert dato_encuestado values (5,null,"Coffey","5","laptop","1997-06-10","masculino",1,"Licenciado",1,1,"2019-07-23",null,5,1,1);
 
-  insert dato_encuestado values (6,null,"Mccall","6","pc","1997-07-06","masculino",1,"Magíster",1,1,'2019-07-23',null,6,1,2);
-  insert dato_encuestado values (7,null,"Rosales","7","pc","1997-08-15","masculino",1,"Magíster",1,1,"2019-07-23",null,7,1,2);
-  insert dato_encuestado values (8,null,"Harris","8","pc","1997-09-21","masculino",1,"Magíster",1,1,"2019-07-23",null,8,1,2);
-  insert dato_encuestado values (9,null,"Saunders","9","pc","1997-10-20","masculino",1,"Magíster",1,1,"2019-07-23",null,9,1,2);
-  insert dato_encuestado values (10,null,"Benson","10","pc","1997-11-19","masculino",1,"Magíster",1,1,"2019-07-23",null,10,1,2);
-  insert dato_encuestado values (11,null,"Marks","11","tableta","1997-12-16","masculino",1,"Magíster",1,1,'2019-07-23',null,11,1,2);
+  insert dato_encuestado values (6,null,"Mccall","6","pc","1997-07-06","masculino",1,"Magister",1,1,'2019-07-23',null,6,1,2);
+  insert dato_encuestado values (7,null,"Rosales","7","pc","1997-08-15","masculino",1,"Magister",1,1,"2019-07-23",null,7,1,2);
+  insert dato_encuestado values (8,null,"Harris","8","pc","1997-09-21","masculino",1,"Magister",1,1,"2019-07-23",null,8,1,2);
+  insert dato_encuestado values (9,null,"Saunders","9","pc","1997-10-20","masculino",1,"Magister",1,1,"2019-07-23",null,9,1,2);
+  insert dato_encuestado values (10,null,"Benson","10","pc","1997-11-19","masculino",1,"Magister",1,1,"2019-07-23",null,10,1,2);
+  insert dato_encuestado values (11,null,"Marks","11","tableta","1997-12-16","masculino",1,"Magister",1,1,'2019-07-23',null,11,1,2);
 
   insert dato_encuestado values (12,null,"Dean","12","tableta","2000-02-13","femenino",1,"Doctorado",1,1,"2019-07-23",null,12,1,3);
   insert dato_encuestado values (13,null,"Quinn","13","tableta","2000-02-11","femenino",1,"Doctorado",1,1,"2019-07-23",null,13,1,3);
@@ -212,11 +218,11 @@ insert ocupacion values(6,"Arquitecto",1,"2019-05-23",null);
 -- Table `mercadeoucab`.`muestra_poblacion`
 -- -----------------------------------------------------
     
-insert muestra_poblacion values (1,"masculino",1,"licenciado",15,80,1,1,"2020-07-23",null,1,1);
-insert muestra_poblacion values (2,"masculino",1,"licenciado",15,80,1,1,"2020-07-23",null,1,1);
+insert muestra_poblacion values (1,"masculino",1,"Licenciado",15,80,1,1,"2020-07-23",null,1,1);
+insert muestra_poblacion values (2,"masculino",1,"Licenciado",15,80,1,1,"2020-07-23",null,1,1);
 
-insert muestra_poblacion values (3,"masculino",1,"Magíster",16,80,1,1,"2020-07-23",null,1,2);
-insert muestra_poblacion values (4,"masculino",1,"Magíster",16,80,1,1,"2020-07-23",null,1,2);
+insert muestra_poblacion values (3,"masculino",1,"Magister",16,80,1,1,"2020-07-23",null,1,2);
+insert muestra_poblacion values (4,"masculino",1,"Magister",16,80,1,1,"2020-07-23",null,1,2);
 
 insert muestra_poblacion values (5,"femenino",1,"Doctorado",18,80,1,1,"2020-07-23",null,1,3);
 insert muestra_poblacion values (6,"femenino",1,"Doctorado",19,80,1,1,"2020-07-23",null,1,3);

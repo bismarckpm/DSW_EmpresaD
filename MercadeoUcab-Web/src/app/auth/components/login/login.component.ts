@@ -23,8 +23,8 @@ export class LoginComponent implements OnInit {
     private _router: Router,
     private _userService: UsuarioService
   ) {}
-  
-  @ViewChild('addUserCliente') private addComponent:AddClienteDialogComponent;
+
+  @ViewChild('addUserCliente') private addComponent: AddClienteDialogComponent;
   async openAddModal() {
     return await this.addComponent.open();
   }
@@ -55,6 +55,7 @@ export class LoginComponent implements OnInit {
       },
       (error) => {
         console.log(<any>error);
+        alert('Clave o Usuario incorrecto');
       }
     );
   }

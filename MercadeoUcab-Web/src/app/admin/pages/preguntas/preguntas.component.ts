@@ -34,9 +34,9 @@ export class PreguntasComponent implements OnInit {
   //LISTA DE USUARIOS DEVUELTOS EN BÚSQUEDA
   preguntas: any[] = [];
   dataSource: MatTableDataSource<any>;
-  minF:number=0;
-  maxF:number=0;
-  displayedColumns: string[] = ['id', 'desc','tipo','selector', 'ops'];
+  minF: number = 0;
+  maxF: number = 0;
+  displayedColumns: string[] = ['id', 'desc', 'tipo', 'selector', 'ops'];
   columnsToDisplay: string[] = this.displayedColumns.slice();
 
   optionList: OptionItem[] = [];
@@ -117,7 +117,7 @@ export class PreguntasComponent implements OnInit {
       tipo: null,
       rango: null,
       //RECORDAR CAMBIAR
-      fk_usuario: 1,
+      fk_usuario: parseInt(localStorage.getItem('_id')),
       opciones: null,
     });
     this.searchForm = this.formBuilder.group({
@@ -181,50 +181,50 @@ export class PreguntasComponent implements OnInit {
         ];*/
         this.preguntas = [
           {
-            "pregunta": {
-              "_id": 3,
-              "nombre": "Como fue su experiencia con el producto?",
-              "tipo": "abierta"
+            pregunta: {
+              _id: 3,
+              nombre: 'Como fue su experiencia con el producto?',
+              tipo: 'abierta',
             },
-            "usuario": {
-              "_id": 26,
-              "nombre": "Macon",
-              "apellido": "Mcleod",
-              "correo": "MM10@gmail.com",
-              "rol": "administrador"
-            }
+            usuario: {
+              _id: 26,
+              nombre: 'Macon',
+              apellido: 'Mcleod',
+              correo: 'MM10@gmail.com',
+              rol: 'administrador',
+            },
           },
           {
-            "pregunta": {
-              "_id": 4,
-              "nombre": "Como se entero del producto?",
-              "tipo": "simple",
-              "opciones": [
+            pregunta: {
+              _id: 4,
+              nombre: 'Como se entero del producto?',
+              tipo: 'simple',
+              opciones: [
                 {
-                  "_id": 1,
-                  "nombre_nombre": "opcion 2: No la comprendo muy bien"
+                  _id: 1,
+                  nombre_nombre: 'opcion 2: No la comprendo muy bien',
                 },
                 {
-                  "_id": 2,
-                  "nombre_nombre": "radio"
+                  _id: 2,
+                  nombre_nombre: 'radio',
                 },
                 {
-                  "_id": 3,
-                  "nombre_nombre": "TV"
+                  _id: 3,
+                  nombre_nombre: 'TV',
                 },
                 {
-                  "_id": 4,
-                  "nombre_nombre": "conocidos"
-                }
-              ]
+                  _id: 4,
+                  nombre_nombre: 'conocidos',
+                },
+              ],
             },
-            "usuario": {
-              "_id": 27,
-              "nombre": "Warren",
-              "apellido": "Torres",
-              "correo": "WARREN@gmail.com",
-              "rol": "administrador"
-            }
+            usuario: {
+              _id: 27,
+              nombre: 'Warren',
+              apellido: 'Torres',
+              correo: 'WARREN@gmail.com',
+              rol: 'administrador',
+            },
           },
         ];
         this.dataSource = new MatTableDataSource<Pregunta>(
@@ -286,7 +286,7 @@ export class PreguntasComponent implements OnInit {
       nombre_pregunta: null,
       tipo: null,
       rango: null,
-      fk_usuario: 1,
+      fk_usuario: parseInt(localStorage.getItem('_id')),
       opciones: null,
     });
     this.optionList = [];

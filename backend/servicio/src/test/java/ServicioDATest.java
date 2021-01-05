@@ -9,10 +9,10 @@ public class ServicioDATest {
     public void createUserLDAP()
     {
         DtoDirectorioAUser user = new DtoDirectorioAUser();
-        user.setCorreo("test@gmail.com");
+        user.setCorreo("CM10@gmail.com");
         user.setEstado("activo");
         user.setPassword("123");
-        DirectorioActivo ldap = new DirectorioActivo("administrador");
+        DirectorioActivo ldap = new DirectorioActivo("cliente");
         ldap.addEntryToLdap( user );
     }
 

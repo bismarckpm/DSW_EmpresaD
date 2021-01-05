@@ -18,7 +18,8 @@ export class EncuestasPendientesComponent implements OnInit {
     private router: Router,
     private _utilService: UtilService
   ) {}
-  public idUserLogged: number = 2;
+  // public idUserLogged: number = 2;
+  public idUserLogged: number = parseInt(localStorage.getItem('_id'));
   enc: string = '';
   searchState: string = '';
   encuestas: Encuesta[] = [];

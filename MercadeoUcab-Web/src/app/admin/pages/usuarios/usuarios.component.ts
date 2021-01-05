@@ -95,6 +95,7 @@ export class UsuariosComponent implements OnInit {
   }
 
   addUser(data) {
+    console.log(data.password);
     this._userService.createUser(data).subscribe(
       (response: any) => {
         console.log(response);
@@ -102,11 +103,11 @@ export class UsuariosComponent implements OnInit {
           //Se hace lo que se quiera en exito
           //alert(response.message);
         }
-        this.opStatus="D";
+        this.opStatus = 'D';
       },
       (error) => {
         console.log(error);
-        this.opStatus="E";
+        this.opStatus = 'E';
         //alert(error.error.message);
       }
     );
@@ -163,9 +164,15 @@ export class UsuariosComponent implements OnInit {
     ES EL VALOR DADO POR EL USUARIO
 
     */
-    let toAdd: any = {};
-    toAdd = this.addForm.value;
-    //toAdd.password = 'no';
+    const values = this.addForm.value;
+    const toAdd = {
+      nombre: values.nombre,
+      password: values.password,
+      apellido: values.apellido,
+      rol: values.rol,
+      estado: values.estado,
+      correo: values.correo,
+    };
     //console.log(this.addForm.value);
     //console.log('-------------------');
     console.log(toAdd);

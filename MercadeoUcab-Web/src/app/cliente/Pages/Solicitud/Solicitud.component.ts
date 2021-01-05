@@ -63,8 +63,8 @@ export class SolicitudComponent implements OnInit {
   solicitudes: Solicitud[] = [];
   solicitudes2: Solicitud[] = [];
   // tslint:disable-next-line:radix
-  //ID = parseInt(localStorage.getItem('_id'));
-  ID = 5;
+  ID = parseInt(localStorage.getItem('_id'));
+  //ID = 5;
   marcas: Marca[] = [];
   subcategorias: SubCategoria[] = [];
   presentaciones: Presentacion[] = [];
@@ -234,7 +234,7 @@ export class SolicitudComponent implements OnInit {
       };
       const values = this.addForm.value;
       toAdd.estado = 'solicitada';
-      toAdd.usuario._id = 5;
+      toAdd.usuario._id = this.ID;
       toAdd.marca._id = values.marca;
       values.tipo.forEach(function (item) {
         toAdd.tipos.push({ _id: item });

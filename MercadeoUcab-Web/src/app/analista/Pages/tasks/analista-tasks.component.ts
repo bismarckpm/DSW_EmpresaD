@@ -1,4 +1,4 @@
-import { Component, OnInit, } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { EstudioService } from '@core/services/estudio/estudio.service';
 import { MatTableDataSource } from '@angular/material/table';
@@ -9,6 +9,7 @@ import { Estado } from '@core/models/estado';
 import { Pais } from '@core/models/pais';
 import { Usuario } from '@core/models/usuario';
 import { Solicitud } from '@core/models/solicitud';
+import { UtilService } from '@core/services/utils/util.service';
 
 export interface PeriodicElement {
   name: string;
@@ -25,12 +26,14 @@ export class AnalistaTasksComponent implements OnInit {
   columnsToDisplay: string[] = this.displayedColumns.slice();
   estudios: any[] = [];
   dataSource: MatTableDataSource<Estudio>;
-  analistaId: number = 5;
-  searchState: string = "U";
+  analistaId: number = parseInt(localStorage.getItem('_id'));
+  searchState: string = 'U';
   constructor(
     private route: ActivatedRoute,
     private router: Router,
-    private _estudioService: EstudioService) { }
+    private _utilService: UtilService,
+    private _estudioService: EstudioService
+  ) {}
   //DATA DUMMY
   testPais: Pais = {
     _id: 1,
@@ -59,7 +62,7 @@ export class AnalistaTasksComponent implements OnInit {
     rol: 'Analista',
     correo: Math.random().toString(36).substr(2, 5),
     estado: 'Activo',
-  }
+  };
   testSolicitud: Solicitud = {
     _id: 13,
     estado: 'activo',
@@ -67,111 +70,117 @@ export class AnalistaTasksComponent implements OnInit {
     marca: { _id: 1, nombre: 'TEST MARCA' },
     tipos: [{ _id: 1, nombre: 'test Tipo' }],
     presentaciones: [{ _id: 1, tipo: 'volumen', cantidad: '800ml' }],
-    subcategorias: [{ _id: 1, nombre: 'test SubCategoria', categoria: { _id: 1, nombre: 'test Categoria' } }]
-  }
+    subcategorias: [
+      {
+        _id: 1,
+        nombre: 'test SubCategoria',
+        categoria: { _id: 1, nombre: 'test Categoria' },
+      },
+    ],
+  };
   testRes = {
-    "status": 200,
-    "data": {
-      "_id": 2,
-      "estado": "Culminado",
-      "tipo": "En linea",
-      "encuestas_esperadas": 20,
-      "solicitud": {
-        "_id": 2,
-        "estado": "solicitada"
+    status: 200,
+    data: {
+      _id: 2,
+      estado: 'Culminado',
+      tipo: 'En linea',
+      encuestas_esperadas: 20,
+      solicitud: {
+        _id: 2,
+        estado: 'solicitada',
       },
-      "analista": {
-        "_id": 37,
-        "nombre": "Harrison",
-        "apellido": "Dorsey",
-        "correo": "HARRI@gmail.com",
-        "rol": "analista"
+      analista: {
+        _id: 37,
+        nombre: 'Harrison',
+        apellido: 'Dorsey',
+        correo: 'HARRI@gmail.com',
+        rol: 'analista',
       },
-      "muestra_poblacion": {
-        "_id": 2,
-        "genero": "masculino",
-        "nivel_academico": "licenciado",
-        "rango_edad_inicio": 15,
-        "rango_edad_fin": 80,
-        "cantidad_hijos": 1,
-        "parroquia": {
-          "_id": 1,
-          "nombre": "petare",
-          "valorSocioEconomico": 1000,
-          "municipio": {
-            "_id": 1,
-            "nombre": "Libertador",
-            "estado": {
-              "_id": 1,
-              "nombre": "Guarico",
-              "pais": {
-                "_id": 1,
-                "nombre": "Venezuela"
-              }
-            }
-          }
-        }
+      muestra_poblacion: {
+        _id: 2,
+        genero: 'masculino',
+        nivel_academico: 'licenciado',
+        rango_edad_inicio: 15,
+        rango_edad_fin: 80,
+        cantidad_hijos: 1,
+        parroquia: {
+          _id: 1,
+          nombre: 'petare',
+          valorSocioEconomico: 1000,
+          municipio: {
+            _id: 1,
+            nombre: 'Libertador',
+            estado: {
+              _id: 1,
+              nombre: 'Guarico',
+              pais: {
+                _id: 1,
+                nombre: 'Venezuela',
+              },
+            },
+          },
+        },
       },
-      "encuesta": [
+      encuesta: [
         {
-          "_id": 4,
-          "pregunta": {
-            "_id": 4,
-            "nombre": "Como se entero del producto?",
-            "tipo": "simple",
-            "opciones": [
+          _id: 4,
+          pregunta: {
+            _id: 4,
+            nombre: 'Como se entero del producto?',
+            tipo: 'simple',
+            opciones: [
               {
-                "_id": 1,
-                "nombre_opcion": "opcion 2: No la comprendo muy bien"
+                _id: 1,
+                nombre_opcion: 'opcion 2: No la comprendo muy bien',
               },
               {
-                "_id": 2,
-                "nombre_opcion": "radio"
+                _id: 2,
+                nombre_opcion: 'radio',
               },
               {
-                "_id": 3,
-                "nombre_opcion": "TV"
+                _id: 3,
+                nombre_opcion: 'TV',
               },
               {
-                "_id": 4,
-                "nombre_opcion": "conocidos"
-              }
-            ]
-          }
+                _id: 4,
+                nombre_opcion: 'conocidos',
+              },
+            ],
+          },
         },
         {
-          "_id": 5,
-          "pregunta": {
-            "_id": 5,
-            "nombre": "cuanto uso el producto?",
-            "tipo": "simple",
-            "opciones": [
+          _id: 5,
+          pregunta: {
+            _id: 5,
+            nombre: 'cuanto uso el producto?',
+            tipo: 'simple',
+            opciones: [
               {
-                "_id": 5,
-                "nombre_opcion": "Mucho"
+                _id: 5,
+                nombre_opcion: 'Mucho',
               },
               {
-                "_id": 6,
-                "nombre_opcion": "Poco"
+                _id: 6,
+                nombre_opcion: 'Poco',
               },
               {
-                "_id": 7,
-                "nombre_opcion": "Nada"
-              }
-            ]
-          }
+                _id: 7,
+                nombre_opcion: 'Nada',
+              },
+            ],
+          },
         },
         {
-          "_id": 6,
-          "pregunta": {
-            "_id": 7,
-            "nombre": "Recomendaria el producto?",
-            "tipo": "boolean"
-          }
-        }
-      ]
-    }
-  }
+          _id: 6,
+          pregunta: {
+            _id: 7,
+            nombre: 'Recomendaria el producto?',
+            tipo: 'boolean',
+          },
+        },
+      ],
+    },
+  };
 
   ngOnInit(): void {
     //SERVICE INVOKE
@@ -189,18 +198,22 @@ export class AnalistaTasksComponent implements OnInit {
     return filtered;
   }
   invokeService() {
-    this.searchState = "I";
-    this._estudioService.getEstudios().subscribe(
+    this.searchState = 'I';
+    this._utilService.getEstudiosOfAnalista(this.analistaId).subscribe(
       (res) => {
         this.estudios = res.data;
-        this.dataSource = new MatTableDataSource<Estudio>(this.dataFilter(this.estudios));
-        this.searchState = "D";
+        this.dataSource = new MatTableDataSource<Estudio>(
+          this.dataFilter(this.estudios)
+        );
+        this.searchState = 'D';
       },
       (err) => {
         console.log(err.message);
-        this.estudios = [this.testRes["data"]];
-        this.dataSource = new MatTableDataSource<Estudio>(this.dataFilter(this.estudios));
-        this.searchState = "D";
+        this.estudios = [this.testRes['data']];
+        this.dataSource = new MatTableDataSource<Estudio>(
+          this.dataFilter(this.estudios)
+        );
+        this.searchState = 'D';
       }
     );
   }

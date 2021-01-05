@@ -9,7 +9,7 @@ const routes: Routes = [
   },
   {
     path: 'encuestado',
-    //canLoad: [CanPassGuard],
+    canLoad: [CanPassGuard],
     loadChildren: './encuestado/encuestado.module#EncuestadoModule',
   },
   {
@@ -19,12 +19,12 @@ const routes: Routes = [
   },
   {
     path: 'cliente',
-    //canLoad: [CanPassGuard],
+    canLoad: [CanPassGuard],
     loadChildren: './cliente/cliente.module#ClienteModule',
   },
   {
     path: 'analista',
-    //canLoad: [CanPassGuard],
+    canLoad: [CanPassGuard],
     loadChildren: './analista/analista.module#AnalistaModule',
   },
   {
