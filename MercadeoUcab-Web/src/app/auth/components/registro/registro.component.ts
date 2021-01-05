@@ -1,18 +1,17 @@
-import {Component, OnInit, ViewChild} from '@angular/core';
-import {FormBuilder, FormGroup, Validators} from '@angular/forms';
-import {UsuarioService} from '@core/services/usuario/usuario.service';
-import {Router} from '@angular/router';
-import {Usuario} from '@models/usuario';
-import {UpdateSolicitudDialogComponent} from '../../../cliente/components/dialogs/upd-solicitud-dialog/update-solicitud-dialog.component';
-import {RegistroDatoEncuestadoComponent} from '../registro-dato-encuestado/registro-dato-encuestado.component';
+import { Component, OnInit, ViewChild } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { UsuarioService } from '@core/services/usuario/usuario.service';
+import { Router } from '@angular/router';
+import { Usuario } from '@models/usuario';
+import { UpdateSolicitudDialogComponent } from '../../../cliente/components/dialogs/upd-solicitud-dialog/update-solicitud-dialog.component';
+import { RegistroDatoEncuestadoComponent } from '../registro-dato-encuestado/registro-dato-encuestado.component';
 
 @Component({
   selector: 'app-registro',
   templateUrl: './registro.component.html',
-  styleUrls: ['./registro.component.css']
+  styleUrls: ['./registro.component.css'],
 })
 export class RegistroComponent implements OnInit {
-
   constructor(
     private router: Router,
     private formBuilder: FormBuilder,
@@ -45,7 +44,6 @@ export class RegistroComponent implements OnInit {
           // Se hace lo que se quiera en exito
           alert(response.message);
           this.IDusuario = response._id;
-
         }
       },
       (error) => {
@@ -54,35 +52,36 @@ export class RegistroComponent implements OnInit {
     );
   }
 
-  ngOnInit(): void {
-  }
+  ngOnInit(): void {}
   async openDatoEncuestadoModal() {
-    if (this.addForm.valid){
+    if (this.addForm.valid) {
       return await this.registroDatoEncuestado.open();
-    }else {alert('Se equivoco a la hora de registrar los campos(nombre, apellido, correo y password son campos obligatorios no pueden estar vacios)'); }
+    } else {
+      alert(
+        'Se equivoco a la hora de registrar los campos(nombre, apellido, correo y password son campos obligatorios no pueden estar vacios)'
+      );
+    }
   }
 
-  navegacionLogin(){
+  navegacionLogin() {
     this.router.navigate(['/registrar/datoUsuario']);
   }
 
-  get nombre(){
+  get nombre() {
     return this.addForm.get('nombre');
   }
 
-
   serviceInvoke() {
-
-    if (this.addForm.valid){
+    if (this.addForm.valid) {
       console.log(this.addForm.valid);
       const toAdd = {
-      nombre: null,
-      password: null,
-      apellido: null,
-      rol: 'encuestado' ,
-      estado:  'activo' ,
-      correo: null,
-    };
+        nombre: null,
+        password: null,
+        apellido: null,
+        rol: 'encuestado',
+        estado: 'activo',
+        correo: null,
+      };
       const values = this.addForm.value;
       toAdd.nombre = values.nombre;
       toAdd.apellido = values.apellido;
@@ -94,17 +93,16 @@ export class RegistroComponent implements OnInit {
       this.addUsuarios(toAdd);
       this.opStatus = 'P';
       setTimeout(() => {
-      this.addForm = this.formBuilder.group({
-        nombre: null,
-        password: null,
-        apellido: null,
-        rol: 'encuestado' ,
-        estado:  'activo' ,
-        correo: null,
-      });
-      this.opStatus = 'D';
-    }, 3000);
+        this.addForm = this.formBuilder.group({
+          nombre: null,
+          password: null,
+          apellido: null,
+          rol: 'encuestado',
+          estado: 'activo',
+          correo: null,
+        });
+        this.opStatus = 'D';
+      }, 3000);
+    }
   }
-  }
-
 }

@@ -3,8 +3,8 @@ import { Routes, RouterModule } from '@angular/router';
 import { ChangePasswordComponent } from './components/change-password/change-password.component';
 import { LoginComponent } from './components/login/login.component';
 import { ResetPasswordComponent } from './components/reset-password/reset-password.component';
-import {RegistroDatoEncuestadoComponent} from "./components/registro-dato-encuestado/registro-dato-encuestado.component";
-import {RegistroComponent} from "./components/registro/registro.component";
+import { RegistroDatoEncuestadoComponent } from './components/registro-dato-encuestado/registro-dato-encuestado.component';
+import { RegistroComponent } from './components/registro/registro.component';
 
 const routes: Routes = [
   {
@@ -16,7 +16,7 @@ const routes: Routes = [
     component: ResetPasswordComponent,
   },
   {
-    path: 'Registrar',
+    path: 'registrar',
     component: RegistroComponent,
   },
   {

@@ -28,6 +28,7 @@ export class SolicitudComponent implements OnInit {
     private formBuilder: FormBuilder,
     // tslint:disable-next-line:variable-name
     private _solicitudService: SolicitudService,
+    // tslint:disable-next-line:variable-name
     private _solicitudUtilService: UtilService,
     private marcaServices: MarcaService,
     private subcategoriaService: SubcategoriaService,
@@ -54,12 +55,16 @@ export class SolicitudComponent implements OnInit {
       modificado_el: null, // DATE TO STRING
     });
   }
+
   // CONTROL DE ESTADO DEL COMPONENTE
   op: string;
   searchState: string; // U.I,D
   toSearch2: any = {};
   solicitudes: Solicitud[] = [];
   solicitudes2: Solicitud[] = [];
+  //  ID = parseInt(localStorage.getItem('_id'));
+  // tslint:disable-next-line:radix
+  ID = parseInt(localStorage.getItem('_id'));
   marcas: Marca[] = [];
   subcategorias: SubCategoria[] = [];
   presentaciones: Presentacion[] = [];
@@ -92,9 +97,11 @@ export class SolicitudComponent implements OnInit {
   userSolicitud: number;
   @ViewChild('updSolicitud')
   private updComponent: UpdateSolicitudDialogComponent;
+
   setUsuarioSolicitud(U: number) {
     this.userSolicitud = U;
   }
+
   /*getTarget(id:number){
     this.users.forEach((user,ind) => {
       if(user._id === id){
@@ -198,11 +205,13 @@ export class SolicitudComponent implements OnInit {
     this.getPresentacion();
     this.getTipos();
   }
+
   async openUpdModal() {
     return await this.updComponent.open();
   }
+
   serviceInvoke() {
-    if(this.addForm.valid){
+    if (this.addForm.valid) {
 
       /*
 {
@@ -217,9 +226,9 @@ export class SolicitudComponent implements OnInit {
       // console.log(this.addForm.value);
 
       const toAdd = {
-        usuario: { _id: undefined },
+        usuario: {_id: undefined},
         estado: undefined,
-        marca: { _id: undefined },
+        marca: {_id: undefined},
         tipos: [],
         subCategorias: [],
         presentaciones: [],
@@ -228,24 +237,24 @@ export class SolicitudComponent implements OnInit {
       toAdd.estado = 'solicitada';
       toAdd.usuario._id = 5;
       toAdd.marca._id = values.marca;
-      values.tipo.forEach(function (item) {
-        toAdd.tipos.push({ _id: item });
+      values.tipo.forEach(function(item) {
+        toAdd.tipos.push({_id: item});
       });
-      values.subCategoria.forEach(function (item) {
-        toAdd.subCategorias.push({ _id: item });
+      values.subCategoria.forEach(function(item) {
+        toAdd.subCategorias.push({_id: item});
       });
-      values.presentacion.forEach(function (item) {
-        toAdd.presentaciones.push({ _id: item });
+      values.presentacion.forEach(function(item) {
+        toAdd.presentaciones.push({_id: item});
       });
       console.log(toAdd);
       this.addSolicitud(toAdd);
       this.opStatus = 'P';
-      //console.log(this.op);
-      //console.log(this.opStatus);
-      //console.log(this.addForm.get('marca').value);
-      //console.log(this.addForm.get('tipo').value);
-      //console.log(this.addForm.get('subCategoria').value);
-      //console.log(this.addForm.get('presentacion').value);
+      // console.log(this.op);
+      // console.log(this.opStatus);
+      // console.log(this.addForm.get('marca').value);
+      // console.log(this.addForm.get('tipo').value);
+      // console.log(this.addForm.get('subCategoria').value);
+      // console.log(this.addForm.get('presentacion').value);
       setTimeout(() => {
         this.addForm = this.formBuilder.group({
           marca: 1,
@@ -257,7 +266,9 @@ export class SolicitudComponent implements OnInit {
         });
         this.opStatus = 'D';
       }, 3000);
-    }else{alert("Se equivoco a la hora de registrar los campos(Marca del producto, Subcategoria del producto, Tipo de producto y presentacion de producto son campos obligatorios no pueden estar vacios)")}
+    } else {
+      alert('Se equivoco a la hora de registrar los campos(Marca del producto, Subcategoria del producto, Tipo de producto y presentacion de producto son campos obligatorios no pueden estar vacios)');
+    }
   }
 
   selectSolicitud(id: number, data: Solicitud) {
@@ -269,14 +280,16 @@ export class SolicitudComponent implements OnInit {
       this.solicitudTarget = data;
     }
   }
+
   isSelected(id: number): boolean {
     if (id === this.solicitudSelection) {
       return true;
     }
     return false;
   }
+
   dataFilter(dataArray: Solicitud[]): Solicitud[] {
-    //console.log(this.searchForm.value);
+    // console.log(this.searchForm.value);
     const filtered: Solicitud[] = [];
     dataArray.forEach((res, ind) => {
       let inc = true;
@@ -302,12 +315,12 @@ export class SolicitudComponent implements OnInit {
         filtered.push(res);
       }
     });
-    //console.log(dataArray, filtered);
+    // console.log(dataArray, filtered);
     return filtered;
   }
 
   getSolicitudes(data) {
-    this._solicitudUtilService.getSolicitudesOfCliente(1).subscribe(
+    this._solicitudUtilService.getSolicitudesOfCliente(this.ID).subscribe(
       (response: any) => {
         console.log(response);
         this.solicitudes = response.data;
@@ -346,9 +359,10 @@ export class SolicitudComponent implements OnInit {
     this.getSolicitudes(toSearch);
     // tslint:disable-next-line:only-arrow-functions
   }
+
   setOperation(chOp: string) {
     this.op = chOp;
-    //console.log(this.searchState);
+    // console.log(this.searchState);
     if (chOp !== '') {
       this.searchState = 'I';
       this.opStatus = 'S';
@@ -357,6 +371,7 @@ export class SolicitudComponent implements OnInit {
       this.searchState = 'U';
     }
   }
+
   doSearch() {
     this.searchState = 'I';
   }

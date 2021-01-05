@@ -2,7 +2,11 @@
   <div class="container">
     <div class="row justify-content-center">
       <div class="col-md-offset-4 col-md-4 col-sm-offset-3 col-sm-6">
-        <form [formGroup]="addForm" class="form_horizontal" (ngSubmit)="serviceInvoke()">
+        <form
+          [formGroup]="addForm"
+          class="form_horizontal"
+          (ngSubmit)="serviceInvoke()"
+        >
           <h2 class="title-principal">Mercadeo Ucab</h2>
           <div class="form-icon"><i class="fa fa-user-circle"></i></div>
           <h3 class="title">Registrar</h3>
@@ -30,7 +34,6 @@
           <div class="form-group">
             <span class="input-icon"> <i class="fa fa-at"></i></span>
             <input
-
               type="email"
               formControlName="correo"
               class="form-control"
@@ -52,16 +55,17 @@
             />
           </div>
 
-          <button type="submit" class="btn btn-primary" (click)="openDatoEncuestadoModal()">
-            Login <i class="fas fa-sign-in-alt"></i>
+          <button
+            type="submit"
+            class="btn btn-primary"
+            (click)="openDatoEncuestadoModal()"
+          >
+            Registrar <i class="fas fa-sign-in-alt"></i>
           </button>
-
         </form>
       </div>
     </div>
   </div>
 </div>
-<app-registro-dato-encuestado
-  #registroDatoEncuestado
-    [IDusuario]="IDusuario">
+<app-registro-dato-encuestado #registroDatoEncuestado [IDusuario]="IDusuario">
 </app-registro-dato-encuestado>
