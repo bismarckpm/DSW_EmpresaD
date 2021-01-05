@@ -139,10 +139,6 @@ export class LugaresComponent implements OnInit {
       municipio: null,
       valor_socio_economico: null,
     });
-    this.getEstados();
-    this.getMunicipios();
-    this.getParroquias();
-    this.getPaises();
   }
   addPais(data) {
     this._paisService.createPais(data).subscribe(
@@ -307,6 +303,7 @@ export class LugaresComponent implements OnInit {
   }
   invokeSearch() {
     //console.log(this.searchLugar, this.searchForm.value);
+    console.log('Doing search');
     this.searchState = 'P';
     this.getAsociados();
   }
