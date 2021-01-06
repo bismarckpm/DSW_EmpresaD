@@ -17,7 +17,7 @@ public class ServicioRespuestaTest {
     public void registrarRespuestaTest() throws Exception {
         ServicioRespuesta servicio = new ServicioRespuesta();
         DtoRespuesta dtoRespuesta = new DtoRespuesta();
-        dtoRespuesta.setRespuesta("Me gustaria tener mas opciones y no solo 3");
+        dtoRespuesta.setRespuesta("Me gustaria tener mas opciones");
         DtoOpcion opcion = new DtoOpcion(1);
         dtoRespuesta.set_dtoopcion( opcion );
         DtoEncuestaEstudio dtoEncuestaEstudio = new DtoEncuestaEstudio(1);
@@ -32,8 +32,7 @@ public class ServicioRespuestaTest {
     @Test
     public void obtenerRespuestaTest() throws Exception {
         ServicioRespuesta servicio = new ServicioRespuesta();
-        DtoRespuesta dtoRespuesta = new DtoRespuesta(1);
-
+        DtoRespuesta dtoRespuesta = new DtoRespuesta(4);
         Response resultado = servicio.obtenerRespuesta(dtoRespuesta.get_id());
         Assert.assertEquals(200, resultado.getStatus());
     }
@@ -48,7 +47,7 @@ public class ServicioRespuestaTest {
     @Test
     public void actualizarRespuestaTest() throws Exception {
         ServicioRespuesta servicio = new ServicioRespuesta();
-        DtoRespuesta dtoRespuesta = new DtoRespuesta(1);
+        DtoRespuesta dtoRespuesta = new DtoRespuesta(46);
         dtoRespuesta.setRespuesta("deberia ser mas grande");
         Response resultado = servicio.actualizarRespuesta( dtoRespuesta.get_id(), dtoRespuesta);
         Assert.assertEquals(200, resultado.getStatus());
@@ -57,7 +56,7 @@ public class ServicioRespuestaTest {
     @Test
     public void eliminarRespuestaTest() throws Exception {
         ServicioRespuesta servicio = new ServicioRespuesta();
-        DtoRespuesta dtoRespuesta = new DtoRespuesta(1);
+        DtoRespuesta dtoRespuesta = new DtoRespuesta(13);
         Response resultado = servicio.eliminarRespuesta(dtoRespuesta.get_id());
         Assert.assertEquals(200, resultado.getStatus());
     }

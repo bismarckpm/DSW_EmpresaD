@@ -9,10 +9,10 @@ public class ServicioDATest {
     public void createUserLDAP()
     {
         DtoDirectorioAUser user = new DtoDirectorioAUser();
-        user.setCorreo("CM10@gmail.com");
+        user.setCorreo("aaaa@gmail.com");
         user.setEstado("activo");
         user.setPassword("123");
-        DirectorioActivo ldap = new DirectorioActivo("cliente");
+        DirectorioActivo ldap = new DirectorioActivo("encuestado");
         ldap.addEntryToLdap( user );
     }
 
@@ -47,10 +47,10 @@ public class ServicioDATest {
     public void userAuthentication()
     {
         DtoDirectorioAUser user = new DtoDirectorioAUser();
-        user.setCorreo( "pasaCono@gmail.com" );
-        user.setPassword( "cambie" );
+        user.setCorreo( "atag102@gmail.com" );
+        user.setPassword( "123" );
         user.setEstado("activo");
-        DirectorioActivo ldap = new DirectorioActivo("administrador");
+        DirectorioActivo ldap = new DirectorioActivo("encuestado");
         ldap.userAuthentication( user);
         Assert.assertTrue( ldap.userAuthentication( user ));
     }

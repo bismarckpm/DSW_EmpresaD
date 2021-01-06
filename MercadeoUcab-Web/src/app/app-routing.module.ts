@@ -14,7 +14,7 @@ const routes: Routes = [
   },
   {
     path: 'administrador',
-    //canLoad: [CanPassGuard],
+    canLoad: [CanPassGuard],
     loadChildren: './admin/admin.module#AdminModule',
   },
   {

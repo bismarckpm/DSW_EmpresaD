@@ -40,7 +40,7 @@ export class LoginComponent implements OnInit {
         localStorage.setItem('rol', response.data.rol);
         // Agregar codigo para ir a la ruta dependiendo del rol
         if (response.data.rol === 'administrador') {
-          this._router.navigate(['administrador']);
+          this._router.navigate(['administrador/estudios']);
         }
         if (response.data.rol === 'encuestado') {
           this._router.navigate(['encuestado']);

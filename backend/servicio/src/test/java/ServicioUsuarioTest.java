@@ -14,12 +14,12 @@ public class ServicioUsuarioTest {
     public void registrarUsuarioTest(){
         ServicioUsuario servicio = new ServicioUsuario();
         DtoUsuario dtoUsuario = new DtoUsuario();
-        dtoUsuario.setNombre( "Yeferson");
-        dtoUsuario.setApellido( "Soteldo");
+        dtoUsuario.setNombre( "Steven");
+        dtoUsuario.setApellido( "Ross");
         dtoUsuario.setEstado( "activo");
-        dtoUsuario.setRol( "analista");
-        dtoUsuario.setCorreo( "soteldoplayer@gmail.com");
-        dtoUsuario.setPassword("54321");
+        dtoUsuario.setRol( "cliente");
+        dtoUsuario.setCorreo( "srs@gmail.com");
+        dtoUsuario.setPassword("123");
         Response resultado = servicio.registrarUsuario( dtoUsuario);
         Assert.assertEquals(
                 Response.Status.OK.getStatusCode(),
@@ -32,11 +32,11 @@ public class ServicioUsuarioTest {
         ServicioUsuario servicio = new ServicioUsuario();
         DtoUsuario dtoUsuario = new DtoUsuario();
         dtoUsuario.set_id( 1);
-        dtoUsuario.setNombre( "Yangel");
-        dtoUsuario.setApellido( "Herrera");
+        dtoUsuario.setNombre( "Andres");
+        dtoUsuario.setApellido( "Aranguiz");
         dtoUsuario.setEstado( "activo");
         dtoUsuario.setRol( "encuestado");
-        dtoUsuario.setCorreo( "yangelplayer@gmail.com");
+        dtoUsuario.setCorreo( "atag102@gmail.com");
         Response resultado = servicio.actualizarUsuario(
                 dtoUsuario.get_id(),
                 dtoUsuario
@@ -93,8 +93,8 @@ public class ServicioUsuarioTest {
     public void cambioClaveOlvidadaTest() throws Exception{
         ServicioUsuario servicio = new ServicioUsuario();
         DtoDirectorioAUser dtoUsuario = new DtoDirectorioAUser();
-        dtoUsuario.setCorreo("cambioclave@gmail.com");
-        dtoUsuario.setPassword("cambie");
+        dtoUsuario.setCorreo("aaaa@gmail.com");
+        dtoUsuario.setPassword("123");
         Response resultado = servicio.cambioClaveOlvidada( dtoUsuario);
         Assert.assertEquals(
                 Response.Status.OK.getStatusCode(),

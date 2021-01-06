@@ -14,24 +14,24 @@ public class ServicioDatoEncuestadoTest {
     @Test
     public void registrarDatoEncuestadoTest() throws Exception{
         ServicioDatoEncuestado servicioDato = new ServicioDatoEncuestado();
-        DtoDatoEncuestado datoEncuestado = new DtoDatoEncuestado("Concepcion",
-                                                    "arevalo",
-                                                    "745632",
-                                                    "laptop",
+        DtoDatoEncuestado datoEncuestado = new DtoDatoEncuestado("Rafael",
+                                                    "Ruiz",
+                                                    "60430001",
+                                                    "pc",
                                                     Date.valueOf("1997-02-28"),
                                                     "masculino",
                                                     50,
-                                                    "universitario",
+                                                    "Licenciado",
                                                     5);
         datoEncuestado.setFk_lugar(new DtoParroquia(1));
-        datoEncuestado.setUsuario(new DtoUsuario( 5));
+        datoEncuestado.setUsuario(new DtoUsuario( 61));
         DtoOcupacion dtoOcupacion = new DtoOcupacion(1);
         datoEncuestado.setOcupacion(dtoOcupacion);
         List<DtoTelefono> telefonos = new ArrayList<>();
         DtoTelefono telefono1 = new DtoTelefono();
-        telefono1.setTelefono("20123654");
+        telefono1.setTelefono("63332333");
         DtoTelefono telefono2 = new DtoTelefono();
-        telefono2.setTelefono("8585858585");
+        telefono2.setTelefono("66662663");
         telefonos.add( telefono1);
         telefonos.add( telefono2);
         datoEncuestado.setTelefonos( telefonos);
