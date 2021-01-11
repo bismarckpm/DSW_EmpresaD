@@ -20,7 +20,7 @@
         <module>accesodatos</module>
         <module>servicio</module>
         <module>entidades</module>
-        <module>dtos</module>
+        <module>logica</module>
         <module>excepciones</module>
         <module>directorioactivo</module>
     </modules>
