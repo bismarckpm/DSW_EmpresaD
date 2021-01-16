@@ -77,7 +77,7 @@ public class Pregunta extends EntidadBase{
     }
 
     public void addOpcion(Opcion opcion){
-        this.opciones.add( opcion);
         opcion.setFk_pregunta( this);
+        this.opciones.add( opcion);
     }
 }

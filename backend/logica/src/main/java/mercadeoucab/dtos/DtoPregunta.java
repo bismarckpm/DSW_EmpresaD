@@ -41,4 +41,9 @@ public class DtoPregunta extends DtoBase{
     public void setUsuarioDto(DtoUsuario usuarioDto) {
         this.usuarioDto = usuarioDto;
     }
+
+    public void addOpcion( DtoOpcion opcion){
+        opcion.set_Dtopregunta( this);
+        this.opciones.add( opcion);
+    }
 }
