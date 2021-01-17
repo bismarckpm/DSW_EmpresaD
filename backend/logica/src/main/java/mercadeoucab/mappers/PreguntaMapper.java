@@ -24,13 +24,15 @@ public class PreguntaMapper {
 
         if (Objects.nonNull( dtoPregunta.getUsuarioDto())){
             pregunta.setUsuario(
-                    new Usuario( dtoPregunta.getUsuarioDto().get_id())
+                    UsuarioMapper.mapDtoToEntity( dtoPregunta.getUsuarioDto())
             );
         }
 
         if (Objects.nonNull( dtoPregunta.getOpciones())){
             for (DtoOpcion opcion:dtoPregunta.getOpciones()) {
-                   pregunta.addOpcion( new Opcion(opcion.get_id()));
+                   pregunta.addOpcion(
+                           OpcionMapper.mapDtoToEntity( opcion)
+                   );
             }
         }
 
@@ -46,12 +48,12 @@ public class PreguntaMapper {
         dtoPregunta.setCreado_el( pregunta.getCreado_el());
         dtoPregunta.setModificado_el( pregunta.getModificado_el());
         dtoPregunta.setUsuarioDto(
-                new DtoUsuario( pregunta.getUsuario().get_id())
+                UsuarioMapper.mapEntityToDto( pregunta.getUsuario())
         );
 
         for (Opcion opcion: pregunta.getOpciones()){
             dtoPregunta.addOpcion(
-                    new DtoOpcion(opcion.get_id())
+                    OpcionMapper.mapEntityToDto( opcion)
             );
         }
 
