@@ -42,7 +42,6 @@ public class DtoDatoEncuestado extends DtoBase {
     public String getSegundoNombre() {
         return segundoNombre;
     }
-
     public void setSegundoNombre(String segundoNombre) {
         this.segundoNombre = segundoNombre;
     }
@@ -50,7 +49,6 @@ public class DtoDatoEncuestado extends DtoBase {
     public String getSegundoapellido() {
         return segundoapellido;
     }
-
     public void setSegundoapellido(String segundoapellido) {
         this.segundoapellido = segundoapellido;
     }
@@ -58,7 +56,6 @@ public class DtoDatoEncuestado extends DtoBase {
     public String getCedula() {
         return cedula;
     }
-
     public void setCedula(String cedula) {
         this.cedula = cedula;
     }
@@ -66,7 +63,6 @@ public class DtoDatoEncuestado extends DtoBase {
     public String getMedioConexion() {
         return medioConexion;
     }
-
     public void setMedioConexion(String medioConexion) {
         this.medioConexion = medioConexion;
     }
@@ -74,7 +70,6 @@ public class DtoDatoEncuestado extends DtoBase {
     public Date getEdad() {
         return edad;
     }
-
     public void setEdad(Date edad) {
         this.edad = edad;
     }
@@ -82,7 +77,6 @@ public class DtoDatoEncuestado extends DtoBase {
     public String getGenero() {
         return genero;
     }
-
     public void setGenero(String genero) {
         this.genero = genero;
     }
@@ -90,7 +84,6 @@ public class DtoDatoEncuestado extends DtoBase {
     public int getNive_economico() {
         return nive_economico;
     }
-
     public void setNive_economico(int nive_economico) {
         this.nive_economico = nive_economico;
     }
@@ -98,7 +91,6 @@ public class DtoDatoEncuestado extends DtoBase {
     public String getNivelAcademico() {
         return nivelAcademico;
     }
-
     public void setNivelAcademico(String nivelAcademico) {
         this.nivelAcademico = nivelAcademico;
     }
@@ -106,7 +98,6 @@ public class DtoDatoEncuestado extends DtoBase {
     public int getPersonasHogar() {
         return personasHogar;
     }
-
     public void setPersonasHogar(int personasHogar) {
         this.personasHogar = personasHogar;
     }
@@ -114,7 +105,6 @@ public class DtoDatoEncuestado extends DtoBase {
     public DtoParroquia getFk_lugar() {
         return fk_lugar;
     }
-
     public void setFk_lugar(DtoParroquia fk_lugar) {
         this.fk_lugar = fk_lugar;
     }
@@ -122,7 +112,6 @@ public class DtoDatoEncuestado extends DtoBase {
     public DtoUsuario getUsuario() {
         return usuario;
     }
-
     public void setUsuario(DtoUsuario usuario) {
         this.usuario = usuario;
     }
@@ -130,14 +119,13 @@ public class DtoDatoEncuestado extends DtoBase {
     public DtoOcupacion getOcupacion() {
         return ocupacion;
     }
-
     public void setOcupacion(DtoOcupacion ocupacion) {
         this.ocupacion = ocupacion;
     }
+
     public List<DtoHijo> getHijos() {
         return hijos;
     }
-
     public void setHijos(List<DtoHijo> hijos) {
         this.hijos = hijos;
     }
@@ -145,7 +133,6 @@ public class DtoDatoEncuestado extends DtoBase {
     public List<DtoTelefono> getTelefonos() {
         return telefonos;
     }
-
     public void setTelefonos(List<DtoTelefono> telefonos) {
         this.telefonos = telefonos;
     }
