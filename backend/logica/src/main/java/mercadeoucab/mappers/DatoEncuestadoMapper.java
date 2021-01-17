@@ -41,7 +41,7 @@ public class DatoEncuestadoMapper {
         if(!(dto.getTelefonos().isEmpty())){
             List<Telefono> telefonos = new ArrayList<>();
             for(DtoTelefono dtoTelefono: dto.getTelefonos()){
-                telefonos.add(null);
+                telefonos.add(TelefonoMapper.mapDtotoEntiy(dtoTelefono));
             }
             entity.setTelefonos(telefonos);
         }
@@ -78,7 +78,7 @@ public class DatoEncuestadoMapper {
         if(!(entity.getTelefonos().isEmpty())){
             List<DtoTelefono> telefonos = new ArrayList<>();
             for( Telefono telefono: entity.getTelefonos() ){
-                telefonos.add(null);
+                telefonos.add(TelefonoMapper.mapEntitytoDto(telefono));
             }
             dto.setTelefonos(telefonos);
         }

@@ -20,7 +20,7 @@ public class SubCategoriaMapper {
 
         if (Objects.nonNull( dtoSubCategoria.getCategoria())){
             subCategoria.setCategoria(
-                    CategoriaMapper.mapDtoToEntity( dtoSubCategoria)
+                    CategoriaMapper.mapDtotoEntity( dtoSubCategoria.getCategoria())
             );
         }
 
@@ -34,7 +34,7 @@ public class SubCategoriaMapper {
         dtoSubCategoria.setActivo( subCategoria.getActivo());
         dtoSubCategoria.setModificado_el( subCategoria.getModificado_el());
         dtoSubCategoria.setCategoria(
-                CategoriaMapper.mapEntityToDto( subCategoria)
+                CategoriaMapper.mapEntitytoDto( subCategoria.getCategoria())
         );
         dtoSubCategoria.setCreado_el( subCategoria.getCreado_el());
 

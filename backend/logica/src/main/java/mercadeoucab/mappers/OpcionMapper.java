@@ -5,7 +5,7 @@ import mercadeoucab.entidades.Opcion;
 
 import java.util.Objects;
 
-public class OpcionMappers {
+public class OpcionMapper {
 
     public static Opcion mapDtotoEntity(DtoOpcion dto){
         Opcion entity = new Opcion();

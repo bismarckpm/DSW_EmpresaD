@@ -31,7 +31,7 @@ public class PreguntaMapper {
         if (Objects.nonNull( dtoPregunta.getOpciones())){
             for (DtoOpcion opcion:dtoPregunta.getOpciones()) {
                    pregunta.addOpcion(
-                           OpcionMapper.mapDtoToEntity( opcion)
+                           OpcionMapper.mapDtotoEntity( opcion)
                    );
             }
         }
@@ -53,7 +53,7 @@ public class PreguntaMapper {
 
         for (Opcion opcion: pregunta.getOpciones()){
             dtoPregunta.addOpcion(
-                    OpcionMapper.mapEntityToDto( opcion)
+                    OpcionMapper.mapEntitytoDto( opcion)
             );
         }
 

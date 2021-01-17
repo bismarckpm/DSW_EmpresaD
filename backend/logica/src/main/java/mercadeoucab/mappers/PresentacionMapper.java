@@ -10,7 +10,7 @@ public class PresentacionMapper {
 
         presentacion.setCantidad( dtoPresentacion.getCantidad());
         presentacion.setTipo( dtoPresentacion.getTipo());
-        presentacion.setActivo( dtoPresentacion.getActivo()););
+        presentacion.setActivo( dtoPresentacion.getActivo());
         presentacion.setModificado_el( dtoPresentacion.getModificado_el());
         presentacion.setCreado_el( dtoPresentacion.getCreado_el());
 
