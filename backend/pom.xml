@@ -23,6 +23,7 @@
         <module>logica</module>
         <module>excepciones</module>
         <module>directorioactivo</module>
+        <module>dtos</module>
     </modules>
 
     <dependencies>
