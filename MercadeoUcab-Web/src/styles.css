@@ -103,10 +103,11 @@ button:focus {
 }
 
 .user-info {
-    width: 90%;
+    width: 75%;
     height: 65%;
     background-color: white;
     padding: 8px !important;
+    margin-left: 5%;
 }
 
 .elementToFadeInAndOut {
