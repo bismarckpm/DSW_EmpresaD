@@ -8,7 +8,9 @@ import javax.naming.NamingException;
 import javax.naming.directory.*;
 import java.util.Hashtable;
 
-
+/**
+ * Name: DirectorioActivo
+ */
 public class DirectorioActivo {
 
     private DirContext _ldapContext;
@@ -19,6 +21,10 @@ public class DirectorioActivo {
     private String _user =  "admin";
     private String _password =  "secret";
 
+    /**
+     *
+     * @param rol
+     */
     public DirectorioActivo(String rol){
         if(rol.equals("administrador")){
             this._directory="ou=Administradores,o=mercadeoucab";
@@ -31,6 +37,12 @@ public class DirectorioActivo {
         }
     }
 
+    /**
+     * Name: connectLDAP
+     * Description: Conecta a un usuario al directorio activo
+     * @param user
+     * @param password
+     */
     private void connectLDAP(String user, String password)//user y password del administrador
     {
         try
@@ -49,6 +61,10 @@ public class DirectorioActivo {
         }
     }
 
+    /**
+     * name: disconnectLDAP
+     * Description: Desconecta del directorio activo
+     */
     private void disconnectLDAP()
     {
         try
@@ -61,6 +77,12 @@ public class DirectorioActivo {
         }
     }
 
+    /**
+     * Name: addEntryToLdap
+     * Descriptiom: agrega un nuevo usuario al arbol del directorio activo
+     * @param user
+     *
+     */
     public void addEntryToLdap(DtoDirectorioAUser user)
     {
 
@@ -87,9 +109,13 @@ public class DirectorioActivo {
         }
     }
 
-    //Eliminar actualiza el estqado del valor surname a bloqueado
-    //ya que este es el equivalente al atributo de usuario estado.
 
+    /**
+     * Name: deleteEntry
+     * Description: actualiza el estqado del valor surname a bloqueado
+     *              ya que este es el equivalente al atributo de usuario estado.
+     * @param user
+     */
     public void deleteEntry(DtoDirectorioAUser user)
     {
         try
@@ -112,6 +138,14 @@ public class DirectorioActivo {
         }
     }
 
+    /**
+     * Name: updateEntry
+     * Description: actuaiza un registro dentro del directorio activo
+     * @param user
+     * @param COR
+     * @param CON
+     * @param EST
+     */
     public void updateEntry(DtoDirectorioAUser user,String COR,String CON,String EST){
         try {
             String correoB=user.getCorreo();
@@ -155,6 +189,10 @@ public class DirectorioActivo {
 
     }
 
+    /**
+     * Name: displayAttributes
+     * @param attributes
+     */
     public void displayAttributes(Attributes attributes) {
         if (attributes != null) {
             try {
@@ -172,6 +210,11 @@ public class DirectorioActivo {
         }
     }
 
+    /**
+     * Name: cambiarRDN
+     * @param user
+     * @param COR
+     */
     public void cambiarRDN(DtoDirectorioAUser user,String COR){
         try {
             // Configurar el entorno para crear el contexto inicial
@@ -194,6 +237,11 @@ public class DirectorioActivo {
         }
     }
 
+    /**
+     * Name: getEntry
+     * Description:obtiene un registro del DA
+     * @param user
+     */
     public void getEntry(DtoDirectorioAUser user)
     {
         try
@@ -230,6 +278,12 @@ public class DirectorioActivo {
         }
     }
 
+    /**
+     * Name: userAuthentication
+     * Description: autentica las credenciales de un usuario contra el DA
+     * @param user
+     * @return
+     */
     public Boolean userAuthentication(DtoDirectorioAUser user)
     {
         Boolean resultado = false;

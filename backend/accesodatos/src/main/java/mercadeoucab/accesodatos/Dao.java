@@ -8,6 +8,12 @@ import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
 import java.util.List;
 
+
+/**
+ * Name: Dao
+ * Description: clase para el manejo del antipatron Dao
+ * @param <T>
+ */
 public class Dao<T>
 {
     private DaoHandler _daoHandler;
@@ -27,7 +33,12 @@ public class Dao<T>
     }
 
 
-
+    /**
+     * Name: insert
+     * Description: Inserta una entidad dada dentro de la BD
+     * @param entity
+     * @return entity
+     */
     public T insert( T entity )
     {
         _em = _daoHandler.getSession();
@@ -49,6 +60,12 @@ public class Dao<T>
     }
 
 
+    /**
+     * Name: update
+     * Description: Actualiza la informacion de la entidad recibidad
+     * @param entity
+     * @return entity
+     */
     public T update( T entity )
     {
         _em = _daoHandler.getSession();

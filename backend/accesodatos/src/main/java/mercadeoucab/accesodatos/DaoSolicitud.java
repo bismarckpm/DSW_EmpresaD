@@ -1,6 +1,5 @@
 package mercadeoucab.accesodatos;
 
-import mercadeoucab.entidades.Estudio;
 import mercadeoucab.entidades.Solicitud;
 import mercadeoucab.entidades.Usuario;
 
@@ -8,6 +7,9 @@ import javax.persistence.EntityManager;
 import javax.persistence.TypedQuery;
 import java.util.List;
 
+/**
+ * Name: DoSolicitud
+ */
 public class DaoSolicitud extends Dao<Solicitud> {
 
     private EntityManager _em;
@@ -17,6 +19,12 @@ public class DaoSolicitud extends Dao<Solicitud> {
         super( _handler);
     }
 
+    /**
+     * Name: solicitudesCliente
+     * Description: lista las solicitudes de un cliente
+     * @param usuario
+     * @return List<Solicitud>
+     */
     public List<Solicitud> solicitudesCliente(Usuario usuario){
         _em = _handler.getSession();
         List<Solicitud> resultado = null;
@@ -35,6 +43,12 @@ public class DaoSolicitud extends Dao<Solicitud> {
         return resultado;
     }
 
+    /**
+     * Name: solicitudesSegunEstado
+     * Description: Lista las solicitudessegun el estado solicitado
+     * @param estado
+     * @return List<Solicitud>
+     **/
     public List<Solicitud> solicitudesSegunEstado(String estado){
         _em = _handler.getSession();
         List<Solicitud> resultado = null;

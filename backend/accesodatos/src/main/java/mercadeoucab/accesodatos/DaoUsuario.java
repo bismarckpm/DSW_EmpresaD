@@ -6,6 +6,9 @@ import javax.persistence.EntityManager;
 import javax.persistence.TypedQuery;
 import java.util.List;
 
+/**
+ * Name: DaoUsuario
+ */
 public class DaoUsuario extends Dao<Usuario> {
 
     private EntityManager _em;
@@ -15,6 +18,12 @@ public class DaoUsuario extends Dao<Usuario> {
         super( _handler);
     }
 
+    /**
+     * Name: obtenerUsuarioPorCorreo
+     * Description: Obtiene un usuario segun su correo en la BD
+     * @param correo
+     * @return Usuario
+     */
     public  Usuario obtenerUsuarioPorCorreo( String correo){
         Usuario resultado = new Usuario();
         _em = _handler.getSession();
@@ -33,6 +42,11 @@ public class DaoUsuario extends Dao<Usuario> {
         return resultado;
     }
 
+    /**
+     * Name: ListarAnalistas
+     * Description: Lista los analistas
+     * @return List<Usuario>
+     */
     public List<Usuario> listarAnalistas(){
         List<Usuario> resultado = null;
         _em = _handler.getSession();

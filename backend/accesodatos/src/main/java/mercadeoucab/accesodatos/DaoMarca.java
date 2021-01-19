@@ -4,6 +4,9 @@ import mercadeoucab.entidades.Marca;
 
 import javax.persistence.EntityManager;
 
+/**
+ * Name: DaoMarca
+ */
 public class DaoMarca extends Dao<Marca>{
 
     private EntityManager _em;

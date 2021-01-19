@@ -9,6 +9,9 @@ import java.time.LocalDate;
 import java.time.Period;
 import java.util.List;
 
+/**
+ * Name: DaoEstudio
+ */
 public class DaoEstudio extends Dao<Estudio>{
 
     private EntityManager _em;
@@ -19,6 +22,12 @@ public class DaoEstudio extends Dao<Estudio>{
         super( _handler );
     }
 
+    /**
+     * Name: estudiosAnalista
+     * Description: retorna los estudios asignados a un analista
+     * @param usuario
+     * @return List<Estudio>
+     */
     public List<Estudio> estudiosAnalista(Usuario usuario){
         _em = _handler.getSession();
         List<Estudio> resultado = null;
@@ -37,6 +46,12 @@ public class DaoEstudio extends Dao<Estudio>{
         return resultado;
     }
 
+    /**
+     * Name: estudiosAplicanUsuario
+     * Description: Retorna todos los estudios a los que aplica un usuario
+     * @param datoEncuestado
+     * @return List<Estudio>
+     */
     public List<Estudio> estudiosAplicanUsuario(DatoEncuestado datoEncuestado){
         _em = _handler.getSession();
         List<Estudio> resultado = null;
@@ -64,6 +79,12 @@ public class DaoEstudio extends Dao<Estudio>{
 
     }
 
+    /**
+     * Name: personasAplicanEstudio
+     * Description: Retorna las personas que aplican a un estudio
+     * @param estudio
+     * @return List<Usuario>
+     */
     public List<Usuario> personasAplicanEstudio(Estudio estudio){
         _em = _handler.getSession();
         List<Usuario> resultado = null;
@@ -90,6 +111,12 @@ public class DaoEstudio extends Dao<Estudio>{
         return resultado;
     }
 
+    /**
+     * Name: preguntasSimilares
+     * Description: Lista las preguntas similares que se puedan recomendar a un estudio
+     * @param solicitud
+     * @return List<Estudio>
+     */
     public  List<Estudio> preguntasSimilares(Solicitud solicitud){
         _em = _handler.getSession();
         List<Estudio> resultado = null;
@@ -111,6 +138,12 @@ public class DaoEstudio extends Dao<Estudio>{
         return  resultado;
     }
 
+    /**
+     * Name: poblacionesSimilares
+     * Description: lista las poblaciones que fueron objeto de estudio y son similares al estudio actual
+     * @param solicitud
+     * @return
+     */
     public  List<MuestraPoblacion> poblacionesSimilares(Solicitud solicitud){
         _em = _handler.getSession();
         List<MuestraPoblacion> resultado = null;

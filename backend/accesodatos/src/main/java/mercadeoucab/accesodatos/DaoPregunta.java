@@ -7,6 +7,9 @@ import javax.persistence.EntityManager;
 import javax.persistence.TypedQuery;
 import java.util.List;
 
+/**
+ * Name: DaoPregunta
+ */
 public class DaoPregunta extends Dao<Pregunta>{
 
     private EntityManager _em;
@@ -16,6 +19,12 @@ public class DaoPregunta extends Dao<Pregunta>{
         super( _handler);
     }
 
+    /**
+     * Name: obtenerPreguntasAdministrador
+     * Description: lista las preguntas creadas por un administrador
+     * @param usuario
+     * @return List<Pregunta>
+     */
     public List<Pregunta> obtenerPreguntasAdministrador(Usuario usuario){
         List<Pregunta> resultado =null;
         _em = _handler.getSession();

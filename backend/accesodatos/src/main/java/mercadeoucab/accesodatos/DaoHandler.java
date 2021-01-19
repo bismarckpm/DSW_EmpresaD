@@ -6,6 +6,9 @@ import javax.persistence.EntityTransaction;
 import javax.persistence.Persistence;
 import javax.persistence.PersistenceException;
 
+/**
+ * Name: DaoHandler
+ */
 public class DaoHandler
 {
     private static EntityManagerFactory _emf;
@@ -41,7 +44,9 @@ public class DaoHandler
     }
 
     /**
-     * @return
+     * Name: EntityManager
+     *
+     * @return _em
      */
     public EntityManager getSession()
     {
