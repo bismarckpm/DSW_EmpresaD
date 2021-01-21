@@ -2,13 +2,18 @@ package mercadeoucab.fabricas;
 
 import mercadeoucab.dtos.DtoBase;
 import mercadeoucab.entidades.EntidadBase;
+import mercadeoucab.fabricas.Enums.Dtos;
+import mercadeoucab.fabricas.Enums.Entidades;
+import mercadeoucab.fabricas.Enums.Fabricas;
+import mercadeoucab.fabricas.FabricasConcretas.FabricaDtos;
+import mercadeoucab.fabricas.FabricasConcretas.FabricaEntidades;
 
 /**
  * Name: FabricaAbstracta
  */
 public abstract class FabricaAbstracta {
-    private static final EntityFactory ENTITY_FACTORY = new EntityFactory();
-    private static final DtosFactory DTOS_FACTORY = new DtosFactory();
+    private static final FabricaEntidades ENTITY_FACTORY = new FabricaEntidades();
+    private static final FabricaDtos DTOS_FACTORY = new FabricaDtos();
 
     /**
      * Name: getFactory
@@ -33,7 +38,7 @@ public abstract class FabricaAbstracta {
      * Name: generarEntidad
      * Description: Crea una entidad
      * @param entidad
-     * @return
+     * @return EntidadBase
      */
     public abstract EntidadBase generarEntidad(Entidades entidad);
 
@@ -41,7 +46,7 @@ public abstract class FabricaAbstracta {
      * Name: DtoBase
      * Description: Genera un Dto
      * @param dtos
-     * @return
+     * @return DtoBase
      */
     public abstract DtoBase generarDto(Dtos dtos);
 }

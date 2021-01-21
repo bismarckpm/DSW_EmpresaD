@@ -1,18 +1,21 @@
-package mercadeoucab.fabricas;
+package mercadeoucab.fabricas.FabricasConcretas;
 
 import mercadeoucab.dtos.*;
 import mercadeoucab.entidades.EntidadBase;
+import mercadeoucab.fabricas.Enums.Dtos;
+import mercadeoucab.fabricas.Enums.Entidades;
+import mercadeoucab.fabricas.FabricaAbstracta;
 
 /**
  * Name: DtosFactory
  */
-public class DtosFactory extends FabricaAbstracta{
+public class FabricaDtos extends FabricaAbstracta {
 
     /**
      * Name: generarEntidad
      * Description: Crea una entidad
      * @param entidad
-     * @return
+     * @return null
      */
     @Override
     public EntidadBase generarEntidad(Entidades entidad) {
@@ -22,7 +25,7 @@ public class DtosFactory extends FabricaAbstracta{
      * Name: DtoBase
      * Description: Genera un Dto
      * @param dtos
-     * @return
+     * @return fabricado
      */
     @Override
     public DtoBase generarDto(Dtos dtos) {

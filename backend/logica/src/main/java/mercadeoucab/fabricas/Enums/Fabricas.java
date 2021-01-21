@@ -1,4 +1,4 @@
-package mercadeoucab.fabricas;
+package mercadeoucab.fabricas.Enums;
 
 public enum Fabricas {
     ENTIDADES, DTOS
