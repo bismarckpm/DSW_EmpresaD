@@ -5,6 +5,14 @@ import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 import java.util.Properties;
 
+/**
+ * La clase Mail se usa para manejar
+ * todo lo relacionado a enviar correos electronicos
+ *
+ * @author  OscarM04
+ * @version 1.0
+ * @since   2020-12-18
+ */
 public class Mail {
 
     private final Properties properties = new Properties();
@@ -29,6 +37,14 @@ public class Mail {
         });
     }
 
+    /**
+     * Este metodo es usado para preparar todos los datos
+     * necesarios para enviar un mensaje
+     * @param correoReceptor Receptor del mensaje
+     * @param mensajeParaEnviar  Contenido del mensaje
+     * @param asunto Asunto del mensaje
+     * @return Message Retorna el mensaje preparado para enviar
+     */
     public Message prepararMensaje(
             String correoReceptor,
             String mensajeParaEnviar,
@@ -45,6 +61,16 @@ public class Mail {
         }
         return mensaje;
     }
+
+    /**
+     * Este metodo es usado para enviar un correo electronico
+     *
+     * @param correoReceptor Correo receptor del mensaje
+     * @param mensaje  Contenido del mensaje
+     * @param asunto Asunto del mensaje
+     * @return Boolean Retorna verdadero si se envio el mensaje o
+     *          falso si ocurrio algun error al enviarse
+     */
     public Boolean enviarCorreo(
             String correoReceptor,
             String mensaje,
