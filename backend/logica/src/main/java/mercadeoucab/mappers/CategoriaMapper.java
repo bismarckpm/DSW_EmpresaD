@@ -2,11 +2,15 @@ package mercadeoucab.mappers;
 
 import mercadeoucab.dtos.DtoCategoria;
 import mercadeoucab.entidades.Categoria;
+import mercadeoucab.fabricas.Enums.Fabricas;
+import mercadeoucab.fabricas.FabricaAbstracta;
+
 
 public class CategoriaMapper {
 
     public static Categoria mapDtotoEntity(DtoCategoria dto){
-        Categoria entity = new Categoria();
+        FabricaAbstracta fabrica = FabricaAbstracta.getFactory(Fabricas.CATEGORIA);
+        Categoria entity = (Categoria) fabrica.generarEntidad();
         entity.set_id( dto.get_id() );
         entity.setNombre( dto.getNombre() );
         entity.setActivo( dto.getActivo() );
