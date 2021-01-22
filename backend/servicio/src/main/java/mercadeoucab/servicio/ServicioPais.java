@@ -3,6 +3,8 @@ package mercadeoucab.servicio;
 import mercadeoucab.accesodatos.DaoPais;
 import mercadeoucab.dtos.DtoPais;
 import mercadeoucab.entidades.Pais;
+import mercadeoucab.mappers.PaisMapper;
+import mercadeoucab.responses.ResponsePais;
 
 import javax.json.Json;
 import javax.json.JsonArrayBuilder;
@@ -31,10 +33,9 @@ public class ServicioPais extends AplicacionBase{
 
             for (Pais pais: paisesObtenidos){
                 if (pais.getActivo()!= 0){
-                    JsonObject objeto = Json.createObjectBuilder()
-                                            .add("_id", pais.get_id())
-                                            .add("nombre", pais.getNombre())
-                                            .build();
+                    ResponsePais responsePais = new ResponsePais();
+                    DtoPais dtoPais = PaisMapper.mapEntityToDto( pais);
+                    JsonObject objeto = responsePais.generate( dtoPais);
                     paises.add( objeto);
                 }
             }
@@ -62,16 +63,14 @@ public class ServicioPais extends AplicacionBase{
     @Path("/{id}")
     public Response obtenerPais(@PathParam("id") long id){
         JsonObject data;
-        JsonObject pais;
         Response resultado = null;
         try{
             DaoPais dao = new DaoPais();
             Pais resul = dao.find(id, Pais.class);
             if ( resul.getActivo() != 0){
-                pais = Json.createObjectBuilder()
-                        .add("_id", resul.get_id())
-                        .add("nombre", resul.getNombre())
-                        .build();
+                ResponsePais responsePais = new ResponsePais();
+                DtoPais dtoPais = PaisMapper.mapEntityToDto( resul);
+                JsonObject pais = responsePais.generate( dtoPais);
                 data = Json.createObjectBuilder()
                         .add("status", 200)
                         .add("data", pais)

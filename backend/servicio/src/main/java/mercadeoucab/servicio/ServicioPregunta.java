@@ -5,6 +5,8 @@ import mercadeoucab.dtos.DtoOcupacion;
 import mercadeoucab.dtos.DtoOpcion;
 import mercadeoucab.dtos.DtoPregunta;
 import mercadeoucab.entidades.*;
+import mercadeoucab.mappers.PreguntaMapper;
+import mercadeoucab.responses.ResponsePregunta;
 
 import javax.json.Json;
 import javax.json.JsonArrayBuilder;
@@ -37,102 +39,22 @@ public class ServicioPregunta extends AplicacionBase{
                     if(pregunta.getActivo() == 1) {
                         String tipo = pregunta.getTipo();
                         JsonObject objeto = null;
-                        JsonArrayBuilder opcionesList = null;
-
+                        ResponsePregunta responsePregunta = new ResponsePregunta();
+                        DtoPregunta dtoPregunta = PreguntaMapper.mapEntityToDto( pregunta);
                         switch (tipo) {
                             case "abierta":
-                                objeto = Json.createObjectBuilder()
-                                        .add("pregunta", Json.createObjectBuilder()
-                                                .add("_id", pregunta.get_id())
-                                                .add("nombre", pregunta.getNombrePregunta())
-                                                .add("tipo", pregunta.getTipo()))
-                                        .add("usuario", Json.createObjectBuilder()
-                                                .add("_id", pregunta.getUsuario().get_id())
-                                                .add("nombre", pregunta.getUsuario().getNombre())
-                                                .add("apellido", pregunta.getUsuario().getApellido())
-                                                .add("correo", pregunta.getUsuario().getCorreo())
-                                                .add("rol", pregunta.getUsuario().getRol()))
-                                        .build();
+                            case "boolean":
+                                objeto = responsePregunta.generate( dtoPregunta);
                                 preguntaslist.add(objeto);
                                 break;
 
                             case "multiple":
-                                opcionesList = Json.createArrayBuilder();
-                                for (Opcion opcion : pregunta.getOpciones()) {
-                                    JsonObject option = Json.createObjectBuilder()
-                                            .add("_id", opcion.get_id())
-                                            .add("nombre_opcion", opcion.getNombre_opcion())
-                                            .build();
-                                    opcionesList.add(option);
-                                }
-                                objeto = Json.createObjectBuilder()
-                                        .add("pregunta", Json.createObjectBuilder()
-                                                .add("_id", pregunta.get_id())
-                                                .add("nombre", pregunta.getNombrePregunta())
-                                                .add("tipo", pregunta.getTipo())
-                                                .add("opciones", opcionesList))
-                                        .add("usuario", Json.createObjectBuilder()
-                                                .add("_id", pregunta.getUsuario().get_id())
-                                                .add("nombre", pregunta.getUsuario().getNombre())
-                                                .add("apellido", pregunta.getUsuario().getApellido())
-                                                .add("correo", pregunta.getUsuario().getCorreo())
-                                                .add("rol", pregunta.getUsuario().getRol()))
-                                        .build();
-                                preguntaslist.add(objeto);
-                                break;
                             case "simple":
-                                opcionesList = Json.createArrayBuilder();
-                                for (Opcion opcion : pregunta.getOpciones()) {
-                                    JsonObject option = Json.createObjectBuilder()
-                                            .add("_id", opcion.get_id())
-                                            .add("nombre_nombre", opcion.getNombre_opcion())
-                                            .build();
-                                    opcionesList.add(option);
-                                }
-                                objeto = Json.createObjectBuilder()
-                                        .add("pregunta", Json.createObjectBuilder()
-                                                .add("_id", pregunta.get_id())
-                                                .add("nombre", pregunta.getNombrePregunta())
-                                                .add("tipo", pregunta.getTipo())
-                                                .add("opciones", opcionesList))
-                                        .add("usuario", Json.createObjectBuilder()
-                                                .add("_id", pregunta.getUsuario().get_id())
-                                                .add("nombre", pregunta.getUsuario().getNombre())
-                                                .add("apellido", pregunta.getUsuario().getApellido())
-                                                .add("correo", pregunta.getUsuario().getCorreo())
-                                                .add("rol", pregunta.getUsuario().getRol()))
-                                        .build();
-                                preguntaslist.add(objeto);
-                                break;
-                            case "boolean":
-                                objeto = Json.createObjectBuilder()
-                                        .add("pregunta", Json.createObjectBuilder()
-                                                .add("_id", pregunta.get_id())
-                                                .add("nombre", pregunta.getNombrePregunta())
-                                                .add("tipo", pregunta.getTipo()))
-                                        .add("usuario", Json.createObjectBuilder()
-                                                .add("_id", pregunta.getUsuario().get_id())
-                                                .add("nombre", pregunta.getUsuario().getNombre())
-                                                .add("apellido", pregunta.getUsuario().getApellido())
-                                                .add("correo", pregunta.getUsuario().getCorreo())
-                                                .add("rol", pregunta.getUsuario().getRol()))
-                                        .build();
+                                objeto = responsePregunta.generateWithOptions( dtoPregunta);
                                 preguntaslist.add(objeto);
                                 break;
                             case "rango":
-                                objeto = Json.createObjectBuilder()
-                                        .add("pregunta", Json.createObjectBuilder()
-                                                .add("_id", pregunta.get_id())
-                                                .add("nombre", pregunta.getNombrePregunta())
-                                                .add("tipo", pregunta.getTipo())
-                                                .add("rango", pregunta.getRango()))
-                                        .add("usuario", Json.createObjectBuilder()
-                                                .add("_id", pregunta.getUsuario().get_id())
-                                                .add("nombre", pregunta.getUsuario().getNombre())
-                                                .add("apellido", pregunta.getUsuario().getApellido())
-                                                .add("correo", pregunta.getUsuario().getCorreo())
-                                                .add("rol", pregunta.getUsuario().getRol()))
-                                        .build();
+                                objeto =responsePregunta.generateWithRango( dtoPregunta);
                                 preguntaslist.add(objeto);
                                 break;
                         }//final switch

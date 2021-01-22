@@ -4,6 +4,8 @@ import mercadeoucab.accesodatos.DaoDatoEncuestado;
 import mercadeoucab.accesodatos.DaoUsuario;
 import mercadeoucab.dtos.*;
 import mercadeoucab.entidades.*;
+import mercadeoucab.mappers.DatoEncuestadoMapper;
+import mercadeoucab.responses.ResponseDatoEncuestado;
 
 import javax.json.Json;
 import javax.json.JsonArrayBuilder;
@@ -33,80 +35,9 @@ public class ServicioDatoEncuestado extends AplicacionBase{
             List<DatoEncuestado> datosEncuestadosObtenidos = dao.findAll( DatoEncuestado.class);
             for (DatoEncuestado datoEncuestado: datosEncuestadosObtenidos){
                 if ( datoEncuestado.getActivo() != 0 ){
-                    LocalDate ahora = LocalDate.now();
-                    JsonArrayBuilder listaTelefonos = Json.createArrayBuilder();
-                    JsonArrayBuilder listaHijos = Json.createArrayBuilder();
-                    for (Telefono telefono: datoEncuestado.getTelefonos()){
-                        JsonObject objetoTelefono = Json.createObjectBuilder()
-                                                        .add("_id", telefono.get_id())
-                                                        .add("telefono", telefono.getTelefono())
-                                                        .build();
-                        listaTelefonos.add(objetoTelefono);
-                    }
-                    for (Hijo hijo: datoEncuestado.getHijos()){
-                        Period periodoHijo = Period.between( hijo.getEdad().toLocalDate(),ahora);
-                        JsonObject objetoHijo = Json.createObjectBuilder()
-                                                    .add("_id", hijo.get_id())
-                                                    .add("genero", hijo.getGenero())
-                                                    .add("edad", periodoHijo.getYears())
-                                                    .build();
-                        listaHijos.add(objetoHijo);
-                    }
-                    Ocupacion ocupacion = datoEncuestado.getOcupacion();
-                    JsonObject objetoOcupacion = Json.createObjectBuilder()
-                                                        .add("_id", ocupacion.get_id())
-                                                        .add("nombre", ocupacion.getNombre())
-                                                        .build();
-                    Usuario usuario = datoEncuestado.getUsuario();
-                    JsonObject objetoUsuario = Json.createObjectBuilder()
-                            .add("_id", usuario.get_id())
-                            .add("nombre", usuario.getNombre())
-                            .add("apellido", usuario.getApellido())
-                            .add("rol", usuario.getRol())
-                            .add("estado", usuario.getEstado())
-                            .add("correo", usuario.getCorreo())
-                            .build();
-                    Parroquia parroquia = datoEncuestado.getFk_lugar();
-                    Municipio municipio = parroquia.getFk_municipio();
-                    Estado estado = municipio.getFk_estado();
-                    JsonObject objetoPais = Json.createObjectBuilder()
-                            .add("_id", estado.getFk_pais().get_id())
-                            .add("nombre", estado.getFk_pais().getNombre())
-                            .build();
-                    JsonObject objetoEstado = Json.createObjectBuilder()
-                            .add("_id", estado.get_id())
-                            .add("nombre", estado.getNombre())
-                            .add("pais", objetoPais)
-                            .build();
-                    JsonObject objetoMunicipio = Json.createObjectBuilder()
-                            .add("_id", municipio.get_id())
-                            .add("nombre",municipio.getNombre())
-                            .add("estado", objetoEstado)
-                            .build();
-                    JsonObject objetoParroquia = Json.createObjectBuilder()
-                            .add("_id", parroquia.get_id())
-                            .add("nombre",parroquia.getNombre())
-                            .add("valorSocioEconomico", parroquia.getValor_socio_economico())
-                            .add("municipio", objetoMunicipio)
-                            .build();
-                    Period periodo = Period.between( datoEncuestado.getEdad().toLocalDate(),ahora);
-                    JsonObject objeto = Json.createObjectBuilder()
-                                            .add("_id", datoEncuestado.get_id())
-                                            .add("segundoNombre", datoEncuestado.getSegundoNombre())
-                                            .add("segundoApellido", datoEncuestado.getSegundoapellido())
-                                            .add("cedula", datoEncuestado.getCedula())
-                                            .add("medioConexion", datoEncuestado.getMedioConexion())
-                                            .add("edad", periodo.getYears())
-                                            .add("genero", datoEncuestado.getGenero())
-                                            .add("nivelEconomico", datoEncuestado.getNive_economico())
-                                            .add("nivelAcademico", datoEncuestado.getNivelAcademico())
-                                            .add("personasHogar", datoEncuestado.getPersonasHogar())
-                                            .add("ocupacion", objetoOcupacion)
-                                            .add("parroquia", objetoParroquia)
-                                            .add("usuario", objetoUsuario)
-                                            .add("hijos", listaHijos)
-                                            .add("telefonos", listaTelefonos)
-                                            .build();
+                    ResponseDatoEncuestado responseDatoEncuestado = new ResponseDatoEncuestado();
+                    DtoDatoEncuestado dtoDatoEncuestado = DatoEncuestadoMapper.mapEntitytoDto( datoEncuestado);
+                    JsonObject objeto = responseDatoEncuestado.generate( dtoDatoEncuestado);
                     datoEncuestados.add( objeto);
                 }
             }
@@ -202,80 +133,9 @@ public class ServicioDatoEncuestado extends AplicacionBase{
             DaoDatoEncuestado dao = new DaoDatoEncuestado();
             DatoEncuestado resul = dao.find(id, DatoEncuestado.class);
             if ( resul.getActivo() !=0 ){
-                LocalDate ahora = LocalDate.now();
-                JsonArrayBuilder listaTelefonos = Json.createArrayBuilder();
-                JsonArrayBuilder listaHijos = Json.createArrayBuilder();
-                for (Telefono telefono: resul.getTelefonos()){
-                    JsonObject objetoTelefono = Json.createObjectBuilder()
-                            .add("_id", telefono.get_id())
-                            .add("telefono", telefono.getTelefono())
-                            .build();
-                    listaTelefonos.add(objetoTelefono);
-                }
-                for (Hijo hijo: resul.getHijos()){
-                    Period periodoHijo = Period.between( hijo.getEdad().toLocalDate(),ahora);
-                    JsonObject objetoHijo = Json.createObjectBuilder()
-                            .add("_id", hijo.get_id())
-                            .add("genero", hijo.getGenero())
-                            .add("edad", periodoHijo.getYears())
-                            .build();
-                    listaHijos.add(objetoHijo);
-                }
-                Ocupacion ocupacion = resul.getOcupacion();
-                JsonObject objetoOcupacion = Json.createObjectBuilder()
-                        .add("_id", ocupacion.get_id())
-                        .add("nombre", ocupacion.getNombre())
-                        .build();
-                Usuario usuario = resul.getUsuario();
-                JsonObject objetoUsuario = Json.createObjectBuilder()
-                        .add("_id", usuario.get_id())
-                        .add("nombre", usuario.getNombre())
-                        .add("apellido", usuario.getApellido())
-                        .add("rol", usuario.getRol())
-                        .add("estado", usuario.getEstado())
-                        .add("correo", usuario.getCorreo())
-                        .build();
-                Parroquia parroquia = resul.getFk_lugar();
-                Municipio municipio = parroquia.getFk_municipio();
-                Estado estado = municipio.getFk_estado();
-                JsonObject objetoPais = Json.createObjectBuilder()
-                        .add("_id", estado.getFk_pais().get_id())
-                        .add("nombre", estado.getFk_pais().getNombre())
-                        .build();
-                JsonObject objetoEstado = Json.createObjectBuilder()
-                        .add("_id", estado.get_id())
-                        .add("nombre", estado.getNombre())
-                        .add("pais", objetoPais)
-                        .build();
-                JsonObject objetoMunicipio = Json.createObjectBuilder()
-                        .add("_id", municipio.get_id())
-                        .add("nombre",municipio.getNombre())
-                        .add("estado", objetoEstado)
-                        .build();
-                JsonObject objetoParroquia = Json.createObjectBuilder()
-                        .add("_id", parroquia.get_id())
-                        .add("nombre",parroquia.getNombre())
-                        .add("valorSocioEconomico", parroquia.getValor_socio_economico())
-                        .add("municipio", objetoMunicipio)
-                        .build();
-                Period periodo = Period.between( resul.getEdad().toLocalDate(),ahora);
-                JsonObject objeto = Json.createObjectBuilder()
-                        .add("_id", resul.get_id())
-                        .add("segundoNombre", resul.getSegundoNombre())
-                        .add("segundoApellido", resul.getSegundoapellido())
-                        .add("cedula", resul.getCedula())
-                        .add("medioConexion", resul.getMedioConexion())
-                        .add("edad", periodo.getYears())
-                        .add("genero", resul.getGenero())
-                        .add("nivelEconomico", resul.getNive_economico())
-                        .add("nivelAcademico", resul.getNivelAcademico())
-                        .add("personasHogar", resul.getPersonasHogar())
-                        .add("ocupacion", objetoOcupacion)
-                        .add("parroquia", objetoParroquia)
-                        .add("usuario", objetoUsuario)
-                        .add("hijos", listaHijos)
-                        .add("telefonos", listaTelefonos)
-                        .build();
+                ResponseDatoEncuestado responseDatoEncuestado = new ResponseDatoEncuestado();
+                DtoDatoEncuestado dtoDatoEncuestado = DatoEncuestadoMapper.mapEntitytoDto( resul);
+                JsonObject objeto = responseDatoEncuestado.generate( dtoDatoEncuestado);
                 data = Json.createObjectBuilder()
                         .add("status", 200)
                         .add("data", objeto)

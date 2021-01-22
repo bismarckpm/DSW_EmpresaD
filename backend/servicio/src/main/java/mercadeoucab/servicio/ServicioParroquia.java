@@ -1,17 +1,16 @@
 package mercadeoucab.servicio;
 
-import mercadeoucab.accesodatos.DaoMunicipio;
 import mercadeoucab.accesodatos.DaoParroquia;
-import mercadeoucab.dtos.DtoMunicipio;
 import mercadeoucab.dtos.DtoParroquia;
 import mercadeoucab.entidades.Estado;
 import mercadeoucab.entidades.Municipio;
 import mercadeoucab.entidades.Parroquia;
+import mercadeoucab.mappers.ParroquiaMapper;
+import mercadeoucab.responses.ResponseParroquia;
 
 import javax.json.Json;
 import javax.json.JsonArrayBuilder;
 import javax.json.JsonObject;
-import javax.lang.model.util.ElementScanner6;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
@@ -36,28 +35,9 @@ public class ServicioParroquia {
 
             for( Parroquia parroquia: parroquiasObtenidas){
                 if ( parroquia.getActivo() != 0 ){
-                    Municipio municipio = parroquia.getFk_municipio();
-                    Estado estado = municipio.getFk_estado();
-                    JsonObject objetoPais = Json.createObjectBuilder()
-                            .add("_id", estado.getFk_pais().get_id())
-                            .add("nombre", estado.getFk_pais().getNombre())
-                            .build();
-                    JsonObject objetoEstado = Json.createObjectBuilder()
-                            .add("_id", estado.get_id())
-                            .add("nombre", estado.getNombre())
-                            .add("pais", objetoPais)
-                            .build();
-                    JsonObject objetoMunicipio = Json.createObjectBuilder()
-                            .add("_id", municipio.get_id())
-                            .add("nombre",municipio.getNombre())
-                            .add("estado", objetoEstado)
-                            .build();
-                    JsonObject objeto = Json.createObjectBuilder()
-                            .add("_id", parroquia.get_id())
-                            .add("nombre",parroquia.getNombre())
-                            .add("valorSocioEconomico", parroquia.getValor_socio_economico())
-                            .add("municipio", objetoMunicipio)
-                            .build();
+                    ResponseParroquia responseParroquia = new ResponseParroquia();
+                    DtoParroquia dtoParroquia = ParroquiaMapper.mapEntityToDto( parroquia);
+                    JsonObject objeto = responseParroquia.generate( dtoParroquia);
                     parroquias.add( objeto);
                 }
             }
@@ -126,28 +106,9 @@ public class ServicioParroquia {
             DaoParroquia dao = new DaoParroquia();
             Parroquia resul = dao.find(id ,Parroquia.class);
             if ( resul.getActivo()!= 0 ){
-                Municipio municipio = resul.getFk_municipio();
-                Estado estado = municipio.getFk_estado();
-                JsonObject objetoPais = Json.createObjectBuilder()
-                        .add("_id", estado.getFk_pais().get_id())
-                        .add("nombre", estado.getFk_pais().getNombre())
-                        .build();
-                JsonObject objetoEstado = Json.createObjectBuilder()
-                        .add("_id", estado.get_id())
-                        .add("nombre", estado.getNombre())
-                        .add("pais", objetoPais)
-                        .build();
-                JsonObject objetoMunicipio = Json.createObjectBuilder()
-                        .add("_id", municipio.get_id())
-                        .add("nombre",municipio.getNombre())
-                        .add("estado", objetoEstado)
-                        .build();
-                parroquia = Json.createObjectBuilder()
-                        .add("_id", resul.get_id())
-                        .add("nombre",resul.getNombre())
-                        .add("valorSocioEconomico", resul.getValor_socio_economico())
-                        .add("municipio", objetoMunicipio)
-                        .build();
+                ResponseParroquia responseParroquia = new ResponseParroquia();
+                DtoParroquia dtoParroquia = ParroquiaMapper.mapEntityToDto( resul);
+                parroquia = responseParroquia.generate( dtoParroquia);
                 data = Json.createObjectBuilder()
                         .add("status", 200)
                         .add("data", parroquia)

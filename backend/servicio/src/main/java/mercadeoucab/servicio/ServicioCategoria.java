@@ -3,6 +3,8 @@ package mercadeoucab.servicio;
 import mercadeoucab.accesodatos.DaoCategoria;
 import mercadeoucab.dtos.DtoCategoria;
 import mercadeoucab.entidades.Categoria;
+import mercadeoucab.mappers.CategoriaMapper;
+import mercadeoucab.responses.ResponseCategoria;
 
 import javax.json.Json;
 import javax.json.JsonArrayBuilder;
@@ -32,10 +34,9 @@ public class ServicioCategoria extends AplicacionBase{
             List<Categoria> categorias = dao.findAll(Categoria.class);
             for (Categoria categoria: categorias){
                 if (categoria.getActivo() == 1){
-                    JsonObject objeto = Json.createObjectBuilder()
-                                            .add("_id", categoria.get_id())
-                                            .add("nombre", categoria.getNombre())
-                                            .build();
+                    ResponseCategoria responseCategoria = new ResponseCategoria();
+                    DtoCategoria dtoCategoria = CategoriaMapper.mapEntitytoDto( categoria);
+                    JsonObject objeto = responseCategoria.generate( dtoCategoria);
                     categoriasList.add(objeto);}
                 }
                 data = Json.createObjectBuilder()
@@ -90,15 +91,13 @@ public class ServicioCategoria extends AplicacionBase{
     @Path("/{id}")
     public Response consultarCategoria(@PathParam("id") long id){
         JsonObject data;
-        JsonObject categoria;
         Response resultado = null;
         try {
             DaoCategoria dao = new DaoCategoria();
             Categoria resul = dao.find(id, Categoria.class);
-            categoria = Json.createObjectBuilder()
-                            .add("_id", resul.get_id())
-                            .add("nombre", resul.getNombre())
-                            .build();
+            ResponseCategoria responseCategoria = new ResponseCategoria();
+            DtoCategoria dtoCategoria = CategoriaMapper.mapEntitytoDto( resul);
+            JsonObject categoria = responseCategoria.generate( dtoCategoria);
             data = Json.createObjectBuilder()
                         .add("status", 200)
                         .add("data", categoria)

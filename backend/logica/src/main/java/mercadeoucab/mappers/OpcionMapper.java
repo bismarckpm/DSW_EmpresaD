@@ -1,6 +1,7 @@
 package mercadeoucab.mappers;
 
 import mercadeoucab.dtos.DtoOpcion;
+import mercadeoucab.dtos.DtoPregunta;
 import mercadeoucab.entidades.Opcion;
 
 import java.util.Objects;
@@ -26,8 +27,6 @@ public class OpcionMapper {
         dto.setModificado_el(entity.getModificado_el());
         dto.setActivo(entity.getActivo());
         dto.setNombre_opcion(entity.getNombre_opcion());
-        if(Objects.nonNull(entity.getFk_pregunta()))
-            dto.set_Dtopregunta(PreguntaMapper.mapEntityToDto(entity.getFk_pregunta()));
         return dto;
     }
 }

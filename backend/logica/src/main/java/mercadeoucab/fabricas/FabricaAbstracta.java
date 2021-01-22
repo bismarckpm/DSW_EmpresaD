@@ -1,5 +1,6 @@
 package mercadeoucab.fabricas;
 
+
 import mercadeoucab.dtos.DtoBase;
 import mercadeoucab.entidades.EntidadBase;
 import mercadeoucab.fabricas.Enums.Dtos;

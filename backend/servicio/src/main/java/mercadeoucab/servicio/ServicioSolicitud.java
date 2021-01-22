@@ -8,6 +8,8 @@ import mercadeoucab.dtos.DtoSolicitud;
 import mercadeoucab.dtos.DtoSubCategoria;
 import mercadeoucab.dtos.DtoTipo;
 import mercadeoucab.entidades.*;
+import mercadeoucab.mappers.SolicitudMapper;
+import mercadeoucab.responses.ResponseSolicitud;
 
 import javax.json.Json;
 import javax.json.JsonArrayBuilder;
@@ -28,58 +30,14 @@ public class ServicioSolicitud extends AplicacionBase{
     @Path("/{id}")
     public Response obtenerSolicitud(@PathParam("id") Long id){
         JsonObject data;
-        JsonObject solicitud;
         Response resultado = null;
         try{
             DaoSolicitud dao = new DaoSolicitud();
             Solicitud resul = dao.find( id, Solicitud.class);
 
-            JsonArrayBuilder tiposList = Json.createArrayBuilder();
-            for(Tipo tipo: resul.getTipos()){
-                JsonObject objecto = Json.createObjectBuilder()
-                                         .add("_id", tipo.get_id())
-                                         .add("nombre", tipo.getNombre())
-                                         .build();
-                tiposList.add(objecto);
-            }
-
-            JsonArrayBuilder presentacionlist = Json.createArrayBuilder();
-            for(Presentacion presentacion: resul.getPresentaciones()){
-                JsonObject objecto = Json.createObjectBuilder()
-                        .add("_id", presentacion.get_id())
-                        .add("tipo", presentacion.getTipo())
-                        .add("Cantidad",presentacion.getCantidad())
-                        .build();
-                presentacionlist.add(objecto);
-            }
-
-            JsonArrayBuilder subCategoriaslist = Json.createArrayBuilder();
-            for(SubCategoria subCategoria: resul.getSubCategorias()){
-                JsonObject objecto = Json.createObjectBuilder()
-                        .add("_id", subCategoria.get_id())
-                        .add("nombre", subCategoria.getNombre())
-                        .add("categoria",Json.createObjectBuilder()
-                                                .add("_id", subCategoria.getCategoria().get_id())
-                                                .add("nombre", subCategoria.getCategoria().getNombre()))
-                        .build();
-                subCategoriaslist.add(objecto);
-            }
-            solicitud = Json.createObjectBuilder()
-                            .add("_id", resul.get_id())
-                            .add("estado",resul.getEstado())
-                            .add("usuario",Json.createObjectBuilder()
-                                                    .add("_id",resul.getUsuario().get_id())
-                                                    .add("nombre",resul.getUsuario().getNombre())
-                                                    .add("apellido", resul.getUsuario().getApellido())
-                                                    .add("rol", resul.getUsuario().getRol())
-                                                    .add("correo", resul.getUsuario().getCorreo()))
-                            .add("marca",Json.createObjectBuilder()
-                                                .add("_id",resul.getMarca().get_id())
-                                                .add("nombre",resul.getMarca().getNombre()))
-                            .add("tipos", tiposList)
-                            .add("presentaciones", presentacionlist)
-                            .add("subcategorias", subCategoriaslist)
-                            .build();
+            ResponseSolicitud responseSolicitud = new ResponseSolicitud();
+            DtoSolicitud dtoSolicitud = SolicitudMapper.mapEntityToDto( resul);
+            JsonObject solicitud = responseSolicitud.generate( dtoSolicitud);
             data = Json.createObjectBuilder()
                     .add("status", 200)
                     .add("data", solicitud)
@@ -109,54 +67,9 @@ public class ServicioSolicitud extends AplicacionBase{
             List<Solicitud> solicitudes = dao.findAll(Solicitud.class);
             for (Solicitud resul: solicitudes){
                 if(resul.getActivo() == 1){
-
-                    JsonArrayBuilder tiposList = Json.createArrayBuilder();
-                    for(Tipo tipo: resul.getTipos()){
-                        JsonObject objecto = Json.createObjectBuilder()
-                                .add("_id", tipo.get_id())
-                                .add("nombre", tipo.getNombre())
-                                .build();
-                        tiposList.add(objecto);
-                    }
-
-                    JsonArrayBuilder presentacionlist = Json.createArrayBuilder();
-                    for(Presentacion presentacion: resul.getPresentaciones()){
-                        JsonObject objecto = Json.createObjectBuilder()
-                                .add("_id", presentacion.get_id())
-                                .add("tipo", presentacion.getTipo())
-                                .add("Cantidad",presentacion.getCantidad())
-                                .build();
-                        presentacionlist.add(objecto);
-                    }
-
-                    JsonArrayBuilder subCategoriaslist = Json.createArrayBuilder();
-                    for(SubCategoria subCategoria: resul.getSubCategorias()){
-                        JsonObject objecto = Json.createObjectBuilder()
-                                .add("_id", subCategoria.get_id())
-                                .add("nombre", subCategoria.getNombre())
-                                .add("categoria",Json.createObjectBuilder()
-                                        .add("_id", subCategoria.getCategoria().get_id())
-                                        .add("nombre", subCategoria.getCategoria().getNombre()))
-                                .build();
-                        subCategoriaslist.add(objecto);
-                    }
-                    JsonObject object = Json.createObjectBuilder()
-                            .add("_id", resul.get_id())
-                            .add("estado",resul.getEstado())
-                            .add("usuario",Json.createObjectBuilder()
-                                    .add("_id",resul.getUsuario().get_id())
-                                    .add("nombre",resul.getUsuario().getNombre())
-                                    .add("apellido", resul.getUsuario().getApellido())
-                                    .add("rol", resul.getUsuario().getRol())
-                                    .add("correo", resul.getUsuario().getCorreo()))
-                            .add("marca",Json.createObjectBuilder()
-                                    .add("_id",resul.getMarca().get_id())
-                                    .add("nombre",resul.getMarca().getNombre()))
-                            .add("tipos", tiposList)
-                            .add("presentaciones", presentacionlist)
-                            .add("subcategorias", subCategoriaslist)
-                            .build();
-
+                    ResponseSolicitud responseSolicitud = new ResponseSolicitud();
+                    DtoSolicitud dtoSolicitud = SolicitudMapper.mapEntityToDto( resul);
+                    JsonObject object = responseSolicitud.generate( dtoSolicitud);
                     solicitudesList.add(object);
                 }
             } //final for
@@ -278,7 +191,6 @@ public class ServicioSolicitud extends AplicacionBase{
 
     @PUT
     @Path("/{id}/eliminar")
-    // @PathParam("id") Long id
     public Response eliminarSolicitud(@PathParam("id") Long id){
         JsonObject data;
         Response resultado = null;
@@ -325,46 +237,9 @@ public class ServicioSolicitud extends AplicacionBase{
 
                 for (Solicitud resul: solicitudes){
                         if(resul.getActivo() == 1) {
-                            JsonArrayBuilder tiposList = Json.createArrayBuilder();
-                            for (Tipo tipo : resul.getTipos()) {
-                                JsonObject objecto = Json.createObjectBuilder()
-                                        .add("_id", tipo.get_id())
-                                        .add("nombre", tipo.getNombre())
-                                        .build();
-                                tiposList.add(objecto);
-                            }
-
-                            JsonArrayBuilder presentacionlist = Json.createArrayBuilder();
-                            for (Presentacion presentacion : resul.getPresentaciones()) {
-                                JsonObject objecto = Json.createObjectBuilder()
-                                        .add("_id", presentacion.get_id())
-                                        .add("tipo", presentacion.getTipo())
-                                        .add("Cantidad", presentacion.getCantidad())
-                                        .build();
-                                presentacionlist.add(objecto);
-                            }
-
-                            JsonArrayBuilder subCategoriaslist = Json.createArrayBuilder();
-                            for (SubCategoria subCategoria : resul.getSubCategorias()) {
-                                JsonObject objecto = Json.createObjectBuilder()
-                                        .add("_id", subCategoria.get_id())
-                                        .add("nombre", subCategoria.getNombre())
-                                        .add("categoria", Json.createObjectBuilder()
-                                                .add("_id", subCategoria.getCategoria().get_id())
-                                                .add("nombre", subCategoria.getCategoria().getNombre()))
-                                        .build();
-                                subCategoriaslist.add(objecto);
-                            }
-                            JsonObject object = Json.createObjectBuilder()
-                                    .add("_id", resul.get_id())
-                                    .add("estado", resul.getEstado())
-                                    .add("marca", Json.createObjectBuilder()
-                                            .add("_id", resul.getMarca().get_id())
-                                            .add("nombre", resul.getMarca().getNombre()))
-                                    .add("tipos", tiposList)
-                                    .add("presentaciones", presentacionlist)
-                                    .add("subcategorias", subCategoriaslist)
-                                    .build();
+                            ResponseSolicitud responseSolicitud = new ResponseSolicitud();
+                            DtoSolicitud dtoSolicitud = SolicitudMapper.mapEntityToDto( resul);
+                            JsonObject object = responseSolicitud.generate( dtoSolicitud);
                             solicitudesList.add(object);
                         }
                 } //final for

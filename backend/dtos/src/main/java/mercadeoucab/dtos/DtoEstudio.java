@@ -15,6 +15,7 @@ public class DtoEstudio extends DtoBase{
     private DtoMuestraPoblacion fk_muestra_poblacion;
     private List<DtoPregunta> preguntas;
     private DtoSolicitud solicitud;
+    private List<DtoEncuestaEstudio> encuestaEstudio;
 
     /**
      * Name: DtoEstudio
@@ -145,5 +146,18 @@ public class DtoEstudio extends DtoBase{
         this.preguntas = preguntas;
     }
 
-
+    /**
+     * Name: getEncuestaEstudio
+     * @return encuestaEstudio
+     */
+    public List<DtoEncuestaEstudio> getEncuestaEstudio() {
+        return encuestaEstudio;
+    }
+    /**
+     * Name: setEncuestaEstudio
+     * @param encuestaEstudio
+     */
+    public void setEncuestaEstudio(List<DtoEncuestaEstudio> encuestaEstudio) {
+        this.encuestaEstudio = encuestaEstudio;
+    }
 }

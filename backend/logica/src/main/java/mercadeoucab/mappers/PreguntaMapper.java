@@ -47,16 +47,18 @@ public class PreguntaMapper {
         dtoPregunta.setActivo( pregunta.getActivo());
         dtoPregunta.setCreado_el( pregunta.getCreado_el());
         dtoPregunta.setModificado_el( pregunta.getModificado_el());
-        dtoPregunta.setUsuarioDto(
-                UsuarioMapper.mapEntityToDto( pregunta.getUsuario())
-        );
-
-        for (Opcion opcion: pregunta.getOpciones()){
-            dtoPregunta.addOpcion(
-                    OpcionMapper.mapEntitytoDto( opcion)
+        if ( Objects.nonNull( pregunta.getUsuario())) {
+            dtoPregunta.setUsuarioDto(
+                    UsuarioMapper.mapEntityToDto(pregunta.getUsuario())
             );
         }
-
+        if ( Objects.nonNull( pregunta.getOpciones())) {
+            for (Opcion opcion : pregunta.getOpciones()) {
+                dtoPregunta.addOpcion(
+                        OpcionMapper.mapEntitytoDto(opcion)
+                );
+            }
+        }
         return dtoPregunta;
     }
 }
