@@ -4,6 +4,8 @@ import mercadeoucab.dtos.*;
 import mercadeoucab.entidades.DatoEncuestado;
 import mercadeoucab.entidades.Hijo;
 import mercadeoucab.entidades.Telefono;
+import mercadeoucab.fabricas.Enums.Fabricas;
+import mercadeoucab.fabricas.FabricaAbstracta;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -12,7 +14,8 @@ import java.util.Objects;
 public class DatoEncuestadoMapper {
 
     public static DatoEncuestado mapDtotoEntity(DtoDatoEncuestado dto){
-        DatoEncuestado entity = new DatoEncuestado();
+        FabricaAbstracta fabrica = FabricaAbstracta.getFactory(Fabricas.DATOENCUESTADO);
+        DatoEncuestado entity = (DatoEncuestado) fabrica.generarEntidad();
         entity.set_id( dto.get_id() );
         entity.setCreado_el( dto.getCreado_el() );
         entity.setModificado_el( dto.getModificado_el() );
@@ -49,7 +52,8 @@ public class DatoEncuestadoMapper {
     }
 
     public static DtoDatoEncuestado mapEntitytoDto(DatoEncuestado entity) throws Exception {
-        DtoDatoEncuestado dto = new DtoDatoEncuestado();
+        FabricaAbstracta fabrica = FabricaAbstracta.getFactory(Fabricas.DATOENCUESTADO);
+        DtoDatoEncuestado dto = (DtoDatoEncuestado) fabrica.generarDto();
         dto.set_id( entity.get_id() );
         dto.setCreado_el( entity.getCreado_el() );
         dto.setModificado_el( entity.getModificado_el() );

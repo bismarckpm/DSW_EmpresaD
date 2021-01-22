@@ -4,18 +4,22 @@ import mercadeoucab.dtos.DtoMunicipio;
 import mercadeoucab.dtos.DtoParroquia;
 import mercadeoucab.entidades.Municipio;
 import mercadeoucab.entidades.Parroquia;
+import mercadeoucab.fabricas.Enums.Fabricas;
+import mercadeoucab.fabricas.FabricaAbstracta;
 
 import java.util.Objects;
 
 public class ParroquiaMapper {
 
     public static Parroquia mapDtoToEntity(DtoParroquia dtoParroquia){
-        Parroquia parroquia = new Parroquia(dtoParroquia.get_id());
+        FabricaAbstracta fabrica = FabricaAbstracta.getFactory(Fabricas.PARROQUIA);
+        Parroquia parroquia = (Parroquia) fabrica.generarEntidad();
+        parroquia.set_id(dtoParroquia.get_id());
 
         parroquia.setNombre( dtoParroquia.getNombre());
         if (Objects.nonNull( dtoParroquia.getFk_municipio())) {
             parroquia.setFk_municipio(
-                    new Municipio(dtoParroquia.getFk_municipio().get_id())
+                    MunicipioMapper.mapDtotoEntity(dtoParroquia.getFk_municipio())
             );
         }
         parroquia.setValor_socio_economico( dtoParroquia.getValor_socio_economico());
@@ -26,11 +30,13 @@ public class ParroquiaMapper {
     }
 
     public static DtoParroquia mapEntityToDto( Parroquia parroquia) throws Exception {
-        DtoParroquia dtoParroquia = new DtoParroquia( parroquia.get_id());
+        FabricaAbstracta fabrica = FabricaAbstracta.getFactory(Fabricas.PARROQUIA);
+        DtoParroquia dtoParroquia = (DtoParroquia) fabrica.generarDto();
+        dtoParroquia.set_id(parroquia.get_id());
 
         dtoParroquia.setNombre( parroquia.getNombre());
         dtoParroquia.setFk_municipio(
-                new DtoMunicipio( parroquia.getFk_municipio().get_id())
+                MunicipioMapper.mapEntitytoDto(parroquia.getFk_municipio())
         );
         dtoParroquia.setValor_socio_economico( parroquia.getValor_socio_economico());
         dtoParroquia.setActivo( parroquia.getActivo());

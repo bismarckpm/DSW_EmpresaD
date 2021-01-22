@@ -20,7 +20,8 @@ public class CategoriaMapper {
     }
 
     public static DtoCategoria mapEntitytoDto(Categoria entity){
-        DtoCategoria dto = new DtoCategoria();
+        FabricaAbstracta fabrica = FabricaAbstracta.getFactory(Fabricas.CATEGORIA);
+        DtoCategoria dto = (DtoCategoria) fabrica.generarDto();
         dto.set_id( entity.get_id() );
         dto.setNombre( entity.getNombre() );
         dto.setActivo( entity.getActivo() );

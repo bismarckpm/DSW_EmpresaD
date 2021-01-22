@@ -2,13 +2,16 @@ package mercadeoucab.mappers;
 
 import mercadeoucab.dtos.DtoMuestraPoblacion;
 import mercadeoucab.entidades.MuestraPoblacion;
+import mercadeoucab.fabricas.Enums.Fabricas;
+import mercadeoucab.fabricas.FabricaAbstracta;
 
 import java.util.Objects;
 
 public class MuestraPoblacionMapper {
 
     public static MuestraPoblacion mapDtotoEntity(DtoMuestraPoblacion dto){
-        MuestraPoblacion entity = new MuestraPoblacion();
+        FabricaAbstracta fabrica = FabricaAbstracta.getFactory(Fabricas.MUESTRAPOBLACION);
+        MuestraPoblacion entity = (MuestraPoblacion) fabrica.generarEntidad();
         entity.set_id(dto.get_id());
         entity.setCreado_el(dto.getCreado_el());
         entity.setModificado_el(dto.getModificado_el());
@@ -26,7 +29,8 @@ public class MuestraPoblacionMapper {
     }
 
     public static DtoMuestraPoblacion mapEntitytoDto(MuestraPoblacion entity) throws Exception {
-        DtoMuestraPoblacion dto = new DtoMuestraPoblacion();
+        FabricaAbstracta fabrica = FabricaAbstracta.getFactory(Fabricas.MUESTRAPOBLACION);
+        DtoMuestraPoblacion dto = (DtoMuestraPoblacion) fabrica.generarDto();
         dto.set_id(entity.get_id());
         dto.setCreado_el(entity.getCreado_el());
         dto.setModificado_el(entity.getModificado_el());

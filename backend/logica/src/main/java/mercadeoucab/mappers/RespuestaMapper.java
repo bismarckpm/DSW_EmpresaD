@@ -8,14 +8,17 @@ import mercadeoucab.entidades.EncuestaEstudio;
 import mercadeoucab.entidades.Opcion;
 import mercadeoucab.entidades.Respuesta;
 import mercadeoucab.entidades.Usuario;
+import mercadeoucab.fabricas.Enums.Fabricas;
+import mercadeoucab.fabricas.FabricaAbstracta;
 
 import java.util.Objects;
 
 public class RespuestaMapper {
 
     public static Respuesta mapDtoToEntity(DtoRespuesta dtoRespuesta){
-        Respuesta respuesta = new Respuesta( dtoRespuesta.get_id());
-
+        FabricaAbstracta fabrica = FabricaAbstracta.getFactory(Fabricas.RESPUESTA);
+        Respuesta respuesta = (Respuesta) fabrica.generarEntidad();
+        respuesta.set_id(dtoRespuesta.get_id());
         respuesta.setRespuesta( dtoRespuesta.getRespuesta());
         respuesta.setActivo( dtoRespuesta.getActivo());
         respuesta.setCreado_el( dtoRespuesta.getCreado_el());
@@ -23,19 +26,19 @@ public class RespuestaMapper {
 
         if (Objects.nonNull( dtoRespuesta.getDtoEncuestaEstudio())){
             respuesta.setEncuesta_estudio(
-                    new EncuestaEstudio( dtoRespuesta.getDtoEncuestaEstudio().get_id())
+                    EncuestaEstudioMapper.mapDtotoEntity(dtoRespuesta.getDtoEncuestaEstudio())
             );
         }
 
         if (Objects.nonNull( dtoRespuesta.getDtousuario())){
             respuesta.setFk_usuario(
-                    new Usuario( dtoRespuesta.get_id())
+                    UsuarioMapper.mapDtoToEntity(dtoRespuesta.getDtousuario())
             );
         }
 
         if ( Objects.nonNull( dtoRespuesta.getDtoopcion())){
             respuesta.setFk_opcion(
-                    new Opcion( dtoRespuesta.getDtoopcion().get_id())
+                    OpcionMapper.mapDtotoEntity(dtoRespuesta.get_dtoopcion())
             );
         }
 
@@ -43,7 +46,8 @@ public class RespuestaMapper {
     }
 
     public static DtoRespuesta mapEntityToDto( Respuesta respuesta) throws Exception {
-        DtoRespuesta dtoRespuesta = new DtoRespuesta( respuesta.get_id());
+        FabricaAbstracta fabrica = FabricaAbstracta.getFactory(Fabricas.RESPUESTA);
+        DtoRespuesta dtoRespuesta = (DtoRespuesta) fabrica.generarDto();
 
         dtoRespuesta.setRespuesta( respuesta.getRespuesta());
         dtoRespuesta.setActivo( respuesta.getActivo());
