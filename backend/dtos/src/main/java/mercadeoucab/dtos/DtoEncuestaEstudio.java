@@ -1,5 +1,7 @@
 package mercadeoucab.dtos;
 
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import java.util.List;
 
 /**
@@ -7,7 +9,9 @@ import java.util.List;
  */
 public class DtoEncuestaEstudio extends DtoBase{
 
-    List<DtoRespuesta> respuestas;
+    private List<DtoRespuesta> respuestas;
+    private DtoPregunta fk_pregunta;
+    private DtoEstudio fk_estudio;
 
     /**
      * Name:DtoEncuestaEstudio
@@ -40,5 +44,37 @@ public class DtoEncuestaEstudio extends DtoBase{
      */
     public void setRespuestas(List<DtoRespuesta> respuestas) {
         this.respuestas = respuestas;
+    }
+
+    /**
+     * Name: getFk_pregunta
+     * @return
+     */
+    public DtoPregunta getFk_pregunta() {
+        return fk_pregunta;
+    }
+
+    /**
+     * Name: setFk_pregunta
+     * @param fk_pregunta
+     */
+    public void setFk_pregunta(DtoPregunta fk_pregunta) {
+        this.fk_pregunta = fk_pregunta;
+    }
+
+    /**
+     * Name: getFk_estudio
+     * @return
+     */
+    public DtoEstudio getFk_estudio() {
+        return fk_estudio;
+    }
+
+    /**
+     * Name: setFk_estudio
+     * @param fk_estudio
+     */
+    public void setFk_estudio(DtoEstudio fk_estudio) {
+        this.fk_estudio = fk_estudio;
     }
 }

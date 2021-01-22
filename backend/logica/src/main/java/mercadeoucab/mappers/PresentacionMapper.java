@@ -2,12 +2,15 @@ package mercadeoucab.mappers;
 
 import mercadeoucab.dtos.DtoPresentacion;
 import mercadeoucab.entidades.Presentacion;
+import mercadeoucab.fabricas.Enums.Fabricas;
+import mercadeoucab.fabricas.FabricaAbstracta;
 
 public class PresentacionMapper {
 
     public static Presentacion mapDtoToEntity (DtoPresentacion dtoPresentacion){
-        Presentacion presentacion = new Presentacion( dtoPresentacion.get_id());
-
+        FabricaAbstracta fabrica = FabricaAbstracta.getFactory(Fabricas.PRESENTACION);
+        Presentacion presentacion = (Presentacion) fabrica.generarEntidad();
+        presentacion.set_id(dtoPresentacion.get_id());
         presentacion.setCantidad( dtoPresentacion.getCantidad());
         presentacion.setTipo( dtoPresentacion.getTipo());
         presentacion.setActivo( dtoPresentacion.getActivo());
@@ -18,8 +21,9 @@ public class PresentacionMapper {
     }
 
     public static DtoPresentacion mapEntityToDto ( Presentacion presentacion) throws Exception {
-        DtoPresentacion dtoPresentacion = new DtoPresentacion(presentacion.get_id());
-
+        FabricaAbstracta fabrica = FabricaAbstracta.getFactory(Fabricas.PRESENTACION);
+        DtoPresentacion dtoPresentacion = (DtoPresentacion) fabrica.generarDto();
+        dtoPresentacion.set_id(presentacion.get_id());
         dtoPresentacion.setCantidad( presentacion.getCantidad());
         dtoPresentacion.setTipo( presentacion.getTipo());
         dtoPresentacion.setActivo( presentacion.getActivo());
