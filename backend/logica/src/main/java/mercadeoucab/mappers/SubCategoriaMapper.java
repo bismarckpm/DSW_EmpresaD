@@ -4,6 +4,8 @@ import mercadeoucab.dtos.DtoCategoria;
 import mercadeoucab.dtos.DtoSubCategoria;
 import mercadeoucab.entidades.Categoria;
 import mercadeoucab.entidades.SubCategoria;
+import mercadeoucab.fabricas.Enums.Fabricas;
+import mercadeoucab.fabricas.FabricaAbstracta;
 import org.omg.PortableInterceptor.SUCCESSFUL;
 
 import java.util.Objects;
@@ -11,8 +13,9 @@ import java.util.Objects;
 public class SubCategoriaMapper {
 
     public static SubCategoria mapDtoToEntity(DtoSubCategoria dtoSubCategoria){
-        SubCategoria subCategoria = new SubCategoria( dtoSubCategoria.get_id());
-
+        FabricaAbstracta fabrica = FabricaAbstracta.getFactory(Fabricas.SUBCATEGORIA);
+        SubCategoria subCategoria = (SubCategoria) fabrica.generarEntidad() ;
+        subCategoria.set_id(dtoSubCategoria.get_id());
         subCategoria.setNombre( dtoSubCategoria.getNombre());
         subCategoria.setActivo( dtoSubCategoria.getActivo());
         subCategoria.setModificado_el( dtoSubCategoria.getModificado_el());
@@ -28,8 +31,9 @@ public class SubCategoriaMapper {
     }
 
     public static DtoSubCategoria mapEntityToDto( SubCategoria subCategoria) throws Exception {
-        DtoSubCategoria dtoSubCategoria = new DtoSubCategoria( subCategoria.get_id());
-
+        FabricaAbstracta fabrica = FabricaAbstracta.getFactory(Fabricas.SUBCATEGORIA);
+        DtoSubCategoria dtoSubCategoria = (DtoSubCategoria) fabrica.generarDto();
+        dtoSubCategoria.set_id(subCategoria.get_id());
         dtoSubCategoria.setNombre( subCategoria.getNombre());
         dtoSubCategoria.setActivo( subCategoria.getActivo());
         dtoSubCategoria.setModificado_el( subCategoria.getModificado_el());

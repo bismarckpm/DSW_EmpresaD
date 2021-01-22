@@ -3,6 +3,8 @@ package mercadeoucab.mappers;
 import mercadeoucab.dtos.*;
 import mercadeoucab.entidades.Estudio;
 import mercadeoucab.entidades.Pregunta;
+import mercadeoucab.fabricas.Enums.Fabricas;
+import mercadeoucab.fabricas.FabricaAbstracta;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -10,11 +12,9 @@ import java.util.Objects;
 
 public class EstudioMapper {
 
-    private List<DtoPregunta> preguntas;
-    private DtoSolicitud solicitud;
-
     public static Estudio mapDtotoEntity(DtoEstudio dto){
-        Estudio entity = new Estudio();
+        FabricaAbstracta fabrica = FabricaAbstracta.getFactory(Fabricas.ESTUDIO);
+        Estudio entity = (Estudio) fabrica.generarEntidad();
         entity.set_id(dto.get_id());
         entity.setCreado_el(dto.getCreado_el());
         entity.setModificado_el(dto.getModificado_el());
@@ -37,7 +37,8 @@ public class EstudioMapper {
     }
 
     public static DtoEstudio mapEntitytoDto(Estudio entity) throws Exception {
-        DtoEstudio dto = new DtoEstudio();
+        FabricaAbstracta fabrica = FabricaAbstracta.getFactory(Fabricas.ESTUDIO);
+        DtoEstudio dto = (DtoEstudio) fabrica.generarDto();
         dto.set_id(entity.get_id());
         dto.setCreado_el(entity.getCreado_el());
         dto.setModificado_el(entity.getModificado_el());

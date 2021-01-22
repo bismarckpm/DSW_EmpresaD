@@ -6,6 +6,8 @@ import mercadeoucab.dtos.DtoUsuario;
 import mercadeoucab.entidades.Opcion;
 import mercadeoucab.entidades.Pregunta;
 import mercadeoucab.entidades.Usuario;
+import mercadeoucab.fabricas.Enums.Fabricas;
+import mercadeoucab.fabricas.FabricaAbstracta;
 
 import java.util.List;
 import java.util.Objects;
@@ -13,8 +15,9 @@ import java.util.Objects;
 public class PreguntaMapper {
 
     public static Pregunta mapDtoToEntity(DtoPregunta dtoPregunta){
-        Pregunta pregunta = new Pregunta ( dtoPregunta.get_id());
-
+        FabricaAbstracta fabrica = FabricaAbstracta.getFactory(Fabricas.PREGUNTA);
+        Pregunta pregunta = (Pregunta) fabrica.generarEntidad();
+        pregunta.set_id(dtoPregunta.get_id());
         pregunta.setNombrePregunta( dtoPregunta.getNombre_pregunta());
         pregunta.setRango( dtoPregunta.getRango());
         pregunta.setTipo( dtoPregunta.getTipo());
@@ -40,7 +43,9 @@ public class PreguntaMapper {
     }
 
     public static DtoPregunta mapEntityToDto ( Pregunta pregunta) throws Exception {
-        DtoPregunta dtoPregunta = new DtoPregunta( pregunta.get_id());
+        FabricaAbstracta fabrica = FabricaAbstracta.getFactory(Fabricas.PREGUNTA);
+        DtoPregunta dtoPregunta = (DtoPregunta) fabrica.generarDto();
+        dtoPregunta.set_id(pregunta.get_id());
         dtoPregunta.setNombre_pregunta( pregunta.getNombrePregunta());
         dtoPregunta.setRango( pregunta.getRango());
         dtoPregunta.setTipo( pregunta.getTipo());

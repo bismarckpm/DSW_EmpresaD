@@ -3,13 +3,16 @@ package mercadeoucab.mappers;
 import mercadeoucab.dtos.DtoOpcion;
 import mercadeoucab.dtos.DtoPregunta;
 import mercadeoucab.entidades.Opcion;
+import mercadeoucab.fabricas.Enums.Fabricas;
+import mercadeoucab.fabricas.FabricaAbstracta;
 
 import java.util.Objects;
 
 public class OpcionMapper {
 
     public static Opcion mapDtotoEntity(DtoOpcion dto){
-        Opcion entity = new Opcion();
+        FabricaAbstracta fabrica = FabricaAbstracta.getFactory(Fabricas.OPCION);
+        Opcion entity = (Opcion) fabrica.generarEntidad();
         entity.set_id(dto.get_id());
         entity.setCreado_el(dto.getCreado_el());
         entity.setModificado_el(dto.getModificado_el());
@@ -21,7 +24,8 @@ public class OpcionMapper {
     }
 
     public static DtoOpcion mapEntitytoDto(Opcion entity) throws Exception {
-        DtoOpcion dto = new DtoOpcion();
+        FabricaAbstracta fabrica = FabricaAbstracta.getFactory(Fabricas.OPCION);
+        DtoOpcion dto = (DtoOpcion) fabrica.generarDto();
         dto.set_id(entity.get_id());
         dto.setCreado_el(entity.getCreado_el());
         dto.setModificado_el(entity.getModificado_el());
