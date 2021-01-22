@@ -5,6 +5,7 @@ import { Categoria } from '@core/models/categoria';
 import { CategoriaService } from '@core/services/categoria/categoria.service';
 import { DelCategoriaDialogComponent } from '../../components/dialogs/del-categoria-dialog/del-categoria-dialog.component';
 import { UpdCategoriaDialogComponent } from '../../components/dialogs/upd-categoria-dialog/upd-categoria-dialog.component';
+import { BasicInfoDialogComponent } from '../../components/dialogs/basic-info-dialog/basic-info-dialog.component';
 @Component({
   selector: 'app-categorias',
   templateUrl: './categorias.component.html',

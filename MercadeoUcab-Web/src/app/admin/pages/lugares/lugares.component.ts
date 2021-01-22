@@ -4,6 +4,7 @@ import { MatTableDataSource } from '@angular/material/table';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { DelLugarDialogComponent } from '../../components/dialogs/del-lugar-dialog/del-lugar-dialog.component';
 import { UpdLugarDialogComponent } from '../../components/dialogs/upd-lugar-dialog/upd-lugar-dialog.component';
+import { BasicInfoDialogComponent } from '../../components/dialogs/basic-info-dialog/basic-info-dialog.component';
 import { EstadoService } from '@core/services/estado/estado.service';
 import { PaisService } from '@core/services/pais/pais.service';
 import { MunicipioService } from '@core/services/municipio/municipio.service';

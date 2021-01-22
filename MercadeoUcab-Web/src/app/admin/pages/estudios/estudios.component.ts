@@ -12,6 +12,7 @@ import { STEPPER_GLOBAL_OPTIONS } from '@angular/cdk/stepper';
 import { DelEstudioDialogComponent } from '../../components/dialogs/del-estudio-dialog/del-estudio-dialog.component';
 import { UpdEstudioDialogComponent } from '../../components/dialogs/upd-estudio-dialog/upd-estudio-dialog.component';
 import { AddPreguntaDialogComponent } from '../../components/dialogs/add-pregunta-dialog/add-pregunta-dialog.component';
+import { BasicInfoDialogComponent } from '../../components/dialogs/basic-info-dialog/basic-info-dialog.component';
 import { Estudio } from '@models/estudio';
 import { Marca } from '@models/marca';
 import { Pregunta } from '@models/pregunta';
@@ -120,6 +121,10 @@ export class EstudiosComponent implements OnInit {
   @ViewChild('addPreg') private addPregComponent: AddPreguntaDialogComponent;
   async openAddPregModal() {
     return await this.addPregComponent.open();
+  }
+  @ViewChild('info') private infoComponent: BasicInfoDialogComponent;
+  async openInfoModal() {
+    return await this.infoComponent.open();
   }
   ngOnInit(): void {
     this.opStatus = 'S';
@@ -386,16 +391,15 @@ export class EstudiosComponent implements OnInit {
       .subscribe(
         (response: any) => {
           if (response.status != 204) {
-            this.suggestLoading = 'D';
             console.log(response);
             this.preguntaSuggests = [...response.data];
+            this.suggestLoading = 'D';
           } else {
             // Caso de que no existan preguntas sugeridas
           }
         },
         (error) => {
           console.log(<any>error);
-          this.suggestLoading = 'D';
           this.preguntaSuggests = [
             {
               _id: 1,
@@ -426,14 +430,15 @@ export class EstudiosComponent implements OnInit {
             },
             {
               _id: 24,
-              nombre: {
+              pregunta: {
                 _id: 4,
-                pregunta:
+                nombre:
                   'Pregunta 4: Que problemas encontro en nuestro mueble?',
                 tipo: 'abierta',
               },
             },
           ];
+          this.suggestLoading = 'D';
         }
       );
   }

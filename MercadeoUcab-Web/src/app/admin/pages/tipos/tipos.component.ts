@@ -6,6 +6,8 @@ import { Tipo } from '@models/tipo';
 import { TipoService } from '@core/services/tipo/tipo.service';
 import { UpdateTipoDialogComponent } from '../../components/dialogs/update-tipo-dialog/update-tipo-dialog.component';
 import { DeleteTipoDialogComponent } from '../../components/dialogs/delete-tipo-dialog/delete-tipo-dialog.component';
+import { BasicInfoDialogComponent } from '../../components/dialogs/basic-info-dialog/basic-info-dialog.component';
+
 @Component({
   selector: 'app-tipos',
   templateUrl: './tipos.component.html',

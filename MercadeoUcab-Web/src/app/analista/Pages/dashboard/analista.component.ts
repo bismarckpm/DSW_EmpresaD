@@ -13,6 +13,7 @@ export class AnalistaComponent implements OnInit {
   openNote: boolean=false;
 
   ngOnInit(): void {
+    this.router.navigate(['analista/','home']);
     setTimeout(()=>{
       this.openNote=true;
       setTimeout(() => {

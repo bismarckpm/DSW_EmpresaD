@@ -43,6 +43,7 @@ import { DelMarcaDialogComponent } from './components/dialogs/del-marca-dialog/d
 import { UpdMarcaDialogComponent } from './components/dialogs/upd-marca-dialog/upd-marca-dialog.component';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { BasicInfoDialogComponent } from './components/dialogs/basic-info-dialog/basic-info-dialog.component';
 @NgModule({
   declarations: [
     EstudiosComponent,
@@ -82,6 +83,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
     DelSubCategoriaDialogComponent,
     DelMarcaDialogComponent,
     UpdMarcaDialogComponent,
+    BasicInfoDialogComponent,
   ],
   imports: [
     CommonModule,

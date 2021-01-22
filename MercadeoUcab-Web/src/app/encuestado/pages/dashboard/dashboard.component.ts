@@ -10,7 +10,8 @@ export class DashboardComponent implements OnInit {
   constructor(private route: ActivatedRoute, private router: Router) {}
   openNote: boolean=false;
   ngOnInit(): void {
-    this.onDir('encuestado/home');
+    //this.onDir('encuestado/home');
+    this.router.navigate(['encuestado/','home']);
     setTimeout(()=>{
       this.openNote=true;
       setTimeout(() => {

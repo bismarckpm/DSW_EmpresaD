@@ -8,6 +8,7 @@ import { CategoriaService } from '@core/services/categoria/categoria.service';
 import { SubcategoriaService } from '@core/services/subcategoria/subcategoria.service';
 import { UpdSubCategoriaDialogComponent } from '../../components/dialogs/upd-sub-catategoria-dialog/upd-sub-catategoria-dialog.component';
 import { DelSubCategoriaDialogComponent } from '../../components/dialogs/del-sub-catategoria-dialog/del-sub-catategoria-dialog.component';
+import { BasicInfoDialogComponent } from '../../components/dialogs/basic-info-dialog/basic-info-dialog.component';
 
 @Component({
   selector: 'app-subcategoria',

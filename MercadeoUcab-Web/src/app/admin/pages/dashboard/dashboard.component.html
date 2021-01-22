@@ -6,7 +6,7 @@
             <button mat-mini-fab
             style="background-color: #00d8b4; color:white" class="shadow-sm"
             (click)="onDir(sect.dir)">
-                <mat-icon>supervisor_account</mat-icon>
+                <mat-icon>{{sect.icon}}</mat-icon>
             </button>
             <label style="color:white">{{ sect.title }}</label>
        </div>
@@ -21,6 +21,7 @@
         </div>
         <div style="width: 50%;height: 100%; display: flex;flex-direction: row; align-items: center; justify-content: flex-end;">
             <button style="background-color: #00d8b4; color:white;" class="shadow-sm btn"
+            (click)="openInfoModal()"
                 type="button">
                 <mat-icon>account_circle</mat-icon>
             </button>
@@ -50,6 +51,17 @@
     </div>
   </div>
 </mat-drawer-container>
+<app-basic-info-dialog #uInfo [_tipo]="'Sesión'">
+  <div class="cForm-field-row">
+    <div class="cForm-field-col">
+      
+    </div>
+    <div class="cForm-field-col">
+    
+    </div>
+  </div>
+</app-basic-info-dialog>
+
 <!--
 <mat-grid-list cols="16" rowHeight="10vh" style="background-color: #E5FFF7;">
     <mat-grid-tile [colspan]="1" [rowspan]="10" style="background-color:#5C9D8B;">

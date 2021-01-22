@@ -6,6 +6,7 @@ import { MatTableDataSource } from '@angular/material/table';
 import { Presentacion } from '@core/models/presentacion';
 import { DelPresentacionDialogComponent } from '../../components/dialogs/del-presentacion-dialog/del-presentacion-dialog.component';
 import { UpdPresentacionDialogComponent } from '../../components/dialogs/upd-presentacion-dialog/upd-presentacion-dialog.component';
+import { BasicInfoDialogComponent } from '../../components/dialogs/basic-info-dialog/basic-info-dialog.component';
 
 @Component({
   selector: 'app-presentacion',
