@@ -1,6 +1,7 @@
 package mercadeoucab.mappers;
 
 import mercadeoucab.dtos.*;
+import mercadeoucab.entidades.EncuestaEstudio;
 import mercadeoucab.entidades.Estudio;
 import mercadeoucab.entidades.Pregunta;
 import mercadeoucab.fabricas.Enums.Fabricas;
@@ -56,6 +57,11 @@ public class EstudioMapper {
             for(Pregunta pregunta: entity.getPreguntas())
                 preguntas.add(PreguntaMapper.mapEntityToDto(pregunta));
             dto.setPreguntas(preguntas);
+        }
+        if ( Objects.nonNull( entity.getEncuestaEstudio())){
+            for (EncuestaEstudio encuestaEstudio: entity.getEncuestaEstudio()){
+
+            }
         }
         return dto;
     }

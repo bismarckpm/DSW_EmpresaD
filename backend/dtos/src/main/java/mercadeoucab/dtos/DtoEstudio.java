@@ -1,5 +1,6 @@
 package mercadeoucab.dtos;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -159,5 +160,11 @@ public class DtoEstudio extends DtoBase{
      */
     public void setEncuestaEstudio(List<DtoEncuestaEstudio> encuestaEstudio) {
         this.encuestaEstudio = encuestaEstudio;
+    }
+
+    public void addEncuestaEstudio( DtoEncuestaEstudio dtoEncuestaEstudio){
+        if ( this.encuestaEstudio == null)
+                this.encuestaEstudio = new ArrayList<>();
+        this.encuestaEstudio.add( dtoEncuestaEstudio);
     }
 }
