@@ -48,20 +48,29 @@ public class RespuestaMapper {
     public static DtoRespuesta mapEntityToDto( Respuesta respuesta) throws Exception {
         FabricaAbstracta fabrica = FabricaAbstracta.getFactory(Fabricas.RESPUESTA);
         DtoRespuesta dtoRespuesta = (DtoRespuesta) fabrica.generarDto();
-
+        dtoRespuesta.set_id(respuesta.get_id());
         dtoRespuesta.setRespuesta( respuesta.getRespuesta());
         dtoRespuesta.setActivo( respuesta.getActivo());
         dtoRespuesta.setCreado_el( respuesta.getCreado_el());
         dtoRespuesta.setModificado_el( respuesta.getModificado_el());
-        dtoRespuesta.setDtousuario(
-                new DtoUsuario( respuesta.getFk_usuario().get_id())
-        );
-        dtoRespuesta.setDtoEncuestaEstudio(
-                new DtoEncuestaEstudio( respuesta.getEncuesta_estudio().get_id())
-        );
-        dtoRespuesta.setDtoopcion(
-                new DtoOpcion( respuesta.getFk_opcion().get_id())
-        );
+
+        if (Objects.nonNull( respuesta.getEncuesta_estudio())){
+            dtoRespuesta.setDtoEncuestaEstudio(
+                    EncuestaEstudioMapper.mapEntitytoDto(respuesta.getEncuesta_estudio())
+            );
+        }
+
+        if (Objects.nonNull( respuesta.getFk_usuario())){
+            dtoRespuesta.setDtousuario(
+                    UsuarioMapper.mapEntityToDto(respuesta.getFk_usuario())
+            );
+        }
+
+        if ( Objects.nonNull( respuesta.getFk_opcion())){
+            dtoRespuesta.set_dtoopcion(
+                    OpcionMapper.mapEntitytoDto(respuesta.getFk_opcion())
+            );
+        }
 
         return dtoRespuesta;
     }
