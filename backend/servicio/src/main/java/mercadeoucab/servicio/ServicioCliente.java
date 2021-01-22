@@ -1,7 +1,10 @@
 package mercadeoucab.servicio;
 
 import mercadeoucab.accesodatos.DaoSolicitud;
+import mercadeoucab.dtos.DtoSolicitud;
 import mercadeoucab.entidades.*;
+import mercadeoucab.mappers.SolicitudMapper;
+import mercadeoucab.responses.ResponseSolicitud;
 
 import javax.json.Json;
 import javax.json.JsonArrayBuilder;
@@ -25,53 +28,13 @@ public class ServicioCliente extends AplicacionBase{
         try {
             DaoSolicitud dao = new DaoSolicitud();
             List<Solicitud> solicitudes = dao.solicitudesCliente(new Usuario(id));
-
+            ResponseSolicitud responseSolicitud = new ResponseSolicitud();
             if(!(solicitudes.isEmpty())){
 
                 for (Solicitud resul: solicitudes){
                     if(resul.getActivo() == 1){
-
-                        JsonArrayBuilder tiposList = Json.createArrayBuilder();
-                        for(Tipo tipo: resul.getTipos()){
-                            JsonObject objecto = Json.createObjectBuilder()
-                                    .add("_id", tipo.get_id())
-                                    .add("nombre", tipo.getNombre())
-                                    .build();
-                            tiposList.add(objecto);
-                        }
-
-                        JsonArrayBuilder presentacionlist = Json.createArrayBuilder();
-                        for(Presentacion presentacion: resul.getPresentaciones()){
-                            JsonObject objecto = Json.createObjectBuilder()
-                                    .add("_id", presentacion.get_id())
-                                    .add("tipo", presentacion.getTipo())
-                                    .add("Cantidad",presentacion.getCantidad())
-                                    .build();
-                            presentacionlist.add(objecto);
-                        }
-
-                        JsonArrayBuilder subCategoriaslist = Json.createArrayBuilder();
-                        for(SubCategoria subCategoria: resul.getSubCategorias()){
-                            JsonObject objecto = Json.createObjectBuilder()
-                                    .add("_id", subCategoria.get_id())
-                                    .add("nombre", subCategoria.getNombre())
-                                    .add("categoria",Json.createObjectBuilder()
-                                            .add("_id", subCategoria.getCategoria().get_id())
-                                            .add("nombre", subCategoria.getCategoria().getNombre()))
-                                    .build();
-                            subCategoriaslist.add(objecto);
-                        }
-                        JsonObject object = Json.createObjectBuilder()
-                                .add("_id", resul.get_id())
-                                .add("estado",resul.getEstado())
-                                .add("marca",Json.createObjectBuilder()
-                                        .add("_id",resul.getMarca().get_id())
-                                        .add("nombre",resul.getMarca().getNombre()))
-                                .add("tipos", tiposList)
-                                .add("presentaciones", presentacionlist)
-                                .add("subcategorias", subCategoriaslist)
-                                .build();
-
+                        DtoSolicitud dtoSolicitud = SolicitudMapper.mapEntityToDto( resul);
+                        JsonObject object = responseSolicitud.generate( dtoSolicitud);
                         solicitudesList.add(object);
                     }
                 } //final for

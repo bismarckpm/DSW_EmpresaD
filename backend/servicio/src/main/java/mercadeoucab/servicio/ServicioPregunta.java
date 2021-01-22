@@ -54,7 +54,7 @@ public class ServicioPregunta extends AplicacionBase{
                                 preguntaslist.add(objeto);
                                 break;
                             case "rango":
-                                objeto =responsePregunta.generateWithRango( dtoPregunta);
+                                objeto = responsePregunta.generateWithRango( dtoPregunta);
                                 preguntaslist.add(objeto);
                                 break;
                         }//final switch

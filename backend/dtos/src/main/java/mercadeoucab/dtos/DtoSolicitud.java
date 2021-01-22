@@ -1,5 +1,6 @@
 package mercadeoucab.dtos;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -111,5 +112,35 @@ public class DtoSolicitud extends DtoBase{
      */
     public void setPresentaciones(List<DtoPresentacion> presentaciones) {
         this.presentaciones = presentaciones;
+    }
+
+    /**
+     * Name: addSubcategoria
+     * @param dtoSubCategoria
+     */
+    public void addSubcategoria(DtoSubCategoria dtoSubCategoria){
+        if(this.subCategorias == null)
+            this.subCategorias = new ArrayList<>();
+        this.subCategorias.add(dtoSubCategoria);
+    }
+
+    /**
+     * Name: addPresentacion
+     * @param dtoPresentacion
+     */
+    public void addPresentacion(DtoPresentacion dtoPresentacion){
+        if(this.presentaciones == null)
+            this.presentaciones = new ArrayList<>();
+        this.presentaciones.add(dtoPresentacion);
+    }
+
+    /**
+     * Name: addTipo
+     * @param dtoTipo
+     */
+    public void addTipo(DtoTipo dtoTipo){
+        if(this.tipos == null)
+            this.tipos = new ArrayList<>();
+        this.tipos.add(dtoTipo);
     }
 }

@@ -1,5 +1,6 @@
 package mercadeoucab.dtos;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -103,6 +104,8 @@ public class DtoPregunta extends DtoBase{
      * @param opcion
      */
     public void addOpcion( DtoOpcion opcion){
+        if(this.opciones == null)
+            this.opciones = new ArrayList<>();
         opcion.set_Dtopregunta( this);
         this.opciones.add( opcion);
     }

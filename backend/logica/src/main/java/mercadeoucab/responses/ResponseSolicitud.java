@@ -12,6 +12,8 @@ import mercadeoucab.mappers.TipoMapper;
 import javax.json.Json;
 import javax.json.JsonArrayBuilder;
 import javax.json.JsonObject;
+import javax.json.JsonValue;
+import java.util.Objects;
 
 public class ResponseSolicitud implements ResponseBase<DtoSolicitud> {
 
@@ -21,35 +23,42 @@ public class ResponseSolicitud implements ResponseBase<DtoSolicitud> {
      */
     @Override
     public JsonObject generate(DtoSolicitud dtoSolicitud) throws Exception {
-        JsonArrayBuilder tiposList = Json.createArrayBuilder();
-        for(DtoTipo tipo: dtoSolicitud.getTipos()){
-            ResponseTipo responseTipo = new ResponseTipo();
-            JsonObject objecto = responseTipo.generate( tipo);
-            tiposList.add(objecto);
+        JsonObject resultado = Json.createObjectBuilder()
+                                    .add("_id", dtoSolicitud.get_id())
+                                    .add("estado",dtoSolicitud.getEstado())
+                                    .build();
+        if ( Objects.nonNull( dtoSolicitud.getUsuario())){
+            ResponseUsuario responseUsuario = new ResponseUsuario();
+            JsonObject usuario = responseUsuario.generate( dtoSolicitud.getUsuario());
+            resultado.put("usuario", usuario);
         }
-
-        JsonArrayBuilder presentacionlist = Json.createArrayBuilder();
-        for(DtoPresentacion presentacion: dtoSolicitud.getPresentaciones()){
-            ResponsePresentacion responsePresentacion = new ResponsePresentacion();
-            JsonObject objecto = responsePresentacion.generate( presentacion);
-            presentacionlist.add(objecto);
+        if (Objects.nonNull( dtoSolicitud.getTipos())) {
+            JsonArrayBuilder tiposList = Json.createArrayBuilder();
+            for (DtoTipo tipo : dtoSolicitud.getTipos()) {
+                ResponseTipo responseTipo = new ResponseTipo();
+                JsonObject objecto = responseTipo.generate(tipo);
+                tiposList.add(objecto);
+            }
+            resultado.put( "tipos", (JsonValue) tiposList);
         }
-
-        JsonArrayBuilder subCategoriaslist = Json.createArrayBuilder();
-        for(DtoSubCategoria subCategoria: dtoSolicitud.getSubCategorias()){
-            ResponseSubCategoria responseSubCategoria = new ResponseSubCategoria();
-            JsonObject objecto = responseSubCategoria.generate( subCategoria);
-            subCategoriaslist.add(objecto);
+        if ( Objects.nonNull( dtoSolicitud.getPresentaciones())) {
+            JsonArrayBuilder presentacionlist = Json.createArrayBuilder();
+            for (DtoPresentacion presentacion : dtoSolicitud.getPresentaciones()) {
+                ResponsePresentacion responsePresentacion = new ResponsePresentacion();
+                JsonObject objecto = responsePresentacion.generate(presentacion);
+                presentacionlist.add(objecto);
+            }
+            resultado.put("presentaciones", (JsonValue) presentacionlist);
         }
-        ResponseUsuario responseUsuario = new ResponseUsuario();
-        JsonObject usuario = responseUsuario.generate( dtoSolicitud.getUsuario());
-        return Json.createObjectBuilder()
-                .add("_id", dtoSolicitud.get_id())
-                .add("estado",dtoSolicitud.getEstado())
-                .add("usuario",usuario)
-                .add("tipos", tiposList)
-                .add("presentaciones", presentacionlist)
-                .add("subcategorias", subCategoriaslist)
-                .build();
+        if ( Objects.nonNull( dtoSolicitud.getSubCategorias())) {
+            JsonArrayBuilder subCategoriaslist = Json.createArrayBuilder();
+            for (DtoSubCategoria subCategoria : dtoSolicitud.getSubCategorias()) {
+                ResponseSubCategoria responseSubCategoria = new ResponseSubCategoria();
+                JsonObject objecto = responseSubCategoria.generate(subCategoria);
+                subCategoriaslist.add(objecto);
+            }
+            resultado.put("subcategorias", (JsonValue) subCategoriaslist);
+        }
+        return resultado;
     }
 }

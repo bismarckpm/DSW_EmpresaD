@@ -4,6 +4,8 @@ import mercadeoucab.accesodatos.DaoEstudio;
 import mercadeoucab.accesodatos.DaoUsuario;
 import mercadeoucab.dtos.DtoUsuario;
 import mercadeoucab.entidades.*;
+import mercadeoucab.mappers.UsuarioMapper;
+import mercadeoucab.responses.ResponseUsuario;
 
 import javax.json.Json;
 import javax.json.JsonArrayBuilder;
@@ -30,17 +32,12 @@ public class ServicioAnalista extends AplicacionBase{
         try {
             DaoUsuario dao = new DaoUsuario();
             List<Usuario> usuarios = dao.listarAnalistas();
+            ResponseUsuario responseUsuario = new ResponseUsuario();
             if(!(usuarios.isEmpty())){
                 for(Usuario usuario: usuarios){
                     if(usuario.getActivo() == 1) {
-                        JsonObject objeto = Json.createObjectBuilder()
-                                .add("_id", usuario.get_id())
-                                .add("nombre", usuario.getNombre())
-                                .add("apellido", usuario.getApellido())
-                                .add("rol", usuario.getRol())
-                                .add("estado", usuario.getEstado())
-                                .add("correo", usuario.getCorreo())
-                                .build();
+                        DtoUsuario dtoUsuario = UsuarioMapper.mapEntityToDto( usuario);
+                        JsonObject objeto = responseUsuario.generate( dtoUsuario);
                         usuariosList.add(objeto);
                     }
                 }
