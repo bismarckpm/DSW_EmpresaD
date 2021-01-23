@@ -7,6 +7,8 @@ import mercadeoucab.dtos.DtoParroquia;
 import mercadeoucab.entidades.EntidadBase;
 import mercadeoucab.entidades.Parroquia;
 import mercadeoucab.fabricas.FabricaAbstracta;
+import mercadeoucab.responses.ResponseBase;
+import mercadeoucab.responses.ResponseParroquia;
 
 public class FabricaParroquia extends FabricaAbstracta {
     /**
@@ -40,5 +42,16 @@ public class FabricaParroquia extends FabricaAbstracta {
     @Override
     public Dao generarDao() {
         return new DaoParroquia();
+    }
+
+    /**
+     * Name: generarResponse
+     * Description: genera un Response base
+     *
+     * @return ResponseBase
+     */
+    @Override
+    public ResponseBase generarResponse() {
+        return new ResponseParroquia();
     }
 }

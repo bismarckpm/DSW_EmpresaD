@@ -7,6 +7,8 @@ import mercadeoucab.dtos.DtoEstado;
 import mercadeoucab.entidades.EntidadBase;
 import mercadeoucab.entidades.Estado;
 import mercadeoucab.fabricas.FabricaAbstracta;
+import mercadeoucab.responses.ResponseBase;
+import mercadeoucab.responses.ResponseEstado;
 
 public class FabricaEstado extends FabricaAbstracta {
     /**
@@ -40,5 +42,16 @@ public class FabricaEstado extends FabricaAbstracta {
     @Override
     public Dao generarDao() {
         return new DaoEstado();
+    }
+
+    /**
+     * Name: generarResponse
+     * Description: genera un Response base
+     *
+     * @return ResponseBase
+     */
+    @Override
+    public ResponseBase generarResponse() {
+        return new ResponseEstado();
     }
 }

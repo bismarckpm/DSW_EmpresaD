@@ -5,6 +5,7 @@ import mercadeoucab.dtos.DtoBase;
 import mercadeoucab.entidades.EntidadBase;
 import mercadeoucab.fabricas.Enums.Fabricas;
 import mercadeoucab.fabricas.FabricasConcretas.*;
+import mercadeoucab.responses.ResponseBase;
 
 /**
  * Name: FabricaAbstracta
@@ -136,4 +137,12 @@ public abstract class FabricaAbstracta {
      * @return Dao
      */
     public abstract Dao generarDao();
+
+    /**
+     * Name: generarResponse
+     * Description: genera un Response base
+     * @return ResponseBase
+     */
+    public abstract ResponseBase generarResponse();
+
 }

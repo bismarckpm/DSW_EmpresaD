@@ -5,6 +5,7 @@ import mercadeoucab.dtos.DtoBase;
 import mercadeoucab.dtos.DtoDirectorioAUser;
 import mercadeoucab.entidades.EntidadBase;
 import mercadeoucab.fabricas.FabricaAbstracta;
+import mercadeoucab.responses.ResponseBase;
 
 public class FabricaDirectorioAUser extends FabricaAbstracta {
     /**
@@ -41,6 +42,17 @@ public class FabricaDirectorioAUser extends FabricaAbstracta {
      */
     @Override
     public Dao generarDao() {
+        return null;
+    }
+
+    /**
+     * Name: generarResponse
+     * Description: genera un Response base
+     *
+     * @return ResponseBase
+     */
+    @Override
+    public ResponseBase generarResponse() {
         return null;
     }
 }

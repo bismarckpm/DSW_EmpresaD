@@ -7,6 +7,8 @@ import mercadeoucab.dtos.DtoDatoEncuestado;
 import mercadeoucab.entidades.DatoEncuestado;
 import mercadeoucab.entidades.EntidadBase;
 import mercadeoucab.fabricas.FabricaAbstracta;
+import mercadeoucab.responses.ResponseBase;
+import mercadeoucab.responses.ResponseDatoEncuestado;
 
 public class FabricaDatoEncuestado extends FabricaAbstracta {
     /**
@@ -40,5 +42,16 @@ public class FabricaDatoEncuestado extends FabricaAbstracta {
     @Override
     public Dao generarDao() {
         return new DaoDatoEncuestado();
+    }
+
+    /**
+     * Name: generarResponse
+     * Description: genera un Response base
+     *
+     * @return ResponseBase
+     */
+    @Override
+    public ResponseBase generarResponse() {
+        return new ResponseDatoEncuestado();
     }
 }
