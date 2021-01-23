@@ -7,6 +7,8 @@ import mercadeoucab.dtos.DtoTelefono;
 import mercadeoucab.entidades.EntidadBase;
 import mercadeoucab.entidades.Telefono;
 import mercadeoucab.fabricas.FabricaAbstracta;
+import mercadeoucab.responses.ResponseBase;
+import mercadeoucab.responses.ResponseTelefono;
 
 public class FabricaTelefono extends FabricaAbstracta {
     /**
@@ -40,5 +42,16 @@ public class FabricaTelefono extends FabricaAbstracta {
     @Override
     public Dao generarDao() {
         return new DaoTelefono();
+    }
+
+    /**
+     * Name: generarResponse
+     * Description: genera un Response base
+     *
+     * @return ResponseBase
+     */
+    @Override
+    public ResponseBase generarResponse() {
+        return new ResponseTelefono();
     }
 }
