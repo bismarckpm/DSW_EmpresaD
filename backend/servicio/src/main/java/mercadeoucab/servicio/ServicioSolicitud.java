@@ -3,12 +3,14 @@ package mercadeoucab.servicio;
 import mercadeoucab.accesodatos.DaoEstudio;
 import mercadeoucab.accesodatos.DaoSolicitud;
 import mercadeoucab.accesodatos.DaoTipo;
-import mercadeoucab.dtos.DtoPresentacion;
-import mercadeoucab.dtos.DtoSolicitud;
-import mercadeoucab.dtos.DtoSubCategoria;
-import mercadeoucab.dtos.DtoTipo;
+import mercadeoucab.dtos.*;
 import mercadeoucab.entidades.*;
+import mercadeoucab.mappers.MuestraPoblacionMapper;
+import mercadeoucab.mappers.PreguntaMapper;
 import mercadeoucab.mappers.SolicitudMapper;
+import mercadeoucab.responses.ResponseGeneral;
+import mercadeoucab.responses.ResponseMuestraPoblacion;
+import mercadeoucab.responses.ResponsePregunta;
 import mercadeoucab.responses.ResponseSolicitud;
 
 import javax.json.Json;
@@ -20,16 +22,28 @@ import javax.ws.rs.core.Response;
 import java.sql.Date;
 import java.util.Calendar;
 import java.util.List;
+import java.util.Objects;
 
+/**
+ *
+ * @author Oscar Marquez
+ * @version 1.0
+ * @since 2020-12-18
+ */
 @Path( "/solicitudes" )
 @Produces( MediaType.APPLICATION_JSON )
 @Consumes( MediaType.APPLICATION_JSON )
 public class ServicioSolicitud extends AplicacionBase{
 
+    /**
+     * Metodo para consultar una Solicitud dado un identificador
+     * @param id Identificador de la Solicitud que se desea consultar
+     * @return regresa la Solicitud consultada, tambien en caso de no existir
+     *      respuesta que no se encontro o mensaje que ha ocurrido un error
+     */
     @GET
     @Path("/{id}")
     public Response obtenerSolicitud(@PathParam("id") Long id){
-        JsonObject data;
         Response resultado = null;
         try{
             DaoSolicitud dao = new DaoSolicitud();
@@ -38,67 +52,64 @@ public class ServicioSolicitud extends AplicacionBase{
             ResponseSolicitud responseSolicitud = new ResponseSolicitud();
             DtoSolicitud dtoSolicitud = SolicitudMapper.mapEntityToDto( resul);
             JsonObject solicitud = responseSolicitud.generate( dtoSolicitud);
-            data = Json.createObjectBuilder()
-                    .add("status", 200)
-                    .add("data", solicitud)
-                    .build();
-            resultado = Response.status(Response.Status.OK)
-                    .entity(data)
-                    .build();
+            if (Objects.nonNull( dtoSolicitud)){
+                resultado = ResponseGeneral.Succes( solicitud);
+            }else{
+                resultado = ResponseGeneral.NoData();
+            }
         }catch (Exception e) {
+            // CAMBIAR CUANDO SE MANEJEN LAS EXCEPCIONES PROPIAS
             String problema = e.getMessage();
-            data = Json.createObjectBuilder()
-                    .add("status", 400)
-                    .add("message",problema)
-                    .build();
-            resultado = Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(data).build();
+            resultado = ResponseGeneral.Failure("Ha ocurrido un error");
         }
         return resultado;
     }
 
+    /**
+     * Metodo para listar todas las Solicitudes registradas
+     * @return regresa la lista de las Solicitudes, respuesta que no se encontro
+     *      o mensaje que ha ocurrido un error
+     */
     @GET
     @Path("/")
     public Response listarSolicitud(){
-        JsonObject data;
         JsonArrayBuilder solicitudesList = Json.createArrayBuilder();
         Response resultado = null;
         try {
             DaoSolicitud dao = new DaoSolicitud();
             List<Solicitud> solicitudes = dao.findAll(Solicitud.class);
-            for (Solicitud resul: solicitudes){
-                if(resul.getActivo() == 1){
-                    ResponseSolicitud responseSolicitud = new ResponseSolicitud();
-                    DtoSolicitud dtoSolicitud = SolicitudMapper.mapEntityToDto( resul);
-                    JsonObject object = responseSolicitud.generate( dtoSolicitud);
-                    solicitudesList.add(object);
-                }
-            } //final for
-            data = Json.createObjectBuilder()
-                    .add("status", 200)
-                    .add("data", solicitudesList)
-                    .build();
-            resultado = Response.status(Response.Status.OK)
-                    .entity(data)
-                    .build();
+            if ( !solicitudes.isEmpty()) {
+                for (Solicitud resul : solicitudes) {
+                    if (resul.getActivo() == 1) {
+                        ResponseSolicitud responseSolicitud = new ResponseSolicitud();
+                        DtoSolicitud dtoSolicitud = SolicitudMapper.mapEntityToDto(resul);
+                        JsonObject object = responseSolicitud.generate(dtoSolicitud);
+                        solicitudesList.add(object);
+                    }
+                } //final for
+                resultado = ResponseGeneral.Succes( solicitudesList);
+            } else{
+                resultado = ResponseGeneral.NoData();
+            }
         }
         catch (Exception e){
+            // CAMBIAR CUANDO SE MANEJEN LAS EXCEPCIONES PROPIAS
             String problema = e.getMessage();
-            data = Json.createObjectBuilder()
-                    .add("status", 400)
-                    .add("message", problema)
-                    .build();
-            resultado = Response.status(Response.Status.BAD_REQUEST)
-                    .entity(data)
-                    .build();
+            resultado = ResponseGeneral.Failure("Ha ocurrido un error");
         }
         return resultado;
     }
 
 
+    /**
+     * Metodo para crear una Solicitud
+     * @param dtoSolicitud Objeto que se desea crear
+     * @return regresa mensaje de exito en caso de agregarse exitosamente o
+     *   mensaje de error
+     */
     @POST
     @Path("/")
     public Response registrarSolicitud(DtoSolicitud dtoSolicitud){
-        JsonObject data;
         Response resultado = null;
         try{
             DaoSolicitud dao = new DaoSolicitud();
@@ -106,10 +117,7 @@ public class ServicioSolicitud extends AplicacionBase{
             solicitud.setEstado( dtoSolicitud.getEstado() );
             solicitud.setActivo( 1 );
             solicitud.setCreado_el(
-                    new Date(Calendar
-                            .getInstance()
-                            .getTime()
-                            .getTime())
+                    new Date(Calendar.getInstance().getTime().getTime())
             );
             Usuario usuario = new Usuario(
                     dtoSolicitud.getUsuario().get_id()
@@ -118,46 +126,39 @@ public class ServicioSolicitud extends AplicacionBase{
             Marca marca = new Marca(
                     dtoSolicitud.getMarca().get_id()
             );
-            solicitud.setMarca( marca );
-
+            solicitud.setMarca( marca);
             for(DtoTipo dtoTipo: dtoSolicitud.getTipos()){
                 Tipo tipo = new Tipo(dtoTipo.get_id());
-                solicitud.addTipo(tipo);
+                solicitud.addTipo( tipo);
             }
             for(DtoSubCategoria dtoSubCategoria: dtoSolicitud.getSubCategorias()){
                 SubCategoria subCategoria = new SubCategoria(dtoSubCategoria.get_id());
-                solicitud.addSubCategoria(subCategoria);
+                solicitud.addSubCategoria( subCategoria);
             }
-
             for(DtoPresentacion dtoPresentacion: dtoSolicitud.getPresentaciones()){
                 Presentacion presentacion = new Presentacion(dtoPresentacion.get_id());
                 solicitud.addPresentacion( presentacion );
             }
 
-
             Solicitud resul = dao.insert( solicitud );
-            data = Json.createObjectBuilder()
-                    .add("status", 200)
-                    .add("mensaje", "Solicitud creado con exito")
-                    .build();
-            resultado = Response.status(Response.Status.OK).entity(data).build();
+            resultado = ResponseGeneral.SuccesCreate( resul.get_id());
         }catch (Exception e) {
+            // CAMBIAR CUANDO SE MANEJEN LAS EXCEPCIONES PROPIAS
             String problema = e.getMessage();
-            data = Json.createObjectBuilder()
-                    .add("status", 400)
-                    .add("message", problema)
-                    .build();
-            resultado = Response.status(Response.Status.BAD_REQUEST)
-                    .entity(data)
-                    .build();
+            resultado = ResponseGeneral.Failure("Ha ocurrido un error");
         }
         return resultado;
     }
 
+    /**
+     * Metodo para actualizar una Solicitud dado un identificador
+     * @param id Identificador de la Solicitud que se desea actualizar
+     * @param dtoSolicitud Objeto que se desea actualizar
+     * @return regresa mensaje de exito o mensaje que ha ocurrido un error
+     */
     @PUT
     @Path("/{id}")
     public Response actualizarSolicitud(@PathParam("id") Long id, DtoSolicitud dtoSolicitud){
-        JsonObject data;
         Response resultado = null;
         try{
             DaoSolicitud dao = new DaoSolicitud();
@@ -167,32 +168,26 @@ public class ServicioSolicitud extends AplicacionBase{
                     new Date(Calendar
                             .getInstance()
                             .getTime()
-                            .getTime()));
+                            .getTime())
+            );
             Solicitud resul = dao.update( solicitud);
-            data = Json.createObjectBuilder()
-                    .add("status", 200)
-                    .add("mensaje", "Solicitud actualizada con exito")
-                    .build();
-            resultado = Response.status(Response.Status.OK)
-                    .entity(data)
-                    .build();
+            resultado = ResponseGeneral.SuccesMessage();
         }catch (Exception e) {
+            // CAMBIAR CUANDO SE MANEJEN LAS EXCEPCIONES PROPIAS
             String problema = e.getMessage();
-            data = Json.createObjectBuilder()
-                    .add("status", 400)
-                    .add("message", problema)
-                    .build();
-            resultado = Response.status(Response.Status.BAD_REQUEST)
-                    .entity(data)
-                    .build();
+            resultado = ResponseGeneral.Failure("Ha ocurrido un error");
         }
         return resultado;
     }
 
+    /**
+     * Metodo para eliminar una Solicitud dado un identificador
+     * @param id Identificador de la Solicitud que se desea eliminar
+     * @return regresa mensaje de exito o mensaje que ha ocurrido un error
+     */
     @PUT
     @Path("/{id}/eliminar")
     public Response eliminarSolicitud(@PathParam("id") Long id){
-        JsonObject data;
         Response resultado = null;
         try{
             DaoSolicitud dao = new DaoSolicitud();
@@ -204,37 +199,30 @@ public class ServicioSolicitud extends AplicacionBase{
                             .getTime()
                             .getTime()));
             Solicitud resul = dao.update( solicitud);
-            data = Json.createObjectBuilder()
-                    .add("status", 200)
-                    .add("mensaje", "Solicitud eliminada con exito")
-                    .build();
-            resultado = Response.status(Response.Status.OK)
-                    .entity(data)
-                    .build();
+            resultado = ResponseGeneral.SuccesMessage();
         }catch (Exception e) {
+            // CAMBIAR CUANDO SE MANEJEN LAS EXCEPCIONES PROPIAS
             String problema = e.getMessage();
-            data = Json.createObjectBuilder()
-                    .add("status", 400)
-                    .add("message", problema)
-                    .build();
-            resultado = Response.status(Response.Status.BAD_REQUEST)
-                    .entity(data)
-                    .build();
+            resultado = ResponseGeneral.Failure("Ha ocurrido un error");
         }
         return resultado;
     }
 
+    /**
+     * Metodo para listar todas las Solicitudes segun el estado proporcionado
+     * @param estado estado de las Solicitudes que se desea obtener
+     * @return regresa la lista de las Solicitudes, respuesta que no se encontro
+     *      o mensaje que ha ocurrido un error
+     */
     @GET
     @Path("/estado/{estado}")
     public Response listarSolicitudEstado(@PathParam("estado") String estado){
-        JsonObject data;
         JsonArrayBuilder solicitudesList = Json.createArrayBuilder();
         Response resultado = null;
         try {
             DaoSolicitud dao = new DaoSolicitud();
             List<Solicitud> solicitudes = dao.solicitudesSegunEstado(estado);
             if(solicitudes.size() > 0){
-
                 for (Solicitud resul: solicitudes){
                         if(resul.getActivo() == 1) {
                             ResponseSolicitud responseSolicitud = new ResponseSolicitud();
@@ -243,45 +231,38 @@ public class ServicioSolicitud extends AplicacionBase{
                             solicitudesList.add(object);
                         }
                 } //final for
-                data = Json.createObjectBuilder()
-                        .add("status", 200)
-                        .add("data", solicitudesList)
-                        .build();
+                resultado = ResponseGeneral.Succes( solicitudesList);
             }
             else{
-                data = Json.createObjectBuilder()
-                        .add("status", 200)
-                        .add("message", "Actualmente no existen solicitudes con ese estado")
-                        .build();
+                resultado = ResponseGeneral.NoData();
             }
-
-            resultado = Response.status(Response.Status.OK)
-                    .entity(data)
-                    .build();
         }
         catch (Exception e){
+            // CAMBIAR CUANDO SE MANEJEN LAS EXCEPCIONES PROPIAS
             String problema = e.getMessage();
-            data = Json.createObjectBuilder()
-                    .add("status", 400)
-                    .add("message", problema)
-                    .build();
-            resultado = Response.status(Response.Status.BAD_REQUEST)
-                    .entity(data)
-                    .build();
+            resultado = ResponseGeneral.Failure("Ha ocurrido un error");
         }
         return resultado;
     }
 
+    /**
+     * Metodo para listar las preguntas que se recomiendan en base a
+     * los estudios realizados en el sistema
+     * @param id Identificador de la Solicitud
+     * @return devuelve la lista de preguntas o
+     *      un mensaje que no se encontro
+     */
     @GET
     @Path("/{id}/preguntas_recomendadas")
     public Response preguntasRecomendadas(@PathParam("id") long id){
-        JsonObject data;
         JsonArrayBuilder preguntaslist = Json.createArrayBuilder();
         Response resultado = null;
         try {
             DaoEstudio dao = new DaoEstudio();
             DaoSolicitud daoSolicitud = new DaoSolicitud();
-            List<Estudio> estudios = dao.preguntasSimilares(daoSolicitud.find(id, Solicitud.class));
+            List<Estudio> estudios = dao.preguntasSimilares(
+                    daoSolicitud.find(id, Solicitud.class)
+            );
             if(!(estudios.isEmpty())){
                 for (Estudio estudio: estudios){
                     for(Pregunta pregunta: estudio.getPreguntas()){
@@ -289,178 +270,80 @@ public class ServicioSolicitud extends AplicacionBase{
                         {
                             String tipo = pregunta.getTipo();
                             JsonObject objeto = null;
-                            JsonArrayBuilder opcionesList = null;
-
+                            ResponsePregunta responsePregunta = new ResponsePregunta();
+                            DtoPregunta dtoPregunta = PreguntaMapper.mapEntityToDto( pregunta);
                             switch (tipo) {
                                 case "abierta":
-                                    objeto = Json.createObjectBuilder()
-                                            .add("pregunta", Json.createObjectBuilder()
-                                                    .add("_id", pregunta.get_id())
-                                                    .add("nombre", pregunta.getNombrePregunta())
-                                                    .add("tipo", pregunta.getTipo()))
-                                            .build();
+                                case "boolean":
+                                    objeto = responsePregunta.generate( dtoPregunta);
                                     preguntaslist.add(objeto);
                                     break;
 
                                 case "multiple":
-                                    opcionesList = Json.createArrayBuilder();
-                                    for (Opcion opcion : pregunta.getOpciones()) {
-                                        JsonObject option = Json.createObjectBuilder()
-                                                .add("_id", opcion.get_id())
-                                                .add("nombre_opcion", opcion.getNombre_opcion())
-                                                .build();
-                                        opcionesList.add(option);
-                                    }
-                                    objeto = Json.createObjectBuilder()
-                                            .add("pregunta", Json.createObjectBuilder()
-                                                    .add("_id", pregunta.get_id())
-                                                    .add("nombre", pregunta.getNombrePregunta())
-                                                    .add("tipo", pregunta.getTipo())
-                                                    .add("opciones", opcionesList))
-                                            .build();
-                                    preguntaslist.add(objeto);
-                                    break;
                                 case "simple":
-                                    opcionesList = Json.createArrayBuilder();
-                                    for (Opcion opcion : pregunta.getOpciones()) {
-                                        JsonObject option = Json.createObjectBuilder()
-                                                .add("_id", opcion.get_id())
-                                                .add("nombre_nombre", opcion.getNombre_opcion())
-                                                .build();
-                                        opcionesList.add(option);
-                                    }
-                                    objeto = Json.createObjectBuilder()
-                                            .add("pregunta", Json.createObjectBuilder()
-                                                    .add("_id", pregunta.get_id())
-                                                    .add("nombre", pregunta.getNombrePregunta())
-                                                    .add("tipo", pregunta.getTipo())
-                                                    .add("opciones", opcionesList))
-                                            .build();
-                                    preguntaslist.add(objeto);
-                                    break;
-                                case "boolean":
-                                    objeto = Json.createObjectBuilder()
-                                            .add("pregunta", Json.createObjectBuilder()
-                                                    .add("_id", pregunta.get_id())
-                                                    .add("nombre", pregunta.getNombrePregunta())
-                                                    .add("tipo", pregunta.getTipo()))
-                                            .build();
+                                    objeto = responsePregunta.generateWithOptions( dtoPregunta);
                                     preguntaslist.add(objeto);
                                     break;
                                 case "rango":
-                                    objeto = Json.createObjectBuilder()
-                                            .add("pregunta", Json.createObjectBuilder()
-                                                    .add("_id", pregunta.get_id())
-                                                    .add("nombre", pregunta.getNombrePregunta())
-                                                    .add("tipo", pregunta.getTipo())
-                                                    .add("rango", pregunta.getRango()))
-                                            .build();
+                                    objeto = responsePregunta.generateWithRango( dtoPregunta);
                                     preguntaslist.add(objeto);
                                     break;
                             }//final switch
                         }
                     }
-
                 }
+                resultado = ResponseGeneral.Succes( preguntaslist);
             }
             else{
-                JsonObject agregar = Json.createObjectBuilder()
-                        .add("status", 204)
-                        .add("message", "Actualmente no hay preguntas que se puedan recomendar para este estudio")
-                        .build();
-                preguntaslist.add(agregar);
+                resultado = ResponseGeneral.NoData();
             }
-            data = Json.createObjectBuilder()
-                    .add("status", 200)
-                    .add("data", preguntaslist)
-                    .build();
-            resultado = Response.status(Response.Status.OK)
-                    .entity(data)
-                    .build();
         }
         catch (Exception e){
+            // CAMBIAR CUANDO SE MANEJEN LAS EXCEPCIONES PROPIAS
             String problema = e.getMessage();
-            System.out.println(problema);
-            data = Json.createObjectBuilder()
-                    .add("status", 400)
-                    .add("message", problema)
-                    .build();
-            resultado = Response.status(Response.Status.BAD_REQUEST)
-                    .entity(data)
-                    .build();
+            resultado = ResponseGeneral.Failure("Ha ocurrido un error");
         }
         return resultado;
     }
-    
+    /**
+     * Metodo para listar las Muestras poblacionales que se recomiendan en base a
+     * los estudios realizados en el sistema
+     * @param id Identificador de la Solicitud
+     * @return devuelve la lista de Muestras poblacionales o
+     *      un mensaje que no se encontro
+     */
     @GET
     @Path("/{id}/poblaciones_recomendadas")
     public Response poblacionesRecomendadas(@PathParam("id") long id){
-        JsonObject data;
         JsonArrayBuilder muestrasList = Json.createArrayBuilder();
         Response resultado = null;
         try {
             DaoSolicitud daoSolicitud = new DaoSolicitud();
             DaoEstudio daoEstudio = new DaoEstudio();
-            List<MuestraPoblacion> muestras = daoEstudio.poblacionesSimilares(daoSolicitud.find(id, Solicitud.class));
+            List<MuestraPoblacion> muestras = daoEstudio.poblacionesSimilares(
+                    daoSolicitud.find(id, Solicitud.class)
+            );
+            ResponseMuestraPoblacion responseMuestraPoblacion = new ResponseMuestraPoblacion();
             if(!(muestras.isEmpty())){
                 for(MuestraPoblacion muestra: muestras){
                     if (muestra.getActivo() == 1) {
-                        JsonObject objetoOcupacion = Json.createObjectBuilder()
-                                .add("_id", muestra.getFk_ocupacion().get_id())
-                                .add("nombre", muestra.getFk_ocupacion().getNombre())
-                                .build();
-                        JsonObject agregar = Json.createObjectBuilder()
-                                .add("_id", muestra.get_id())
-                                .add("genero", muestra.getGenero())
-                                .add("nivel_economico", muestra.getNivelEconomico())
-                                .add("nivel_academico", muestra.getNivelAcademico())
-                                .add("rango_edad_inicio", muestra.getRangoEdadInicio())
-                                .add("rango_edad_fin", muestra.getRangoEdadFin())
-                                .add("ocupacion", objetoOcupacion)
-                                .add("cantidad_hijos", muestra.getCantidadHijos())
-                                .add("parroquia", Json.createObjectBuilder()
-                                        .add("_id", muestra.getFk_lugar().get_id())
-                                        .add("nombre", muestra.getFk_lugar().getNombre())
-                                        .add("valorSocioEconomico", muestra.getFk_lugar().getValor_socio_economico())
-                                        .add("municipio", Json.createObjectBuilder()
-                                                .add("_id", muestra.getFk_lugar().getFk_municipio().get_id())
-                                                .add("nombre", muestra.getFk_lugar().getFk_municipio().getNombre())
-                                                .add("estado", Json.createObjectBuilder()
-                                                        .add("_id", muestra.getFk_lugar().getFk_municipio().getFk_estado().get_id())
-                                                        .add("nombre", muestra.getFk_lugar().getFk_municipio().getFk_estado().getNombre())
-                                                        .add("pais", Json.createObjectBuilder()
-                                                                .add("_id", muestra.getFk_lugar().getFk_municipio().getFk_estado().getFk_pais().get_id())
-                                                                .add("nombre", muestra.getFk_lugar().getFk_municipio().getFk_estado().getFk_pais().getNombre())))))
-                                .build();
+                        DtoMuestraPoblacion dtoMuestraPoblacion = MuestraPoblacionMapper.mapEntitytoDto(
+                                muestra
+                        );
+                        JsonObject agregar = responseMuestraPoblacion.generate( dtoMuestraPoblacion);
                         muestrasList.add(agregar);
                     }
                 }
+                resultado = ResponseGeneral.Succes( muestrasList);
             }
             else {
-                JsonObject agregar = Json.createObjectBuilder()
-                        .add("status", 204)
-                        .add("message", "Actualmente no ninguna muestra que pueda ser recomendada a este estudio")
-                        .build();
-                muestrasList.add(agregar);
+                resultado = ResponseGeneral.NoData();
             }
-            data = Json.createObjectBuilder()
-                    .add("status", 200)
-                    .add("data", muestrasList)
-                    .build();
-            resultado = Response.status(Response.Status.OK)
-                    .entity(data)
-                    .build();
         }
         catch (Exception e){
+            // CAMBIAR CUANDO SE MANEJEN LAS EXCEPCIONES PROPIAS
             String problema = e.getMessage();
-            System.out.println(problema);
-            data = Json.createObjectBuilder()
-                    .add("status", 400)
-                    .add("message", problema)
-                    .build();
-            resultado = Response.status(Response.Status.BAD_REQUEST)
-                    .entity(data)
-                    .build();
+            resultado = ResponseGeneral.Failure("Ha ocurrido un error");
         }
         return resultado;
     }

@@ -8,7 +8,10 @@ import mercadeoucab.dtos.DtoPregunta;
 import mercadeoucab.dtos.DtoUsuario;
 import mercadeoucab.entidades.*;
 import mercadeoucab.mappers.EstudioMapper;
+import mercadeoucab.mappers.UsuarioMapper;
 import mercadeoucab.responses.ResponseEstudio;
+import mercadeoucab.responses.ResponseGeneral;
+import mercadeoucab.responses.ResponseUsuario;
 
 import javax.json.Json;
 import javax.json.JsonArrayBuilder;
@@ -22,53 +25,62 @@ import java.util.Calendar;
 import java.util.List;
 import java.util.Objects;
 
+/**
+ *
+ * @author Daren Gonzalez
+ * @version 1.0
+ * @since 2020-12-18
+ */
 @Path( "/estudios" )
 @Produces( MediaType.APPLICATION_JSON )
 @Consumes( MediaType.APPLICATION_JSON )
 public class ServicioEstudio {
 
+    /**
+     * Metodo para listar todos los Estudios registrados
+     * @return regresa la lista de los Estudios, respuesta que no se encontro
+     *      o mensaje que ha ocurrido un error
+     */
     @GET
     @Path("/")
     public Response listarEstudios(){
-        JsonObject data;
         JsonArrayBuilder estudiosList = Json.createArrayBuilder();
         Response resultado = null;
         try {
             DaoEstudio dao = new DaoEstudio();
             List<Estudio> estudios = dao.findAll(Estudio.class);
+            if ( !estudios.isEmpty()) {
+                for (Estudio estudio : estudios) {
 
-            for(Estudio estudio: estudios){
-
-                if(estudio.getActivo() == 1){
-                    ResponseEstudio responseEstudio = new ResponseEstudio();
-                    DtoEstudio dtoEstudio = EstudioMapper.mapEntitytoDto( estudio);
-                    JsonObject agregar = responseEstudio.generate( dtoEstudio);
-                    estudiosList.add(agregar);
+                    if (estudio.getActivo() == 1) {
+                        ResponseEstudio responseEstudio = new ResponseEstudio();
+                        DtoEstudio dtoEstudio = EstudioMapper.mapEntitytoDto(estudio);
+                        JsonObject agregar = responseEstudio.generate(dtoEstudio);
+                        estudiosList.add(agregar);
+                    }
                 }
+                resultado = ResponseGeneral.Succes(estudiosList);
+            }else{
+                resultado = ResponseGeneral.NoData();
             }
-            data = Json.createObjectBuilder()
-                    .add("status", 200)
-                    .add("data", estudiosList)
-                    .build();
-            resultado = Response.status(Response.Status.OK)
-                    .entity(data)
-                    .build();
         }
         catch (Exception e){
+            // CAMBIAR CUANDO SE MANEJEN LAS EXCEPCIONES PROPIAS
             String problema = e.getMessage();
-            data = Json.createObjectBuilder()
-                    .add("status", 400)
-                    .add("message",problema)
-                    .build();
-            resultado = Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(data).build();
+            resultado = ResponseGeneral.Failure("Ha ocurrido un error");
         }
         return resultado;
     }
 
+    /**
+     * Metodo para crear un Estudio
+     * @param dtoEstudio Objeto que se desea crear
+     * @return regresa mensaje de exito en caso de agregarse exitosamente o
+     *   mensaje de error
+     */
     @POST
     @Path("/")
     public Response agregarEstudio(DtoEstudio dtoEstudio){
-        JsonObject data;
         Response resultado = null;
         try {
             DaoEstudio dao = new DaoEstudio();
@@ -91,30 +103,25 @@ public class ServicioEstudio {
             }
 
             Estudio resul = dao.insert(estudio);
-            data = Json.createObjectBuilder()
-                    .add("status", 200)
-                    .add("mensaje", "Estudio creada con exito")
-                    .build();
-            resultado = Response.status(Response.Status.OK)
-                    .entity(data)
-                    .build();
+            resultado = ResponseGeneral.SuccesCreate( resul.get_id());
         }
         catch (Exception e){
+            // CAMBIAR CUANDO SE MANEJEN LAS EXCEPCIONES PROPIAS
             String problema = e.getMessage();
-            data = Json.createObjectBuilder()
-                    .add("status", 400)
-                    .add("message",problema)
-                    .build();
-            resultado = Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(data).build();
-
+            resultado = ResponseGeneral.Failure("Ha ocurrido un error");
         }
         return resultado;
     }
 
+    /**
+     * Metodo para consultar un Estudio dado un identificador
+     * @param id Identificador del Estudio que se desea consultar
+     * @return regresa el Estudio consultado, tambien en caso de no existir
+     *      respuesta que no se encontro o mensaje que ha ocurrido un error
+     */
     @GET
     @Path("/{id}")
     public Response consultarEstudio(@PathParam("id") long id){
-        JsonObject data;
         JsonObject estudioJson;
         Response resultado = null;
         try {
@@ -125,38 +132,27 @@ public class ServicioEstudio {
                 ResponseEstudio responseEstudio = new ResponseEstudio();
                 DtoEstudio dtoEstudio = EstudioMapper.mapEntitytoDto( estudio);
                 estudioJson = responseEstudio.generate( dtoEstudio);
-                data = Json.createObjectBuilder()
-                        .add("status", 200)
-                        .add("data", estudioJson)
-                        .build();
+                resultado = ResponseGeneral.Succes( estudioJson);
             }else {
-                data = Json.createObjectBuilder()
-                        .add("status", 204)
-                        .add("message", "No se ha encontrado ningun estudio")
-                        .build();
+                resultado = ResponseGeneral.NoData();
             }
-            resultado = Response.status(Response.Status.OK)
-                    .entity(data)
-                    .build();
         }
         catch (Exception e){
+            // CAMBIAR CUANDO SE MANEJEN LAS EXCEPCIONES PROPIAS
             String problema = e.getMessage();
-            data = Json.createObjectBuilder()
-                    .add("status", 400)
-                    .add("message", problema)
-                    .build();
-            resultado = Response.status(Response.Status.BAD_REQUEST)
-                    .entity(data)
-                    .build();
-            System.out.print(problema);
+            resultado = ResponseGeneral.Failure("Ha ocurrido un error");
         }
         return resultado;
     }
 
+    /**
+     * Metodo para eliminar un Estudio dado un identificador
+     * @param id Identificador del Estudio que se desea eliminar
+     * @return regresa mensaje de exito o mensaje que ha ocurrido un error
+     */
     @PUT
     @Path("/{id}/eliminar")
     public Response eliminarEstudio(@PathParam("id") long id){
-        JsonObject data;
         Response resultado = null;
         try {
             DaoEstudio dao = new DaoEstudio();
@@ -164,31 +160,25 @@ public class ServicioEstudio {
             estudio.setActivo(0);
             estudio.setModificado_el(new Date(Calendar.getInstance().getTime().getTime()));
             Estudio resul = dao.update( estudio );
-            data = Json.createObjectBuilder()
-                    .add("status", 200)
-                    .add("mensaje", "Estudio eliminado con exito")
-                    .build();
-            resultado = Response.status(Response.Status.OK)
-                    .entity(data)
-                    .build();
+            resultado = ResponseGeneral.SuccesMessage();
         }
         catch (Exception e){
+            // CAMBIAR CUANDO SE MANEJEN LAS EXCEPCIONES PROPIAS
             String problema = e.getMessage();
-            data = Json.createObjectBuilder()
-                    .add("status", 400)
-                    .add("message", problema)
-                    .build();
-            resultado = Response.status(Response.Status.BAD_REQUEST)
-                    .entity(data)
-                    .build();
+            resultado = ResponseGeneral.Failure("Ha ocurrido un error");
         }
         return  resultado;
     }
 
+    /**
+     * Metodo para actualizar un Estudio dado un identificador
+     * @param id Identificador del Estudio que se desea actualizar
+     * @param dtoEstudio Objeto que se desea actualizar
+     * @return regresa mensaje de exito o mensaje que ha ocurrido un error
+     */
     @PUT
     @Path("/{id}")
     public Response actualizarEstudio(@PathParam("id") long id, DtoEstudio dtoEstudio){
-        JsonObject data;
         Response resultado = null;
         try {
             DaoEstudio dao = new DaoEstudio();
@@ -198,131 +188,90 @@ public class ServicioEstudio {
             estudio.setEncuestasEsperadas(dtoEstudio.getEncuestasEsperadas());
             estudio.setModificado_el(new Date(Calendar.getInstance().getTime().getTime()));
             Estudio resul = dao.update(estudio);
-            data = Json.createObjectBuilder()
-                    .add("status", 200)
-                    .add("mensaje", "estudio actualizado con exito")
-                    .build();
-            resultado = Response.status(Response.Status.OK)
-                    .entity(data)
-                    .build();
+            resultado = ResponseGeneral.SuccesMessage();
         }
         catch (Exception e){
+            // CAMBIAR CUANDO SE MANEJEN LAS EXCEPCIONES PROPIAS
             String problema = e.getMessage();
-            data = Json.createObjectBuilder()
-                    .add("status", 400)
-                    .add("problema", problema)
-                    .build();
-            resultado = Response.status(Response.Status.BAD_REQUEST)
-                    .entity(data)
-                    .build();
+            resultado = ResponseGeneral.Failure("Ha ocurrido un error");
         }
         return resultado;
     }
 
+    /**
+     * Metodo para listar los usuarios que han respondido a la encuesta
+     * de un estudio
+     * @param id Identificador del Estudio
+     * @return devuelve la lista de usuarios o
+     *      un mensaje que no se encontro
+     */
     @GET
     @Path("/{id}/usuarios_respondieron")
     public Response usuariosRespondieronEncuesta(@PathParam("id") long id){
-        JsonObject data;
         JsonArrayBuilder usuariosList = Json.createArrayBuilder();
         Response resultado = null;
         try {
             DaoRespuesta daoRespuesta = new DaoRespuesta();
             DaoEstudio daoEstudio = new DaoEstudio();
             DaoUsuario daoUsuario = new DaoUsuario();
+            ResponseUsuario responseUsuario = new ResponseUsuario();
             List<Long> ids = daoRespuesta.usuariosRespondidoEncuesta(daoEstudio.find(id, Estudio.class));
             if(!(ids.isEmpty())){
                 for( int i = 0; i < ids.size(); i++){
 
                     Usuario add = daoUsuario.find(ids.get(i),Usuario.class);
-
-                    JsonObject agregar = Json.createObjectBuilder()
-                                             .add("_id", add.get_id())
-                                             .add("nombre", add.getNombre())
-                                             .add("apellido", add.getApellido())
-                                             .add("rol", add.getRol())
-                                             .add("estado", add.getEstado())
-                                             .add("correo", add.getCorreo())
-                                             .build();
+                    DtoUsuario dtoUsuario = UsuarioMapper.mapEntityToDto( add);
+                    JsonObject agregar = responseUsuario.generate( dtoUsuario);
                     usuariosList.add(agregar);
                 }
-                data = Json.createObjectBuilder()
-                        .add("status", 200)
-                        .add("data", usuariosList)
-                        .build();
+                resultado = ResponseGeneral.Succes( usuariosList);
             }
             else{
-                data = Json.createObjectBuilder()
-                        .add("status", 204)
-                        .add("message", "Actualmente ningun usuario ha respondido a esta encuesta")
-                        .build();
+                resultado = ResponseGeneral.NoData();
             }
-
-            resultado = Response.status(Response.Status.OK)
-                    .entity(data)
-                    .build();
         }
         catch (Exception e){
+            // CAMBIAR CUANDO SE MANEJEN LAS EXCEPCIONES PROPIAS
             String problema = e.getMessage();
-            System.out.println(problema);
-            data = Json.createObjectBuilder()
-                    .add("status", 400)
-                    .add("message", problema)
-                    .build();
-            resultado = Response.status(Response.Status.BAD_REQUEST)
-                    .entity(data)
-                    .build();
+            resultado = ResponseGeneral.Failure("Ha ocurrido un error");
         }
         return resultado;
     }
 
+    /**
+     * Metodo para listar los usuarios que han califican a responder
+     *      la encuesta de un estudio
+     * @param id Identificador del Estudio
+     * @return devuelve la lista de usuarios o
+     *      un mensaje que no se encontro
+     */
     @GET
     @Path("/{id}/usuarios_aplican")
     public Response usuariosAplicanEncuesta(@PathParam("id") long id){
-        JsonObject data;
         JsonArrayBuilder usuariosList = Json.createArrayBuilder();
         Response resultado = null;
         try {
             DaoEstudio daoEstudio = new DaoEstudio();
+            ResponseUsuario responseUsuario = new ResponseUsuario();
             List<Usuario> usuarios = daoEstudio.personasAplicanEstudio(daoEstudio.find(id, Estudio.class));
             if (!(usuarios.isEmpty())){
                 for(Usuario usuario: usuarios){
                     if(usuario.getActivo() == 1) {
-                        JsonObject agregar = Json.createObjectBuilder()
-                                .add("_id", usuario.get_id())
-                                .add("nombre", usuario.getNombre())
-                                .add("apellido", usuario.getApellido())
-                                .add("rol", usuario.getRol())
-                                .add("estado", usuario.getEstado())
-                                .add("correo", usuario.getCorreo())
-                                .build();
+                        DtoUsuario dtoUsuario = UsuarioMapper.mapEntityToDto( usuario);
+                        JsonObject agregar = responseUsuario.generate( dtoUsuario);
                         usuariosList.add(agregar);
                     }
                 }
-                data = Json.createObjectBuilder()
-                        .add("status", 200)
-                        .add("data", usuariosList)
-                        .build();
+                resultado = ResponseGeneral.Succes( usuariosList);
             }
             else{
-                data = Json.createObjectBuilder()
-                        .add("status", 204)
-                        .add("message", "Actualmente ningun usuario califica a esta encuesta")
-                        .build();
+                resultado = ResponseGeneral.NoData();
             }
-            resultado = Response.status(Response.Status.OK)
-                    .entity(data)
-                    .build();
         }
         catch (Exception e){
+            // CAMBIAR CUANDO SE MANEJEN LAS EXCEPCIONES PROPIAS
             String problema = e.getMessage();
-            System.out.println(problema);
-            data = Json.createObjectBuilder()
-                    .add("status", 400)
-                    .add("message", problema)
-                    .build();
-            resultado = Response.status(Response.Status.BAD_REQUEST)
-                    .entity(data)
-                    .build();
+            resultado = ResponseGeneral.Failure("Ha ocurrido un error");
         }
         return resultado;
     }

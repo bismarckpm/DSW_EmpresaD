@@ -7,6 +7,7 @@ import mercadeoucab.entidades.Opcion;
 import mercadeoucab.entidades.Pregunta;
 import mercadeoucab.entidades.Usuario;
 import mercadeoucab.mappers.PreguntaMapper;
+import mercadeoucab.responses.ResponseGeneral;
 import mercadeoucab.responses.ResponsePregunta;
 
 import javax.json.Json;
@@ -17,15 +18,27 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import java.util.List;
 
+/**
+ *
+ * @author Daren Gonzalez
+ * @version 1.0
+ * @since 2020-12-18
+ */
 @Path( "/administrador" )
 @Produces( MediaType.APPLICATION_JSON )
 @Consumes( MediaType.APPLICATION_JSON )
 public class ServicioAdministrador extends AplicacionBase{
 
+    /**
+     * Metodo para listar todas las preguntas que un usuario administrador ha
+     * creado
+     * @param id Identificador del usuario administrador
+     * @return regresa la lista de las preguntas de un usuario
+     *  administrador o respuesta que no se encontro
+     */
     @GET
     @Path("/{id}/preguntas")
     public Response preguntasAdministrador(@PathParam("id") long id){
-        JsonObject data;
         Response resultado = null;
         try {
             DaoPregunta dao = new DaoPregunta();
@@ -58,31 +71,16 @@ public class ServicioAdministrador extends AplicacionBase{
                         }//final switch
                     }
                 }//Final for
-
-                data = Json.createObjectBuilder()
-                        .add("status", 200)
-                        .add("data", preguntaslist)
-                        .build();
+                resultado = ResponseGeneral.Succes( preguntaslist);
             }//final if
             else{
-            data = Json.createObjectBuilder()
-                    .add("status", 204)
-                    .add("message", "No posee preguntas asociadas")
-                    .build();
+                resultado = ResponseGeneral.NoData();
             }
-            resultado = Response.status(Response.Status.OK)
-                    .entity(data)
-                    .build();
         }
         catch (Exception e){
+            // CAMBIAR CUANDO SE MANEJEN LAS EXCEPCIONES PROPIAS
             String problema = e.getMessage();
-            data = Json.createObjectBuilder()
-                    .add("status", 400)
-                    .add("message", problema)
-                    .build();
-            resultado = Response.status(Response.Status.BAD_REQUEST)
-                    .entity(data)
-                    .build();
+            resultado = ResponseGeneral.Failure("Ha ocurrido un error");
         }
         return resultado;
     }

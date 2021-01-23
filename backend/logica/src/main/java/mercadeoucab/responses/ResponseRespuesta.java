@@ -14,41 +14,38 @@ public class ResponseRespuesta implements ResponseBase<DtoRespuesta> {
      */
     @Override
     public JsonObject generate(DtoRespuesta dtoRespuesta) throws Exception {
-        JsonObject resultado = Json.createObjectBuilder()
-                .add("_id", dtoRespuesta.get_id())
-                .build();
+        JsonObject resultado;
         ResponseUsuario responseUsuario = new ResponseUsuario();
-        if (Objects.nonNull( dtoRespuesta.getDtousuario())) {
-            JsonObject usuario = responseUsuario.generate(
-                    dtoRespuesta.getDtousuario()
-            );
-            resultado.put("usuario", usuario);
-        }
-        if (Objects.nonNull(dtoRespuesta.getDtoEncuestaEstudio().getFk_pregunta())) {
-            ResponsePregunta responsePregunta = new ResponsePregunta();
-            JsonObject pregunta = responsePregunta.generate(
-                    dtoRespuesta.getDtoEncuestaEstudio().getFk_pregunta()
-            );
-            resultado.put("pregunta", pregunta);
-        }
-        if (Objects.nonNull(dtoRespuesta.getDtoEncuestaEstudio().getFk_estudio())) {
-            ResponseEstudio responseEstudio = new ResponseEstudio();
-            JsonObject estudio = responseEstudio.generate(
-                    dtoRespuesta.getDtoEncuestaEstudio().getFk_estudio()
-            );
-            resultado.put("estudio", estudio);
-        }
+        JsonObject usuario = responseUsuario.generate(
+                dtoRespuesta.getDtousuario()
+        );
+        /*
+        ResponsePregunta responsePregunta = new ResponsePregunta();
+        JsonObject pregunta = responsePregunta.generate(
+                dtoRespuesta.getDtoEncuestaEstudio().getFk_pregunta()
+        );
+        ResponseEstudio responseEstudio = new ResponseEstudio();
+        JsonObject estudio = responseEstudio.generate(
+                dtoRespuesta.getDtoEncuestaEstudio().getFk_estudio()
+        );
+         */
         if ( Objects.nonNull( dtoRespuesta.getDtoopcion())){
             ResponseOpcion responseOpcion = new ResponseOpcion();
             JsonObject opcion = responseOpcion.generate(
                     dtoRespuesta.getDtoopcion()
             );
-            resultado.put("opcion", opcion);
+            resultado = Json.createObjectBuilder()
+                            .add("_id", dtoRespuesta.get_id())
+                            .add("usuario", usuario)
+                            .add("opcion", opcion)
+                            .build();
         }else {
-            JsonObject respuesta = Json.createObjectBuilder()
-                                        .add("respuesta", dtoRespuesta.getRespuesta())
-                                        .build();
-            resultado.put("respuesta", respuesta);
+            resultado = Json.createObjectBuilder()
+                            .add("_id", dtoRespuesta.get_id())
+                            .add("respuesta", dtoRespuesta.getRespuesta())
+                            .add("usuario", usuario)
+                            .build();
+
         }
         return resultado;
     }

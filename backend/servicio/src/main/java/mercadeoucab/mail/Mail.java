@@ -9,7 +9,7 @@ import java.util.Properties;
  * La clase Mail se usa para manejar
  * todo lo relacionado a enviar correos electronicos
  *
- * @author  OscarM04
+ * @author  Oscar Marquez
  * @version 1.0
  * @since   2020-12-18
  */

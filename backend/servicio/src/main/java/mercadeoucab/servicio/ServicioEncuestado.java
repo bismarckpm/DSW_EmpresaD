@@ -7,6 +7,7 @@ import mercadeoucab.dtos.DtoEstudio;
 import mercadeoucab.entidades.*;
 import mercadeoucab.mappers.EstudioMapper;
 import mercadeoucab.responses.ResponseEstudio;
+import mercadeoucab.responses.ResponseGeneral;
 
 import javax.json.Json;
 import javax.json.JsonArrayBuilder;
@@ -16,15 +17,27 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import java.util.List;
 
+/**
+ *
+ * @author Daren Gonzalez
+ * @version 1.0
+ * @since 2020-12-18
+ */
 @Path( "/encuestados" )
 @Produces( MediaType.APPLICATION_JSON )
 @Consumes( MediaType.APPLICATION_JSON )
 public class ServicioEncuestado extends AplicacionBase{
 
+    /**
+     * Metodo para listar todos los estudios para los cuales aplica un usuario
+     * con rol encuestado
+     * @param id Identificador del usuario encuestado
+     * @return regresa la lista de estudios de un usuario encuestado
+     *       ,respuesta que no se encontro o mensaje que ha ocurido un error
+     */
     @GET
     @Path("/estudios/{id}")
     public Response estudiosAplicables(@PathParam("id") long id){
-        JsonObject data;
         JsonArrayBuilder estudiosList = Json.createArrayBuilder();
         Response resultado = null;
         try {
@@ -49,31 +62,16 @@ public class ServicioEncuestado extends AplicacionBase{
                         estudiosList.add(agregar);
                     }
                 }
-                data = Json.createObjectBuilder()
-                        .add("status", 200)
-                        .add("data", estudiosList)
-                        .build();
+                resultado = ResponseGeneral.Succes( estudiosList);
             }
             else{
-                data = Json.createObjectBuilder()
-                        .add("status", 204)
-                        .add("message", "Lamentablemente su perfil aun no aplica para ningun estudio")
-                        .build();
+                resultado = ResponseGeneral.NoData();
             }
-
-            resultado = Response.status(Response.Status.OK)
-                    .entity(data)
-                    .build();
         }
         catch (Exception e){
+            // CAMBIAR CUANDO SE MANEJEN LAS EXCEPCIONES PROPIAS
             String problema = e.getMessage();
-            data = Json.createObjectBuilder()
-                    .add("status", 400)
-                    .add("message", problema)
-                    .build();
-            resultado = Response.status(Response.Status.BAD_REQUEST)
-                    .entity(data)
-                    .build();
+            resultado = ResponseGeneral.Failure("Ha ocurrido un error");
         }
         return resultado;
     }

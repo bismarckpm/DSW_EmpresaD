@@ -3,6 +3,7 @@ package mercadeoucab.servicio;
 import mercadeoucab.accesodatos.*;
 import mercadeoucab.dtos.*;
 import mercadeoucab.entidades.*;
+import mercadeoucab.responses.ResponseGeneral;
 
 import javax.json.Json;
 import javax.json.JsonObject;
@@ -13,6 +14,12 @@ import java.sql.Date;
 import java.util.Calendar;
 import java.util.List;
 
+/**
+ *
+ * @author Antonio Nohra
+ * @version 1.0
+ * @since 2020-12-18
+ */
 @Path( "/opcion" )
 @Produces( MediaType.APPLICATION_JSON )
 @Consumes( MediaType.APPLICATION_JSON )
@@ -20,7 +27,6 @@ public class ServicioOpcion extends AplicacionBase{
 
     @GET
     @Path("/{id}")
-    // @PathParam("id") Long id
     public DtoOpcion obtenerOpcion(@PathParam("id") Long id){
         DtoOpcion resultado = new DtoOpcion();
         try{
@@ -41,10 +47,15 @@ public class ServicioOpcion extends AplicacionBase{
         return dao.findAll( Opcion.class);
     }
 
+    /**
+     * Metodo para crear una opcion
+     * @param DTOO Objeto que se desea crear
+     * @return regresa mensaje de exito en caso de agregarse exitosamente o
+     *   mensaje de error
+     */
     @POST
     @Path("/")
     public Response registrarOpcion(DtoOpcion DTOO){
-        JsonObject data;
         Response resultado = null;
         try{
             DaoOpcion daoO = new DaoOpcion();
@@ -55,31 +66,25 @@ public class ServicioOpcion extends AplicacionBase{
             Pregunta pregunta=new Pregunta(DTOO.get_Dtopregunta().get_id());
             opcion.setFk_pregunta(pregunta);
             Opcion resul = daoO.insert( opcion);
-            data = Json.createObjectBuilder()
-                    .add("status", 200)
-                    .add("message", "Agregado exitosamente")
-                    .build();
-            resultado = Response.status(Response.Status.OK)
-                    .entity(data)
-                    .build();
+            resultado = ResponseGeneral.SuccesCreate( resul.get_id());
         }catch (Exception e) {
+            // CAMBIAR CUANDO SE MANEJEN LAS EXCEPCIONES PROPIAS
             String problema = e.getMessage();
-            data = Json.createObjectBuilder()
-                    .add("status", 400)
-                    .add("message", problema)
-                    .build();
-            resultado = Response.status(Response.Status.BAD_REQUEST)
-                    .entity(data)
-                    .build();
+            resultado = ResponseGeneral.Failure("Ha ocurrido un error");
         }
         return resultado;
     }
 
 
+    /**
+     * Metodo para actualizar una Opcion dado un identificador
+     * @param id Identificador de la Opcion que se desea actualizar
+     * @param DTOO Objeto que se desea actualizar
+     * @return regresa mensaje de exito o mensaje que ha ocurrido un error
+     */
     @PUT
     @Path("/{id}")
     public Response actualizarOpcion(@PathParam("id") Long id, DtoOpcion DTOO){
-        JsonObject data;
         Response resultado = null;
         try{
             DaoOpcion dao = new DaoOpcion();
@@ -92,30 +97,23 @@ public class ServicioOpcion extends AplicacionBase{
                     .getTime()
                     .getTime()));
             Opcion resul = dao.update( opcion);
-            data = Json.createObjectBuilder()
-                    .add("status", 200)
-                    .add("message", "Actualizado exitosamente")
-                    .build();
-            resultado = Response.status(Response.Status.OK)
-                    .entity(data)
-                    .build();
+            resultado = ResponseGeneral.SuccesMessage();
         }catch (Exception e) {
+            // CAMBIAR CUANDO SE MANEJEN LAS EXCEPCIONES PROPIAS
             String problema = e.getMessage();
-            data = Json.createObjectBuilder()
-                    .add("status", 400)
-                    .add("message", problema)
-                    .build();
-            resultado = Response.status(Response.Status.BAD_REQUEST)
-                    .entity(data)
-                    .build();
+            resultado = ResponseGeneral.Failure("Ha ocurrido un error");
         }
         return resultado;
     }
 
+    /**
+     * Metodo para eliminar una Opcion dado un identificador
+     * @param id Identificador de la Opcion que se desea eliminar
+     * @return regresa mensaje de exito o mensaje que ha ocurrido un error
+     */
     @PUT
     @Path("/{id}/eliminar")
     public Response eliminarOpcion(@PathParam("id") Long id){
-        JsonObject data;
         Response resultado = null;
         try{
             DaoOpcion dao = new DaoOpcion();
@@ -127,22 +125,11 @@ public class ServicioOpcion extends AplicacionBase{
                             .getTime()
                             .getTime()));
             Opcion resul = dao.update( opcion);
-            data = Json.createObjectBuilder()
-                    .add("status", 200)
-                    .add("message", "Eliminado exitosamente")
-                    .build();
-            resultado = Response.status(Response.Status.OK)
-                    .entity(data)
-                    .build();
+            resultado = ResponseGeneral.SuccesMessage();
         }catch (Exception e) {
+            // CAMBIAR CUANDO SE MANEJEN LAS EXCEPCIONES PROPIAS
             String problema = e.getMessage();
-            data = Json.createObjectBuilder()
-                    .add("status", 400)
-                    .add("message", problema)
-                    .build();
-            resultado = Response.status(Response.Status.BAD_REQUEST)
-                    .entity(data)
-                    .build();
+            resultado = ResponseGeneral.Failure("Ha ocurrido un error");
         }
         return resultado;
     }

@@ -67,4 +67,35 @@ public class EstudioMapper {
         }
         return dto;
     }
+
+    public static DtoEstudio mapEntitytoDto2(Estudio entity) throws Exception {
+        FabricaAbstracta fabrica = FabricaAbstracta.getFactory(Fabricas.ESTUDIO);
+        DtoEstudio dto = (DtoEstudio) fabrica.generarDto();
+        dto.set_id(entity.get_id());
+        dto.setCreado_el(entity.getCreado_el());
+        dto.setModificado_el(entity.getModificado_el());
+        dto.setEstado(entity.getEstado());
+        dto.setTipo(entity.getTipo());
+        dto.setEncuestasEsperadas(entity.getEncuestasEsperadas());
+        if(Objects.nonNull(entity.getFk_usuario()))
+            dto.setFk_usuario(UsuarioMapper.mapEntityToDto(entity.getFk_usuario()));
+        if(Objects.nonNull(entity.getFk_muestra_poblacion()))
+            dto.setFk_muestra_poblacion(MuestraPoblacionMapper.mapEntitytoDto(entity.getFk_muestra_poblacion()));
+        if(Objects.nonNull(entity.getSolicitud()))
+            dto.setSolicitud(SolicitudMapper.mapEntityToDto(entity.getSolicitud()));
+        if(!(entity.getPreguntas().isEmpty())){
+            List<DtoPregunta> preguntas = new ArrayList<>();
+            for(Pregunta pregunta: entity.getPreguntas())
+                preguntas.add(PreguntaMapper.mapEntityToDto(pregunta));
+            dto.setPreguntas(preguntas);
+        }
+        if ( Objects.nonNull( entity.getEncuestaEstudio())){
+            for (EncuestaEstudio encuestaEstudio: entity.getEncuestaEstudio()){
+                dto.addEncuestaEstudio(
+                        new DtoEncuestaEstudio( encuestaEstudio.get_id())
+                );
+            }
+        }
+        return dto;
+    }
 }

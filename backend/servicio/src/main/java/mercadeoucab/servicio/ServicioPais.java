@@ -4,6 +4,7 @@ import mercadeoucab.accesodatos.DaoPais;
 import mercadeoucab.dtos.DtoPais;
 import mercadeoucab.entidades.Pais;
 import mercadeoucab.mappers.PaisMapper;
+import mercadeoucab.responses.ResponseGeneral;
 import mercadeoucab.responses.ResponsePais;
 
 import javax.json.Json;
@@ -15,89 +16,89 @@ import javax.ws.rs.core.Response;
 import java.sql.Date;
 import java.util.Calendar;
 import java.util.List;
+import java.util.Objects;
 
+/**
+ *
+ * @author Daren Gonzalez
+ * @version 1.0
+ * @since 2020-12-18
+ */
 @Path( "/paises" )
 @Produces( MediaType.APPLICATION_JSON )
 @Consumes( MediaType.APPLICATION_JSON )
 public class ServicioPais extends AplicacionBase{
 
+    /**
+     * Metodo para listar todos los Paises registrados
+     * @return regresa la lista de los estudios, respuesta que no se encontro
+     *      o mensaje que ha ocurrido un error
+     */
     @GET
     @Path("/")
     public Response listar_paises(){
-        JsonObject data;
         JsonArrayBuilder paises = Json.createArrayBuilder();
         Response resultado = null;
+        ResponsePais responsePais = new ResponsePais();
         try{
             DaoPais dao = new DaoPais();
             List<Pais> paisesObtenidos = dao.findAll( Pais.class);
-
-            for (Pais pais: paisesObtenidos){
-                if (pais.getActivo()!= 0){
-                    ResponsePais responsePais = new ResponsePais();
-                    DtoPais dtoPais = PaisMapper.mapEntityToDto( pais);
-                    JsonObject objeto = responsePais.generate( dtoPais);
-                    paises.add( objeto);
+            if (!paisesObtenidos.isEmpty()){
+                for (Pais pais: paisesObtenidos){
+                    if (pais.getActivo()!= 0){
+                        DtoPais dtoPais = PaisMapper.mapEntityToDto( pais);
+                        JsonObject objeto = responsePais.generate( dtoPais);
+                        paises.add( objeto);
+                    }
                 }
-            }
-            data = Json.createObjectBuilder()
-                    .add("status", 200)
-                    .add("data", paises)
-                    .build();
-            resultado = Response.status(Response.Status.OK)
-                    .entity(data)
-                    .build();
+                resultado = ResponseGeneral.Succes(paises);
+            }else{
+            resultado = ResponseGeneral.NoData();
+        }
         }catch (Exception e) {
+            // CAMBIAR CUANDO SE MANEJEN LAS EXCEPCIONES PROPIAS
             String problema = e.getMessage();
-            data = Json.createObjectBuilder()
-                    .add("status", 400)
-                    .add("message", problema)
-                    .build();
-            resultado = Response.status(Response.Status.BAD_REQUEST)
-                    .entity(data)
-                    .build();
+            resultado = ResponseGeneral.Failure("Ha ocurrido un error");
         }
         return resultado;
     }
 
+    /**
+     * Metodo para consultar un Pais dado un identificador
+     * @param id Identificador del Pais que se desea consultar
+     * @return regresa el Pais consultado, tambien en caso de no existir
+     *      respuesta que no se encontro o mensaje que ha ocurrido un error
+     */
     @GET
     @Path("/{id}")
     public Response obtenerPais(@PathParam("id") long id){
-        JsonObject data;
         Response resultado = null;
         try{
             DaoPais dao = new DaoPais();
             Pais resul = dao.find(id, Pais.class);
-            if ( resul.getActivo() != 0){
+            if ( Objects.nonNull( resul) && resul.getActivo()==1){
                 ResponsePais responsePais = new ResponsePais();
                 DtoPais dtoPais = PaisMapper.mapEntityToDto( resul);
                 JsonObject pais = responsePais.generate( dtoPais);
-                data = Json.createObjectBuilder()
-                        .add("status", 200)
-                        .add("data", pais)
-                        .build();
+                resultado = ResponseGeneral.Succes( pais);
             }else{
-                data = Json.createObjectBuilder()
-                        .add("status", 200)
-                        .add("message", "Pais no se encuentra activo")
-                        .build();
+                resultado = ResponseGeneral.NoData();
             }
-            resultado = Response.status(Response.Status.OK)
-                    .entity(data)
-                    .build();
         }
         catch (Exception e){
+            // CAMBIAR CUANDO SE MANEJEN LAS EXCEPCIONES PROPIAS
             String problema = e.getMessage();
-            data = Json.createObjectBuilder()
-                    .add("status", 400)
-                    .add("message", problema)
-                    .build();
-            resultado = Response.status(Response.Status.BAD_REQUEST)
-                    .entity(data)
-                    .build();
+            resultado = ResponseGeneral.Failure("Ha ocurrido un error");
         }
         return resultado;
     }
 
+    /**
+     * Metodo para crear un Pais
+     * @param dtoPais Objeto que se desea crear
+     * @return regresa mensaje de exito en caso de agregarse exitosamente o
+     *   mensaje de error
+     */
     @POST
     @Path("/")
     public Response agregarPais(DtoPais dtoPais){
@@ -110,32 +111,25 @@ public class ServicioPais extends AplicacionBase{
             pais.setCreado_el(new Date(Calendar.getInstance().getTime().getTime()));
             pais.setNombre(dtoPais.getNombre());
             Pais resul = dao.insert( pais );
-            data = Json.createObjectBuilder()
-                    .add("status", 200)
-                    .add("message", "Agregado exitosamente")
-                    .build();
-            resultado = Response.status(Response.Status.OK)
-                    .entity(data)
-                    .build();
+            resultado = ResponseGeneral.SuccesCreate( resul.get_id());
         }
         catch(Exception e){
+            // CAMBIAR CUANDO SE MANEJEN LAS EXCEPCIONES PROPIAS
             String problema = e.getMessage();
-            System.out.println(problema);
-            data = Json.createObjectBuilder()
-                    .add("status", 400)
-                    .add("message", problema)
-                    .build();
-            resultado = Response.status(Response.Status.BAD_REQUEST)
-                    .entity(data)
-                    .build();
+            resultado = ResponseGeneral.Failure("Ha ocurrido un error");
         }
         return resultado;
     }
 
+    /**
+     * Metodo para actualizar un Pais dado un identificador
+     * @param id Identificador del Pais que se desea actualizar
+     * @param dtoPais Objeto que se desea actualizar
+     * @return regresa mensaje de exito o mensaje que ha ocurrido un error
+     */
     @PUT
     @Path("/{id}")
     public Response actualizarPais(@PathParam("id") long id,DtoPais dtoPais){
-        JsonObject data;
         Response resultado = null;
         try {
             DaoPais dao = new DaoPais();
@@ -143,31 +137,24 @@ public class ServicioPais extends AplicacionBase{
             pais.setNombre(dtoPais.getNombre());
             pais.setModificado_el(new Date(Calendar.getInstance().getTime().getTime()));
             Pais resul = dao.update( pais );
-            data = Json.createObjectBuilder()
-                    .add("status", 200)
-                    .add("message", "Actualizado exitosamente")
-                    .build();
-            resultado = Response.status(Response.Status.OK)
-                    .entity(data)
-                    .build();
+            resultado = ResponseGeneral.SuccesMessage();
         }
         catch (Exception e){
+            // CAMBIAR CUANDO SE MANEJEN LAS EXCEPCIONES PROPIAS
             String problema = e.getMessage();
-            data = Json.createObjectBuilder()
-                    .add("status", 400)
-                    .add("message", problema)
-                    .build();
-            resultado = Response.status(Response.Status.BAD_REQUEST)
-                    .entity(data)
-                    .build();
+            resultado = ResponseGeneral.Failure("Ha ocurrido un error");
         }
         return resultado;
     }
 
+    /**
+     * Metodo para eliminar un Pais dado un identificador
+     * @param id Identificador del Pais que se desea eliminar
+     * @return regresa mensaje de exito o mensaje que ha ocurrido un error
+     */
     @PUT
     @Path("/{id}/eliminar")
     public  Response eliminarPais(@PathParam("id") long id){
-        JsonObject data;
         Response resultado = null;
         try {
             DaoPais dao = new DaoPais();
@@ -175,23 +162,12 @@ public class ServicioPais extends AplicacionBase{
             pais.setActivo(0);
             pais.setModificado_el(new Date(Calendar.getInstance().getTime().getTime()));
             Pais resul = dao.update( pais );
-            data = Json.createObjectBuilder()
-                    .add("status", 200)
-                    .add("message", "Eliminado exitosamente")
-                    .build();
-            resultado = Response.status(Response.Status.OK)
-                    .entity(data)
-                    .build();
+            resultado = ResponseGeneral.SuccesMessage();
         }
         catch (Exception e){
+            // CAMBIAR CUANDO SE MANEJEN LAS EXCEPCIONES PROPIAS
             String problema = e.getMessage();
-            data = Json.createObjectBuilder()
-                    .add("status", 400)
-                    .add("message", problema)
-                    .build();
-            resultado = Response.status(Response.Status.BAD_REQUEST)
-                    .entity(data)
-                    .build();
+            resultado = ResponseGeneral.Failure("Ha ocurrido un error");
         }
         return resultado;
     }

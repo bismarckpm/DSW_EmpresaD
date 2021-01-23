@@ -4,6 +4,7 @@ import mercadeoucab.accesodatos.DaoOcupacion;
 import mercadeoucab.dtos.DtoOcupacion;
 import mercadeoucab.entidades.Ocupacion;
 import mercadeoucab.mappers.OcupacionMapper;
+import mercadeoucab.responses.ResponseGeneral;
 import mercadeoucab.responses.ResponseOcupacion;
 
 import javax.json.Json;
@@ -15,16 +16,28 @@ import javax.ws.rs.core.Response;
 import java.sql.Date;
 import java.util.Calendar;
 import java.util.List;
+import java.util.Objects;
 
+/**
+ *
+ * @author Antonio Nohra
+ * @version 1.0
+ * @since 2020-12-18
+ */
 @Path( "/ocupaciones" )
 @Produces( MediaType.APPLICATION_JSON )
 @Consumes( MediaType.APPLICATION_JSON )
 public class ServicioOcupacion extends AplicacionBase{
 
+    /**
+     * Metodo para consultar una Ocupacion dado un identificador
+     * @param id Identificador de la Ocupacion que se desea consultar
+     * @return regresa la Ocupacion consultada, tambien en caso de no existir
+     *      respuesta que no se encontro o mensaje que ha ocurrido un error
+     */
     @GET
     @Path("/{id}")
     public Response obtenerOcupacion(@PathParam("id") Long id){
-        JsonObject data;
         JsonObject ocupacion;
         Response resultado = null;
         try{
@@ -33,63 +46,61 @@ public class ServicioOcupacion extends AplicacionBase{
             ResponseOcupacion responseOcupacion = new ResponseOcupacion();
             DtoOcupacion dtoOcupacion = OcupacionMapper.mapEntitytoDto( resul);
             ocupacion = responseOcupacion.generate( dtoOcupacion);
-            data = Json.createObjectBuilder()
-                    .add("status", 200)
-                    .add("data", ocupacion)
-                    .build();
-            resultado = Response.status(Response.Status.OK)
-                    .entity(data)
-                    .build();
+            if ( Objects.nonNull( dtoOcupacion)){
+                resultado = ResponseGeneral.Succes( ocupacion);
+            }else{
+                resultado = ResponseGeneral.NoData();
+            }
         }
         catch (Exception e) {
+            // CAMBIAR CUANDO SE MANEJEN LAS EXCEPCIONES PROPIAS
             String problema = e.getMessage();
-            data = Json.createObjectBuilder()
-                    .add("status", 400)
-                    .add("message", problema)
-                    .build();
-            resultado = Response.status(Response.Status.BAD_REQUEST)
-                    .entity(data)
-                    .build();
+            resultado = ResponseGeneral.Failure("Ha ocurrido un error");
         }
         return resultado;
     }
 
+    /**
+     * Metodo para listar todas las ocupaciones registradas
+     * @return regresa la lista de las ocupaciones, respuesta que no se encontro
+     *      o mensaje que ha ocurrido un error
+     */
     @GET
     @Path("/")
     public Response listarOcupacion(){
-        JsonObject data;
         JsonArrayBuilder ocupacionesList = Json.createArrayBuilder();
         Response resultado = null;
         try {
             DaoOcupacion dao = new DaoOcupacion();
             List<Ocupacion> ocupaciones = dao.findAll(Ocupacion.class);
-            for(Ocupacion ocupacion: ocupaciones){
-                if(ocupacion.getActivo() == 1){
-                    ResponseOcupacion responseOcupacion = new ResponseOcupacion();
-                    DtoOcupacion dtoOcupacion = OcupacionMapper.mapEntitytoDto( ocupacion);
-                    JsonObject objeto = responseOcupacion.generate( dtoOcupacion);
-                    ocupacionesList.add(objeto);
+            if ( ocupaciones.isEmpty()) {
+                for (Ocupacion ocupacion : ocupaciones) {
+                    if (ocupacion.getActivo() == 1) {
+                        ResponseOcupacion responseOcupacion = new ResponseOcupacion();
+                        DtoOcupacion dtoOcupacion = OcupacionMapper.mapEntitytoDto(ocupacion);
+                        JsonObject objeto = responseOcupacion.generate(dtoOcupacion);
+                        ocupacionesList.add(objeto);
+                    }
                 }
+                resultado = ResponseGeneral.Succes( ocupacionesList);
+            }else{
+                resultado = ResponseGeneral.NoData();
             }
-            data = Json.createObjectBuilder()
-                    .add("status", 200)
-                    .add("data", ocupacionesList)
-                    .build();
-            resultado = Response.status(Response.Status.OK)
-                    .entity(data)
-                    .build();
         }
         catch (Exception e){
+            // CAMBIAR CUANDO SE MANEJEN LAS EXCEPCIONES PROPIAS
             String problema = e.getMessage();
-            data = Json.createObjectBuilder()
-                    .add("status", 400)
-                    .add("message", problema)
-                    .build();
-            resultado = Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(data).build();
+            resultado = ResponseGeneral.Failure("Ha ocurrido un error");
         }
         return  resultado;
     }
 
+    /**
+     * Metodo para crear una Ocupacion
+     * @param DTOO Objeto que se desea crear
+     * @return regresa mensaje de exito en caso de agregarse exitosamente o
+     *   mensaje de error
+     */
     @POST
     @Path("/")
     public Response registrarOcupacion(DtoOcupacion DTOO){
@@ -102,33 +113,26 @@ public class ServicioOcupacion extends AplicacionBase{
             O.setActivo(1);
             O.setCreado_el(new Date(Calendar.getInstance().getTime().getTime()));
             Ocupacion resul = daoO.insert( O);
-            data = Json.createObjectBuilder()
-                    .add("status", 200)
-                    .add("mensaje","Ocupacion creada con exito")
-                    .build();
-            resultado = Response.status(Response.Status.OK)
-                                .entity(data)
-                                .build();
+            resultado = ResponseGeneral.SuccesCreate( resul.get_id());
 
         }
         catch (Exception e) {
+            // CAMBIAR CUANDO SE MANEJEN LAS EXCEPCIONES PROPIAS
             String problema = e.getMessage();
-            data = Json.createObjectBuilder()
-                    .add("status", 400)
-                    .add("message", problema)
-                    .build();
-            resultado = Response.status(Response.Status.INTERNAL_SERVER_ERROR)
-                                .entity(data)
-                                .build();
+            resultado = ResponseGeneral.Failure("Ha ocurrido un error");
         }
         return resultado;
     }
 
+    /**
+     * Metodo para actualizar una Ocupacion dado un identificador
+     * @param id Identificador de la Ocupacion que se desea actualizar
+     * @param DTOO Objeto que se desea actualizar
+     * @return regresa mensaje de exito o mensaje que ha ocurrido un error
+     */
     @PUT
     @Path("/{id}")
-    // @PathParam("id") Long id
     public Response actualizarOcupacion(@PathParam("id") long id,DtoOcupacion DTOO){
-        JsonObject data;
         Response resultado = null;
         try{
             DaoOcupacion dao = new DaoOcupacion();
@@ -139,32 +143,24 @@ public class ServicioOcupacion extends AplicacionBase{
                                     .getTime()
                                     .getTime()));
             Ocupacion resul = dao.update( O);
-            data = Json.createObjectBuilder()
-                    .add("status", 200)
-                    .add("mensaje","Ocupacion actualizada con exito")
-                    .build();
-            resultado = Response.status(Response.Status.OK)
-                    .entity(data)
-                    .build();
+            resultado = ResponseGeneral.SuccesMessage();
         }
         catch (Exception e) {
+            // CAMBIAR CUANDO SE MANEJEN LAS EXCEPCIONES PROPIAS
             String problema = e.getMessage();
-            data = Json.createObjectBuilder()
-                    .add("status", 400)
-                    .add("message", problema)
-                    .build();
-            resultado = Response.status(Response.Status.BAD_REQUEST)
-                    .entity(data)
-                    .build();
+            resultado = ResponseGeneral.Failure("Ha ocurrido un error");
         }
         return resultado;
     }
 
+    /**
+     * Metodo para eliminar una Ocupacion dado un identificador
+     * @param id Identificador de la Ocupacion que se desea eliminar
+     * @return regresa mensaje de exito o mensaje que ha ocurrido un error
+     */
     @PUT
     @Path("/{id}/eliminar")
-    // @PathParam("id") Long id
     public Response eliminarOcupacion(@PathParam("id") long id){
-        JsonObject data;
         Response resultado = null;
         try{
             DaoOcupacion dao = new DaoOcupacion();
@@ -176,22 +172,11 @@ public class ServicioOcupacion extends AplicacionBase{
                             .getTime()
                             .getTime()));
             Ocupacion resul = dao.update( O);
-            data = Json.createObjectBuilder()
-                    .add("status", 200)
-                    .add("mensaje","Ocupacion eliminada con exito")
-                    .build();
-            resultado = Response.status(Response.Status.OK)
-                    .entity(data)
-                    .build();
+            resultado = ResponseGeneral.SuccesMessage();
         }catch (Exception e) {
+            // CAMBIAR CUANDO SE MANEJEN LAS EXCEPCIONES PROPIAS
             String problema = e.getMessage();
-            data = Json.createObjectBuilder()
-                    .add("status", 400)
-                    .add("problema", problema)
-                    .build();
-            resultado = Response.status(Response.Status.BAD_REQUEST)
-                    .entity(data)
-                    .build();
+            resultado = ResponseGeneral.Failure("Ha ocurrido un error");
         }
         return resultado;
     }

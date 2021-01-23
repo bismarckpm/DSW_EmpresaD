@@ -4,6 +4,7 @@ import mercadeoucab.accesodatos.DaoSolicitud;
 import mercadeoucab.dtos.DtoSolicitud;
 import mercadeoucab.entidades.*;
 import mercadeoucab.mappers.SolicitudMapper;
+import mercadeoucab.responses.ResponseGeneral;
 import mercadeoucab.responses.ResponseSolicitud;
 
 import javax.json.Json;
@@ -14,11 +15,24 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import java.util.List;
 
+/**
+ *
+ * @author Daren Gonzalez
+ * @version 1.0
+ * @since 2020-12-18
+ */
 @Path( "/cliente" )
 @Produces( MediaType.APPLICATION_JSON )
 @Consumes( MediaType.APPLICATION_JSON )
 public class ServicioCliente extends AplicacionBase{
 
+    /**
+     * Metodo para consultar las solicitudes creadar por algun cliente
+     * @param id Identificador del cliente
+     * @return regresa lista de solicitudes en caso de tener alguna creada,
+     *      mensaje que no posee o mensaje de error en caso de ocurrir algun
+     *      fallo
+     */
     @GET
     @Path("/{id}/solicitudes")
     public Response solicitudesCliente(@PathParam("id") long id){
@@ -30,7 +44,6 @@ public class ServicioCliente extends AplicacionBase{
             List<Solicitud> solicitudes = dao.solicitudesCliente(new Usuario(id));
             ResponseSolicitud responseSolicitud = new ResponseSolicitud();
             if(!(solicitudes.isEmpty())){
-
                 for (Solicitud resul: solicitudes){
                     if(resul.getActivo() == 1){
                         DtoSolicitud dtoSolicitud = SolicitudMapper.mapEntityToDto( resul);
@@ -38,31 +51,16 @@ public class ServicioCliente extends AplicacionBase{
                         solicitudesList.add(object);
                     }
                 } //final for
-                data = Json.createObjectBuilder()
-                        .add("status", 200)
-                        .add("data", solicitudesList)
-                        .build();
+                resultado = ResponseGeneral.Succes( solicitudesList);
             }
             else{
-                data = Json.createObjectBuilder()
-                        .add("status", 204)
-                        .add("message", "No posee solicitudes asociadas")
-                        .build();
+                resultado = ResponseGeneral.NoData();
             }
-
-            resultado = Response.status(Response.Status.OK)
-                    .entity(data)
-                    .build();
         }
         catch (Exception e){
+            // CAMBIAR CUANDO SE MANEJEN LAS EXCEPCIONES PROPIAS
             String problema = e.getMessage();
-            data = Json.createObjectBuilder()
-                    .add("status", 400)
-                    .add("message", problema)
-                    .build();
-            resultado = Response.status(Response.Status.BAD_REQUEST)
-                    .entity(data)
-                    .build();
+            resultado = ResponseGeneral.Failure("Ha ocurrido un error");
         }
         return resultado;
     }

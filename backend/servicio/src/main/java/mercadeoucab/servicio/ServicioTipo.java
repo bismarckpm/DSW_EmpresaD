@@ -4,6 +4,7 @@ import mercadeoucab.accesodatos.DaoTipo;
 import mercadeoucab.dtos.DtoTipo;
 import mercadeoucab.entidades.Tipo;
 import mercadeoucab.mappers.TipoMapper;
+import mercadeoucab.responses.ResponseGeneral;
 import mercadeoucab.responses.ResponseTipo;
 
 import javax.json.Json;
@@ -16,51 +17,61 @@ import java.sql.Date;
 import java.util.Calendar;
 import java.util.List;
 
+/**
+ *
+ * @author Oscar Marquez
+ * @version 1.0
+ * @since 2020-12-18
+ */
 @Path( "/tipos" )
 @Produces( MediaType.APPLICATION_JSON )
 @Consumes( MediaType.APPLICATION_JSON )
 public class ServicioTipo extends AplicacionBase {
 
+    /**
+     * Metodo para listar todos los Tipos registrados
+     * @return regresa la lista de los Tipos, respuesta que no se encontro
+     *      o mensaje que ha ocurrido un error
+     */
     @GET
     @Path("/")
     public Response listarTipos(){
-        JsonObject data;
         JsonArrayBuilder tiposList = Json.createArrayBuilder();
         Response resultado = null;
         try {
             DaoTipo dao = new DaoTipo();
             List<Tipo> tipos = dao.findAll(Tipo.class);
             ResponseTipo responseTipo = new ResponseTipo();
-            for(Tipo tipo: tipos){
-                if(tipo.getActivo() == 1){
-                    DtoTipo dtoTipo = TipoMapper.mapEntityToDto( tipo);
-                    JsonObject objeto = responseTipo.generate( dtoTipo);
-                    tiposList.add(objeto);
+            if ( tipos.isEmpty()) {
+                for (Tipo tipo : tipos) {
+                    if (tipo.getActivo() == 1) {
+                        DtoTipo dtoTipo = TipoMapper.mapEntityToDto(tipo);
+                        JsonObject objeto = responseTipo.generate(dtoTipo);
+                        tiposList.add(objeto);
+                    }
                 }
+                resultado = ResponseGeneral.Succes( tiposList);
+            }else {
+                resultado = ResponseGeneral.NoData();
             }
-            data = Json.createObjectBuilder()
-                        .add("status", 200)
-                        .add("data", tiposList)
-                        .build();
-            resultado = Response.status(Response.Status.OK)
-                    .entity(data)
-                    .build();
         }
         catch (Exception e){
+            // CAMBIAR CUANDO SE MANEJEN LAS EXCEPCIONES PROPIAS
             String problema = e.getMessage();
-            data = Json.createObjectBuilder()
-                    .add("status", 400)
-                    .add("message",problema)
-                    .build();
-            resultado = Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(data).build();
+            resultado = ResponseGeneral.Failure("Ha ocurrido un error");
         }
         return resultado;
     }
 
+    /**
+     * Metodo para consultar un Tipo dado un identificador
+     * @param id Identificador del Tipo que se desea consultar
+     * @return regresa el Tipo consultado, tambien en caso de no existir
+     *      respuesta que no se encontro o mensaje que ha ocurrido un error
+     */
     @GET
     @Path("/{id}")
     public Response obtenerTipo( @PathParam("id") Long id){
-        JsonObject data;
         Response resultado = null;
         try {
             DaoTipo dao = new DaoTipo();
@@ -69,37 +80,28 @@ public class ServicioTipo extends AplicacionBase {
             DtoTipo dtoTipo = TipoMapper.mapEntityToDto( resul);
             if( resul.getActivo() == 1){
                 JsonObject tipo = responseTipo.generate( dtoTipo);
-                data = Json.createObjectBuilder()
-                        .add("status", 200)
-                        .add("data", tipo)
-                        .build();
+                resultado = ResponseGeneral.Succes( tipo);
             }else{
-                data = Json.createObjectBuilder()
-                        .add("status", 200)
-                        .add("message", "No se encuentra activo")
-                        .build();
+                resultado = ResponseGeneral.NoData();
             }
-            resultado = Response.status(Response.Status.OK)
-                                .entity(data)
-                                .build();
         }
         catch (Exception e) {
+            // CAMBIAR CUANDO SE MANEJEN LAS EXCEPCIONES PROPIAS
             String problema = e.getMessage();
-            data = Json.createObjectBuilder()
-                    .add("status", 400)
-                    .add("message", problema)
-                    .build();
-            resultado = Response.status(Response.Status.BAD_REQUEST)
-                    .entity(data)
-                    .build();
+            resultado = ResponseGeneral.Failure("Ha ocurrido un error");
         }
         return resultado;
     }
 
+    /**
+     * Metodo para crear un Tipo
+     * @param dtoTipo Objeto que se desea crear
+     * @return regresa mensaje de exito en caso de agregarse exitosamente o
+     *   mensaje de error
+     */
     @POST
     @Path("/")
     public Response registrarTipo( DtoTipo dtoTipo){
-        JsonObject data;
         Response resultado = null;
         try {
             DaoTipo dao = new DaoTipo();
@@ -113,26 +115,24 @@ public class ServicioTipo extends AplicacionBase {
                             .getTime())
             );
             Tipo resul = dao.insert( tipo);
-            data = Json.createObjectBuilder()
-                        .add("status", 200)
-                        .add("mensaje", "Tipo creado con exito")
-                        .build();
-            resultado = Response.status(Response.Status.OK).entity(data).build();
+            resultado = ResponseGeneral.SuccesCreate( resul.get_id());
         }catch (Exception e) {
+            // CAMBIAR CUANDO SE MANEJEN LAS EXCEPCIONES PROPIAS
             String problema = e.getMessage();
-            data = Json.createObjectBuilder()
-                    .add("status", 400)
-                    .add("message",problema)
-                    .build();
-            resultado = Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(data).build();
+            resultado = ResponseGeneral.Failure("Ha ocurrido un error");
         }
         return resultado;
     }
 
+    /**
+     * Metodo para actualizar un Tipo dado un identificador
+     * @param id Identificador del Tipo que se desea actualizar
+     * @param dtoTipo Objeto que se desea actualizar
+     * @return regresa mensaje de exito o mensaje que ha ocurrido un error
+     */
     @PUT
     @Path("/{id}")
     public Response actualizarTipo( @PathParam("id") long id, DtoTipo dtoTipo){
-        JsonObject data;
         Response resultado = null;
         try {
             DaoTipo dao = new DaoTipo();
@@ -145,32 +145,24 @@ public class ServicioTipo extends AplicacionBase {
                             .getTime())
             );
             Tipo resul = dao.update( tipo );
-            data = Json.createObjectBuilder()
-                        .add("status", 200)
-                        .add("mensaje", "Tipo actualizado con exito")
-                        .build();
-            resultado = Response.status(Response.Status.OK)
-                                .entity(data)
-                                .header("Access-Control-Allow-Origin", "*")
-                                .build();
+            resultado = ResponseGeneral.SuccesMessage();
         }
         catch (Exception e) {
+            // CAMBIAR CUANDO SE MANEJEN LAS EXCEPCIONES PROPIAS
             String problema = e.getMessage();
-            data = Json.createObjectBuilder()
-                    .add("status", 400)
-                    .add("message", problema)
-                    .build();
-            resultado = Response.status(Response.Status.BAD_REQUEST)
-                    .entity(data)
-                    .build();
+            resultado = ResponseGeneral.Failure("Ha ocurrido un error");
         }
         return resultado;
     }
 
+    /**
+     * Metodo para eliminar un Tipo dado un identificador
+     * @param id Identificador del Tipo que se desea eliminar
+     * @return regresa mensaje de exito o mensaje que ha ocurrido un error
+     */
     @PUT
     @Path("/{id}/eliminar")
     public Response eliminarTipo( @PathParam("id") Long id){
-        JsonObject data;
         Response resultado = null;
         try {
             DaoTipo dao = new DaoTipo();
@@ -183,22 +175,11 @@ public class ServicioTipo extends AplicacionBase {
                             .getTime())
             );
             Tipo resul = dao.update( tipo);
-            data = Json.createObjectBuilder()
-                        .add("status", 200)
-                        .add("mensaje", "Tipo eliminado con exito")
-                        .build();
-            resultado = Response.status(Response.Status.OK)
-                                .entity(data)
-                                .build();
+            resultado = ResponseGeneral.SuccesMessage();
         }catch (Exception e) {
+            // CAMBIAR CUANDO SE MANEJEN LAS EXCEPCIONES PROPIAS
             String problema = e.getMessage();
-            data = Json.createObjectBuilder()
-                        .add("status", 400)
-                        .add("message", problema)
-                        .build();
-            resultado = Response.status(Response.Status.BAD_REQUEST)
-                                .entity(data)
-                                .build();
+            resultado = ResponseGeneral.Failure("Ha ocurrido un error");
         }
         return resultado;
     }

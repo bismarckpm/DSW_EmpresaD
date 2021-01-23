@@ -41,7 +41,7 @@ public class EncuestaEstudioMapper {
                 new DtoEstudio( entity.getFk_estudio().get_id())
         );
         dto.setFk_pregunta(
-                PreguntaMapper.mapEntityToDto(entity.getFk_pregunta())
+                PreguntaMapper.mapEntityToDto( entity.getFk_pregunta())
         );
         if(!(entity.getRespuestas().isEmpty())){
             List<DtoRespuesta> respuestas = new ArrayList<>();
@@ -51,4 +51,5 @@ public class EncuestaEstudioMapper {
         }
         return dto;
     }
+
 }

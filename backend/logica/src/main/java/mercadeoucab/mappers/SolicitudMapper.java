@@ -46,19 +46,19 @@ public class SolicitudMapper {
         dtoSolicitud.setActivo( solicitud.getActivo());
         dtoSolicitud.setCreado_el( solicitud.getCreado_el());
         dtoSolicitud.setModificado_el( solicitud.getModificado_el());
-        if ( Objects.nonNull( dtoSolicitud.getUsuario())){
+        if ( Objects.nonNull( solicitud.getUsuario())){
             dtoSolicitud.setUsuario(
                     UsuarioMapper.mapEntityToDto( solicitud.getUsuario())
             );
         }
-        if ( Objects.nonNull( dtoSolicitud.getSubCategorias())){
+        if ( Objects.nonNull( solicitud.getSubCategorias())){
             for (SubCategoria subCategoria: solicitud.getSubCategorias()) {
                 dtoSolicitud.addSubcategoria(
                         SubCategoriaMapper.mapEntityToDto( subCategoria)
                 );
             }
         }
-        if ( Objects.nonNull( dtoSolicitud.getPresentaciones())){
+        if ( Objects.nonNull( solicitud.getPresentaciones())){
             for (Presentacion presentacion: solicitud.getPresentaciones()){
                 dtoSolicitud.addPresentacion(
                         PresentacionMapper.mapEntityToDto( presentacion)
@@ -66,7 +66,7 @@ public class SolicitudMapper {
             }
         }
 
-        if ( Objects.nonNull( dtoSolicitud.getTipos())){
+        if ( Objects.nonNull( solicitud.getTipos())){
             for (Tipo tipo: solicitud.getTipos()){
                 dtoSolicitud.addTipo(
                         TipoMapper.mapEntityToDto( tipo)

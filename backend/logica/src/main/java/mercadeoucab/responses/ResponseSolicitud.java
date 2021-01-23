@@ -19,42 +19,42 @@ public class ResponseSolicitud implements ResponseBase<DtoSolicitud> {
      */
     @Override
     public JsonObject generate(DtoSolicitud dtoSolicitud) throws Exception {
-        JsonObject resultado = Json.createObjectBuilder()
-                                    .add("_id", dtoSolicitud.get_id())
-                                    .add("estado",dtoSolicitud.getEstado())
-                                    .build();
-        if ( Objects.nonNull( dtoSolicitud.getUsuario())){
-            ResponseUsuario responseUsuario = new ResponseUsuario();
-            JsonObject usuario = responseUsuario.generate( dtoSolicitud.getUsuario());
-            resultado.put("usuario", usuario);
-        }
+        JsonObject resultado;
+        JsonObject usuario;
+        ResponseUsuario responseUsuario = new ResponseUsuario();
+        usuario = responseUsuario.generate( dtoSolicitud.getUsuario());
+        JsonArrayBuilder tiposList = Json.createArrayBuilder();
         if (Objects.nonNull( dtoSolicitud.getTipos())) {
-            JsonArrayBuilder tiposList = Json.createArrayBuilder();
             for (DtoTipo tipo : dtoSolicitud.getTipos()) {
                 ResponseTipo responseTipo = new ResponseTipo();
                 JsonObject objecto = responseTipo.generate(tipo);
                 tiposList.add(objecto);
             }
-            resultado.put( "tipos", (JsonValue) tiposList);
         }
+        JsonArrayBuilder presentacionlist = Json.createArrayBuilder();
         if ( Objects.nonNull( dtoSolicitud.getPresentaciones())) {
-            JsonArrayBuilder presentacionlist = Json.createArrayBuilder();
             for (DtoPresentacion presentacion : dtoSolicitud.getPresentaciones()) {
                 ResponsePresentacion responsePresentacion = new ResponsePresentacion();
                 JsonObject objecto = responsePresentacion.generate(presentacion);
                 presentacionlist.add(objecto);
             }
-            resultado.put("presentaciones", (JsonValue) presentacionlist);
         }
+        JsonArrayBuilder subCategoriaslist = Json.createArrayBuilder();
         if ( Objects.nonNull( dtoSolicitud.getSubCategorias())) {
-            JsonArrayBuilder subCategoriaslist = Json.createArrayBuilder();
             for (DtoSubCategoria subCategoria : dtoSolicitud.getSubCategorias()) {
                 ResponseSubCategoria responseSubCategoria = new ResponseSubCategoria();
                 JsonObject objecto = responseSubCategoria.generate(subCategoria);
                 subCategoriaslist.add(objecto);
             }
-            resultado.put("subcategorias", (JsonValue) subCategoriaslist);
         }
+        resultado = Json.createObjectBuilder()
+                        .add("_id", dtoSolicitud.get_id())
+                        .add("estado",dtoSolicitud.getEstado())
+                        .add("usuario", usuario)
+                        .add("tipos", tiposList)
+                        .add("subcategorias", subCategoriaslist)
+                        .add("presentaciones", presentacionlist)
+                        .build();
         return resultado;
     }
 }

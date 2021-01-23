@@ -8,6 +8,7 @@ import mercadeoucab.dtos.DtoUsuario;
 import mercadeoucab.entidades.Usuario;
 import mercadeoucab.mail.Mail;
 import mercadeoucab.mappers.UsuarioMapper;
+import mercadeoucab.responses.ResponseGeneral;
 import mercadeoucab.responses.ResponseUsuario;
 
 import javax.json.Json;
@@ -20,15 +21,26 @@ import java.sql.Date;
 import java.util.Calendar;
 import java.util.List;
 
+/**
+ *
+ * @author Oscar Marquez
+ * @version 1.0
+ * @since 2020-12-18
+ */
 @Path( "/usuarios" )
 @Produces( MediaType.APPLICATION_JSON )
 @Consumes( MediaType.APPLICATION_JSON )
 public class ServicioUsuario extends AplicacionBase{
 
+    /**
+     * Metodo para consultar un Usuario dado un identificador
+     * @param id Identificador del Usuario que se desea consultar
+     * @return regresa el Usuario consultado, tambien en caso de no existir
+     *      respuesta que no se encontro o mensaje que ha ocurrido un error
+     */
     @GET
     @Path("/{id}")
     public Response obtenerUsuario(@PathParam("id") Long id){
-        JsonObject data;
         JsonObject usuario;
         Response resultado = null;
         try{
@@ -38,76 +50,63 @@ public class ServicioUsuario extends AplicacionBase{
             DtoUsuario dtoUsuario = UsuarioMapper.mapEntityToDto( resul);
             if (resul.getActivo()!= 0) {
                 usuario = responseUsuario.generate( dtoUsuario);
-                data = Json.createObjectBuilder()
-                        .add("status", 200)
-                        .add("data", usuario)
-                        .build();
+                resultado = ResponseGeneral.Succes( usuario);
             }else{
-                data = Json.createObjectBuilder()
-                        .add("status", 204)
-                        .add("message", "Usuario no se encuentra activo")
-                        .build();
+                resultado = ResponseGeneral.NoData();
             }
-            resultado = Response.status(Response.Status.OK)
-                                .entity(data)
-                                .build();
         }catch (Exception e) {
+            // CAMBIAR CUANDO SE MANEJEN LAS EXCEPCIONES PROPIAS
             String problema = e.getMessage();
-            data = Json.createObjectBuilder()
-                    .add("status", 400)
-                    .add("message", problema)
-                    .build();
-            resultado = Response.status(Response.Status.BAD_REQUEST)
-                                .entity(data)
-                                .build();
+            resultado = ResponseGeneral.Failure("Ha ocurrido un error");
         }
         return resultado;
     }
 
+    /**
+     * Metodo para listar todos los Usuarios registrados
+     * @return regresa la lista de los Usuarios, respuesta que no se encontro
+     *      o mensaje que ha ocurrido un error
+     */
     @GET
     @Path("/")
     public Response listarUsuarios(){
-        JsonObject data;
         JsonArrayBuilder usuarios = Json.createArrayBuilder();
         Response resultado = null;
         try {
             DaoUsuario dao = new DaoUsuario();
             List<Usuario> usuariosObtenidos = dao.findAll(Usuario.class);
             ResponseUsuario responseUsuario = new ResponseUsuario();
-            for (Usuario usuario: usuariosObtenidos){
-                if ( usuario.getActivo() != 0) {
-                    DtoUsuario dtoUsuario = UsuarioMapper.mapEntityToDto( usuario);
-                    JsonObject objeto = responseUsuario.generate( dtoUsuario);
-                    usuarios.add(objeto);
+            if ( !usuariosObtenidos.isEmpty()) {
+                for (Usuario usuario : usuariosObtenidos) {
+                    if (usuario.getActivo() != 0) {
+                        DtoUsuario dtoUsuario = UsuarioMapper.mapEntityToDto(usuario);
+                        JsonObject objeto = responseUsuario.generate(dtoUsuario);
+                        usuarios.add(objeto);
+                    }
                 }
+                resultado = ResponseGeneral.Succes( usuarios);
+            }else{
+                resultado = ResponseGeneral.NoData();
             }
-            data = Json.createObjectBuilder()
-                    .add("status", 200)
-                    .add("data", usuarios)
-                    .build();
-            resultado = Response.status(Response.Status.OK)
-                    .entity(data)
-                    .build();
         }catch (Exception e) {
+            // CAMBIAR CUANDO SE MANEJEN LAS EXCEPCIONES PROPIAS
             String problema = e.getMessage();
-            data = Json.createObjectBuilder()
-                    .add("status", 400)
-                    .add("message", problema)
-                    .build();
-            resultado = Response.status(Response.Status.BAD_REQUEST)
-                    .entity(data)
-                    .build();
+            resultado = ResponseGeneral.Failure("Ha ocurrido un error");
         }
         return  resultado;
     }
 
+    /**
+     * Metodo para crear un Usuario
+     * @param dtoUsuario Objeto que se desea crear
+     * @return regresa mensaje de exito en caso de agregarse exitosamente o
+     *   mensaje de error
+     */
     @POST
     @Path("/")
     public Response registrarUsuario(DtoUsuario dtoUsuario){
-        JsonObject data;
         Response resultado = null;
         try{
-            // Agregacion a la BD
             DaoUsuario dao = new DaoUsuario();
             Usuario usuario = new Usuario();
             usuario.setNombre( dtoUsuario.getNombre());
@@ -127,41 +126,27 @@ public class ServicioUsuario extends AplicacionBase{
                         dtoUsuario.getPassword()
                 );
                 ldap.addEntryToLdap( paraInsertar);
-                data = Json.createObjectBuilder()
-                        .add("status", 200)
-                        .add("message", "Agregado exitosamente")
-                        .add("_id", resul.get_id())
-                        .build();
-                resultado = Response.status(Response.Status.OK)
-                        .entity(data)
-                        .build();
+                resultado = ResponseGeneral.SuccesCreate( resul.get_id());
             }else{
-                data = Json.createObjectBuilder()
-                        .add("status", 400)
-                        .add("message", "Error se debe enviar una contrasena")
-                        .build();
-                resultado = Response.status(Response.Status.BAD_REQUEST)
-                        .entity(data)
-                        .build();
+                resultado = ResponseGeneral.Failure("Error debe enviar una contrasena");
             }
-
         }catch (Exception e) {
+            // CAMBIAR CUANDO SE MANEJEN LAS EXCEPCIONES PROPIAS
             String problema = e.getMessage();
-            data = Json.createObjectBuilder()
-                    .add("status", 400)
-                    .add("message", problema)
-                    .build();
-            resultado = Response.status(Response.Status.BAD_REQUEST)
-                    .entity(data)
-                    .build();
+            resultado = ResponseGeneral.Failure("Ha ocurrido un error");
         }
         return resultado;
     }
 
+    /**
+     * Metodo para actualizar un Usuario dado un identificador
+     * @param id Identificador del Usuario que se desea actualizar
+     * @param dtoUsuario Objeto que se desea actualizar
+     * @return regresa mensaje de exito o mensaje que ha ocurrido un error
+     */
     @PUT
     @Path("/{id}")
     public Response actualizarUsuario( @PathParam("id") Long id, DtoUsuario dtoUsuario){
-        JsonObject data;
         Response resultado = null;
         try{
             DaoUsuario dao = new DaoUsuario();
@@ -175,29 +160,23 @@ public class ServicioUsuario extends AplicacionBase{
                             .getTime()
                             .getTime()));
             Usuario resul = dao.update( usuario);
-            data = Json.createObjectBuilder()
-                    .add("status", 200)
-                    .add("message", "Actualizado exitosamente")
-                    .build();
-            resultado = Response.status(Response.Status.OK)
-                    .entity(data)
-                    .build();
+            resultado = ResponseGeneral.SuccesMessage();
         }catch (Exception e) {
+            // CAMBIAR CUANDO SE MANEJEN LAS EXCEPCIONES PROPIAS
             String problema = e.getMessage();
-            data = Json.createObjectBuilder()
-                    .add("status", 400)
-                    .build();
-            resultado = Response.status(Response.Status.BAD_REQUEST)
-                    .entity(data)
-                    .build();
+            resultado = ResponseGeneral.Failure("Ha ocurrido un error");
         }
         return resultado;
     }
 
+    /**
+     * Metodo para eliminar un Usuario dado un identificador
+     * @param id Identificador del Usuario que se desea eliminar
+     * @return regresa mensaje de exito o mensaje que ha ocurrido un error
+     */
     @PUT
     @Path("/{id}/eliminar")
     public Response eliminarUsuario( @PathParam("id") Long id){
-        JsonObject data;
         Response resultado = null;
         try{
             DaoUsuario dao = new DaoUsuario();
@@ -209,30 +188,23 @@ public class ServicioUsuario extends AplicacionBase{
                             .getTime()
                             .getTime()));
             Usuario resul = dao.update( usuario);
-            data = Json.createObjectBuilder()
-                    .add("status", 200)
-                    .add("message", "Eliminado exitosamente")
-                    .build();
-            resultado = Response.status(Response.Status.OK)
-                    .entity(data)
-                    .build();
+            resultado = ResponseGeneral.SuccesMessage();
         }catch (Exception e) {
+            // CAMBIAR CUANDO SE MANEJEN LAS EXCEPCIONES PROPIAS
             String problema = e.getMessage();
-            data = Json.createObjectBuilder()
-                    .add("status", 400)
-                    .add("message", problema)
-                    .build();
-            resultado = Response.status(Response.Status.BAD_REQUEST)
-                    .entity(data)
-                    .build();
+            resultado = ResponseGeneral.Failure("Ha ocurrido un error");
         }
         return resultado;
     }
 
+    /**
+     * Metodo para realizar una peticio al sistema de cambiar la clave
+     * @param dtoUsuario Objeto del Usuario que desea realizar una peticion
+     * @return regresa mensaje de exito o mensaje que ha ocurrido un error
+     */
     @POST
     @Path("/peticionClaveOlvidada")
     public Response peticionClaveOlvidada (DtoUsuario dtoUsuario){
-        JsonObject data;
         Response resultado = null;
         try{
             DaoUsuario dao = new DaoUsuario();
@@ -240,48 +212,36 @@ public class ServicioUsuario extends AplicacionBase{
                     dtoUsuario.getCorreo()
             );
             if ( usuario == null){
-                data = Json.createObjectBuilder()
-                        .add("status", 200)
-                        .add("message", "Usuario no registrado")
-                        .build();
+                resultado = ResponseGeneral.Failure("Usuario no se encuentra registrado");
             }else {
                 Mail enviarCorreo = new Mail();
                 DtoMail dtoMail = new DtoMail();
                 dtoMail.emailResetearContrasena(
                         "http://localhost:4200/change-password?correo="+ usuario.getCorreo()
                 );
-                // Cambiar correo receptor a usuario.getCorreo() cuando se vaya a probar en al App
                 enviarCorreo.enviarCorreo(
                         usuario.getCorreo(),
                         dtoMail.getMensaje(),
                         dtoMail.getAsunto()
                 );
-                data = Json.createObjectBuilder()
-                        .add("status", 200)
-                        .add("message",
-                                "Peticion procesada exitosamente revisar el correo")
-                        .build();
+                resultado = ResponseGeneral.SuccesMessage();
             }
-            resultado = Response.status( Response.Status.OK)
-                        .entity(data)
-                        .build();
         }catch (Exception e) {
+            // CAMBIAR CUANDO SE MANEJEN LAS EXCEPCIONES PROPIAS
             String problema = e.getMessage();
-            data = Json.createObjectBuilder()
-                    .add("status", 400)
-                    .add("message", problema)
-                    .build();
-            resultado = Response.status( Response.Status.BAD_REQUEST)
-                    .entity(data)
-                    .build();
+            resultado = ResponseGeneral.Failure("Ha ocurrido un error");
         }
         return resultado;
     }
 
+    /**
+     * Metodo para cambiar la clave de un Usuario
+     * @param dtoDirectorioAUser Objeto que se desea cambiar la clave
+     * @return regresa mensaje de exito o mensaje que ha ocurrido un error
+     */
     @POST
     @Path("/cambioClaveOlvidada")
     public Response cambioClaveOlvidada (DtoDirectorioAUser dtoDirectorioAUser){
-        JsonObject data;
         Response resultado = null;
         try{
             //Agregar seguridad aca con el token en la segunda entrega
@@ -295,23 +255,11 @@ public class ServicioUsuario extends AplicacionBase{
                     dtoDirectorioAUser.getPassword(),
                     null
             );
-            data = Json.createObjectBuilder()
-                    .add("status", 200)
-                    .add("message",
-                            "Cambio de clave realizado exitosamente")
-                    .build();
-            resultado = Response.status(Response.Status.OK)
-                    .entity(data)
-                    .build();
+            resultado = ResponseGeneral.SuccesMessage();
         }catch (Exception e) {
+            // CAMBIAR CUANDO SE MANEJEN LAS EXCEPCIONES PROPIAS
             String problema = e.getMessage();
-            data = Json.createObjectBuilder()
-                    .add("status", 400)
-                    .add("message", problema)
-                    .build();
-            resultado = Response.status(Response.Status.BAD_REQUEST)
-                    .entity(data)
-                    .build();
+            resultado = ResponseGeneral.Failure("Ha ocurrido un error");
         }
         return resultado;
     }

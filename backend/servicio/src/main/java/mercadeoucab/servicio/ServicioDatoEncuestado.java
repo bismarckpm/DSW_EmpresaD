@@ -6,6 +6,7 @@ import mercadeoucab.dtos.*;
 import mercadeoucab.entidades.*;
 import mercadeoucab.mappers.DatoEncuestadoMapper;
 import mercadeoucab.responses.ResponseDatoEncuestado;
+import mercadeoucab.responses.ResponseGeneral;
 
 import javax.json.Json;
 import javax.json.JsonArrayBuilder;
@@ -19,11 +20,21 @@ import java.time.Period;
 import java.util.Calendar;
 import java.util.List;
 
+/**
+ *
+ * @author Daren Gonzalez
+ * @version 1.0
+ * @since 2020-12-18
+ */
 @Path( "/datos_encuestados" )
 @Produces( MediaType.APPLICATION_JSON )
 @Consumes( MediaType.APPLICATION_JSON )
 public class ServicioDatoEncuestado extends AplicacionBase{
-    
+
+    /**
+     * Metodo para listar todos los Datos Encuestados registrados
+     * @return regresa la lista de las Datos Encuestados o respuesta que no se encontro
+     */
     @GET
     @Path("/")
     public Response listarDatosEncuestado(){
@@ -33,39 +44,37 @@ public class ServicioDatoEncuestado extends AplicacionBase{
         try {
             DaoDatoEncuestado dao = new DaoDatoEncuestado();
             List<DatoEncuestado> datosEncuestadosObtenidos = dao.findAll( DatoEncuestado.class);
-            for (DatoEncuestado datoEncuestado: datosEncuestadosObtenidos){
-                if ( datoEncuestado.getActivo() != 0 ){
-                    ResponseDatoEncuestado responseDatoEncuestado = new ResponseDatoEncuestado();
-                    DtoDatoEncuestado dtoDatoEncuestado = DatoEncuestadoMapper.mapEntitytoDto( datoEncuestado);
-                    JsonObject objeto = responseDatoEncuestado.generate( dtoDatoEncuestado);
-                    datoEncuestados.add( objeto);
+            if ( !datosEncuestadosObtenidos.isEmpty()) {
+                for (DatoEncuestado datoEncuestado : datosEncuestadosObtenidos) {
+                    if (datoEncuestado.getActivo() != 0) {
+                        ResponseDatoEncuestado responseDatoEncuestado = new ResponseDatoEncuestado();
+                        DtoDatoEncuestado dtoDatoEncuestado = DatoEncuestadoMapper.mapEntitytoDto(datoEncuestado);
+                        JsonObject objeto = responseDatoEncuestado.generate(dtoDatoEncuestado);
+                        datoEncuestados.add(objeto);
+                    }
                 }
+                resultado = ResponseGeneral.Succes(datoEncuestados);
+            }else{
+                resultado = ResponseGeneral.NoData();
             }
-            data = Json.createObjectBuilder()
-                    .add("status", 200)
-                    .add("data", datoEncuestados)
-                    .build();
-            resultado = Response.status(Response.Status.OK)
-                    .entity(data)
-                    .build();
         }catch (Exception e) {
+            // CAMBIAR CUANDO SE MANEJEN LAS EXCEPCIONES PROPIAS
             String problema = e.getMessage();
-            data = Json.createObjectBuilder()
-                    .add("status", 400)
-                    .add("message", problema)
-                    .build();
-            resultado = Response.status(Response.Status.BAD_REQUEST)
-                    .entity(data)
-                    .build();
+            resultado = ResponseGeneral.Failure("Ha ocurrido un error");
         }
         return  resultado;
 
     }
 
+    /**
+     * Metodo para registrar un Dato Encuestado a un usuario con rol encuestado
+     * @param dtoDatoEncuestado Objeto que se desea crear
+     * @return regresa mensaje de exito en caso de agregarse exitosamente o
+     *      *   mensaje de error
+     */
     @POST
     @Path("/")
     public Response registrarDatoEncuestado(DtoDatoEncuestado dtoDatoEncuestado){
-        JsonObject data;
         Response resultado = null;
         try {
             DaoDatoEncuestado dao = new DaoDatoEncuestado();
@@ -103,31 +112,25 @@ public class ServicioDatoEncuestado extends AplicacionBase{
                 datoEncuestado.addHijo( paraInsertar);
             }
             DatoEncuestado resul = dao.insert(datoEncuestado);
-            data = Json.createObjectBuilder()
-                    .add("status", 200)
-                    .add("message", "Agregado exitosamente")
-                    .build();
-            resultado = Response.status(Response.Status.OK)
-                    .entity(data)
-                    .build();
+            resultado = ResponseGeneral.SuccesCreate( resul.get_id());
         }
         catch (Exception e){
+            // CAMBIAR CUANDO SE MANEJEN LAS EXCEPCIONES PROPIAS
             String problema = e.getMessage();
-            data = Json.createObjectBuilder()
-                    .add("status", 400)
-                    .add("message", problema)
-                    .build();
-            resultado = Response.status(Response.Status.BAD_REQUEST)
-                    .entity(data)
-                    .build();
+            resultado = ResponseGeneral.Failure("Ha ocurrido un error");
         }
         return  resultado;
     }
 
+    /**
+     * Metodo para consultar un Dato Encuestado dado su identificador
+     * @param id Identificador del Dato Encuestado a consultar
+     * @return regresa el Dato Encuestado consultado, respuesta que no se encontro
+     *      o mensaje de error
+     */
     @GET
     @Path("/{id}")
     public Response consultarDatoEncuestado(@PathParam("id") long id){
-        JsonObject data;
         Response resultado = null;
         try{
             DaoDatoEncuestado dao = new DaoDatoEncuestado();
@@ -136,38 +139,28 @@ public class ServicioDatoEncuestado extends AplicacionBase{
                 ResponseDatoEncuestado responseDatoEncuestado = new ResponseDatoEncuestado();
                 DtoDatoEncuestado dtoDatoEncuestado = DatoEncuestadoMapper.mapEntitytoDto( resul);
                 JsonObject objeto = responseDatoEncuestado.generate( dtoDatoEncuestado);
-                data = Json.createObjectBuilder()
-                        .add("status", 200)
-                        .add("data", objeto)
-                        .build();
+                resultado = ResponseGeneral.Succes( objeto);
             }
-            else
-                {
-                data = Json.createObjectBuilder()
-                        .add("status", 200)
-                        .add("message", "Dato Encuestado no se encuentra activo")
-                        .build();
+            else{
+                resultado = ResponseGeneral.NoData();
             }
-            resultado = Response.status(Response.Status.OK)
-                    .entity(data)
-                    .build();
         }catch (Exception e) {
+            // CAMBIAR CUANDO SE MANEJEN LAS EXCEPCIONES PROPIAS
             String problema = e.getMessage();
-            data = Json.createObjectBuilder()
-                    .add("status", 400)
-                    .add("message", problema)
-                    .build();
-            resultado = Response.status(Response.Status.BAD_REQUEST)
-                    .entity(data)
-                    .build();
+            resultado = ResponseGeneral.Failure("Ha ocurrido un error");
         }
         return resultado;
     }
 
+    /**
+     * Metodo para actualizar un Dato Encuestado dado su identificador
+     * @param id Identificador del Dato Encuestado a actualizar
+     * @param dtoDatoEncuestado Objeto que se desea actualizar
+     * @return regresa mensaje de exito o mensaje que ha ocurrido un error
+     */
     @PUT
     @Path("/{id}")
     public Response actualizarDatoEncuestado(@PathParam("id") long id, DtoDatoEncuestado dtoDatoEncuestado){
-        JsonObject data;
         Response resultado = null;
         try {
             DaoDatoEncuestado dao = new DaoDatoEncuestado();
@@ -182,31 +175,24 @@ public class ServicioDatoEncuestado extends AplicacionBase{
             datoEncuestado.setNivelAcademico(dtoDatoEncuestado.getNivelAcademico());
             datoEncuestado.setPersonasHogar(dtoDatoEncuestado.getPersonasHogar());
             DatoEncuestado resul = dao.update(datoEncuestado);
-            data = Json.createObjectBuilder()
-                    .add("status", 200)
-                    .add("message", "Actualizado exitosamente")
-                    .build();
-            resultado = Response.status(Response.Status.OK)
-                    .entity(data)
-                    .build();
+            resultado = ResponseGeneral.SuccesMessage();
         }
         catch (Exception e){
+            // CAMBIAR CUANDO SE MANEJEN LAS EXCEPCIONES PROPIAS
             String problema = e.getMessage();
-            data = Json.createObjectBuilder()
-                    .add("status", 400)
-                    .add("message", problema)
-                    .build();
-            resultado = Response.status(Response.Status.BAD_REQUEST)
-                    .entity(data)
-                    .build();
+            resultado = ResponseGeneral.Failure("Ha ocurrido un error");
         }
         return resultado;
     }
 
+    /**
+     * Metodo para eliminar un Dato Encuestado dado su identificador
+     * @param id Identificador del Dato Encuestado a eliminar
+     * @return regresa mensaje de exito o mensaje que ha ocurrido un error
+     */
     @PUT
     @Path("/eliminar/{id}")
     public Response eliminarDatoEncuestado(@PathParam("id") long id){
-        JsonObject data;
         Response resultado = null;
         try {
             DaoDatoEncuestado dao = new DaoDatoEncuestado();
@@ -214,23 +200,12 @@ public class ServicioDatoEncuestado extends AplicacionBase{
             datoEncuestado.setActivo(0);
             datoEncuestado.setModificado_el(new Date(Calendar.getInstance().getTime().getTime()));
             DatoEncuestado resul = dao.update(datoEncuestado);
-            data = Json.createObjectBuilder()
-                    .add("status", 200)
-                    .add("message", "Eliminado exitosamente")
-                    .build();
-            resultado = Response.status(Response.Status.OK)
-                    .entity(data)
-                    .build();
+            resultado = ResponseGeneral.SuccesMessage();
         }
         catch (Exception e){
+            // CAMBIAR CUANDO SE MANEJEN LAS EXCEPCIONES PROPIAS
             String problema = e.getMessage();
-            data = Json.createObjectBuilder()
-                    .add("status", 400)
-                    .add("message",problema)
-                    .build();
-            resultado = Response.status(Response.Status.BAD_REQUEST)
-                    .entity(data)
-                    .build();
+            resultado = ResponseGeneral.Failure("Ha ocurrido un error");
         }
         return  resultado;
     }
