@@ -3,6 +3,8 @@ package mercadeoucab.servicio;
 import mercadeoucab.accesodatos.DaoPresentacion;
 import mercadeoucab.dtos.DtoPresentacion;
 import mercadeoucab.entidades.Presentacion;
+import mercadeoucab.mappers.PresentacionMapper;
+import mercadeoucab.responses.ResponsePresentacion;
 
 import javax.json.Json;
 import javax.json.JsonArrayBuilder;
@@ -28,11 +30,9 @@ public class ServicioPresentacion extends AplicacionBase{
         try{
             DaoPresentacion dao = new DaoPresentacion();
             Presentacion resul = dao.find( id, Presentacion.class);
-            presentacion = Json.createObjectBuilder()
-                    .add("_id", resul.get_id())
-                    .add("tipo", resul.getTipo())
-                    .add("cantidad", resul.getCantidad())
-                    .build();
+            ResponsePresentacion responsePresentacion = new ResponsePresentacion();
+            DtoPresentacion dtoPresentacion = PresentacionMapper.mapEntityToDto( resul);
+            presentacion = responsePresentacion.generate( dtoPresentacion);
             data = Json.createObjectBuilder()
                     .add("status", 200)
                     .add("data", presentacion)
@@ -63,14 +63,11 @@ public class ServicioPresentacion extends AplicacionBase{
         try {
             DaoPresentacion dao = new DaoPresentacion();
             List<Presentacion> presentaciones = dao.findAll(Presentacion.class);
-
+            ResponsePresentacion responsePresentacion = new ResponsePresentacion();
             for(Presentacion presentacion: presentaciones){
                 if(presentacion.getActivo() == 1){
-                    JsonObject objeto = Json.createObjectBuilder()
-                                            .add("_id", presentacion.get_id())
-                                            .add("tipo", presentacion.getTipo())
-                                            .add("cantidad", presentacion.getCantidad())
-                                            .build();
+                    DtoPresentacion dtoPresentacion = PresentacionMapper.mapEntityToDto( presentacion);
+                    JsonObject objeto = responsePresentacion.generate( dtoPresentacion);
                     presentacionesList.add(objeto);
                 }
             }
@@ -128,7 +125,6 @@ public class ServicioPresentacion extends AplicacionBase{
 
     @PUT
     @Path("/{id}")
-    // @PathParam("id") Long id
     public Response actualizarPresentacion(@PathParam("id") long id,DtoPresentacion DTOP){
         JsonObject data;
         Response resultado = null;
@@ -164,7 +160,6 @@ public class ServicioPresentacion extends AplicacionBase{
 
     @PUT
     @Path("/{id}/eliminar")
-    // @PathParam("id") Long id
     public Response eliminarPresentacion(@PathParam("id") long id){
         JsonObject data;
         Response resultado = null;

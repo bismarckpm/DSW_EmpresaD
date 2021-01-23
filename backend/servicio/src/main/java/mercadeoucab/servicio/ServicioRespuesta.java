@@ -7,6 +7,8 @@ import mercadeoucab.entidades.EncuestaEstudio;
 import mercadeoucab.entidades.Opcion;
 import mercadeoucab.entidades.Respuesta;
 import mercadeoucab.entidades.Usuario;
+import mercadeoucab.mappers.RespuestaMapper;
+import mercadeoucab.responses.ResponseRespuesta;
 
 import javax.json.Json;
 import javax.json.JsonArrayBuilder;
@@ -32,45 +34,20 @@ public class ServicioRespuesta extends AplicacionBase{
         try{
             DaoRespuesta dao = new DaoRespuesta();
             Respuesta resul = dao.find( id, Respuesta.class);
-            if(resul.getFk_opcion() != null) {
-                respuesta = Json.createObjectBuilder()
-                        .add("_id", resul.get_id())
-                        .add("respuesta", resul.getRespuesta())
-                        .add("usuario", Json.createObjectBuilder()
-                                .add("_id", resul.getFk_usuario().get_id())
-                                .add("nombre", resul.getFk_usuario().getNombre())
-                                .add("apellido", resul.getFk_usuario().getApellido())
-                                .add("correo", resul.getFk_usuario().getCorreo()))
-                        .add("Pregunta", Json.createObjectBuilder()
-                                .add("_id", resul.getEncuesta_estudio().getFk_pregunta().get_id())
-                                .add("pregunta", resul.getEncuesta_estudio().getFk_pregunta().getNombrePregunta()))
-                        .add("estudio", Json.createObjectBuilder()
-                                .add("_id", resul.getEncuesta_estudio().getFk_estudio().get_id()))
-                        .add("opcion", Json.createObjectBuilder()
-                                .add("_id", resul.getFk_opcion().get_id())
-                                .add("nombre", resul.getFk_opcion().getNombre_opcion()))
+            ResponseRespuesta responseRespuesta = new ResponseRespuesta();
+            DtoRespuesta dtoRespuesta = RespuestaMapper.mapEntityToDto( resul);
+            if( resul.getActivo() == 1) {
+                respuesta = responseRespuesta.generate( dtoRespuesta);
+                data = Json.createObjectBuilder()
+                        .add("status", 200)
+                        .add("data", respuesta)
+                        .build();
+            }else{
+                data = Json.createObjectBuilder()
+                        .add("status", 204)
+                        .add("message", "Respuesta no se encuentra activa")
                         .build();
             }
-            else{
-                respuesta = Json.createObjectBuilder()
-                        .add("_id", resul.get_id())
-                        .add("respuesta", resul.getRespuesta())
-                        .add("usuario", Json.createObjectBuilder()
-                                .add("_id", resul.getFk_usuario().get_id())
-                                .add("nombre", resul.getFk_usuario().getNombre())
-                                .add("apellido", resul.getFk_usuario().getApellido())
-                                .add("correo", resul.getFk_usuario().getCorreo()))
-                        .add("Pregunta", Json.createObjectBuilder()
-                                .add("_id", resul.getEncuesta_estudio().getFk_pregunta().get_id())
-                                .add("pregunta", resul.getEncuesta_estudio().getFk_pregunta().getNombrePregunta()))
-                        .add("estudio", Json.createObjectBuilder()
-                                .add("_id", resul.getEncuesta_estudio().getFk_estudio().get_id()))
-                        .build();
-            }
-            data = Json.createObjectBuilder()
-                    .add("status", 200)
-                    .add("data", respuesta)
-                    .build();
             resultado = Response.status(Response.Status.OK)
                     .entity(data)
                     .build();
@@ -97,54 +74,27 @@ public class ServicioRespuesta extends AplicacionBase{
         try {
             DaoRespuesta dao = new DaoRespuesta();
             List<Respuesta> respuestas = dao.findAll(Respuesta.class);
-
+            ResponseRespuesta responseRespuesta = new ResponseRespuesta();
             for(Respuesta resul: respuestas){
-                if(resul.getActivo() == 1){
-
-                    if(resul.getFk_opcion() != null) {
-                        JsonObject objeto = Json.createObjectBuilder()
-                                .add("_id", resul.get_id())
-                                .add("respuesta", resul.getRespuesta())
-                                .add("usuario", Json.createObjectBuilder()
-                                        .add("_id", resul.getFk_usuario().get_id())
-                                        .add("nombre", resul.getFk_usuario().getNombre())
-                                        .add("apellido", resul.getFk_usuario().getApellido())
-                                        .add("correo", resul.getFk_usuario().getCorreo()))
-                                .add("Pregunta", Json.createObjectBuilder()
-                                        .add("_id", resul.getEncuesta_estudio().getFk_pregunta().get_id())
-                                        .add("pregunta", resul.getEncuesta_estudio().getFk_pregunta().getNombrePregunta()))
-                                .add("estudio", Json.createObjectBuilder()
-                                        .add("_id", resul.getEncuesta_estudio().getFk_estudio().get_id()))
-                                .add("opcion", Json.createObjectBuilder()
-                                        .add("_id", resul.getFk_opcion().get_id())
-                                        .add("nombre", resul.getFk_opcion().getNombre_opcion()))
-                                .build();
-                        respuestasList.add(objeto);
-                    }
-                    else{
-                        JsonObject objeto = Json.createObjectBuilder()
-                                .add("_id", resul.get_id())
-                                .add("respuesta", resul.getRespuesta())
-                                .add("usuario", Json.createObjectBuilder()
-                                        .add("_id", resul.getFk_usuario().get_id())
-                                        .add("nombre", resul.getFk_usuario().getNombre())
-                                        .add("apellido", resul.getFk_usuario().getApellido())
-                                        .add("correo", resul.getFk_usuario().getCorreo()))
-                                .add("Pregunta", Json.createObjectBuilder()
-                                        .add("_id", resul.getEncuesta_estudio().getFk_pregunta().get_id())
-                                        .add("pregunta", resul.getEncuesta_estudio().getFk_pregunta().getNombrePregunta()))
-                                .add("estudio", Json.createObjectBuilder()
-                                        .add("_id", resul.getEncuesta_estudio().getFk_estudio().get_id()))
-                                .build();
-                        respuestasList.add(objeto);
-                    }
-                    }
+                if( resul.getActivo() == 1){
+                    DtoRespuesta dtoRespuesta = RespuestaMapper.mapEntityToDto( resul);
+                    JsonObject objeto = responseRespuesta.generate( dtoRespuesta);
+                    respuestasList.add(objeto);
                 }
+            }
+            if (respuestas.isEmpty()){
+                data = Json.createObjectBuilder()
+                        .add("status", 204)
+                        .add("message", "No se poseen respuestas registradas")
+                        .build();
+            }else{
+                data = Json.createObjectBuilder()
+                        .add("status", 200)
+                        .add("data", respuestasList)
+                        .build();
+            }
 
-            data = Json.createObjectBuilder()
-                    .add("status", 200)
-                    .add("data", respuestasList)
-                    .build();
+
             resultado = Response.status(Response.Status.OK)
                     .entity(data)
                     .build();

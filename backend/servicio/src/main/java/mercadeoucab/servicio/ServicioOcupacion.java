@@ -3,6 +3,8 @@ package mercadeoucab.servicio;
 import mercadeoucab.accesodatos.DaoOcupacion;
 import mercadeoucab.dtos.DtoOcupacion;
 import mercadeoucab.entidades.Ocupacion;
+import mercadeoucab.mappers.OcupacionMapper;
+import mercadeoucab.responses.ResponseOcupacion;
 
 import javax.json.Json;
 import javax.json.JsonArrayBuilder;
@@ -28,10 +30,9 @@ public class ServicioOcupacion extends AplicacionBase{
         try{
             DaoOcupacion dao = new DaoOcupacion();
             Ocupacion resul = dao.find( id, Ocupacion.class);
-            ocupacion = Json.createObjectBuilder()
-                            .add("_id", resul.get_id())
-                            .add("nombre",resul.getNombre())
-                            .build();
+            ResponseOcupacion responseOcupacion = new ResponseOcupacion();
+            DtoOcupacion dtoOcupacion = OcupacionMapper.mapEntitytoDto( resul);
+            ocupacion = responseOcupacion.generate( dtoOcupacion);
             data = Json.createObjectBuilder()
                     .add("status", 200)
                     .add("data", ocupacion)
@@ -64,10 +65,9 @@ public class ServicioOcupacion extends AplicacionBase{
             List<Ocupacion> ocupaciones = dao.findAll(Ocupacion.class);
             for(Ocupacion ocupacion: ocupaciones){
                 if(ocupacion.getActivo() == 1){
-                    JsonObject objeto = Json.createObjectBuilder()
-                            .add("_id", ocupacion.get_id())
-                            .add("nombre",ocupacion.getNombre())
-                            .build();
+                    ResponseOcupacion responseOcupacion = new ResponseOcupacion();
+                    DtoOcupacion dtoOcupacion = OcupacionMapper.mapEntitytoDto( ocupacion);
+                    JsonObject objeto = responseOcupacion.generate( dtoOcupacion);
                     ocupacionesList.add(objeto);
                 }
             }

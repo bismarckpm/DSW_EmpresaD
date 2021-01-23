@@ -6,6 +6,8 @@ import mercadeoucab.dtos.DtoEstado;
 import mercadeoucab.dtos.DtoPais;
 import mercadeoucab.entidades.Estado;
 import mercadeoucab.entidades.Pais;
+import mercadeoucab.mappers.EstadoMapper;
+import mercadeoucab.responses.ResponseEstado;
 import org.junit.Assert;
 
 import javax.json.Json;
@@ -32,18 +34,11 @@ public class ServicioEstado extends AplicacionBase {
         try{
             DaoEstado dao = new DaoEstado();
             List<Estado> estadosObtenidos = dao.findAll( Estado.class);
-
+            ResponseEstado responseEstado = new ResponseEstado();
             for (Estado estado: estadosObtenidos){
                 if( estado.getActivo() != 0 ){
-                    JsonObject objetoPais = Json.createObjectBuilder()
-                                                .add("_id", estado.getFk_pais().get_id())
-                                                .add("nombre", estado.getFk_pais().getNombre())
-                                                .build();
-                    JsonObject objeto = Json.createObjectBuilder()
-                            .add("_id", estado.get_id())
-                            .add("nombre", estado.getNombre())
-                            .add("pais", objetoPais)
-                            .build();
+                    DtoEstado dtoEstado = EstadoMapper.mapentitytoDto( estado);
+                    JsonObject objeto = responseEstado.generate( dtoEstado);
                     estados.add(objeto);
                 }
             }
@@ -171,21 +166,14 @@ public class ServicioEstado extends AplicacionBase {
     @Path("/{id}")
     public Response consultarEstado(@PathParam("id") long id){
         JsonObject data;
-        JsonObject estado;
         Response resultado = null;
         try{
             DaoEstado dao = new DaoEstado();
             Estado resul = dao.find(id, Estado.class);
+            ResponseEstado responseEstado = new ResponseEstado();
             if (resul.getActivo()!= 0) {
-                JsonObject objetoPais = Json.createObjectBuilder()
-                        .add("_id", resul.getFk_pais().get_id())
-                        .add("nombre", resul.getFk_pais().getNombre())
-                        .build();
-                estado = Json.createObjectBuilder()
-                        .add("_id", resul.get_id())
-                        .add("nombre", resul.getNombre())
-                        .add("pais", objetoPais)
-                        .build();
+                DtoEstado dtoEstado = EstadoMapper.mapentitytoDto( resul);
+                JsonObject estado = responseEstado.generate( dtoEstado);
                 data = Json.createObjectBuilder()
                         .add("status", 200)
                         .add("data", estado)

@@ -7,6 +7,8 @@ import mercadeoucab.dtos.DtoMail;
 import mercadeoucab.dtos.DtoUsuario;
 import mercadeoucab.entidades.Usuario;
 import mercadeoucab.mail.Mail;
+import mercadeoucab.mappers.UsuarioMapper;
+import mercadeoucab.responses.ResponseUsuario;
 
 import javax.json.Json;
 import javax.json.JsonArrayBuilder;
@@ -32,22 +34,17 @@ public class ServicioUsuario extends AplicacionBase{
         try{
             DaoUsuario dao = new DaoUsuario();
             Usuario resul = dao.find( id, Usuario.class);
+            ResponseUsuario responseUsuario = new ResponseUsuario();
+            DtoUsuario dtoUsuario = UsuarioMapper.mapEntityToDto( resul);
             if (resul.getActivo()!= 0) {
-                usuario = Json.createObjectBuilder()
-                        .add("_id", resul.get_id())
-                        .add("nombre", resul.getNombre())
-                        .add("apellido", resul.getApellido())
-                        .add("rol", resul.getRol())
-                        .add("estado", resul.getEstado())
-                        .add("correo", resul.getCorreo())
-                        .build();
+                usuario = responseUsuario.generate( dtoUsuario);
                 data = Json.createObjectBuilder()
                         .add("status", 200)
                         .add("data", usuario)
                         .build();
             }else{
                 data = Json.createObjectBuilder()
-                        .add("status", 200)
+                        .add("status", 204)
                         .add("message", "Usuario no se encuentra activo")
                         .build();
             }
@@ -76,17 +73,11 @@ public class ServicioUsuario extends AplicacionBase{
         try {
             DaoUsuario dao = new DaoUsuario();
             List<Usuario> usuariosObtenidos = dao.findAll(Usuario.class);
-
+            ResponseUsuario responseUsuario = new ResponseUsuario();
             for (Usuario usuario: usuariosObtenidos){
                 if ( usuario.getActivo() != 0) {
-                    JsonObject objeto = Json.createObjectBuilder()
-                            .add("_id", usuario.get_id())
-                            .add("nombre", usuario.getNombre())
-                            .add("apellido", usuario.getApellido())
-                            .add("rol", usuario.getRol())
-                            .add("estado", usuario.getEstado())
-                            .add("correo", usuario.getCorreo())
-                            .build();
+                    DtoUsuario dtoUsuario = UsuarioMapper.mapEntityToDto( usuario);
+                    JsonObject objeto = responseUsuario.generate( dtoUsuario);
                     usuarios.add(objeto);
                 }
             }

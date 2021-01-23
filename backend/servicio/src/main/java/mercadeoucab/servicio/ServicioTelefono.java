@@ -3,6 +3,9 @@ import mercadeoucab.accesodatos.DaoTelefono;
 import mercadeoucab.dtos.DtoTelefono;
 import mercadeoucab.entidades.DatoEncuestado;
 import mercadeoucab.entidades.Telefono;
+import mercadeoucab.mappers.TelefonoMapper;
+import mercadeoucab.responses.ResponseRespuesta;
+import mercadeoucab.responses.ResponseTelefono;
 
 import javax.json.Json;
 import javax.json.JsonObject;
@@ -26,18 +29,17 @@ public class ServicioTelefono extends AplicacionBase {
         try{
             DaoTelefono dao = new DaoTelefono();
             Telefono resul = dao.find( id, Telefono.class);
+            ResponseTelefono responseTelefono = new ResponseTelefono();
+            DtoTelefono dtoTelefono = TelefonoMapper.mapEntitytoDto( resul);
             if ( resul.getActivo() != 0 ){
-                telefono = Json.createObjectBuilder()
-                        .add("_id", resul.get_id())
-                        .add("telefono", resul.getTelefono())
-                        .build();
+                telefono = responseTelefono.generate( dtoTelefono);
                 data = Json.createObjectBuilder()
                         .add("status", 200)
                         .add("data", telefono)
                         .build();
             }else{
                 data = Json.createObjectBuilder()
-                        .add("status", 200)
+                        .add("status", 204)
                         .add("message", "Telefono no se encuentra activo")
                         .build();
             }
@@ -96,7 +98,6 @@ public class ServicioTelefono extends AplicacionBase {
 
     @PUT
     @Path("/{id}")
-    // @PathParam("id") Long id
     public Response modificarTelefono( @PathParam("id") Long id, DtoTelefono dtoTelefono){
         JsonObject data;
         Response resultado = null;

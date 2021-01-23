@@ -4,6 +4,8 @@ import mercadeoucab.accesodatos.DaoSubCategoria;
 import mercadeoucab.dtos.DtoSubCategoria;
 import mercadeoucab.entidades.Categoria;
 import mercadeoucab.entidades.SubCategoria;
+import mercadeoucab.mappers.SubCategoriaMapper;
+import mercadeoucab.responses.ResponseSubCategoria;
 
 import javax.json.Json;
 import javax.json.JsonArrayBuilder;
@@ -29,17 +31,21 @@ public class ServicioSubCategoria extends AplicacionBase{
         try{
             DaoSubCategoria dao = new DaoSubCategoria();
             SubCategoria resul = dao.find( id, SubCategoria.class);
-            subcategoria = Json.createObjectBuilder()
-                                .add("_id", resul.get_id())
-                                .add("nombre", resul.getNombre())
-                                .add("categoria", Json.createObjectBuilder()
-                                                         .add("_id",resul.getCategoria().get_id())
-                                                         .add("nombre", resul.getCategoria().getNombre()))
-                                .build();
-            data = Json.createObjectBuilder()
-                    .add("status", 200)
-                    .add("data", subcategoria)
-                    .build();
+            ResponseSubCategoria responseSubCategoria = new ResponseSubCategoria();
+            DtoSubCategoria dtoSubCategoria = SubCategoriaMapper.mapEntityToDto( resul);
+            if ( dtoSubCategoria.getActivo() == 1 ){
+                subcategoria = responseSubCategoria.generate( dtoSubCategoria);
+                data = Json.createObjectBuilder()
+                        .add("status", 200)
+                        .add("data", subcategoria)
+                        .build();
+
+            }else{
+                data = Json.createObjectBuilder()
+                        .add("status", 204)
+                        .add("message", "No se encuentra activa")
+                        .build();
+            }
             resultado = Response.status(Response.Status.OK)
                     .entity(data)
                     .build();
@@ -66,15 +72,11 @@ public class ServicioSubCategoria extends AplicacionBase{
         try {
             DaoSubCategoria dao = new DaoSubCategoria();
             List<SubCategoria> subCategorias = dao.findAll(SubCategoria.class);
+            ResponseSubCategoria responseSubCategoria = new ResponseSubCategoria();
             for(SubCategoria subCategoria: subCategorias){
                 if(subCategoria.getActivo() == 1){
-                    JsonObject objeto = Json.createObjectBuilder()
-                                            .add("_id", subCategoria.get_id())
-                                            .add("nombre", subCategoria.getNombre())
-                                            .add("categoria", Json.createObjectBuilder()
-                                                    .add("_id",subCategoria.getCategoria().get_id())
-                                                    .add("nombre", subCategoria.getCategoria().getNombre()))
-                                            .build();
+                    DtoSubCategoria dtoSubCategoria = SubCategoriaMapper.mapEntityToDto( subCategoria);
+                    JsonObject objeto = responseSubCategoria.generate( dtoSubCategoria);
                     subcategoriasList.add(objeto);
                 }
             }

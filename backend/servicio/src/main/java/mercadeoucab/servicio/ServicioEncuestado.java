@@ -3,7 +3,10 @@ package mercadeoucab.servicio;
 import mercadeoucab.accesodatos.DaoDatoEncuestado;
 import mercadeoucab.accesodatos.DaoEstudio;
 import mercadeoucab.accesodatos.DaoUsuario;
+import mercadeoucab.dtos.DtoEstudio;
 import mercadeoucab.entidades.*;
+import mercadeoucab.mappers.EstudioMapper;
+import mercadeoucab.responses.ResponseEstudio;
 
 import javax.json.Json;
 import javax.json.JsonArrayBuilder;
@@ -37,44 +40,13 @@ public class ServicioEncuestado extends AplicacionBase{
                             + datoEncuestado.getNivelAcademico());
 
             List<Estudio> estudios = dao.estudiosAplicanUsuario(datoEncuestado);
+            ResponseEstudio responseEstudio = new ResponseEstudio();
             if(!(estudios.isEmpty())){
                 for(Estudio estudio: estudios){
                     if(estudio.getActivo() == 1){
-                    /*JsonArrayBuilder tiposList = Json.createArrayBuilder();
-                    for(Tipo tipo: estudio.getSolicitud().getTipos()){
-                        JsonObject objecto = Json.createObjectBuilder()
-                                .add("_id", tipo.get_id())
-                                .add("nombre", tipo.getNombre())
-                                .build();
-                        tiposList.add(objecto);
-                    }*/
-
-                    /*JsonArrayBuilder presentacionlist = Json.createArrayBuilder();
-                    for(Presentacion presentacion: estudio.getSolicitud().getPresentaciones()){
-                        JsonObject objecto = Json.createObjectBuilder()
-                                .add("_id", presentacion.get_id())
-                                .add("tipo", presentacion.getTipo())
-                                .add("Cantidad",presentacion.getCantidad())
-                                .build();
-                        presentacionlist.add(objecto);
-                    }*/
-
-                    /*JsonArrayBuilder subCategoriaslist = Json.createArrayBuilder();
-                    for(SubCategoria subCategoria: estudio.getSolicitud().getSubCategorias()){
-                        JsonObject objecto = Json.createObjectBuilder()
-                                .add("_id", subCategoria.get_id())
-                                .add("nombre", subCategoria.getNombre())
-                                .add("categoria",Json.createObjectBuilder()
-                                        .add("_id", subCategoria.getCategoria().get_id())
-                                        .add("nombre", subCategoria.getCategoria().getNombre()))
-                                .build();
-                        subCategoriaslist.add(objecto);
-                    }*/
-
-                    JsonObject agregar = Json.createObjectBuilder()
-                            .add("_id",estudio.get_id())
-                            .build();
-                    estudiosList.add(agregar);
+                        DtoEstudio dtoEstudio = EstudioMapper.mapEntitytoDto( estudio);
+                        JsonObject agregar = responseEstudio.generate( dtoEstudio);
+                        estudiosList.add(agregar);
                     }
                 }
                 data = Json.createObjectBuilder()

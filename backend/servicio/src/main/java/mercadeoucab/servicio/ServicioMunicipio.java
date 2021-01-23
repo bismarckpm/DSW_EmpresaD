@@ -5,6 +5,9 @@ import mercadeoucab.accesodatos.DaoMunicipio;
 import mercadeoucab.dtos.DtoMunicipio;
 import mercadeoucab.entidades.Estado;
 import mercadeoucab.entidades.Municipio;
+import mercadeoucab.mappers.MunicipioMapper;
+import mercadeoucab.responses.ResponseBase;
+import mercadeoucab.responses.ResponseMunicipio;
 
 import javax.json.Json;
 import javax.json.JsonArrayBuilder;
@@ -31,24 +34,11 @@ public class ServicioMunicipio extends AplicacionBase{
         try{
             DaoMunicipio dao = new DaoMunicipio();
             List<Municipio> municipiosObtenidos = dao.findAll( Municipio.class);
-
+            ResponseMunicipio responseMunicipio = new ResponseMunicipio();
             for(Municipio municipio: municipiosObtenidos){
                 if( municipio.getActivo() != 0 ){
-                    Estado estado = municipio.getFk_estado();
-                    JsonObject objetoPais = Json.createObjectBuilder()
-                            .add("_id", estado.getFk_pais().get_id())
-                            .add("nombre", estado.getFk_pais().getNombre())
-                            .build();
-                    JsonObject objetoEstado = Json.createObjectBuilder()
-                            .add("_id", estado.get_id())
-                            .add("nombre", estado.getNombre())
-                            .add("pais", objetoPais)
-                            .build();
-                    JsonObject objeto = Json.createObjectBuilder()
-                                            .add("_id", municipio.get_id())
-                                            .add("nombre",municipio.getNombre())
-                                            .add("estado", objetoEstado)
-                                            .build();
+                    DtoMunicipio dtoMunicipio = MunicipioMapper.mapEntitytoDto( municipio);
+                    JsonObject objeto = responseMunicipio.generate( dtoMunicipio);
                     municipios.add(objeto);
                 }
             }
@@ -81,29 +71,17 @@ public class ServicioMunicipio extends AplicacionBase{
         try {
             DaoMunicipio dao = new DaoMunicipio();
             Municipio resul = dao.find(id , Municipio.class);
+            ResponseMunicipio responseMunicipio = new ResponseMunicipio();
             if ( resul.getActivo()!=0 ){
-                Estado estado = resul.getFk_estado();
-                JsonObject objetoPais = Json.createObjectBuilder()
-                        .add("_id", estado.getFk_pais().get_id())
-                        .add("nombre", estado.getFk_pais().getNombre())
-                        .build();
-                JsonObject objetoEstado = Json.createObjectBuilder()
-                        .add("_id", estado.get_id())
-                        .add("nombre", estado.getNombre())
-                        .add("pais", objetoPais)
-                        .build();
-                municipio = Json.createObjectBuilder()
-                        .add("_id", resul.get_id())
-                        .add("nombre",resul.getNombre())
-                        .add("estado", objetoEstado)
-                        .build();
+                DtoMunicipio dtoMunicipio = MunicipioMapper.mapEntitytoDto( resul);
+                municipio = responseMunicipio.generate( dtoMunicipio);
                 data = Json.createObjectBuilder()
                         .add("status", 200)
                         .add("data", municipio)
                         .build();
             }else{
                 data = Json.createObjectBuilder()
-                        .add("status", 200)
+                        .add("status", 204)
                         .add("message", "Municipio no se encuentra activo")
                         .build();
             }

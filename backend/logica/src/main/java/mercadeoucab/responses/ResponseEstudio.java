@@ -2,10 +2,6 @@ package mercadeoucab.responses;
 
 import mercadeoucab.dtos.DtoEncuestaEstudio;
 import mercadeoucab.dtos.DtoEstudio;
-import mercadeoucab.dtos.DtoOpcion;
-import mercadeoucab.entidades.EncuestaEstudio;
-import mercadeoucab.entidades.Opcion;
-
 import javax.json.Json;
 import javax.json.JsonArrayBuilder;
 import javax.json.JsonObject;

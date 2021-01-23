@@ -78,7 +78,6 @@ public class ServicioOpcion extends AplicacionBase{
 
     @PUT
     @Path("/{id}")
-    // @PathParam("id") Long id
     public Response actualizarOpcion(@PathParam("id") Long id, DtoOpcion DTOO){
         JsonObject data;
         Response resultado = null;

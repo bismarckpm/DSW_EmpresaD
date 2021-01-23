@@ -4,10 +4,6 @@ import mercadeoucab.dtos.DtoPresentacion;
 import mercadeoucab.dtos.DtoSolicitud;
 import mercadeoucab.dtos.DtoSubCategoria;
 import mercadeoucab.dtos.DtoTipo;
-import mercadeoucab.entidades.Presentacion;
-import mercadeoucab.entidades.SubCategoria;
-import mercadeoucab.entidades.Tipo;
-import mercadeoucab.mappers.TipoMapper;
 
 import javax.json.Json;
 import javax.json.JsonArrayBuilder;

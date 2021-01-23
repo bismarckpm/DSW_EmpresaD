@@ -148,29 +148,25 @@ public class ServicioPregunta extends AplicacionBase{
             DaoPregunta dao = new DaoPregunta();
             Pregunta resul = dao.find(id, Pregunta.class);
             if ( resul.getActivo() != 0) {
-                JsonArrayBuilder listaOpcion = Json.createArrayBuilder();
-                for ( Opcion opcion: resul.getOpciones()){
-                    if( opcion.getActivo() != 0 ) {
-                        JsonObject objetoOpcion = Json.createObjectBuilder()
-                                .add("_id", opcion.get_id())
-                                .add("nombre_opcion", opcion.getNombre_opcion())
-                                .build();
-                        listaOpcion.add(objetoOpcion);
-                    }
-                }
-                pregunta = Json.createObjectBuilder()
-                        .add("_id", resul.get_id())
-                        .add("pregunta", resul.getNombrePregunta())
-                        .add("tipo", resul.getTipo())
-                        .add("rango", resul.getRango())
-                        .add("opciones", listaOpcion)
-                        .add("usuario", Json.createObjectBuilder()
-                                .add("_id", resul.getUsuario().get_id())
-                                .add("nombre", resul.getUsuario().getNombre())
-                                .add("apellido", resul.getUsuario().getApellido())
-                                .add("correo", resul.getUsuario().getCorreo())
-                                .add("rol", resul.getUsuario().getRol()))
-                        .build();
+                ResponsePregunta responsePregunta = new ResponsePregunta();
+                DtoPregunta dtoPregunta = PreguntaMapper.mapEntityToDto( resul);
+                String tipo = resul.getTipo();
+                switch (tipo) {
+                    case "abierta":
+                    case "boolean":
+                        pregunta = responsePregunta.generate( dtoPregunta);
+                        break;
+
+                    case "multiple":
+                    case "simple":
+                        pregunta = responsePregunta.generateWithOptions( dtoPregunta);
+                        break;
+                    case "rango":
+                        pregunta = responsePregunta.generateWithRango( dtoPregunta);
+                        break;
+                    default:
+                        throw new IllegalStateException("Unexpected value: " + tipo);
+                }//final switch
                 data = Json.createObjectBuilder()
                         .add("status", 200)
                         .add("data", pregunta)
@@ -178,7 +174,7 @@ public class ServicioPregunta extends AplicacionBase{
             }
             else{
                 data = Json.createObjectBuilder()
-                        .add("status", 200)
+                        .add("status", 204)
                         .add("message", "Pregunta no se encuentra activa")
                         .build();
             }

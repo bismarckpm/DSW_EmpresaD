@@ -3,7 +3,10 @@ package mercadeoucab.servicio;
 import mercadeoucab.accesodatos.DaoUsuario;
 import mercadeoucab.directorioactivo.DirectorioActivo;
 import mercadeoucab.dtos.DtoDirectorioAUser;
+import mercadeoucab.dtos.DtoUsuario;
 import mercadeoucab.entidades.Usuario;
+import mercadeoucab.mappers.UsuarioMapper;
+import mercadeoucab.responses.ResponseUsuario;
 
 import javax.json.Json;
 import javax.json.JsonObject;
@@ -38,14 +41,9 @@ public class ServicioLDAP extends AplicacionBase {
             );
 
             if ( ldap.userAuthentication( dtoUsuario)){
-                usuarioRegresado = Json.createObjectBuilder()
-                        .add("_id", usuario.get_id())
-                        .add( "nombre", usuario.getNombre())
-                        .add( "apellido", usuario.getApellido())
-                        .add( "rol", usuario.getRol())
-                        .add( "estado", usuario.getEstado())
-                        .add( "correo", usuario.getCorreo())
-                        .build();
+                ResponseUsuario responseUsuario = new ResponseUsuario();
+                DtoUsuario usuarioParaRegresar = UsuarioMapper.mapEntityToDto( usuario);
+                usuarioRegresado = responseUsuario.generate( usuarioParaRegresar);
                 data = Json.createObjectBuilder()
                         .add("status", 200)
                         .add("data", usuarioRegresado)
