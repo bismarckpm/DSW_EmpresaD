@@ -1,6 +1,7 @@
 package mercadeoucab.mappers;
 
 import mercadeoucab.dtos.DtoEncuestaEstudio;
+import mercadeoucab.dtos.DtoEstudio;
 import mercadeoucab.dtos.DtoRespuesta;
 import mercadeoucab.entidades.EncuestaEstudio;
 import mercadeoucab.entidades.Respuesta;
@@ -37,7 +38,7 @@ public class EncuestaEstudioMapper {
         DtoEncuestaEstudio dto = (DtoEncuestaEstudio) fabrica.generarDto();
         dto.set_id(entity.get_id());
         dto.setFk_estudio(
-                EstudioMapper.mapEntitytoDto(entity.getFk_estudio())
+                new DtoEstudio( entity.getFk_estudio().get_id())
         );
         dto.setFk_pregunta(
                 PreguntaMapper.mapEntityToDto(entity.getFk_pregunta())

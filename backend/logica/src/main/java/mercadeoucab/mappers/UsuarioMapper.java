@@ -24,12 +24,13 @@ public class UsuarioMapper {
     public static DtoUsuario mapEntityToDto ( Usuario usuario) throws Exception {
         FabricaAbstracta fabrica = FabricaAbstracta.getFactory(Fabricas.USUARIO);
         DtoUsuario dtoUsuario = (DtoUsuario) fabrica.generarDto();
-        dtoUsuario.set_id(usuario.get_id());
+        dtoUsuario.set_id( usuario.get_id());
         dtoUsuario.setCorreo( usuario.getCorreo());
         dtoUsuario.setNombre( usuario.getNombre());
         dtoUsuario.setRol( usuario.getRol());
         dtoUsuario.setApellido( usuario.getApellido());
         dtoUsuario.setActivo( usuario.getActivo());
+        dtoUsuario.setEstado( usuario.getEstado());
         dtoUsuario.setModificado_el( usuario.getModificado_el());
         dtoUsuario.setCreado_el( usuario.getCreado_el());
 

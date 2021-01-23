@@ -56,7 +56,7 @@ public class RespuestaMapper {
 
         if (Objects.nonNull( respuesta.getEncuesta_estudio())){
             dtoRespuesta.setDtoEncuestaEstudio(
-                    EncuestaEstudioMapper.mapEntitytoDto(respuesta.getEncuesta_estudio())
+                    new DtoEncuestaEstudio( respuesta.getEncuesta_estudio().get_id())
             );
         }
 

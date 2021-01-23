@@ -60,7 +60,9 @@ public class EstudioMapper {
         }
         if ( Objects.nonNull( entity.getEncuestaEstudio())){
             for (EncuestaEstudio encuestaEstudio: entity.getEncuestaEstudio()){
-
+                dto.addEncuestaEstudio(
+                        EncuestaEstudioMapper.mapEntitytoDto( encuestaEstudio)
+                );
             }
         }
         return dto;
