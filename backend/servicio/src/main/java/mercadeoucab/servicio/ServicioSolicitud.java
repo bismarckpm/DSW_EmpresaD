@@ -123,10 +123,6 @@ public class ServicioSolicitud extends AplicacionBase{
                     dtoSolicitud.getUsuario().get_id()
             );
             solicitud.setUsuario( usuario);
-            Marca marca = new Marca(
-                    dtoSolicitud.getMarca().get_id()
-            );
-            solicitud.setMarca( marca);
             for(DtoTipo dtoTipo: dtoSolicitud.getTipos()){
                 Tipo tipo = new Tipo(dtoTipo.get_id());
                 solicitud.addTipo( tipo);

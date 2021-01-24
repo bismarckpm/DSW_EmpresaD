@@ -10,7 +10,6 @@ public class DtoSolicitud extends DtoBase{
 
     private String estado;
     private DtoUsuario usuario;
-    private DtoMarca marca;
 
     private List<DtoTipo> tipos;
     private List<DtoSubCategoria> subCategorias;
@@ -41,18 +40,6 @@ public class DtoSolicitud extends DtoBase{
      * @param estado
      */
     public void setEstado(String estado) {this.estado = estado;}
-
-    /**
-     * Name: getMarca
-     * @return marca
-     */
-    public DtoMarca getMarca() {return marca;}
-
-    /**
-     * Name: setMarca
-     * @param marca
-     */
-    public void setMarca(DtoMarca marca) {this.marca = marca;}
 
     /**
      * Name: getUsuario

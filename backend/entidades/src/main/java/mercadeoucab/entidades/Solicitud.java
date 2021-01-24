@@ -25,10 +25,6 @@ public class Solicitud extends EntidadBase{
     @JoinColumn(name = "fk_usuario")
     private Usuario usuario;
 
-    @ManyToOne
-    @JoinColumn(name = "fk_marca")
-    private Marca marca;
-
     @JoinTable(
             name = "tipo_solicitud",
             joinColumns = @JoinColumn(name = "fk_solicitud", nullable = false),
@@ -56,9 +52,6 @@ public class Solicitud extends EntidadBase{
 
     public String getEstado() {return estado;}
     public void setEstado(String estado) {this.estado = estado;}
-
-    public Marca getMarca() {return marca;}
-    public void setMarca(Marca marca) {this.marca = marca;}
 
     public Usuario getUsuario() {return usuario;}
     public void setUsuario(Usuario usuario) {this.usuario = usuario;}

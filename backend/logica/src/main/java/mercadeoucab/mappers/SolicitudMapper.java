@@ -1,16 +1,11 @@
 package mercadeoucab.mappers;
 
 import mercadeoucab.dtos.DtoSolicitud;
-import mercadeoucab.dtos.DtoUsuario;
-import mercadeoucab.dtos.DtoSubCategoria;
-import mercadeoucab.entidades.Marca;
 import mercadeoucab.entidades.Solicitud;
-import mercadeoucab.entidades.Usuario;
 import mercadeoucab.fabricas.Enums.Fabricas;
 import mercadeoucab.fabricas.FabricaAbstracta;
 import mercadeoucab.entidades.*;
 
-import java.util.List;
 import java.util.Objects;
 
 public class SolicitudMapper {
@@ -28,11 +23,6 @@ public class SolicitudMapper {
         if (Objects.nonNull( dtoSolicitud.getUsuario())){
             solicitud.setUsuario(
                     UsuarioMapper.mapDtoToEntity(dtoSolicitud.getUsuario())
-            );
-        }
-        if (Objects.nonNull( dtoSolicitud.getPresentaciones())){
-            solicitud.setMarca(
-                    new Marca( dtoSolicitud.getMarca().get_id())
             );
         }
         return solicitud;

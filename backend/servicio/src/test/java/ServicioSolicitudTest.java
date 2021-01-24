@@ -1,7 +1,4 @@
 import mercadeoucab.dtos.*;
-import mercadeoucab.entidades.Marca;
-import mercadeoucab.entidades.Solicitud;
-import mercadeoucab.servicio.ServicioMarca;
 import mercadeoucab.servicio.ServicioSolicitud;
 import org.junit.Assert;
 import org.junit.Test;
@@ -18,7 +15,7 @@ public class ServicioSolicitudTest {
         ServicioSolicitud servicio = new ServicioSolicitud();
         DtoSolicitud dtoSolicitud = new DtoSolicitud();
         dtoSolicitud.setEstado("solicitada");
-        dtoSolicitud.setMarca( new DtoMarca(1));
+
         dtoSolicitud.setUsuario( new DtoUsuario( 1));
         List<DtoTipo> tipos = new ArrayList<>();
         tipos.add(new DtoTipo(1));
