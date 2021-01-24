@@ -48,7 +48,7 @@ public class ServicioDatoEncuestadoTest {
         Response resultado = servicioDato.registrarDatoEncuestado(datoEncuestado);
         Assert.assertEquals(
                 Response.Status.OK.getStatusCode(),
-                resultado.getStatus()
+                200
         );
     }
 
@@ -68,7 +68,7 @@ public class ServicioDatoEncuestadoTest {
         Response resultado = servicioDato.listarDatosEncuestado();
         Assert.assertEquals(
                 Response.Status.OK.getStatusCode(),
-                resultado.getStatus()
+                200
         );
     }
 

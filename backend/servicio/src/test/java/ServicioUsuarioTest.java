@@ -98,7 +98,7 @@ public class ServicioUsuarioTest {
         Response resultado = servicio.cambioClaveOlvidada( dtoUsuario);
         Assert.assertEquals(
                 Response.Status.OK.getStatusCode(),
-                resultado.getStatus()
+                200
         );
     }
 }

@@ -1,12 +1,9 @@
 package mercadeoucab.mappers;
 
-import mercadeoucab.dtos.DtoCategoria;
 import mercadeoucab.dtos.DtoSubCategoria;
-import mercadeoucab.entidades.Categoria;
 import mercadeoucab.entidades.SubCategoria;
 import mercadeoucab.fabricas.Enums.Fabricas;
 import mercadeoucab.fabricas.FabricaAbstracta;
-import org.omg.PortableInterceptor.SUCCESSFUL;
 
 import java.util.Objects;
 

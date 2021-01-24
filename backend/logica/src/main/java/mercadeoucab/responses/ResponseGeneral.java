@@ -1,7 +1,5 @@
 package mercadeoucab.responses;
 
-import org.codehaus.jackson.JsonNode;
-
 import javax.json.Json;
 import javax.json.JsonArrayBuilder;
 import javax.json.JsonObject;

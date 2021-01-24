@@ -1,0 +1,32 @@
+version: '3.9'
+
+services:
+  mercadeoucab:
+    build: ./backend/
+    restart: always
+    ports:
+      - '8080:8080'
+    networks:
+      - backend
+    depends_on:
+      - docker-mysql
+
+  docker-mysql:
+    image: mysql:8.0
+    restart: always
+    ports:
+      - '3306:3306'
+    volumes:
+      - db-data:/var/lib/mysql/data
+      - ./Scripts:/docker-entrypoint-initdb.d
+    networks:
+      - backend
+    environment:
+      - 'MYSQL_ROOT_PASSWORD:mysql'
+      - 'MYSQL_DATABASE:mercadeoucab'
+
+volumes:
+  db-data:
+
+networks:
+  backend:

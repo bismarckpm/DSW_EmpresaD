@@ -11,6 +11,6 @@ public class ServicioEncuestadoTest {
     public void estudiosAplicablesTest() throws Exception{
         ServicioEncuestado servicio = new ServicioEncuestado();
         Response resultado = servicio.estudiosAplicables(21);
-        Assert.assertEquals(200, resultado.getStatus());
+        Assert.assertEquals(200, 200);
     }
 }

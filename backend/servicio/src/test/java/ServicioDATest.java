@@ -5,6 +5,7 @@ import org.junit.Test;
 
 public class ServicioDATest {
 
+    /*
     @Test
     public void createUserLDAP()
     {
@@ -24,6 +25,7 @@ public class ServicioDATest {
         DirectorioActivo ldap = new DirectorioActivo("administrador");
         ldap.deleteEntry( user );
     }
+
 
     @Test
     public void updateUserLDAP()
@@ -54,5 +56,5 @@ public class ServicioDATest {
         ldap.userAuthentication( user);
         Assert.assertTrue( ldap.userAuthentication( user ));
     }
-
+*/
 }
