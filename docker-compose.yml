@@ -1,21 +1,6 @@
 version: '3.9'
 
 services:
-  docker-mysql:
-    image: mysql
-    container_name: MercadeoMysql
-    restart: always
-    ports:
-      - '3306:3306'
-    volumes:
-      - db-data:/var/lib/mysql
-      - ./Scripts:/docker-entrypoint-initdb.d
-    networks:
-      - backend
-    environment:
-      - 'MYSQL_ROOT_PASSWORD:mysql'
-      - 'MYSQL_DATABASE:mercadeoucab'
-
   mercadeoucab:
     build: ./backend/
     container_name: mercadeoucabBack
@@ -26,6 +11,22 @@ services:
       - backend
     depends_on:
       - docker-mysql
+
+  docker-mysql:
+    image: mysql
+    container_name: MercadeoMysql
+    restart: always
+    ports:
+      - '3308:3306'
+    volumes:
+      - db-data:/var/lib/mysql
+      - ./Scripts:/docker-entrypoint-initdb.d
+    networks:
+      - backend
+    environment:
+      - 'MYSQL_USER=root'
+      - 'MYSQL_ROOT_PASSWORD=mysql'
+      - 'MYSQL_DATABASE=mercadeoucab'
 
 volumes:
   db-data:
