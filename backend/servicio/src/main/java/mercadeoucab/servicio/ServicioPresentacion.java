@@ -4,6 +4,7 @@ import mercadeoucab.accesodatos.DaoPresentacion;
 import mercadeoucab.dtos.DtoPresentacion;
 import mercadeoucab.entidades.Presentacion;
 import mercadeoucab.mappers.PresentacionMapper;
+import mercadeoucab.mappers.TipoMapper;
 import mercadeoucab.responses.ResponseGeneral;
 import mercadeoucab.responses.ResponsePresentacion;
 
@@ -106,6 +107,7 @@ public class ServicioPresentacion extends AplicacionBase{
         try{
             DaoPresentacion daoP = new DaoPresentacion();
             Presentacion presentacion = new Presentacion();
+            presentacion.setFk_tipo(TipoMapper.mapDtoToEntity(DTOP.getFk_tipo()));
             presentacion.setCantidad(DTOP.getCantidad());
             presentacion.setTipo(DTOP.getTipo());
             presentacion.setActivo(1);

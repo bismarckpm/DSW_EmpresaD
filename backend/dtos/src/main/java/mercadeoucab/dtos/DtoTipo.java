@@ -6,6 +6,7 @@ package mercadeoucab.dtos;
 public class DtoTipo extends DtoBase{
 
     private String nombre;
+    private DtoSubCategoria subCategoria;
 
     /**
      * Name: DtoTipo
@@ -38,5 +39,13 @@ public class DtoTipo extends DtoBase{
      */
     public void setNombre(String nombre) {
         this.nombre = nombre;
+    }
+
+    public DtoSubCategoria getSubCategoria() {
+        return subCategoria;
+    }
+
+    public void setSubCategoria(DtoSubCategoria subCategoria) {
+        this.subCategoria = subCategoria;
     }
 }

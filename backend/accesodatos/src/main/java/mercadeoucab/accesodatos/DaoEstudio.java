@@ -124,8 +124,6 @@ public class DaoEstudio extends Dao<Estudio>{
             _handler.beginTransaction();
             TypedQuery<Estudio> estudios = this._em.createNamedQuery("preguntas_similares",Estudio.class);
             estudios.setParameter("presentaciones", solicitud.getPresentaciones());
-            estudios.setParameter("tipos", solicitud.getTipos());
-            estudios.setParameter("subcategorias",solicitud.getSubCategorias());
             resultado = estudios.getResultList();
             _em.flush();
             _em.clear();
@@ -151,8 +149,6 @@ public class DaoEstudio extends Dao<Estudio>{
             _handler.beginTransaction();
             TypedQuery<MuestraPoblacion> muestras = this._em.createNamedQuery("poblaciones_similares",MuestraPoblacion.class);
             muestras.setParameter("presentaciones", solicitud.getPresentaciones());
-            muestras.setParameter("tipos", solicitud.getTipos());
-            muestras.setParameter("subcategorias",solicitud.getSubCategorias());
             resultado = muestras.getResultList();
             _em.flush();
             _em.clear();

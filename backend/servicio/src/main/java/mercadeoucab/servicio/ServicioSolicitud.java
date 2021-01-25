@@ -115,6 +115,8 @@ public class ServicioSolicitud extends AplicacionBase{
             DaoSolicitud dao = new DaoSolicitud();
             Solicitud solicitud = new Solicitud();
             solicitud.setEstado( dtoSolicitud.getEstado() );
+            solicitud.setComentarios(dtoSolicitud.getComentarios());
+            solicitud.setMarca(dtoSolicitud.getMarca());
             solicitud.setActivo( 1 );
             solicitud.setCreado_el(
                     new Date(Calendar.getInstance().getTime().getTime())
@@ -123,14 +125,8 @@ public class ServicioSolicitud extends AplicacionBase{
                     dtoSolicitud.getUsuario().get_id()
             );
             solicitud.setUsuario( usuario);
-            for(DtoTipo dtoTipo: dtoSolicitud.getTipos()){
-                Tipo tipo = new Tipo(dtoTipo.get_id());
-                solicitud.addTipo( tipo);
-            }
-            for(DtoSubCategoria dtoSubCategoria: dtoSolicitud.getSubCategorias()){
-                SubCategoria subCategoria = new SubCategoria(dtoSubCategoria.get_id());
-                solicitud.addSubCategoria( subCategoria);
-            }
+
+
             for(DtoPresentacion dtoPresentacion: dtoSolicitud.getPresentaciones()){
                 Presentacion presentacion = new Presentacion(dtoPresentacion.get_id());
                 solicitud.addPresentacion( presentacion );
@@ -166,6 +162,8 @@ public class ServicioSolicitud extends AplicacionBase{
                             .getTime()
                             .getTime())
             );
+            solicitud.setComentarios(dtoSolicitud.getComentarios());
+            solicitud.setMarca(dtoSolicitud.getMarca());
             Solicitud resul = dao.update( solicitud);
             resultado = ResponseGeneral.SuccesMessage();
         }catch (Exception e) {
@@ -188,7 +186,7 @@ public class ServicioSolicitud extends AplicacionBase{
         try{
             DaoSolicitud dao = new DaoSolicitud();
             Solicitud solicitud = dao.find( id, Solicitud.class);
-            solicitud.setActivo( 0);
+            solicitud.setActivo( 0 );
             solicitud.setModificado_el(
                     new Date(Calendar
                             .getInstance()

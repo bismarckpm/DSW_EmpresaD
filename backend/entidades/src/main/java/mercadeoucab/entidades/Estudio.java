@@ -1,6 +1,5 @@
 package mercadeoucab.entidades;
 
-import javax.inject.Named;
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -28,18 +27,14 @@ import java.util.List;
                 name = "preguntas_similares",
                 query = "select e from Estudio e " +
                         "join e.solicitud s " +
-                        "where s.presentaciones in :presentaciones " +
-                        "and s.tipos in :tipos " +
-                        "and s.subCategorias in :subcategorias"
+                        "where s.presentaciones in :presentaciones "
 
         ),
         @NamedQuery(
                 name = "poblaciones_similares",
                 query = "select e.fk_muestra_poblacion from Estudio e " +
                         "join e.solicitud s " +
-                        "where s.presentaciones in :presentaciones " +
-                        "and s.tipos in :tipos " +
-                        "and s.subCategorias in :subcategorias"
+                        "where s.presentaciones in :presentaciones "
         ),
         @NamedQuery(
                 name = "personas_aplican",

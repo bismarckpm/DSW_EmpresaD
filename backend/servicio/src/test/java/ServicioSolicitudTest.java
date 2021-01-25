@@ -15,16 +15,13 @@ public class ServicioSolicitudTest {
         ServicioSolicitud servicio = new ServicioSolicitud();
         DtoSolicitud dtoSolicitud = new DtoSolicitud();
         dtoSolicitud.setEstado("solicitada");
-
+        dtoSolicitud.setComentarios("Comentario");
+        dtoSolicitud.setMarca("marca");
         dtoSolicitud.setUsuario( new DtoUsuario( 1));
-        List<DtoTipo> tipos = new ArrayList<>();
-        tipos.add(new DtoTipo(1));
-        dtoSolicitud.setTipos(tipos);
-        List<DtoSubCategoria> subCategorias = new ArrayList<>();
-        subCategorias.add(new DtoSubCategoria(1));
-        dtoSolicitud.setSubCategorias(subCategorias);
+
         List<DtoPresentacion> presentacions = new ArrayList<>();
         presentacions.add(new DtoPresentacion(1));
+
         dtoSolicitud.setPresentaciones(presentacions);
         Response resultado = servicio.registrarSolicitud( dtoSolicitud);
         Assert.assertEquals(resultado.getStatus(), 200);

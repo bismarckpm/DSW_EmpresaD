@@ -3,6 +3,7 @@ package mercadeoucab.servicio;
 import mercadeoucab.accesodatos.DaoTipo;
 import mercadeoucab.dtos.DtoTipo;
 import mercadeoucab.entidades.Tipo;
+import mercadeoucab.mappers.SubCategoriaMapper;
 import mercadeoucab.mappers.TipoMapper;
 import mercadeoucab.responses.ResponseGeneral;
 import mercadeoucab.responses.ResponseTipo;
@@ -42,7 +43,7 @@ public class ServicioTipo extends AplicacionBase {
             DaoTipo dao = new DaoTipo();
             List<Tipo> tipos = dao.findAll(Tipo.class);
             ResponseTipo responseTipo = new ResponseTipo();
-            if ( tipos.isEmpty()) {
+            if ( tipos.size() > 0) {
                 for (Tipo tipo : tipos) {
                     if (tipo.getActivo() == 1) {
                         DtoTipo dtoTipo = TipoMapper.mapEntityToDto(tipo);
@@ -104,8 +105,10 @@ public class ServicioTipo extends AplicacionBase {
     public Response registrarTipo( DtoTipo dtoTipo){
         Response resultado = null;
         try {
+            //TODO ESTO PASA AL COMANDO
             DaoTipo dao = new DaoTipo();
             Tipo tipo = new Tipo();
+            tipo.setSubCategoria(SubCategoriaMapper.mapDtoToEntity(dtoTipo.getSubCategoria()));
             tipo.setNombre( dtoTipo.getNombre());
             tipo.setActivo( 1);
             tipo.setCreado_el(
@@ -115,6 +118,7 @@ public class ServicioTipo extends AplicacionBase {
                             .getTime())
             );
             Tipo resul = dao.insert( tipo);
+            //TODO ESTO PASA AL COMANDO
             resultado = ResponseGeneral.SuccesCreate( resul.get_id());
         }catch (Exception e) {
             // CAMBIAR CUANDO SE MANEJEN LAS EXCEPCIONES PROPIAS

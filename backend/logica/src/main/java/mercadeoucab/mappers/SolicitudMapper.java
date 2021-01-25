@@ -1,5 +1,6 @@
 package mercadeoucab.mappers;
 
+import mercadeoucab.dtos.DtoPresentacion;
 import mercadeoucab.dtos.DtoSolicitud;
 import mercadeoucab.entidades.Solicitud;
 import mercadeoucab.fabricas.Enums.Fabricas;
@@ -20,10 +21,21 @@ public class SolicitudMapper {
         solicitud.setEstado( dtoSolicitud.getEstado());
         solicitud.setCreado_el( dtoSolicitud.getCreado_el());
 
+        solicitud.setMarca(dtoSolicitud.getMarca());
+        solicitud.setComentarios(dtoSolicitud.getComentarios());
+
         if (Objects.nonNull( dtoSolicitud.getUsuario())){
             solicitud.setUsuario(
                     UsuarioMapper.mapDtoToEntity(dtoSolicitud.getUsuario())
             );
+        }
+
+        if (Objects.nonNull( dtoSolicitud.getPresentaciones())){
+            for(DtoPresentacion presentacion: dtoSolicitud.getPresentaciones()){
+                solicitud.addPresentacion(
+                        PresentacionMapper.mapDtoToEntity(presentacion)
+                );
+            }
         }
         return solicitud;
     }
@@ -36,18 +48,16 @@ public class SolicitudMapper {
         dtoSolicitud.setActivo( solicitud.getActivo());
         dtoSolicitud.setCreado_el( solicitud.getCreado_el());
         dtoSolicitud.setModificado_el( solicitud.getModificado_el());
+
+        dtoSolicitud.setMarca(solicitud.getMarca());
+        dtoSolicitud.setComentarios(solicitud.getComentarios());
+
         if ( Objects.nonNull( solicitud.getUsuario())){
             dtoSolicitud.setUsuario(
                     UsuarioMapper.mapEntityToDto( solicitud.getUsuario())
             );
         }
-        if ( Objects.nonNull( solicitud.getSubCategorias())){
-            for (SubCategoria subCategoria: solicitud.getSubCategorias()) {
-                dtoSolicitud.addSubcategoria(
-                        SubCategoriaMapper.mapEntityToDto( subCategoria)
-                );
-            }
-        }
+
         if ( Objects.nonNull( solicitud.getPresentaciones())){
             for (Presentacion presentacion: solicitud.getPresentaciones()){
                 dtoSolicitud.addPresentacion(
@@ -56,13 +66,6 @@ public class SolicitudMapper {
             }
         }
 
-        if ( Objects.nonNull( solicitud.getTipos())){
-            for (Tipo tipo: solicitud.getTipos()){
-                dtoSolicitud.addTipo(
-                        TipoMapper.mapEntityToDto( tipo)
-                );
-            }
-        }
         return dtoSolicitud;
     }
 }
