@@ -21,8 +21,6 @@ public class ServicioEstudioTest {
         //Datos estudio
         //Usuario
         dtoEstudio.setFk_usuario(new DtoUsuario(1));
-        //Muestra Solicitud
-        dtoEstudio.setFk_muestra_poblacion(new DtoMuestraPoblacion(1));
         //Solicitud
         dtoEstudio.setSolicitud( new DtoSolicitud(1));
         List<DtoPregunta> preguntas = new ArrayList<>();

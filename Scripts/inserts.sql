@@ -219,66 +219,65 @@ insert ocupacion values(13,"Abogado",1,"2019-05-23",null);
 -- Table `mercadeoucab`.`dato_encuestado`
 -- -----------------------------------------------------
 
-  insert dato_encuestado values (1,null,"Hooper","1","laptop","1997-02-23","masculino",1,"Licenciado",1,1,'2019-07-23',null,1,1,1);
-  insert dato_encuestado values (2,null,"Harmon","2","laptop","1997-03-19","masculino",1,"Licenciado",1,1,"2019-07-23",null,2,1,1);
-  insert dato_encuestado values (3,null,"Petty","3","laptop","1997-04-18","masculino",1,"Licenciado",1,1,"2019-07-23",null,3,1,1);
-  insert dato_encuestado values (4,null,"Schultz","4","laptop","1997-05-14","masculino",1,"Licenciado",1,1,"2019-07-23",null,4,1,1);
-  insert dato_encuestado values (5,null,"Coffey","5","laptop","1997-06-10","masculino",1,"Licenciado",1,1,"2019-07-23",null,5,1,1);
+  insert dato_encuestado values (1,null,"Hooper","1","laptop","1997-02-23","masculino","Alto","Licenciado",1,1,'2019-07-23',null,1,1,1);
+  insert dato_encuestado values (2,null,"Harmon","2","laptop","1997-03-19","masculino","Alto","Licenciado",1,1,"2019-07-23",null,2,1,1);
+  insert dato_encuestado values (3,null,"Petty","3","laptop","1997-04-18","masculino","Alto","Licenciado",1,1,"2019-07-23",null,3,1,1);
+  insert dato_encuestado values (4,null,"Schultz","4","laptop","1997-05-14","masculino","Alto","Licenciado",1,1,"2019-07-23",null,4,1,1);
+  insert dato_encuestado values (5,null,"Coffey","5","laptop","1997-06-10","masculino","Alto","Licenciado",1,1,"2019-07-23",null,5,1,1);
 
-  insert dato_encuestado values (6,null,"Mccall","6","pc","1997-07-06","masculino",1,"Magister",1,1,'2019-07-23',null,6,1,2);
-  insert dato_encuestado values (7,null,"Rosales","7","pc","1997-08-15","masculino",1,"Magister",1,1,"2019-07-23",null,7,1,2);
-  insert dato_encuestado values (8,null,"Harris","8","pc","1997-09-21","masculino",1,"Magister",1,1,"2019-07-23",null,8,1,2);
-  insert dato_encuestado values (9,null,"Saunders","9","pc","1997-10-20","masculino",1,"Magister",1,1,"2019-07-23",null,9,1,2);
-  insert dato_encuestado values (10,null,"Benson","10","pc","1997-11-19","masculino",1,"Magister",1,1,"2019-07-23",null,10,1,2);
-  insert dato_encuestado values (11,null,"Marks","11","tableta","1997-12-16","masculino",1,"Magister",1,1,'2019-07-23',null,11,1,2);
+  insert dato_encuestado values (6,null,"Mccall","6","pc","1997-07-06","masculino","Alto","Magister",1,1,'2019-07-23',null,6,1,2);
+  insert dato_encuestado values (7,null,"Rosales","7","pc","1997-08-15","masculino","Alto","Magister",1,1,"2019-07-23",null,7,1,2);
+  insert dato_encuestado values (8,null,"Harris","8","pc","1997-09-21","masculino","Alto","Magister",1,1,"2019-07-23",null,8,1,2);
+  insert dato_encuestado values (9,null,"Saunders","9","pc","1997-10-20","masculino","Alto","Magister",1,1,"2019-07-23",null,9,1,2);
+  insert dato_encuestado values (10,null,"Benson","10","pc","1997-11-19","masculino","Alto","Magister",1,1,"2019-07-23",null,10,1,2);
+  insert dato_encuestado values (11,null,"Marks","11","tableta","1997-12-16","masculino","Alto","Magister",1,1,'2019-07-23',null,11,1,2);
 
-  insert dato_encuestado values (12,null,"Dean","12","tableta","2000-02-13","femenino",1,"Doctorado",1,1,"2019-07-23",null,12,1,3);
-  insert dato_encuestado values (13,null,"Quinn","13","tableta","2000-02-11","femenino",1,"Doctorado",1,1,"2019-07-23",null,13,1,3);
-  insert dato_encuestado values (14,null,"Harding","14","tableta","2000-03-10","femenino",1,"Doctorado",1,1,"2019-07-23",null,14,1,3);
-  insert dato_encuestado values (15,null,"Carver","15","tableta","2000-04-09","femenino",1,"Doctorado",1,1,"2019-07-23",null,15,1,3);  
+  insert dato_encuestado values (12,null,"Dean","12","tableta","2000-02-13","femenino","Alto","Doctorado",1,1,"2019-07-23",null,12,1,3);
+  insert dato_encuestado values (13,null,"Quinn","13","tableta","2000-02-11","femenino","Alto","Doctorado",1,1,"2019-07-23",null,13,1,3);
+  insert dato_encuestado values (14,null,"Harding","14","tableta","2000-03-10","femenino","Alto","Doctorado",1,1,"2019-07-23",null,14,1,3);
+  insert dato_encuestado values (15,null,"Carver","15","tableta","2000-04-09","femenino","Alto","Doctorado",1,1,"2019-07-23",null,15,1,3);  
 
-  insert dato_encuestado values (16,null,"Bean","16","telefono","1980-05-08","femenino",1,"Bachiller",1,1,'2019-07-23',null,16,1,5);
-  insert dato_encuestado values (17,null,"Wiley","17","telefono","1985-06-13","femenino",1,"Bachiller",1,1,"2019-07-23",null,17,1,5);
-  insert dato_encuestado values (18,null,"Livingston","18","telefono","1986-07-11","femenino",1,"Bachiller",1,1,"2019-07-23",null,18,1,5);
-  insert dato_encuestado values (19,null,"David","19","telefono","1987-08-21","femenino",1,"Bachiller",1,1,"2019-07-23",null,19,1,5);
-  insert dato_encuestado values (20,null,"Snyder","20","telefono","1988-09-22","femenino",1,"Bachiller",1,1,"2019-07-23",null,20,1,5);
-  insert dato_encuestado values (21,null,"nyder","21","telefono","1988-09-22","femenino",1,"Bachiller",1,1,"2019-07-23",null,21,1,5);
+  insert dato_encuestado values (16,null,"Bean","16","telefono","1980-05-08","femenino","Alto","Bachiller",1,1,'2019-07-23',null,16,1,5);
+  insert dato_encuestado values (17,null,"Wiley","17","telefono","1985-06-13","femenino","Alto","Bachiller",1,1,"2019-07-23",null,17,1,5);
+  insert dato_encuestado values (18,null,"Livingston","18","telefono","1986-07-11","femenino","Alto","Bachiller",1,1,"2019-07-23",null,18,1,5);
+  insert dato_encuestado values (19,null,"David","19","telefono","1987-08-21","femenino","Alto","Bachiller",1,1,"2019-07-23",null,19,1,5);
+  insert dato_encuestado values (20,null,"Snyder","20","telefono","1988-09-22","femenino","Alto","Bachiller",1,1,"2019-07-23",null,20,1,5);
+  insert dato_encuestado values (21,null,"nyder","21","telefono","1988-09-22","femenino","Alto","Bachiller",1,1,"2019-07-23",null,21,1,5);
 
-  insert dato_encuestado values (22,null,"Snder","22","telefono","1988-09-22","femenino",1,"Bachiller",1,1,"2019-07-23",null,22,1,4);
-  insert dato_encuestado values (23,null,"Snyer","23","telefono","1988-09-22","femenino",1,"Bachiller",1,1,"2019-07-23",null,23,1,4);
-  insert dato_encuestado values (24,null,"Snyde","24","telefono","1988-09-22","femenino",1,"Bachiller",1,1,"2019-07-23",null,24,1,4);
-  insert dato_encuestado values (25,null,"Snyer","25","telefono","1988-09-22","femenino",1,"Bachiller",1,1,"2019-07-23",null,25,1 ,4);
+  insert dato_encuestado values (22,null,"Snder","22","telefono","1988-09-22","femenino","Alto","Bachiller",1,1,"2019-07-23",null,22,1,4);
+  insert dato_encuestado values (23,null,"Snyer","23","telefono","1988-09-22","femenino","Alto","Bachiller",1,1,"2019-07-23",null,23,1,4);
+  insert dato_encuestado values (24,null,"Snyde","24","telefono","1988-09-22","femenino","Alto","Bachiller",1,1,"2019-07-23",null,24,1,4);
+  insert dato_encuestado values (25,null,"Snyer","25","telefono","1988-09-22","femenino","Alto","Bachiller",1,1,"2019-07-23",null,25,1 ,4);
 
-    
     
 -- -----------------------------------------------------
 -- Table `mercadeoucab`.`muestra_poblacion`
 -- -----------------------------------------------------
     
-insert muestra_poblacion values (1,"masculino",1,"Licenciado",15,80,1,1,"2020-07-23",null,1,1);
-insert muestra_poblacion values (2,"masculino",1,"Licenciado",15,80,1,1,"2020-07-23",null,1,1);
+insert muestra_poblacion values (1,"masculino","Alto","Licenciado","1940-01-01","2015-01-01",1,1,"2020-07-23",null,1,1);
+insert muestra_poblacion values (2,"masculino","Alto","Licenciado","1940-01-01","2015-01-01",1,1,"2020-07-23",null,1,1);
 
-insert muestra_poblacion values (3,"masculino",1,"Magister",16,80,1,1,"2020-07-23",null,1,2);
-insert muestra_poblacion values (4,"masculino",1,"Magister",16,80,1,1,"2020-07-23",null,1,2);
+insert muestra_poblacion values (3,"masculino","Alto","Magister","1940-01-01","2015-01-01",1,1,"2020-07-23",null,1,2);
+insert muestra_poblacion values (4,"masculino","Alto","Magister","1940-01-01","2015-01-01",1,1,"2020-07-23",null,1,2);
 
-insert muestra_poblacion values (5,"femenino",1,"Doctorado",18,80,1,1,"2020-07-23",null,1,3);
-insert muestra_poblacion values (6,"femenino",1,"Doctorado",19,80,1,1,"2020-07-23",null,1,3);
+insert muestra_poblacion values (5,"femenino","Alto","Doctorado","1940-01-01","2015-01-01",1,1,"2020-07-23",null,1,3);
+insert muestra_poblacion values (6,"femenino","Alto","Doctorado","1940-01-01","2015-01-01",1,1,"2020-07-23",null,1,3);
 
-insert muestra_poblacion values (7,"femenino",1,"Bachiller",19,80,1,1,"2020-07-23",null,1,5);
-insert muestra_poblacion values (8,"femenino",1,"Bachiller",19,80,1,1,"2020-07-23",null,1,4);
+insert muestra_poblacion values (7,"femenino","Alto","Bachiller","1940-01-01","2015-01-01",1,1,"2020-07-23",null,1,5);
+insert muestra_poblacion values (8,"femenino","Alto","Bachiller","1940-01-01","2015-01-01",1,1,"2020-07-23",null,1,4);
 
 -- -----------------------------------------------------
--- Table `mercadeoucab`.`solicitud`
+-- Table `mercadeoucab`.`solicitud` --------------------
 -- -----------------------------------------------------
 
-insert solicitud values(1,"solicitada",1,"2020-08-10",null,31,"Sin especificar", "Sin comentarios");
-insert solicitud values(2,"solicitada",1,"2020-08-10",null,32,"Sin especificar", "Sin comentarios");
-insert solicitud values(3,"solicitada",1,"2020-08-10",null,33,"Sin especificar", "Sin comentarios");
-insert solicitud values(4,"solicitada",1,"2020-08-10",null,34,"Sin especificar", "Sin comentarios");
-insert solicitud values(5,"solicitada",1,"2020-08-11",null,35,"Sin especificar", "Sin comentarios");
-insert solicitud values(6,"solicitada",1,"2020-08-11",null,31,"Sin especificar", "Sin comentarios");
-insert solicitud values(7,"solicitada",1,"2020-08-11",null,32,"Sin especificar", "Sin comentarios");
-insert solicitud values(8,"solicitada",1,"2020-08-11",null,33,"Sin especificar", "Sin comentarios");
+insert solicitud values(1,"solicitada",1,"2020-08-10",null,31,"Sin especificar", "Sin comentarios",1);
+insert solicitud values(2,"solicitada",1,"2020-08-10",null,32,"Sin especificar", "Sin comentarios",2);
+insert solicitud values(3,"solicitada",1,"2020-08-10",null,33,"Sin especificar", "Sin comentarios",3);
+insert solicitud values(4,"solicitada",1,"2020-08-10",null,34,"Sin especificar", "Sin comentarios",4);
+insert solicitud values(5,"solicitada",1,"2020-08-11",null,35,"Sin especificar", "Sin comentarios",5);
+insert solicitud values(6,"solicitada",1,"2020-08-11",null,31,"Sin especificar", "Sin comentarios",6);
+insert solicitud values(7,"solicitada",1,"2020-08-11",null,32,"Sin especificar", "Sin comentarios",7);
+insert solicitud values(8,"solicitada",1,"2020-08-11",null,33,"Sin especificar", "Sin comentarios",8);
 
 -- -----------------------------------------------------
 -- Table `mercadeoucab`.`solicitudcaracteristicas`
@@ -296,14 +295,14 @@ INSERT INTO `mercadeoucab`.`solicitudcaracteristicas`(`solicitud_id`,`presentaci
 -- -----------------------------------------------------
 -- Table `mercadeoucab`.`estudio`
 -- -----------------------------------------------------
-insert estudio values(1,"En ejecucion","En linea",1,1,"2021-08-10",null,1,36,1);
-insert estudio values(2,"En ejecucion","En linea",1,1,"2021-08-10",null,2,37,2);
-insert estudio values(3,"En ejecucion","En linea",1,1,"2021-08-10",null,3,38,3);
-insert estudio values(4,"En ejecucion","En linea",1,1,"2021-08-10",null,4,39,4);
-insert estudio values(5,"En ejecucion","En linea",1,1,"2021-08-10",null,5,40,5);
-insert estudio values(6,"En ejecucion","En linea",1,1,"2021-08-10",null,6,36,6);
-insert estudio values(7,"En ejecucion","En linea",1,1,"2021-08-10",null,7,37,7);
-insert estudio values(8,"En ejecucion","En linea",1,1,"2021-08-10",null,8,38,8);
+insert estudio values(1,"En ejecucion","En linea",1,1,"2021-08-10",null,1,36);
+insert estudio values(2,"En ejecucion","En linea",1,1,"2021-08-10",null,2,37);
+insert estudio values(3,"En ejecucion","En linea",1,1,"2021-08-10",null,3,38);
+insert estudio values(4,"En ejecucion","En linea",1,1,"2021-08-10",null,4,39);
+insert estudio values(5,"En ejecucion","En linea",1,1,"2021-08-10",null,5,40);
+insert estudio values(6,"En ejecucion","En linea",1,1,"2021-08-10",null,6,36);
+insert estudio values(7,"En ejecucion","En linea",1,1,"2021-08-10",null,7,37);
+insert estudio values(8,"En ejecucion","En linea",1,1,"2021-08-10",null,8,38);
 
 -- -----------------------------------------------------
 -- Table `mercadeoucab`.`pregunta`

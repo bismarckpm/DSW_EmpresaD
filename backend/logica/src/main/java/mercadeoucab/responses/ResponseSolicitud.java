@@ -23,6 +23,8 @@ public class ResponseSolicitud implements ResponseBase<DtoSolicitud> {
     public JsonObject generate(DtoSolicitud dtoSolicitud) throws Exception {
         JsonObject resultado;
         JsonObject usuario;
+        JsonObject muestraPoblacion;
+
         FabricaAbstracta fabrica = FabricaAbstracta.getFactory(Fabricas.USUARIO);
         ResponseUsuario responseUsuario = (ResponseUsuario) fabrica.generarResponse();
         usuario = responseUsuario.generate( dtoSolicitud.getUsuario());
@@ -38,6 +40,11 @@ public class ResponseSolicitud implements ResponseBase<DtoSolicitud> {
             }
         }
 
+        FabricaAbstracta fabrica2 = FabricaAbstracta.getFactory(Fabricas.MUESTRAPOBLACION);
+        ResponseMuestraPoblacion responseMuestraPoblacion = (ResponseMuestraPoblacion) fabrica2.generarResponse();
+        muestraPoblacion = responseMuestraPoblacion.generate(dtoSolicitud.getMuestraPoblacion());
+
+
         resultado = Json.createObjectBuilder()
                         .add("_id", dtoSolicitud.get_id())
                         .add("estado",dtoSolicitud.getEstado())
@@ -45,6 +52,7 @@ public class ResponseSolicitud implements ResponseBase<DtoSolicitud> {
                         .add("marca", dtoSolicitud.getMarca())
                         .add("comentarios", dtoSolicitud.getComentarios())
                         .add("presentaciones", presentacionlist)
+                        .add("muestraPoblacion", muestraPoblacion)
                         .build();
         return resultado;
     }

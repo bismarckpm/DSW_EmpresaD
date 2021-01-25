@@ -31,6 +31,10 @@ public class Solicitud extends EntidadBase{
     @JoinColumn(name = "fk_usuario")
     private Usuario usuario;
 
+    @ManyToOne
+    @JoinColumn(name = "muestra_poblacion_id")
+    private MuestraPoblacion fk_muestra_poblacion;
+
    @JoinTable(
            name = "solicitudcaracteristicas",
            joinColumns = @JoinColumn(name = "solicitud_id", nullable = false),
@@ -77,4 +81,10 @@ public class Solicitud extends EntidadBase{
     public void setPresentaciones(List<Presentacion> presentaciones) {
         this.presentaciones = presentaciones;
     }
+
+    public MuestraPoblacion getFk_muestra_poblacion() {
+        return fk_muestra_poblacion;
+    }
+
+    public void setFk_muestra_poblacion(MuestraPoblacion fk_muestra_poblacion) { this.fk_muestra_poblacion = fk_muestra_poblacion; }
 }

@@ -91,12 +91,12 @@ public class DaoEstudio extends Dao<Estudio>{
         try {
             _handler.beginTransaction();
             TypedQuery<Usuario> usuarios = this._em.createNamedQuery("personas_aplican", Usuario.class);
-            usuarios.setParameter("nivelEcon", estudio.getFk_muestra_poblacion().getNivelEconomico());
-            usuarios.setParameter("genero", estudio.getFk_muestra_poblacion().getGenero());
+            usuarios.setParameter("nivelEcon", estudio.getSolicitud().getFk_muestra_poblacion().getNivelEconomico());
+            usuarios.setParameter("genero", estudio.getSolicitud().getFk_muestra_poblacion().getGenero());
             //usuarios.setParameter("cantidadHijos", estudio.getFk_muestra_poblacion().getCantidadHijos());
-            usuarios.setParameter("nivelAcademico", estudio.getFk_muestra_poblacion().getNivelAcademico());
-            usuarios.setParameter("lugar", estudio.getFk_muestra_poblacion().getFk_lugar());
-            usuarios.setParameter("ocupacion", estudio.getFk_muestra_poblacion().getFk_ocupacion());
+            usuarios.setParameter("nivelAcademico", estudio.getSolicitud().getFk_muestra_poblacion().getNivelAcademico());
+            usuarios.setParameter("lugar", estudio.getSolicitud().getFk_muestra_poblacion().getFk_lugar());
+            usuarios.setParameter("ocupacion", estudio.getSolicitud().getFk_muestra_poblacion().getFk_ocupacion());
             //usuarios.setParameter("edadInicial", estudio.getFk_muestra_poblacion().getRangoEdadInicio());
             //usuarios.setParameter("edadFinal", estudio.getFk_muestra_poblacion().getRangoEdadFin());
             resultado = usuarios.getResultList();

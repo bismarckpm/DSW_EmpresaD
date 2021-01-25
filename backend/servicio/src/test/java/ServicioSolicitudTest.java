@@ -18,7 +18,7 @@ public class ServicioSolicitudTest {
         dtoSolicitud.setComentarios("Comentario");
         dtoSolicitud.setMarca("marca");
         dtoSolicitud.setUsuario( new DtoUsuario( 1));
-
+        dtoSolicitud.setMuestraPoblacion(new DtoMuestraPoblacion(1));
         List<DtoPresentacion> presentacions = new ArrayList<>();
         presentacions.add(new DtoPresentacion(1));
 

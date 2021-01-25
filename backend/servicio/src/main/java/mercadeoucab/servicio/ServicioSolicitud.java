@@ -125,8 +125,10 @@ public class ServicioSolicitud extends AplicacionBase{
                     dtoSolicitud.getUsuario().get_id()
             );
             solicitud.setUsuario( usuario);
-
-
+            MuestraPoblacion muestraPoblacion = new MuestraPoblacion(
+                    dtoSolicitud.getMuestraPoblacion().get_id()
+            );
+            solicitud.setFk_muestra_poblacion(muestraPoblacion);
             for(DtoPresentacion dtoPresentacion: dtoSolicitud.getPresentaciones()){
                 Presentacion presentacion = new Presentacion(dtoPresentacion.get_id());
                 solicitud.addPresentacion( presentacion );

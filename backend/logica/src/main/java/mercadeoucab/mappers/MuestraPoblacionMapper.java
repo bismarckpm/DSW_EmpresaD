@@ -21,10 +21,16 @@ public class MuestraPoblacionMapper {
         entity.setRangoEdadInicio(dto.getRangoEdadInicio());
         entity.setRangoEdadFin(dto.getRangoEdadFin());
         entity.setCantidadHijos(dto.getCantidadHijos());
+
         if(Objects.nonNull(dto.getFk_lugar()))
-            entity.setFk_lugar(ParroquiaMapper.mapDtoToEntity(dto.getFk_lugar()));
+            entity.setFk_lugar(
+                    ParroquiaMapper.mapDtoToEntity(dto.getFk_lugar()
+                    ));
+
         if(Objects.nonNull(dto.getDtoOcupacion()))
-            entity.setFk_ocupacion(OcupacionMapper.mapDtotoEntity(dto.getDtoOcupacion()));
+            entity.setFk_ocupacion(
+                    OcupacionMapper.mapDtotoEntity(dto.getDtoOcupacion()
+                    ));
         return entity;
     }
 
@@ -40,10 +46,17 @@ public class MuestraPoblacionMapper {
         dto.setRangoEdadInicio(entity.getRangoEdadInicio());
         dto.setRangoEdadFin(entity.getRangoEdadFin());
         dto.setCantidadHijos(entity.getCantidadHijos());
+
         if(Objects.nonNull(entity.getFk_lugar()))
-            dto.setFk_lugar(ParroquiaMapper.mapEntityToDto(entity.getFk_lugar()));
+            dto.setFk_lugar(
+                    ParroquiaMapper.mapEntityToDto(entity.getFk_lugar()
+                    ));
+
         if(Objects.nonNull(entity.getFk_ocupacion()))
-            dto.setDtoOcupacion(OcupacionMapper.mapEntitytoDto(entity.getFk_ocupacion()));
+            dto.setDtoOcupacion(
+                    OcupacionMapper.mapEntitytoDto(entity.getFk_ocupacion()
+                    ));
+
         return dto;
     }
 }

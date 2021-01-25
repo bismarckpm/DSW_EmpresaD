@@ -13,7 +13,6 @@ public class DtoEstudio extends DtoBase{
     private String tipo;
     private int encuestasEsperadas;
     private DtoUsuario fk_usuario;
-    private DtoMuestraPoblacion fk_muestra_poblacion;
     private List<DtoPregunta> preguntas;
     private DtoSolicitud solicitud;
     private List<DtoEncuestaEstudio> encuestaEstudio;
@@ -97,22 +96,6 @@ public class DtoEstudio extends DtoBase{
      */
     public void setFk_usuario(DtoUsuario fk_usuario) {
         this.fk_usuario = fk_usuario;
-    }
-
-    /**
-     * Name: DtoMuestraPoblacion
-     * @return fk_muestra_poblacio
-     */
-    public DtoMuestraPoblacion getFk_muestra_poblacion() {
-        return fk_muestra_poblacion;
-    }
-
-    /**
-     * Name: setFk_muestra_poblacion
-     * @param fk_muestra_poblacion
-     */
-    public void setFk_muestra_poblacion(DtoMuestraPoblacion fk_muestra_poblacion) {
-        this.fk_muestra_poblacion = fk_muestra_poblacion;
     }
 
     /**

@@ -12,6 +12,7 @@ public class DtoSolicitud extends DtoBase{
     private String marca;
     private String comentarios;
     private DtoUsuario usuario;
+    private DtoMuestraPoblacion muestraPoblacion;
 
 
     private List<DtoPresentacion> presentaciones;
@@ -111,5 +112,21 @@ public class DtoSolicitud extends DtoBase{
      */
     public void setComentarios(String comentarios) {
         this.comentarios = comentarios;
+    }
+
+    /**
+     * Name: getMuestraPoblacion
+     * @return muestraPoblacion
+     */
+    public DtoMuestraPoblacion getMuestraPoblacion() {
+        return muestraPoblacion;
+    }
+
+    /**
+     * Name: setMuestraPoblacion
+     * @param muestraPoblacion
+     */
+    public void setMuestraPoblacion(DtoMuestraPoblacion muestraPoblacion) {
+        this.muestraPoblacion = muestraPoblacion;
     }
 }
