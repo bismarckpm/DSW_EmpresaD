@@ -1,8 +1,7 @@
 package mercadeoucab.entidades;
 
 import javax.persistence.*;
-import java.util.ArrayList;
-import java.util.List;
+import java.sql.Date;
 
 @Entity
 @Table(name = "muestra_poblacion")
@@ -12,16 +11,16 @@ public class MuestraPoblacion extends EntidadBase{
     private String genero;
 
     @Column(name = "nivel_economico")
-    private  int nivelEconomico;
+    private  String nivelEconomico;
 
     @Column(name = "nivel_academico")
     private String nivelAcademico;
 
     @Column(name = "rango_edad_inicio")
-    private int rangoEdadInicio;
+    private Date rangoEdadInicio;
 
     @Column(name = "rango_edad_fin")
-    private int rangoEdadFin;
+    private Date rangoEdadFin;
 
     @Column(name = "cantidad_hijos")
     private int cantidadHijos;
@@ -46,36 +45,12 @@ public class MuestraPoblacion extends EntidadBase{
         this.genero = genero;
     }
 
-    public int getNivelEconomico() {
-        return nivelEconomico;
-    }
-
-    public void setNivelEconomico(int nivelEconomico) {
-        this.nivelEconomico = nivelEconomico;
-    }
-
     public String getNivelAcademico() {
         return nivelAcademico;
     }
 
     public void setNivelAcademico(String nivelAcademico) {
         this.nivelAcademico = nivelAcademico;
-    }
-
-    public int getRangoEdadInicio() {
-        return rangoEdadInicio;
-    }
-
-    public void setRangoEdadInicio(int rangoEdadInicio) {
-        this.rangoEdadInicio = rangoEdadInicio;
-    }
-
-    public int getRangoEdadFin() {
-        return rangoEdadFin;
-    }
-
-    public void setRangoEdadFin(int rangoEdadFin) {
-        this.rangoEdadFin = rangoEdadFin;
     }
 
     public int getCantidadHijos() {
@@ -100,5 +75,29 @@ public class MuestraPoblacion extends EntidadBase{
 
     public void setFk_ocupacion(Ocupacion fk_ocupacion) {
         this.fk_ocupacion = fk_ocupacion;
+    }
+
+    public String getNivelEconomico() {
+        return nivelEconomico;
+    }
+
+    public void setNivelEconomico(String nivelEconomico) {
+        this.nivelEconomico = nivelEconomico;
+    }
+
+    public Date getRangoEdadInicio() {
+        return rangoEdadInicio;
+    }
+
+    public void setRangoEdadInicio(Date rangoEdadInicio) {
+        this.rangoEdadInicio = rangoEdadInicio;
+    }
+
+    public Date getRangoEdadFin() {
+        return rangoEdadFin;
+    }
+
+    public void setRangoEdadFin(Date rangoEdadFin) {
+        this.rangoEdadFin = rangoEdadFin;
     }
 }

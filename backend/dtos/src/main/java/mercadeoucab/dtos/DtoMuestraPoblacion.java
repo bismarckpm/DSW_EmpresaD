@@ -1,15 +1,17 @@
 package mercadeoucab.dtos;
 
+import java.sql.Date;
+
 /**
  * Name: DtoMuestraPoblacion
  */
 public class DtoMuestraPoblacion extends DtoBase{
 
     private String genero;
-    private  int nivelEconomico;
+    private  String nivelEconomico;
     private String nivelAcademico;
-    private int rangoEdadInicio;
-    private int rangoEdadFin;
+    private Date rangoEdadInicio;
+    private Date rangoEdadFin;
     private int cantidadHijos;
     private DtoParroquia fk_lugar;
     private DtoOcupacion dtoOcupacion;
@@ -38,7 +40,7 @@ public class DtoMuestraPoblacion extends DtoBase{
      * @param rangoEdadFin
      * @param cantidadHijos
      */
-    public DtoMuestraPoblacion(String genero, int nivelEconomico, String nivelAcademico, int rangoEdadInicio, int rangoEdadFin, int cantidadHijos) {
+    public DtoMuestraPoblacion(String genero, String nivelEconomico, String nivelAcademico, Date rangoEdadInicio, Date rangoEdadFin, int cantidadHijos) {
         this.genero = genero;
         this.nivelEconomico = nivelEconomico;
         this.nivelAcademico = nivelAcademico;
@@ -67,7 +69,7 @@ public class DtoMuestraPoblacion extends DtoBase{
      * Name: getNivelEconomico
      * @return nivelEconomico
      */
-    public int getNivelEconomico() {
+    public String getNivelEconomico() {
         return nivelEconomico;
     }
 
@@ -75,7 +77,7 @@ public class DtoMuestraPoblacion extends DtoBase{
      * Name: setNivelEconomico
      * @param nivelEconomico
      */
-    public void setNivelEconomico(int nivelEconomico) {
+    public void setNivelEconomico(String nivelEconomico) {
         this.nivelEconomico = nivelEconomico;
     }
 
@@ -99,7 +101,7 @@ public class DtoMuestraPoblacion extends DtoBase{
      * Name: getRangoEdadInicio
      * @return rangoEdadInicio
      */
-    public int getRangoEdadInicio() {
+    public Date getRangoEdadInicio() {
         return rangoEdadInicio;
     }
 
@@ -107,7 +109,7 @@ public class DtoMuestraPoblacion extends DtoBase{
      * Name: setRangoEdadInicio
      * @param rangoEdadInicio
      */
-    public void setRangoEdadInicio(int rangoEdadInicio) {
+    public void setRangoEdadInicio(Date rangoEdadInicio) {
         this.rangoEdadInicio = rangoEdadInicio;
     }
 
@@ -115,7 +117,7 @@ public class DtoMuestraPoblacion extends DtoBase{
      * Name: getRangoEdadFin
      * @return rangoEdadFin
      */
-    public int getRangoEdadFin() {
+    public Date getRangoEdadFin() {
         return rangoEdadFin;
     }
 
@@ -123,7 +125,7 @@ public class DtoMuestraPoblacion extends DtoBase{
      * Name: setRangoEdadFin
      * @param rangoEdadFin
      */
-    public void setRangoEdadFin(int rangoEdadFin) {
+    public void setRangoEdadFin(Date rangoEdadFin) {
         this.rangoEdadFin = rangoEdadFin;
     }
 

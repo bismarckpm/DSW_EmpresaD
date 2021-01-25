@@ -20,8 +20,8 @@ public class ResponseMuestraPoblacion implements ResponseBase<DtoMuestraPoblacio
                 .add("genero",dtoMuestraPoblacion.getGenero())
                 .add("nivel_economico", dtoMuestraPoblacion.getNivelEconomico())
                 .add("nivel_academico", dtoMuestraPoblacion.getNivelAcademico())
-                .add("rango_edad_inicio", dtoMuestraPoblacion.getRangoEdadInicio())
-                .add("rango_edad_fin", dtoMuestraPoblacion.getRangoEdadFin())
+                .add("rango_edad_inicio", dtoMuestraPoblacion.getRangoEdadInicio().toString())
+                .add("rango_edad_fin", dtoMuestraPoblacion.getRangoEdadFin().toString())
                 .add("cantidad_hijos", dtoMuestraPoblacion.getCantidadHijos())
                 .add("parroquia", parroquia)
                 .build();

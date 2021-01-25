@@ -9,11 +9,12 @@ import java.util.List;
 public class DtoSolicitud extends DtoBase{
 
     private String estado;
+    private String marca;
+    private String comentarios;
     private DtoUsuario usuario;
-    private DtoMarca marca;
+    private DtoMuestraPoblacion muestraPoblacion;
 
-    private List<DtoTipo> tipos;
-    private List<DtoSubCategoria> subCategorias;
+
     private List<DtoPresentacion> presentaciones;
 
     /**
@@ -43,18 +44,6 @@ public class DtoSolicitud extends DtoBase{
     public void setEstado(String estado) {this.estado = estado;}
 
     /**
-     * Name: getMarca
-     * @return marca
-     */
-    public DtoMarca getMarca() {return marca;}
-
-    /**
-     * Name: setMarca
-     * @param marca
-     */
-    public void setMarca(DtoMarca marca) {this.marca = marca;}
-
-    /**
      * Name: getUsuario
      * @return usuario
      */
@@ -65,38 +54,6 @@ public class DtoSolicitud extends DtoBase{
      * @param usuario
      */
     public void setUsuario(DtoUsuario usuario) {this.usuario = usuario;}
-
-    /**
-     * Name: getTipos
-     * @return tipos
-     */
-    public List<DtoTipo> getTipos() {
-        return tipos;
-    }
-
-    /**
-     * Name: setTipos
-     * @param tipos
-     */
-    public void setTipos(List<DtoTipo> tipos) {
-        this.tipos = tipos;
-    }
-
-    /**
-     * Name: getSubCategorias
-     * @return subCategorias
-     */
-    public List<DtoSubCategoria> getSubCategorias() {
-        return subCategorias;
-    }
-
-    /**
-     * Name: setSubCategorias
-     * @param subCategorias
-     */
-    public void setSubCategorias(List<DtoSubCategoria> subCategorias) {
-        this.subCategorias = subCategorias;
-    }
 
     /**
      * Name: getPresentaciones
@@ -114,15 +71,6 @@ public class DtoSolicitud extends DtoBase{
         this.presentaciones = presentaciones;
     }
 
-    /**
-     * Name: addSubcategoria
-     * @param dtoSubCategoria
-     */
-    public void addSubcategoria(DtoSubCategoria dtoSubCategoria){
-        if(this.subCategorias == null)
-            this.subCategorias = new ArrayList<>();
-        this.subCategorias.add(dtoSubCategoria);
-    }
 
     /**
      * Name: addPresentacion
@@ -135,12 +83,50 @@ public class DtoSolicitud extends DtoBase{
     }
 
     /**
-     * Name: addTipo
-     * @param dtoTipo
+     * Name: getMarca
+     * @return marca
      */
-    public void addTipo(DtoTipo dtoTipo){
-        if(this.tipos == null)
-            this.tipos = new ArrayList<>();
-        this.tipos.add(dtoTipo);
+    public String getMarca() {
+        return marca;
+    }
+
+    /**
+     * Name: setMarca
+     * @param marca
+     */
+    public void setMarca(String marca) {
+        this.marca = marca;
+    }
+
+    /**
+     * Name: getComentarios
+     * @return comentarios
+     */
+    public String getComentarios() {
+        return comentarios;
+    }
+
+    /**
+     * Name: setComentarios
+     * @param comentarios
+     */
+    public void setComentarios(String comentarios) {
+        this.comentarios = comentarios;
+    }
+
+    /**
+     * Name: getMuestraPoblacion
+     * @return muestraPoblacion
+     */
+    public DtoMuestraPoblacion getMuestraPoblacion() {
+        return muestraPoblacion;
+    }
+
+    /**
+     * Name: setMuestraPoblacion
+     * @param muestraPoblacion
+     */
+    public void setMuestraPoblacion(DtoMuestraPoblacion muestraPoblacion) {
+        this.muestraPoblacion = muestraPoblacion;
     }
 }

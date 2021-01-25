@@ -1,4 +1,5 @@
 import mercadeoucab.dtos.DtoPresentacion;
+import mercadeoucab.dtos.DtoTipo;
 import mercadeoucab.entidades.Presentacion;
 import mercadeoucab.servicio.ServicioPresentacion;
 import org.junit.Assert;
@@ -15,6 +16,9 @@ public class ServicioPresentacionTest {
         DtoPresentacion DTOP= new DtoPresentacion();
         DTOP.setTipo("volumen");
         DTOP.setCantidad("1000 L");
+        DTOP.setFk_tipo(new DtoTipo(
+
+        ));
         Response resultado = servicio.registrarPresentacion( DTOP);
         Assert.assertEquals(200, resultado.getStatus());
     }

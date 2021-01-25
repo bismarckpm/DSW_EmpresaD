@@ -20,7 +20,7 @@ public class ServicioDatoEncuestadoTest {
                                                     "pc",
                                                     Date.valueOf("1997-02-28"),
                                                     "masculino",
-                                                    50,
+                                                    "Alto",
                                                     "Licenciado",
                                                     5);
         datoEncuestado.setFk_lugar(new DtoParroquia(1));
@@ -81,7 +81,7 @@ public class ServicioDatoEncuestadoTest {
                 "laptop",
                 Date.valueOf("1997-02-28"),
                 "masculino",
-                50,
+                "Medio",
                 "universitario",
                 5);
         datoEncuestado.setFk_lugar(new DtoParroquia(1));

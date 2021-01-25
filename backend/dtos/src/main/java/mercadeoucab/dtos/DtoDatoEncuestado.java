@@ -16,7 +16,7 @@ public class DtoDatoEncuestado extends DtoBase {
     private String medioConexion;
     private Date edad;
     private String genero;
-    private int nive_economico;
+    private String nive_economico;
     private String nivelAcademico;
     private int personasHogar;
     private DtoParroquia fk_lugar;
@@ -52,7 +52,7 @@ public class DtoDatoEncuestado extends DtoBase {
      * @param nivelAcademico
      * @param personasHogar
      */
-    public DtoDatoEncuestado(String segundoNombre, String segundoapellido, String cedula, String medioConexion, Date edad, String genero, int nive_economico, String nivelAcademico, int personasHogar) {
+    public DtoDatoEncuestado(String segundoNombre, String segundoapellido, String cedula, String medioConexion, Date edad, String genero, String nive_economico, String nivelAcademico, int personasHogar) {
         this.segundoNombre = segundoNombre;
         this.segundoapellido = segundoapellido;
         this.cedula = cedula;
@@ -164,7 +164,7 @@ public class DtoDatoEncuestado extends DtoBase {
      * Name: getNive_economico
      * @return nive_economico
      */
-    public int getNive_economico() {
+    public String getNive_economico() {
         return nive_economico;
     }
 
@@ -172,7 +172,7 @@ public class DtoDatoEncuestado extends DtoBase {
      * Name: setNive_economico
      * @param nive_economico
      */
-    public void setNive_economico(int nive_economico) {
+    public void setNive_economico(String nive_economico) {
         this.nive_economico = nive_economico;
     }
 
