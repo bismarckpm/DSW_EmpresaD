@@ -4,7 +4,7 @@ import javax.persistence.*;
 import java.util.List;
 
 @Entity
-@Table(name = "Presentacion")
+@Table(name = "presentacion")
 public class Presentacion extends EntidadBase {
 
     @Column(name = "cantidad")
