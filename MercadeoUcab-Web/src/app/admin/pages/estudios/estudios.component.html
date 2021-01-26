@@ -401,27 +401,29 @@
                     <label>Edad de participantes</label>
                     <div style="display: flex; flex-direction: row">
                       <input
-                        type="number"
+                        type="date"
                         formControlName="rangoEdadInicio"
                         class="form-control"
                         id="edadI"
                         aria-describedby="edadIHelp"
-                        min="0"
+                        
                         style="width: 45%; margin-right: 5%"
                       />
                       <input
-                        type="number"
+                        type="date"
                         formControlName="rangoEdadFin"
                         class="form-control"
                         id="edadF"
                         aria-describedby="edadFHelp"
-                        min="0"
+          
                         style="width: 45%"
                       />
                     </div>
                     <div style="display: flex; flex-direction: row">
+                      <!--
                       <h6 style="width: 50%; text-align: start">Edad minima</h6>
                       <h6 style="width: 50%; text-align: start">Edad máxima</h6>
+                      -->
                     </div>
                   </div>
                   <div class="form-group">
@@ -1255,7 +1257,7 @@
   (sharePregunta)="addCreatedPreg($event)"
 ></app-add-pregunta-dialog>
 <app-basic-info-dialog #info [_tipo]="'Estudio'">
-  <div class="cForm-field-row">
+  <div class="cForm-field-row" *ngIf="targetEstudio !== null">
     <div class="cForm-field-col">
      
     </div>
@@ -1264,3 +1266,90 @@
     </div>
   </div>
 </app-basic-info-dialog>
+<!--
+ {
+            _id: 1,
+            estado: 'En ejecucion',
+            tipo: 'En linea',
+            encuestas_esperadas: 1,
+            solicitud: {
+              _id: 1,
+              estado: 'solicitada',
+            },
+            analista: {
+              _id: 6,
+              nombre: 'Macon',
+              apellido: 'Mcleod',
+              correo: 'MM10@gmail.com',
+              rol: 'administrador',
+              estado: 'test',
+            },
+            muestra_poblacion: {
+              _id: 1,
+              genero: 'masculino',
+              nivel_academico: 'Bachiller',
+              nivel_economico: 3,
+              rango_edad_inicio: 10,
+              rango_edad_fin: 50,
+              cantidad_hijos: 2,
+              Fk_ocupacion: { _id: 1, nombre: 'test Ocupacion' },
+              parroquia: {
+                _id: 6,
+                nombre: 'Eglise Notre Dame De Rumengol',
+                // "valor_socioeconomico": 1,
+                valorSocioEconomico: 3,
+                nivel_economico: 3,
+                municipio: {
+                  _id: 7,
+                  nombre: 'Le Faou',
+                  estado: {
+                    _id: 7,
+                    nombre: 'Breteña',
+                    pais: {
+                      _id: 4,
+                      nombre: 'Francia',
+                    },
+                  },
+                },
+              },
+            },
+            encuesta: [
+              {
+                _id: 1,
+                pregunta: {
+                  _id: 1,
+                  nombre: 'Pregunta 1: Le parecio comodo el mueble? ',
+                  tipo: 'abierta',
+                },
+              },
+              {
+                _id: 7,
+                pregunta: {
+                  _id: 2,
+                  nombre:
+                    'Pregunta 2: Recomendaria este mueble a otras personas?',
+                  tipo: 'boolean',
+                },
+              },
+              {
+                _id: 3,
+                pregunta: {
+                  _id: 3,
+                  nombre:
+                    'Pregunta 3: El precio del mueble le parece que esta bien justificado?',
+                  tipo: 'abierta',
+                  rango: '',
+                },
+              },
+              {
+                _id: 24,
+                pregunta: {
+                  _id: 4,
+                  nombre:
+                    'Pregunta 4: Que problemas encontro en nuestro mueble?',
+                  tipo: 'abierta',
+                },
+              },
+            ],
+          },
+-->

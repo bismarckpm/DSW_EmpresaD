@@ -58,7 +58,7 @@ export class EstudiosComponent implements OnInit {
   preguntas: Pregunta[] = [];
   pregAsoc: any[] = [];
 
-  targetEstudio: any;
+  targetEstudio: any = null;
   targetPoblacion: any = null;
 
   displayedColumns: string[] = [ 'estado', 'asignado', 'selector', 'ops'];
