@@ -7,7 +7,6 @@ public enum Fabricas {
     ESTADO,
     ESTUDIO,
     HIJO,
-    MARCA,
     MUESTRAPOBLACION,
     MUNICIPIO,
     OCUPACION,

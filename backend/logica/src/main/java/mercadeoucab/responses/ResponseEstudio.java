@@ -79,7 +79,6 @@ public class ResponseEstudio implements ResponseBase<DtoEstudio> {
         ResponseUsuario responseUsuario = new ResponseUsuario();
         JsonObject objetoUsuario = responseUsuario.generate( dtoEstudio.getFk_usuario());
         ResponseMuestraPoblacion responseMuestraPoblacion = new ResponseMuestraPoblacion();
-        JsonObject muestraPoblacion = responseMuestraPoblacion.generate( dtoEstudio.getFk_muestra_poblacion());
         ResponseSolicitud responseSolicitud = new ResponseSolicitud();
         JsonObject solicitud = responseSolicitud.generate( dtoEstudio.getSolicitud());
         return Json.createObjectBuilder()
@@ -89,7 +88,6 @@ public class ResponseEstudio implements ResponseBase<DtoEstudio> {
                 .add("encuestas_esperadas", dtoEstudio.getEncuestasEsperadas())
                 .add("solicitud", solicitud)
                 .add("analista", objetoUsuario)
-                .add("muestra_poblacion", muestraPoblacion)
                 .add("encuesta", preguntaslist)
                 .build();
     }

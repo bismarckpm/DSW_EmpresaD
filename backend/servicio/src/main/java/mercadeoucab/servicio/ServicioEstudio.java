@@ -94,9 +94,6 @@ public class ServicioEstudio {
             estudio.setSolicitud( solicitud );
             Usuario usuario = new Usuario(dtoEstudio.getFk_usuario().get_id());
             estudio.setFk_usuario( usuario );
-            MuestraPoblacion muestraPoblacion = new MuestraPoblacion(dtoEstudio.getFk_muestra_poblacion().get_id());
-            estudio.setFk_muestra_poblacion( muestraPoblacion );
-
             for(DtoPregunta pregunta: dtoEstudio.getPreguntas()){
                 Pregunta pregunta1 = new Pregunta(pregunta.get_id());
                 estudio.addpregunta(pregunta1);

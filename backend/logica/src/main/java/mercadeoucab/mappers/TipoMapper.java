@@ -15,6 +15,9 @@ public class TipoMapper {
         tipo.setActivo( dtoTipo.getActivo());
         tipo.setModificado_el( dtoTipo.getModificado_el());
         tipo.setCreado_el( dtoTipo.getCreado_el());
+        tipo.setSubCategoria(
+                SubCategoriaMapper.mapDtoToEntity(dtoTipo.getSubCategoria())
+        );
         return tipo;
     }
 
@@ -26,6 +29,9 @@ public class TipoMapper {
         dtoTipo.setActivo( tipo.getActivo());
         dtoTipo.setCreado_el( tipo.getCreado_el());
         dtoTipo.setModificado_el( tipo.getModificado_el());
+        dtoTipo.setSubCategoria(
+                SubCategoriaMapper.mapEntityToDto(tipo.getSubCategoria())
+        );
         return dtoTipo;
     }
 }

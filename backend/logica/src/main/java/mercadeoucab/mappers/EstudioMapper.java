@@ -24,8 +24,6 @@ public class EstudioMapper {
         entity.setEncuestasEsperadas(dto.getEncuestasEsperadas());
         if(Objects.nonNull(dto.getFk_usuario()))
             entity.setFk_usuario(UsuarioMapper.mapDtoToEntity(dto.getFk_usuario()));
-        if(Objects.nonNull(dto.getFk_muestra_poblacion()))
-            entity.setFk_muestra_poblacion(MuestraPoblacionMapper.mapDtotoEntity(dto.getFk_muestra_poblacion()));
         if(Objects.nonNull(dto.getSolicitud()))
             entity.setSolicitud(SolicitudMapper.mapDtoToEntity(dto.getSolicitud()));
         if(!(dto.getPreguntas().isEmpty())){
@@ -48,8 +46,6 @@ public class EstudioMapper {
         dto.setEncuestasEsperadas(entity.getEncuestasEsperadas());
         if(Objects.nonNull(entity.getFk_usuario()))
             dto.setFk_usuario(UsuarioMapper.mapEntityToDto(entity.getFk_usuario()));
-        if(Objects.nonNull(entity.getFk_muestra_poblacion()))
-            dto.setFk_muestra_poblacion(MuestraPoblacionMapper.mapEntitytoDto(entity.getFk_muestra_poblacion()));
         if(Objects.nonNull(entity.getSolicitud()))
             dto.setSolicitud(SolicitudMapper.mapEntityToDto(entity.getSolicitud()));
         if(!(entity.getPreguntas().isEmpty())){
@@ -79,8 +75,6 @@ public class EstudioMapper {
         dto.setEncuestasEsperadas(entity.getEncuestasEsperadas());
         if(Objects.nonNull(entity.getFk_usuario()))
             dto.setFk_usuario(UsuarioMapper.mapEntityToDto(entity.getFk_usuario()));
-        if(Objects.nonNull(entity.getFk_muestra_poblacion()))
-            dto.setFk_muestra_poblacion(MuestraPoblacionMapper.mapEntitytoDto(entity.getFk_muestra_poblacion()));
         if(Objects.nonNull(entity.getSolicitud()))
             dto.setSolicitud(SolicitudMapper.mapEntityToDto(entity.getSolicitud()));
         if(!(entity.getPreguntas().isEmpty())){

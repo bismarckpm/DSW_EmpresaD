@@ -6,7 +6,6 @@
         <class>mercadeoucab.entidades.DatoEncuestado</class>
         <class>mercadeoucab.entidades.EncuestaEstudio</class>
         <class>mercadeoucab.entidades.Estado</class>
-        <class>mercadeoucab.entidades.Marca</class>
         <class>mercadeoucab.entidades.MuestraPoblacion</class>
         <class>mercadeoucab.entidades.Municipio</class>
         <class>mercadeoucab.entidades.Ocupacion</class>

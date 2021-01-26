@@ -19,7 +19,6 @@ public abstract class FabricaAbstracta {
     private static final FabricaEstudio FABRICA_ESTUDIO = new FabricaEstudio();
     private static final FabricaHijos FABRICA_HIJOS = new FabricaHijos();
     private static final FabricaMail FABRICA_MAIL = new FabricaMail();
-    private static final FabricaMarca FABRICA_MARCA = new FabricaMarca();
     private static final FabricaMuestraPoblacion FABRICA_MUESTRA_POBLACION = new FabricaMuestraPoblacion();
     private static final FabricaMunicipio FABRICA_MUNICIPIO = new FabricaMunicipio();
     private static final FabricaOcupacion FABRICA_OCUPACION = new FabricaOcupacion();
@@ -67,9 +66,6 @@ public abstract class FabricaAbstracta {
                 break;
             case MAIL:
                 fabrica = FABRICA_MAIL;
-                break;
-            case MARCA:
-                fabrica = FABRICA_MARCA;
                 break;
             case MUESTRAPOBLACION:
                 fabrica = FABRICA_MUESTRA_POBLACION;

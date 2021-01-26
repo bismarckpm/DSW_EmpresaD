@@ -1,6 +1,5 @@
 package mercadeoucab.entidades;
 
-import javax.inject.Named;
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -15,31 +14,27 @@ import java.util.List;
         @NamedQuery(
                 name = "estudios_aplican_encuestado",
                 query = "select e from Estudio e " +
-                        "where e.fk_muestra_poblacion.cantidadHijos = :cantidadHijos " +
-                        "  and e.fk_muestra_poblacion.genero = :genero " +
-                        "  and e.fk_muestra_poblacion.nivelAcademico = :nivelAcademico " +
-                        "  and e.fk_muestra_poblacion.nivelEconomico = :nivelEconomico " +
-                        "  and e.fk_muestra_poblacion.rangoEdadInicio <= :edad " +
-                        "  and e.fk_muestra_poblacion.rangoEdadFin >= :edad " +
-                        "  and e.fk_muestra_poblacion.fk_lugar = :lugar " +
-                        "  and e.fk_muestra_poblacion.fk_ocupacion = :ocupacion"
+                        "where e.solicitud.fk_muestra_poblacion.cantidadHijos = :cantidadHijos " +
+                        "  and e.solicitud.fk_muestra_poblacion.genero = :genero " +
+                        "  and e.solicitud.fk_muestra_poblacion.nivelAcademico = :nivelAcademico " +
+                        "  and e.solicitud.fk_muestra_poblacion.nivelEconomico = :nivelEconomico " +
+                        "  and e.solicitud.fk_muestra_poblacion.rangoEdadInicio <= :edad " +
+                        "  and e.solicitud.fk_muestra_poblacion.rangoEdadFin >= :edad " +
+                        "  and e.solicitud.fk_muestra_poblacion.fk_lugar = :lugar " +
+                        "  and e.solicitud.fk_muestra_poblacion.fk_ocupacion = :ocupacion"
         ),
         @NamedQuery(
                 name = "preguntas_similares",
                 query = "select e from Estudio e " +
                         "join e.solicitud s " +
-                        "where s.presentaciones in :presentaciones " +
-                        "and s.tipos in :tipos " +
-                        "and s.subCategorias in :subcategorias"
+                        "where s.presentaciones in :presentaciones "
 
         ),
         @NamedQuery(
                 name = "poblaciones_similares",
-                query = "select e.fk_muestra_poblacion from Estudio e " +
+                query = "select e.solicitud.fk_muestra_poblacion from Estudio e " +
                         "join e.solicitud s " +
-                        "where s.presentaciones in :presentaciones " +
-                        "and s.tipos in :tipos " +
-                        "and s.subCategorias in :subcategorias"
+                        "where s.presentaciones in :presentaciones "
         ),
         @NamedQuery(
                 name = "personas_aplican",
@@ -71,10 +66,6 @@ public class Estudio extends EntidadBase{
     @ManyToOne
     @JoinColumn(name = "fk_usuario")
     private Usuario fk_usuario;
-
-    @ManyToOne
-    @JoinColumn(name = "fk_muestra_poblacion")
-    private MuestraPoblacion fk_muestra_poblacion;
 
     @JoinTable(
             name = "encuesta_estudio",
@@ -131,14 +122,6 @@ public class Estudio extends EntidadBase{
 
     public void setFk_usuario(Usuario fk_usuario) {
         this.fk_usuario = fk_usuario;
-    }
-
-    public MuestraPoblacion getFk_muestra_poblacion() {
-        return fk_muestra_poblacion;
-    }
-
-    public void setFk_muestra_poblacion(MuestraPoblacion fk_muestra_poblacion) {
-        this.fk_muestra_poblacion = fk_muestra_poblacion;
     }
 
     public void addpregunta(Pregunta pregunta){

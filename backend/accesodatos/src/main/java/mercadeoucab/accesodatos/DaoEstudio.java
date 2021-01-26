@@ -91,12 +91,12 @@ public class DaoEstudio extends Dao<Estudio>{
         try {
             _handler.beginTransaction();
             TypedQuery<Usuario> usuarios = this._em.createNamedQuery("personas_aplican", Usuario.class);
-            usuarios.setParameter("nivelEcon", estudio.getFk_muestra_poblacion().getNivelEconomico());
-            usuarios.setParameter("genero", estudio.getFk_muestra_poblacion().getGenero());
+            usuarios.setParameter("nivelEcon", estudio.getSolicitud().getFk_muestra_poblacion().getNivelEconomico());
+            usuarios.setParameter("genero", estudio.getSolicitud().getFk_muestra_poblacion().getGenero());
             //usuarios.setParameter("cantidadHijos", estudio.getFk_muestra_poblacion().getCantidadHijos());
-            usuarios.setParameter("nivelAcademico", estudio.getFk_muestra_poblacion().getNivelAcademico());
-            usuarios.setParameter("lugar", estudio.getFk_muestra_poblacion().getFk_lugar());
-            usuarios.setParameter("ocupacion", estudio.getFk_muestra_poblacion().getFk_ocupacion());
+            usuarios.setParameter("nivelAcademico", estudio.getSolicitud().getFk_muestra_poblacion().getNivelAcademico());
+            usuarios.setParameter("lugar", estudio.getSolicitud().getFk_muestra_poblacion().getFk_lugar());
+            usuarios.setParameter("ocupacion", estudio.getSolicitud().getFk_muestra_poblacion().getFk_ocupacion());
             //usuarios.setParameter("edadInicial", estudio.getFk_muestra_poblacion().getRangoEdadInicio());
             //usuarios.setParameter("edadFinal", estudio.getFk_muestra_poblacion().getRangoEdadFin());
             resultado = usuarios.getResultList();
@@ -124,8 +124,6 @@ public class DaoEstudio extends Dao<Estudio>{
             _handler.beginTransaction();
             TypedQuery<Estudio> estudios = this._em.createNamedQuery("preguntas_similares",Estudio.class);
             estudios.setParameter("presentaciones", solicitud.getPresentaciones());
-            estudios.setParameter("tipos", solicitud.getTipos());
-            estudios.setParameter("subcategorias",solicitud.getSubCategorias());
             resultado = estudios.getResultList();
             _em.flush();
             _em.clear();
@@ -151,8 +149,6 @@ public class DaoEstudio extends Dao<Estudio>{
             _handler.beginTransaction();
             TypedQuery<MuestraPoblacion> muestras = this._em.createNamedQuery("poblaciones_similares",MuestraPoblacion.class);
             muestras.setParameter("presentaciones", solicitud.getPresentaciones());
-            muestras.setParameter("tipos", solicitud.getTipos());
-            muestras.setParameter("subcategorias",solicitud.getSubCategorias());
             resultado = muestras.getResultList();
             _em.flush();
             _em.clear();

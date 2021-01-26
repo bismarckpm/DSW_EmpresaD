@@ -44,7 +44,7 @@ public class ServicioDatoEncuestado extends AplicacionBase{
         try {
             DaoDatoEncuestado dao = new DaoDatoEncuestado();
             List<DatoEncuestado> datosEncuestadosObtenidos = dao.findAll( DatoEncuestado.class);
-            if ( !datosEncuestadosObtenidos.isEmpty()) {
+            if ( datosEncuestadosObtenidos.size() > 0) {
                 for (DatoEncuestado datoEncuestado : datosEncuestadosObtenidos) {
                     if (datoEncuestado.getActivo() != 0) {
                         ResponseDatoEncuestado responseDatoEncuestado = new ResponseDatoEncuestado();
@@ -60,6 +60,7 @@ public class ServicioDatoEncuestado extends AplicacionBase{
         }catch (Exception e) {
             // CAMBIAR CUANDO SE MANEJEN LAS EXCEPCIONES PROPIAS
             String problema = e.getMessage();
+            System.out.println(problema + " EEEEEEEEEEEEEEEEEEEEEEEEEEE");
             resultado = ResponseGeneral.Failure("Ha ocurrido un error");
         }
         return  resultado;

@@ -4,6 +4,8 @@ import mercadeoucab.dtos.DtoPresentacion;
 import mercadeoucab.dtos.DtoSolicitud;
 import mercadeoucab.dtos.DtoSubCategoria;
 import mercadeoucab.dtos.DtoTipo;
+import mercadeoucab.fabricas.Enums.Fabricas;
+import mercadeoucab.fabricas.FabricaAbstracta;
 
 import javax.json.Json;
 import javax.json.JsonArrayBuilder;
@@ -21,39 +23,36 @@ public class ResponseSolicitud implements ResponseBase<DtoSolicitud> {
     public JsonObject generate(DtoSolicitud dtoSolicitud) throws Exception {
         JsonObject resultado;
         JsonObject usuario;
-        ResponseUsuario responseUsuario = new ResponseUsuario();
+        JsonObject muestraPoblacion;
+
+        FabricaAbstracta fabrica = FabricaAbstracta.getFactory(Fabricas.USUARIO);
+        ResponseUsuario responseUsuario = (ResponseUsuario) fabrica.generarResponse();
         usuario = responseUsuario.generate( dtoSolicitud.getUsuario());
-        JsonArrayBuilder tiposList = Json.createArrayBuilder();
-        if (Objects.nonNull( dtoSolicitud.getTipos())) {
-            for (DtoTipo tipo : dtoSolicitud.getTipos()) {
-                ResponseTipo responseTipo = new ResponseTipo();
-                JsonObject objecto = responseTipo.generate(tipo);
-                tiposList.add(objecto);
-            }
-        }
+
+        FabricaAbstracta fabrica1 = FabricaAbstracta.getFactory(Fabricas.PRESENTACION);
         JsonArrayBuilder presentacionlist = Json.createArrayBuilder();
+
         if ( Objects.nonNull( dtoSolicitud.getPresentaciones())) {
             for (DtoPresentacion presentacion : dtoSolicitud.getPresentaciones()) {
-                ResponsePresentacion responsePresentacion = new ResponsePresentacion();
-                JsonObject objecto = responsePresentacion.generate(presentacion);
-                presentacionlist.add(objecto);
+                ResponsePresentacion responsePresentacion = (ResponsePresentacion) fabrica1.generarResponse();
+                JsonObject objeto = responsePresentacion.generate(presentacion);
+                presentacionlist.add(objeto);
             }
         }
-        JsonArrayBuilder subCategoriaslist = Json.createArrayBuilder();
-        if ( Objects.nonNull( dtoSolicitud.getSubCategorias())) {
-            for (DtoSubCategoria subCategoria : dtoSolicitud.getSubCategorias()) {
-                ResponseSubCategoria responseSubCategoria = new ResponseSubCategoria();
-                JsonObject objecto = responseSubCategoria.generate(subCategoria);
-                subCategoriaslist.add(objecto);
-            }
-        }
+
+        FabricaAbstracta fabrica2 = FabricaAbstracta.getFactory(Fabricas.MUESTRAPOBLACION);
+        ResponseMuestraPoblacion responseMuestraPoblacion = (ResponseMuestraPoblacion) fabrica2.generarResponse();
+        muestraPoblacion = responseMuestraPoblacion.generate(dtoSolicitud.getMuestraPoblacion());
+
+
         resultado = Json.createObjectBuilder()
                         .add("_id", dtoSolicitud.get_id())
                         .add("estado",dtoSolicitud.getEstado())
                         .add("usuario", usuario)
-                        .add("tipos", tiposList)
-                        .add("subcategorias", subCategoriaslist)
+                        .add("marca", dtoSolicitud.getMarca())
+                        .add("comentarios", dtoSolicitud.getComentarios())
                         .add("presentaciones", presentacionlist)
+                        .add("muestraPoblacion", muestraPoblacion)
                         .build();
         return resultado;
     }
