@@ -101,6 +101,10 @@ export class PreguntasComponent implements OnInit {
   async openUpdModal() {
     return await this.updComponent.open();
   }
+  @ViewChild('info') private infoComponent: BasicInfoDialogComponent;
+  async openInfoModal() {
+    return await this.infoComponent.open();
+  }
   testUser: Usuario = {
     _id: Math.floor(Math.random() * (1000 - 1) + 1),
     nombre: Math.random().toString(36).substr(2, 5),

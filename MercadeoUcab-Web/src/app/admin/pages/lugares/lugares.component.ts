@@ -68,6 +68,10 @@ export class LugaresComponent implements OnInit {
   async openDelModal(id: number, tipo: string, data: any) {
     return await this.delComponent.open(id, tipo, data);
   }
+  @ViewChild('info') private infoComponent: BasicInfoDialogComponent;
+  async openInfoModal() {
+    return await this.infoComponent.open();
+  }
   //dataSource : MatTableDataSource<Lugar>;
   //CHEQUEO DE OPERACION
   testPais: Pais = {

@@ -53,6 +53,10 @@ export class PresentacionComponent implements OnInit {
   async openDelModal() {
     return await this.delComponent.open();
   }
+  @ViewChild('info') private infoComponent: BasicInfoDialogComponent;
+  async openInfoModal() {
+    return await this.infoComponent.open();
+  }
 
   ngOnInit(): void {
     this.setOperation('');

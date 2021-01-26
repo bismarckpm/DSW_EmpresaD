@@ -1,10 +1,12 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { EstudioService } from '@core/services/estudio/estudio.service';
 import { Muestra_poblacionService } from '@core/services/muestra_poblacion/muestra_poblacion.service';
 import { Router, ActivatedRoute } from '@angular/router';
 import { MuestraPoblacion } from '@models/muestraPoblacion';
 import { UtilService } from '@core/services/utils/util.service';
 import { Estudio } from '@models/estudio';
+import { BasicInfoDialogComponent } from '../../components/dialogs/basic-info-dialog/basic-info-dialog.component';
+
 @Component({
   selector: 'app-estudio-realizar',
   templateUrl: './estudio-realizar.component.html',
@@ -23,6 +25,10 @@ export class EstudioRealizarComponent implements OnInit {
     private _poblacionService: Muestra_poblacionService,
     private _utilsService: UtilService
   ) { }
+  @ViewChild('info') private infoComponent: BasicInfoDialogComponent;
+  async openInfoModal() {
+    return await this.infoComponent.open();
+  }
   testRes: any = {
     "status": 200,
     "data": {

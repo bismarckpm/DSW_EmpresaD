@@ -16,6 +16,7 @@ import { MaterialModule } from '../material.module';
 import { LocalNgbModule } from '../ngbootstrap.module';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AnalistaComponent } from './Pages/dashboard/analista.component';
+import { BasicInfoDialogComponent } from './components/dialogs/basic-info-dialog/basic-info-dialog.component';
 
 @NgModule({
   declarations: [
@@ -23,6 +24,7 @@ import { AnalistaComponent } from './Pages/dashboard/analista.component';
     AnalistaOverviewComponent,
     EstudioRealizarComponent,
     AnalistaComponent,
+    BasicInfoDialogComponent,
   ],
   imports: [
     CommonModule,

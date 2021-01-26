@@ -33,7 +33,8 @@ export class DashboardComponent implements OnInit {
   };
 
   ngOnInit(): void {
-    this.router.navigate(['administrador/','home']);
+    this.onDir('home');
+    //this.router.navigate(['administrador/','home']);
     setTimeout(()=>{
       this.openNote=true;
       setTimeout(() => {

@@ -1,5 +1,20 @@
 <div class="container menu-container">
     <div *ngIf="op===''" class="container" style="height: 100%;width: 100%;">
+        <div class="row align-items-center" style="height:100%">
+            <div class="col-6" style="height: 65%">
+                <mat-card class="menu-card" (click)="setOperation('add')">
+                <mat-icon class="menu-card-icon"> add_box </mat-icon>
+                <h3>Registrar nueva SubCategoria</h3>
+                </mat-card>
+            </div>
+            <div class="col-6" style="height: 65%">
+                <mat-card class="menu-card" (click)="setOperation('del')">
+                <mat-icon class="menu-card-icon"> update </mat-icon>
+                <h3>Gestionar subcategorias existentes</h3>
+                </mat-card>
+            </div>
+        </div>
+        <!--
         <div class="row" style="height: 50%;">
             <div class="col-8">
                 <mat-card class="menu-card" (click)="setOperation('add')">
@@ -36,6 +51,8 @@
                 </mat-card>
             </div>
         </div>
+    -->
+
     </div>
     <div *ngIf="op==='add'" style="height: 75%;width: 75%;">
         <mat-card style="height: 100%;width: 100%;text-align: center;display: flex;flex-direction: column;">
