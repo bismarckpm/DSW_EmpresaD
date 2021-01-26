@@ -4,7 +4,7 @@ import javax.persistence.*;
 import java.util.List;
 
 @Entity
-@Table(name="Opcion")
+@Table(name="opcion")
 public class Opcion extends EntidadBase {
 
     @Column(name = "nombre_opcion")

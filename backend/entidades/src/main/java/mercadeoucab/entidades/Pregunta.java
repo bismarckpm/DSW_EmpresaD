@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Entity
-@Table(name="Pregunta")
+@Table(name="pregunta")
 @NamedQueries({
         @NamedQuery(
                 name = "preguntas_de_un_administrador",
