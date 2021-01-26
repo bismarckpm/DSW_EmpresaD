@@ -14,13 +14,12 @@ services:
         condition: service_healthy
 
   docker-mysql:
-    image: mysql
+    image: mysql:latest
     container_name: MercadeoMysql
+    command: --default-authentication-plugin=mysql_native_password
     restart: always
     cap_add:
       - SYS_NICE
-    ports:
-      - '3308:3306'
     volumes:
       - db-data:/var/lib/mysql
       - ./Scripts:/docker-entrypoint-initdb.d
