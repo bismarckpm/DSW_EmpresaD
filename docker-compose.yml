@@ -2,8 +2,9 @@ version: '3.9'
 
 services:
   mercadeoucab:
-    build: ./backend/
-    container_name: mercadeoucabBack
+    build:
+      context: ./backend/
+    domainname: empresad
     restart: always
     ports:
       - '8080:8080'
@@ -14,15 +15,13 @@ services:
         condition: service_healthy
 
   docker-mysql:
-    image: mysql:latest
-    container_name: MercadeoMysql
+    image: mysql:8.0.23
     command: --default-authentication-plugin=mysql_native_password
     restart: always
     cap_add:
       - SYS_NICE
     volumes:
       - db-data:/var/lib/mysql
-      - ./Scripts:/docker-entrypoint-initdb.d
     networks:
       - backend
     healthcheck:
@@ -36,6 +35,10 @@ services:
 
 volumes:
   db-data:
+    driver: azure_file
+    driver_opts:
+      share_name: mercadeoucab-volume
+      storage_account_name: mercadeoucab
 
 networks:
   backend:
