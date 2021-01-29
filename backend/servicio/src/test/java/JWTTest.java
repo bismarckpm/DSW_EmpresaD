@@ -1,3 +1,4 @@
+import mercadeoucab.JWT.JWT;
 import org.junit.Test;
 
 public class JWTTest {

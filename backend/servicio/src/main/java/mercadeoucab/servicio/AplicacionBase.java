@@ -1,5 +1,7 @@
 package mercadeoucab.servicio;
 
+import mercadeoucab.JWT.JWT;
+
 import javax.ws.rs.ApplicationPath;
 import javax.ws.rs.WebApplicationException;
 import javax.ws.rs.core.Application;
@@ -24,7 +26,7 @@ public class AplicacionBase extends Application {
      * @param token
      */
     void validateToken (String token){
-        //JWT.parseJWT(token);
+        JWT.parseJWT(token);
     }
 
     /**
@@ -33,8 +35,8 @@ public class AplicacionBase extends Application {
      * @param subject Correo del usuario
      */
     String generateToke(long id, String subject){
+        JWT.createJWT(id, subject);
         return null;
-        //JWT.createJWT(id, subject);
     }
 
     void throwException( Response.Status status, Exception e )
