@@ -24,6 +24,7 @@
         <module>excepciones</module>
         <module>directorioactivo</module>
         <module>dtos</module>
+        <module>utilities</module>
     </modules>
 
     <dependencies>

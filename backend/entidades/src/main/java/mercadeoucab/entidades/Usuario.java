@@ -2,7 +2,6 @@ package mercadeoucab.entidades;
 
 
 import javax.persistence.*;
-import java.util.List;
 
 @Entity
 @Table( name = "usuario" )
@@ -33,50 +32,34 @@ public class Usuario extends EntidadBase {
     @Column(name = "estado")
     private String estado;
 
-    public Usuario(long id) {
-        super(id);
-    }
+    @Column(name = "token")
+    private String token;
 
-    public Usuario() {
-    }
+    public Usuario(long id) { super(id); }
 
-    public String getNombre() {
-        return nombre;
-    }
+    public Usuario() { }
 
-    public void setNombre(String nombre) {
-        this.nombre = nombre;
-    }
+    public String getNombre() { return nombre; }
 
-    public String getApellido() {
-        return apellido;
-    }
+    public void setNombre(String nombre) { this.nombre = nombre; }
 
-    public void setApellido(String apellido) {
-        this.apellido = apellido;
-    }
+    public String getApellido() { return apellido; }
 
-    public String getRol() {
-        return rol;
-    }
+    public void setApellido(String apellido) { this.apellido = apellido; }
 
-    public void setRol(String rol) {
-        this.rol = rol;
-    }
+    public String getRol() { return rol; }
 
-    public String getEstado() {
-        return estado;
-    }
+    public void setRol(String rol) { this.rol = rol; }
 
-    public void setEstado(String estado) {
-        this.estado = estado;
-    }
+    public String getEstado() { return estado; }
 
-    public String getCorreo() {
-        return correo;
-    }
+    public void setEstado(String estado) { this.estado = estado; }
 
-    public void setCorreo(String correo) {
-        this.correo = correo;
-    }
+    public String getCorreo() { return correo; }
+
+    public void setCorreo(String correo) { this.correo = correo; }
+
+    public String getToken() { return token; }
+
+    public void setToken(String token) { this.token = token; }
 }
