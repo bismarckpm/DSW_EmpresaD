@@ -60,7 +60,6 @@ public class ServicioDatoEncuestado extends AplicacionBase{
         }catch (Exception e) {
             // CAMBIAR CUANDO SE MANEJEN LAS EXCEPCIONES PROPIAS
             String problema = e.getMessage();
-            System.out.println(problema + " EEEEEEEEEEEEEEEEEEEEEEEEEEE");
             resultado = ResponseGeneral.Failure("Ha ocurrido un error");
         }
         return  resultado;

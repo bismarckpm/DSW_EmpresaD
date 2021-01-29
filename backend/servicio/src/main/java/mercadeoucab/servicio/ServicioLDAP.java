@@ -52,6 +52,7 @@ public class ServicioLDAP extends AplicacionBase {
             );
 
             if ( ldap.userAuthentication( dtoUsuario)){
+                //DEBEMOS AGREGAR EL TOKEN EN ESTA RESPUESTA
                 ResponseUsuario responseUsuario = new ResponseUsuario();
                 DtoUsuario usuarioParaRegresar = UsuarioMapper.mapEntityToDto( usuario);
                 usuarioRegresado = responseUsuario.generate( usuarioParaRegresar);
