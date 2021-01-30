@@ -1,6 +1,5 @@
 package mercadeoucab.responses;
 
-import mercadeoucab.dtos.DtoBase;
 import mercadeoucab.dtos.DtoCategoria;
 
 import javax.json.Json;

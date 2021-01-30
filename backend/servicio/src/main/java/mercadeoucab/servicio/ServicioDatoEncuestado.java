@@ -1,8 +1,9 @@
 package mercadeoucab.servicio;
 
 import mercadeoucab.accesodatos.DaoDatoEncuestado;
-import mercadeoucab.accesodatos.DaoUsuario;
-import mercadeoucab.dtos.*;
+import mercadeoucab.dtos.DtoDatoEncuestado;
+import mercadeoucab.dtos.DtoHijo;
+import mercadeoucab.dtos.DtoTelefono;
 import mercadeoucab.entidades.*;
 import mercadeoucab.mappers.DatoEncuestadoMapper;
 import mercadeoucab.responses.ResponseDatoEncuestado;
@@ -15,8 +16,6 @@ import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import java.sql.Date;
-import java.time.LocalDate;
-import java.time.Period;
 import java.util.Calendar;
 import java.util.List;
 

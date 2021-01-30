@@ -5,7 +5,7 @@ public class JWTTest {
 
     @Test
     public void createJWTTest() throws Exception{
-        System.out.println(String.valueOf(1));
+        System.out.println(1);
         String token = JWT.createJWT(1,"mail@mail.com");
         System.out.println(token);
     }

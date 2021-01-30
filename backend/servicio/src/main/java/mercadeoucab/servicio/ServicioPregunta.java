@@ -1,10 +1,11 @@
 package mercadeoucab.servicio;
 
 import mercadeoucab.accesodatos.DaoPregunta;
-import mercadeoucab.dtos.DtoOcupacion;
 import mercadeoucab.dtos.DtoOpcion;
 import mercadeoucab.dtos.DtoPregunta;
-import mercadeoucab.entidades.*;
+import mercadeoucab.entidades.Opcion;
+import mercadeoucab.entidades.Pregunta;
+import mercadeoucab.entidades.Usuario;
 import mercadeoucab.mappers.PreguntaMapper;
 import mercadeoucab.responses.ResponseGeneral;
 import mercadeoucab.responses.ResponsePregunta;

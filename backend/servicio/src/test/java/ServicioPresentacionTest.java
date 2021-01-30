@@ -1,12 +1,10 @@
 import mercadeoucab.dtos.DtoPresentacion;
 import mercadeoucab.dtos.DtoTipo;
-import mercadeoucab.entidades.Presentacion;
 import mercadeoucab.servicio.ServicioPresentacion;
 import org.junit.Assert;
 import org.junit.Test;
 
 import javax.ws.rs.core.Response;
-import java.util.List;
 
 public class ServicioPresentacionTest {
 

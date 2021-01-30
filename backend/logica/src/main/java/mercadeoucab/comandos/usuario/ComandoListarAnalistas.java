@@ -22,8 +22,7 @@ import java.util.List;
  * @version 1.0
  * @since 2021-01-29
  */
-public class ComandoListarUsuarios implements ComandoBase {
-
+public class ComandoListarAnalistas implements ComandoBase {
     private Response result;
 
     /**
@@ -32,25 +31,26 @@ public class ComandoListarUsuarios implements ComandoBase {
     @Override
     public void execute() {
         try {
-            JsonArrayBuilder usuarios = Json.createArrayBuilder();
+            JsonArrayBuilder usuariosList = Json.createArrayBuilder();
             FabricaAbstracta fabrica = FabricaAbstracta.getFactory(Fabricas.USUARIO);
             DaoUsuario dao = (DaoUsuario) fabrica.generarDao();
-            List<Usuario> usuariosObtenidos = dao.findAll(Usuario.class);
+            List<Usuario> usuarios = dao.listarAnalistas();
             ResponseUsuario responseUsuario = (ResponseUsuario) fabrica.generarResponse();
-            if (!usuariosObtenidos.isEmpty()) {
-                for (Usuario usuario : usuariosObtenidos) {
-                    if (usuario.getActivo() != 0) {
-                        DtoUsuario dtoUsuario = UsuarioMapper.mapEntityToDto(usuario);
-                        JsonObject objeto = responseUsuario.generate(dtoUsuario);
-                        usuarios.add(objeto);
+            if(!(usuarios.isEmpty())){
+                for(Usuario usuario: usuarios){
+                    if(usuario.getActivo() == 1) {
+                        DtoUsuario dtoUsuario = UsuarioMapper.mapEntityToDto( usuario);
+                        JsonObject objeto = responseUsuario.generate( dtoUsuario);
+                        usuariosList.add(objeto);
                     }
                 }
-                this.result = ResponseGeneral.Succes(usuarios);
-            } else {
+                this.result = ResponseGeneral.Succes( usuariosList);
+            }
+            else{
                 this.result = ResponseGeneral.NoData();
             }
         }catch (Exception e){
-            this.result = ResponseGeneral.Failure("Ha ocurrido un error al listar los usuarios");
+            this.result = ResponseGeneral.Failure("Ha ocurrido un error");
         }
     }
 

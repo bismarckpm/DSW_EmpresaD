@@ -2,8 +2,10 @@ package mercadeoucab.servicio;
 
 import mercadeoucab.accesodatos.DaoEstudio;
 import mercadeoucab.accesodatos.DaoSolicitud;
-import mercadeoucab.accesodatos.DaoTipo;
-import mercadeoucab.dtos.*;
+import mercadeoucab.dtos.DtoMuestraPoblacion;
+import mercadeoucab.dtos.DtoPregunta;
+import mercadeoucab.dtos.DtoPresentacion;
+import mercadeoucab.dtos.DtoSolicitud;
 import mercadeoucab.entidades.*;
 import mercadeoucab.mappers.MuestraPoblacionMapper;
 import mercadeoucab.mappers.PreguntaMapper;

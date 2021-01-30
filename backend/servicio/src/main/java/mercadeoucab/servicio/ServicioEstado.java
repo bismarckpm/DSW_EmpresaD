@@ -1,15 +1,12 @@
 package mercadeoucab.servicio;
 
 import mercadeoucab.accesodatos.DaoEstado;
-import mercadeoucab.accesodatos.DaoPais;
 import mercadeoucab.dtos.DtoEstado;
-import mercadeoucab.dtos.DtoPais;
 import mercadeoucab.entidades.Estado;
 import mercadeoucab.entidades.Pais;
 import mercadeoucab.mappers.EstadoMapper;
 import mercadeoucab.responses.ResponseEstado;
 import mercadeoucab.responses.ResponseGeneral;
-import org.junit.Assert;
 
 import javax.json.Json;
 import javax.json.JsonArrayBuilder;

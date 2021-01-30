@@ -1,12 +1,11 @@
 package mercadeoucab.servicio;
 
-import mercadeoucab.accesodatos.*;
-import mercadeoucab.dtos.*;
-import mercadeoucab.entidades.*;
+import mercadeoucab.accesodatos.DaoOpcion;
+import mercadeoucab.dtos.DtoOpcion;
+import mercadeoucab.entidades.Opcion;
+import mercadeoucab.entidades.Pregunta;
 import mercadeoucab.responses.ResponseGeneral;
 
-import javax.json.Json;
-import javax.json.JsonObject;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;

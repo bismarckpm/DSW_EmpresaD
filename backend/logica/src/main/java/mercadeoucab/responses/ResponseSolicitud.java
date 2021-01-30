@@ -2,15 +2,12 @@ package mercadeoucab.responses;
 
 import mercadeoucab.dtos.DtoPresentacion;
 import mercadeoucab.dtos.DtoSolicitud;
-import mercadeoucab.dtos.DtoSubCategoria;
-import mercadeoucab.dtos.DtoTipo;
 import mercadeoucab.fabricas.Enums.Fabricas;
 import mercadeoucab.fabricas.FabricaAbstracta;
 
 import javax.json.Json;
 import javax.json.JsonArrayBuilder;
 import javax.json.JsonObject;
-import javax.json.JsonValue;
 import java.util.Objects;
 
 public class ResponseSolicitud implements ResponseBase<DtoSolicitud> {

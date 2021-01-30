@@ -1,19 +1,10 @@
-import mercadeoucab.dtos.DtoEstado;
 import mercadeoucab.dtos.DtoMunicipio;
-import mercadeoucab.dtos.DtoPais;
 import mercadeoucab.dtos.DtoParroquia;
-import mercadeoucab.entidades.Estado;
-import mercadeoucab.entidades.Pais;
-import mercadeoucab.entidades.Parroquia;
-import mercadeoucab.servicio.ServicioEstado;
-import mercadeoucab.servicio.ServicioMunicipio;
-import mercadeoucab.servicio.ServicioPais;
-import javax.ws.rs.core.Response;
 import mercadeoucab.servicio.ServicioParroquia;
 import org.junit.Assert;
 import org.junit.Test;
 
-import java.util.List;
+import javax.ws.rs.core.Response;
 
 public class ServicioParroquiaTest {
 

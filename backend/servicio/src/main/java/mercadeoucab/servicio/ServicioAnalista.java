@@ -2,9 +2,12 @@ package mercadeoucab.servicio;
 
 import mercadeoucab.accesodatos.DaoEstudio;
 import mercadeoucab.accesodatos.DaoUsuario;
+import mercadeoucab.comandos.usuario.ComandoEstudiosAnalista;
+import mercadeoucab.comandos.usuario.ComandoListarAnalistas;
 import mercadeoucab.dtos.DtoEstudio;
 import mercadeoucab.dtos.DtoUsuario;
-import mercadeoucab.entidades.*;
+import mercadeoucab.entidades.Estudio;
+import mercadeoucab.entidades.Usuario;
 import mercadeoucab.mappers.EstudioMapper;
 import mercadeoucab.mappers.UsuarioMapper;
 import mercadeoucab.responses.ResponseEstudio;
@@ -14,7 +17,6 @@ import mercadeoucab.responses.ResponseUsuario;
 import javax.json.Json;
 import javax.json.JsonArrayBuilder;
 import javax.json.JsonObject;
-import javax.swing.*;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
@@ -40,25 +42,11 @@ public class ServicioAnalista extends AplicacionBase{
     @GET
     @Path("/")
     public Response listarAnalistas(){
-        JsonArrayBuilder usuariosList = Json.createArrayBuilder();
         Response resultado = null;
         try {
-            DaoUsuario dao = new DaoUsuario();
-            List<Usuario> usuarios = dao.listarAnalistas();
-            ResponseUsuario responseUsuario = new ResponseUsuario();
-            if(!(usuarios.isEmpty())){
-                for(Usuario usuario: usuarios){
-                    if(usuario.getActivo() == 1) {
-                        DtoUsuario dtoUsuario = UsuarioMapper.mapEntityToDto( usuario);
-                        JsonObject objeto = responseUsuario.generate( dtoUsuario);
-                        usuariosList.add(objeto);
-                    }
-                }
-                resultado = ResponseGeneral.Succes( usuariosList);
-            }
-            else{
-                resultado = ResponseGeneral.NoData();
-            }
+            ComandoListarAnalistas comandoListarAnalistas = new ComandoListarAnalistas();
+            comandoListarAnalistas.execute();
+            resultado = comandoListarAnalistas.getResult();
         }
         catch (Exception e){
             // CAMBIAR CUANDO SE MANEJEN LAS EXCEPCIONES PROPIAS
@@ -77,26 +65,13 @@ public class ServicioAnalista extends AplicacionBase{
     @GET
     @Path("/{id}/estudios")
     public Response estudiosAnalista(@PathParam("id") long id){
-        JsonArrayBuilder estudiosList = Json.createArrayBuilder();
         Response resultado = null;
         try {
-            DaoEstudio dao = new DaoEstudio();
-            List<Estudio> estudios = dao.estudiosAnalista(new Usuario( id));
-            ResponseEstudio responseEstudio = new ResponseEstudio();
-            if (!(estudios.isEmpty())){
-                for(Estudio estudio: estudios){
-
-                    if(estudio.getActivo() == 1) {
-                        DtoEstudio dtoEstudio = EstudioMapper.mapEntitytoDto( estudio);
-                        JsonObject agregar = responseEstudio.generate( dtoEstudio);
-                        estudiosList.add(agregar);
-                    }
-                }//final del for
-                resultado = ResponseGeneral.Succes( estudiosList);
-            }//Final IF
-            else{
-                resultado = ResponseGeneral.NoData();
-            }
+            verifyParams( id);
+            ComandoEstudiosAnalista comandoEstudiosAnalista = new ComandoEstudiosAnalista();
+            comandoEstudiosAnalista.setId( id);
+            comandoEstudiosAnalista.execute();
+            resultado = comandoEstudiosAnalista.getResult();
         }
         catch (Exception e){
             // CAMBIAR CUANDO SE MANEJEN LAS EXCEPCIONES PROPIAS

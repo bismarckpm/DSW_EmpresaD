@@ -12,7 +12,12 @@ import javax.ws.rs.core.Response;
 import java.sql.Date;
 import java.util.Calendar;
 
-
+/**
+ *
+ * @author Oscar Marquez
+ * @version 1.0
+ * @since 2021-01-29
+ */
 public class ComandoActualizarUsuario implements ComandoBase {
 
     private Response result;

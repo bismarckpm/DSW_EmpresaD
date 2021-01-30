@@ -1,6 +1,8 @@
 package mercadeoucab.mappers;
 
-import mercadeoucab.dtos.*;
+import mercadeoucab.dtos.DtoDatoEncuestado;
+import mercadeoucab.dtos.DtoHijo;
+import mercadeoucab.dtos.DtoTelefono;
 import mercadeoucab.entidades.DatoEncuestado;
 import mercadeoucab.entidades.Hijo;
 import mercadeoucab.entidades.Telefono;

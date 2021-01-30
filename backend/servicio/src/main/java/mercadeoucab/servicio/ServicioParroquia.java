@@ -2,7 +2,6 @@ package mercadeoucab.servicio;
 
 import mercadeoucab.accesodatos.DaoParroquia;
 import mercadeoucab.dtos.DtoParroquia;
-import mercadeoucab.entidades.Estado;
 import mercadeoucab.entidades.Municipio;
 import mercadeoucab.entidades.Parroquia;
 import mercadeoucab.mappers.ParroquiaMapper;

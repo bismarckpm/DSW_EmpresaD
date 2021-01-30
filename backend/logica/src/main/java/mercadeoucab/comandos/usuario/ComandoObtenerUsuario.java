@@ -13,6 +13,12 @@ import mercadeoucab.responses.ResponseUsuario;
 import javax.json.JsonObject;
 import javax.ws.rs.core.Response;
 
+/**
+ *
+ * @author Oscar Marquez
+ * @version 1.0
+ * @since 2021-01-29
+ */
 public class ComandoObtenerUsuario implements ComandoBase {
 
     private Response result;

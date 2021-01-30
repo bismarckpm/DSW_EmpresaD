@@ -1,7 +1,6 @@
 package mercadeoucab.mappers;
 
 import mercadeoucab.dtos.DtoOpcion;
-import mercadeoucab.dtos.DtoPregunta;
 import mercadeoucab.entidades.Opcion;
 import mercadeoucab.fabricas.Enums.Fabricas;
 import mercadeoucab.fabricas.FabricaAbstracta;

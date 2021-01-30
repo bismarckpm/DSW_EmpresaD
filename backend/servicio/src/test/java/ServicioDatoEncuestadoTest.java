@@ -1,8 +1,8 @@
 import mercadeoucab.dtos.*;
-import mercadeoucab.entidades.*;
-import mercadeoucab.servicio.*;
+import mercadeoucab.servicio.ServicioDatoEncuestado;
 import org.junit.Assert;
 import org.junit.Test;
+
 import javax.ws.rs.core.Response;
 import java.sql.Date;
 import java.util.ArrayList;
@@ -98,7 +98,7 @@ public class ServicioDatoEncuestadoTest {
     @Test
     public void eliminarDatoEncuestadoTest() throws Exception{
         ServicioDatoEncuestado servicioDato = new ServicioDatoEncuestado();
-        Response resultado = servicioDato.eliminarDatoEncuestado( (long)1);
+        Response resultado = servicioDato.eliminarDatoEncuestado(1);
         Assert.assertEquals(
                 Response.Status.OK.getStatusCode(),
                 resultado.getStatus()

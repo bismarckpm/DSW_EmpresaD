@@ -16,7 +16,7 @@ public class EncuestaEstudioMapper {
 
     public static EncuestaEstudio mapDtotoEntity(DtoEncuestaEstudio dto){
         FabricaEncuestaEstudio fabrica = (FabricaEncuestaEstudio) FabricaAbstracta.getFactory(Fabricas.ENCUESTAESTUDIO);
-        EncuestaEstudio entity = (EncuestaEstudio) fabrica.generarEntidad2();
+        EncuestaEstudio entity = fabrica.generarEntidad2();
         entity.set_id(dto.get_id());
         entity.setFk_estudio(
                 EstudioMapper.mapDtotoEntity(dto.getFk_estudio())

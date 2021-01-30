@@ -1,8 +1,8 @@
 package mercadeoucab.responses;
 
-import mercadeoucab.dtos.*;
-import mercadeoucab.entidades.*;
-import mercadeoucab.mappers.HijoMapper;
+import mercadeoucab.dtos.DtoDatoEncuestado;
+import mercadeoucab.dtos.DtoHijo;
+import mercadeoucab.dtos.DtoTelefono;
 
 import javax.json.Json;
 import javax.json.JsonArrayBuilder;

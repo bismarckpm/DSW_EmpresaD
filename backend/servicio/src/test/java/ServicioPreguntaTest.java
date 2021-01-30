@@ -1,9 +1,6 @@
-import mercadeoucab.dtos.DtoEstudio;
 import mercadeoucab.dtos.DtoOpcion;
 import mercadeoucab.dtos.DtoPregunta;
 import mercadeoucab.dtos.DtoUsuario;
-import mercadeoucab.entidades.Opcion;
-import mercadeoucab.entidades.Pregunta;
 import mercadeoucab.servicio.ServicioPregunta;
 import org.junit.Assert;
 import org.junit.Test;
