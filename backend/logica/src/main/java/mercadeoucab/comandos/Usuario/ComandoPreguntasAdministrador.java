@@ -1,4 +1,4 @@
-package mercadeoucab.comandos.usuario;
+package mercadeoucab.comandos.Usuario;
 
 import mercadeoucab.accesodatos.DaoPregunta;
 import mercadeoucab.comandos.ComandoBase;
@@ -43,7 +43,7 @@ public class ComandoPreguntasAdministrador implements ComandoBase {
                     usuario
             );
             JsonArrayBuilder preguntaslist = Json.createArrayBuilder();
-            if(!(preguntas.isEmpty())) {
+            if( preguntas.size() > 0) {
                 for (Pregunta pregunta : preguntas) {
 
                     if(pregunta.getActivo() == 1) {

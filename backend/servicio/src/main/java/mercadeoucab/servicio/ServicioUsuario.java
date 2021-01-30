@@ -1,6 +1,6 @@
 package mercadeoucab.servicio;
 
-import mercadeoucab.comandos.usuario.*;
+import mercadeoucab.comandos.Usuario.*;
 import mercadeoucab.dtos.DtoDirectorioAUser;
 import mercadeoucab.dtos.DtoUsuario;
 import mercadeoucab.responses.ResponseGeneral;

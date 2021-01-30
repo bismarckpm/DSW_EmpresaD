@@ -1,26 +1,12 @@
 package mercadeoucab.servicio;
 
-import mercadeoucab.accesodatos.DaoEstudio;
-import mercadeoucab.accesodatos.DaoUsuario;
-import mercadeoucab.comandos.usuario.ComandoEstudiosAnalista;
-import mercadeoucab.comandos.usuario.ComandoListarAnalistas;
-import mercadeoucab.dtos.DtoEstudio;
-import mercadeoucab.dtos.DtoUsuario;
-import mercadeoucab.entidades.Estudio;
-import mercadeoucab.entidades.Usuario;
-import mercadeoucab.mappers.EstudioMapper;
-import mercadeoucab.mappers.UsuarioMapper;
-import mercadeoucab.responses.ResponseEstudio;
+import mercadeoucab.comandos.Usuario.ComandoEstudiosAnalista;
+import mercadeoucab.comandos.Usuario.ComandoListarAnalistas;
 import mercadeoucab.responses.ResponseGeneral;
-import mercadeoucab.responses.ResponseUsuario;
 
-import javax.json.Json;
-import javax.json.JsonArrayBuilder;
-import javax.json.JsonObject;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
-import java.util.List;
 
 
 /**

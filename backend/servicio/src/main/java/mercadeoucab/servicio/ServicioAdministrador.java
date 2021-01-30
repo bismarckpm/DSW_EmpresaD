@@ -1,7 +1,7 @@
 package mercadeoucab.servicio;
 
 
-import mercadeoucab.comandos.usuario.ComandoPreguntasAdministrador;
+import mercadeoucab.comandos.Usuario.ComandoPreguntasAdministrador;
 import mercadeoucab.responses.ResponseGeneral;
 
 import javax.ws.rs.*;

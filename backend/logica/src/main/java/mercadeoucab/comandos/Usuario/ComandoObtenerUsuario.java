@@ -1,4 +1,4 @@
-package mercadeoucab.comandos.usuario;
+package mercadeoucab.comandos.Usuario;
 
 import mercadeoucab.accesodatos.DaoUsuario;
 import mercadeoucab.comandos.ComandoBase;
@@ -6,11 +6,12 @@ import mercadeoucab.dtos.DtoUsuario;
 import mercadeoucab.entidades.Usuario;
 import mercadeoucab.fabricas.Enums.Fabricas;
 import mercadeoucab.fabricas.FabricaAbstracta;
+import mercadeoucab.mappers.UsuarioMapper;
 import mercadeoucab.responses.ResponseGeneral;
+import mercadeoucab.responses.ResponseUsuario;
 
+import javax.json.JsonObject;
 import javax.ws.rs.core.Response;
-import java.sql.Date;
-import java.util.Calendar;
 
 /**
  *
@@ -18,10 +19,9 @@ import java.util.Calendar;
  * @version 1.0
  * @since 2021-01-29
  */
-public class ComandoActualizarUsuario implements ComandoBase {
+public class ComandoObtenerUsuario implements ComandoBase {
 
     private Response result;
-    private DtoUsuario dtoUsuario;
     private long id;
     /**
      * Metodo para ejecutar los comandos
@@ -31,29 +31,23 @@ public class ComandoActualizarUsuario implements ComandoBase {
         try{
             FabricaAbstracta fabrica = FabricaAbstracta.getFactory(Fabricas.USUARIO);
             DaoUsuario dao = (DaoUsuario) fabrica.generarDao();
-            Usuario usuario = dao.find( id, Usuario.class);
-            usuario.setNombre( dtoUsuario.getNombre());
-            usuario.setApellido( dtoUsuario.getApellido());
-            usuario.setEstado( dtoUsuario.getEstado());
-            usuario.setModificado_el(
-                    new Date(Calendar
-                            .getInstance()
-                            .getTime()
-                            .getTime()));
-            Usuario resul = dao.update( usuario);
-            this.result = ResponseGeneral.SuccesMessage();
+            Usuario resul = dao.find( this.id, Usuario.class);
+            ResponseUsuario responseUsuario = new ResponseUsuario();
+            DtoUsuario dtoUsuario = UsuarioMapper.mapEntityToDto( resul);
+            if (resul.getActivo()!= 0) {
+                JsonObject usuario = responseUsuario.generate( dtoUsuario);
+                this.result = ResponseGeneral.Succes( usuario);
+            }else{
+                this.result = ResponseGeneral.NoData();
+            }
         }catch (Exception e){
-            this.result = ResponseGeneral.Failure("Ha ocurrido un error");
+            this.result = ResponseGeneral.Failure( "Ha ocurrido un error");
         }
     }
 
     @Override
     public Response getResult() {
         return this.result;
-    }
-
-    public void setDtoUsuario(DtoUsuario dtoUsuario) {
-        this.dtoUsuario = dtoUsuario;
     }
 
     public void setId(long id) {

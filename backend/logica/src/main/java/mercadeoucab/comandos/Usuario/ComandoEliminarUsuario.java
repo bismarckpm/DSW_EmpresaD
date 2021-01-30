@@ -1,4 +1,4 @@
-package mercadeoucab.comandos.usuario;
+package mercadeoucab.comandos.Usuario;
 
 import mercadeoucab.accesodatos.DaoUsuario;
 import mercadeoucab.comandos.ComandoBase;

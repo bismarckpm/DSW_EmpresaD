@@ -1,4 +1,4 @@
-package mercadeoucab.comandos.usuario;
+package mercadeoucab.comandos.Usuario;
 
 import mercadeoucab.accesodatos.DaoUsuario;
 import mercadeoucab.comandos.ComandoBase;
@@ -37,7 +37,7 @@ public class ComandoListarUsuarios implements ComandoBase {
             DaoUsuario dao = (DaoUsuario) fabrica.generarDao();
             List<Usuario> usuariosObtenidos = dao.findAll(Usuario.class);
             ResponseUsuario responseUsuario = (ResponseUsuario) fabrica.generarResponse();
-            if (!usuariosObtenidos.isEmpty()) {
+            if ( usuariosObtenidos.size() > 0) {
                 for (Usuario usuario : usuariosObtenidos) {
                     if (usuario.getActivo() != 0) {
                         DtoUsuario dtoUsuario = UsuarioMapper.mapEntityToDto(usuario);

@@ -1,4 +1,4 @@
-package mercadeoucab.comandos.usuario;
+package mercadeoucab.comandos.Usuario;
 
 import mercadeoucab.accesodatos.DaoUsuario;
 import mercadeoucab.comandos.ComandoBase;
@@ -10,8 +10,11 @@ import mercadeoucab.mappers.UsuarioMapper;
 import mercadeoucab.responses.ResponseGeneral;
 import mercadeoucab.responses.ResponseUsuario;
 
+import javax.json.Json;
+import javax.json.JsonArrayBuilder;
 import javax.json.JsonObject;
 import javax.ws.rs.core.Response;
+import java.util.List;
 
 /**
  *
@@ -19,38 +22,40 @@ import javax.ws.rs.core.Response;
  * @version 1.0
  * @since 2021-01-29
  */
-public class ComandoObtenerUsuario implements ComandoBase {
-
+public class ComandoListarAnalistas implements ComandoBase {
     private Response result;
-    private long id;
+
     /**
      * Metodo para ejecutar los comandos
      */
     @Override
     public void execute() {
-        try{
+        try {
+            JsonArrayBuilder usuariosList = Json.createArrayBuilder();
             FabricaAbstracta fabrica = FabricaAbstracta.getFactory(Fabricas.USUARIO);
             DaoUsuario dao = (DaoUsuario) fabrica.generarDao();
-            Usuario resul = dao.find( this.id, Usuario.class);
-            ResponseUsuario responseUsuario = new ResponseUsuario();
-            DtoUsuario dtoUsuario = UsuarioMapper.mapEntityToDto( resul);
-            if (resul.getActivo()!= 0) {
-                JsonObject usuario = responseUsuario.generate( dtoUsuario);
-                this.result = ResponseGeneral.Succes( usuario);
-            }else{
+            List<Usuario> usuarios = dao.listarAnalistas();
+            ResponseUsuario responseUsuario = (ResponseUsuario) fabrica.generarResponse();
+            if( usuarios.size() > 0){
+                for(Usuario usuario: usuarios){
+                    if(usuario.getActivo() == 1) {
+                        DtoUsuario dtoUsuario = UsuarioMapper.mapEntityToDto( usuario);
+                        JsonObject objeto = responseUsuario.generate( dtoUsuario);
+                        usuariosList.add(objeto);
+                    }
+                }
+                this.result = ResponseGeneral.Succes( usuariosList);
+            }
+            else{
                 this.result = ResponseGeneral.NoData();
             }
         }catch (Exception e){
-            this.result = ResponseGeneral.Failure( "Ha ocurrido un error");
+            this.result = ResponseGeneral.Failure("Ha ocurrido un error");
         }
     }
 
     @Override
     public Response getResult() {
         return this.result;
-    }
-
-    public void setId(long id) {
-        this.id = id;
     }
 }

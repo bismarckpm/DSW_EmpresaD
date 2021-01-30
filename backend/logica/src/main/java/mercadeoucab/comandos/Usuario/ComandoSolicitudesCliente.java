@@ -1,4 +1,4 @@
-package mercadeoucab.comandos.usuario;
+package mercadeoucab.comandos.Usuario;
 
 import mercadeoucab.accesodatos.DaoSolicitud;
 import mercadeoucab.comandos.ComandoBase;
@@ -43,7 +43,7 @@ public class ComandoSolicitudesCliente implements ComandoBase {
                     usuario
             );
             ResponseSolicitud responseSolicitud =  (ResponseSolicitud) fabricaSolicitud.generarResponse();
-            if(!(solicitudes.isEmpty())){
+            if( solicitudes.size() > 0){
                 for (Solicitud resul: solicitudes){
                     if(resul.getActivo() == 1){
                         DtoSolicitud dtoSolicitud = SolicitudMapper.mapEntityToDto( resul);

@@ -1,4 +1,4 @@
-package mercadeoucab.comandos.usuario;
+package mercadeoucab.comandos.Usuario;
 
 import mercadeoucab.accesodatos.DaoEstudio;
 import mercadeoucab.comandos.ComandoBase;
@@ -43,7 +43,7 @@ public class ComandoEstudiosAnalista implements ComandoBase {
                     usuario
             );
             ResponseEstudio responseEstudio =  (ResponseEstudio)fabricaEstudio.generarResponse();
-            if (!(estudios.isEmpty())) {
+            if ( estudios.size() > 0) {
                 for (Estudio estudio : estudios) {
 
                     if (estudio.getActivo() == 1) {

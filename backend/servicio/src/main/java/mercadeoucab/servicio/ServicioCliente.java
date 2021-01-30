@@ -1,21 +1,11 @@
 package mercadeoucab.servicio;
 
-import mercadeoucab.accesodatos.DaoSolicitud;
-import mercadeoucab.comandos.usuario.ComandoSolicitudesCliente;
-import mercadeoucab.dtos.DtoSolicitud;
-import mercadeoucab.entidades.Solicitud;
-import mercadeoucab.entidades.Usuario;
-import mercadeoucab.mappers.SolicitudMapper;
+import mercadeoucab.comandos.Usuario.ComandoSolicitudesCliente;
 import mercadeoucab.responses.ResponseGeneral;
-import mercadeoucab.responses.ResponseSolicitud;
 
-import javax.json.Json;
-import javax.json.JsonArrayBuilder;
-import javax.json.JsonObject;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
-import java.util.List;
 
 /**
  *
