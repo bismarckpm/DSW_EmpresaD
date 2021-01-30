@@ -1,6 +1,7 @@
 package mercadeoucab.servicio;
 
 import mercadeoucab.accesodatos.DaoMunicipio;
+import mercadeoucab.comandos.Municipio.*;
 import mercadeoucab.dtos.DtoMunicipio;
 import mercadeoucab.entidades.Estado;
 import mercadeoucab.entidades.Municipio;
@@ -37,24 +38,11 @@ public class ServicioMunicipio extends AplicacionBase{
     @GET
     @Path("/")
     public Response listarMunicipios(){
-        JsonArrayBuilder municipios = Json.createArrayBuilder();
         Response resultado = null;
         try{
-            DaoMunicipio dao = new DaoMunicipio();
-            List<Municipio> municipiosObtenidos = dao.findAll( Municipio.class);
-            ResponseMunicipio responseMunicipio = new ResponseMunicipio();
-            if ( !municipiosObtenidos.isEmpty()) {
-                for (Municipio municipio : municipiosObtenidos) {
-                    if (municipio.getActivo() != 0) {
-                        DtoMunicipio dtoMunicipio = MunicipioMapper.mapEntitytoDto(municipio);
-                        JsonObject objeto = responseMunicipio.generate(dtoMunicipio);
-                        municipios.add(objeto);
-                    }
-                }
-                resultado = ResponseGeneral.Succes( municipios);
-            }else{
-                resultado = ResponseGeneral.NoData();
-            }
+            ComandoListarMunicipios comandoListarMunicipios = new ComandoListarMunicipios();
+            comandoListarMunicipios.execute();
+            resultado = comandoListarMunicipios.getResult();
         }catch (Exception e) {
             // CAMBIAR CUANDO SE MANEJEN LAS EXCEPCIONES PROPIAS
             String problema = e.getMessage();
@@ -72,19 +60,13 @@ public class ServicioMunicipio extends AplicacionBase{
     @GET
     @Path("/{id}")
     public Response obtenerMunicipio(@PathParam("id") long id){
-        JsonObject municipio;
         Response resultado = null;
         try {
-            DaoMunicipio dao = new DaoMunicipio();
-            Municipio resul = dao.find(id , Municipio.class);
-            ResponseMunicipio responseMunicipio = new ResponseMunicipio();
-            if ( resul.getActivo()!=0 ){
-                DtoMunicipio dtoMunicipio = MunicipioMapper.mapEntitytoDto( resul);
-                municipio = responseMunicipio.generate( dtoMunicipio);
-                resultado = ResponseGeneral.Succes( municipio);
-            }else{
-                resultado = ResponseGeneral.NoData();
-            }
+            verifyParams( id);
+            ComandoObtenerMunicipio comandoObtenerMunicipio = new ComandoObtenerMunicipio();
+            comandoObtenerMunicipio.setId( id);
+            comandoObtenerMunicipio.execute();
+            resultado = comandoObtenerMunicipio.getResult();
         }
         catch (Exception e) {
             // CAMBIAR CUANDO SE MANEJEN LAS EXCEPCIONES PROPIAS
@@ -105,15 +87,11 @@ public class ServicioMunicipio extends AplicacionBase{
     public Response registrarMunicipio(DtoMunicipio dtoMunicipio){
         Response resultado = null;
         try {
-            DaoMunicipio dao = new DaoMunicipio();
-            Municipio municipio = new Municipio();
-            municipio.setActivo(1);
-            municipio.setCreado_el(new Date(Calendar.getInstance().getTime().getTime()));
-            municipio.setNombre(dtoMunicipio.getNombre());
-            Estado estado = new Estado(dtoMunicipio.getFk_estado().get_id());
-            municipio.setFk_estado( estado );
-            Municipio resul = dao.insert(municipio);
-            resultado = ResponseGeneral.SuccesCreate( resul.get_id());
+            verifyParams( dtoMunicipio);
+            ComandoRegistrarMunicipio comandoRegistrarMunicipio = new ComandoRegistrarMunicipio();
+            comandoRegistrarMunicipio.setDtoMunicipio( dtoMunicipio);
+            comandoRegistrarMunicipio.execute();
+            resultado = comandoRegistrarMunicipio.getResult();
         }
         catch (Exception e) {
             // CAMBIAR CUANDO SE MANEJEN LAS EXCEPCIONES PROPIAS
@@ -134,12 +112,13 @@ public class ServicioMunicipio extends AplicacionBase{
     public Response actualizarMunicipio(@PathParam("id") long id, DtoMunicipio dtoMunicipio){
         Response resultado = null;
         try {
-            DaoMunicipio dao = new DaoMunicipio();
-            Municipio municipio = dao.find(id, Municipio.class);
-            municipio.setNombre(dtoMunicipio.getNombre());
-            municipio.setModificado_el(new Date(Calendar.getInstance().getTime().getTime()));
-            Municipio resul = dao.update(municipio);
-            resultado = ResponseGeneral.SuccesMessage();
+            verifyParams( id);
+            verifyParams( dtoMunicipio);
+            ComandoActualizarMunicipio comandoActualizarMunicipio = new ComandoActualizarMunicipio();
+            comandoActualizarMunicipio.setDtoMunicipio( dtoMunicipio);
+            comandoActualizarMunicipio.setId( id);
+            comandoActualizarMunicipio.execute();
+            resultado = comandoActualizarMunicipio.getResult();
         }
         catch (Exception e) {
             // CAMBIAR CUANDO SE MANEJEN LAS EXCEPCIONES PROPIAS
@@ -159,12 +138,11 @@ public class ServicioMunicipio extends AplicacionBase{
     public Response eliminarMunicipio(@PathParam("id") long id){
         Response resultado = null;
         try {
-            DaoMunicipio dao = new DaoMunicipio();
-            Municipio municipio = dao.find(id, Municipio.class);
-            municipio.setActivo(0);
-            municipio.setModificado_el(new Date(Calendar.getInstance().getTime().getTime()));
-            Municipio resul = dao.update(municipio);
-            resultado = ResponseGeneral.SuccesMessage();
+            verifyParams( id);
+            ComandoEliminarMunicipio comandoEliminarMunicipio = new ComandoEliminarMunicipio();
+            comandoEliminarMunicipio.setId( id);
+            comandoEliminarMunicipio.execute();
+            resultado = comandoEliminarMunicipio.getResult();
         }
         catch (Exception e) {
             // CAMBIAR CUANDO SE MANEJEN LAS EXCEPCIONES PROPIAS
