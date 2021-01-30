@@ -1,23 +1,12 @@
 package mercadeoucab.servicio;
 
-import mercadeoucab.accesodatos.DaoParroquia;
 import mercadeoucab.comandos.Parroquia.*;
 import mercadeoucab.dtos.DtoParroquia;
-import mercadeoucab.entidades.Municipio;
-import mercadeoucab.entidades.Parroquia;
-import mercadeoucab.mappers.ParroquiaMapper;
 import mercadeoucab.responses.ResponseGeneral;
-import mercadeoucab.responses.ResponseParroquia;
 
-import javax.json.Json;
-import javax.json.JsonArrayBuilder;
-import javax.json.JsonObject;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
-import java.sql.Date;
-import java.util.Calendar;
-import java.util.List;
 
 /**
  *

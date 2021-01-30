@@ -1,24 +1,12 @@
 package mercadeoucab.servicio;
 
-import mercadeoucab.accesodatos.DaoDatoEncuestado;
 import mercadeoucab.comandos.DatoEncuestado.*;
 import mercadeoucab.dtos.DtoDatoEncuestado;
-import mercadeoucab.dtos.DtoHijo;
-import mercadeoucab.dtos.DtoTelefono;
-import mercadeoucab.entidades.*;
-import mercadeoucab.mappers.DatoEncuestadoMapper;
-import mercadeoucab.responses.ResponseDatoEncuestado;
 import mercadeoucab.responses.ResponseGeneral;
 
-import javax.json.Json;
-import javax.json.JsonArrayBuilder;
-import javax.json.JsonObject;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
-import java.sql.Date;
-import java.util.Calendar;
-import java.util.List;
 
 /**
  *

@@ -1,23 +1,12 @@
 package mercadeoucab.servicio;
 
-import mercadeoucab.accesodatos.DaoMunicipio;
 import mercadeoucab.comandos.Municipio.*;
 import mercadeoucab.dtos.DtoMunicipio;
-import mercadeoucab.entidades.Estado;
-import mercadeoucab.entidades.Municipio;
-import mercadeoucab.mappers.MunicipioMapper;
 import mercadeoucab.responses.ResponseGeneral;
-import mercadeoucab.responses.ResponseMunicipio;
 
-import javax.json.Json;
-import javax.json.JsonArrayBuilder;
-import javax.json.JsonObject;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
-import java.sql.Date;
-import java.util.Calendar;
-import java.util.List;
 
 /**
  *

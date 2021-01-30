@@ -15,7 +15,6 @@ import javax.json.JsonArrayBuilder;
 import javax.json.JsonObject;
 import javax.ws.rs.core.Response;
 import java.util.List;
-import java.util.Objects;
 
 /**
  *

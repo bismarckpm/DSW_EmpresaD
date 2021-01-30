@@ -1,24 +1,12 @@
 package mercadeoucab.servicio;
 
-import mercadeoucab.accesodatos.DaoPais;
 import mercadeoucab.comandos.Pais.*;
-import mercadeoucab.comandos.Parroquia.ComandoEliminarParroquia;
 import mercadeoucab.dtos.DtoPais;
-import mercadeoucab.entidades.Pais;
-import mercadeoucab.mappers.PaisMapper;
 import mercadeoucab.responses.ResponseGeneral;
-import mercadeoucab.responses.ResponsePais;
 
-import javax.json.Json;
-import javax.json.JsonArrayBuilder;
-import javax.json.JsonObject;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
-import java.sql.Date;
-import java.util.Calendar;
-import java.util.List;
-import java.util.Objects;
 
 /**
  *

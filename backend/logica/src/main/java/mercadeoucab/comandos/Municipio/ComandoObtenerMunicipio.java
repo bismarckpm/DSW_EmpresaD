@@ -1,6 +1,5 @@
 package mercadeoucab.comandos.Municipio;
 
-import com.sun.org.apache.bcel.internal.generic.FADD;
 import mercadeoucab.accesodatos.DaoMunicipio;
 import mercadeoucab.comandos.ComandoBase;
 import mercadeoucab.dtos.DtoMunicipio;

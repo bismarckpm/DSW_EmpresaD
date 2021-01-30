@@ -1,10 +1,8 @@
 package mercadeoucab.comandos.Ocupacion;
 
-import mercadeoucab.accesodatos.DaoMunicipio;
 import mercadeoucab.accesodatos.DaoOcupacion;
 import mercadeoucab.comandos.ComandoBase;
 import mercadeoucab.dtos.DtoOcupacion;
-import mercadeoucab.entidades.Municipio;
 import mercadeoucab.entidades.Ocupacion;
 import mercadeoucab.fabricas.Enums.Fabricas;
 import mercadeoucab.fabricas.FabricaAbstracta;

@@ -1,23 +1,12 @@
 package mercadeoucab.servicio;
 
-import mercadeoucab.accesodatos.DaoEstado;
 import mercadeoucab.comandos.Estado.*;
 import mercadeoucab.dtos.DtoEstado;
-import mercadeoucab.entidades.Estado;
-import mercadeoucab.entidades.Pais;
-import mercadeoucab.mappers.EstadoMapper;
-import mercadeoucab.responses.ResponseEstado;
 import mercadeoucab.responses.ResponseGeneral;
 
-import javax.json.Json;
-import javax.json.JsonArrayBuilder;
-import javax.json.JsonObject;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
-import java.sql.Date;
-import java.util.Calendar;
-import java.util.List;
 
 /**
  *

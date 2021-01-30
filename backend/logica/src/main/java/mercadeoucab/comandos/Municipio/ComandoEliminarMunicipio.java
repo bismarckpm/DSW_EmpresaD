@@ -2,7 +2,6 @@ package mercadeoucab.comandos.Municipio;
 
 import mercadeoucab.accesodatos.DaoMunicipio;
 import mercadeoucab.comandos.ComandoBase;
-import mercadeoucab.dtos.DtoMunicipio;
 import mercadeoucab.entidades.Municipio;
 import mercadeoucab.fabricas.Enums.Fabricas;
 import mercadeoucab.fabricas.FabricaAbstracta;

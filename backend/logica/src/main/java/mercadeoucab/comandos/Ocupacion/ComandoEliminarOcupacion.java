@@ -2,19 +2,14 @@ package mercadeoucab.comandos.Ocupacion;
 
 import mercadeoucab.accesodatos.DaoOcupacion;
 import mercadeoucab.comandos.ComandoBase;
-import mercadeoucab.dtos.DtoOcupacion;
 import mercadeoucab.entidades.Ocupacion;
 import mercadeoucab.fabricas.Enums.Fabricas;
 import mercadeoucab.fabricas.FabricaAbstracta;
-import mercadeoucab.mappers.OcupacionMapper;
 import mercadeoucab.responses.ResponseGeneral;
-import mercadeoucab.responses.ResponseOcupacion;
 
-import javax.json.JsonObject;
 import javax.ws.rs.core.Response;
 import java.sql.Date;
 import java.util.Calendar;
-import java.util.Objects;
 
 /**
  *
