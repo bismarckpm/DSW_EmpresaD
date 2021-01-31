@@ -89,6 +89,7 @@ public class ServicioTipo extends AplicacionBase {
         Response resultado = null;
         try
         {
+            verifyParams(dtoTipo);
             ComandoRegistrarTipo comandoRegistrarTipo = new ComandoRegistrarTipo();
             comandoRegistrarTipo.setDtoTipo(dtoTipo);
             comandoRegistrarTipo.execute();
@@ -140,6 +141,7 @@ public class ServicioTipo extends AplicacionBase {
     public Response eliminarTipo( @PathParam("id") Long id){
         Response resultado = null;
         try {
+            verifyParams(id);
             ComandoEliminarTipo comandoEliminarTipo = new ComandoEliminarTipo();
             comandoEliminarTipo.setId(id);
             comandoEliminarTipo.execute();

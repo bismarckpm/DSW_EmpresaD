@@ -1,25 +1,21 @@
 import mercadeoucab.dtos.DtoPresentacion;
 import mercadeoucab.dtos.DtoTipo;
-import mercadeoucab.entidades.Presentacion;
 import mercadeoucab.servicio.ServicioPresentacion;
 import org.junit.Assert;
 import org.junit.Test;
 
 import javax.ws.rs.core.Response;
-import java.util.List;
 
 public class ServicioPresentacionTest {
 
     @Test
-    public void registrarPresentacionTest(){
+    public void registrarPresentacionTest() throws Exception {
         ServicioPresentacion servicio = new ServicioPresentacion();
-        DtoPresentacion DTOP= new DtoPresentacion();
-        DTOP.setTipo("volumen");
-        DTOP.setCantidad("1000 L");
-        DTOP.setFk_tipo(new DtoTipo(
-
-        ));
-        Response resultado = servicio.registrarPresentacion( DTOP);
+        DtoPresentacion dtoPresentacion= new DtoPresentacion();
+        dtoPresentacion.setTipo("volumen");
+        dtoPresentacion.setCantidad("1000 L");
+        dtoPresentacion.setFk_tipo(new DtoTipo(1));
+        Response resultado = servicio.registrarPresentacion( dtoPresentacion );
         Assert.assertEquals(200, resultado.getStatus());
     }
 

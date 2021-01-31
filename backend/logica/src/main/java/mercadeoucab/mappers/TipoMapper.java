@@ -5,6 +5,8 @@ import mercadeoucab.entidades.Tipo;
 import mercadeoucab.fabricas.Enums.Fabricas;
 import mercadeoucab.fabricas.FabricaAbstracta;
 
+import java.util.Objects;
+
 public class TipoMapper {
 
     public static Tipo mapDtoToEntity(DtoTipo dtoTipo){
@@ -15,9 +17,11 @@ public class TipoMapper {
         tipo.setActivo( dtoTipo.getActivo());
         tipo.setModificado_el( dtoTipo.getModificado_el());
         tipo.setCreado_el( dtoTipo.getCreado_el());
-        tipo.setSubCategoria(
-                SubCategoriaMapper.mapDtoToEntity(dtoTipo.getSubCategoria())
-        );
+        if(Objects.nonNull(dtoTipo.getSubCategoria())) {
+            tipo.setSubCategoria(
+                    SubCategoriaMapper.mapDtoToEntity(dtoTipo.getSubCategoria())
+            );
+        }
         return tipo;
     }
 
@@ -29,9 +33,11 @@ public class TipoMapper {
         dtoTipo.setActivo( tipo.getActivo());
         dtoTipo.setCreado_el( tipo.getCreado_el());
         dtoTipo.setModificado_el( tipo.getModificado_el());
-        dtoTipo.setSubCategoria(
-                SubCategoriaMapper.mapEntityToDto(tipo.getSubCategoria())
-        );
+        if(Objects.nonNull(tipo.getSubCategoria())) {
+            dtoTipo.setSubCategoria(
+                    SubCategoriaMapper.mapEntityToDto(tipo.getSubCategoria())
+            );
+        }
         return dtoTipo;
     }
 }
