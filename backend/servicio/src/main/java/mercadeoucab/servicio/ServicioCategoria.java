@@ -1,27 +1,12 @@
 package mercadeoucab.servicio;
 
-import mercadeoucab.accesodatos.DaoCategoria;
 import mercadeoucab.comandos.categoria.*;
-import mercadeoucab.comandos.usuario.ComandoListarUsuarios;
-import mercadeoucab.comandos.usuario.ComandoObtenerUsuario;
 import mercadeoucab.dtos.DtoCategoria;
-import mercadeoucab.entidades.Categoria;
-import mercadeoucab.mappers.CategoriaMapper;
-import mercadeoucab.responses.ResponseCategoria;
 import mercadeoucab.responses.ResponseGeneral;
 
-import javax.json.Json;
-import javax.json.JsonArrayBuilder;
-import javax.json.JsonObject;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
-import java.net.URI;
-import java.sql.Date;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.List;
-import java.util.Objects;
 
 /**
  *
@@ -115,6 +100,8 @@ public class ServicioCategoria extends AplicacionBase{
     public Response actualizarCategoria(@PathParam("id") long id, DtoCategoria dtoCategoria){
         Response resultado = null;
         try {
+            verifyParams(id);
+            verifyParams(dtoCategoria);
             ComandoActualizarCategoria comandoActualizarCategoria = new ComandoActualizarCategoria();
             comandoActualizarCategoria.setDtoCategoria(dtoCategoria);
             comandoActualizarCategoria.setId(id);
@@ -139,6 +126,7 @@ public class ServicioCategoria extends AplicacionBase{
     public Response eliminarCategoria(@PathParam("id") long id){
         Response resultado = null;
         try {
+            verifyParams(id);
             ComandoEliminarCategoria comandoEliminarCategoria = new ComandoEliminarCategoria();
             comandoEliminarCategoria.setId(id);
             comandoEliminarCategoria.execute();
