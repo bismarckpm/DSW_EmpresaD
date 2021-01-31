@@ -3,10 +3,10 @@ package mercadeoucab.comandos.subcategoria;
 import mercadeoucab.accesodatos.DaoSubCategoria;
 import mercadeoucab.comandos.ComandoBase;
 import mercadeoucab.dtos.DtoSubCategoria;
-import mercadeoucab.entidades.Categoria;
 import mercadeoucab.entidades.SubCategoria;
 import mercadeoucab.fabricas.Enums.Fabricas;
 import mercadeoucab.fabricas.FabricaAbstracta;
+import mercadeoucab.mappers.SubCategoriaMapper;
 import mercadeoucab.responses.ResponseGeneral;
 
 import javax.ws.rs.core.Response;
@@ -23,13 +23,8 @@ public class ComandoRegistrarSubCategoria implements ComandoBase {
     public void execute() {
         try{
             FabricaAbstracta fabrica = FabricaAbstracta.getFactory(Fabricas.SUBCATEGORIA);
-            FabricaAbstracta fabrica2 = FabricaAbstracta.getFactory(Fabricas.CATEGORIA);
             DaoSubCategoria dao = (DaoSubCategoria) fabrica.generarDao();
-            SubCategoria subCategoria = (SubCategoria) fabrica.generarEntidad();
-            subCategoria.setNombre( dtoSubCategoria.getNombre() );
-            Categoria categoria = ( Categoria ) fabrica2.generarEntidad();
-            categoria.set_id(dtoSubCategoria.getCategoria().get_id());
-            subCategoria.setCategoria( categoria);
+            SubCategoria subCategoria = SubCategoriaMapper.mapDtoToEntity(this.dtoSubCategoria);
             subCategoria.setActivo( 1);
             subCategoria.setCreado_el(
                     new Date(Calendar

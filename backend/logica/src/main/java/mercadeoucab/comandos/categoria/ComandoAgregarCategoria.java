@@ -6,6 +6,7 @@ import mercadeoucab.dtos.DtoCategoria;
 import mercadeoucab.entidades.Categoria;
 import mercadeoucab.fabricas.Enums.Fabricas;
 import mercadeoucab.fabricas.FabricaAbstracta;
+import mercadeoucab.mappers.CategoriaMapper;
 import mercadeoucab.responses.ResponseGeneral;
 
 import javax.ws.rs.core.Response;
@@ -24,8 +25,7 @@ public class ComandoAgregarCategoria implements ComandoBase {
         try{
             FabricaAbstracta fabrica = FabricaAbstracta.getFactory(Fabricas.CATEGORIA);
             DaoCategoria dao = (DaoCategoria) fabrica.generarDao();
-            Categoria categoria = (Categoria) fabrica.generarEntidad();
-            categoria.setNombre(dtoCategoria.getNombre());
+            Categoria categoria = CategoriaMapper.mapDtotoEntity(this.dtoCategoria);
             categoria.setActivo(1);
             categoria.setCreado_el(new Date(Calendar.getInstance().getTime().getTime()));
             Categoria resul = dao.insert(categoria);
