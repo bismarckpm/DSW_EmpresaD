@@ -88,7 +88,7 @@
 }
 
 @-webkit-keyframes slide {
-    100% { right: calc((3.75%) * -1); }
+    100% { left: calc((3.75%)); }
 }
 
 @keyframes slide {
@@ -96,31 +96,33 @@
 }
 
 @-webkit-keyframes slideOut {
-    100% { left: -600px; }
+    0%{ left: calc(3.75%)}
+    100% { left: -33.75%; }
 }
 
 @keyframes slideOut {
-    100% { left: -600px; }
+    0%{ left: calc(3.75%)}
+    100% { left: -33.75%; }
 }
 
 @-webkit-keyframes slideLeft {
-     0% {left: calc((-18.75%));},
+     0% {left: calc((-18.75%));}
    100% { left: calc((6.5%)); }
 }
 
 @keyframes slideLeft {
-    0% {left: calc((-18.75%));},
+    0% {left: calc((-18.75%));}
    100% { left: calc((6.5%)); }
 }
 
 @-webkit-keyframes slideRight {
-    0%  { left: calc((40.25%) ); },
-    100% { left: calc((18.75%) ); }
+    /*0%  { left: calc((40.25%) ); }*/
+    100% { left: calc((-13.15%) ); }
 }
 
 @keyframes slideRight {
-    0% { left: calc((40.25%) ); },
-    100% { left: calc((18.75%)); }
+    /*0% { left: calc((40.25%) ); }*/
+    100% { left: calc((-13.15%)); }
 }
 
 .SlideIn {
@@ -131,7 +133,7 @@
 }
 .SlideOut {
     position: relative;
-    left: calc(3.75%);
+    /*left: calc(3.75%);*/
     -webkit-animation: slideOut 1.5s forwards;
     animation: slideOut 1.5s forwards;
 }

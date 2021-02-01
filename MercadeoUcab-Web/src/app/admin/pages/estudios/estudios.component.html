@@ -5,6 +5,7 @@
   width: 85vw;
   justify-content: unset; flex-direction: row;
   display: flex;
+  overflow-x: hidden;
   "
 >
   <div *ngIf="op === ''" class="container" style="height: 100%; width: 100%">
@@ -167,7 +168,7 @@
                 <h6>Rango de edad</h6>
               </label>
               <label>
-                {{ pobSug.rango_edad_inicio + "-" + pobSug.rango_edad_fin }}
+                {{ getYearDiff(pobSug.rango_edad_inicio) + "-" + getYearDiff(pobSug.rango_edad_fin) }}
               </label>
          </div>
       </div>
@@ -397,6 +398,7 @@
                       <option [ngValue]="'masculino'">Masculino</option>
                     </select>
                   </div>
+                  <!--
                   <div class="form-group">
                     <label>Edad de participantes</label>
                     <div style="display: flex; flex-direction: row">
@@ -420,10 +422,37 @@
                       />
                     </div>
                     <div style="display: flex; flex-direction: row">
-                      <!--
+                     
+                    </div>
+                  </div>-->
+                  <div class="form-group">
+                    <label>Edad de participantes</label>
+                    <div style="display: flex; flex-direction: row">
+                      <input
+                        type="number"
+                        (change)="ageEdit($event.target.value,null)"
+                        class="form-control"
+                        id="edadI"
+                        aria-describedby="edadIHelp"
+                        min="0"
+                        value="{{minAge}}"
+                        style="width: 45%; margin-right: 5%"
+
+                      />
+                      <input
+                        type="number"
+                        (change)="ageEdit(null,$event.target.value)"
+                        class="form-control"
+                        value="{{maxAge}}"
+                        id="edadF"
+                        aria-describedby="edadFHelp"
+                        min="{{minAge}}"
+                        style="width: 45%"
+                      />
+                    </div>
+                    <div style="display: flex; flex-direction: row">
                       <h6 style="width: 50%; text-align: start">Edad minima</h6>
                       <h6 style="width: 50%; text-align: start">Edad máxima</h6>
-                      -->
                     </div>
                   </div>
                   <div class="form-group">
@@ -439,14 +468,16 @@
                   </div>
                   <div class="form-group">
                     <label>Nivel económico</label>
-                    <input
-                      type="number"
-                      formControlName="nivelEconomico"
+                    <select
                       class="form-control"
                       id="neQTY"
-                      aria-describedby="neQTYHelp"
-                      min="0"
-                    />
+                      formControlName="nivelEconomico"
+                    >
+                      <option [ngValue]="null">Sin seleccionar...</option>
+                      <option [ngValue]="'bajo'">Bajo</option>
+                      <option [ngValue]="'medio'">Medio</option>
+                      <option [ngValue]="'alto'">Alto</option>
+                    </select>
                   </div>
                 </div>
                 <div class="cForm-field-col">
@@ -458,10 +489,10 @@
                       formControlName="nivelAcademico"
                     >
                       <option [ngValue]="null">Sin seleccionar...</option>
-                      <option [ngValue]="'Magister'">Magíster</option>
                       <option [ngValue]="'Bachiller'">Bachiller</option>
-                      <option [ngValue]="'Doctorado'">Doctorado</option>
                       <option [ngValue]="'Licenciado'">Licenciado/a</option>
+                      <option [ngValue]="'Doctorado'">Doctorado</option>
+                      <option [ngValue]="'Magister'">Magíster</option>
                     </select>
                   </div>
                   <div class="form-group">
@@ -657,11 +688,11 @@
               class="cForm"
               [formGroup]="addForm"
               (submit)="stepCheck(3, estudio_stepper)"
-              style="height: 100%; flex: unset"
+              style="height: 100%; flex: unse"
             >
               <h4>Datos de estudio</h4>
               <div class="cForm-field-row">
-                <div class="cForm-field-col" style="width: 95%">
+                <div class="cForm-field-col">
                   <div class="form-group">
                     <label for="estSelect">Tipo de estudio</label>
                     <select
@@ -675,7 +706,7 @@
                     </select>
                   </div>
                 </div>
-                <div class="cForm-field-col" style="width: 95%">
+                <div class="cForm-field-col">
                   <div class="form-group">
                     <label for="encQTY">Nº de encuestas esperadas</label>
                     <input
@@ -1259,10 +1290,32 @@
 <app-basic-info-dialog #info [_tipo]="'Estudio'">
   <div class="cForm-field-row" *ngIf="targetEstudio !== null">
     <div class="cForm-field-col">
-     
+      <div class="form-group">
+        <label><h4>Analista asignado</h4></label>
+        <p>{{ targetEstudio.analista.nombre + ' ' +  targetEstudio.analista.apellido }}</p>
+      </div>
+      <div class="form-group">
+        <label><h4>Tipo de estudio</h4></label>
+        <p>{{ targetEstudio.tipo}}</p>
+      </div>
+      <div class="form-group">
+        <label><h4>Encuestas esperadas</h4></label>
+        <p>{{ targetEstudio.encuestas_esperadas}}</p>
+      </div>
     </div>
     <div class="cForm-field-col">
-    
+      <div class="form-group">
+        <label><h4>Género de participantes</h4></label>
+        <p>{{ targetEstudio.muestra_poblacion.genero }}</p>
+      </div>
+      <div class="form-group">
+        <label><h4>Rango de edad de participantes</h4></label>
+        <p>{{targetEstudio.muestra_poblacion.rango_edad_inicio+' - '+targetEstudio.muestra_poblacion.rango_edad_fin+' Años'}}</p>
+      </div>
+      <div class="form-group">
+        <label><h4>Ocupación de participantes</h4></label>
+        <p>{{ targetEstudio.muestra_poblacion.Fk_ocupacion.nombre}}</p>
+      </div>
     </div>
   </div>
 </app-basic-info-dialog>

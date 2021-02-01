@@ -6,15 +6,14 @@ import {
   FormControl,
 } from '@angular/forms';
 import { MatTableDataSource } from '@angular/material/table';
-import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { Usuario } from '@models/usuario';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { UpdateUserDialogComponent } from '../../components/dialogs/update-user-dialog/update-user-dialog.component';
 import { DeleteUserDialogComponent } from '../../components/dialogs/delete-user-dialog/delete-user-dialog.component';
 import { BasicInfoDialogComponent } from '../../components/dialogs/basic-info-dialog/basic-info-dialog.component';
 import { UsuarioService } from '@core/services/usuario/usuario.service';
-import { SubCategoria } from '@core/models/subcategoria';
-import { Categoria } from '@core/models/categoria';
+/*import { SubCategoria } from '@core/models/subcategoria';
+import { Categoria } from '@core/models/categoria';*/
 
 @Component({
   selector: 'app-usuarios',

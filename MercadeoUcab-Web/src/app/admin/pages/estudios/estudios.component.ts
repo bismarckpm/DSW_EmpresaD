@@ -16,7 +16,7 @@ import { BasicInfoDialogComponent } from '../../components/dialogs/basic-info-di
 import { Estudio } from '@models/estudio';
 import { Marca } from '@models/marca';
 import { Pregunta } from '@models/pregunta';
-import { Presentacion } from '@models/presentacion';
+//import { Presentacion } from '@models/presentacion';
 import { Solicitud } from '@models/solicitud';
 import { EstudioService } from '@core/services/estudio/estudio.service';
 import { SolicitudService } from '@core/services/solicitud/solicitud.service';
@@ -57,7 +57,8 @@ export class EstudiosComponent implements OnInit {
   suggestLoading: string = ''; //I,P,D
   preguntas: Pregunta[] = [];
   pregAsoc: any[] = [];
-
+  minAge: number = 0;
+  maxAge: number = 0;
   targetEstudio: any = null;
   targetPoblacion: any = null;
 
@@ -193,6 +194,30 @@ export class EstudiosComponent implements OnInit {
     this.setOperation('');
     this.getAnalistasDisp();
   }
+  getYearDiff(t:string): number{   
+    let _t = new Date(t);
+    let _n : Date = new Date(Date.now()); 
+    return _n.getFullYear() - _t.getFullYear();
+  }
+  ageEdit(min,max){
+    let _auxDate: Date = new Date (Date.now());
+
+    if(min !== null){
+      //console.log('Edad minima ',min);
+      this.minAge = min;
+      let newMin: Date = new Date(_auxDate.getFullYear()-min,_auxDate.getMonth(),_auxDate.getDay());
+      console.log(newMin);
+      this.poblacionForm.get('rangoEdadInicio').setValue(newMin);
+    }
+    else {
+      //console.log('Edad máxima ',max);
+      this.maxAge = max;
+      let newMax: Date = new Date(_auxDate.getFullYear()-max,_auxDate.getMonth(),_auxDate.getDay());
+      console.log(newMax);
+      this.poblacionForm.get('rangoEdadFin').setValue(newMax);
+    }
+  }
+
   addCreatedPreg(newPreg: any) {
     this.preguntaSuggests.push(newPreg);
     this.pregAsoc.push(newPreg.pregunta);
@@ -264,9 +289,9 @@ export class EstudiosComponent implements OnInit {
               _id: 1,
               genero: 'masculino',
               nivel_academico: 'Bachiller',
-              nivel_economico: 3,
-              rango_edad_inicio: 10,
-              rango_edad_fin: 50,
+              nivel_economico: 'medio',
+              rango_edad_inicio: new Date('1/2/2011'),
+              rango_edad_fin: new Date('1/2/1971'),
               cantidad_hijos: 2,
               ocupacion: { _id: 1, nombre: 'test Ocupacion' },
               parroquia: {
@@ -288,7 +313,7 @@ export class EstudiosComponent implements OnInit {
                 },
               },
             },
-            {
+            /*{
               _id: 5,
               genero: 'masculino',
               nivel_academico: 'Bachiller',
@@ -315,74 +340,11 @@ export class EstudiosComponent implements OnInit {
                   },
                 },
               },
-            },
+            },*/
           ];
           this.suggestLoading = 'D';
         }
       );
-    /*
-    setTimeout(() => {
-      this.suggestLoading = 'D';
-      this.poblacionSuggests = [
-        {
-          _id: 1,
-          genero: 'masculino',
-          nivel_academico: 'Bachiller',
-          nivel_economico: 3,
-          rango_edad_inicio: 10,
-          rango_edad_fin: 50,
-          cantidad_hijos: 2,
-          Fk_ocupacion: { _id: 1, nombre: 'test Ocupacion' },
-          parroquia: {
-            _id: 6,
-            nombre: 'Eglise Notre Dame De Rumengol',
-            valorSocioEconomico: 3,
-            nivel_economico: 3,
-            municipio: {
-              _id: 7,
-              nombre: 'Le Faou',
-              estado: {
-                _id: 7,
-                nombre: 'Breteña',
-                pais: {
-                  _id: 4,
-                  nombre: 'Francia',
-                },
-              },
-            },
-          },
-        },
-        {
-          _id: 5,
-          genero: 'masculino',
-          nivel_academico: 'Bachiller',
-          nivel_economico: 3,
-          rango_edad_inicio: 10,
-          rango_edad_fin: 50,
-          cantidad_hijos: 2,
-          Fk_ocupacion: { _id: 1, nombre: 'test Ocupacion' },
-          parroquia: {
-            _id: 6,
-            nombre: 'Eglise Notre Dame De Rumengol',
-            valorSocioEconomico: 3,
-            nivel_economico: 3,
-            municipio: {
-              _id: 7,
-              nombre: 'Le Faou',
-              estado: {
-                _id: 7,
-                nombre: 'Breteña',
-                pais: {
-                  _id: 4,
-                  nombre: 'Francia',
-                },
-              },
-            },
-          },
-        },
-      ];
-    }, 2000);
-    */
   }
   getPreguntasSugeridas() {
     this.suggestLoading = 'P';
@@ -442,6 +404,7 @@ export class EstudiosComponent implements OnInit {
         }
       );
   }
+  /*
   getSuggestPregunta() {
     //OBTENCION DE PREGUNTAS REGISTRADAS SUGERIDAS
     this.suggestLoading = 'P';
@@ -484,12 +447,19 @@ export class EstudiosComponent implements OnInit {
         },
       ];
     }, 2000);
-  }
+  }*/
   setPoblacion(data) {
     this.targetPoblacion = data;
     if (data !== null) {
       console.log(data);
       //SETEAR CAMPOS DE FORMULARIO
+      let _auxDate: Date = new Date (Date.now());
+      
+      let _Min: Date = new Date(data.rango_edad_inicio);
+      let _Max: Date = new Date(data.rango_edad_fin);
+
+      this.minAge = _auxDate.getFullYear() - _Min.getFullYear();
+      this.maxAge = _auxDate.getFullYear() - _Max.getFullYear();
       this.poblacionForm.setValue({
         genero: data.genero,
         nivelEconomico: data.nivel_economico,
@@ -899,7 +869,7 @@ export class EstudiosComponent implements OnInit {
 */
   invokeService() {
     this.opStatus = 'P';
-    let toAdd: any = { ...this.searchForm.value };
+    let toAdd: any = { ...this.addForm.value };
     console.log(toAdd);
     this._estudioService.createEstudio(this.addForm.value).subscribe(
       (response) => {
@@ -964,21 +934,24 @@ export class EstudiosComponent implements OnInit {
           document.getElementById('addStepper').classList.add('initleft');
           document.getElementById('addStepper').classList.remove('rightSlider');
         },1500);*/
-        //this.getSuggestPregunta();
         this.getPreguntasSugeridas();
         this.currentStep = 2;
         stepper.next();
         break;
       case 2:
-        //this.invokeService();
         this.addForm.get('preguntas').setValue(
           this.pregAsoc.map((p, ind) => {
             return { _id: p._id };
           })
         );
+        document.getElementById('addStepper').classList.remove('leftSlider');
         document.getElementById('addStepper').classList.add('rightSlider');
         document.getElementById('suggests').classList.add('SlideOut');
-        this.currentStep = 3;
+        setTimeout(() => {
+          document.getElementById('addStepper').classList.remove('rightSlider');
+          document.getElementById('addStepper').classList.add('initLeft');
+          this.currentStep = 3;
+        },2000);
         stepper.next();
         break;
       case 3:
