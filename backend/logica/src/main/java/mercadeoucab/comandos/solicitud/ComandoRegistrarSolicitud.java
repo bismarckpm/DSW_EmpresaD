@@ -2,12 +2,8 @@ package mercadeoucab.comandos.solicitud;
 
 import mercadeoucab.accesodatos.DaoSolicitud;
 import mercadeoucab.comandos.ComandoBase;
-import mercadeoucab.dtos.DtoPresentacion;
 import mercadeoucab.dtos.DtoSolicitud;
-import mercadeoucab.entidades.MuestraPoblacion;
-import mercadeoucab.entidades.Presentacion;
 import mercadeoucab.entidades.Solicitud;
-import mercadeoucab.entidades.Usuario;
 import mercadeoucab.fabricas.Enums.Fabricas;
 import mercadeoucab.fabricas.FabricaAbstracta;
 import mercadeoucab.mappers.SolicitudMapper;

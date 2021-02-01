@@ -5,8 +5,6 @@ import mercadeoucab.entidades.Presentacion;
 import mercadeoucab.fabricas.Enums.Fabricas;
 import mercadeoucab.fabricas.FabricaAbstracta;
 
-import java.util.Objects;
-
 public class PresentacionMapper {
 
     public static Presentacion mapDtoToEntity (DtoPresentacion dtoPresentacion) throws Exception{

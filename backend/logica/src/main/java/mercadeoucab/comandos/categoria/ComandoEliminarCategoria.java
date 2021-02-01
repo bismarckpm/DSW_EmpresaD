@@ -2,7 +2,6 @@ package mercadeoucab.comandos.categoria;
 
 import mercadeoucab.accesodatos.DaoCategoria;
 import mercadeoucab.comandos.ComandoBase;
-import mercadeoucab.dtos.DtoCategoria;
 import mercadeoucab.entidades.Categoria;
 import mercadeoucab.fabricas.Enums.Fabricas;
 import mercadeoucab.fabricas.FabricaAbstracta;

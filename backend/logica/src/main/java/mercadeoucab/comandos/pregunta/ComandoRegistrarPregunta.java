@@ -2,11 +2,9 @@ package mercadeoucab.comandos.pregunta;
 
 import mercadeoucab.accesodatos.DaoPregunta;
 import mercadeoucab.comandos.ComandoBase;
-import mercadeoucab.dtos.DtoOpcion;
 import mercadeoucab.dtos.DtoPregunta;
 import mercadeoucab.entidades.Opcion;
 import mercadeoucab.entidades.Pregunta;
-import mercadeoucab.entidades.Usuario;
 import mercadeoucab.fabricas.Enums.Fabricas;
 import mercadeoucab.fabricas.FabricaAbstracta;
 import mercadeoucab.mappers.PreguntaMapper;

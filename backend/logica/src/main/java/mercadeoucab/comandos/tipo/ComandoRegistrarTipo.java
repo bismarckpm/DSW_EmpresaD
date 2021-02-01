@@ -6,7 +6,6 @@ import mercadeoucab.dtos.DtoTipo;
 import mercadeoucab.entidades.Tipo;
 import mercadeoucab.fabricas.Enums.Fabricas;
 import mercadeoucab.fabricas.FabricaAbstracta;
-import mercadeoucab.mappers.SubCategoriaMapper;
 import mercadeoucab.mappers.TipoMapper;
 import mercadeoucab.responses.ResponseGeneral;
 

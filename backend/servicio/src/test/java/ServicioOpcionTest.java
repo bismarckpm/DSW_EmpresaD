@@ -1,14 +1,3 @@
-import mercadeoucab.dtos.DtoOpcion;
-import mercadeoucab.dtos.DtoPregunta;
-import mercadeoucab.entidades.Opcion;
-import mercadeoucab.servicio.ServicioOpcion;
-import org.junit.Assert;
-import org.junit.Test;
-
-import javax.ws.rs.core.Response;
-import java.util.List;
-
-
 public class ServicioOpcionTest {
 /*
     @Test

@@ -12,7 +12,6 @@ import mercadeoucab.fabricas.Enums.Fabricas;
 import mercadeoucab.fabricas.FabricaAbstracta;
 import mercadeoucab.responses.ResponseGeneral;
 
-import javax.json.JsonObject;
 import javax.ws.rs.core.Response;
 import java.sql.Date;
 import java.util.Calendar;

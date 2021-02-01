@@ -1,7 +1,7 @@
 package mercadeoucab.servicio;
 
 import mercadeoucab.comandos.solicitud.*;
-import mercadeoucab.dtos.*;
+import mercadeoucab.dtos.DtoSolicitud;
 import mercadeoucab.responses.ResponseGeneral;
 
 import javax.json.Json;

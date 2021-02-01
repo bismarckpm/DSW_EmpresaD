@@ -7,7 +7,6 @@ import mercadeoucab.entidades.Presentacion;
 import mercadeoucab.fabricas.Enums.Fabricas;
 import mercadeoucab.fabricas.FabricaAbstracta;
 import mercadeoucab.mappers.PresentacionMapper;
-import mercadeoucab.mappers.TipoMapper;
 import mercadeoucab.responses.ResponseGeneral;
 
 import javax.ws.rs.core.Response;

@@ -9,8 +9,6 @@ import javax.json.Json;
 import javax.json.JsonArrayBuilder;
 import javax.json.JsonObject;
 
-import java.util.Objects;
-
 public class ResponseSolicitud implements ResponseBase<DtoSolicitud> {
 
     /**
