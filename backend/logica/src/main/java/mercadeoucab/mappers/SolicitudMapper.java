@@ -2,10 +2,10 @@ package mercadeoucab.mappers;
 
 import mercadeoucab.dtos.DtoPresentacion;
 import mercadeoucab.dtos.DtoSolicitud;
+import mercadeoucab.entidades.Presentacion;
 import mercadeoucab.entidades.Solicitud;
 import mercadeoucab.fabricas.Enums.Fabricas;
 import mercadeoucab.fabricas.FabricaAbstracta;
-import mercadeoucab.entidades.*;
 
 import java.util.Objects;
 

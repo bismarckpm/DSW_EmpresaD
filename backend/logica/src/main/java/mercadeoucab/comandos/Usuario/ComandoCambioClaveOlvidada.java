@@ -1,4 +1,4 @@
-package mercadeoucab.comandos.usuario;
+package mercadeoucab.comandos.Usuario;
 
 import mercadeoucab.accesodatos.DaoUsuario;
 import mercadeoucab.comandos.ComandoBase;
@@ -11,6 +11,12 @@ import mercadeoucab.responses.ResponseGeneral;
 
 import javax.ws.rs.core.Response;
 
+/**
+ *
+ * @author Oscar Marquez
+ * @version 1.0
+ * @since 2021-01-29
+ */
 public class ComandoCambioClaveOlvidada implements ComandoBase {
 
     private Response result;

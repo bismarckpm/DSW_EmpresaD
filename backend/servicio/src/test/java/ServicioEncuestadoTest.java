@@ -1,4 +1,3 @@
-import mercadeoucab.servicio.ServicioDatoEncuestado;
 import mercadeoucab.servicio.ServicioEncuestado;
 import org.junit.Assert;
 import org.junit.Test;

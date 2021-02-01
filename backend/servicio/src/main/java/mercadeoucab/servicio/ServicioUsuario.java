@@ -1,12 +1,10 @@
 package mercadeoucab.servicio;
 
-import mercadeoucab.accesodatos.DaoUsuario;
-import mercadeoucab.comandos.usuario.*;
-import mercadeoucab.directorioactivo.DirectorioActivo;
+import mercadeoucab.comandos.Usuario.*;
 import mercadeoucab.dtos.DtoDirectorioAUser;
 import mercadeoucab.dtos.DtoUsuario;
-import mercadeoucab.entidades.Usuario;
 import mercadeoucab.responses.ResponseGeneral;
+
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
@@ -103,6 +101,8 @@ public class ServicioUsuario extends AplicacionBase{
     public Response actualizarUsuario( @PathParam("id") Long id, DtoUsuario dtoUsuario){
         Response resultado = null;
         try{
+            verifyParams( id);
+            verifyParams( dtoUsuario);
             ComandoActualizarUsuario comandoActualizarUsuario = new ComandoActualizarUsuario();
             comandoActualizarUsuario.setDtoUsuario( dtoUsuario);
             comandoActualizarUsuario.setId( id);
@@ -126,6 +126,7 @@ public class ServicioUsuario extends AplicacionBase{
     public Response eliminarUsuario( @PathParam("id") Long id){
         Response resultado = null;
         try{
+            verifyParams( id);
             ComandoEliminarUsuario comandoEliminarUsuario = new ComandoEliminarUsuario();
             comandoEliminarUsuario.setId( id);
             comandoEliminarUsuario.execute();
@@ -148,6 +149,7 @@ public class ServicioUsuario extends AplicacionBase{
     public Response peticionClaveOlvidada (DtoUsuario dtoUsuario){
         Response resultado = null;
         try{
+            verifyParams( dtoUsuario);
             ComandoPeticionClaveOlvidada comandoPeticionClaveOlvidada = new ComandoPeticionClaveOlvidada();
             comandoPeticionClaveOlvidada.setDtoUsuario( dtoUsuario);
             comandoPeticionClaveOlvidada.execute();
@@ -170,6 +172,7 @@ public class ServicioUsuario extends AplicacionBase{
     public Response cambioClaveOlvidada (DtoDirectorioAUser dtoDirectorioAUser){
         Response resultado = null;
         try{
+            verifyParams( dtoDirectorioAUser);
             ComandoCambioClaveOlvidada comandoCambioClaveOlvidada = new ComandoCambioClaveOlvidada();
             comandoCambioClaveOlvidada.setDtoDirectorioAUser( dtoDirectorioAUser);
             comandoCambioClaveOlvidada.execute();

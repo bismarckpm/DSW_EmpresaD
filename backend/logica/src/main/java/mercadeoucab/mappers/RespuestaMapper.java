@@ -1,13 +1,8 @@
 package mercadeoucab.mappers;
 
 import mercadeoucab.dtos.DtoEncuestaEstudio;
-import mercadeoucab.dtos.DtoOpcion;
 import mercadeoucab.dtos.DtoRespuesta;
-import mercadeoucab.dtos.DtoUsuario;
-import mercadeoucab.entidades.EncuestaEstudio;
-import mercadeoucab.entidades.Opcion;
 import mercadeoucab.entidades.Respuesta;
-import mercadeoucab.entidades.Usuario;
 import mercadeoucab.fabricas.Enums.Fabricas;
 import mercadeoucab.fabricas.FabricaAbstracta;
 

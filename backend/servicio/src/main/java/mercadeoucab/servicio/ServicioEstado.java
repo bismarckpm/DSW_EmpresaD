@@ -1,25 +1,12 @@
 package mercadeoucab.servicio;
 
-import mercadeoucab.accesodatos.DaoEstado;
-import mercadeoucab.accesodatos.DaoPais;
+import mercadeoucab.comandos.Estado.*;
 import mercadeoucab.dtos.DtoEstado;
-import mercadeoucab.dtos.DtoPais;
-import mercadeoucab.entidades.Estado;
-import mercadeoucab.entidades.Pais;
-import mercadeoucab.mappers.EstadoMapper;
-import mercadeoucab.responses.ResponseEstado;
 import mercadeoucab.responses.ResponseGeneral;
-import org.junit.Assert;
 
-import javax.json.Json;
-import javax.json.JsonArrayBuilder;
-import javax.json.JsonObject;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
-import java.sql.Date;
-import java.util.Calendar;
-import java.util.List;
 
 /**
  *
@@ -40,20 +27,11 @@ public class ServicioEstado extends AplicacionBase {
     @GET
     @Path("/")
     public Response listarEstador(){
-        JsonArrayBuilder estados = Json.createArrayBuilder();
         Response resultado = null;
         try{
-            DaoEstado dao = new DaoEstado();
-            List<Estado> estadosObtenidos = dao.findAll( Estado.class);
-            ResponseEstado responseEstado = new ResponseEstado();
-            for (Estado estado: estadosObtenidos){
-                if( estado.getActivo() != 0 ){
-                    DtoEstado dtoEstado = EstadoMapper.mapentitytoDto( estado);
-                    JsonObject objeto = responseEstado.generate( dtoEstado);
-                    estados.add(objeto);
-                }
-            }
-            resultado = ResponseGeneral.Succes( estados);
+            ComandoListarEstados comandoListarEstados = new ComandoListarEstados();
+            comandoListarEstados.execute();
+            resultado = comandoListarEstados.getResult();
         }catch (Exception e) {
             // CAMBIAR CUANDO SE MANEJEN LAS EXCEPCIONES PROPIAS
             String problema = e.getMessage();
@@ -73,15 +51,11 @@ public class ServicioEstado extends AplicacionBase {
     public Response agregarEstado(DtoEstado dtoEstado){
         Response resultado = null;
         try{
-            DaoEstado dao = new DaoEstado();
-            Estado estado = new Estado();
-            estado.setActivo(1);
-            estado.setCreado_el(new Date(Calendar.getInstance().getTime().getTime()));
-            estado.setNombre(dtoEstado.getNombre());
-            Pais pais = new Pais(dtoEstado.getFk_pais().get_id());
-            estado.setFk_pais( pais );
-            Estado resul = dao.insert( estado );
-            resultado = ResponseGeneral.SuccesCreate( resul.get_id());
+            verifyParams( dtoEstado);
+            ComandoAgregarEstado comandoAgregarEstado = new ComandoAgregarEstado();
+            comandoAgregarEstado.setDtoEstado( dtoEstado);
+            comandoAgregarEstado.execute();
+            resultado = comandoAgregarEstado.getResult();
         }
         catch (Exception e){
             // CAMBIAR CUANDO SE MANEJEN LAS EXCEPCIONES PROPIAS
@@ -102,12 +76,13 @@ public class ServicioEstado extends AplicacionBase {
     public Response actualizarEstado(@PathParam("id") long id, DtoEstado dtoEstado){
         Response resultado = null;
         try{
-            DaoEstado dao = new DaoEstado();
-            Estado estado = dao.find(id, Estado.class);
-            estado.setModificado_el(new Date(Calendar.getInstance().getTime().getTime()));
-            estado.setNombre(dtoEstado.getNombre());
-            Estado resul = dao.update(estado);
-            resultado = ResponseGeneral.SuccesMessage();
+            verifyParams( id);
+            verifyParams( dtoEstado);
+            ComandoActualizarEstado comandoActualizarEstado = new ComandoActualizarEstado();
+            comandoActualizarEstado.setDtoEstado( dtoEstado);
+            comandoActualizarEstado.setId( id);
+            comandoActualizarEstado.execute();
+            resultado = comandoActualizarEstado.getResult();
         }
         catch (Exception e){
             // CAMBIAR CUANDO SE MANEJEN LAS EXCEPCIONES PROPIAS
@@ -127,12 +102,11 @@ public class ServicioEstado extends AplicacionBase {
     public Response eliminarEstado(@PathParam("id") long id){
         Response resultado = null;
         try{
-            DaoEstado dao = new DaoEstado();
-            Estado estado = dao.find(id, Estado.class);
-            estado.setModificado_el(new Date(Calendar.getInstance().getTime().getTime()));
-            estado.setActivo(0);
-            Estado resul = dao.update(estado);
-            resultado = ResponseGeneral.SuccesMessage();
+            verifyParams( id);
+            ComandoEliminarEstado comandoEliminarEstado = new ComandoEliminarEstado();
+            comandoEliminarEstado.setId( id);
+            comandoEliminarEstado.execute();
+            resultado = comandoEliminarEstado.getResult();
         }
         catch (Exception e){
             // CAMBIAR CUANDO SE MANEJEN LAS EXCEPCIONES PROPIAS
@@ -153,16 +127,11 @@ public class ServicioEstado extends AplicacionBase {
     public Response consultarEstado(@PathParam("id") long id){
         Response resultado = null;
         try{
-            DaoEstado dao = new DaoEstado();
-            Estado resul = dao.find(id, Estado.class);
-            ResponseEstado responseEstado = new ResponseEstado();
-            if (resul.getActivo()!= 0) {
-                DtoEstado dtoEstado = EstadoMapper.mapentitytoDto( resul);
-                JsonObject estado = responseEstado.generate( dtoEstado);
-                resultado = ResponseGeneral.Succes( estado);
-            }else{
-                resultado = ResponseGeneral.NoData();
-            }
+            verifyParams( id);
+            ComandoConsultarEstado comandoConsultarEstado = new ComandoConsultarEstado();
+            comandoConsultarEstado.setId( id);
+            comandoConsultarEstado.execute();
+            resultado = comandoConsultarEstado.getResult();
         }
         catch (Exception e){
             // CAMBIAR CUANDO SE MANEJEN LAS EXCEPCIONES PROPIAS

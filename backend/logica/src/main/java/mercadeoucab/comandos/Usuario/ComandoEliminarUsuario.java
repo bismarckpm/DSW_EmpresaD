@@ -1,4 +1,4 @@
-package mercadeoucab.comandos.usuario;
+package mercadeoucab.comandos.Usuario;
 
 import mercadeoucab.accesodatos.DaoUsuario;
 import mercadeoucab.comandos.ComandoBase;
@@ -11,6 +11,12 @@ import javax.ws.rs.core.Response;
 import java.sql.Date;
 import java.util.Calendar;
 
+/**
+ *
+ * @author Oscar Marquez
+ * @version 1.0
+ * @since 2021-01-29
+ */
 public class ComandoEliminarUsuario implements ComandoBase {
     private Response result;
     private long id;

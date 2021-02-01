@@ -1,4 +1,4 @@
-package mercadeoucab.comandos.usuario;
+package mercadeoucab.comandos.Usuario;
 
 import mercadeoucab.accesodatos.DaoUsuario;
 import mercadeoucab.comandos.ComandoBase;
@@ -13,6 +13,12 @@ import mercadeoucab.responses.ResponseGeneral;
 
 import javax.ws.rs.core.Response;
 
+/**
+ *
+ * @author Oscar Marquez
+ * @version 1.0
+ * @since 2021-01-29
+ */
 public class ComandoPeticionClaveOlvidada implements ComandoBase {
 
     private Response result;
@@ -51,7 +57,7 @@ public class ComandoPeticionClaveOlvidada implements ComandoBase {
 
     @Override
     public Response getResult() {
-        return null;
+        return this.result;
     }
 
     public void setDtoUsuario(DtoUsuario dtoUsuario) {

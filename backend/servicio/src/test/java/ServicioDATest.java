@@ -1,5 +1,5 @@
-import mercadeoucab.dtos.DtoDirectorioAUser;
 import mercadeoucab.directorioactivo.DirectorioActivo;
+import mercadeoucab.dtos.DtoDirectorioAUser;
 import org.junit.Assert;
 import org.junit.Test;
 

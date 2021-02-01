@@ -1,12 +1,9 @@
 package mercadeoucab.mappers;
 
-import mercadeoucab.dtos.DtoDatoEncuestado;
 import mercadeoucab.dtos.DtoHijo;
 import mercadeoucab.entidades.Hijo;
 import mercadeoucab.fabricas.Enums.Fabricas;
 import mercadeoucab.fabricas.FabricaAbstracta;
-
-import java.sql.Date;
 
 public class HijoMapper {
 

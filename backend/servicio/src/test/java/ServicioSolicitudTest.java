@@ -1,4 +1,7 @@
-import mercadeoucab.dtos.*;
+import mercadeoucab.dtos.DtoMuestraPoblacion;
+import mercadeoucab.dtos.DtoPresentacion;
+import mercadeoucab.dtos.DtoSolicitud;
+import mercadeoucab.dtos.DtoUsuario;
 import mercadeoucab.servicio.ServicioSolicitud;
 import org.junit.Assert;
 import org.junit.Test;

@@ -1,23 +1,12 @@
 package mercadeoucab.servicio;
 
-import mercadeoucab.accesodatos.DaoParroquia;
+import mercadeoucab.comandos.Parroquia.*;
 import mercadeoucab.dtos.DtoParroquia;
-import mercadeoucab.entidades.Estado;
-import mercadeoucab.entidades.Municipio;
-import mercadeoucab.entidades.Parroquia;
-import mercadeoucab.mappers.ParroquiaMapper;
 import mercadeoucab.responses.ResponseGeneral;
-import mercadeoucab.responses.ResponseParroquia;
 
-import javax.json.Json;
-import javax.json.JsonArrayBuilder;
-import javax.json.JsonObject;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
-import java.sql.Date;
-import java.util.Calendar;
-import java.util.List;
 
 /**
  *
@@ -28,7 +17,7 @@ import java.util.List;
 @Path( "/parroquias" )
 @Produces( MediaType.APPLICATION_JSON )
 @Consumes( MediaType.APPLICATION_JSON )
-public class ServicioParroquia {
+public class ServicioParroquia extends AplicacionBase {
 
     /**
      * Metodo para listar todas las Parroquias registradas
@@ -38,24 +27,11 @@ public class ServicioParroquia {
     @GET
     @Path("/")
     public Response listarParroquias(){
-        JsonArrayBuilder parroquias = Json.createArrayBuilder();
         Response resultado = null;
         try{
-            DaoParroquia dao = new DaoParroquia();
-            List<Parroquia> parroquiasObtenidas = dao.findAll( Parroquia.class);
-            ResponseParroquia responseParroquia = new ResponseParroquia();
-            if ( !parroquiasObtenidas.isEmpty()) {
-                for (Parroquia parroquia : parroquiasObtenidas) {
-                    if (parroquia.getActivo() != 0) {
-                        DtoParroquia dtoParroquia = ParroquiaMapper.mapEntityToDto(parroquia);
-                        JsonObject objeto = responseParroquia.generate(dtoParroquia);
-                        parroquias.add(objeto);
-                    }
-                }
-                resultado = ResponseGeneral.Succes( parroquias);
-            }else {
-                resultado = ResponseGeneral.NoData();
-            }
+            ComandoListarParroquias comandoListarParroquias = new ComandoListarParroquias();
+            comandoListarParroquias.execute();
+            resultado = comandoListarParroquias.getResult();
         }catch (Exception e) {
             // CAMBIAR CUANDO SE MANEJEN LAS EXCEPCIONES PROPIAS
             String problema = e.getMessage();
@@ -75,15 +51,11 @@ public class ServicioParroquia {
     public Response registrarParroquia(DtoParroquia dtoParroquia){
         Response resultado = null;
         try {
-            DaoParroquia dao = new DaoParroquia();
-            Parroquia parroquia = new Parroquia();
-            parroquia.setNombre(dtoParroquia.getNombre());
-            parroquia.setActivo(1);
-            parroquia.setCreado_el(new Date(Calendar.getInstance().getTime().getTime()));
-            parroquia.setValor_socio_economico(dtoParroquia.getValor_socio_economico());
-            parroquia.setFk_municipio(new Municipio(dtoParroquia.getFk_municipio().get_id()));
-            Parroquia resul = dao.insert( parroquia );
-            resultado = ResponseGeneral.SuccesCreate( resul.get_id());
+            verifyParams( dtoParroquia);
+            ComandoRegistrarParroquia comandoRegistrarParroquia = new ComandoRegistrarParroquia();
+            comandoRegistrarParroquia.setDtoParroquia( dtoParroquia);
+            comandoRegistrarParroquia.execute();
+            resultado = comandoRegistrarParroquia.getResult();
         }
         catch (Exception e) {
             // CAMBIAR CUANDO SE MANEJEN LAS EXCEPCIONES PROPIAS
@@ -102,19 +74,13 @@ public class ServicioParroquia {
     @GET
     @Path("/{id}")
     public Response consultarParroquia(@PathParam("id") long id){
-        JsonObject parroquia;
         Response resultado = null;
         try {
-            DaoParroquia dao = new DaoParroquia();
-            Parroquia resul = dao.find(id ,Parroquia.class);
-            if ( resul.getActivo()!= 0 ){
-                ResponseParroquia responseParroquia = new ResponseParroquia();
-                DtoParroquia dtoParroquia = ParroquiaMapper.mapEntityToDto( resul);
-                parroquia = responseParroquia.generate( dtoParroquia);
-                resultado = ResponseGeneral.Succes( parroquia);
-            }else{
-                resultado = ResponseGeneral.NoData();
-            }
+            verifyParams( id);
+            ComandoConsultarParroquia comandoConsultarParroquia = new ComandoConsultarParroquia();
+            comandoConsultarParroquia.setId( id);
+            comandoConsultarParroquia.execute();
+            resultado = comandoConsultarParroquia.getResult();
         }
         catch (Exception e) {
             // CAMBIAR CUANDO SE MANEJEN LAS EXCEPCIONES PROPIAS
@@ -134,12 +100,11 @@ public class ServicioParroquia {
     public Response eliminarParroquia(@PathParam("id") long id){
         Response resultado = null;
         try {
-            DaoParroquia dao = new DaoParroquia();
-            Parroquia parroquia = dao.find(id , Parroquia.class);
-            parroquia.setActivo(0);
-            parroquia.setModificado_el(new Date(Calendar.getInstance().getTime().getTime()));
-            Parroquia resul = dao.update( parroquia );
-            resultado = ResponseGeneral.SuccesMessage();
+            verifyParams( id);
+            ComandoEliminarParroquia comandoEliminarParroquia = new ComandoEliminarParroquia();
+            comandoEliminarParroquia.setId( id);
+            comandoEliminarParroquia.execute();
+            resultado = comandoEliminarParroquia.getResult();
         }
         catch (Exception e) {
             // CAMBIAR CUANDO SE MANEJEN LAS EXCEPCIONES PROPIAS
@@ -160,13 +125,13 @@ public class ServicioParroquia {
     public Response actualizarParroquia(@PathParam("id") long id, DtoParroquia dtoParroquia){
         Response resultado = null;
         try{
-            DaoParroquia dao = new DaoParroquia();
-            Parroquia parroquia = dao.find(id , Parroquia.class);
-            parroquia.setModificado_el(new Date(Calendar.getInstance().getTime().getTime()));
-            parroquia.setNombre(dtoParroquia.getNombre());
-            parroquia.setValor_socio_economico(dtoParroquia.getValor_socio_economico());
-            Parroquia resul = dao.update( parroquia );
-            resultado = ResponseGeneral.SuccesMessage();
+            verifyParams( id);
+            verifyParams( dtoParroquia);
+            ComandoActualizarParroquia comandoActualizarParroquia = new ComandoActualizarParroquia();
+            comandoActualizarParroquia.setDtoParroquia( dtoParroquia);
+            comandoActualizarParroquia.setId( id);
+            comandoActualizarParroquia.execute();
+            resultado = comandoActualizarParroquia.getResult();
         }
         catch (Exception e){
             // CAMBIAR CUANDO SE MANEJEN LAS EXCEPCIONES PROPIAS

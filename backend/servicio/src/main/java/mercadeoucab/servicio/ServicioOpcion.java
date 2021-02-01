@@ -1,7 +1,5 @@
 package mercadeoucab.servicio;
 
-import mercadeoucab.comandos.opcion.*;
-import mercadeoucab.dtos.*;
 import mercadeoucab.responses.ResponseGeneral;
 
 import javax.ws.rs.*;

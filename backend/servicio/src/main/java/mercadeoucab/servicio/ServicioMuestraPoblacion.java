@@ -7,8 +7,6 @@ import mercadeoucab.entidades.Ocupacion;
 import mercadeoucab.entidades.Parroquia;
 import mercadeoucab.responses.ResponseGeneral;
 
-import javax.json.Json;
-import javax.json.JsonObject;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
