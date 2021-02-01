@@ -13,7 +13,7 @@ import java.util.Objects;
 
 public class EstudioMapper {
 
-    public static Estudio mapDtotoEntity(DtoEstudio dto){
+    public static Estudio mapDtotoEntity(DtoEstudio dto) throws Exception {
         FabricaAbstracta fabrica = FabricaAbstracta.getFactory(Fabricas.ESTUDIO);
         Estudio entity = (Estudio) fabrica.generarEntidad();
         entity.set_id(dto.get_id());
@@ -22,10 +22,13 @@ public class EstudioMapper {
         entity.setEstado(dto.getEstado());
         entity.setTipo(dto.getTipo());
         entity.setEncuestasEsperadas(dto.getEncuestasEsperadas());
+
         if(Objects.nonNull(dto.getFk_usuario()))
             entity.setFk_usuario(UsuarioMapper.mapDtoToEntity(dto.getFk_usuario()));
+
         if(Objects.nonNull(dto.getSolicitud()))
             entity.setSolicitud(SolicitudMapper.mapDtoToEntity(dto.getSolicitud()));
+
         if(!(dto.getPreguntas().isEmpty())){
             List<Pregunta> preguntas = new ArrayList<>();
             for(DtoPregunta pregunta: dto.getPreguntas())

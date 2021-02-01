@@ -2,14 +2,11 @@ package mercadeoucab.mappers;
 
 import mercadeoucab.dtos.DtoOpcion;
 import mercadeoucab.dtos.DtoPregunta;
-import mercadeoucab.dtos.DtoUsuario;
 import mercadeoucab.entidades.Opcion;
 import mercadeoucab.entidades.Pregunta;
-import mercadeoucab.entidades.Usuario;
 import mercadeoucab.fabricas.Enums.Fabricas;
 import mercadeoucab.fabricas.FabricaAbstracta;
 
-import java.util.List;
 import java.util.Objects;
 
 public class PreguntaMapper {

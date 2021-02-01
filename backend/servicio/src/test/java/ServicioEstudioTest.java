@@ -37,7 +37,7 @@ public class ServicioEstudioTest {
     @Test
     public void consultarEstudioTest() throws Exception{
         ServicioEstudio servicio = new ServicioEstudio();
-        DtoEstudio dtoEstudio = new DtoEstudio(9);
+        DtoEstudio dtoEstudio = new DtoEstudio(1);
         Response consultado = servicio.consultarEstudio(dtoEstudio.get_id());
         Assert.assertEquals( 200, consultado.getStatus());
     }

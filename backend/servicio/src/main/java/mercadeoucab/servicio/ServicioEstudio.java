@@ -3,6 +3,7 @@ package mercadeoucab.servicio;
 import mercadeoucab.accesodatos.DaoEstudio;
 import mercadeoucab.accesodatos.DaoRespuesta;
 import mercadeoucab.accesodatos.DaoUsuario;
+import mercadeoucab.comandos.estudio.*;
 import mercadeoucab.dtos.DtoEstudio;
 import mercadeoucab.dtos.DtoPregunta;
 import mercadeoucab.dtos.DtoUsuario;
@@ -34,7 +35,7 @@ import java.util.Objects;
 @Path( "/estudios" )
 @Produces( MediaType.APPLICATION_JSON )
 @Consumes( MediaType.APPLICATION_JSON )
-public class ServicioEstudio {
+public class ServicioEstudio extends AplicacionBase{
 
     /**
      * Metodo para listar todos los Estudios registrados
@@ -44,25 +45,11 @@ public class ServicioEstudio {
     @GET
     @Path("/")
     public Response listarEstudios(){
-        JsonArrayBuilder estudiosList = Json.createArrayBuilder();
         Response resultado = null;
         try {
-            DaoEstudio dao = new DaoEstudio();
-            List<Estudio> estudios = dao.findAll(Estudio.class);
-            if ( !estudios.isEmpty()) {
-                for (Estudio estudio : estudios) {
-
-                    if (estudio.getActivo() == 1) {
-                        ResponseEstudio responseEstudio = new ResponseEstudio();
-                        DtoEstudio dtoEstudio = EstudioMapper.mapEntitytoDto(estudio);
-                        JsonObject agregar = responseEstudio.generate(dtoEstudio);
-                        estudiosList.add(agregar);
-                    }
-                }
-                resultado = ResponseGeneral.Succes(estudiosList);
-            }else{
-                resultado = ResponseGeneral.NoData();
-            }
+            ComandoListarEstudios comandoListarEstudios = new ComandoListarEstudios();
+            comandoListarEstudios.execute();
+            resultado = comandoListarEstudios.getResult();
         }
         catch (Exception e){
             // CAMBIAR CUANDO SE MANEJEN LAS EXCEPCIONES PROPIAS
@@ -83,24 +70,11 @@ public class ServicioEstudio {
     public Response agregarEstudio(DtoEstudio dtoEstudio){
         Response resultado = null;
         try {
-            DaoEstudio dao = new DaoEstudio();
-            Estudio estudio = new Estudio();
-            estudio.setEstado(dtoEstudio.getEstado());
-            estudio.setTipo(dtoEstudio.getTipo());
-            estudio.setEncuestasEsperadas(dtoEstudio.getEncuestasEsperadas());
-            estudio.setActivo(1);
-            estudio.setCreado_el(new Date(Calendar.getInstance().getTime().getTime()));
-            Solicitud solicitud = new Solicitud(dtoEstudio.getSolicitud().get_id());
-            estudio.setSolicitud( solicitud );
-            Usuario usuario = new Usuario(dtoEstudio.getFk_usuario().get_id());
-            estudio.setFk_usuario( usuario );
-            for(DtoPregunta pregunta: dtoEstudio.getPreguntas()){
-                Pregunta pregunta1 = new Pregunta(pregunta.get_id());
-                estudio.addpregunta(pregunta1);
-            }
-
-            Estudio resul = dao.insert(estudio);
-            resultado = ResponseGeneral.SuccesCreate( resul.get_id());
+            verifyParams(dtoEstudio);
+            ComandoAgregarEstudio comandoAgregarEstudio = new ComandoAgregarEstudio();
+            comandoAgregarEstudio.setDtoEstudio(dtoEstudio);
+            comandoAgregarEstudio.execute();
+            resultado = comandoAgregarEstudio.getResult();
         }
         catch (Exception e){
             // CAMBIAR CUANDO SE MANEJEN LAS EXCEPCIONES PROPIAS
@@ -119,20 +93,13 @@ public class ServicioEstudio {
     @GET
     @Path("/{id}")
     public Response consultarEstudio(@PathParam("id") long id){
-        JsonObject estudioJson;
         Response resultado = null;
         try {
-
-            DaoEstudio dao = new DaoEstudio();
-            Estudio estudio = dao.find(id, Estudio.class);
-            if ( Objects.nonNull( estudio) && estudio.getActivo() == 1){
-                ResponseEstudio responseEstudio = new ResponseEstudio();
-                DtoEstudio dtoEstudio = EstudioMapper.mapEntitytoDto( estudio);
-                estudioJson = responseEstudio.generate( dtoEstudio);
-                resultado = ResponseGeneral.Succes( estudioJson);
-            }else {
-                resultado = ResponseGeneral.NoData();
-            }
+            verifyParams( id );
+            ComandoConsultarEstudio comandoConsultarEstudio = new ComandoConsultarEstudio();
+            comandoConsultarEstudio.setId( id );
+            comandoConsultarEstudio.execute();
+            resultado = comandoConsultarEstudio.getResult();
         }
         catch (Exception e){
             // CAMBIAR CUANDO SE MANEJEN LAS EXCEPCIONES PROPIAS
@@ -152,12 +119,11 @@ public class ServicioEstudio {
     public Response eliminarEstudio(@PathParam("id") long id){
         Response resultado = null;
         try {
-            DaoEstudio dao = new DaoEstudio();
-            Estudio estudio = dao.find(id, Estudio.class);
-            estudio.setActivo(0);
-            estudio.setModificado_el(new Date(Calendar.getInstance().getTime().getTime()));
-            Estudio resul = dao.update( estudio );
-            resultado = ResponseGeneral.SuccesMessage();
+            verifyParams(id);
+            ComandoEliminarEstudio comandoEliminarEstudio = new ComandoEliminarEstudio();
+            comandoEliminarEstudio.setId(id);
+            comandoEliminarEstudio.execute();
+            resultado = comandoEliminarEstudio.getResult();
         }
         catch (Exception e){
             // CAMBIAR CUANDO SE MANEJEN LAS EXCEPCIONES PROPIAS
@@ -178,14 +144,13 @@ public class ServicioEstudio {
     public Response actualizarEstudio(@PathParam("id") long id, DtoEstudio dtoEstudio){
         Response resultado = null;
         try {
-            DaoEstudio dao = new DaoEstudio();
-            Estudio estudio = dao.find(id, Estudio.class);
-            estudio.setEstado(dtoEstudio.getEstado());
-            estudio.setTipo(dtoEstudio.getTipo());
-            estudio.setEncuestasEsperadas(dtoEstudio.getEncuestasEsperadas());
-            estudio.setModificado_el(new Date(Calendar.getInstance().getTime().getTime()));
-            Estudio resul = dao.update(estudio);
-            resultado = ResponseGeneral.SuccesMessage();
+            verifyParams(id);
+            verifyParams(dtoEstudio);
+            ComandoActualizarEstudio comandoActualizarEstudio = new ComandoActualizarEstudio();
+            comandoActualizarEstudio.setDtoEstudio(dtoEstudio);
+            comandoActualizarEstudio.setId(id);
+            comandoActualizarEstudio.execute();
+            resultado = comandoActualizarEstudio.getResult();
         }
         catch (Exception e){
             // CAMBIAR CUANDO SE MANEJEN LAS EXCEPCIONES PROPIAS
@@ -205,27 +170,13 @@ public class ServicioEstudio {
     @GET
     @Path("/{id}/usuarios_respondieron")
     public Response usuariosRespondieronEncuesta(@PathParam("id") long id){
-        JsonArrayBuilder usuariosList = Json.createArrayBuilder();
         Response resultado = null;
         try {
-            DaoRespuesta daoRespuesta = new DaoRespuesta();
-            DaoEstudio daoEstudio = new DaoEstudio();
-            DaoUsuario daoUsuario = new DaoUsuario();
-            ResponseUsuario responseUsuario = new ResponseUsuario();
-            List<Long> ids = daoRespuesta.usuariosRespondidoEncuesta(daoEstudio.find(id, Estudio.class));
-            if(!(ids.isEmpty())){
-                for( int i = 0; i < ids.size(); i++){
-
-                    Usuario add = daoUsuario.find(ids.get(i),Usuario.class);
-                    DtoUsuario dtoUsuario = UsuarioMapper.mapEntityToDto( add);
-                    JsonObject agregar = responseUsuario.generate( dtoUsuario);
-                    usuariosList.add(agregar);
-                }
-                resultado = ResponseGeneral.Succes( usuariosList);
-            }
-            else{
-                resultado = ResponseGeneral.NoData();
-            }
+            verifyParams(id);
+            ComandoUsuariosRespondieronEncuesta comandoUsuariosRespondieronEncuesta = new ComandoUsuariosRespondieronEncuesta();
+            comandoUsuariosRespondieronEncuesta.setId(id);
+            comandoUsuariosRespondieronEncuesta.execute();
+            resultado = comandoUsuariosRespondieronEncuesta.getResult();
         }
         catch (Exception e){
             // CAMBIAR CUANDO SE MANEJEN LAS EXCEPCIONES PROPIAS
@@ -245,25 +196,13 @@ public class ServicioEstudio {
     @GET
     @Path("/{id}/usuarios_aplican")
     public Response usuariosAplicanEncuesta(@PathParam("id") long id){
-        JsonArrayBuilder usuariosList = Json.createArrayBuilder();
         Response resultado = null;
         try {
-            DaoEstudio daoEstudio = new DaoEstudio();
-            ResponseUsuario responseUsuario = new ResponseUsuario();
-            List<Usuario> usuarios = daoEstudio.personasAplicanEstudio(daoEstudio.find(id, Estudio.class));
-            if (!(usuarios.isEmpty())){
-                for(Usuario usuario: usuarios){
-                    if(usuario.getActivo() == 1) {
-                        DtoUsuario dtoUsuario = UsuarioMapper.mapEntityToDto( usuario);
-                        JsonObject agregar = responseUsuario.generate( dtoUsuario);
-                        usuariosList.add(agregar);
-                    }
-                }
-                resultado = ResponseGeneral.Succes( usuariosList);
-            }
-            else{
-                resultado = ResponseGeneral.NoData();
-            }
+            verifyParams(id);
+            ComandoUsuariosAplicanEncuesta comandoUsuariosAplicanEncuesta = new ComandoUsuariosAplicanEncuesta();
+            comandoUsuariosAplicanEncuesta.setId(id);
+            comandoUsuariosAplicanEncuesta.execute();
+            resultado = comandoUsuariosAplicanEncuesta.getResult();
         }
         catch (Exception e){
             // CAMBIAR CUANDO SE MANEJEN LAS EXCEPCIONES PROPIAS

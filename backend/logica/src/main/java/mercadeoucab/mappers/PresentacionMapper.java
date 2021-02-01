@@ -9,7 +9,7 @@ import java.util.Objects;
 
 public class PresentacionMapper {
 
-    public static Presentacion mapDtoToEntity (DtoPresentacion dtoPresentacion){
+    public static Presentacion mapDtoToEntity (DtoPresentacion dtoPresentacion) throws Exception{
 
         FabricaAbstracta fabrica = FabricaAbstracta.getFactory(Fabricas.PRESENTACION);
         Presentacion presentacion = (Presentacion) fabrica.generarEntidad();
@@ -19,11 +19,10 @@ public class PresentacionMapper {
         presentacion.setActivo( dtoPresentacion.getActivo());
         presentacion.setModificado_el( dtoPresentacion.getModificado_el());
         presentacion.setCreado_el( dtoPresentacion.getCreado_el());
-        if (Objects.nonNull(dtoPresentacion.getFk_tipo())){
+        if(dtoPresentacion.getFk_tipo() != null)
             presentacion.setFk_tipo(
                     TipoMapper.mapDtoToEntity(dtoPresentacion.getFk_tipo())
             );
-        }
        return presentacion;
     }
 
@@ -36,11 +35,11 @@ public class PresentacionMapper {
         dtoPresentacion.setActivo( presentacion.getActivo());
         dtoPresentacion.setCreado_el( presentacion.getCreado_el());
         dtoPresentacion.setModificado_el( presentacion.getModificado_el());
-        if(Objects.nonNull(dtoPresentacion.getFk_tipo())){
+        if(presentacion.getFk_tipo() != null)
             dtoPresentacion.setFk_tipo(
                     TipoMapper.mapEntityToDto(presentacion.getFk_tipo())
             );
-        }
+
         return dtoPresentacion;
     }
 }

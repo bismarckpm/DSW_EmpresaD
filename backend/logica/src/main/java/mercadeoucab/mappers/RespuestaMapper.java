@@ -15,7 +15,7 @@ import java.util.Objects;
 
 public class RespuestaMapper {
 
-    public static Respuesta mapDtoToEntity(DtoRespuesta dtoRespuesta){
+    public static Respuesta mapDtoToEntity(DtoRespuesta dtoRespuesta) throws Exception {
         FabricaAbstracta fabrica = FabricaAbstracta.getFactory(Fabricas.RESPUESTA);
         Respuesta respuesta = (Respuesta) fabrica.generarEntidad();
         respuesta.set_id(dtoRespuesta.get_id());
