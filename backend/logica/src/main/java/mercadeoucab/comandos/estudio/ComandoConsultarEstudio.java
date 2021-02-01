@@ -12,7 +12,6 @@ import mercadeoucab.responses.ResponseGeneral;
 
 import javax.json.JsonObject;
 import javax.ws.rs.core.Response;
-import java.util.Objects;
 
 public class ComandoConsultarEstudio implements ComandoBase {
 
@@ -40,7 +39,6 @@ public class ComandoConsultarEstudio implements ComandoBase {
             }
         }
         catch (Exception e){
-            System.out.println(e);
             result = ResponseGeneral.Failure("Ha ocurrido un error al consultar el estudio");
         }
     }

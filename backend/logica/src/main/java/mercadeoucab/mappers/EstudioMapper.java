@@ -29,11 +29,19 @@ public class EstudioMapper {
         if(Objects.nonNull(dto.getSolicitud()))
             entity.setSolicitud(SolicitudMapper.mapDtoToEntity(dto.getSolicitud()));
 
-        if(!(dto.getPreguntas().isEmpty())){
+        if(dto.getPreguntas().size() > 0){
             List<Pregunta> preguntas = new ArrayList<>();
             for(DtoPregunta pregunta: dto.getPreguntas())
                 preguntas.add(PreguntaMapper.mapDtoToEntity(pregunta));
             entity.setPreguntas(preguntas);
+        }
+
+        if (dto.getEncuestaEstudio().size() > 0){
+            for (DtoEncuestaEstudio encuestaEstudio : dto.getEncuestaEstudio()){
+               entity.addEncuestaEstudio(
+                       EncuestaEstudioMapper.mapDtotoEntity(encuestaEstudio)
+               );
+            }
         }
         return entity;
     }
@@ -47,17 +55,25 @@ public class EstudioMapper {
         dto.setEstado(entity.getEstado());
         dto.setTipo(entity.getTipo());
         dto.setEncuestasEsperadas(entity.getEncuestasEsperadas());
-        if(Objects.nonNull(entity.getFk_usuario()))
+
+        if(Objects.nonNull(entity.getFk_usuario())) {
             dto.setFk_usuario(UsuarioMapper.mapEntityToDto(entity.getFk_usuario()));
-        if(Objects.nonNull(entity.getSolicitud()))
+        }
+
+        if(Objects.nonNull(entity.getSolicitud())) {
             dto.setSolicitud(SolicitudMapper.mapEntityToDto(entity.getSolicitud()));
-        if(!(entity.getPreguntas().isEmpty())){
+        }
+
+        if(entity.getPreguntas().size() > 0)
+        {
             List<DtoPregunta> preguntas = new ArrayList<>();
             for(Pregunta pregunta: entity.getPreguntas())
                 preguntas.add(PreguntaMapper.mapEntityToDto(pregunta));
             dto.setPreguntas(preguntas);
         }
-        if ( Objects.nonNull( entity.getEncuestaEstudio())){
+
+        if ( entity.getEncuestaEstudio().size() > 0)
+        {
             for (EncuestaEstudio encuestaEstudio: entity.getEncuestaEstudio()){
                 dto.addEncuestaEstudio(
                         EncuestaEstudioMapper.mapEntitytoDto( encuestaEstudio)

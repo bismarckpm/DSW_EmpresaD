@@ -44,6 +44,7 @@ public class ComandoListarEstudios implements ComandoBase {
             }
         }
         catch (Exception e){
+            System.out.println(e);
             result = ResponseGeneral.Failure("Ha ocurrido un error al listar los estudios");
         }
     }

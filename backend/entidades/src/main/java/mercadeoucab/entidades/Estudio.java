@@ -138,6 +138,12 @@ public class Estudio extends EntidadBase{
         this.preguntas = preguntas;
     }
 
+    public void addEncuestaEstudio(EncuestaEstudio encuestaEstudio){
+        if(this.encuestaEstudio == null)
+            this.encuestaEstudio = new ArrayList<>();
+        this.encuestaEstudio.add(encuestaEstudio);
+    }
+
     public List<EncuestaEstudio> getEncuestaEstudio() {
         return encuestaEstudio;
     }
