@@ -1,22 +1,12 @@
 package mercadeoucab.servicio;
 
-import mercadeoucab.accesodatos.DaoSubCategoria;
+import mercadeoucab.comandos.subcategoria.*;
 import mercadeoucab.dtos.DtoSubCategoria;
-import mercadeoucab.entidades.Categoria;
-import mercadeoucab.entidades.SubCategoria;
-import mercadeoucab.mappers.SubCategoriaMapper;
 import mercadeoucab.responses.ResponseGeneral;
-import mercadeoucab.responses.ResponseSubCategoria;
 
-import javax.json.Json;
-import javax.json.JsonArrayBuilder;
-import javax.json.JsonObject;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
-import java.sql.Date;
-import java.util.Calendar;
-import java.util.List;
 
 /**
  *
@@ -38,21 +28,17 @@ public class ServicioSubCategoria extends AplicacionBase{
     @GET
     @Path("/{id}")
     public Response obtenerSubCategoria(@PathParam("id") Long id){
-        JsonObject subcategoria;
         Response resultado = null;
         try{
-            DaoSubCategoria dao = new DaoSubCategoria();
-            SubCategoria resul = dao.find( id, SubCategoria.class);
-            ResponseSubCategoria responseSubCategoria = new ResponseSubCategoria();
-            DtoSubCategoria dtoSubCategoria = SubCategoriaMapper.mapEntityToDto( resul);
-            if ( dtoSubCategoria.getActivo() == 1 ){
-                subcategoria = responseSubCategoria.generate( dtoSubCategoria);
-                resultado = ResponseGeneral.Succes( subcategoria);
+            verifyParams(id);
+            ComandoConsultarSubcategoria comandoConsultarSubcategoria = new ComandoConsultarSubcategoria();
+            comandoConsultarSubcategoria.setId(id);
+            comandoConsultarSubcategoria.execute();
+            resultado = comandoConsultarSubcategoria.getResult();
 
-            }else{
-                resultado = ResponseGeneral.NoData();
-            }
-        }catch (Exception e) {
+        }
+        catch (Exception e)
+        {
             // CAMBIAR CUANDO SE MANEJEN LAS EXCEPCIONES PROPIAS
             String problema = e.getMessage();
             resultado = ResponseGeneral.Failure("Ha ocurrido un error");
@@ -68,24 +54,11 @@ public class ServicioSubCategoria extends AplicacionBase{
     @GET
     @Path("/")
     public Response listarSubCategoria(){
-        JsonArrayBuilder subcategoriasList = Json.createArrayBuilder();
         Response resultado = null;
         try {
-            DaoSubCategoria dao = new DaoSubCategoria();
-            List<SubCategoria> subCategorias = dao.findAll(SubCategoria.class);
-            ResponseSubCategoria responseSubCategoria = new ResponseSubCategoria();
-            if ( !subCategorias.isEmpty()) {
-                for (SubCategoria subCategoria : subCategorias) {
-                    if (subCategoria.getActivo() == 1) {
-                        DtoSubCategoria dtoSubCategoria = SubCategoriaMapper.mapEntityToDto(subCategoria);
-                        JsonObject objeto = responseSubCategoria.generate(dtoSubCategoria);
-                        subcategoriasList.add(objeto);
-                    }
-                }
-                resultado = ResponseGeneral.Succes( subcategoriasList);
-            }else{
-                resultado = ResponseGeneral.NoData();
-            }
+            ComandoListarSubcategorias comandoListarSubcategorias = new ComandoListarSubcategorias();
+            comandoListarSubcategorias.execute();
+            resultado = comandoListarSubcategorias.getResult();
         }
         catch (Exception e){
             // CAMBIAR CUANDO SE MANEJEN LAS EXCEPCIONES PROPIAS
@@ -106,22 +79,11 @@ public class ServicioSubCategoria extends AplicacionBase{
     public Response  registrarSubCategoria(DtoSubCategoria dtoSubCategoria){
         Response resultado = null;
         try{
-            DaoSubCategoria dao = new DaoSubCategoria();
-            SubCategoria subCategoria = new SubCategoria();
-            subCategoria.setNombre( dtoSubCategoria.getNombre());
-            Categoria categoria = new Categoria(
-                    dtoSubCategoria.getCategoria().get_id()
-            );
-            subCategoria.setCategoria( categoria);
-            subCategoria.setActivo( 1);
-            subCategoria.setCreado_el(
-                    new Date(Calendar
-                            .getInstance()
-                            .getTime()
-                            .getTime())
-            );
-            SubCategoria resul = dao.insert( subCategoria);
-            resultado = ResponseGeneral.SuccesCreate( resul.get_id());
+            verifyParams(dtoSubCategoria);
+            ComandoRegistrarSubCategoria comandoRegistrarSubCategoria = new ComandoRegistrarSubCategoria();
+            comandoRegistrarSubCategoria.setDtoSubCategoria(dtoSubCategoria);
+            comandoRegistrarSubCategoria.execute();
+            resultado = comandoRegistrarSubCategoria.getResult();
         }catch (Exception e) {
             // CAMBIAR CUANDO SE MANEJEN LAS EXCEPCIONES PROPIAS
             String problema = e.getMessage();
@@ -141,17 +103,13 @@ public class ServicioSubCategoria extends AplicacionBase{
     public Response actualizarSubCategoria(@PathParam("id") Long id,DtoSubCategoria dtoSubCategoria){
         Response resultado = null;
         try{
-            DaoSubCategoria dao = new DaoSubCategoria();
-            SubCategoria subCategoria = dao.find( id, SubCategoria.class);
-            subCategoria.setNombre( dtoSubCategoria.getNombre());
-            subCategoria.setModificado_el(
-                    new Date(Calendar
-                            .getInstance()
-                            .getTime()
-                            .getTime())
-            );
-            SubCategoria resul = dao.update( subCategoria);
-            resultado = ResponseGeneral.SuccesMessage();
+            verifyParams(id);
+            verifyParams(dtoSubCategoria);
+            ComandoActualizarSubCategoria comandoActualizarSubCategoria = new ComandoActualizarSubCategoria();
+            comandoActualizarSubCategoria.setId(id);
+            comandoActualizarSubCategoria.setDtoSubCategoria(dtoSubCategoria);
+            comandoActualizarSubCategoria.execute();
+            resultado = comandoActualizarSubCategoria.getResult();
         }
         catch (Exception e) {
             // CAMBIAR CUANDO SE MANEJEN LAS EXCEPCIONES PROPIAS
@@ -171,17 +129,11 @@ public class ServicioSubCategoria extends AplicacionBase{
     public Response  eliminarSubCategoria(@PathParam("id") Long id){
         Response resultado = null;
         try{
-            DaoSubCategoria dao = new DaoSubCategoria();
-            SubCategoria subCategoria = dao.find( id, SubCategoria.class);
-            subCategoria.setActivo( 0);
-            subCategoria.setModificado_el(
-                    new Date(Calendar
-                            .getInstance()
-                            .getTime()
-                            .getTime())
-            );
-            SubCategoria resul = dao.update( subCategoria);
-            resultado = ResponseGeneral.SuccesMessage();
+            verifyParams(id);
+            ComandoEliminarSubCategoria comandoEliminarSubCategoria = new ComandoEliminarSubCategoria();
+            comandoEliminarSubCategoria.setId(id);
+            comandoEliminarSubCategoria.execute();
+            resultado = comandoEliminarSubCategoria.getResult();
         }catch (Exception e) {
             // CAMBIAR CUANDO SE MANEJEN LAS EXCEPCIONES PROPIAS
             String problema = e.getMessage();

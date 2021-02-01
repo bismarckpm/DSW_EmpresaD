@@ -11,5 +11,10 @@ public interface ComandoBase {
      * Metodo para ejecutar los comandos
      */
     void execute();
+
+    /**
+     * Name: getResult
+     * @return Response
+     */
     Response getResult();
 }

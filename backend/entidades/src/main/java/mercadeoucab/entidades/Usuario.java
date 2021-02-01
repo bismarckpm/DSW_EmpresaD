@@ -31,9 +31,9 @@ public class Usuario extends EntidadBase {
 
     @Column(name = "estado")
     private String estado;
-
+/*
     @Column(name = "token")
-    private String token;
+    private String token;*/
 
     public Usuario(long id) { super(id); }
 
@@ -59,7 +59,7 @@ public class Usuario extends EntidadBase {
 
     public void setCorreo(String correo) { this.correo = correo; }
 
-    public String getToken() { return token; }
+   /* public String getToken() { return token; }
 
-    public void setToken(String token) { this.token = token; }
+    public void setToken(String token) { this.token = token; }*/
 }

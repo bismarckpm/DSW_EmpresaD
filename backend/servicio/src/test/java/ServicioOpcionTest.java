@@ -10,7 +10,7 @@ import java.util.List;
 
 
 public class ServicioOpcionTest {
-
+/*
     @Test
     public void registrarOpcionTest(){
         ServicioOpcion servicio = new ServicioOpcion();
@@ -31,14 +31,15 @@ public class ServicioOpcionTest {
         Assert.assertEquals( resultado.getStatus(), 200);
     }*/
 
+    /*
     @Test
     public void obtenerListaOpcionesTest(){
         ServicioOpcion servicio = new ServicioOpcion();
         List<Opcion> LDTOO= servicio.listarOpcion();
         Assert.assertNotNull(LDTOO);
-    }
+    }*/
 
-    @Test
+ /*   @Test
     public void actualizarOpcionTest() throws Exception {
         ServicioOpcion servicio = new ServicioOpcion();
         DtoOpcion DTOO = new DtoOpcion();
@@ -57,7 +58,6 @@ public class ServicioOpcionTest {
     }
 
 
-
-
+*/
 
 }

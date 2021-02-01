@@ -20,7 +20,7 @@ public class ResponseEstudio implements ResponseBase<DtoEstudio> {
         JsonArrayBuilder preguntaslist = Json.createArrayBuilder();
         ResponsePregunta responsePregunta = new ResponsePregunta();
         ResponseRespuesta responseRespuesta = new ResponseRespuesta();
-        if(!(dtoEstudio.getEncuestaEstudio().isEmpty())){
+        if(dtoEstudio.getEncuestaEstudio().size() > 0){
             for(DtoEncuestaEstudio encuestaEstudio: dtoEstudio.getEncuestaEstudio()){
                 String tipo = encuestaEstudio.getFk_pregunta().getTipo();
                 JsonObject objeto = null;

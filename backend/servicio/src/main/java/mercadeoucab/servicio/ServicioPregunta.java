@@ -1,24 +1,10 @@
 package mercadeoucab.servicio;
 
-import mercadeoucab.accesodatos.DaoPregunta;
-import mercadeoucab.dtos.DtoOpcion;
-import mercadeoucab.dtos.DtoPregunta;
-import mercadeoucab.entidades.Opcion;
-import mercadeoucab.entidades.Pregunta;
-import mercadeoucab.entidades.Usuario;
-import mercadeoucab.mappers.PreguntaMapper;
 import mercadeoucab.responses.ResponseGeneral;
-import mercadeoucab.responses.ResponsePregunta;
 
-import javax.json.Json;
-import javax.json.JsonArrayBuilder;
-import javax.json.JsonObject;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
-import java.sql.Date;
-import java.util.Calendar;
-import java.util.List;
 
 /**
  *
@@ -41,42 +27,9 @@ public class ServicioPregunta extends AplicacionBase{
     public Response listarPreguntas(){
         Response resultado = null;
         try {
-            DaoPregunta dao = new DaoPregunta();
-            List<Pregunta> preguntas = dao.findAll(Pregunta.class);
-            JsonArrayBuilder preguntaslist = Json.createArrayBuilder();
-
-            if(!(preguntas.isEmpty())) {
-                for (Pregunta pregunta : preguntas) {
-                    if(pregunta.getActivo() == 1) {
-                        String tipo = pregunta.getTipo();
-                        JsonObject objeto = null;
-                        ResponsePregunta responsePregunta = new ResponsePregunta();
-                        DtoPregunta dtoPregunta = PreguntaMapper.mapEntityToDto( pregunta);
-                        switch (tipo) {
-                            case "abierta":
-                            case "boolean":
-                                objeto = responsePregunta.generate( dtoPregunta);
-                                preguntaslist.add(objeto);
-                                break;
-
-                            case "multiple":
-                            case "simple":
-                                objeto = responsePregunta.generateWithOptions( dtoPregunta);
-                                preguntaslist.add(objeto);
-                                break;
-                            case "rango":
-                                objeto = responsePregunta.generateWithRango( dtoPregunta);
-                                preguntaslist.add(objeto);
-                                break;
-                        }//final switch
-                    }
-                }//Final for
-
-                resultado = ResponseGeneral.Succes( preguntaslist);
-            }//final if
-            else {
-                resultado = ResponseGeneral.NoData();
-            }
+            ComandoListarPreguntas comandoListarPreguntas = new ComandoListarPreguntas();
+            comandoListarPreguntas.execute();
+            resultado = comandoListarPreguntas.getResult();
         }
         catch (Exception e){
             // CAMBIAR CUANDO SE MANEJEN LAS EXCEPCIONES PROPIAS
@@ -97,27 +50,11 @@ public class ServicioPregunta extends AplicacionBase{
     public Response registrarPregunta(DtoPregunta dtoPregunta){
         Response resultado = null;
         try {
-            DaoPregunta dao = new DaoPregunta();
-            Pregunta pregunta = new Pregunta();
-            pregunta.setNombrePregunta(dtoPregunta.getNombre_pregunta());
-            pregunta.setTipo(dtoPregunta.getTipo());
-            pregunta.setRango(dtoPregunta.getRango());
-            Usuario usuario = new Usuario(dtoPregunta.getUsuarioDto().get_id());
-            pregunta.setUsuario(usuario);
-            pregunta.setActivo(1);
-            pregunta.setCreado_el(new Date(Calendar.getInstance().getTime().getTime()));
-            if ( dtoPregunta.getOpciones() != null) {
-                for (DtoOpcion opcion : dtoPregunta.getOpciones()) {
-                    Opcion paraInsertar = new Opcion();
-                    paraInsertar.setActivo(1);
-                    paraInsertar.setCreado_el(new Date(Calendar.getInstance().getTime().getTime()));
-                    paraInsertar.setNombre_opcion(opcion.getNombre_opcion());
-                    pregunta.addOpcion(paraInsertar);
-                }
-            }
-
-            Pregunta resul = dao.insert(pregunta);
-            resultado = ResponseGeneral.SuccesCreate( resul.get_id());
+            verifyParams(dtoPregunta);
+            ComandoRegistrarPregunta comandoRegistrarPregunta = new ComandoRegistrarPregunta();
+            comandoRegistrarPregunta.setDtoPregunta(dtoPregunta);
+            comandoRegistrarPregunta.execute();
+            resultado = comandoRegistrarPregunta.getResult();
         }
         catch (Exception e){
             // CAMBIAR CUANDO SE MANEJEN LAS EXCEPCIONES PROPIAS
@@ -136,37 +73,13 @@ public class ServicioPregunta extends AplicacionBase{
     @GET
     @Path("/{id}")
     public Response consultarPregunta(@PathParam("id") long id){
-        JsonObject data;
-        JsonObject pregunta;
         Response resultado = null;
         try {
-            DaoPregunta dao = new DaoPregunta();
-            Pregunta resul = dao.find(id, Pregunta.class);
-            if ( resul.getActivo() != 0) {
-                ResponsePregunta responsePregunta = new ResponsePregunta();
-                DtoPregunta dtoPregunta = PreguntaMapper.mapEntityToDto( resul);
-                String tipo = resul.getTipo();
-                switch (tipo) {
-                    case "abierta":
-                    case "boolean":
-                        pregunta = responsePregunta.generate( dtoPregunta);
-                        break;
-
-                    case "multiple":
-                    case "simple":
-                        pregunta = responsePregunta.generateWithOptions( dtoPregunta);
-                        break;
-                    case "rango":
-                        pregunta = responsePregunta.generateWithRango( dtoPregunta);
-                        break;
-                    default:
-                        throw new IllegalStateException("Unexpected value: " + tipo);
-                }//final switch
-                resultado = ResponseGeneral.Succes( pregunta);
-            }
-            else{
-                resultado = ResponseGeneral.NoData();
-            }
+            verifyParams(id);
+            ComandoConsultarPregunta comandoConsultarPregunta = new ComandoConsultarPregunta();
+            comandoConsultarPregunta.setId(id);
+            comandoConsultarPregunta.execute();
+            resultado = comandoConsultarPregunta.getResult();
         }catch (Exception e){
             // CAMBIAR CUANDO SE MANEJEN LAS EXCEPCIONES PROPIAS
             String problema = e.getMessage();
@@ -183,15 +96,13 @@ public class ServicioPregunta extends AplicacionBase{
     @PUT
     @Path("/{id}/eliminar")
     public Response eliminarPregunta(@PathParam("id") long id){
-        JsonObject data;
         Response resultado = null;
         try {
-            DaoPregunta dao = new DaoPregunta();
-            Pregunta pregunta = dao.find(id, Pregunta.class);
-            pregunta.setActivo(0);
-            pregunta.setModificado_el(new Date(Calendar.getInstance().getTime().getTime()));
-            Pregunta resul = dao.update(pregunta);
-            resultado = ResponseGeneral.SuccesMessage();
+            verifyParams(id);
+            ComandoEliminarPregunta comandoEliminarPregunta = new ComandoEliminarPregunta();
+            comandoEliminarPregunta.setId(id);
+            comandoEliminarPregunta.execute();
+            resultado = comandoEliminarPregunta.getResult();
         }
         catch (Exception e){
             // CAMBIAR CUANDO SE MANEJEN LAS EXCEPCIONES PROPIAS
@@ -212,14 +123,13 @@ public class ServicioPregunta extends AplicacionBase{
     public Response actualizarPregunta(@PathParam("id") long id, DtoPregunta dtoPregunta){
         Response resultado = null;
         try {
-            DaoPregunta dao = new DaoPregunta();
-            Pregunta pregunta = dao.find(id, Pregunta.class);
-            pregunta.setNombrePregunta(dtoPregunta.getNombre_pregunta());
-            pregunta.setTipo(dtoPregunta.getTipo());
-            pregunta.setRango(dtoPregunta.getRango());
-            pregunta.setModificado_el(new Date(Calendar.getInstance().getTime().getTime()));
-            Pregunta resul = dao.update( pregunta );
-            resultado = ResponseGeneral.SuccesMessage();
+            verifyParams(id);
+            verifyParams(dtoPregunta);
+            ComandoActualizarPregunta comandoActualizarPregunta = new ComandoActualizarPregunta();
+            comandoActualizarPregunta.setDtoPregunta(dtoPregunta);
+            comandoActualizarPregunta.setId(id);
+            comandoActualizarPregunta.execute();
+            resultado = comandoActualizarPregunta.getResult();
         }
         catch (Exception e){
             // CAMBIAR CUANDO SE MANEJEN LAS EXCEPCIONES PROPIAS

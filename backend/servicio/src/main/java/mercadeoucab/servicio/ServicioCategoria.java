@@ -1,22 +1,12 @@
 package mercadeoucab.servicio;
 
-import mercadeoucab.accesodatos.DaoCategoria;
+import mercadeoucab.comandos.categoria.*;
 import mercadeoucab.dtos.DtoCategoria;
-import mercadeoucab.entidades.Categoria;
-import mercadeoucab.mappers.CategoriaMapper;
-import mercadeoucab.responses.ResponseCategoria;
 import mercadeoucab.responses.ResponseGeneral;
 
-import javax.json.Json;
-import javax.json.JsonArrayBuilder;
-import javax.json.JsonObject;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
-import java.sql.Date;
-import java.util.Calendar;
-import java.util.List;
-import java.util.Objects;
 
 /**
  *
@@ -37,31 +27,17 @@ public class ServicioCategoria extends AplicacionBase{
     @GET
     @Path("/")
     public Response listarCategorias(){
-        JsonArrayBuilder categoriasList = Json.createArrayBuilder();
         Response resultado = null;
         try {
-            DaoCategoria dao = new DaoCategoria();
-            List<Categoria> categorias = dao.findAll(Categoria.class);
-            if ( !categorias.isEmpty()) {
-                for (Categoria categoria : categorias) {
-                    if (categoria.getActivo() == 1) {
-                        ResponseCategoria responseCategoria = new ResponseCategoria();
-                        DtoCategoria dtoCategoria = CategoriaMapper.mapEntitytoDto(categoria);
-                        JsonObject objeto = responseCategoria.generate(dtoCategoria);
-                        categoriasList.add(objeto);
-                    }
-                }
-                resultado = ResponseGeneral.Succes(categoriasList);
-            }else{
-                resultado = ResponseGeneral.NoData();
-            }
-        }
-        catch (Exception e){
+            ComandoListarCategorias comandoListarCategorias = new ComandoListarCategorias();
+            comandoListarCategorias.execute();
+            resultado = comandoListarCategorias.getResult();
+        }catch (Exception e) {
             // CAMBIAR CUANDO SE MANEJEN LAS EXCEPCIONES PROPIAS
             String problema = e.getMessage();
             resultado = ResponseGeneral.Failure("Ha ocurrido un error");
         }
-        return resultado;
+        return  resultado;
     }
 
     /**
@@ -75,13 +51,11 @@ public class ServicioCategoria extends AplicacionBase{
     public Response agregarCategoria(DtoCategoria dtoCategoria){
         Response resultado = null;
         try{
-            DaoCategoria dao = new DaoCategoria();
-            Categoria categoria = new Categoria();
-            categoria.setNombre(dtoCategoria.getNombre());
-            categoria.setActivo(1);
-            categoria.setCreado_el(new Date(Calendar.getInstance().getTime().getTime()));
-            Categoria resul = dao.insert(categoria);
-            resultado = ResponseGeneral.SuccesCreate( resul.get_id());
+            verifyParams( dtoCategoria );
+            ComandoAgregarCategoria comandoAgregarCategoria = new ComandoAgregarCategoria();
+            comandoAgregarCategoria.setDtoCategoria(dtoCategoria);
+            comandoAgregarCategoria.execute();
+            resultado = comandoAgregarCategoria.getResult();
         }
         catch (Exception e){
             // CAMBIAR CUANDO SE MANEJEN LAS EXCEPCIONES PROPIAS
@@ -101,20 +75,13 @@ public class ServicioCategoria extends AplicacionBase{
     @Path("/{id}")
     public Response consultarCategoria(@PathParam("id") long id){
         Response resultado = null;
-        try {
-            DaoCategoria dao = new DaoCategoria();
-            Categoria resul = dao.find(id, Categoria.class);
-            ResponseCategoria responseCategoria = new ResponseCategoria();
-            DtoCategoria dtoCategoria = CategoriaMapper.mapEntitytoDto( resul);
-            if (Objects.nonNull( dtoCategoria)){
-
-                JsonObject categoria = responseCategoria.generate( dtoCategoria);
-                resultado = ResponseGeneral.Succes( categoria);
-            }else{
-                resultado = ResponseGeneral.NoData();
-            }
-        }
-        catch (Exception e){
+        try{
+            verifyParams( id );
+            ComandoConsultarCategoria comandoConsultarCategoria = new ComandoConsultarCategoria();
+            comandoConsultarCategoria.setId( id );
+            comandoConsultarCategoria.execute();
+            resultado = comandoConsultarCategoria.getResult();
+        }catch (Exception e) {
             // CAMBIAR CUANDO SE MANEJEN LAS EXCEPCIONES PROPIAS
             String problema = e.getMessage();
             resultado = ResponseGeneral.Failure("Ha ocurrido un error");
@@ -133,12 +100,13 @@ public class ServicioCategoria extends AplicacionBase{
     public Response actualizarCategoria(@PathParam("id") long id, DtoCategoria dtoCategoria){
         Response resultado = null;
         try {
-            DaoCategoria dao = new DaoCategoria();
-            Categoria categoria = dao.find(id , Categoria.class);
-            categoria.setNombre(dtoCategoria.getNombre());
-            categoria.setModificado_el(new Date(Calendar.getInstance().getTime().getTime()));
-            Categoria resul = dao.update(categoria);
-            resultado = ResponseGeneral.SuccesMessage();
+            verifyParams(id);
+            verifyParams(dtoCategoria);
+            ComandoActualizarCategoria comandoActualizarCategoria = new ComandoActualizarCategoria();
+            comandoActualizarCategoria.setDtoCategoria(dtoCategoria);
+            comandoActualizarCategoria.setId(id);
+            comandoActualizarCategoria.execute();
+            resultado = comandoActualizarCategoria.getResult();
         }
         catch (Exception e){
             // CAMBIAR CUANDO SE MANEJEN LAS EXCEPCIONES PROPIAS
@@ -158,12 +126,11 @@ public class ServicioCategoria extends AplicacionBase{
     public Response eliminarCategoria(@PathParam("id") long id){
         Response resultado = null;
         try {
-            DaoCategoria dao = new DaoCategoria();
-            Categoria categoria = dao.find(id, Categoria.class);
-            categoria.setActivo(0);
-            categoria.setModificado_el(new Date(Calendar.getInstance().getTime().getTime()));
-            Categoria resul = dao.update(categoria);
-            resultado = ResponseGeneral.SuccesMessage();
+            verifyParams(id);
+            ComandoEliminarCategoria comandoEliminarCategoria = new ComandoEliminarCategoria();
+            comandoEliminarCategoria.setId(id);
+            comandoEliminarCategoria.execute();
+            resultado = comandoEliminarCategoria.getResult();
         }
         catch (Exception e){
             // CAMBIAR CUANDO SE MANEJEN LAS EXCEPCIONES PROPIAS

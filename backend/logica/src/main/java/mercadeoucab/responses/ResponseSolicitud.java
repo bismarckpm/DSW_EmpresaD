@@ -8,6 +8,7 @@ import mercadeoucab.fabricas.FabricaAbstracta;
 import javax.json.Json;
 import javax.json.JsonArrayBuilder;
 import javax.json.JsonObject;
+
 import java.util.Objects;
 
 public class ResponseSolicitud implements ResponseBase<DtoSolicitud> {
@@ -18,39 +19,43 @@ public class ResponseSolicitud implements ResponseBase<DtoSolicitud> {
      */
     @Override
     public JsonObject generate(DtoSolicitud dtoSolicitud) throws Exception {
-        JsonObject resultado;
+        JsonObject resultado = null;
         JsonObject usuario;
         JsonObject muestraPoblacion;
+        try {
+            FabricaAbstracta fabrica = FabricaAbstracta.getFactory(Fabricas.USUARIO);
+            ResponseUsuario responseUsuario = (ResponseUsuario) fabrica.generarResponse();
+            usuario = responseUsuario.generate(dtoSolicitud.getUsuario());
 
-        FabricaAbstracta fabrica = FabricaAbstracta.getFactory(Fabricas.USUARIO);
-        ResponseUsuario responseUsuario = (ResponseUsuario) fabrica.generarResponse();
-        usuario = responseUsuario.generate( dtoSolicitud.getUsuario());
+            FabricaAbstracta fabrica1 = FabricaAbstracta.getFactory(Fabricas.PRESENTACION);
+            JsonArrayBuilder presentacionlist = Json.createArrayBuilder();
 
-        FabricaAbstracta fabrica1 = FabricaAbstracta.getFactory(Fabricas.PRESENTACION);
-        JsonArrayBuilder presentacionlist = Json.createArrayBuilder();
-
-        if ( Objects.nonNull( dtoSolicitud.getPresentaciones())) {
-            for (DtoPresentacion presentacion : dtoSolicitud.getPresentaciones()) {
-                ResponsePresentacion responsePresentacion = (ResponsePresentacion) fabrica1.generarResponse();
-                JsonObject objeto = responsePresentacion.generate(presentacion);
-                presentacionlist.add(objeto);
+            if (dtoSolicitud.getPresentaciones().size() > 0) {
+                for (DtoPresentacion presentacion : dtoSolicitud.getPresentaciones()) {
+                    ResponsePresentacion responsePresentacion = (ResponsePresentacion) fabrica1.generarResponse();
+                    JsonObject objeto = responsePresentacion.generate(presentacion);
+                    presentacionlist.add(objeto);
+                }
             }
+
+            FabricaAbstracta fabrica2 = FabricaAbstracta.getFactory(Fabricas.MUESTRAPOBLACION);
+            ResponseMuestraPoblacion responseMuestraPoblacion = (ResponseMuestraPoblacion) fabrica2.generarResponse();
+            muestraPoblacion = responseMuestraPoblacion.generate(dtoSolicitud.getMuestraPoblacion());
+
+
+            resultado = Json.createObjectBuilder()
+                    .add("_id", dtoSolicitud.get_id())
+                    .add("estado", dtoSolicitud.getEstado())
+                    .add("usuario", usuario)
+                    .add("marca", dtoSolicitud.getMarca())
+                    .add("comentarios", dtoSolicitud.getComentarios())
+                    .add("presentaciones", presentacionlist)
+                    .add("muestraPoblacion", muestraPoblacion)
+                    .build();
         }
-
-        FabricaAbstracta fabrica2 = FabricaAbstracta.getFactory(Fabricas.MUESTRAPOBLACION);
-        ResponseMuestraPoblacion responseMuestraPoblacion = (ResponseMuestraPoblacion) fabrica2.generarResponse();
-        muestraPoblacion = responseMuestraPoblacion.generate(dtoSolicitud.getMuestraPoblacion());
-
-
-        resultado = Json.createObjectBuilder()
-                        .add("_id", dtoSolicitud.get_id())
-                        .add("estado",dtoSolicitud.getEstado())
-                        .add("usuario", usuario)
-                        .add("marca", dtoSolicitud.getMarca())
-                        .add("comentarios", dtoSolicitud.getComentarios())
-                        .add("presentaciones", presentacionlist)
-                        .add("muestraPoblacion", muestraPoblacion)
-                        .build();
+        catch (Exception e){
+            System.out.println(e.getMessage());
+        }
         return resultado;
     }
 }

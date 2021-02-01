@@ -5,8 +5,6 @@ import mercadeoucab.entidades.Opcion;
 import mercadeoucab.fabricas.Enums.Fabricas;
 import mercadeoucab.fabricas.FabricaAbstracta;
 
-import java.util.Objects;
-
 public class OpcionMapper {
 
     public static Opcion mapDtotoEntity(DtoOpcion dto){
@@ -17,8 +15,6 @@ public class OpcionMapper {
         entity.setModificado_el(dto.getModificado_el());
         entity.setActivo(dto.getActivo());
         entity.setNombre_opcion(dto.getNombre_opcion());
-        if(Objects.nonNull(dto.get_Dtopregunta()))
-            entity.setFk_pregunta(PreguntaMapper.mapDtoToEntity(dto.get_Dtopregunta()));
         return entity;
     }
 
