@@ -1,11 +1,9 @@
 import mercadeoucab.dtos.DtoCategoria;
-import mercadeoucab.entidades.Categoria;
 import mercadeoucab.servicio.ServicioCategoria;
 import org.junit.Assert;
 import org.junit.Test;
 
 import javax.ws.rs.core.Response;
-import java.util.List;
 
 public class ServicioCategoriaTest {
 

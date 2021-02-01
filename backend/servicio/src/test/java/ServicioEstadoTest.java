@@ -1,13 +1,10 @@
 import mercadeoucab.dtos.DtoEstado;
 import mercadeoucab.dtos.DtoPais;
-import mercadeoucab.entidades.Estado;
 import mercadeoucab.servicio.ServicioEstado;
-import mercadeoucab.servicio.ServicioPais;
 import org.junit.Assert;
 import org.junit.jupiter.api.Test;
 
 import javax.ws.rs.core.Response;
-import java.util.List;
 
 public class ServicioEstadoTest {
 

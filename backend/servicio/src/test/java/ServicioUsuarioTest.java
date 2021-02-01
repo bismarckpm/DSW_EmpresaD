@@ -1,12 +1,10 @@
 import mercadeoucab.dtos.DtoDirectorioAUser;
 import mercadeoucab.dtos.DtoUsuario;
-import mercadeoucab.entidades.Usuario;
 import mercadeoucab.servicio.ServicioUsuario;
 import org.junit.Assert;
 import org.junit.Test;
 
 import javax.ws.rs.core.Response;
-import java.util.List;
 
 public class ServicioUsuarioTest {
 
@@ -14,11 +12,11 @@ public class ServicioUsuarioTest {
     public void registrarUsuarioTest(){
         ServicioUsuario servicio = new ServicioUsuario();
         DtoUsuario dtoUsuario = new DtoUsuario();
-        dtoUsuario.setNombre( "Steven");
-        dtoUsuario.setApellido( "Ross");
+        dtoUsuario.setNombre( "Black");
+        dtoUsuario.setApellido( "Jack");
         dtoUsuario.setEstado( "activo");
-        dtoUsuario.setRol( "cliente");
-        dtoUsuario.setCorreo( "srs@gmail.com");
+        dtoUsuario.setRol( "encuestado");
+        dtoUsuario.setCorreo( "BlackJaack@gmail.com");
         dtoUsuario.setPassword("123");
         Response resultado = servicio.registrarUsuario( dtoUsuario);
         Assert.assertEquals(

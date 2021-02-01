@@ -1,28 +1,14 @@
 package mercadeoucab.servicio;
 
-import mercadeoucab.accesodatos.DaoEstudio;
-import mercadeoucab.accesodatos.DaoSolicitud;
-import mercadeoucab.accesodatos.DaoTipo;
+import mercadeoucab.comandos.solicitud.*;
 import mercadeoucab.dtos.*;
-import mercadeoucab.entidades.*;
-import mercadeoucab.mappers.MuestraPoblacionMapper;
-import mercadeoucab.mappers.PreguntaMapper;
-import mercadeoucab.mappers.SolicitudMapper;
 import mercadeoucab.responses.ResponseGeneral;
-import mercadeoucab.responses.ResponseMuestraPoblacion;
-import mercadeoucab.responses.ResponsePregunta;
-import mercadeoucab.responses.ResponseSolicitud;
 
 import javax.json.Json;
 import javax.json.JsonArrayBuilder;
-import javax.json.JsonObject;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
-import java.sql.Date;
-import java.util.Calendar;
-import java.util.List;
-import java.util.Objects;
 
 /**
  *
@@ -46,17 +32,11 @@ public class ServicioSolicitud extends AplicacionBase{
     public Response obtenerSolicitud(@PathParam("id") Long id){
         Response resultado = null;
         try{
-            DaoSolicitud dao = new DaoSolicitud();
-            Solicitud resul = dao.find( id, Solicitud.class);
-
-            ResponseSolicitud responseSolicitud = new ResponseSolicitud();
-            DtoSolicitud dtoSolicitud = SolicitudMapper.mapEntityToDto( resul);
-            JsonObject solicitud = responseSolicitud.generate( dtoSolicitud);
-            if (Objects.nonNull( dtoSolicitud)){
-                resultado = ResponseGeneral.Succes( solicitud);
-            }else{
-                resultado = ResponseGeneral.NoData();
-            }
+            verifyParams(id);
+            ComandoObtenerSolicitud comandoObtenerSolicitud = new ComandoObtenerSolicitud();
+            comandoObtenerSolicitud.setId(id);
+            comandoObtenerSolicitud.execute();
+            resultado = comandoObtenerSolicitud.getResult();
         }catch (Exception e) {
             // CAMBIAR CUANDO SE MANEJEN LAS EXCEPCIONES PROPIAS
             String problema = e.getMessage();
@@ -73,24 +53,11 @@ public class ServicioSolicitud extends AplicacionBase{
     @GET
     @Path("/")
     public Response listarSolicitud(){
-        JsonArrayBuilder solicitudesList = Json.createArrayBuilder();
         Response resultado = null;
         try {
-            DaoSolicitud dao = new DaoSolicitud();
-            List<Solicitud> solicitudes = dao.findAll(Solicitud.class);
-            if ( !solicitudes.isEmpty()) {
-                for (Solicitud resul : solicitudes) {
-                    if (resul.getActivo() == 1) {
-                        ResponseSolicitud responseSolicitud = new ResponseSolicitud();
-                        DtoSolicitud dtoSolicitud = SolicitudMapper.mapEntityToDto(resul);
-                        JsonObject object = responseSolicitud.generate(dtoSolicitud);
-                        solicitudesList.add(object);
-                    }
-                } //final for
-                resultado = ResponseGeneral.Succes( solicitudesList);
-            } else{
-                resultado = ResponseGeneral.NoData();
-            }
+            ComandoListarSolicitud comandoListarSolicitud = new ComandoListarSolicitud();
+            comandoListarSolicitud.execute();
+            resultado = comandoListarSolicitud.getResult();
         }
         catch (Exception e){
             // CAMBIAR CUANDO SE MANEJEN LAS EXCEPCIONES PROPIAS
@@ -112,30 +79,11 @@ public class ServicioSolicitud extends AplicacionBase{
     public Response registrarSolicitud(DtoSolicitud dtoSolicitud){
         Response resultado = null;
         try{
-            DaoSolicitud dao = new DaoSolicitud();
-            Solicitud solicitud = new Solicitud();
-            solicitud.setEstado( dtoSolicitud.getEstado() );
-            solicitud.setComentarios(dtoSolicitud.getComentarios());
-            solicitud.setMarca(dtoSolicitud.getMarca());
-            solicitud.setActivo( 1 );
-            solicitud.setCreado_el(
-                    new Date(Calendar.getInstance().getTime().getTime())
-            );
-            Usuario usuario = new Usuario(
-                    dtoSolicitud.getUsuario().get_id()
-            );
-            solicitud.setUsuario( usuario);
-            MuestraPoblacion muestraPoblacion = new MuestraPoblacion(
-                    dtoSolicitud.getMuestraPoblacion().get_id()
-            );
-            solicitud.setFk_muestra_poblacion(muestraPoblacion);
-            for(DtoPresentacion dtoPresentacion: dtoSolicitud.getPresentaciones()){
-                Presentacion presentacion = new Presentacion(dtoPresentacion.get_id());
-                solicitud.addPresentacion( presentacion );
-            }
-
-            Solicitud resul = dao.insert( solicitud );
-            resultado = ResponseGeneral.SuccesCreate( resul.get_id());
+            verifyParams(dtoSolicitud);
+            ComandoRegistrarSolicitud comandoRegistrarSolicitud = new ComandoRegistrarSolicitud();
+            comandoRegistrarSolicitud.setDtoSolicitud(dtoSolicitud);
+            comandoRegistrarSolicitud.execute();
+            resultado = comandoRegistrarSolicitud.getResult();
         }catch (Exception e) {
             // CAMBIAR CUANDO SE MANEJEN LAS EXCEPCIONES PROPIAS
             String problema = e.getMessage();
@@ -155,19 +103,13 @@ public class ServicioSolicitud extends AplicacionBase{
     public Response actualizarSolicitud(@PathParam("id") Long id, DtoSolicitud dtoSolicitud){
         Response resultado = null;
         try{
-            DaoSolicitud dao = new DaoSolicitud();
-            Solicitud solicitud = dao.find( id, Solicitud.class);
-            solicitud.setEstado( dtoSolicitud.getEstado());
-            solicitud.setModificado_el(
-                    new Date(Calendar
-                            .getInstance()
-                            .getTime()
-                            .getTime())
-            );
-            solicitud.setComentarios(dtoSolicitud.getComentarios());
-            solicitud.setMarca(dtoSolicitud.getMarca());
-            Solicitud resul = dao.update( solicitud);
-            resultado = ResponseGeneral.SuccesMessage();
+            verifyParams(id);
+            verifyParams(dtoSolicitud);
+            ComandoActualizarSolicitud comandoActualizarSolicitud = new ComandoActualizarSolicitud();
+            comandoActualizarSolicitud.setId(id);
+            comandoActualizarSolicitud.setDtoSolicitud(dtoSolicitud);
+            comandoActualizarSolicitud.execute();
+            resultado = comandoActualizarSolicitud.getResult();
         }catch (Exception e) {
             // CAMBIAR CUANDO SE MANEJEN LAS EXCEPCIONES PROPIAS
             String problema = e.getMessage();
@@ -186,16 +128,11 @@ public class ServicioSolicitud extends AplicacionBase{
     public Response eliminarSolicitud(@PathParam("id") Long id){
         Response resultado = null;
         try{
-            DaoSolicitud dao = new DaoSolicitud();
-            Solicitud solicitud = dao.find( id, Solicitud.class);
-            solicitud.setActivo( 0 );
-            solicitud.setModificado_el(
-                    new Date(Calendar
-                            .getInstance()
-                            .getTime()
-                            .getTime()));
-            Solicitud resul = dao.update( solicitud);
-            resultado = ResponseGeneral.SuccesMessage();
+            verifyParams(id);
+            ComandoEliminarSolicitud comandoEliminarSolicitud = new ComandoEliminarSolicitud();
+            comandoEliminarSolicitud.setId(id);
+            comandoEliminarSolicitud.execute();
+            resultado = comandoEliminarSolicitud.getResult();
         }catch (Exception e) {
             // CAMBIAR CUANDO SE MANEJEN LAS EXCEPCIONES PROPIAS
             String problema = e.getMessage();
@@ -213,25 +150,13 @@ public class ServicioSolicitud extends AplicacionBase{
     @GET
     @Path("/estado/{estado}")
     public Response listarSolicitudEstado(@PathParam("estado") String estado){
-        JsonArrayBuilder solicitudesList = Json.createArrayBuilder();
         Response resultado = null;
         try {
-            DaoSolicitud dao = new DaoSolicitud();
-            List<Solicitud> solicitudes = dao.solicitudesSegunEstado(estado);
-            if(solicitudes.size() > 0){
-                for (Solicitud resul: solicitudes){
-                        if(resul.getActivo() == 1) {
-                            ResponseSolicitud responseSolicitud = new ResponseSolicitud();
-                            DtoSolicitud dtoSolicitud = SolicitudMapper.mapEntityToDto( resul);
-                            JsonObject object = responseSolicitud.generate( dtoSolicitud);
-                            solicitudesList.add(object);
-                        }
-                } //final for
-                resultado = ResponseGeneral.Succes( solicitudesList);
-            }
-            else{
-                resultado = ResponseGeneral.NoData();
-            }
+            verifyParams(estado);
+            ComandoListarSolicitudEstado comandoListarSolicitudEstado = new ComandoListarSolicitudEstado();
+            comandoListarSolicitudEstado.setEstado(estado);
+            comandoListarSolicitudEstado.execute();
+            resultado = comandoListarSolicitudEstado.getResult();
         }
         catch (Exception e){
             // CAMBIAR CUANDO SE MANEJEN LAS EXCEPCIONES PROPIAS
@@ -254,45 +179,11 @@ public class ServicioSolicitud extends AplicacionBase{
         JsonArrayBuilder preguntaslist = Json.createArrayBuilder();
         Response resultado = null;
         try {
-            DaoEstudio dao = new DaoEstudio();
-            DaoSolicitud daoSolicitud = new DaoSolicitud();
-            List<Estudio> estudios = dao.preguntasSimilares(
-                    daoSolicitud.find(id, Solicitud.class)
-            );
-            if(!(estudios.isEmpty())){
-                for (Estudio estudio: estudios){
-                    for(Pregunta pregunta: estudio.getPreguntas()){
-                        if (pregunta.getActivo() == 1)
-                        {
-                            String tipo = pregunta.getTipo();
-                            JsonObject objeto = null;
-                            ResponsePregunta responsePregunta = new ResponsePregunta();
-                            DtoPregunta dtoPregunta = PreguntaMapper.mapEntityToDto( pregunta);
-                            switch (tipo) {
-                                case "abierta":
-                                case "boolean":
-                                    objeto = responsePregunta.generate( dtoPregunta);
-                                    preguntaslist.add(objeto);
-                                    break;
-
-                                case "multiple":
-                                case "simple":
-                                    objeto = responsePregunta.generateWithOptions( dtoPregunta);
-                                    preguntaslist.add(objeto);
-                                    break;
-                                case "rango":
-                                    objeto = responsePregunta.generateWithRango( dtoPregunta);
-                                    preguntaslist.add(objeto);
-                                    break;
-                            }//final switch
-                        }
-                    }
-                }
-                resultado = ResponseGeneral.Succes( preguntaslist);
-            }
-            else{
-                resultado = ResponseGeneral.NoData();
-            }
+            verifyParams(id);
+            ComandoPreguntasRecomendadas comandoPreguntasRecomendadas = new ComandoPreguntasRecomendadas();
+            comandoPreguntasRecomendadas.setId(id);
+            comandoPreguntasRecomendadas.execute();
+            resultado = comandoPreguntasRecomendadas.getResult();
         }
         catch (Exception e){
             // CAMBIAR CUANDO SE MANEJEN LAS EXCEPCIONES PROPIAS
@@ -314,27 +205,11 @@ public class ServicioSolicitud extends AplicacionBase{
         JsonArrayBuilder muestrasList = Json.createArrayBuilder();
         Response resultado = null;
         try {
-            DaoSolicitud daoSolicitud = new DaoSolicitud();
-            DaoEstudio daoEstudio = new DaoEstudio();
-            List<MuestraPoblacion> muestras = daoEstudio.poblacionesSimilares(
-                    daoSolicitud.find(id, Solicitud.class)
-            );
-            ResponseMuestraPoblacion responseMuestraPoblacion = new ResponseMuestraPoblacion();
-            if(!(muestras.isEmpty())){
-                for(MuestraPoblacion muestra: muestras){
-                    if (muestra.getActivo() == 1) {
-                        DtoMuestraPoblacion dtoMuestraPoblacion = MuestraPoblacionMapper.mapEntitytoDto(
-                                muestra
-                        );
-                        JsonObject agregar = responseMuestraPoblacion.generate( dtoMuestraPoblacion);
-                        muestrasList.add(agregar);
-                    }
-                }
-                resultado = ResponseGeneral.Succes( muestrasList);
-            }
-            else {
-                resultado = ResponseGeneral.NoData();
-            }
+            verifyParams(id);
+            ComandoPoblacionesRecomendadas comandoPoblacionesRecomendadas = new ComandoPoblacionesRecomendadas();
+            comandoPoblacionesRecomendadas.setId(id);
+            comandoPoblacionesRecomendadas.execute();
+            resultado = comandoPoblacionesRecomendadas.getResult();
         }
         catch (Exception e){
             // CAMBIAR CUANDO SE MANEJEN LAS EXCEPCIONES PROPIAS

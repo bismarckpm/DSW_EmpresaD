@@ -1,9 +1,10 @@
 import mercadeoucab.dtos.DtoDatoEncuestado;
 import mercadeoucab.dtos.DtoTelefono;
 import mercadeoucab.servicio.ServicioTelefono;
-import javax.ws.rs.core.Response;
 import org.junit.Assert;
 import org.junit.Test;
+
+import javax.ws.rs.core.Response;
 
 public class ServicioTelefonoTest {
 

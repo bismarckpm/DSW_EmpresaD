@@ -2,16 +2,16 @@ package mercadeoucab.mappers;
 
 import mercadeoucab.dtos.DtoPresentacion;
 import mercadeoucab.dtos.DtoSolicitud;
+import mercadeoucab.entidades.Presentacion;
 import mercadeoucab.entidades.Solicitud;
 import mercadeoucab.fabricas.Enums.Fabricas;
 import mercadeoucab.fabricas.FabricaAbstracta;
-import mercadeoucab.entidades.*;
 
 import java.util.Objects;
 
 public class SolicitudMapper {
 
-    public static Solicitud mapDtoToEntity(DtoSolicitud dtoSolicitud){
+    public static Solicitud mapDtoToEntity(DtoSolicitud dtoSolicitud) throws Exception{
         FabricaAbstracta fabrica = FabricaAbstracta.getFactory(Fabricas.SOLICITUD);
         Solicitud solicitud = (Solicitud) fabrica.generarEntidad();
         solicitud.set_id(dtoSolicitud.get_id());
@@ -34,8 +34,9 @@ public class SolicitudMapper {
             );
         }
 
-        if (Objects.nonNull( dtoSolicitud.getPresentaciones())){
-            for(DtoPresentacion presentacion: dtoSolicitud.getPresentaciones()){
+        if (dtoSolicitud.getPresentaciones().size() > 0){
+            for(DtoPresentacion presentacion: dtoSolicitud.getPresentaciones())
+            {
                 solicitud.addPresentacion(
                         PresentacionMapper.mapDtoToEntity(presentacion)
                 );
@@ -67,7 +68,7 @@ public class SolicitudMapper {
             );
         }
 
-        if ( Objects.nonNull( solicitud.getPresentaciones())){
+        if ( solicitud.getPresentaciones().size() > 0){
             for (Presentacion presentacion: solicitud.getPresentaciones()){
                 dtoSolicitud.addPresentacion(
                         PresentacionMapper.mapEntityToDto( presentacion)

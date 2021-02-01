@@ -1,22 +1,12 @@
 package mercadeoucab.servicio;
 
-import mercadeoucab.accesodatos.DaoPais;
+import mercadeoucab.comandos.Pais.*;
 import mercadeoucab.dtos.DtoPais;
-import mercadeoucab.entidades.Pais;
-import mercadeoucab.mappers.PaisMapper;
 import mercadeoucab.responses.ResponseGeneral;
-import mercadeoucab.responses.ResponsePais;
 
-import javax.json.Json;
-import javax.json.JsonArrayBuilder;
-import javax.json.JsonObject;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
-import java.sql.Date;
-import java.util.Calendar;
-import java.util.List;
-import java.util.Objects;
 
 /**
  *
@@ -37,24 +27,11 @@ public class ServicioPais extends AplicacionBase{
     @GET
     @Path("/")
     public Response listar_paises(){
-        JsonArrayBuilder paises = Json.createArrayBuilder();
         Response resultado = null;
-        ResponsePais responsePais = new ResponsePais();
         try{
-            DaoPais dao = new DaoPais();
-            List<Pais> paisesObtenidos = dao.findAll( Pais.class);
-            if (!paisesObtenidos.isEmpty()){
-                for (Pais pais: paisesObtenidos){
-                    if (pais.getActivo()!= 0){
-                        DtoPais dtoPais = PaisMapper.mapEntityToDto( pais);
-                        JsonObject objeto = responsePais.generate( dtoPais);
-                        paises.add( objeto);
-                    }
-                }
-                resultado = ResponseGeneral.Succes(paises);
-            }else{
-            resultado = ResponseGeneral.NoData();
-        }
+            ComandoListarPaises comandoListarPaises = new ComandoListarPaises();
+            comandoListarPaises.execute();
+            resultado = comandoListarPaises.getResult();
         }catch (Exception e) {
             // CAMBIAR CUANDO SE MANEJEN LAS EXCEPCIONES PROPIAS
             String problema = e.getMessage();
@@ -74,16 +51,11 @@ public class ServicioPais extends AplicacionBase{
     public Response obtenerPais(@PathParam("id") long id){
         Response resultado = null;
         try{
-            DaoPais dao = new DaoPais();
-            Pais resul = dao.find(id, Pais.class);
-            if ( Objects.nonNull( resul) && resul.getActivo()==1){
-                ResponsePais responsePais = new ResponsePais();
-                DtoPais dtoPais = PaisMapper.mapEntityToDto( resul);
-                JsonObject pais = responsePais.generate( dtoPais);
-                resultado = ResponseGeneral.Succes( pais);
-            }else{
-                resultado = ResponseGeneral.NoData();
-            }
+            verifyParams( id);
+            ComandoObtenerPais comandoObtenerPais = new ComandoObtenerPais();
+            comandoObtenerPais.setId( id);
+            comandoObtenerPais.execute();
+            resultado = comandoObtenerPais.getResult();
         }
         catch (Exception e){
             // CAMBIAR CUANDO SE MANEJEN LAS EXCEPCIONES PROPIAS
@@ -102,16 +74,13 @@ public class ServicioPais extends AplicacionBase{
     @POST
     @Path("/")
     public Response agregarPais(DtoPais dtoPais){
-        JsonObject data;
         Response resultado = null;
         try{
-            DaoPais dao = new DaoPais();
-            Pais pais = new Pais();
-            pais.setActivo(1);
-            pais.setCreado_el(new Date(Calendar.getInstance().getTime().getTime()));
-            pais.setNombre(dtoPais.getNombre());
-            Pais resul = dao.insert( pais );
-            resultado = ResponseGeneral.SuccesCreate( resul.get_id());
+            verifyParams( dtoPais);
+            ComandoAgregarPais comandoAgregarPais = new ComandoAgregarPais();
+            comandoAgregarPais.setDtoPais( dtoPais);
+            comandoAgregarPais.execute();
+            resultado = comandoAgregarPais.getResult();
         }
         catch(Exception e){
             // CAMBIAR CUANDO SE MANEJEN LAS EXCEPCIONES PROPIAS
@@ -132,12 +101,13 @@ public class ServicioPais extends AplicacionBase{
     public Response actualizarPais(@PathParam("id") long id,DtoPais dtoPais){
         Response resultado = null;
         try {
-            DaoPais dao = new DaoPais();
-            Pais pais = dao.find(id, Pais.class);
-            pais.setNombre(dtoPais.getNombre());
-            pais.setModificado_el(new Date(Calendar.getInstance().getTime().getTime()));
-            Pais resul = dao.update( pais );
-            resultado = ResponseGeneral.SuccesMessage();
+            verifyParams( id);
+            verifyParams( dtoPais);
+            ComandoActualizarPais comandoActualizarPais = new ComandoActualizarPais();
+            comandoActualizarPais.setDtoPais( dtoPais);
+            comandoActualizarPais.setId( id);
+            comandoActualizarPais.execute();
+            resultado = comandoActualizarPais.getResult();
         }
         catch (Exception e){
             // CAMBIAR CUANDO SE MANEJEN LAS EXCEPCIONES PROPIAS
@@ -157,12 +127,11 @@ public class ServicioPais extends AplicacionBase{
     public  Response eliminarPais(@PathParam("id") long id){
         Response resultado = null;
         try {
-            DaoPais dao = new DaoPais();
-            Pais pais = dao.find(id , Pais.class);
-            pais.setActivo(0);
-            pais.setModificado_el(new Date(Calendar.getInstance().getTime().getTime()));
-            Pais resul = dao.update( pais );
-            resultado = ResponseGeneral.SuccesMessage();
+            verifyParams( id);
+            ComandoEliminarPais comandoEliminarPais = new ComandoEliminarPais();
+            comandoEliminarPais.setId( id);
+            comandoEliminarPais.execute();
+            resultado = comandoEliminarPais.getResult();
         }
         catch (Exception e){
             // CAMBIAR CUANDO SE MANEJEN LAS EXCEPCIONES PROPIAS

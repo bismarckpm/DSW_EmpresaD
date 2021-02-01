@@ -3,7 +3,6 @@ import mercadeoucab.dtos.DtoOcupacion;
 import mercadeoucab.dtos.DtoParroquia;
 import mercadeoucab.entidades.MuestraPoblacion;
 import mercadeoucab.servicio.ServicioMuestraPoblacion;
-import mercadeoucab.servicio.ServicioOcupacion;
 import org.junit.Assert;
 import org.junit.Test;
 

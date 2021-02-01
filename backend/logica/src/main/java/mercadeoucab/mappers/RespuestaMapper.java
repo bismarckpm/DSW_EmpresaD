@@ -1,13 +1,8 @@
 package mercadeoucab.mappers;
 
 import mercadeoucab.dtos.DtoEncuestaEstudio;
-import mercadeoucab.dtos.DtoOpcion;
 import mercadeoucab.dtos.DtoRespuesta;
-import mercadeoucab.dtos.DtoUsuario;
-import mercadeoucab.entidades.EncuestaEstudio;
-import mercadeoucab.entidades.Opcion;
 import mercadeoucab.entidades.Respuesta;
-import mercadeoucab.entidades.Usuario;
 import mercadeoucab.fabricas.Enums.Fabricas;
 import mercadeoucab.fabricas.FabricaAbstracta;
 
@@ -15,7 +10,7 @@ import java.util.Objects;
 
 public class RespuestaMapper {
 
-    public static Respuesta mapDtoToEntity(DtoRespuesta dtoRespuesta){
+    public static Respuesta mapDtoToEntity(DtoRespuesta dtoRespuesta) throws Exception {
         FabricaAbstracta fabrica = FabricaAbstracta.getFactory(Fabricas.RESPUESTA);
         Respuesta respuesta = (Respuesta) fabrica.generarEntidad();
         respuesta.set_id(dtoRespuesta.get_id());

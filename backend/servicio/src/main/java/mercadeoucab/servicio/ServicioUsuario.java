@@ -1,25 +1,14 @@
 package mercadeoucab.servicio;
 
-import mercadeoucab.accesodatos.DaoUsuario;
-import mercadeoucab.directorioactivo.DirectorioActivo;
+import mercadeoucab.comandos.Usuario.*;
 import mercadeoucab.dtos.DtoDirectorioAUser;
-import mercadeoucab.dtos.DtoMail;
 import mercadeoucab.dtos.DtoUsuario;
-import mercadeoucab.entidades.Usuario;
-import mercadeoucab.mail.Mail;
-import mercadeoucab.mappers.UsuarioMapper;
 import mercadeoucab.responses.ResponseGeneral;
-import mercadeoucab.responses.ResponseUsuario;
 
-import javax.json.Json;
-import javax.json.JsonArrayBuilder;
-import javax.json.JsonObject;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
-import java.sql.Date;
-import java.util.Calendar;
-import java.util.List;
+
 
 /**
  *
@@ -41,19 +30,13 @@ public class ServicioUsuario extends AplicacionBase{
     @GET
     @Path("/{id}")
     public Response obtenerUsuario(@PathParam("id") Long id){
-        JsonObject usuario;
         Response resultado = null;
         try{
-            DaoUsuario dao = new DaoUsuario();
-            Usuario resul = dao.find( id, Usuario.class);
-            ResponseUsuario responseUsuario = new ResponseUsuario();
-            DtoUsuario dtoUsuario = UsuarioMapper.mapEntityToDto( resul);
-            if (resul.getActivo()!= 0) {
-                usuario = responseUsuario.generate( dtoUsuario);
-                resultado = ResponseGeneral.Succes( usuario);
-            }else{
-                resultado = ResponseGeneral.NoData();
-            }
+            verifyParams( id);
+            ComandoObtenerUsuario comandoObtenerUsuario = new ComandoObtenerUsuario();
+            comandoObtenerUsuario.setId( id);
+            comandoObtenerUsuario.execute();
+            resultado = comandoObtenerUsuario.getResult();
         }catch (Exception e) {
             // CAMBIAR CUANDO SE MANEJEN LAS EXCEPCIONES PROPIAS
             String problema = e.getMessage();
@@ -70,24 +53,11 @@ public class ServicioUsuario extends AplicacionBase{
     @GET
     @Path("/")
     public Response listarUsuarios(){
-        JsonArrayBuilder usuarios = Json.createArrayBuilder();
         Response resultado = null;
         try {
-            DaoUsuario dao = new DaoUsuario();
-            List<Usuario> usuariosObtenidos = dao.findAll(Usuario.class);
-            ResponseUsuario responseUsuario = new ResponseUsuario();
-            if ( !usuariosObtenidos.isEmpty()) {
-                for (Usuario usuario : usuariosObtenidos) {
-                    if (usuario.getActivo() != 0) {
-                        DtoUsuario dtoUsuario = UsuarioMapper.mapEntityToDto(usuario);
-                        JsonObject objeto = responseUsuario.generate(dtoUsuario);
-                        usuarios.add(objeto);
-                    }
-                }
-                resultado = ResponseGeneral.Succes( usuarios);
-            }else{
-                resultado = ResponseGeneral.NoData();
-            }
+            ComandoListarUsuarios comandoListarUsuarios = new ComandoListarUsuarios();
+            comandoListarUsuarios.execute();
+            resultado = comandoListarUsuarios.getResult();
         }catch (Exception e) {
             // CAMBIAR CUANDO SE MANEJEN LAS EXCEPCIONES PROPIAS
             String problema = e.getMessage();
@@ -107,29 +77,11 @@ public class ServicioUsuario extends AplicacionBase{
     public Response registrarUsuario(DtoUsuario dtoUsuario){
         Response resultado = null;
         try{
-            DaoUsuario dao = new DaoUsuario();
-            Usuario usuario = new Usuario();
-            usuario.setNombre( dtoUsuario.getNombre());
-            usuario.setApellido( dtoUsuario.getApellido());
-            usuario.setEstado( dtoUsuario.getEstado());
-            usuario.setRol( dtoUsuario.getRol());
-            usuario.setCorreo( dtoUsuario.getCorreo());
-            usuario.setActivo( 1);
-            usuario.setCreado_el( new Date(Calendar.getInstance().getTime().getTime()));
-            Usuario resul = dao.insert( usuario);
-            // Agregar al directorio activo
-            DirectorioActivo ldap = new DirectorioActivo( dtoUsuario.getRol());
-            if (dtoUsuario.getPassword() != null){
-                DtoDirectorioAUser paraInsertar = new DtoDirectorioAUser(
-                        dtoUsuario.getCorreo(),
-                        dtoUsuario.getEstado(),
-                        dtoUsuario.getPassword()
-                );
-                ldap.addEntryToLdap( paraInsertar);
-                resultado = ResponseGeneral.SuccesCreate( resul.get_id());
-            }else{
-                resultado = ResponseGeneral.Failure("Error debe enviar una contrasena");
-            }
+            verifyParams( dtoUsuario);
+            ComandoRegistrarUsuario comandoRegistrarUsuario = new ComandoRegistrarUsuario();
+            comandoRegistrarUsuario.setDtoUsuario( dtoUsuario);
+            comandoRegistrarUsuario.execute();
+            resultado = comandoRegistrarUsuario.getResult();
         }catch (Exception e) {
             // CAMBIAR CUANDO SE MANEJEN LAS EXCEPCIONES PROPIAS
             String problema = e.getMessage();
@@ -149,18 +101,13 @@ public class ServicioUsuario extends AplicacionBase{
     public Response actualizarUsuario( @PathParam("id") Long id, DtoUsuario dtoUsuario){
         Response resultado = null;
         try{
-            DaoUsuario dao = new DaoUsuario();
-            Usuario usuario = dao.find( id, Usuario.class);
-            usuario.setNombre( dtoUsuario.getNombre());
-            usuario.setApellido( dtoUsuario.getApellido());
-            usuario.setEstado( dtoUsuario.getEstado());
-            usuario.setModificado_el(
-                    new Date(Calendar
-                            .getInstance()
-                            .getTime()
-                            .getTime()));
-            Usuario resul = dao.update( usuario);
-            resultado = ResponseGeneral.SuccesMessage();
+            verifyParams( id);
+            verifyParams( dtoUsuario);
+            ComandoActualizarUsuario comandoActualizarUsuario = new ComandoActualizarUsuario();
+            comandoActualizarUsuario.setDtoUsuario( dtoUsuario);
+            comandoActualizarUsuario.setId( id);
+            comandoActualizarUsuario.execute();
+            resultado = comandoActualizarUsuario.getResult();
         }catch (Exception e) {
             // CAMBIAR CUANDO SE MANEJEN LAS EXCEPCIONES PROPIAS
             String problema = e.getMessage();
@@ -179,16 +126,11 @@ public class ServicioUsuario extends AplicacionBase{
     public Response eliminarUsuario( @PathParam("id") Long id){
         Response resultado = null;
         try{
-            DaoUsuario dao = new DaoUsuario();
-            Usuario usuario = dao.find( id, Usuario.class);
-            usuario.setActivo(0);
-            usuario.setModificado_el(
-                    new Date(Calendar
-                            .getInstance()
-                            .getTime()
-                            .getTime()));
-            Usuario resul = dao.update( usuario);
-            resultado = ResponseGeneral.SuccesMessage();
+            verifyParams( id);
+            ComandoEliminarUsuario comandoEliminarUsuario = new ComandoEliminarUsuario();
+            comandoEliminarUsuario.setId( id);
+            comandoEliminarUsuario.execute();
+            resultado = comandoEliminarUsuario.getResult();
         }catch (Exception e) {
             // CAMBIAR CUANDO SE MANEJEN LAS EXCEPCIONES PROPIAS
             String problema = e.getMessage();
@@ -207,25 +149,11 @@ public class ServicioUsuario extends AplicacionBase{
     public Response peticionClaveOlvidada (DtoUsuario dtoUsuario){
         Response resultado = null;
         try{
-            DaoUsuario dao = new DaoUsuario();
-            Usuario usuario = dao.obtenerUsuarioPorCorreo(
-                    dtoUsuario.getCorreo()
-            );
-            if ( usuario == null){
-                resultado = ResponseGeneral.Failure("Usuario no se encuentra registrado");
-            }else {
-                Mail enviarCorreo = new Mail();
-                DtoMail dtoMail = new DtoMail();
-                dtoMail.emailResetearContrasena(
-                        "http://localhost:4200/change-password?correo="+ usuario.getCorreo()
-                );
-                enviarCorreo.enviarCorreo(
-                        usuario.getCorreo(),
-                        dtoMail.getMensaje(),
-                        dtoMail.getAsunto()
-                );
-                resultado = ResponseGeneral.SuccesMessage();
-            }
+            verifyParams( dtoUsuario);
+            ComandoPeticionClaveOlvidada comandoPeticionClaveOlvidada = new ComandoPeticionClaveOlvidada();
+            comandoPeticionClaveOlvidada.setDtoUsuario( dtoUsuario);
+            comandoPeticionClaveOlvidada.execute();
+            resultado = comandoPeticionClaveOlvidada.getResult();
         }catch (Exception e) {
             // CAMBIAR CUANDO SE MANEJEN LAS EXCEPCIONES PROPIAS
             String problema = e.getMessage();
@@ -244,18 +172,11 @@ public class ServicioUsuario extends AplicacionBase{
     public Response cambioClaveOlvidada (DtoDirectorioAUser dtoDirectorioAUser){
         Response resultado = null;
         try{
-            //Agregar seguridad aca con el token en la segunda entrega
-            DaoUsuario dao = new DaoUsuario();
-            Usuario usuario = dao.obtenerUsuarioPorCorreo( dtoDirectorioAUser.getCorreo());
-            DirectorioActivo ldap = new DirectorioActivo( usuario.getRol());
-            dtoDirectorioAUser.setEstado(usuario.getEstado());
-            ldap.updateEntry(
-                    dtoDirectorioAUser,
-                    null,
-                    dtoDirectorioAUser.getPassword(),
-                    null
-            );
-            resultado = ResponseGeneral.SuccesMessage();
+            verifyParams( dtoDirectorioAUser);
+            ComandoCambioClaveOlvidada comandoCambioClaveOlvidada = new ComandoCambioClaveOlvidada();
+            comandoCambioClaveOlvidada.setDtoDirectorioAUser( dtoDirectorioAUser);
+            comandoCambioClaveOlvidada.execute();
+            resultado = comandoCambioClaveOlvidada.getResult();
         }catch (Exception e) {
             // CAMBIAR CUANDO SE MANEJEN LAS EXCEPCIONES PROPIAS
             String problema = e.getMessage();

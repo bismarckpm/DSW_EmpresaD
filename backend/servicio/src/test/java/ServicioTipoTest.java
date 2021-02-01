@@ -1,12 +1,10 @@
 import mercadeoucab.dtos.DtoSubCategoria;
 import mercadeoucab.dtos.DtoTipo;
-import mercadeoucab.entidades.Tipo;
 import mercadeoucab.servicio.ServicioTipo;
 import org.junit.Assert;
 import org.junit.Test;
 
 import javax.ws.rs.core.Response;
-import java.util.List;
 
 public class ServicioTipoTest {
 

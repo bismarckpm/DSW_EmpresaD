@@ -1,11 +1,9 @@
 import mercadeoucab.dtos.DtoPais;
-import mercadeoucab.entidades.Pais;
 import mercadeoucab.servicio.ServicioPais;
 import org.junit.Assert;
 import org.junit.Test;
 
 import javax.ws.rs.core.Response;
-import java.util.List;
 
 public class ServicioPaisTest {
 
@@ -36,7 +34,7 @@ public class ServicioPaisTest {
     @Test
     public void eliminarPaisTest() throws Exception{
         ServicioPais servicio = new ServicioPais();
-        Response resultado = servicio.eliminarPais( (long)1);
+        Response resultado = servicio.eliminarPais(1);
         Assert.assertEquals(
                 javax.ws.rs.core.Response.Status.OK.getStatusCode(),
                 resultado.getStatus()
@@ -46,7 +44,7 @@ public class ServicioPaisTest {
     @Test
     public void consultarPaisTest() throws Exception{
         ServicioPais servicio = new ServicioPais();
-        Response resultado = servicio.obtenerPais( (long)1);
+        Response resultado = servicio.obtenerPais(1);
         Assert.assertEquals(
                 javax.ws.rs.core.Response.Status.OK.getStatusCode(),
                 resultado.getStatus()

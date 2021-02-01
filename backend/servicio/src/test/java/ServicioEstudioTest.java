@@ -1,6 +1,8 @@
-import mercadeoucab.dtos.*;
-import mercadeoucab.entidades.*;
-import mercadeoucab.servicio.*;
+import mercadeoucab.dtos.DtoEstudio;
+import mercadeoucab.dtos.DtoPregunta;
+import mercadeoucab.dtos.DtoSolicitud;
+import mercadeoucab.dtos.DtoUsuario;
+import mercadeoucab.servicio.ServicioEstudio;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -37,7 +39,7 @@ public class ServicioEstudioTest {
     @Test
     public void consultarEstudioTest() throws Exception{
         ServicioEstudio servicio = new ServicioEstudio();
-        DtoEstudio dtoEstudio = new DtoEstudio(9);
+        DtoEstudio dtoEstudio = new DtoEstudio(1);
         Response consultado = servicio.consultarEstudio(dtoEstudio.get_id());
         Assert.assertEquals( 200, consultado.getStatus());
     }

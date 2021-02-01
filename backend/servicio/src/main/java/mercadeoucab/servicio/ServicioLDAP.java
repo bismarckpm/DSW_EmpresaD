@@ -9,7 +9,6 @@ import mercadeoucab.mappers.UsuarioMapper;
 import mercadeoucab.responses.ResponseGeneral;
 import mercadeoucab.responses.ResponseUsuario;
 
-import javax.json.Json;
 import javax.json.JsonObject;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.POST;
@@ -52,6 +51,7 @@ public class ServicioLDAP extends AplicacionBase {
             );
 
             if ( ldap.userAuthentication( dtoUsuario)){
+                //DEBEMOS AGREGAR EL TOKEN EN ESTA RESPUESTA
                 ResponseUsuario responseUsuario = new ResponseUsuario();
                 DtoUsuario usuarioParaRegresar = UsuarioMapper.mapEntityToDto( usuario);
                 usuarioRegresado = responseUsuario.generate( usuarioParaRegresar);

@@ -24,6 +24,7 @@
         <module>excepciones</module>
         <module>directorioactivo</module>
         <module>dtos</module>
+        <module>utilidades</module>
     </modules>
 
     <dependencies>
@@ -54,6 +55,11 @@
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
             <version>4.13-rc-1</version>
+        </dependency>
+        <dependency>
+            <groupId>org.glassfish</groupId>
+            <artifactId>javax.json</artifactId>
+            <version>1.0.4</version>
         </dependency>
     </dependencies>
 

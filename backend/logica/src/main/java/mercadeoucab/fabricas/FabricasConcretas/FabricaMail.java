@@ -5,6 +5,7 @@ import mercadeoucab.dtos.DtoBase;
 import mercadeoucab.dtos.DtoMail;
 import mercadeoucab.entidades.EntidadBase;
 import mercadeoucab.fabricas.FabricaAbstracta;
+import mercadeoucab.mail.Mail;
 import mercadeoucab.responses.ResponseBase;
 
 public class FabricaMail extends FabricaAbstracta {
@@ -29,8 +30,22 @@ public class FabricaMail extends FabricaAbstracta {
         return null;
     }
 
+    /**
+     * Name: generarDtoMail
+     * Description: Genera un DtoMail
+     * @return DtoBase
+     */
     public DtoMail generarDtoMail(){
         return new DtoMail();
+    }
+
+    /**
+     * Name: generarMail
+     * Description: Genera un Mail
+     * @return DtoBase
+     */
+    public Mail generarMail(){
+        return new Mail();
     }
 
     /**
