@@ -51,7 +51,7 @@ public class JWT {
      * @param jwt
      * @return
      */
-    public static boolean parseJWT(String jwt) {
+    public static void parseJWT(String jwt) {
 
         Claims claims = Jwts.parser()
                             .setSigningKey(DatatypeConverter.parseBase64Binary(ApiKey.secretKey))
@@ -61,7 +61,5 @@ public class JWT {
         System.out.println("Subject: " + claims.getSubject());
         System.out.println("Issuer: " + claims.getIssuer());
         System.out.println("Expiration: " + claims.getExpiration());
-
-        return true;
     }
 }
