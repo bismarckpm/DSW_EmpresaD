@@ -1,6 +1,5 @@
 package mercadeoucab.comandos.Ldap;
 
-import mercadeoucab.accesodatos.DaoPregunta;
 import mercadeoucab.accesodatos.DaoUsuario;
 import mercadeoucab.comandos.ComandoBase;
 import mercadeoucab.directorioactivo.DirectorioActivo;
