@@ -2,7 +2,6 @@ package mercadeoucab.responses;
 
 import mercadeoucab.dtos.DtoOpcion;
 import mercadeoucab.dtos.DtoPregunta;
-import mercadeoucab.entidades.Opcion;
 
 import javax.json.Json;
 import javax.json.JsonArrayBuilder;

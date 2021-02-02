@@ -1,22 +1,12 @@
 package mercadeoucab.servicio;
 
 
-import mercadeoucab.accesodatos.DaoPregunta;
-import mercadeoucab.dtos.DtoPregunta;
-import mercadeoucab.entidades.Opcion;
-import mercadeoucab.entidades.Pregunta;
-import mercadeoucab.entidades.Usuario;
-import mercadeoucab.mappers.PreguntaMapper;
+import mercadeoucab.comandos.Usuario.ComandoPreguntasAdministrador;
 import mercadeoucab.responses.ResponseGeneral;
-import mercadeoucab.responses.ResponsePregunta;
 
-import javax.json.Json;
-import javax.json.JsonArrayBuilder;
-import javax.json.JsonObject;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
-import java.util.List;
 
 /**
  *
@@ -41,41 +31,11 @@ public class ServicioAdministrador extends AplicacionBase{
     public Response preguntasAdministrador(@PathParam("id") long id){
         Response resultado = null;
         try {
-            DaoPregunta dao = new DaoPregunta();
-            List<Pregunta> preguntas = dao.obtenerPreguntasAdministrador(new Usuario(id));
-            JsonArrayBuilder preguntaslist = Json.createArrayBuilder();
-            if(!(preguntas.isEmpty())) {
-                for (Pregunta pregunta : preguntas) {
-
-                    if(pregunta.getActivo() == 1) {
-                        String tipo = pregunta.getTipo();
-                        JsonObject objeto = null;
-                        ResponsePregunta responsePregunta = new ResponsePregunta();
-                        DtoPregunta dtoPregunta = PreguntaMapper.mapEntityToDto( pregunta);
-                        switch (tipo) {
-                            case "abierta":
-                            case "boolean":
-                                objeto = responsePregunta.generate( dtoPregunta);
-                                preguntaslist.add(objeto);
-                                break;
-
-                            case "multiple":
-                            case "simple":
-                                objeto = responsePregunta.generateWithOptions( dtoPregunta);
-                                preguntaslist.add(objeto);
-                                break;
-                            case "rango":
-                                objeto = responsePregunta.generateWithRango( dtoPregunta);
-                                preguntaslist.add(objeto);
-                                break;
-                        }//final switch
-                    }
-                }//Final for
-                resultado = ResponseGeneral.Succes( preguntaslist);
-            }//final if
-            else{
-                resultado = ResponseGeneral.NoData();
-            }
+            verifyParams( id);
+            ComandoPreguntasAdministrador comandoPreguntasAdministrador = new ComandoPreguntasAdministrador();
+            comandoPreguntasAdministrador.setId( id);
+            comandoPreguntasAdministrador.execute();
+            resultado = comandoPreguntasAdministrador.getResult();
         }
         catch (Exception e){
             // CAMBIAR CUANDO SE MANEJEN LAS EXCEPCIONES PROPIAS

@@ -1,22 +1,12 @@
 package mercadeoucab.servicio;
 
-import mercadeoucab.accesodatos.DaoTipo;
+import mercadeoucab.comandos.tipo.*;
 import mercadeoucab.dtos.DtoTipo;
-import mercadeoucab.entidades.Tipo;
-import mercadeoucab.mappers.SubCategoriaMapper;
-import mercadeoucab.mappers.TipoMapper;
 import mercadeoucab.responses.ResponseGeneral;
-import mercadeoucab.responses.ResponseTipo;
 
-import javax.json.Json;
-import javax.json.JsonArrayBuilder;
-import javax.json.JsonObject;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
-import java.sql.Date;
-import java.util.Calendar;
-import java.util.List;
 
 /**
  *
@@ -37,24 +27,11 @@ public class ServicioTipo extends AplicacionBase {
     @GET
     @Path("/")
     public Response listarTipos(){
-        JsonArrayBuilder tiposList = Json.createArrayBuilder();
         Response resultado = null;
         try {
-            DaoTipo dao = new DaoTipo();
-            List<Tipo> tipos = dao.findAll(Tipo.class);
-            ResponseTipo responseTipo = new ResponseTipo();
-            if ( tipos.size() > 0) {
-                for (Tipo tipo : tipos) {
-                    if (tipo.getActivo() == 1) {
-                        DtoTipo dtoTipo = TipoMapper.mapEntityToDto(tipo);
-                        JsonObject objeto = responseTipo.generate(dtoTipo);
-                        tiposList.add(objeto);
-                    }
-                }
-                resultado = ResponseGeneral.Succes( tiposList);
-            }else {
-                resultado = ResponseGeneral.NoData();
-            }
+            ComandoListarTipos comandoListarTipos = new ComandoListarTipos();
+            comandoListarTipos.execute();
+            resultado = comandoListarTipos.getResult();
         }
         catch (Exception e){
             // CAMBIAR CUANDO SE MANEJEN LAS EXCEPCIONES PROPIAS
@@ -75,16 +52,11 @@ public class ServicioTipo extends AplicacionBase {
     public Response obtenerTipo( @PathParam("id") Long id){
         Response resultado = null;
         try {
-            DaoTipo dao = new DaoTipo();
-            Tipo resul = dao.find( id , Tipo.class);
-            ResponseTipo responseTipo = new ResponseTipo();
-            DtoTipo dtoTipo = TipoMapper.mapEntityToDto( resul);
-            if( resul.getActivo() == 1){
-                JsonObject tipo = responseTipo.generate( dtoTipo);
-                resultado = ResponseGeneral.Succes( tipo);
-            }else{
-                resultado = ResponseGeneral.NoData();
-            }
+            verifyParams(id);
+            ComandoObtenerTipo comandoObtenerTipo = new ComandoObtenerTipo();
+            comandoObtenerTipo.setId(id);
+            comandoObtenerTipo.execute();
+            resultado = comandoObtenerTipo.getResult();
         }
         catch (Exception e) {
             // CAMBIAR CUANDO SE MANEJEN LAS EXCEPCIONES PROPIAS
@@ -104,23 +76,16 @@ public class ServicioTipo extends AplicacionBase {
     @Path("/")
     public Response registrarTipo( DtoTipo dtoTipo){
         Response resultado = null;
-        try {
-            //TODO ESTO PASA AL COMANDO
-            DaoTipo dao = new DaoTipo();
-            Tipo tipo = new Tipo();
-            tipo.setSubCategoria(SubCategoriaMapper.mapDtoToEntity(dtoTipo.getSubCategoria()));
-            tipo.setNombre( dtoTipo.getNombre());
-            tipo.setActivo( 1);
-            tipo.setCreado_el(
-                    new Date(Calendar
-                            .getInstance()
-                            .getTime()
-                            .getTime())
-            );
-            Tipo resul = dao.insert( tipo);
-            //TODO ESTO PASA AL COMANDO
-            resultado = ResponseGeneral.SuccesCreate( resul.get_id());
-        }catch (Exception e) {
+        try
+        {
+            verifyParams(dtoTipo);
+            ComandoRegistrarTipo comandoRegistrarTipo = new ComandoRegistrarTipo();
+            comandoRegistrarTipo.setDtoTipo(dtoTipo);
+            comandoRegistrarTipo.execute();
+            resultado = comandoRegistrarTipo.getResult();
+        }
+        catch (Exception e)
+        {
             // CAMBIAR CUANDO SE MANEJEN LAS EXCEPCIONES PROPIAS
             String problema = e.getMessage();
             resultado = ResponseGeneral.Failure("Ha ocurrido un error");
@@ -139,17 +104,13 @@ public class ServicioTipo extends AplicacionBase {
     public Response actualizarTipo( @PathParam("id") long id, DtoTipo dtoTipo){
         Response resultado = null;
         try {
-            DaoTipo dao = new DaoTipo();
-            Tipo tipo = dao.find( id, Tipo.class);
-            tipo.setNombre( dtoTipo.getNombre());
-            tipo.setModificado_el(
-                    new Date(Calendar
-                            .getInstance()
-                            .getTime()
-                            .getTime())
-            );
-            Tipo resul = dao.update( tipo );
-            resultado = ResponseGeneral.SuccesMessage();
+            verifyParams(id);
+            verifyParams(dtoTipo);
+            ComandoActualizarTipo comandoActualizarTipo = new ComandoActualizarTipo();
+            comandoActualizarTipo.setId(id);
+            comandoActualizarTipo.setDtoTipo(dtoTipo);
+            comandoActualizarTipo.execute();
+            resultado = comandoActualizarTipo.getResult();
         }
         catch (Exception e) {
             // CAMBIAR CUANDO SE MANEJEN LAS EXCEPCIONES PROPIAS
@@ -169,17 +130,11 @@ public class ServicioTipo extends AplicacionBase {
     public Response eliminarTipo( @PathParam("id") Long id){
         Response resultado = null;
         try {
-            DaoTipo dao = new DaoTipo();
-            Tipo tipo = dao.find( id, Tipo.class);
-            tipo.setActivo( 0 );
-            tipo.setModificado_el(
-                    new Date(Calendar
-                            .getInstance()
-                            .getTime()
-                            .getTime())
-            );
-            Tipo resul = dao.update( tipo);
-            resultado = ResponseGeneral.SuccesMessage();
+            verifyParams(id);
+            ComandoEliminarTipo comandoEliminarTipo = new ComandoEliminarTipo();
+            comandoEliminarTipo.setId(id);
+            comandoEliminarTipo.execute();
+            resultado = comandoEliminarTipo.getResult();
         }catch (Exception e) {
             // CAMBIAR CUANDO SE MANEJEN LAS EXCEPCIONES PROPIAS
             String problema = e.getMessage();

@@ -1,14 +1,13 @@
 package mercadeoucab.servicio;
+
 import mercadeoucab.accesodatos.DaoTelefono;
 import mercadeoucab.dtos.DtoTelefono;
 import mercadeoucab.entidades.DatoEncuestado;
 import mercadeoucab.entidades.Telefono;
 import mercadeoucab.mappers.TelefonoMapper;
 import mercadeoucab.responses.ResponseGeneral;
-import mercadeoucab.responses.ResponseRespuesta;
 import mercadeoucab.responses.ResponseTelefono;
 
-import javax.json.Json;
 import javax.json.JsonObject;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;

@@ -18,6 +18,7 @@ public class UsuarioMapper {
         usuario.setEstado( dtoUsuario.getEstado());
         usuario.setNombre( dtoUsuario.getNombre());
         usuario.setApellido( dtoUsuario.getApellido());
+        //usuario.setToken(dtoUsuario.getToken());
         return usuario;
     }
 
@@ -33,7 +34,7 @@ public class UsuarioMapper {
         dtoUsuario.setEstado( usuario.getEstado());
         dtoUsuario.setModificado_el( usuario.getModificado_el());
         dtoUsuario.setCreado_el( usuario.getCreado_el());
-
+        //dtoUsuario.setToken(usuario.getToken());
         return dtoUsuario;
     }
 }

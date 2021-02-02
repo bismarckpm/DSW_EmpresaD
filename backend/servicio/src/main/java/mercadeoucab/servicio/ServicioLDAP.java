@@ -1,6 +1,7 @@
 package mercadeoucab.servicio;
 
 import mercadeoucab.accesodatos.DaoUsuario;
+import mercadeoucab.comandos.Ldap.ComandoIniciarSesion;
 import mercadeoucab.directorioactivo.DirectorioActivo;
 import mercadeoucab.dtos.DtoDirectorioAUser;
 import mercadeoucab.dtos.DtoUsuario;
@@ -9,7 +10,6 @@ import mercadeoucab.mappers.UsuarioMapper;
 import mercadeoucab.responses.ResponseGeneral;
 import mercadeoucab.responses.ResponseUsuario;
 
-import javax.json.Json;
 import javax.json.JsonObject;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.POST;
@@ -37,26 +37,13 @@ public class ServicioLDAP extends AplicacionBase {
     @POST
     @Path("/login")
     public Response login(DtoDirectorioAUser dtoUsuario){
-        JsonObject usuarioRegresado;
         Response resultado = null;
         try{
-            DaoUsuario dao = new DaoUsuario();
-            Usuario usuario = dao.obtenerUsuarioPorCorreo(
-                    dtoUsuario.getCorreo()
-            );
-            DirectorioActivo ldap = new DirectorioActivo(
-                    usuario.getRol()
-            );
-            dtoUsuario.setEstado(
-                    usuario.getEstado()
-            );
-
-            if ( ldap.userAuthentication( dtoUsuario)){
-                ResponseUsuario responseUsuario = new ResponseUsuario();
-                DtoUsuario usuarioParaRegresar = UsuarioMapper.mapEntityToDto( usuario);
-                usuarioRegresado = responseUsuario.generate( usuarioParaRegresar);
-                resultado = ResponseGeneral.Succes( usuarioRegresado);
-            }
+            verifyParams( dtoUsuario);
+            ComandoIniciarSesion comandoIniciarSesion = new ComandoIniciarSesion();
+            comandoIniciarSesion.setDtoUsuario( dtoUsuario);
+            comandoIniciarSesion.execute();
+            resultado = comandoIniciarSesion.getResult();
 
         }catch (Exception e){
             e.printStackTrace();

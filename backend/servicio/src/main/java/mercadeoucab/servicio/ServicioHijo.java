@@ -1,8 +1,6 @@
 package mercadeoucab.servicio;
 
-import mercadeoucab.accesodatos.Dao;
 import mercadeoucab.accesodatos.DaoHijo;
-import mercadeoucab.dtos.DtoDatoEncuestado;
 import mercadeoucab.dtos.DtoHijo;
 import mercadeoucab.entidades.DatoEncuestado;
 import mercadeoucab.entidades.Hijo;
