@@ -1,6 +1,7 @@
 package mercadeoucab.fabricas.FabricasConcretas;
 
 import mercadeoucab.accesodatos.Dao;
+import mercadeoucab.directorioactivo.DirectorioActivo;
 import mercadeoucab.dtos.DtoBase;
 import mercadeoucab.dtos.DtoDirectorioAUser;
 import mercadeoucab.entidades.EntidadBase;
@@ -30,6 +31,12 @@ public class FabricaDirectorioAUser extends FabricaAbstracta {
         return null;
     }
 
+    /**
+     * Name: generarDtoDAU
+     * Description: retorna la clase DtoDirectorioAUser
+     *
+     * @return DtoDirectorioAUser
+     */
     public DtoDirectorioAUser generarDtoDAU(){
         return new DtoDirectorioAUser();
     }
@@ -43,6 +50,16 @@ public class FabricaDirectorioAUser extends FabricaAbstracta {
     @Override
     public Dao generarDao() {
         return null;
+    }
+
+    /**
+     * Name: generarDirectorioActivo
+     * Description: retorna la clase DirectorioActivo
+     * @param rol Rol perteneciente a la unidad organizacional del ldap
+     * @return DirectorioActivo
+     */
+    public DirectorioActivo generarDirectorioActivo(String rol){
+        return new DirectorioActivo( rol);
     }
 
     /**

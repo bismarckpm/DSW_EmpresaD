@@ -1,6 +1,6 @@
 package mercadeoucab.servicio;
 
-import mercadeoucab.comandos.categoria.*;
+import mercadeoucab.comandos.Categoria.*;
 import mercadeoucab.dtos.DtoCategoria;
 import mercadeoucab.responses.ResponseGeneral;
 

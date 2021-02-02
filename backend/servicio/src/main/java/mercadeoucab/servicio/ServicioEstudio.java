@@ -1,6 +1,6 @@
 package mercadeoucab.servicio;
 
-import mercadeoucab.comandos.estudio.*;
+import mercadeoucab.comandos.Estudio.*;
 import mercadeoucab.dtos.DtoEstudio;
 import mercadeoucab.responses.ResponseGeneral;
 
