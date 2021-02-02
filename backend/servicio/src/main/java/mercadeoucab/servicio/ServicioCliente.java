@@ -27,9 +27,10 @@ public class ServicioCliente extends AplicacionBase{
      */
     @GET
     @Path("/{id}/solicitudes")
-    public Response solicitudesCliente(@PathParam("id") long id){
+    public Response solicitudesCliente(@HeaderParam("Authorization") String token, @PathParam("id") long id){
         Response resultado = null;
         try {
+            validateToken(token);
             verifyParams( id);
             ComandoSolicitudesCliente comandoSolicitudesCliente = new ComandoSolicitudesCliente();
             comandoSolicitudesCliente.setId( id);

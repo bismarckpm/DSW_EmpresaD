@@ -47,13 +47,6 @@ public class ServicioEncuestado extends AplicacionBase{
             DaoUsuario daoUsuario = new DaoUsuario();
             DaoDatoEncuestado daoDatoEncuestado = new DaoDatoEncuestado();
             DatoEncuestado datoEncuestado = daoDatoEncuestado.datoEncuestado(daoUsuario.find(id, Usuario.class));
-            System.out.print(datoEncuestado.get_id() +" "
-                            + datoEncuestado.getCedula()+" "
-                            + datoEncuestado.getGenero()+" "
-                            + datoEncuestado.getNive_economico()+" "
-                            + datoEncuestado.getPersonasHogar()+" "
-                            + datoEncuestado.getNivelAcademico());
-
             List<Estudio> estudios = dao.estudiosAplicanUsuario(datoEncuestado);
             ResponseEstudio responseEstudio = new ResponseEstudio();
             if(!(estudios.isEmpty())){

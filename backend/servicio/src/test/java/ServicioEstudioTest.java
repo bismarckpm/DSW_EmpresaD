@@ -32,7 +32,7 @@ public class ServicioEstudioTest {
         preguntas.add(new DtoPregunta(3));
         preguntas.add(new DtoPregunta(2));
         dtoEstudio.setPreguntas(preguntas);
-        Response resultado = servicio.agregarEstudio(dtoEstudio);
+        Response resultado = servicio.agregarEstudio("",dtoEstudio);
         Assert.assertEquals(200, resultado.getStatus());
     }
 
@@ -40,14 +40,14 @@ public class ServicioEstudioTest {
     public void consultarEstudioTest() throws Exception{
         ServicioEstudio servicio = new ServicioEstudio();
         DtoEstudio dtoEstudio = new DtoEstudio(1);
-        Response consultado = servicio.consultarEstudio(dtoEstudio.get_id());
+        Response consultado = servicio.consultarEstudio("",dtoEstudio.get_id());
         Assert.assertEquals( 200, consultado.getStatus());
     }
 
     @Test
     public void listarEstudiosTest() throws Exception{
         ServicioEstudio servicio = new ServicioEstudio();
-        Response estudios = servicio.listarEstudios();
+        Response estudios = servicio.listarEstudios("");
         Assert.assertEquals(200, estudios.getStatus());
     }
 
@@ -55,7 +55,7 @@ public class ServicioEstudioTest {
     public void eliminarEstudioTest() throws Exception{
         ServicioEstudio servicio = new ServicioEstudio();
         DtoEstudio dtoEstudio = new DtoEstudio(1);
-        Response resultado = servicio.eliminarEstudio(dtoEstudio.get_id());
+        Response resultado = servicio.eliminarEstudio("",dtoEstudio.get_id());
         Assert.assertEquals(200, resultado.getStatus());
     }
 
@@ -68,7 +68,7 @@ public class ServicioEstudioTest {
         dtoEstudio.setTipo("En linea");
         dtoEstudio.setEncuestasEsperadas(30000);
         //Datos estudio
-        Response resultado = servicio.actualizarEstudio(1, dtoEstudio);
+        Response resultado = servicio.actualizarEstudio("",1, dtoEstudio);
         Assert.assertEquals(200, resultado.getStatus());
     }
     
@@ -76,7 +76,7 @@ public class ServicioEstudioTest {
     public void usuariosRespondieronEncuestaTest() throws Exception{
         ServicioEstudio servicio = new ServicioEstudio();
         DtoEstudio dtoEstudio = new DtoEstudio(1);
-        Response resultado = servicio.usuariosRespondieronEncuesta(dtoEstudio.get_id());
+        Response resultado = servicio.usuariosRespondieronEncuesta("",dtoEstudio.get_id());
         Assert.assertEquals(200, resultado.getStatus());
     }
 
@@ -84,7 +84,7 @@ public class ServicioEstudioTest {
     public void usuariosAplicanEncuestaTest() throws Exception{
         ServicioEstudio servicio = new ServicioEstudio();
         DtoEstudio dtoEstudio = new DtoEstudio(1);
-        Response resultado = servicio.usuariosAplicanEncuesta(dtoEstudio.get_id());
+        Response resultado = servicio.usuariosAplicanEncuesta("",dtoEstudio.get_id());
         Assert.assertEquals(200, resultado.getStatus());
     }
 

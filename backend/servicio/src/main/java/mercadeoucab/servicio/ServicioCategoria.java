@@ -26,9 +26,10 @@ public class ServicioCategoria extends AplicacionBase{
      */
     @GET
     @Path("/")
-    public Response listarCategorias(){
+    public Response listarCategorias(@HeaderParam("Authorization") String token){
         Response resultado = null;
         try {
+            validateToken(token);
             ComandoListarCategorias comandoListarCategorias = new ComandoListarCategorias();
             comandoListarCategorias.execute();
             resultado = comandoListarCategorias.getResult();
@@ -48,9 +49,10 @@ public class ServicioCategoria extends AplicacionBase{
      */
     @POST
     @Path("/")
-    public Response agregarCategoria(DtoCategoria dtoCategoria){
+    public Response agregarCategoria(@HeaderParam("Authorization") String token,DtoCategoria dtoCategoria){
         Response resultado = null;
         try{
+            validateToken(token);
             verifyParams( dtoCategoria );
             ComandoAgregarCategoria comandoAgregarCategoria = new ComandoAgregarCategoria();
             comandoAgregarCategoria.setDtoCategoria(dtoCategoria);
@@ -73,9 +75,10 @@ public class ServicioCategoria extends AplicacionBase{
      */
     @GET
     @Path("/{id}")
-    public Response consultarCategoria(@PathParam("id") long id){
+    public Response consultarCategoria(@HeaderParam("Authorization") String token, @PathParam("id") long id){
         Response resultado = null;
         try{
+            validateToken(token);
             verifyParams( id );
             ComandoConsultarCategoria comandoConsultarCategoria = new ComandoConsultarCategoria();
             comandoConsultarCategoria.setId( id );
@@ -97,9 +100,10 @@ public class ServicioCategoria extends AplicacionBase{
      */
     @PUT
     @Path("/{id}")
-    public Response actualizarCategoria(@PathParam("id") long id, DtoCategoria dtoCategoria){
+    public Response actualizarCategoria(@HeaderParam("Authorization") String token, @PathParam("id") long id, DtoCategoria dtoCategoria){
         Response resultado = null;
         try {
+            validateToken(token);
             verifyParams(id);
             verifyParams(dtoCategoria);
             ComandoActualizarCategoria comandoActualizarCategoria = new ComandoActualizarCategoria();
@@ -123,9 +127,10 @@ public class ServicioCategoria extends AplicacionBase{
      */
     @PUT
     @Path("/{id}/eliminar")
-    public Response eliminarCategoria(@PathParam("id") long id){
+    public Response eliminarCategoria(@HeaderParam("Authorization") String token, @PathParam("id") long id){
         Response resultado = null;
         try {
+            validateToken(token);
             verifyParams(id);
             ComandoEliminarCategoria comandoEliminarCategoria = new ComandoEliminarCategoria();
             comandoEliminarCategoria.setId(id);

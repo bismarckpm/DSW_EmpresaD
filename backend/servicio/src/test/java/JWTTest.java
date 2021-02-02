@@ -11,6 +11,6 @@ public class JWTTest {
 
     @Test
     public void parseJWTTest() throws Exception{
-        JWT.parseJWT("eyJhbGciOiJIUzI1NiJ9.eyJqdGkiOiIxIiwiaWF0IjoxNjExOTM5MzIyLCJzdWIiOiJtYWlsQG1haWwuY29tIiwiaXNzIjoibWVyY2FkZW9VY2FiIiwiZXhwIjoxNjExOTUwMTIyfQ.hqAeUxMwXp1pZPEHyByB7z5K7wozHMRgm8rUeRluPok");
+        JWT.parseJWT("eyJhbGciOiJIUzI1NiJ9.eyJqdGkiOiIxIiwiaWF0IjoxNjEyMjIwNTA3LCJzdWIiOiJtYWlsQG1haWwuY29tIiwiaXNzIjoibWVyY2FkZW9VY2FiIiwiZXhwIjoxNjEyMjMxMzA3fQ.fjfg4aIEobQ_p3jOgfB9KXvF-LaNetJQ7HQjmizKxvE");
     }
 }

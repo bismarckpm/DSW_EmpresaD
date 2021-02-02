@@ -21,9 +21,10 @@ public class ServicioOpcion extends AplicacionBase{
 
     @GET
     @Path("/{id}")
-    public Response obtenerOpcion(@PathParam("id") Long id){
+    public Response obtenerOpcion(@HeaderParam("Authorization") String token, @PathParam("id") Long id){
         Response resultado = null;
         try{
+            validateToken(token);
             verifyParams(id);
             ComandoObtenerOpcion comandoObtenerOpcion = new ComandoObtenerOpcion();
             comandoObtenerOpcion.setId(id);
@@ -39,9 +40,10 @@ public class ServicioOpcion extends AplicacionBase{
 
     @GET
     @Path("/")
-    public Response listarOpcion(){
+    public Response listarOpcion(@HeaderParam("Authorization") String token){
         Response resultado = null;
         try {
+            validateToken(token);
             ComandoListarOpcion comandoListarOpcion = new ComandoListarOpcion();
             comandoListarOpcion.execute();
             resultado = comandoListarOpcion.getResult();
@@ -62,9 +64,10 @@ public class ServicioOpcion extends AplicacionBase{
      */
     @POST
     @Path("/")
-    public Response registrarOpcion(DtoOpcion dtoOpcion){
+    public Response registrarOpcion(@HeaderParam("Authorization") String token, DtoOpcion dtoOpcion){
         Response resultado = null;
         try{
+            validateToken(token);
             verifyParams(dtoOpcion);
             ComandoRegistrarOpcion comandoRegistrarOpcion = new ComandoRegistrarOpcion();
             comandoRegistrarOpcion.setDtoOpcion(dtoOpcion);
@@ -87,9 +90,10 @@ public class ServicioOpcion extends AplicacionBase{
      */
     @PUT
     @Path("/{id}")
-    public Response actualizarOpcion(@PathParam("id") Long id, DtoOpcion dtoOpcion){
+    public Response actualizarOpcion(@HeaderParam("Authorization") String token, @PathParam("id") Long id, DtoOpcion dtoOpcion){
         Response resultado = null;
         try{
+            validateToken(token);
             verifyParams(id);
             verifyParams(dtoOpcion);
             ComandoActualizarOpcion comandoActualizarOpcion = new ComandoActualizarOpcion();
@@ -112,9 +116,10 @@ public class ServicioOpcion extends AplicacionBase{
      */
     @PUT
     @Path("/{id}/eliminar")
-    public Response eliminarOpcion(@PathParam("id") Long id){
+    public Response eliminarOpcion(@HeaderParam("Authorization") String token, @PathParam("id") Long id){
         Response resultado = null;
         try{
+            validateToken(token);
             verifyParams(id);
             ComandoEliminarOpcion comandoEliminarOpcion = new ComandoEliminarOpcion();
             comandoEliminarOpcion.setId(id);

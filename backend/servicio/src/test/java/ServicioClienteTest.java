@@ -11,7 +11,7 @@ public class ServicioClienteTest {
     public void solicitudesClienteTest() throws Exception{
         ServicioCliente servicio = new ServicioCliente();
         DtoUsuario dtoUsuario = new DtoUsuario(31);
-        Response resultado = servicio.solicitudesCliente(dtoUsuario.get_id());
+        Response resultado = servicio.solicitudesCliente("",dtoUsuario.get_id());
         Assert.assertEquals(200, resultado.getStatus());
     }
 }
