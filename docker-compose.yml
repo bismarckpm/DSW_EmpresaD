@@ -22,6 +22,7 @@ services:
       - SYS_NICE
     volumes:
       - db-data:/var/lib/mysql
+      - ./Scripts:/docker-entrypoint-initdb.d
     networks:
       - backend
     healthcheck:
@@ -35,10 +36,6 @@ services:
 
 volumes:
   db-data:
-    driver: azure_file
-    driver_opts:
-      share_name: mercadeoucab-volume
-      storage_account_name: mercadeoucab
 
 networks:
   backend:
