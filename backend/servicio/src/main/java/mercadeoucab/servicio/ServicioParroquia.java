@@ -26,9 +26,10 @@ public class ServicioParroquia extends AplicacionBase {
      */
     @GET
     @Path("/")
-    public Response listarParroquias(){
+    public Response listarParroquias(@HeaderParam("Authorization") String token){
         Response resultado = null;
         try{
+            validateToken(token);
             ComandoListarParroquias comandoListarParroquias = new ComandoListarParroquias();
             comandoListarParroquias.execute();
             resultado = comandoListarParroquias.getResult();
@@ -48,9 +49,10 @@ public class ServicioParroquia extends AplicacionBase {
      */
     @POST
     @Path("/")
-    public Response registrarParroquia(DtoParroquia dtoParroquia){
+    public Response registrarParroquia(@HeaderParam("Authorization") String token, DtoParroquia dtoParroquia){
         Response resultado = null;
         try {
+            validateToken(token);
             verifyParams( dtoParroquia);
             ComandoRegistrarParroquia comandoRegistrarParroquia = new ComandoRegistrarParroquia();
             comandoRegistrarParroquia.setDtoParroquia( dtoParroquia);
@@ -73,9 +75,10 @@ public class ServicioParroquia extends AplicacionBase {
      */
     @GET
     @Path("/{id}")
-    public Response consultarParroquia(@PathParam("id") long id){
+    public Response consultarParroquia(@HeaderParam("Authorization") String token, @PathParam("id") long id){
         Response resultado = null;
         try {
+            validateToken(token);
             verifyParams( id);
             ComandoConsultarParroquia comandoConsultarParroquia = new ComandoConsultarParroquia();
             comandoConsultarParroquia.setId( id);
@@ -97,9 +100,10 @@ public class ServicioParroquia extends AplicacionBase {
      */
     @PUT
     @Path("/{id}/eliminar")
-    public Response eliminarParroquia(@PathParam("id") long id){
+    public Response eliminarParroquia(@HeaderParam("Authorization") String token, @PathParam("id") long id){
         Response resultado = null;
         try {
+            validateToken(token);
             verifyParams( id);
             ComandoEliminarParroquia comandoEliminarParroquia = new ComandoEliminarParroquia();
             comandoEliminarParroquia.setId( id);
@@ -122,9 +126,10 @@ public class ServicioParroquia extends AplicacionBase {
      */
     @PUT
     @Path("/{id}")
-    public Response actualizarParroquia(@PathParam("id") long id, DtoParroquia dtoParroquia){
+    public Response actualizarParroquia(@HeaderParam("Authorization") String token, @PathParam("id") long id, DtoParroquia dtoParroquia){
         Response resultado = null;
         try{
+            validateToken(token);
             verifyParams( id);
             verifyParams( dtoParroquia);
             ComandoActualizarParroquia comandoActualizarParroquia = new ComandoActualizarParroquia();

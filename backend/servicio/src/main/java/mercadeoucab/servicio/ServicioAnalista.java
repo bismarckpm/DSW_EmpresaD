@@ -27,9 +27,10 @@ public class ServicioAnalista extends AplicacionBase{
      */
     @GET
     @Path("/")
-    public Response listarAnalistas(){
+    public Response listarAnalistas(@HeaderParam("Authorization") String token){
         Response resultado = null;
         try {
+            validateToken(token);
             ComandoListarAnalistas comandoListarAnalistas = new ComandoListarAnalistas();
             comandoListarAnalistas.execute();
             resultado = comandoListarAnalistas.getResult();
@@ -50,9 +51,10 @@ public class ServicioAnalista extends AplicacionBase{
      */
     @GET
     @Path("/{id}/estudios")
-    public Response estudiosAnalista(@PathParam("id") long id){
+    public Response estudiosAnalista(@HeaderParam("Authorization") String token,@PathParam("id") long id){
         Response resultado = null;
         try {
+            validateToken(token);
             verifyParams( id);
             ComandoEstudiosAnalista comandoEstudiosAnalista = new ComandoEstudiosAnalista();
             comandoEstudiosAnalista.setId( id);

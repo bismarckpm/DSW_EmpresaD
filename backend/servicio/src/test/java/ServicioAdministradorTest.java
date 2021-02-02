@@ -11,7 +11,7 @@ public class ServicioAdministradorTest {
     public void preguntasAdmnistradorTest() throws Exception{
         ServicioAdministrador servicio = new ServicioAdministrador();
         DtoUsuario dtoUsuario = new DtoUsuario(54);
-        Response resultado = servicio.preguntasAdministrador(dtoUsuario.get_id());
+        Response resultado = servicio.preguntasAdministrador("",dtoUsuario.get_id());
         Assert.assertEquals(200, resultado.getStatus());
     }
 }

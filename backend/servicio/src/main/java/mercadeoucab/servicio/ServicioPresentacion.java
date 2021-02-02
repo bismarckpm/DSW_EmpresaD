@@ -27,9 +27,10 @@ public class ServicioPresentacion extends AplicacionBase{
      */
     @GET
     @Path("/{id}")
-    public Response obtenerPresentacion(@PathParam("id") Long id){
+    public Response obtenerPresentacion(@HeaderParam("Authorization") String token, @PathParam("id") Long id){
         Response resultado = null;
         try{
+            validateToken(token);
             verifyParams(id);
             ComandoObtenerPresentacion comandoObtenerPresentacion = new ComandoObtenerPresentacion();
             comandoObtenerPresentacion.setId(id);
@@ -50,9 +51,10 @@ public class ServicioPresentacion extends AplicacionBase{
      */
     @GET
     @Path("/")
-    public Response listarPresentacion(){
+    public Response listarPresentacion(@HeaderParam("Authorization") String token){
         Response resultado = null;
         try {
+            validateToken(token);
             ComandoListarPresentacion comandoListarPresentacion = new ComandoListarPresentacion();
             comandoListarPresentacion.execute();
             resultado = comandoListarPresentacion.getResult();
@@ -73,9 +75,10 @@ public class ServicioPresentacion extends AplicacionBase{
      */
     @POST
     @Path("/")
-    public Response registrarPresentacion(DtoPresentacion dtoPresentacion){
+    public Response registrarPresentacion(@HeaderParam("Authorization") String token, DtoPresentacion dtoPresentacion){
         Response resultado = null;
         try{
+            validateToken(token);
             verifyParams(dtoPresentacion);
             ComandoRegistrarPresentacion comandoRegistrarPresentacion = new ComandoRegistrarPresentacion();
             comandoRegistrarPresentacion.setDtoPresentacion(dtoPresentacion);
@@ -98,9 +101,10 @@ public class ServicioPresentacion extends AplicacionBase{
      */
     @PUT
     @Path("/{id}")
-    public Response actualizarPresentacion(@PathParam("id") long id,DtoPresentacion dtoPresentacion){
+    public Response actualizarPresentacion(@HeaderParam("Authorization") String token, @PathParam("id") long id,DtoPresentacion dtoPresentacion){
         Response resultado = null;
         try{
+            validateToken(token);
             verifyParams( id );
             verifyParams( dtoPresentacion );
             ComandoActualizarPresentacion comandoActualizarPresentacion = new ComandoActualizarPresentacion();
@@ -123,9 +127,10 @@ public class ServicioPresentacion extends AplicacionBase{
      */
     @PUT
     @Path("/{id}/eliminar")
-    public Response eliminarPresentacion(@PathParam("id") long id){
+    public Response eliminarPresentacion(@HeaderParam("Authorization") String token, @PathParam("id") long id){
         Response resultado = null;
         try{
+            validateToken(token);
             verifyParams(id);
             ComandoEliminarPresentacion comandoEliminarPresentacion = new ComandoEliminarPresentacion();
             comandoEliminarPresentacion.setId(id);

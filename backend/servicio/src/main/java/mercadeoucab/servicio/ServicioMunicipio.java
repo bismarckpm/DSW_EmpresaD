@@ -26,9 +26,10 @@ public class ServicioMunicipio extends AplicacionBase{
      */
     @GET
     @Path("/")
-    public Response listarMunicipios(){
+    public Response listarMunicipios(@HeaderParam("Authorization") String token){
         Response resultado = null;
         try{
+            validateToken(token);
             ComandoListarMunicipios comandoListarMunicipios = new ComandoListarMunicipios();
             comandoListarMunicipios.execute();
             resultado = comandoListarMunicipios.getResult();
@@ -48,9 +49,10 @@ public class ServicioMunicipio extends AplicacionBase{
      */
     @GET
     @Path("/{id}")
-    public Response obtenerMunicipio(@PathParam("id") long id){
+    public Response obtenerMunicipio(@HeaderParam("Authorization") String token, @PathParam("id") long id){
         Response resultado = null;
         try {
+            validateToken(token);
             verifyParams( id);
             ComandoObtenerMunicipio comandoObtenerMunicipio = new ComandoObtenerMunicipio();
             comandoObtenerMunicipio.setId( id);
@@ -73,9 +75,10 @@ public class ServicioMunicipio extends AplicacionBase{
      */
     @POST
     @Path("/")
-    public Response registrarMunicipio(DtoMunicipio dtoMunicipio){
+    public Response registrarMunicipio(@HeaderParam("Authorization") String token, DtoMunicipio dtoMunicipio){
         Response resultado = null;
         try {
+            validateToken(token);
             verifyParams( dtoMunicipio);
             ComandoRegistrarMunicipio comandoRegistrarMunicipio = new ComandoRegistrarMunicipio();
             comandoRegistrarMunicipio.setDtoMunicipio( dtoMunicipio);
@@ -98,9 +101,10 @@ public class ServicioMunicipio extends AplicacionBase{
      */
     @PUT
     @Path("/{id}")
-    public Response actualizarMunicipio(@PathParam("id") long id, DtoMunicipio dtoMunicipio){
+    public Response actualizarMunicipio(@HeaderParam("Authorization") String token, @PathParam("id") long id, DtoMunicipio dtoMunicipio){
         Response resultado = null;
         try {
+            validateToken(token);
             verifyParams( id);
             verifyParams( dtoMunicipio);
             ComandoActualizarMunicipio comandoActualizarMunicipio = new ComandoActualizarMunicipio();
@@ -124,9 +128,10 @@ public class ServicioMunicipio extends AplicacionBase{
      */
     @PUT
     @Path("/{id}/eliminar")
-    public Response eliminarMunicipio(@PathParam("id") long id){
+    public Response eliminarMunicipio(@HeaderParam("Authorization") String token, @PathParam("id") long id){
         Response resultado = null;
         try {
+            validateToken(token);
             verifyParams( id);
             ComandoEliminarMunicipio comandoEliminarMunicipio = new ComandoEliminarMunicipio();
             comandoEliminarMunicipio.setId( id);

@@ -45,7 +45,7 @@ public class ServicioDatoEncuestadoTest {
         hijos.add( hijo1);
         hijos.add( hijo2);
         datoEncuestado.setHijos( hijos);
-        Response resultado = servicioDato.registrarDatoEncuestado(datoEncuestado);
+        Response resultado = servicioDato.registrarDatoEncuestado("",datoEncuestado);
         Assert.assertEquals(
                 Response.Status.OK.getStatusCode(),
                 resultado.getStatus()
@@ -55,7 +55,7 @@ public class ServicioDatoEncuestadoTest {
     @Test
     public void consultarDatoEncuestadoTest() throws Exception{
         ServicioDatoEncuestado servicioDato = new ServicioDatoEncuestado();
-        Response resultado = servicioDato.consultarDatoEncuestado(1);
+        Response resultado = servicioDato.consultarDatoEncuestado("",1);
         Assert.assertEquals(
                 Response.Status.OK.getStatusCode(),
                 resultado.getStatus()
@@ -65,7 +65,7 @@ public class ServicioDatoEncuestadoTest {
     @Test
     public void listarDatoEncuestadoTest() throws Exception{
         ServicioDatoEncuestado servicioDato = new ServicioDatoEncuestado();
-        Response resultado = servicioDato.listarDatosEncuestado();
+        Response resultado = servicioDato.listarDatosEncuestado("");
         Assert.assertEquals(
                 Response.Status.OK.getStatusCode(),
                 resultado.getStatus()
@@ -88,7 +88,7 @@ public class ServicioDatoEncuestadoTest {
         datoEncuestado.setUsuario(new DtoUsuario(1));
         DtoOcupacion dtoOcupacion = new DtoOcupacion(1);
         datoEncuestado.setOcupacion(dtoOcupacion);
-        Response resultado = servicioDato.actualizarDatoEncuestado(1, datoEncuestado);
+        Response resultado = servicioDato.actualizarDatoEncuestado("",1, datoEncuestado);
         Assert.assertEquals(
                 Response.Status.OK.getStatusCode(),
                 resultado.getStatus()
@@ -98,7 +98,7 @@ public class ServicioDatoEncuestadoTest {
     @Test
     public void eliminarDatoEncuestadoTest() throws Exception{
         ServicioDatoEncuestado servicioDato = new ServicioDatoEncuestado();
-        Response resultado = servicioDato.eliminarDatoEncuestado(1);
+        Response resultado = servicioDato.eliminarDatoEncuestado("",1);
         Assert.assertEquals(
                 Response.Status.OK.getStatusCode(),
                 resultado.getStatus()

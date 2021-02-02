@@ -27,9 +27,10 @@ public class ServicioSubCategoria extends AplicacionBase{
      */
     @GET
     @Path("/{id}")
-    public Response obtenerSubCategoria(@PathParam("id") Long id){
+    public Response obtenerSubCategoria(@HeaderParam("Authorization") String token, @PathParam("id") Long id){
         Response resultado = null;
         try{
+            validateToken(token);
             verifyParams(id);
             ComandoConsultarSubcategoria comandoConsultarSubcategoria = new ComandoConsultarSubcategoria();
             comandoConsultarSubcategoria.setId(id);
@@ -53,9 +54,10 @@ public class ServicioSubCategoria extends AplicacionBase{
      */
     @GET
     @Path("/")
-    public Response listarSubCategoria(){
+    public Response listarSubCategoria(@HeaderParam("Authorization") String token){
         Response resultado = null;
         try {
+            validateToken(token);
             ComandoListarSubcategorias comandoListarSubcategorias = new ComandoListarSubcategorias();
             comandoListarSubcategorias.execute();
             resultado = comandoListarSubcategorias.getResult();
@@ -76,9 +78,10 @@ public class ServicioSubCategoria extends AplicacionBase{
      */
     @POST
     @Path("/")
-    public Response  registrarSubCategoria(DtoSubCategoria dtoSubCategoria){
+    public Response  registrarSubCategoria(@HeaderParam("Authorization") String token, DtoSubCategoria dtoSubCategoria){
         Response resultado = null;
         try{
+            validateToken(token);
             verifyParams(dtoSubCategoria);
             ComandoRegistrarSubCategoria comandoRegistrarSubCategoria = new ComandoRegistrarSubCategoria();
             comandoRegistrarSubCategoria.setDtoSubCategoria(dtoSubCategoria);
@@ -100,9 +103,10 @@ public class ServicioSubCategoria extends AplicacionBase{
      */
     @PUT
     @Path("/{id}")
-    public Response actualizarSubCategoria(@PathParam("id") Long id,DtoSubCategoria dtoSubCategoria){
+    public Response actualizarSubCategoria(@HeaderParam("Authorization") String token, @PathParam("id") Long id,DtoSubCategoria dtoSubCategoria){
         Response resultado = null;
         try{
+            validateToken(token);
             verifyParams(id);
             verifyParams(dtoSubCategoria);
             ComandoActualizarSubCategoria comandoActualizarSubCategoria = new ComandoActualizarSubCategoria();
@@ -126,9 +130,10 @@ public class ServicioSubCategoria extends AplicacionBase{
      */
     @PUT
     @Path("/{id}/eliminar")
-    public Response  eliminarSubCategoria(@PathParam("id") Long id){
+    public Response  eliminarSubCategoria(@HeaderParam("Authorization") String token, @PathParam("id") Long id){
         Response resultado = null;
         try{
+            validateToken(token);
             verifyParams(id);
             ComandoEliminarSubCategoria comandoEliminarSubCategoria = new ComandoEliminarSubCategoria();
             comandoEliminarSubCategoria.setId(id);

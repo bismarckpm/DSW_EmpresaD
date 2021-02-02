@@ -25,9 +25,10 @@ public class ServicioDatoEncuestado extends AplicacionBase{
      */
     @GET
     @Path("/")
-    public Response listarDatosEncuestado(){
+    public Response listarDatosEncuestado(@HeaderParam("Authorization") String token){
         Response resultado = null;
         try {
+            validateToken(token);
             ComandoListarDatoEncuestados comandoListarDatoEncuestados = new ComandoListarDatoEncuestados();
             comandoListarDatoEncuestados.execute();
             resultado = comandoListarDatoEncuestados.getResult();
@@ -48,9 +49,10 @@ public class ServicioDatoEncuestado extends AplicacionBase{
      */
     @POST
     @Path("/")
-    public Response registrarDatoEncuestado(DtoDatoEncuestado dtoDatoEncuestado){
+    public Response registrarDatoEncuestado(@HeaderParam("Authorization") String token, DtoDatoEncuestado dtoDatoEncuestado){
         Response resultado = null;
         try {
+            validateToken(token);
             verifyParams( dtoDatoEncuestado);
             ComandoRegistrarDatoEncuestado comandoRegistrarDatoEncuestado = new ComandoRegistrarDatoEncuestado();
             comandoRegistrarDatoEncuestado.setDtoDatoEncuestado( dtoDatoEncuestado);
@@ -73,10 +75,11 @@ public class ServicioDatoEncuestado extends AplicacionBase{
      */
     @GET
     @Path("/{id}")
-    public Response consultarDatoEncuestado(@PathParam("id") long id){
+    public Response consultarDatoEncuestado(@HeaderParam("Authorization") String token, @PathParam("id") long id){
         Response resultado = null;
         try{
             verifyParams( id);
+            validateToken(token);
             ComandoConsultarDatoEncuestado comandoConsultarDatoEncuestado = new ComandoConsultarDatoEncuestado();
             comandoConsultarDatoEncuestado.setId( id);
             comandoConsultarDatoEncuestado.execute();
@@ -97,9 +100,10 @@ public class ServicioDatoEncuestado extends AplicacionBase{
      */
     @PUT
     @Path("/{id}")
-    public Response actualizarDatoEncuestado(@PathParam("id") long id, DtoDatoEncuestado dtoDatoEncuestado){
+    public Response actualizarDatoEncuestado(@HeaderParam("Authorization") String token, @PathParam("id") long id, DtoDatoEncuestado dtoDatoEncuestado){
         Response resultado = null;
         try {
+            validateToken(token);
             verifyParams( id);
             verifyParams( dtoDatoEncuestado);
             ComandoActualizarDatoEncuestado comandoActualizarDatoEncuestado = new ComandoActualizarDatoEncuestado();
@@ -123,9 +127,10 @@ public class ServicioDatoEncuestado extends AplicacionBase{
      */
     @PUT
     @Path("/eliminar/{id}")
-    public Response eliminarDatoEncuestado(@PathParam("id") long id){
+    public Response eliminarDatoEncuestado(@HeaderParam("Authorization") String token, @PathParam("id") long id){
         Response resultado = null;
         try {
+            validateToken(token);
             verifyParams( id);
             ComandoEliminarDatoEncuestado comandoEliminarDatoEncuestado = new ComandoEliminarDatoEncuestado();
             comandoEliminarDatoEncuestado.setId( id);

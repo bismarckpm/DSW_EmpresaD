@@ -28,9 +28,10 @@ public class ServicioRespuesta extends AplicacionBase{
      */
     @GET
     @Path("/{id}")
-    public Response obtenerRespuesta(@PathParam("id") long id){
+    public Response obtenerRespuesta(@HeaderParam("Authorization") String token, @PathParam("id") long id){
         Response resultado = null;
         try{
+            validateToken(token);
             verifyParams(id);
             ComandoObtenerRespuesta comandoObtenerRespuesta = new ComandoObtenerRespuesta();
             comandoObtenerRespuesta.setId(id);
@@ -52,9 +53,10 @@ public class ServicioRespuesta extends AplicacionBase{
      */
     @GET
     @Path("/")
-    public Response listarRespuesta(){
+    public Response listarRespuesta(@HeaderParam("Authorization") String token){
         Response resultado = null;
         try {
+            validateToken(token);
             ComandoListarRespuesta comandoListarRespuesta = new ComandoListarRespuesta();
             comandoListarRespuesta.execute();
             resultado = comandoListarRespuesta.getResult();
@@ -75,9 +77,10 @@ public class ServicioRespuesta extends AplicacionBase{
      */
     @POST
     @Path("/")
-    public Response registrarRespuesta(DtoRespuesta dtoRespuesta){
+    public Response registrarRespuesta(@HeaderParam("Authorization") String token, DtoRespuesta dtoRespuesta){
         Response resultado = null;
         try{
+            validateToken(token);
             verifyParams(dtoRespuesta);
             ComandoRegistrarRespuesta comandoRegistrarRespuesta = new ComandoRegistrarRespuesta();
             comandoRegistrarRespuesta.setDtoRespuesta(dtoRespuesta);
@@ -99,9 +102,10 @@ public class ServicioRespuesta extends AplicacionBase{
      */
     @PUT
     @Path("/{id}")
-    public Response actualizarRespuesta(@PathParam("id") long id, DtoRespuesta dtoRespuesta){
+    public Response actualizarRespuesta(@HeaderParam("Authorization") String token, @PathParam("id") long id, DtoRespuesta dtoRespuesta){
         Response resultado = null;
         try{
+            validateToken(token);
             verifyParams(id);
             verifyParams(dtoRespuesta);
             ComandoActualizarRespuesta comandoActualizarRespuesta = new ComandoActualizarRespuesta();
@@ -124,9 +128,10 @@ public class ServicioRespuesta extends AplicacionBase{
      */
     @PUT
     @Path("/{id}/eliminar")
-    public Response eliminarRespuesta(@PathParam("id") long id){
+    public Response eliminarRespuesta(@HeaderParam("Authorization") String token, @PathParam("id") long id){
         Response resultado = null;
         try{
+            validateToken(token);
             verifyParams(id);
             ComandoEliminarRespuesta comandoEliminarRespuesta = new ComandoEliminarRespuesta();
             comandoEliminarRespuesta.setId(id);
@@ -150,9 +155,10 @@ public class ServicioRespuesta extends AplicacionBase{
      */
     @POST
     @Path("/encuesta")
-    public Response registarEncuestaRespondida(DtoEncuestaEstudio dtoEncuestaEstudio){
+    public Response registarEncuestaRespondida(@HeaderParam("Authorization") String token, DtoEncuestaEstudio dtoEncuestaEstudio){
         Response resultado = null;
         try {
+            validateToken(token);
             verifyParams(dtoEncuestaEstudio);
             ComandoRegistarEncuestaRespondida comandoRegistarEncuestaRespondida = new ComandoRegistarEncuestaRespondida();
             comandoRegistarEncuestaRespondida.setDtoEncuestaEstudio(dtoEncuestaEstudio);

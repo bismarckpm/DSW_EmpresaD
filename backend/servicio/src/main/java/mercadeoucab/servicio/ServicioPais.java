@@ -26,9 +26,10 @@ public class ServicioPais extends AplicacionBase{
      */
     @GET
     @Path("/")
-    public Response listar_paises(){
+    public Response listar_paises(@HeaderParam("Authorization") String token){
         Response resultado = null;
         try{
+            validateToken(token);
             ComandoListarPaises comandoListarPaises = new ComandoListarPaises();
             comandoListarPaises.execute();
             resultado = comandoListarPaises.getResult();
@@ -48,9 +49,10 @@ public class ServicioPais extends AplicacionBase{
      */
     @GET
     @Path("/{id}")
-    public Response obtenerPais(@PathParam("id") long id){
+    public Response obtenerPais(@HeaderParam("Authorization") String token, @PathParam("id") long id){
         Response resultado = null;
         try{
+            validateToken(token);
             verifyParams( id);
             ComandoObtenerPais comandoObtenerPais = new ComandoObtenerPais();
             comandoObtenerPais.setId( id);
@@ -73,9 +75,10 @@ public class ServicioPais extends AplicacionBase{
      */
     @POST
     @Path("/")
-    public Response agregarPais(DtoPais dtoPais){
+    public Response agregarPais(@HeaderParam("Authorization") String token, DtoPais dtoPais){
         Response resultado = null;
         try{
+            validateToken(token);
             verifyParams( dtoPais);
             ComandoAgregarPais comandoAgregarPais = new ComandoAgregarPais();
             comandoAgregarPais.setDtoPais( dtoPais);
@@ -98,9 +101,10 @@ public class ServicioPais extends AplicacionBase{
      */
     @PUT
     @Path("/{id}")
-    public Response actualizarPais(@PathParam("id") long id,DtoPais dtoPais){
+    public Response actualizarPais(@HeaderParam("Authorization") String token, @PathParam("id") long id,DtoPais dtoPais){
         Response resultado = null;
         try {
+            validateToken(token);
             verifyParams( id);
             verifyParams( dtoPais);
             ComandoActualizarPais comandoActualizarPais = new ComandoActualizarPais();
@@ -124,9 +128,10 @@ public class ServicioPais extends AplicacionBase{
      */
     @PUT
     @Path("/{id}/eliminar")
-    public  Response eliminarPais(@PathParam("id") long id){
+    public  Response eliminarPais(@HeaderParam("Authorization") String token, @PathParam("id") long id){
         Response resultado = null;
         try {
+            validateToken(token);
             verifyParams( id);
             ComandoEliminarPais comandoEliminarPais = new ComandoEliminarPais();
             comandoEliminarPais.setId( id);

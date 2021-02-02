@@ -15,7 +15,7 @@ public class ServicioParroquiaTest {
         dtoParroquia.setNombre("caucaguita");
         dtoParroquia.setValor_socio_economico(66666660);
         dtoParroquia.setFk_municipio(new DtoMunicipio(1));
-        Response resultado = servicio.registrarParroquia( dtoParroquia );
+        Response resultado = servicio.registrarParroquia( "",dtoParroquia );
         Assert.assertEquals(
                 javax.ws.rs.core.Response.Status.OK.getStatusCode(),
                 resultado.getStatus()
@@ -25,7 +25,7 @@ public class ServicioParroquiaTest {
     @Test
     public void consultarParroquiaTest() throws  Exception{
         ServicioParroquia servicio = new ServicioParroquia();
-        Response resultado = servicio.consultarParroquia(1);
+        Response resultado = servicio.consultarParroquia("",1);
         Assert.assertEquals(
                 javax.ws.rs.core.Response.Status.OK.getStatusCode(),
                 resultado.getStatus()
@@ -38,7 +38,7 @@ public class ServicioParroquiaTest {
         DtoParroquia dtoParroquia = new DtoParroquia();
         dtoParroquia.setNombre("petare");
         dtoParroquia.setValor_socio_economico(1000);
-        Response resultado = servicio.actualizarParroquia(1, dtoParroquia);
+        Response resultado = servicio.actualizarParroquia("",1, dtoParroquia);
         Assert.assertEquals(
                 javax.ws.rs.core.Response.Status.OK.getStatusCode(),
                 resultado.getStatus()
@@ -48,7 +48,7 @@ public class ServicioParroquiaTest {
     @Test
     public void eliminarParroquiaTest() throws Exception{
         ServicioParroquia servicio = new ServicioParroquia();
-        Response resultado = servicio.eliminarParroquia(1);
+        Response resultado = servicio.eliminarParroquia("",1);
         Assert.assertEquals(
                 javax.ws.rs.core.Response.Status.OK.getStatusCode(),
                 resultado.getStatus()
@@ -58,7 +58,7 @@ public class ServicioParroquiaTest {
     @Test
     public void listarParroquiasTest() throws Exception{
         ServicioParroquia servicio = new ServicioParroquia();
-        Response resultado = servicio.listarParroquias();
+        Response resultado = servicio.listarParroquias("");
         Assert.assertEquals(
                 javax.ws.rs.core.Response.Status.OK.getStatusCode(),
                 resultado.getStatus()
