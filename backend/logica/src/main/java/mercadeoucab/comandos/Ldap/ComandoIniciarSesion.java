@@ -1,5 +1,6 @@
 package mercadeoucab.comandos.Ldap;
 
+import mercadeoucab.JWT.JWT;
 import mercadeoucab.accesodatos.DaoUsuario;
 import mercadeoucab.comandos.ComandoBase;
 import mercadeoucab.directorioactivo.DirectorioActivo;
@@ -46,7 +47,10 @@ public class ComandoIniciarSesion implements ComandoBase {
                 ResponseUsuario responseUsuario = (ResponseUsuario) fabricaUsuario.generarResponse();
                 DtoUsuario usuarioParaRegresar = UsuarioMapper.mapEntityToDto( usuario);
                 usuarioRegresado = responseUsuario.generate( usuarioParaRegresar);
-                this.result = ResponseGeneral.Succes( usuarioRegresado);
+                this.result = ResponseGeneral.Succes(
+                        JWT.createJWT(usuarioParaRegresar.get_id(), usuarioParaRegresar.getCorreo())
+                        ,usuarioRegresado
+                );
             }
         }catch (Exception e){
             this.result = ResponseGeneral.Failure("Ocurrio un error al agregar el usuario");

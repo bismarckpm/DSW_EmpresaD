@@ -35,8 +35,7 @@ public class AplicacionBase extends Application {
      * @param subject Correo del usuario
      */
     String generateToke(long id, String subject){
-        JWT.createJWT(id, subject);
-        return null;
+        return JWT.createJWT(id, subject);
     }
 
     void throwException( Response.Status status, Exception e )

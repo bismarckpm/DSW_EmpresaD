@@ -1,6 +1,6 @@
 package mercadeoucab.servicio;
 
-import mercadeoucab.comandos.pregunta.*;
+import mercadeoucab.comandos.Pregunta.*;
 import mercadeoucab.dtos.DtoPregunta;
 import mercadeoucab.responses.ResponseGeneral;
 
