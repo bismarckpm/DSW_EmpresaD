@@ -27,9 +27,10 @@ public class ServicioOcupacion extends AplicacionBase{
      */
     @GET
     @Path("/{id}")
-    public Response obtenerOcupacion(@PathParam("id") Long id){
+    public Response obtenerOcupacion(@HeaderParam("Authorization") String token, @PathParam("id") Long id){
         Response resultado = null;
         try{
+            validateToken(token);
             verifyParams( id);
             ComandoObtenerOcupacion comandoObtenerOcupacion = new ComandoObtenerOcupacion();
             comandoObtenerOcupacion.setId( id);
@@ -51,9 +52,10 @@ public class ServicioOcupacion extends AplicacionBase{
      */
     @GET
     @Path("/")
-    public Response listarOcupacion(){
+    public Response listarOcupacion(@HeaderParam("Authorization") String token){
         Response resultado = null;
         try {
+            validateToken(token);
             ComandoListarOcupaciones comandoListarOcupaciones = new ComandoListarOcupaciones();
             comandoListarOcupaciones.execute();
             resultado = comandoListarOcupaciones.getResult();
@@ -74,9 +76,10 @@ public class ServicioOcupacion extends AplicacionBase{
      */
     @POST
     @Path("/")
-    public Response registrarOcupacion(DtoOcupacion dtoOcupacion){
+    public Response registrarOcupacion(@HeaderParam("Authorization") String token, DtoOcupacion dtoOcupacion){
         Response resultado = null;
         try{
+            validateToken(token);
             verifyParams( dtoOcupacion);
             ComandoRegistrarOcupacion comandoRegistrarOcupacion = new ComandoRegistrarOcupacion();
             comandoRegistrarOcupacion.setDtoOcupacion( dtoOcupacion);
@@ -99,9 +102,10 @@ public class ServicioOcupacion extends AplicacionBase{
      */
     @PUT
     @Path("/{id}")
-    public Response actualizarOcupacion(@PathParam("id") long id,DtoOcupacion dtoOcupacion){
+    public Response actualizarOcupacion(@HeaderParam("Authorization") String token, @PathParam("id") long id,DtoOcupacion dtoOcupacion){
         Response resultado = null;
         try{
+            validateToken(token);
             verifyParams( id);
             verifyParams( dtoOcupacion);
             ComandoActualizarOcupacion comandoActualizarOcupacion = new ComandoActualizarOcupacion();
@@ -125,9 +129,10 @@ public class ServicioOcupacion extends AplicacionBase{
      */
     @PUT
     @Path("/{id}/eliminar")
-    public Response eliminarOcupacion(@PathParam("id") long id){
+    public Response eliminarOcupacion(@HeaderParam("Authorization") String token, @PathParam("id") long id){
         Response resultado = null;
         try{
+            validateToken(token);
             verifyParams( id);
             ComandoEliminarOcupacion comandoEliminarOcupacion = new ComandoEliminarOcupacion();
             comandoEliminarOcupacion.setId( id);

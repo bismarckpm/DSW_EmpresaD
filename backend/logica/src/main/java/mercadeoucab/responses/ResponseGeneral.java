@@ -29,6 +29,23 @@ public class ResponseGeneral {
     }
 
     /**
+     * Metodo para indicar el exito al iniciar sesion
+     * @param token token del usuario
+     * @param data Usuario que acaba de iniciar sesion
+     * @return regresa respuesta exitosa
+     */
+    public static Response Succes(String token, JsonObject data){
+        JsonObject response = Json.createObjectBuilder()
+                .add("status", 200)
+                .add("data", data)
+                .add("token", token)
+                .build();
+        return Response.status(Response.Status.OK)
+                .entity(response)
+                .build();
+    }
+
+    /**
      * Metodo para indicar el exito en la consulta de un arreglo
      * de objetos
      * @param data Lista de objetos que se desea devolver

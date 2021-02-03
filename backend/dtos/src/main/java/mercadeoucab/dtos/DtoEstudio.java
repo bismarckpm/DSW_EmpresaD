@@ -150,4 +150,10 @@ public class DtoEstudio extends DtoBase{
                 this.encuestaEstudio = new ArrayList<>();
         this.encuestaEstudio.add( dtoEncuestaEstudio);
     }
+
+    public void addPregunta( DtoPregunta dtoPregunta){
+        if ( this.preguntas == null)
+            this.preguntas = new ArrayList<>();
+        this.preguntas.add( dtoPregunta);
+    }
 }

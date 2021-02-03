@@ -28,9 +28,10 @@ public class ServicioAdministrador extends AplicacionBase{
      */
     @GET
     @Path("/{id}/preguntas")
-    public Response preguntasAdministrador(@PathParam("id") long id){
+    public Response preguntasAdministrador(@HeaderParam("Authorization") String token,@PathParam("id") long id){
         Response resultado = null;
         try {
+            validateToken(token);
             verifyParams( id);
             ComandoPreguntasAdministrador comandoPreguntasAdministrador = new ComandoPreguntasAdministrador();
             comandoPreguntasAdministrador.setId( id);

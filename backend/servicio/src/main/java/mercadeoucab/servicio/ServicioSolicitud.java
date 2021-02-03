@@ -1,6 +1,6 @@
 package mercadeoucab.servicio;
 
-import mercadeoucab.comandos.solicitud.*;
+import mercadeoucab.comandos.Solicitud.*;
 import mercadeoucab.dtos.DtoSolicitud;
 import mercadeoucab.responses.ResponseGeneral;
 
@@ -29,9 +29,10 @@ public class ServicioSolicitud extends AplicacionBase{
      */
     @GET
     @Path("/{id}")
-    public Response obtenerSolicitud(@PathParam("id") Long id){
+    public Response obtenerSolicitud(@HeaderParam("Authorization") String token, @PathParam("id") Long id){
         Response resultado = null;
         try{
+            validateToken(token);
             verifyParams(id);
             ComandoObtenerSolicitud comandoObtenerSolicitud = new ComandoObtenerSolicitud();
             comandoObtenerSolicitud.setId(id);
@@ -52,9 +53,10 @@ public class ServicioSolicitud extends AplicacionBase{
      */
     @GET
     @Path("/")
-    public Response listarSolicitud(){
+    public Response listarSolicitud(@HeaderParam("Authorization") String token){
         Response resultado = null;
         try {
+            validateToken(token);
             ComandoListarSolicitud comandoListarSolicitud = new ComandoListarSolicitud();
             comandoListarSolicitud.execute();
             resultado = comandoListarSolicitud.getResult();
@@ -76,9 +78,10 @@ public class ServicioSolicitud extends AplicacionBase{
      */
     @POST
     @Path("/")
-    public Response registrarSolicitud(DtoSolicitud dtoSolicitud){
+    public Response registrarSolicitud(@HeaderParam("Authorization") String token, DtoSolicitud dtoSolicitud){
         Response resultado = null;
         try{
+            validateToken(token);
             verifyParams(dtoSolicitud);
             ComandoRegistrarSolicitud comandoRegistrarSolicitud = new ComandoRegistrarSolicitud();
             comandoRegistrarSolicitud.setDtoSolicitud(dtoSolicitud);
@@ -100,9 +103,10 @@ public class ServicioSolicitud extends AplicacionBase{
      */
     @PUT
     @Path("/{id}")
-    public Response actualizarSolicitud(@PathParam("id") Long id, DtoSolicitud dtoSolicitud){
+    public Response actualizarSolicitud(@HeaderParam("Authorization") String token, @PathParam("id") Long id, DtoSolicitud dtoSolicitud){
         Response resultado = null;
         try{
+            validateToken(token);
             verifyParams(id);
             verifyParams(dtoSolicitud);
             ComandoActualizarSolicitud comandoActualizarSolicitud = new ComandoActualizarSolicitud();
@@ -125,9 +129,10 @@ public class ServicioSolicitud extends AplicacionBase{
      */
     @PUT
     @Path("/{id}/eliminar")
-    public Response eliminarSolicitud(@PathParam("id") Long id){
+    public Response eliminarSolicitud(@HeaderParam("Authorization") String token, @PathParam("id") Long id){
         Response resultado = null;
         try{
+            validateToken(token);
             verifyParams(id);
             ComandoEliminarSolicitud comandoEliminarSolicitud = new ComandoEliminarSolicitud();
             comandoEliminarSolicitud.setId(id);
@@ -149,9 +154,10 @@ public class ServicioSolicitud extends AplicacionBase{
      */
     @GET
     @Path("/estado/{estado}")
-    public Response listarSolicitudEstado(@PathParam("estado") String estado){
+    public Response listarSolicitudEstado(@HeaderParam("Authorization") String token, @PathParam("estado") String estado){
         Response resultado = null;
         try {
+            validateToken(token);
             verifyParams(estado);
             ComandoListarSolicitudEstado comandoListarSolicitudEstado = new ComandoListarSolicitudEstado();
             comandoListarSolicitudEstado.setEstado(estado);
@@ -175,10 +181,10 @@ public class ServicioSolicitud extends AplicacionBase{
      */
     @GET
     @Path("/{id}/preguntas_recomendadas")
-    public Response preguntasRecomendadas(@PathParam("id") long id){
-        JsonArrayBuilder preguntaslist = Json.createArrayBuilder();
+    public Response preguntasRecomendadas(@HeaderParam("Authorization") String token, @PathParam("id") long id){
         Response resultado = null;
         try {
+            validateToken(token);
             verifyParams(id);
             ComandoPreguntasRecomendadas comandoPreguntasRecomendadas = new ComandoPreguntasRecomendadas();
             comandoPreguntasRecomendadas.setId(id);
@@ -201,10 +207,10 @@ public class ServicioSolicitud extends AplicacionBase{
      */
     @GET
     @Path("/{id}/poblaciones_recomendadas")
-    public Response poblacionesRecomendadas(@PathParam("id") long id){
-        JsonArrayBuilder muestrasList = Json.createArrayBuilder();
+    public Response poblacionesRecomendadas(@HeaderParam("Authorization") String token, @PathParam("id") long id){
         Response resultado = null;
         try {
+            validateToken(token);
             verifyParams(id);
             ComandoPoblacionesRecomendadas comandoPoblacionesRecomendadas = new ComandoPoblacionesRecomendadas();
             comandoPoblacionesRecomendadas.setId(id);

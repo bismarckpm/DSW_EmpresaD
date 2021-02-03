@@ -1,6 +1,6 @@
 package mercadeoucab.servicio;
 
-import mercadeoucab.comandos.estudio.*;
+import mercadeoucab.comandos.Estudio.*;
 import mercadeoucab.dtos.DtoEstudio;
 import mercadeoucab.responses.ResponseGeneral;
 
@@ -26,9 +26,10 @@ public class ServicioEstudio extends AplicacionBase{
      */
     @GET
     @Path("/")
-    public Response listarEstudios(){
+    public Response listarEstudios(@HeaderParam("Authorization") String token){
         Response resultado = null;
         try {
+            validateToken(token);
             ComandoListarEstudios comandoListarEstudios = new ComandoListarEstudios();
             comandoListarEstudios.execute();
             resultado = comandoListarEstudios.getResult();
@@ -49,9 +50,10 @@ public class ServicioEstudio extends AplicacionBase{
      */
     @POST
     @Path("/")
-    public Response agregarEstudio(DtoEstudio dtoEstudio){
+    public Response agregarEstudio(@HeaderParam("Authorization") String token, DtoEstudio dtoEstudio){
         Response resultado = null;
         try {
+            validateToken(token);
             verifyParams(dtoEstudio);
             ComandoAgregarEstudio comandoAgregarEstudio = new ComandoAgregarEstudio();
             comandoAgregarEstudio.setDtoEstudio(dtoEstudio);
@@ -74,9 +76,10 @@ public class ServicioEstudio extends AplicacionBase{
      */
     @GET
     @Path("/{id}")
-    public Response consultarEstudio(@PathParam("id") long id){
+    public Response consultarEstudio(@HeaderParam("Authorization") String token, @PathParam("id") long id){
         Response resultado = null;
         try {
+            validateToken(token);
             verifyParams( id );
             ComandoConsultarEstudio comandoConsultarEstudio = new ComandoConsultarEstudio();
             comandoConsultarEstudio.setId( id );
@@ -98,9 +101,10 @@ public class ServicioEstudio extends AplicacionBase{
      */
     @PUT
     @Path("/{id}/eliminar")
-    public Response eliminarEstudio(@PathParam("id") long id){
+    public Response eliminarEstudio(@HeaderParam("Authorization") String token, @PathParam("id") long id){
         Response resultado = null;
         try {
+            validateToken(token);
             verifyParams(id);
             ComandoEliminarEstudio comandoEliminarEstudio = new ComandoEliminarEstudio();
             comandoEliminarEstudio.setId(id);
@@ -123,9 +127,10 @@ public class ServicioEstudio extends AplicacionBase{
      */
     @PUT
     @Path("/{id}")
-    public Response actualizarEstudio(@PathParam("id") long id, DtoEstudio dtoEstudio){
+    public Response actualizarEstudio(@HeaderParam("Authorization") String token, @PathParam("id") long id, DtoEstudio dtoEstudio){
         Response resultado = null;
         try {
+            validateToken(token);
             verifyParams(id);
             verifyParams(dtoEstudio);
             ComandoActualizarEstudio comandoActualizarEstudio = new ComandoActualizarEstudio();
@@ -151,9 +156,10 @@ public class ServicioEstudio extends AplicacionBase{
      */
     @GET
     @Path("/{id}/usuarios_respondieron")
-    public Response usuariosRespondieronEncuesta(@PathParam("id") long id){
+    public Response usuariosRespondieronEncuesta(@HeaderParam("Authorization") String token, @PathParam("id") long id){
         Response resultado = null;
         try {
+            validateToken(token);
             verifyParams(id);
             ComandoUsuariosRespondieronEncuesta comandoUsuariosRespondieronEncuesta = new ComandoUsuariosRespondieronEncuesta();
             comandoUsuariosRespondieronEncuesta.setId(id);
@@ -177,9 +183,10 @@ public class ServicioEstudio extends AplicacionBase{
      */
     @GET
     @Path("/{id}/usuarios_aplican")
-    public Response usuariosAplicanEncuesta(@PathParam("id") long id){
+    public Response usuariosAplicanEncuesta(@HeaderParam("Authorization") String token, @PathParam("id") long id){
         Response resultado = null;
         try {
+            validateToken(token);
             verifyParams(id);
             ComandoUsuariosAplicanEncuesta comandoUsuariosAplicanEncuesta = new ComandoUsuariosAplicanEncuesta();
             comandoUsuariosAplicanEncuesta.setId(id);

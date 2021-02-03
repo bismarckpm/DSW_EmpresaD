@@ -1,6 +1,6 @@
 package mercadeoucab.servicio;
 
-import mercadeoucab.comandos.tipo.*;
+import mercadeoucab.comandos.Tipo.*;
 import mercadeoucab.dtos.DtoTipo;
 import mercadeoucab.responses.ResponseGeneral;
 
@@ -26,9 +26,10 @@ public class ServicioTipo extends AplicacionBase {
      */
     @GET
     @Path("/")
-    public Response listarTipos(){
+    public Response listarTipos(@HeaderParam("Authorization") String token){
         Response resultado = null;
         try {
+            validateToken(token);
             ComandoListarTipos comandoListarTipos = new ComandoListarTipos();
             comandoListarTipos.execute();
             resultado = comandoListarTipos.getResult();
@@ -49,9 +50,10 @@ public class ServicioTipo extends AplicacionBase {
      */
     @GET
     @Path("/{id}")
-    public Response obtenerTipo( @PathParam("id") Long id){
+    public Response obtenerTipo(@HeaderParam("Authorization") String token, @PathParam("id") Long id){
         Response resultado = null;
         try {
+            validateToken(token);
             verifyParams(id);
             ComandoObtenerTipo comandoObtenerTipo = new ComandoObtenerTipo();
             comandoObtenerTipo.setId(id);
@@ -74,10 +76,11 @@ public class ServicioTipo extends AplicacionBase {
      */
     @POST
     @Path("/")
-    public Response registrarTipo( DtoTipo dtoTipo){
+    public Response registrarTipo(@HeaderParam("Authorization") String token, DtoTipo dtoTipo){
         Response resultado = null;
         try
         {
+            validateToken(token);
             verifyParams(dtoTipo);
             ComandoRegistrarTipo comandoRegistrarTipo = new ComandoRegistrarTipo();
             comandoRegistrarTipo.setDtoTipo(dtoTipo);
@@ -101,9 +104,10 @@ public class ServicioTipo extends AplicacionBase {
      */
     @PUT
     @Path("/{id}")
-    public Response actualizarTipo( @PathParam("id") long id, DtoTipo dtoTipo){
+    public Response actualizarTipo(@HeaderParam("Authorization") String token, @PathParam("id") long id, DtoTipo dtoTipo){
         Response resultado = null;
         try {
+            validateToken(token);
             verifyParams(id);
             verifyParams(dtoTipo);
             ComandoActualizarTipo comandoActualizarTipo = new ComandoActualizarTipo();
@@ -127,9 +131,10 @@ public class ServicioTipo extends AplicacionBase {
      */
     @PUT
     @Path("/{id}/eliminar")
-    public Response eliminarTipo( @PathParam("id") Long id){
+    public Response eliminarTipo(@HeaderParam("Authorization") String token, @PathParam("id") Long id){
         Response resultado = null;
         try {
+            validateToken(token);
             verifyParams(id);
             ComandoEliminarTipo comandoEliminarTipo = new ComandoEliminarTipo();
             comandoEliminarTipo.setId(id);

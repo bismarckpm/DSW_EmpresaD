@@ -1,6 +1,6 @@
 package mercadeoucab.servicio;
 
-import mercadeoucab.comandos.pregunta.*;
+import mercadeoucab.comandos.Pregunta.*;
 import mercadeoucab.dtos.DtoPregunta;
 import mercadeoucab.responses.ResponseGeneral;
 
@@ -26,9 +26,10 @@ public class ServicioPregunta extends AplicacionBase{
      */
     @GET
     @Path("/")
-    public Response listarPreguntas(){
+    public Response listarPreguntas(@HeaderParam("Authorization") String token){
         Response resultado = null;
         try {
+            validateToken(token);
             ComandoListarPreguntas comandoListarPreguntas = new ComandoListarPreguntas();
             comandoListarPreguntas.execute();
             resultado = comandoListarPreguntas.getResult();
@@ -49,9 +50,10 @@ public class ServicioPregunta extends AplicacionBase{
      */
     @POST
     @Path("/")
-    public Response registrarPregunta(DtoPregunta dtoPregunta){
+    public Response registrarPregunta(@HeaderParam("Authorization") String token, DtoPregunta dtoPregunta){
         Response resultado = null;
         try {
+            validateToken(token);
             verifyParams(dtoPregunta);
             ComandoRegistrarPregunta comandoRegistrarPregunta = new ComandoRegistrarPregunta();
             comandoRegistrarPregunta.setDtoPregunta(dtoPregunta);
@@ -74,9 +76,10 @@ public class ServicioPregunta extends AplicacionBase{
      */
     @GET
     @Path("/{id}")
-    public Response consultarPregunta(@PathParam("id") long id){
+    public Response consultarPregunta(@HeaderParam("Authorization") String token, @PathParam("id") long id){
         Response resultado = null;
         try {
+            validateToken(token);
             verifyParams(id);
             ComandoConsultarPregunta comandoConsultarPregunta = new ComandoConsultarPregunta();
             comandoConsultarPregunta.setId(id);
@@ -97,9 +100,10 @@ public class ServicioPregunta extends AplicacionBase{
      */
     @PUT
     @Path("/{id}/eliminar")
-    public Response eliminarPregunta(@PathParam("id") long id){
+    public Response eliminarPregunta(@HeaderParam("Authorization") String token, @PathParam("id") long id){
         Response resultado = null;
         try {
+            validateToken(token);
             verifyParams(id);
             ComandoEliminarPregunta comandoEliminarPregunta = new ComandoEliminarPregunta();
             comandoEliminarPregunta.setId(id);
@@ -122,9 +126,10 @@ public class ServicioPregunta extends AplicacionBase{
      */
     @PUT
     @Path("/{id}")
-    public Response actualizarPregunta(@PathParam("id") long id, DtoPregunta dtoPregunta){
+    public Response actualizarPregunta(@HeaderParam("Authorization") String token, @PathParam("id") long id, DtoPregunta dtoPregunta){
         Response resultado = null;
         try {
+            validateToken(token);
             verifyParams(id);
             verifyParams(dtoPregunta);
             ComandoActualizarPregunta comandoActualizarPregunta = new ComandoActualizarPregunta();

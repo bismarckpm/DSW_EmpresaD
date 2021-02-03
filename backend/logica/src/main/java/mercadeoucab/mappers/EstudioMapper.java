@@ -32,10 +32,10 @@ public class EstudioMapper {
             entity.setSolicitud(SolicitudMapper.mapDtoToEntity(dto.getSolicitud()));
 
         if(dto.getPreguntas().size() > 0){
-            List<Pregunta> preguntas = new ArrayList<>();
             for(DtoPregunta pregunta: dto.getPreguntas())
-                preguntas.add(PreguntaMapper.mapDtoToEntity(pregunta));
-            entity.setPreguntas(preguntas);
+                entity.addpregunta(
+                        PreguntaMapper.mapDtoToEntity(pregunta)
+                );
         }
 
         if (dto.getEncuestaEstudio().size() > 0){
@@ -68,10 +68,11 @@ public class EstudioMapper {
 
         if(entity.getPreguntas().size() > 0)
         {
-            List<DtoPregunta> preguntas = new ArrayList<>();
-            for(Pregunta pregunta: entity.getPreguntas())
-                preguntas.add(PreguntaMapper.mapEntityToDto(pregunta));
-            dto.setPreguntas(preguntas);
+            for(Pregunta pregunta: entity.getPreguntas()) {
+                dto.addPregunta(
+                        PreguntaMapper.mapEntityToDto(pregunta)
+                );
+            }
         }
 
         if ( entity.getEncuestaEstudio().size() > 0)

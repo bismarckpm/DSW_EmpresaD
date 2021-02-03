@@ -1,5 +1,7 @@
 package mercadeoucab.entidades;
 
+import mercadeoucab.dtos.DtoEncuestaEstudio;
+
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -62,5 +64,11 @@ public class EncuestaEstudio implements Serializable {
 
     public void setRespuestas(List<Respuesta> respuestas) {
         this.respuestas = respuestas;
+    }
+
+    public void addRespuesta( Respuesta respuesta){
+        if ( this.respuestas == null)
+            this.respuestas = new ArrayList<>();
+        this.respuestas.add( respuesta );
     }
 }

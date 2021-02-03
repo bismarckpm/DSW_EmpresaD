@@ -26,9 +26,10 @@ public class ServicioEstado extends AplicacionBase {
      */
     @GET
     @Path("/")
-    public Response listarEstador(){
+    public Response listarEstador(@HeaderParam("Authorization") String token){
         Response resultado = null;
         try{
+            validateToken(token);
             ComandoListarEstados comandoListarEstados = new ComandoListarEstados();
             comandoListarEstados.execute();
             resultado = comandoListarEstados.getResult();
@@ -48,9 +49,10 @@ public class ServicioEstado extends AplicacionBase {
      */
     @POST
     @Path("/")
-    public Response agregarEstado(DtoEstado dtoEstado){
+    public Response agregarEstado(@HeaderParam("Authorization") String token, DtoEstado dtoEstado){
         Response resultado = null;
         try{
+            validateToken(token);
             verifyParams( dtoEstado);
             ComandoAgregarEstado comandoAgregarEstado = new ComandoAgregarEstado();
             comandoAgregarEstado.setDtoEstado( dtoEstado);
@@ -73,9 +75,10 @@ public class ServicioEstado extends AplicacionBase {
      */
     @PUT
     @Path("/{id}")
-    public Response actualizarEstado(@PathParam("id") long id, DtoEstado dtoEstado){
+    public Response actualizarEstado(@HeaderParam("Authorization") String token, @PathParam("id") long id, DtoEstado dtoEstado){
         Response resultado = null;
         try{
+            validateToken(token);
             verifyParams( id);
             verifyParams( dtoEstado);
             ComandoActualizarEstado comandoActualizarEstado = new ComandoActualizarEstado();
@@ -99,9 +102,10 @@ public class ServicioEstado extends AplicacionBase {
      */
     @PUT
     @Path("/{id}/eliminar")
-    public Response eliminarEstado(@PathParam("id") long id){
+    public Response eliminarEstado(@HeaderParam("Authorization") String token, @PathParam("id") long id){
         Response resultado = null;
         try{
+            validateToken(token);
             verifyParams( id);
             ComandoEliminarEstado comandoEliminarEstado = new ComandoEliminarEstado();
             comandoEliminarEstado.setId( id);
@@ -124,9 +128,10 @@ public class ServicioEstado extends AplicacionBase {
      */
     @GET
     @Path("/{id}")
-    public Response consultarEstado(@PathParam("id") long id){
+    public Response consultarEstado(@HeaderParam("Authorization") String token, @PathParam("id") long id){
         Response resultado = null;
         try{
+            validateToken(token);
             verifyParams( id);
             ComandoConsultarEstado comandoConsultarEstado = new ComandoConsultarEstado();
             comandoConsultarEstado.setId( id);

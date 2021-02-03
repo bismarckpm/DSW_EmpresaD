@@ -3,6 +3,7 @@ package mercadeoucab.servicio;
 import mercadeoucab.accesodatos.DaoDatoEncuestado;
 import mercadeoucab.accesodatos.DaoEstudio;
 import mercadeoucab.accesodatos.DaoUsuario;
+import mercadeoucab.comandos.Usuario.ComandoEstudiosAplicablesEncuestado;
 import mercadeoucab.dtos.DtoEstudio;
 import mercadeoucab.entidades.DatoEncuestado;
 import mercadeoucab.entidades.Estudio;
@@ -39,36 +40,15 @@ public class ServicioEncuestado extends AplicacionBase{
      */
     @GET
     @Path("/estudios/{id}")
-    public Response estudiosAplicables(@PathParam("id") long id){
-        JsonArrayBuilder estudiosList = Json.createArrayBuilder();
+    public Response estudiosAplicables(@HeaderParam("Authorization") String token,@PathParam("id") long id){
         Response resultado = null;
         try {
-            DaoEstudio dao = new DaoEstudio();
-            DaoUsuario daoUsuario = new DaoUsuario();
-            DaoDatoEncuestado daoDatoEncuestado = new DaoDatoEncuestado();
-            DatoEncuestado datoEncuestado = daoDatoEncuestado.datoEncuestado(daoUsuario.find(id, Usuario.class));
-            System.out.print(datoEncuestado.get_id() +" "
-                            + datoEncuestado.getCedula()+" "
-                            + datoEncuestado.getGenero()+" "
-                            + datoEncuestado.getNive_economico()+" "
-                            + datoEncuestado.getPersonasHogar()+" "
-                            + datoEncuestado.getNivelAcademico());
-
-            List<Estudio> estudios = dao.estudiosAplicanUsuario(datoEncuestado);
-            ResponseEstudio responseEstudio = new ResponseEstudio();
-            if(!(estudios.isEmpty())){
-                for(Estudio estudio: estudios){
-                    if(estudio.getActivo() == 1){
-                        DtoEstudio dtoEstudio = EstudioMapper.mapEntitytoDto( estudio);
-                        JsonObject agregar = responseEstudio.generate( dtoEstudio);
-                        estudiosList.add(agregar);
-                    }
-                }
-                resultado = ResponseGeneral.Succes( estudiosList);
-            }
-            else{
-                resultado = ResponseGeneral.NoData();
-            }
+            validateToken(token);
+            verifyParams( id);
+            ComandoEstudiosAplicablesEncuestado comandoEstudiosAplicablesEncuestado = new ComandoEstudiosAplicablesEncuestado();
+            comandoEstudiosAplicablesEncuestado.setId( id);
+            comandoEstudiosAplicablesEncuestado.execute();
+            resultado = comandoEstudiosAplicablesEncuestado.getResult();
         }
         catch (Exception e){
             // CAMBIAR CUANDO SE MANEJEN LAS EXCEPCIONES PROPIAS

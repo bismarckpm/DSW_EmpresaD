@@ -3,6 +3,8 @@ package mercadeoucab.responses;
 import mercadeoucab.dtos.DtoEncuestaEstudio;
 import mercadeoucab.dtos.DtoEstudio;
 import mercadeoucab.dtos.DtoRespuesta;
+import mercadeoucab.fabricas.Enums.Fabricas;
+import mercadeoucab.fabricas.FabricaAbstracta;
 
 import javax.json.Json;
 import javax.json.JsonArrayBuilder;
@@ -18,8 +20,10 @@ public class ResponseEstudio implements ResponseBase<DtoEstudio> {
     @Override
     public JsonObject generate(DtoEstudio dtoEstudio) throws Exception {
         JsonArrayBuilder preguntaslist = Json.createArrayBuilder();
-        ResponsePregunta responsePregunta = new ResponsePregunta();
-        ResponseRespuesta responseRespuesta = new ResponseRespuesta();
+        FabricaAbstracta fabricaPregunta = FabricaAbstracta.getFactory(Fabricas.PREGUNTA);
+        FabricaAbstracta fabricaRespuesta = FabricaAbstracta.getFactory(Fabricas.RESPUESTA);
+        ResponsePregunta responsePregunta = (ResponsePregunta) fabricaPregunta.generarResponse();
+        ResponseRespuesta responseRespuesta = (ResponseRespuesta) fabricaRespuesta.generarResponse();
         if(dtoEstudio.getEncuestaEstudio().size() > 0){
             for(DtoEncuestaEstudio encuestaEstudio: dtoEstudio.getEncuestaEstudio()){
                 String tipo = encuestaEstudio.getFk_pregunta().getTipo();
@@ -28,7 +32,7 @@ public class ResponseEstudio implements ResponseBase<DtoEstudio> {
                     case "abierta":
                     case "boolean":
                         JsonArrayBuilder respuestasList = Json.createArrayBuilder();
-                        if (Objects.nonNull( encuestaEstudio.getRespuestas()) && !encuestaEstudio.getRespuestas().isEmpty()){
+                        if (encuestaEstudio.getRespuestas().size() > 0){
                             for (DtoRespuesta dtoRespuesta: encuestaEstudio.getRespuestas()){
                                 JsonObject respuesta = responseRespuesta.generate(dtoRespuesta);
                                 respuestasList.add( respuesta);
@@ -45,7 +49,7 @@ public class ResponseEstudio implements ResponseBase<DtoEstudio> {
                     case "multiple":
                     case "simple":
                         JsonArrayBuilder respuestasListS = Json.createArrayBuilder();
-                        if ( Objects.nonNull( encuestaEstudio.getRespuestas()) && !encuestaEstudio.getRespuestas().isEmpty()){
+                        if ( encuestaEstudio.getRespuestas().size() > 0){
                             for (DtoRespuesta dtoRespuesta: encuestaEstudio.getRespuestas()){
                                 JsonObject respuesta = responseRespuesta.generate(dtoRespuesta);
                                 respuestasListS.add( respuesta);
@@ -60,7 +64,7 @@ public class ResponseEstudio implements ResponseBase<DtoEstudio> {
                         break;
                     case "rango":
                         JsonArrayBuilder respuestasListR = Json.createArrayBuilder();
-                        if (Objects.nonNull( encuestaEstudio.getRespuestas()) && !encuestaEstudio.getRespuestas().isEmpty()){
+                        if (encuestaEstudio.getRespuestas().size() > 0){
                             for (DtoRespuesta dtoRespuesta: encuestaEstudio.getRespuestas()){
                                 JsonObject respuesta = responseRespuesta.generate(dtoRespuesta);
                                 respuestasListR.add( respuesta);
@@ -76,10 +80,11 @@ public class ResponseEstudio implements ResponseBase<DtoEstudio> {
                 }//final switch
             }//Final for
         }//IF de la encuesta
-        ResponseUsuario responseUsuario = new ResponseUsuario();
+        FabricaAbstracta fabricaUsuario = FabricaAbstracta.getFactory(Fabricas.USUARIO);
+        FabricaAbstracta fabricaSolicitud = FabricaAbstracta.getFactory(Fabricas.SOLICITUD);
+        ResponseUsuario responseUsuario = (ResponseUsuario) fabricaUsuario.generarResponse();
         JsonObject objetoUsuario = responseUsuario.generate( dtoEstudio.getFk_usuario());
-        ResponseMuestraPoblacion responseMuestraPoblacion = new ResponseMuestraPoblacion();
-        ResponseSolicitud responseSolicitud = new ResponseSolicitud();
+        ResponseSolicitud responseSolicitud = (ResponseSolicitud) fabricaSolicitud.generarResponse();
         JsonObject solicitud = responseSolicitud.generate( dtoEstudio.getSolicitud());
         return Json.createObjectBuilder()
                 .add("_id",dtoEstudio.get_id())

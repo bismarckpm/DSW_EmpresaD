@@ -56,10 +56,5 @@ public class JWT {
         Claims claims = Jwts.parser()
                             .setSigningKey(DatatypeConverter.parseBase64Binary(ApiKey.secretKey))
                             .parseClaimsJws(jwt).getBody();
-
-        System.out.println("ID: " + claims.getId());
-        System.out.println("Subject: " + claims.getSubject());
-        System.out.println("Issuer: " + claims.getIssuer());
-        System.out.println("Expiration: " + claims.getExpiration());
     }
 }

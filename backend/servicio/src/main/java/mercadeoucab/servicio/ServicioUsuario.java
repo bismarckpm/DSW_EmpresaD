@@ -29,9 +29,10 @@ public class ServicioUsuario extends AplicacionBase{
      */
     @GET
     @Path("/{id}")
-    public Response obtenerUsuario(@PathParam("id") Long id){
+    public Response obtenerUsuario(@HeaderParam("Authorization") String token, @PathParam("id") Long id){
         Response resultado = null;
         try{
+            validateToken(token);
             verifyParams( id);
             ComandoObtenerUsuario comandoObtenerUsuario = new ComandoObtenerUsuario();
             comandoObtenerUsuario.setId( id);
@@ -52,9 +53,10 @@ public class ServicioUsuario extends AplicacionBase{
      */
     @GET
     @Path("/")
-    public Response listarUsuarios(){
+    public Response listarUsuarios(@HeaderParam("Authorization") String token){
         Response resultado = null;
         try {
+            validateToken(token);
             ComandoListarUsuarios comandoListarUsuarios = new ComandoListarUsuarios();
             comandoListarUsuarios.execute();
             resultado = comandoListarUsuarios.getResult();
@@ -74,9 +76,10 @@ public class ServicioUsuario extends AplicacionBase{
      */
     @POST
     @Path("/")
-    public Response registrarUsuario(DtoUsuario dtoUsuario){
+    public Response registrarUsuario(@HeaderParam("Authorization") String token, DtoUsuario dtoUsuario){
         Response resultado = null;
         try{
+            validateToken(token);
             verifyParams( dtoUsuario);
             ComandoRegistrarUsuario comandoRegistrarUsuario = new ComandoRegistrarUsuario();
             comandoRegistrarUsuario.setDtoUsuario( dtoUsuario);
@@ -98,9 +101,10 @@ public class ServicioUsuario extends AplicacionBase{
      */
     @PUT
     @Path("/{id}")
-    public Response actualizarUsuario( @PathParam("id") Long id, DtoUsuario dtoUsuario){
+    public Response actualizarUsuario(@HeaderParam("Authorization") String token, @PathParam("id") Long id, DtoUsuario dtoUsuario){
         Response resultado = null;
         try{
+            validateToken(token);
             verifyParams( id);
             verifyParams( dtoUsuario);
             ComandoActualizarUsuario comandoActualizarUsuario = new ComandoActualizarUsuario();
@@ -123,9 +127,10 @@ public class ServicioUsuario extends AplicacionBase{
      */
     @PUT
     @Path("/{id}/eliminar")
-    public Response eliminarUsuario( @PathParam("id") Long id){
+    public Response eliminarUsuario(@HeaderParam("Authorization") String token, @PathParam("id") Long id){
         Response resultado = null;
         try{
+            validateToken(token);
             verifyParams( id);
             ComandoEliminarUsuario comandoEliminarUsuario = new ComandoEliminarUsuario();
             comandoEliminarUsuario.setId( id);
