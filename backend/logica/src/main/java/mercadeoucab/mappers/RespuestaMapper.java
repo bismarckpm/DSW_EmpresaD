@@ -40,7 +40,7 @@ public class RespuestaMapper {
         return respuesta;
     }
 
-    public static DtoRespuesta mapEntityToDto( Respuesta respuesta) throws Exception {
+    public static DtoRespuesta mapEntityToDto(Respuesta respuesta ) throws Exception {
         FabricaAbstracta fabrica = FabricaAbstracta.getFactory(Fabricas.RESPUESTA);
         DtoRespuesta dtoRespuesta = (DtoRespuesta) fabrica.generarDto();
         dtoRespuesta.set_id(respuesta.get_id());

@@ -40,9 +40,10 @@ public class ServicioEncuestado extends AplicacionBase{
      */
     @GET
     @Path("/estudios/{id}")
-    public Response estudiosAplicables(@PathParam("id") long id){
+    public Response estudiosAplicables(@HeaderParam("Authorization") String token,@PathParam("id") long id){
         Response resultado = null;
         try {
+            validateToken(token);
             verifyParams( id);
             ComandoEstudiosAplicablesEncuestado comandoEstudiosAplicablesEncuestado = new ComandoEstudiosAplicablesEncuestado();
             comandoEstudiosAplicablesEncuestado.setId( id);

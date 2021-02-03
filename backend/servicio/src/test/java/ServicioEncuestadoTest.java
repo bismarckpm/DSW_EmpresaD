@@ -9,7 +9,7 @@ public class ServicioEncuestadoTest {
     @Test
     public void estudiosAplicablesTest() throws Exception{
         ServicioEncuestado servicio = new ServicioEncuestado();
-        Response resultado = servicio.estudiosAplicables(21);
+        Response resultado = servicio.estudiosAplicables("" ,21);
         Assert.assertEquals(200, resultado.getStatus());
     }
 }

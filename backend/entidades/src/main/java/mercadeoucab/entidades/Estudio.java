@@ -14,14 +14,12 @@ import java.util.List;
         @NamedQuery(
                 name = "estudios_aplican_encuestado",
                 query = "select e from Estudio e " +
-                        "where e.solicitud.fk_muestra_poblacion.cantidadHijos = :cantidadHijos " +
-                        "  and e.solicitud.fk_muestra_poblacion.genero = :genero " +
-                        "  and e.solicitud.fk_muestra_poblacion.nivelAcademico = :nivelAcademico " +
-                        "  and e.solicitud.fk_muestra_poblacion.nivelEconomico = :nivelEconomico " +
-                        "  and e.solicitud.fk_muestra_poblacion.rangoEdadInicio <= :edad " +
-                        "  and e.solicitud.fk_muestra_poblacion.rangoEdadFin >= :edad " +
+                        "where e.solicitud.fk_muestra_poblacion.genero = :genero " +
+                        "  and (e.solicitud.fk_muestra_poblacion.nivelAcademico = :nivelAcademico or e.solicitud.fk_muestra_poblacion.nivelEconomico = :nivelEconomico or e.solicitud.fk_muestra_poblacion.fk_ocupacion = :ocupacion) " +
+                        "  and :edad between e.solicitud.fk_muestra_poblacion.rangoEdadInicio and  e.solicitud.fk_muestra_poblacion.rangoEdadFin" +
                         "  and e.solicitud.fk_muestra_poblacion.fk_lugar = :lugar " +
-                        "  and e.solicitud.fk_muestra_poblacion.fk_ocupacion = :ocupacion"
+                        "  and e.estado = 'En ejecucion'" +
+                        "  and e.activo = 1"
         ),
         @NamedQuery(
                 name = "preguntas_similares",
@@ -39,13 +37,10 @@ import java.util.List;
         @NamedQuery(
                 name = "personas_aplican",
                 query = "select e.usuario from DatoEncuestado e " +
-                        "where  e.nive_economico = :nivelEcon " +
-                        "  and  e.genero = :genero " +
-                        //"  and  e.hijos.size = :cantidadHijos " +
-                        "  and  e.nivelAcademico = :nivelAcademico " +
-                        "  and  e.fk_lugar = :lugar " +
-                        "  and  e.ocupacion = :ocupacion "
-                        //"  and  e.edad between :edadInicial and :edadFinal"
+                        "where  e.genero = :genero " + //estricto
+                        "  and  (e.nivelAcademico = :nivelAcademico or e.ocupacion = :ocupacion or e.nive_economico = :nivelEcon) " + //Puede no ser estricto
+                        "  and  e.fk_lugar = :lugar " + //estricto
+                        "  and  e.edad between :edadInicial and :edadFinal" //estricto
         )
 })
 public class Estudio extends EntidadBase{

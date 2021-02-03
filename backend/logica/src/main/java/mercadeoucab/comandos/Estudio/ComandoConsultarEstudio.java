@@ -39,6 +39,7 @@ public class ComandoConsultarEstudio implements ComandoBase {
             }
         }
         catch (Exception e){
+            System.out.println(e);
             result = ResponseGeneral.Failure("Ha ocurrido un error al consultar el estudio");
         }
     }

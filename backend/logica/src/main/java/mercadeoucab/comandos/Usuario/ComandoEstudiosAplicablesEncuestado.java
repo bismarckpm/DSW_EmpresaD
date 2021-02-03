@@ -42,22 +42,13 @@ public class ComandoEstudiosAplicablesEncuestado implements ComandoBase {
             DaoUsuario daoUsuario = (DaoUsuario)fabricaUsuario.generarDao();
             DaoDatoEncuestado daoDatoEncuestado = (DaoDatoEncuestado)fabricaDatoEncuestado.generarDao();
             DatoEncuestado datoEncuestado = daoDatoEncuestado.datoEncuestado(daoUsuario.find(id, Usuario.class));
-            System.out.print(datoEncuestado.get_id() +" "
-                    + datoEncuestado.getCedula()+" "
-                    + datoEncuestado.getGenero()+" "
-                    + datoEncuestado.getNive_economico()+" "
-                    + datoEncuestado.getPersonasHogar()+" "
-                    + datoEncuestado.getNivelAcademico());
-
             List<Estudio> estudios = dao.estudiosAplicanUsuario(datoEncuestado);
             ResponseEstudio responseEstudio = (ResponseEstudio)fabricaEstudio.generarResponse();
             if(!(estudios.isEmpty())){
                 for(Estudio estudio: estudios){
-                    if(estudio.getActivo() == 1){
-                        DtoEstudio dtoEstudio = EstudioMapper.mapEntitytoDto( estudio);
-                        JsonObject agregar = responseEstudio.generate( dtoEstudio);
-                        estudiosList.add(agregar);
-                    }
+                    DtoEstudio dtoEstudio = EstudioMapper.mapEntitytoDto( estudio);
+                    JsonObject agregar = responseEstudio.generate( dtoEstudio);
+                    estudiosList.add(agregar);
                 }
                 this.result = ResponseGeneral.Succes( estudiosList);
             }

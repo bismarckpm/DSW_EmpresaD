@@ -40,14 +40,15 @@ public class ServicioEstudioTest {
     public void consultarEstudioTest() throws Exception{
         ServicioEstudio servicio = new ServicioEstudio();
         DtoEstudio dtoEstudio = new DtoEstudio(1);
-        Response consultado = servicio.consultarEstudio("",dtoEstudio.get_id());
+        Response consultado = servicio.consultarEstudio("eyJhbGciOiJIUzI1NiJ9.eyJqdGkiOiIxIiwiaWF0IjoxNjEyMzEwNTc2LCJzdWIiOiJtYWlsQG1haWwuY29tIiwiaXNzIjoibWVyY2FkZW9VY2FiIiwiZXhwIjoxNjEyMzIxMzc2fQ.NxPXeU9BMvtvGN9-gQDw4lLuyj6-00K-DXCUlDQHs_s"
+                ,dtoEstudio.get_id());
         Assert.assertEquals( 200, consultado.getStatus());
     }
 
     @Test
     public void listarEstudiosTest() throws Exception{
         ServicioEstudio servicio = new ServicioEstudio();
-        Response estudios = servicio.listarEstudios("");
+        Response estudios = servicio.listarEstudios("eyJhbGciOiJIUzI1NiJ9.eyJqdGkiOiIxIiwiaWF0IjoxNjEyMzEwNTc2LCJzdWIiOiJtYWlsQG1haWwuY29tIiwiaXNzIjoibWVyY2FkZW9VY2FiIiwiZXhwIjoxNjEyMzIxMzc2fQ.NxPXeU9BMvtvGN9-gQDw4lLuyj6-00K-DXCUlDQHs_s");
         Assert.assertEquals(200, estudios.getStatus());
     }
 
@@ -84,7 +85,8 @@ public class ServicioEstudioTest {
     public void usuariosAplicanEncuestaTest() throws Exception{
         ServicioEstudio servicio = new ServicioEstudio();
         DtoEstudio dtoEstudio = new DtoEstudio(1);
-        Response resultado = servicio.usuariosAplicanEncuesta("",dtoEstudio.get_id());
+        Response resultado = servicio.usuariosAplicanEncuesta("eyJhbGciOiJIUzI1NiJ9.eyJqdGkiOiIxIiwiaWF0IjoxNjEyMzEwNTc2LCJzdWIiOiJtYWlsQG1haWwuY29tIiwiaXNzIjoibWVyY2FkZW9VY2FiIiwiZXhwIjoxNjEyMzIxMzc2fQ.NxPXeU9BMvtvGN9-gQDw4lLuyj6-00K-DXCUlDQHs_s"
+                                                             ,dtoEstudio.get_id());
         Assert.assertEquals(200, resultado.getStatus());
     }
 

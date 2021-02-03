@@ -2,6 +2,7 @@ package mercadeoucab.dtos;
 
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -76,5 +77,11 @@ public class DtoEncuestaEstudio extends DtoBase{
      */
     public void setFk_estudio(DtoEstudio fk_estudio) {
         this.fk_estudio = fk_estudio;
+    }
+
+    public void addRespuesta( DtoRespuesta dtoRespuesta){
+        if ( this.respuestas == null)
+            this.respuestas = new ArrayList<>();
+        this.respuestas.add( dtoRespuesta );
     }
 }
