@@ -1,6 +1,5 @@
 package mercadeoucab.servicio;
 
-import mercadeoucab.comandos.Tipo.*;
 import mercadeoucab.dtos.DtoTipo;
 import mercadeoucab.responses.ResponseGeneral;
 
@@ -30,7 +29,7 @@ public class ServicioTipo extends AplicacionBase {
         Response resultado = null;
         try {
             validateToken(token);
-            ComandoListarTipos comandoListarTipos = new ComandoListarTipos();
+            mercadeoucab.comandos.Tipo.ComandoListarTipos comandoListarTipos = new mercadeoucab.comandos.Tipo.ComandoListarTipos();
             comandoListarTipos.execute();
             resultado = comandoListarTipos.getResult();
         }
@@ -55,7 +54,7 @@ public class ServicioTipo extends AplicacionBase {
         try {
             validateToken(token);
             verifyParams(id);
-            ComandoObtenerTipo comandoObtenerTipo = new ComandoObtenerTipo();
+            mercadeoucab.comandos.Tipo.ComandoObtenerTipo comandoObtenerTipo = new mercadeoucab.comandos.Tipo.ComandoObtenerTipo();
             comandoObtenerTipo.setId(id);
             comandoObtenerTipo.execute();
             resultado = comandoObtenerTipo.getResult();
@@ -82,7 +81,7 @@ public class ServicioTipo extends AplicacionBase {
         {
             validateToken(token);
             verifyParams(dtoTipo);
-            ComandoRegistrarTipo comandoRegistrarTipo = new ComandoRegistrarTipo();
+            mercadeoucab.comandos.Tipo.ComandoRegistrarTipo comandoRegistrarTipo = new mercadeoucab.comandos.Tipo.ComandoRegistrarTipo();
             comandoRegistrarTipo.setDtoTipo(dtoTipo);
             comandoRegistrarTipo.execute();
             resultado = comandoRegistrarTipo.getResult();
@@ -110,7 +109,7 @@ public class ServicioTipo extends AplicacionBase {
             validateToken(token);
             verifyParams(id);
             verifyParams(dtoTipo);
-            ComandoActualizarTipo comandoActualizarTipo = new ComandoActualizarTipo();
+            mercadeoucab.comandos.Tipo.ComandoActualizarTipo comandoActualizarTipo = new mercadeoucab.comandos.Tipo.ComandoActualizarTipo();
             comandoActualizarTipo.setId(id);
             comandoActualizarTipo.setDtoTipo(dtoTipo);
             comandoActualizarTipo.execute();
@@ -136,7 +135,7 @@ public class ServicioTipo extends AplicacionBase {
         try {
             validateToken(token);
             verifyParams(id);
-            ComandoEliminarTipo comandoEliminarTipo = new ComandoEliminarTipo();
+            mercadeoucab.comandos.Tipo.ComandoEliminarTipo comandoEliminarTipo = new mercadeoucab.comandos.Tipo.ComandoEliminarTipo();
             comandoEliminarTipo.setId(id);
             comandoEliminarTipo.execute();
             resultado = comandoEliminarTipo.getResult();
