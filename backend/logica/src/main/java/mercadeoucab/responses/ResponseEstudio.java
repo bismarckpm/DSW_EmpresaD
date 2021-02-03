@@ -27,12 +27,12 @@ public class ResponseEstudio implements ResponseBase<DtoEstudio> {
         if(dtoEstudio.getEncuestaEstudio().size() > 0){
             for(DtoEncuestaEstudio encuestaEstudio: dtoEstudio.getEncuestaEstudio()){
                 String tipo = encuestaEstudio.getFk_pregunta().getTipo();
-                JsonObject objeto = null;
+                JsonObject objeto;
                 switch (tipo){
                     case "abierta":
                     case "boolean":
                         JsonArrayBuilder respuestasList = Json.createArrayBuilder();
-                        if (encuestaEstudio.getRespuestas().size() > 0){
+                        if (Objects.nonNull(encuestaEstudio.getRespuestas()) && encuestaEstudio.getRespuestas().size() > 0){
                             for (DtoRespuesta dtoRespuesta: encuestaEstudio.getRespuestas()){
                                 JsonObject respuesta = responseRespuesta.generate(dtoRespuesta);
                                 respuestasList.add( respuesta);
@@ -49,7 +49,7 @@ public class ResponseEstudio implements ResponseBase<DtoEstudio> {
                     case "multiple":
                     case "simple":
                         JsonArrayBuilder respuestasListS = Json.createArrayBuilder();
-                        if ( encuestaEstudio.getRespuestas().size() > 0){
+                        if ( Objects.nonNull(encuestaEstudio.getRespuestas()) && encuestaEstudio.getRespuestas().size() > 0){
                             for (DtoRespuesta dtoRespuesta: encuestaEstudio.getRespuestas()){
                                 JsonObject respuesta = responseRespuesta.generate(dtoRespuesta);
                                 respuestasListS.add( respuesta);
@@ -64,7 +64,7 @@ public class ResponseEstudio implements ResponseBase<DtoEstudio> {
                         break;
                     case "rango":
                         JsonArrayBuilder respuestasListR = Json.createArrayBuilder();
-                        if (encuestaEstudio.getRespuestas().size() > 0){
+                        if (Objects.nonNull(encuestaEstudio.getRespuestas()) && encuestaEstudio.getRespuestas().size() > 0){
                             for (DtoRespuesta dtoRespuesta: encuestaEstudio.getRespuestas()){
                                 JsonObject respuesta = responseRespuesta.generate(dtoRespuesta);
                                 respuestasListR.add( respuesta);
