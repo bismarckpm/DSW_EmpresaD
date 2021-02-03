@@ -75,7 +75,7 @@ public class EstudioMapper {
             }
         }
 
-        if ( entity.getEncuestaEstudio().size() > 0)
+        if ( entity.getEncuestaEstudio().size() > 0 && Objects.nonNull(entity.getEncuestaEstudio()))
         {
             for (EncuestaEstudio encuestaEstudio: entity.getEncuestaEstudio()){
                 dto.addEncuestaEstudio(

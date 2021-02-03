@@ -45,10 +45,12 @@ public class EncuestaEstudioMapper {
         }
 
         if(entity.getRespuestas().size() > 0){
-            for(Respuesta respuesta: entity.getRespuestas())
+            for(Respuesta respuesta: entity.getRespuestas()) {
+                System.out.println("RESPUESTASSSSSSS");
                 dto.addRespuesta(
                         RespuestaMapper.mapEntityToDto(respuesta)
                 );
+            }
         }
 
         return dto;
