@@ -13,6 +13,8 @@ import java.util.Objects;
 
 public class ResponseEstudio implements ResponseBase<DtoEstudio> {
 
+    private  final FabricaAbstracta fabricaPregunta = FabricaAbstracta.getFactory(Fabricas.PREGUNTA);
+    private  final FabricaAbstracta fabricaRespuesta = FabricaAbstracta.getFactory(Fabricas.RESPUESTA);
     /**
      * @param dtoEstudio Objeto que se desea convertir en Json
      * @return se retorna el Json de dtoEstudio
@@ -20,11 +22,10 @@ public class ResponseEstudio implements ResponseBase<DtoEstudio> {
     @Override
     public JsonObject generate(DtoEstudio dtoEstudio) throws Exception {
         JsonArrayBuilder preguntaslist = Json.createArrayBuilder();
-        FabricaAbstracta fabricaPregunta = FabricaAbstracta.getFactory(Fabricas.PREGUNTA);
-        FabricaAbstracta fabricaRespuesta = FabricaAbstracta.getFactory(Fabricas.RESPUESTA);
+
         ResponsePregunta responsePregunta = (ResponsePregunta) fabricaPregunta.generarResponse();
         ResponseRespuesta responseRespuesta = (ResponseRespuesta) fabricaRespuesta.generarResponse();
-        if(dtoEstudio.getEncuestaEstudio().size() > 0){
+        if(Objects.nonNull(dtoEstudio.getEncuestaEstudio()) && dtoEstudio.getEncuestaEstudio().size() > 0){
             for(DtoEncuestaEstudio encuestaEstudio: dtoEstudio.getEncuestaEstudio()){
                 String tipo = encuestaEstudio.getFk_pregunta().getTipo();
                 JsonObject objeto;

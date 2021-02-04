@@ -34,7 +34,7 @@ public class ComandoEliminarEstado implements ComandoBase{
                     new Date(Calendar.getInstance().getTime().getTime())
             );
             estado.setActivo( 0);
-            Estado resul = dao.update( estado);
+            dao.update( estado);
             this.result = ResponseGeneral.SuccesMessage();
         }catch (Exception e){
             this.result = ResponseGeneral.Failure("ERROR");

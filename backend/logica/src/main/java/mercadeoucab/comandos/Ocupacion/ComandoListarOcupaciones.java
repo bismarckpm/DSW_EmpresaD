@@ -15,6 +15,7 @@ import javax.json.JsonArrayBuilder;
 import javax.json.JsonObject;
 import javax.ws.rs.core.Response;
 import java.util.List;
+import java.util.Objects;
 
 /**
  *
@@ -35,7 +36,7 @@ public class ComandoListarOcupaciones implements ComandoBase {
             FabricaAbstracta fabricaOcupacion = FabricaAbstracta.getFactory( Fabricas.OCUPACION);
             DaoOcupacion dao = (DaoOcupacion)fabricaOcupacion.generarDao();
             List<Ocupacion> ocupaciones = dao.findAll(Ocupacion.class);
-            if ( ocupaciones.size() > 0) {
+            if (Objects.nonNull(ocupaciones) && ocupaciones.size() > 0) {
                 for (Ocupacion ocupacion : ocupaciones) {
                     if (ocupacion.getActivo() == 1) {
                         ResponseOcupacion responseOcupacion = (ResponseOcupacion)fabricaOcupacion.generarResponse();

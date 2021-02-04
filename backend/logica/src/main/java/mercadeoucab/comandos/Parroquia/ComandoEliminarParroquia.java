@@ -34,7 +34,7 @@ public class ComandoEliminarParroquia implements ComandoBase {
             parroquia.setModificado_el(
                     new Date(Calendar.getInstance().getTime().getTime())
             );
-            Parroquia resul = dao.update( parroquia );
+            dao.update( parroquia );
             this.result = ResponseGeneral.SuccesMessage();
         }catch (Exception e){
             this.result = ResponseGeneral.Failure("ERROR");

@@ -33,7 +33,7 @@ public class ComandoActualizarTipo implements ComandoBase {
                             .getTime()
                             .getTime())
             );
-            Tipo resul = dao.update( tipo );
+            dao.update( tipo );
             result = ResponseGeneral.SuccesMessage();
         }
         catch (Exception e) {

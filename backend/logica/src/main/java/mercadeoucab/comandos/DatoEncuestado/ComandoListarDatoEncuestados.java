@@ -15,6 +15,7 @@ import javax.json.JsonArrayBuilder;
 import javax.json.JsonObject;
 import javax.ws.rs.core.Response;
 import java.util.List;
+import java.util.Objects;
 
 /**
  *
@@ -35,7 +36,7 @@ public class ComandoListarDatoEncuestados implements ComandoBase {
             FabricaAbstracta fabricaDatoEncuestado = FabricaAbstracta.getFactory( Fabricas.DATOENCUESTADO);
             DaoDatoEncuestado dao =  (DaoDatoEncuestado) fabricaDatoEncuestado.generarDao();
             List<DatoEncuestado> datosEncuestadosObtenidos = dao.findAll( DatoEncuestado.class);
-            if ( datosEncuestadosObtenidos.size() > 0) {
+            if (Objects.nonNull(datosEncuestadosObtenidos) && datosEncuestadosObtenidos.size() > 0) {
                 for (DatoEncuestado datoEncuestado : datosEncuestadosObtenidos) {
                     if (datoEncuestado.getActivo() != 0) {
                         ResponseDatoEncuestado responseDatoEncuestado = (ResponseDatoEncuestado) fabricaDatoEncuestado.generarResponse();

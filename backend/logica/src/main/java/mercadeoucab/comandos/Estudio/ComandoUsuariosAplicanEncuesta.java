@@ -16,6 +16,7 @@ import javax.json.JsonArrayBuilder;
 import javax.json.JsonObject;
 import javax.ws.rs.core.Response;
 import java.util.List;
+import java.util.Objects;
 
 public class ComandoUsuariosAplicanEncuesta implements ComandoBase {
 
@@ -33,7 +34,7 @@ public class ComandoUsuariosAplicanEncuesta implements ComandoBase {
             DaoEstudio daoEstudio = (DaoEstudio) fabricaEstudio.generarDao();
             ResponseUsuario responseUsuario = (ResponseUsuario) fabricaUsuario.generarResponse();
             List<Usuario> usuarios = daoEstudio.personasAplicanEstudio(daoEstudio.find(id, Estudio.class));
-            if (usuarios.size()>0){
+            if (Objects.nonNull(usuarios) && usuarios.size()>0){
                 for(Usuario usuario: usuarios){
                     if(usuario.getActivo() == 1) {
                         DtoUsuario dtoUsuario = UsuarioMapper.mapEntityToDto( usuario);

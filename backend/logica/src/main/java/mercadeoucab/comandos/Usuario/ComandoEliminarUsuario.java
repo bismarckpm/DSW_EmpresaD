@@ -36,7 +36,7 @@ public class ComandoEliminarUsuario implements ComandoBase {
                             .getInstance()
                             .getTime()
                             .getTime()));
-            Usuario resul = dao.update( usuario);
+            dao.update( usuario);
             this.result = ResponseGeneral.SuccesMessage();
         }catch (Exception e){
             this.result = ResponseGeneral.Failure("No se pudo eliminar al usuario");

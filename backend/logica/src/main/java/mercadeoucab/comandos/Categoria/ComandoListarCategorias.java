@@ -15,6 +15,7 @@ import javax.json.JsonArrayBuilder;
 import javax.json.JsonObject;
 import javax.ws.rs.core.Response;
 import java.util.List;
+import java.util.Objects;
 
 public class ComandoListarCategorias implements ComandoBase {
 
@@ -31,7 +32,7 @@ public class ComandoListarCategorias implements ComandoBase {
             FabricaAbstracta fabrica = FabricaAbstracta.getFactory(Fabricas.CATEGORIA);
             DaoCategoria dao = (DaoCategoria) fabrica.generarDao();
             List<Categoria> categorias = dao.findAll(Categoria.class);
-            if ( categorias.size() > 0) {
+            if (Objects.nonNull(categorias) && categorias.size() > 0) {
                 for (Categoria categoria : categorias) {
                     ResponseCategoria responseCategoria = (ResponseCategoria) fabrica.generarResponse();
                     if (categoria.getActivo() == 1) {

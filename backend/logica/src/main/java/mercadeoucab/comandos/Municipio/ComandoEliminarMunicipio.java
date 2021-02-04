@@ -34,7 +34,7 @@ public class ComandoEliminarMunicipio implements ComandoBase {
             municipio.setModificado_el(
                     new Date(Calendar.getInstance().getTime().getTime())
             );
-            Municipio resul = dao.update(municipio);
+            dao.update(municipio);
             this.result = ResponseGeneral.SuccesMessage();
         }catch (Exception e){
             this.result = ResponseGeneral.Failure("ERROR");

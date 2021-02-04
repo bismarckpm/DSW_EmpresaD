@@ -27,7 +27,7 @@ public class ComandoEliminarCategoria implements ComandoBase {
             Categoria categoria = dao.find(id, Categoria.class);
             categoria.setActivo(0);
             categoria.setModificado_el(new Date(Calendar.getInstance().getTime().getTime()));
-            Categoria resul = dao.update(categoria);
+            dao.update(categoria);
             result = ResponseGeneral.SuccesMessage();
         }
         catch (Exception e){

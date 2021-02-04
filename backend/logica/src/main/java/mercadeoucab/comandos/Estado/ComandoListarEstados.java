@@ -15,6 +15,7 @@ import javax.json.JsonArrayBuilder;
 import javax.json.JsonObject;
 import javax.ws.rs.core.Response;
 import java.util.List;
+import java.util.Objects;
 
 /**
  *
@@ -36,7 +37,7 @@ public class ComandoListarEstados implements ComandoBase {
             DaoEstado dao = (DaoEstado) fabricaEstado.generarDao();
             List<Estado> estadosObtenidos = dao.findAll( Estado.class);
             ResponseEstado responseEstado = (ResponseEstado)fabricaEstado.generarResponse();
-            if ( estadosObtenidos.size()> 0 ) {
+            if (Objects.nonNull(estadosObtenidos) && estadosObtenidos.size()> 0 ) {
                 for (Estado estado : estadosObtenidos) {
                     if (estado.getActivo() != 0) {
                         DtoEstado dtoEstado = EstadoMapper.mapentitytoDto(estado);

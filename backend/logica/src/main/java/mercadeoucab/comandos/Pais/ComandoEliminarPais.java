@@ -34,7 +34,7 @@ public class ComandoEliminarPais implements ComandoBase {
             pais.setModificado_el(
                     new Date(Calendar.getInstance().getTime().getTime())
             );
-            Pais resul = dao.update( pais );
+            dao.update( pais );
             this.result = ResponseGeneral.SuccesMessage();
         }catch (Exception e){
             this.result = ResponseGeneral.Failure("ERROR");

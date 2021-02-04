@@ -15,6 +15,7 @@ import javax.json.JsonArrayBuilder;
 import javax.json.JsonObject;
 import javax.ws.rs.core.Response;
 import java.util.List;
+import java.util.Objects;
 
 /**
  *
@@ -36,7 +37,7 @@ public class ComandoListarMunicipios implements ComandoBase {
             DaoMunicipio dao = (DaoMunicipio) fabricaMunicipio.generarDao();
             List<Municipio> municipiosObtenidos = dao.findAll( Municipio.class);
             ResponseMunicipio responseMunicipio = (ResponseMunicipio) fabricaMunicipio.generarResponse();
-            if ( !municipiosObtenidos.isEmpty()) {
+            if (Objects.nonNull(municipiosObtenidos) && municipiosObtenidos.size() > 0) {
                 for (Municipio municipio : municipiosObtenidos) {
                     if (municipio.getActivo() != 0) {
                         DtoMunicipio dtoMunicipio = MunicipioMapper.mapEntitytoDto(municipio);

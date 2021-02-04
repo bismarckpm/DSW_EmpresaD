@@ -15,6 +15,7 @@ import javax.json.JsonArrayBuilder;
 import javax.json.JsonObject;
 import javax.ws.rs.core.Response;
 import java.util.List;
+import java.util.Objects;
 
 /**
  *
@@ -36,7 +37,7 @@ public class ComandoListarPaises implements ComandoBase {
             JsonArrayBuilder paises = Json.createArrayBuilder();
             DaoPais dao = (DaoPais)fabricaPais.generarDao();
             List<Pais> paisesObtenidos = dao.findAll( Pais.class);
-            if ( paisesObtenidos.size() >0 ){
+            if (Objects.nonNull(paisesObtenidos) && paisesObtenidos.size() >0 ){
                 for (Pais pais: paisesObtenidos){
                     if (pais.getActivo()!= 0){
                         DtoPais dtoPais = PaisMapper.mapEntityToDto( pais);

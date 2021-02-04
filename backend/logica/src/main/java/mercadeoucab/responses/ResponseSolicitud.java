@@ -8,9 +8,13 @@ import mercadeoucab.fabricas.FabricaAbstracta;
 import javax.json.Json;
 import javax.json.JsonArrayBuilder;
 import javax.json.JsonObject;
+import java.util.Objects;
 
 public class ResponseSolicitud implements ResponseBase<DtoSolicitud> {
 
+    private  final FabricaAbstracta fabrica = FabricaAbstracta.getFactory(Fabricas.USUARIO);
+    private  final FabricaAbstracta fabrica1 = FabricaAbstracta.getFactory(Fabricas.PRESENTACION);
+    private  final FabricaAbstracta fabrica2 = FabricaAbstracta.getFactory(Fabricas.MUESTRAPOBLACION);
     /**
      * @param dtoSolicitud Objeto que se desea convertir en Json
      * @return se retorna el Json
@@ -21,14 +25,14 @@ public class ResponseSolicitud implements ResponseBase<DtoSolicitud> {
         JsonObject usuario;
         JsonObject muestraPoblacion;
         try {
-            FabricaAbstracta fabrica = FabricaAbstracta.getFactory(Fabricas.USUARIO);
+
             ResponseUsuario responseUsuario = (ResponseUsuario) fabrica.generarResponse();
             usuario = responseUsuario.generate(dtoSolicitud.getUsuario());
 
-            FabricaAbstracta fabrica1 = FabricaAbstracta.getFactory(Fabricas.PRESENTACION);
+
             JsonArrayBuilder presentacionlist = Json.createArrayBuilder();
 
-            if (dtoSolicitud.getPresentaciones().size() > 0) {
+            if (Objects.nonNull(dtoSolicitud.getPresentaciones()) && dtoSolicitud.getPresentaciones().size() > 0) {
                 for (DtoPresentacion presentacion : dtoSolicitud.getPresentaciones()) {
                     ResponsePresentacion responsePresentacion = (ResponsePresentacion) fabrica1.generarResponse();
                     JsonObject objeto = responsePresentacion.generate(presentacion);
@@ -36,7 +40,7 @@ public class ResponseSolicitud implements ResponseBase<DtoSolicitud> {
                 }
             }
 
-            FabricaAbstracta fabrica2 = FabricaAbstracta.getFactory(Fabricas.MUESTRAPOBLACION);
+
             ResponseMuestraPoblacion responseMuestraPoblacion = (ResponseMuestraPoblacion) fabrica2.generarResponse();
             muestraPoblacion = responseMuestraPoblacion.generate(dtoSolicitud.getMuestraPoblacion());
 

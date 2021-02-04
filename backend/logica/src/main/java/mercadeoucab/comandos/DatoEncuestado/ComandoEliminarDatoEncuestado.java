@@ -34,7 +34,7 @@ public class ComandoEliminarDatoEncuestado implements ComandoBase {
             datoEncuestado.setModificado_el(
                     new Date(Calendar.getInstance().getTime().getTime())
             );
-            DatoEncuestado resul = dao.update(datoEncuestado);
+            dao.update(datoEncuestado);
             this.result = ResponseGeneral.SuccesMessage();
         }catch (Exception e){
             this.result = ResponseGeneral.Failure("ERROR");
