@@ -37,7 +37,7 @@ public class  ComandoActualizarParroquia implements ComandoBase {
             );
             parroquia.setNombre( dtoParroquia.getNombre());
             parroquia.setValor_socio_economico( dtoParroquia.getValor_socio_economico());
-            Parroquia resul = dao.update( parroquia );
+            dao.update( parroquia );
             this.result = ResponseGeneral.SuccesMessage();
         }catch (Exception e){
             this.result = ResponseGeneral.Failure("ERROR");

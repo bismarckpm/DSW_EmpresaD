@@ -40,7 +40,7 @@ public class ComandoActualizarUsuario implements ComandoBase {
                             .getInstance()
                             .getTime()
                             .getTime()));
-            Usuario resul = dao.update( usuario);
+            dao.update( usuario);
             this.result = ResponseGeneral.SuccesMessage();
         }catch (Exception e){
             this.result = ResponseGeneral.Failure("Ha ocurrido un error");

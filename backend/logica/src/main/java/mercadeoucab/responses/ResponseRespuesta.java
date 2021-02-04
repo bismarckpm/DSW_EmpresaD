@@ -1,6 +1,8 @@
 package mercadeoucab.responses;
 
 import mercadeoucab.dtos.DtoRespuesta;
+import mercadeoucab.fabricas.Enums.Fabricas;
+import mercadeoucab.fabricas.FabricaAbstracta;
 
 import javax.json.Json;
 import javax.json.JsonObject;
@@ -8,6 +10,8 @@ import java.util.Objects;
 
 public class ResponseRespuesta implements ResponseBase<DtoRespuesta> {
 
+    private  final FabricaAbstracta fabricaUsuario = FabricaAbstracta.getFactory(Fabricas.USUARIO);
+    private  final FabricaAbstracta fabricaOpcion = FabricaAbstracta.getFactory(Fabricas.OPCION);
     /**
      * @param dtoRespuesta Objeto que se desea convertir en Json
      * @return se retorna el Json de dtoRespuesta
@@ -15,7 +19,8 @@ public class ResponseRespuesta implements ResponseBase<DtoRespuesta> {
     @Override
     public JsonObject generate(DtoRespuesta dtoRespuesta) throws Exception {
         JsonObject resultado;
-        ResponseUsuario responseUsuario = new ResponseUsuario();
+
+        ResponseUsuario responseUsuario = (ResponseUsuario) fabricaUsuario.generarResponse();
         JsonObject usuario = responseUsuario.generate(
                 dtoRespuesta.getDtousuario()
         );
@@ -30,7 +35,7 @@ public class ResponseRespuesta implements ResponseBase<DtoRespuesta> {
         );
          */
         if ( Objects.nonNull( dtoRespuesta.getDtoopcion())){
-            ResponseOpcion responseOpcion = new ResponseOpcion();
+            ResponseOpcion responseOpcion = (ResponseOpcion) fabricaOpcion.generarResponse();
             JsonObject opcion = responseOpcion.generate(
                     dtoRespuesta.getDtoopcion()
             );

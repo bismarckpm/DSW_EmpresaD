@@ -15,6 +15,7 @@ import javax.json.JsonArrayBuilder;
 import javax.json.JsonObject;
 import javax.ws.rs.core.Response;
 import java.util.List;
+import java.util.Objects;
 
 public class ComandoListarOpcion implements ComandoBase {
 
@@ -29,7 +30,7 @@ public class ComandoListarOpcion implements ComandoBase {
             FabricaAbstracta fabrica = FabricaAbstracta.getFactory(Fabricas.OPCION);
             DaoOpcion dao = (DaoOpcion) fabrica.generarDao();
             List<Opcion> opciones = dao.findAll(Opcion.class);
-            if (opciones.size() > 0){
+            if (Objects.nonNull(opciones) && opciones.size() > 0){
                 for (Opcion opcion : opciones){
                     if(opcion.getActivo() == 1) {
                         ResponseOpcion responseOpcion = (ResponseOpcion) fabrica.generarResponse();

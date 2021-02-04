@@ -43,10 +43,10 @@ public class ComandoActualizarDatoEncuestado implements ComandoBase {
             datoEncuestado.setNive_economico(dtoDatoEncuestado.getNive_economico());
             datoEncuestado.setNivelAcademico(dtoDatoEncuestado.getNivelAcademico());
             datoEncuestado.setPersonasHogar(dtoDatoEncuestado.getPersonasHogar());
-            DatoEncuestado resul = dao.update(datoEncuestado);
+            dao.update(datoEncuestado);
             this.result = ResponseGeneral.SuccesMessage();
         }catch (Exception e) {
-            this.result = ResponseGeneral.Failure("ERROR");
+            this.result = ResponseGeneral.Failure("Error al actualizar el dato de encuestado");
         }
     }
 

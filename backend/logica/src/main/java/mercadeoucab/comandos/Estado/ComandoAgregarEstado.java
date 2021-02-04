@@ -31,18 +31,12 @@ public class ComandoAgregarEstado implements ComandoBase {
     public void execute() {
         try {
             FabricaAbstracta fabricaEstado = FabricaAbstracta.getFactory( Fabricas.ESTADO);
-            FabricaAbstracta fabricaPais = FabricaAbstracta.getFactory( Fabricas.PAIS);
             DaoEstado dao = (DaoEstado) fabricaEstado.generarDao();
             Estado estado = EstadoMapper.mapdtotoEntity( this.dtoEstado);
             estado.setActivo( 1);
             estado.setCreado_el(
                     new Date(Calendar.getInstance().getTime().getTime())
             );
-            Pais pais = (Pais) fabricaPais.generarEntidad();
-            pais.set_id(
-                    dtoEstado.getFk_pais().get_id()
-            );
-            estado.setFk_pais( pais );
             Estado resul = dao.insert( estado );
             this.result = ResponseGeneral.SuccesCreate( resul.get_id());
         }catch (Exception e){

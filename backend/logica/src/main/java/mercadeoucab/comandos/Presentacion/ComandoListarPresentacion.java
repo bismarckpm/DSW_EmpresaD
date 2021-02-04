@@ -15,6 +15,7 @@ import javax.json.JsonArrayBuilder;
 import javax.json.JsonObject;
 import javax.ws.rs.core.Response;
 import java.util.List;
+import java.util.Objects;
 
 public class ComandoListarPresentacion implements ComandoBase {
 
@@ -30,7 +31,7 @@ public class ComandoListarPresentacion implements ComandoBase {
             DaoPresentacion dao = (DaoPresentacion) fabrica.generarDao();
             List<Presentacion> presentaciones = dao.findAll(Presentacion.class);
             ResponsePresentacion responsePresentacion = (ResponsePresentacion) fabrica.generarResponse();
-            if ( presentaciones.size() > 0 ) {
+            if (Objects.nonNull(presentaciones) && presentaciones.size() > 0 ) {
                 for (Presentacion presentacion : presentaciones) {
                     if (presentacion.getActivo() == 1) {
                         DtoPresentacion dtoPresentacion = PresentacionMapper.mapEntityToDto(presentacion);

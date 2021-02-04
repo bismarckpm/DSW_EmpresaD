@@ -15,6 +15,7 @@ import javax.json.JsonArrayBuilder;
 import javax.json.JsonObject;
 import javax.ws.rs.core.Response;
 import java.util.List;
+import java.util.Objects;
 
 /**
  *
@@ -36,7 +37,7 @@ public class ComandoListarParroquias implements ComandoBase {
             DaoParroquia dao = (DaoParroquia) fabricaParroquia.generarDao();
             List<Parroquia> parroquiasObtenidas = dao.findAll( Parroquia.class);
             ResponseParroquia responseParroquia = (ResponseParroquia) fabricaParroquia.generarResponse();
-            if ( parroquiasObtenidas.size() > 0) {
+            if (Objects.nonNull(parroquiasObtenidas) && parroquiasObtenidas.size() > 0) {
                 for (Parroquia parroquia : parroquiasObtenidas) {
                     if (parroquia.getActivo() != 0) {
                         DtoParroquia dtoParroquia = ParroquiaMapper.mapEntityToDto(parroquia);

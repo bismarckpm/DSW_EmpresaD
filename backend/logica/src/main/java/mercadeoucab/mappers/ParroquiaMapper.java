@@ -33,9 +33,11 @@ public class ParroquiaMapper {
         dtoParroquia.set_id(parroquia.get_id());
 
         dtoParroquia.setNombre( parroquia.getNombre());
-        dtoParroquia.setFk_municipio(
-                MunicipioMapper.mapEntitytoDto(parroquia.getFk_municipio())
-        );
+        if(Objects.nonNull(parroquia.getFk_municipio())) {
+            dtoParroquia.setFk_municipio(
+                    MunicipioMapper.mapEntitytoDto(parroquia.getFk_municipio())
+            );
+        }
         dtoParroquia.setValor_socio_economico( parroquia.getValor_socio_economico());
         dtoParroquia.setActivo( parroquia.getActivo());
         dtoParroquia.setModificado_el( parroquia.getModificado_el());

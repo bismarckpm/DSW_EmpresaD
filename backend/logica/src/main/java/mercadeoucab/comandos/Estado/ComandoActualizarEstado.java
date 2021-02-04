@@ -36,7 +36,7 @@ public class ComandoActualizarEstado implements ComandoBase {
                     new Date(Calendar.getInstance().getTime().getTime())
             );
             estado.setNombre( dtoEstado.getNombre());
-            Estado resul = dao.update(estado);
+            dao.update(estado);
             this.result = ResponseGeneral.SuccesMessage();
         }catch (Exception e){
             this.result = ResponseGeneral.Failure("ERROR");

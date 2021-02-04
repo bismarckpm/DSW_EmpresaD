@@ -37,7 +37,7 @@ public class ComandoActualizarOcupacion implements ComandoBase {
                     .getInstance()
                     .getTime()
                     .getTime()));
-            Ocupacion resul = dao.update( ocupacion);
+            dao.update( ocupacion);
             this.result = ResponseGeneral.SuccesMessage();
         }catch (Exception e){
             this.result = ResponseGeneral.Failure("ERROR");

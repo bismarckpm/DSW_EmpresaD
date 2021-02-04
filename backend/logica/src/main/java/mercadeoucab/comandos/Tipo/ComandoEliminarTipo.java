@@ -31,7 +31,7 @@ public class ComandoEliminarTipo implements ComandoBase {
                             .getTime()
                             .getTime())
             );
-            Tipo resul = dao.update( tipo);
+            dao.update( tipo);
             result = ResponseGeneral.SuccesMessage();
         }catch (Exception e) {
             this.result = ResponseGeneral.Failure("Ha ocurrido un error al eliminar el tipo");

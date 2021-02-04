@@ -40,7 +40,7 @@ public class ServicioEstudioTest {
     public void consultarEstudioTest() throws Exception{
         ServicioEstudio servicio = new ServicioEstudio();
         DtoEstudio dtoEstudio = new DtoEstudio(2);
-        Response consultado = servicio.consultarEstudio("eyJhbGciOiJIUzI1NiJ9.eyJqdGkiOiIxIiwiaWF0IjoxNjEyMzg1MjE4LCJzdWIiOiJtYWlsQG1haWwuY29tIiwiaXNzIjoibWVyY2FkZW9VY2FiIiwiZXhwIjoxNjEyMzk2MDE4fQ.DKun6HORdhF_L0BtLLqo7I6gaUvBMMNnP_0LNhkXtfE"
+        Response consultado = servicio.consultarEstudio("eyJhbGciOiJIUzI1NiJ9.eyJqdGkiOiIxIiwiaWF0IjoxNjEyMzk3MDE5LCJzdWIiOiJtYWlsQG1haWwuY29tIiwiaXNzIjoibWVyY2FkZW9VY2FiIiwiZXhwIjoxNjEyNDA3ODE5fQ.gthmFbj5NlO_7X6lSwUnzcRDFMeTYlUTC8GxqQ3Qtmw"
                 ,dtoEstudio.get_id());
         Assert.assertEquals( 200, consultado.getStatus());
     }
@@ -48,7 +48,7 @@ public class ServicioEstudioTest {
     @Test
     public void listarEstudiosTest() throws Exception{
         ServicioEstudio servicio = new ServicioEstudio();
-        Response estudios = servicio.listarEstudios("eyJhbGciOiJIUzI1NiJ9.eyJqdGkiOiIxIiwiaWF0IjoxNjEyMzg1MjE4LCJzdWIiOiJtYWlsQG1haWwuY29tIiwiaXNzIjoibWVyY2FkZW9VY2FiIiwiZXhwIjoxNjEyMzk2MDE4fQ.DKun6HORdhF_L0BtLLqo7I6gaUvBMMNnP_0LNhkXtfE");
+        Response estudios = servicio.listarEstudios("eyJhbGciOiJIUzI1NiJ9.eyJqdGkiOiIxIiwiaWF0IjoxNjEyMzk3MDE5LCJzdWIiOiJtYWlsQG1haWwuY29tIiwiaXNzIjoibWVyY2FkZW9VY2FiIiwiZXhwIjoxNjEyNDA3ODE5fQ.gthmFbj5NlO_7X6lSwUnzcRDFMeTYlUTC8GxqQ3Qtmw");
         Assert.assertEquals(200, estudios.getStatus());
     }
 
