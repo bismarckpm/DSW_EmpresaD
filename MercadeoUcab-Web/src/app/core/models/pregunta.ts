@@ -4,7 +4,7 @@ import { Usuario } from './usuario';
 export class Pregunta {
   constructor(
     public _id: number,
-    public pregunta: string,
+    public nombre: string,
     public tipo: string,
     public rango: string,
     public opciones: Array<Opcion>,

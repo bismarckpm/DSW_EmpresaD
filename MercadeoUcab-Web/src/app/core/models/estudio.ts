@@ -1,3 +1,4 @@
+import { Encuesta } from './encuesta';
 import { MuestraPoblacion } from './muestraPoblacion';
 import { Pregunta } from './pregunta';
 import { Solicitud } from './solicitud';
@@ -11,7 +12,7 @@ export class Estudio {
     public encuestas_esperadas: number,
     public solicitud: Solicitud,
     public analista: Usuario,
-    public muestra_poblacion: MuestraPoblacion,
-    public preguntas: Array<Pregunta>
+    public preguntas: Array<Pregunta>,
+    public encuesta: Array<Encuesta>
   ) {}
 }
