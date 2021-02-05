@@ -17,6 +17,12 @@
         {{ element.encuestas_esperadas }}
       </td>
     </ng-container>
+    <ng-container matColumnDef="t_est">
+      <th mat-header-cell *matHeaderCellDef>Tipo de estudio</th>
+      <td mat-cell *matCellDef="let element">
+        {{ element.tipo }}
+      </td>
+    </ng-container>
     <!-- estado Column -->
     <ng-container matColumnDef="estado">
       <th mat-header-cell *matHeaderCellDef>Estado</th>

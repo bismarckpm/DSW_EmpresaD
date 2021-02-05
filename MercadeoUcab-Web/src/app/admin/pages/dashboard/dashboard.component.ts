@@ -22,7 +22,7 @@ export class DashboardComponent implements OnInit {
   ];
   openNote: boolean=false;
   showFiller = false;
-
+  userSession = null;
   @ViewChild('uInfo') private infoComponent: BasicInfoDialogComponent;
   async openInfoModal() {
     return await this.infoComponent.open();
@@ -31,10 +31,25 @@ export class DashboardComponent implements OnInit {
   getOpenNote():boolean{
     return this.openNote;
   };
-
+  checkUser(){
+    if(localStorage.getItem('user_data') === null){
+      localStorage.setItem('user_data',JSON.stringify({
+        _id: Math.floor(Math.random() * (1000 - 1) + 1),
+        nombre: Math.random().toString(36).substr(2, 5),
+        apellido: Math.random().toString(36).substr(2, 5),
+        rol: 'Administrador',
+        correo: Math.random().toString(36).substr(2, 5),
+        estado: 'Activo',
+      }));
+      this.userSession = JSON.parse(localStorage.getItem('user_data'));
+    }
+    else {
+      this.userSession = JSON.parse(localStorage.getItem('user_data'));
+    }
+  }
   ngOnInit(): void {
     this.onDir('home');
-    //this.router.navigate(['administrador/','home']);
+    this.checkUser();
     setTimeout(()=>{
       this.openNote=true;
       setTimeout(() => {
@@ -44,7 +59,6 @@ export class DashboardComponent implements OnInit {
   }
   onDir(_route: string): void {
     try {
-      //console.log(_route);
       this.router.navigate(['administrador/',_route]);
     } catch (e) {
       console.log(e.message);

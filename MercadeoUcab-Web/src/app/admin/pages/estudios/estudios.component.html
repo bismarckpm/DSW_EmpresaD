@@ -102,35 +102,6 @@
       <div style="height: 15%; width: 100%">
         <h5 style="text-align: center">Muestras de población sugeridas</h5>
       </div>
-      <!--
-      <div
-            style="
-              width: 80%;
-              height: 100%;
-              display: flex;
-              flex-direction: column;
-              align-items: center;
-              justify-content: center;
-            "
-          >
-            <div style="width: 100%; display: flex; flex-direction: column">
-              <label>
-                <h6>Género</h6>
-              </label>
-              <label>
-                {{ pobSug.genero }}
-              </label>
-            </div>
-            <div style="width: 100%; display: flex; flex-direction: column">
-              <label>
-                <h6>Rango de edad</h6>
-              </label>
-              <label>
-                {{ pobSug.rango_edad_inicio + "-" + pobSug.rango_edad_fin }}
-              </label>
-         </div>
-      </div>
-    -->
       <div
         style="
           height: 85%;
@@ -159,18 +130,42 @@
               <label>
                 <h6>Género</h6>
               </label>
-              <label>
+              <p>
                 {{ pobSug.genero }}
-              </label>
+              </p>
             </div>
             <div style="width: 100%; display: flex; flex-direction: column">
               <label>
                 <h6>Rango de edad</h6>
               </label>
-              <label>
+              <p>
                 {{ getYearDiff(pobSug.rango_edad_inicio) + "-" + getYearDiff(pobSug.rango_edad_fin) }}
+              </p>
+            </div>
+            <div style="width: 100%; display: flex; flex-direction: column">
+              <label>
+                <h6>Nivel económico</h6>
               </label>
-         </div>
+              <p>
+                {{ pobSug.nivel_economico }}
+              </p>
+            </div>
+            <div style="width: 100%; display: flex; flex-direction: column">
+              <label>
+                <h6>Nivel Académico</h6>
+              </label>
+              <p>
+                {{ pobSug.nivel_academico }}
+              </p>
+            </div>
+            <div style="width: 100%; display: flex; flex-direction: column">
+              <label>
+                <h6>Ocupación</h6>
+              </label>
+              <p>
+                {{ pobSug.ocupacion.nombre }}
+              </p>
+            </div>
       </div>
           <div
             style="

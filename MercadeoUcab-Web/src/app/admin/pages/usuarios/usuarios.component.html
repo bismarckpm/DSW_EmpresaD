@@ -529,11 +529,28 @@
 <app-basic-info-dialog #info [_tipo]="'Usuario'">
   <div class="cForm-field-row" *ngIf="userTarget !== null">
     <div class="cForm-field-col">
-      <label>Nombre</label>
-      <span>{{userTarget.nombre}}</span>
+      <div class="form-group">
+      <label><h4>Nombre</h4></label>
+      <span><p>{{userTarget.nombre}}</p></span>
+      </div>
+      <div class="form-group">
+        <label><h4>Apellido</h4></label>
+        <span><p>{{userTarget.apellido}}</p></span>
+        </div>
     </div>
     <div class="cForm-field-col">
-    
+      <div class="form-group">
+        <label><h4>Rol de usuario</h4></label>
+        <span><p>{{userTarget.rol}}</p></span>
+      </div>
+      <div class="form-group">
+        <label><h4>Correo de usuario</h4></label>
+        <span><p>{{userTarget.correo}}</p></span>
+      </div>
+      <div class="form-group">
+        <label><h4>Estado</h4></label>
+        <span><p>{{userTarget.estado}}</p></span>
+      </div>
     </div>
   </div>
 </app-basic-info-dialog>

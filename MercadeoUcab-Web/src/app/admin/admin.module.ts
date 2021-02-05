@@ -44,6 +44,7 @@ import { UpdMarcaDialogComponent } from './components/dialogs/upd-marca-dialog/u
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { BasicInfoDialogComponent } from './components/dialogs/basic-info-dialog/basic-info-dialog.component';
+import { AdminHomeComponent } from './pages/AdminHome/AdminHome.component';
 @NgModule({
   declarations: [
     EstudiosComponent,
@@ -53,6 +54,7 @@ import { BasicInfoDialogComponent } from './components/dialogs/basic-info-dialog
     DashboardComponent,
     DataTableComponent,
     BaseDialogComponent,
+    AdminHomeComponent,
     UserInfoDialogComponent,
     AddUserDialogComponent,
     UpdateUserDialogComponent,

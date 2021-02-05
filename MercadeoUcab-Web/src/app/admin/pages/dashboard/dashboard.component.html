@@ -52,14 +52,28 @@
   </div>
 </mat-drawer-container>
 <app-basic-info-dialog #uInfo [_tipo]="'Sesión'">
-  <div class="cForm-field-row">
-    <div class="cForm-field-col">
-      
-    </div>
-    <div class="cForm-field-col">
-    
-    </div>
-  </div>
+    <div class="cForm-field-row" *ngIf="userSession !== null">
+        <div class="cForm-field-col">
+          <div class="form-group">
+          <label><h4>Nombre</h4></label>
+          <span><p>{{userSession.nombre}}</p></span>
+          </div>
+          <div class="form-group">
+            <label><h4>Apellido</h4></label>
+            <span><p>{{userSession.apellido}}</p></span>
+            </div>
+        </div>
+        <div class="cForm-field-col">
+          <div class="form-group">
+            <label><h4>Rol de usuario</h4></label>
+            <span><p>{{userSession.rol}}</p></span>
+          </div>
+          <div class="form-group">
+            <label><h4>Correo de usuario</h4></label>
+            <span><p>{{userSession.correo}}</p></span>
+          </div>
+        </div>
+      </div>
 </app-basic-info-dialog>
 
 <!--

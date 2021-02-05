@@ -18,7 +18,7 @@ import { BasicInfoDialogComponent } from '../../components/dialogs/basic-info-di
   styleUrls: ['./analista-tasks.component.css'],
 })
 export class AnalistaTasksComponent implements OnInit {
-  displayedColumns: string[] = ['id', 'expect', 'estado'];
+  displayedColumns: string[] = ['id', 'expect','t_est','estado'];
   columnsToDisplay: string[] = this.displayedColumns.slice();
   estudios: any[] = [];
   dataSource: MatTableDataSource<Estudio>;

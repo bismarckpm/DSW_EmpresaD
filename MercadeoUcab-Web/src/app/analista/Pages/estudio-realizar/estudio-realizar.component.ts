@@ -6,6 +6,7 @@ import { MuestraPoblacion } from '@models/muestraPoblacion';
 import { UtilService } from '@core/services/utils/util.service';
 import { Estudio } from '@models/estudio';
 import { BasicInfoDialogComponent } from '../../components/dialogs/basic-info-dialog/basic-info-dialog.component';
+import { EncuestaDialogComponent } from '../../Components/encuesta-dialog/encuesta-dialog.component';
 
 @Component({
   selector: 'app-estudio-realizar',
@@ -19,6 +20,7 @@ export class EstudioRealizarComponent implements OnInit {
   _Id: number = 0;
   searchState: string; //I.P,D
   _encuestados: any[] = [];
+  _targetEncuestado : any = null;
   constructor(
     private route: ActivatedRoute,
     private _estudioService: EstudioService,
@@ -29,12 +31,21 @@ export class EstudioRealizarComponent implements OnInit {
   async openInfoModal() {
     return await this.infoComponent.open();
   }
+  @ViewChild('pobInfo') private pobInfoComponent: BasicInfoDialogComponent;
+  async openPobInfoModal() {
+    return await this.pobInfoComponent.open();
+  }
+  @ViewChild('encuesta') private encuestaComponent: EncuestaDialogComponent;
+  async openEncuestaModal() {
+    return await this.encuestaComponent.open();
+  }
+
   testRes: any = {
     "status": 200,
     "data": {
       "_id": 2,
       "estado": "Culminado",
-      "tipo": "En linea",
+      "tipo": "Via telefonica",
       "encuestas_esperadas": 20,
       "solicitud": {
         "_id": 2,
@@ -139,7 +150,10 @@ export class EstudioRealizarComponent implements OnInit {
       this.getEstudio();
     }
   }
-
+  setUsuarioEncuesta (_user,_encuesta) {
+    this._targetEncuestado=_user;
+    this.openEncuestaModal();
+  }
   getEncuestadosCanAnswerEstudio(id) {
     this._utilsService.getUsuariosCanApplyToEstudio(id).subscribe(
       (response) => {
