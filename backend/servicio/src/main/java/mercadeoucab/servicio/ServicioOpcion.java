@@ -1,18 +1,19 @@
 package mercadeoucab.servicio;
 
-import mercadeoucab.accesodatos.*;
-import mercadeoucab.dtos.*;
-import mercadeoucab.entidades.*;
+import mercadeoucab.comandos.Opcion.*;
+import mercadeoucab.dtos.DtoOpcion;
+import mercadeoucab.responses.ResponseGeneral;
 
-import javax.json.Json;
-import javax.json.JsonObject;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
-import java.sql.Date;
-import java.util.Calendar;
-import java.util.List;
 
+/**
+ *
+ * @author Antonio Nohra
+ * @version 1.0
+ * @since 2020-12-18
+ */
 @Path( "/opcion" )
 @Produces( MediaType.APPLICATION_JSON )
 @Consumes( MediaType.APPLICATION_JSON )
@@ -20,130 +21,114 @@ public class ServicioOpcion extends AplicacionBase{
 
     @GET
     @Path("/{id}")
-    // @PathParam("id") Long id
-    public DtoOpcion obtenerOpcion(@PathParam("id") Long id){
-        DtoOpcion resultado = new DtoOpcion();
+    public Response obtenerOpcion(@HeaderParam("Authorization") String token, @PathParam("id") Long id){
+        Response resultado = null;
         try{
-            DaoOpcion dao = new DaoOpcion();
-            Opcion resul = dao.find( id, Opcion.class);
-            resultado.set_id( resul.get_id());
-            resultado.setNombre_opcion(resul.getNombre_opcion());
+            validateToken(token);
+            verifyParams(id);
+            ComandoObtenerOpcion comandoObtenerOpcion = new ComandoObtenerOpcion();
+            comandoObtenerOpcion.setId(id);
+            comandoObtenerOpcion.execute();
+            resultado = comandoObtenerOpcion.getResult();
         }catch (Exception e) {
+            // CAMBIAR CUANDO SE MANEJEN LAS EXCEPCIONES PROPIAS
             String problema = e.getMessage();
+            resultado = ResponseGeneral.Failure("Ha ocurrido un error");
         }
         return resultado;
     }
 
     @GET
     @Path("/")
-    public List<Opcion> listarOpcion(){
-        DaoOpcion dao = new DaoOpcion();
-        return dao.findAll( Opcion.class);
+    public Response listarOpcion(@HeaderParam("Authorization") String token){
+        Response resultado = null;
+        try {
+            validateToken(token);
+            ComandoListarOpcion comandoListarOpcion = new ComandoListarOpcion();
+            comandoListarOpcion.execute();
+            resultado = comandoListarOpcion.getResult();
+        }
+        catch (Exception e){
+            // CAMBIAR CUANDO SE MANEJEN LAS EXCEPCIONES PROPIAS
+            String problema = e.getMessage();
+            resultado = ResponseGeneral.Failure("Ha ocurrido un error");
+        }
+        return resultado;
     }
 
+    /**
+     * Metodo para crear una opcion
+     * @param dtoOpcion Objeto que se desea crear
+     * @return regresa mensaje de exito en caso de agregarse exitosamente o
+     *   mensaje de error
+     */
     @POST
     @Path("/")
-    public Response registrarOpcion(DtoOpcion DTOO){
-        JsonObject data;
+    public Response registrarOpcion(@HeaderParam("Authorization") String token, DtoOpcion dtoOpcion){
         Response resultado = null;
         try{
-            DaoOpcion daoO = new DaoOpcion();
-            Opcion opcion = new Opcion();
-            opcion.setNombre_opcion(DTOO.getNombre_opcion());
-            opcion.setActivo(DTOO.getActivo());
-            opcion.setCreado_el(new Date(Calendar.getInstance().getTime().getTime()));
-            Pregunta pregunta=new Pregunta(DTOO.get_Dtopregunta().get_id());
-            opcion.setFk_pregunta(pregunta);
-            Opcion resul = daoO.insert( opcion);
-            data = Json.createObjectBuilder()
-                    .add("status", 200)
-                    .add("message", "Agregado exitosamente")
-                    .build();
-            resultado = Response.status(Response.Status.OK)
-                    .entity(data)
-                    .build();
+            validateToken(token);
+            verifyParams(dtoOpcion);
+            ComandoRegistrarOpcion comandoRegistrarOpcion = new ComandoRegistrarOpcion();
+            comandoRegistrarOpcion.setDtoOpcion(dtoOpcion);
+            comandoRegistrarOpcion.execute();
+            resultado = comandoRegistrarOpcion.getResult();
         }catch (Exception e) {
+            // CAMBIAR CUANDO SE MANEJEN LAS EXCEPCIONES PROPIAS
             String problema = e.getMessage();
-            data = Json.createObjectBuilder()
-                    .add("status", 400)
-                    .add("message", problema)
-                    .build();
-            resultado = Response.status(Response.Status.BAD_REQUEST)
-                    .entity(data)
-                    .build();
+            resultado = ResponseGeneral.Failure("Ha ocurrido un error");
         }
         return resultado;
     }
 
 
+    /**
+     * Metodo para actualizar una Opcion dado un identificador
+     * @param id Identificador de la Opcion que se desea actualizar
+     * @param dtoOpcion Objeto que se desea actualizar
+     * @return regresa mensaje de exito o mensaje que ha ocurrido un error
+     */
     @PUT
     @Path("/{id}")
-    // @PathParam("id") Long id
-    public Response actualizarOpcion(@PathParam("id") Long id, DtoOpcion DTOO){
-        JsonObject data;
+    public Response actualizarOpcion(@HeaderParam("Authorization") String token, @PathParam("id") Long id, DtoOpcion dtoOpcion){
         Response resultado = null;
         try{
-            DaoOpcion dao = new DaoOpcion();
-            Opcion opcion = dao.find( id, Opcion.class);
-            if(DTOO.getNombre_opcion()!=null){
-                opcion.setNombre_opcion(DTOO.getNombre_opcion());
-            }
-            opcion.setModificado_el(new Date(Calendar
-                    .getInstance()
-                    .getTime()
-                    .getTime()));
-            Opcion resul = dao.update( opcion);
-            data = Json.createObjectBuilder()
-                    .add("status", 200)
-                    .add("message", "Actualizado exitosamente")
-                    .build();
-            resultado = Response.status(Response.Status.OK)
-                    .entity(data)
-                    .build();
+            validateToken(token);
+            verifyParams(id);
+            verifyParams(dtoOpcion);
+            ComandoActualizarOpcion comandoActualizarOpcion = new ComandoActualizarOpcion();
+            comandoActualizarOpcion.setDtoOpcion(dtoOpcion);
+            comandoActualizarOpcion.setId(id);
+            comandoActualizarOpcion.execute();
+            resultado = comandoActualizarOpcion.getResult();
         }catch (Exception e) {
+            // CAMBIAR CUANDO SE MANEJEN LAS EXCEPCIONES PROPIAS
             String problema = e.getMessage();
-            data = Json.createObjectBuilder()
-                    .add("status", 400)
-                    .add("message", problema)
-                    .build();
-            resultado = Response.status(Response.Status.BAD_REQUEST)
-                    .entity(data)
-                    .build();
+            resultado = ResponseGeneral.Failure("Ha ocurrido un error");
         }
         return resultado;
     }
 
+    /**
+     * Metodo para eliminar una Opcion dado un identificador
+     * @param id Identificador de la Opcion que se desea eliminar
+     * @return regresa mensaje de exito o mensaje que ha ocurrido un error
+     */
     @PUT
     @Path("/{id}/eliminar")
-    public Response eliminarOpcion(@PathParam("id") Long id){
-        JsonObject data;
+    public Response eliminarOpcion(@HeaderParam("Authorization") String token, @PathParam("id") Long id){
         Response resultado = null;
         try{
-            DaoOpcion dao = new DaoOpcion();
-            Opcion opcion = dao.find( id, Opcion.class);
-            opcion.setActivo( 0);
-            opcion.setModificado_el(
-                    new Date(Calendar
-                            .getInstance()
-                            .getTime()
-                            .getTime()));
-            Opcion resul = dao.update( opcion);
-            data = Json.createObjectBuilder()
-                    .add("status", 200)
-                    .add("message", "Eliminado exitosamente")
-                    .build();
-            resultado = Response.status(Response.Status.OK)
-                    .entity(data)
-                    .build();
+            validateToken(token);
+            verifyParams(id);
+            ComandoEliminarOpcion comandoEliminarOpcion = new ComandoEliminarOpcion();
+            comandoEliminarOpcion.setId(id);
+            comandoEliminarOpcion.execute();
+            resultado = comandoEliminarOpcion.getResult();
         }catch (Exception e) {
+            // CAMBIAR CUANDO SE MANEJEN LAS EXCEPCIONES PROPIAS
             String problema = e.getMessage();
-            data = Json.createObjectBuilder()
-                    .add("status", 400)
-                    .add("message", problema)
-                    .build();
-            resultado = Response.status(Response.Status.BAD_REQUEST)
-                    .entity(data)
-                    .build();
+            resultado = ResponseGeneral.Failure("Ha ocurrido un error");
         }
         return resultado;
     }

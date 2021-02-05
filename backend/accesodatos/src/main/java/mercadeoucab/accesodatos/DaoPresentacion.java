@@ -4,6 +4,9 @@ import mercadeoucab.entidades.Presentacion;
 
 import javax.persistence.EntityManager;
 
+/**
+ * Name: DaoPresentacion
+ */
 public class DaoPresentacion extends Dao<Presentacion>{
 
     private EntityManager _em;

@@ -1,11 +1,9 @@
 import mercadeoucab.dtos.DtoPais;
-import mercadeoucab.entidades.Pais;
 import mercadeoucab.servicio.ServicioPais;
 import org.junit.Assert;
 import org.junit.Test;
 
 import javax.ws.rs.core.Response;
-import java.util.List;
 
 public class ServicioPaisTest {
 
@@ -14,7 +12,7 @@ public class ServicioPaisTest {
         ServicioPais servicio = new ServicioPais();
         DtoPais registro = new DtoPais();
         registro.setNombre("Venezuela");
-        Response resultado = servicio.agregarPais(registro);
+        Response resultado = servicio.agregarPais("",registro);
         Assert.assertEquals(
                 javax.ws.rs.core.Response.Status.OK.getStatusCode(),
                 resultado.getStatus()
@@ -26,7 +24,7 @@ public class ServicioPaisTest {
         ServicioPais servicio = new ServicioPais();
         DtoPais registro = new DtoPais();
         registro.setNombre("Venezuela");
-        Response resultado = servicio.actualizarPais(1, registro);
+        Response resultado = servicio.actualizarPais("",1, registro);
         Assert.assertEquals(
                 javax.ws.rs.core.Response.Status.OK.getStatusCode(),
                 resultado.getStatus()
@@ -36,7 +34,7 @@ public class ServicioPaisTest {
     @Test
     public void eliminarPaisTest() throws Exception{
         ServicioPais servicio = new ServicioPais();
-        Response resultado = servicio.eliminarPais( (long)1);
+        Response resultado = servicio.eliminarPais("",1);
         Assert.assertEquals(
                 javax.ws.rs.core.Response.Status.OK.getStatusCode(),
                 resultado.getStatus()
@@ -46,7 +44,7 @@ public class ServicioPaisTest {
     @Test
     public void consultarPaisTest() throws Exception{
         ServicioPais servicio = new ServicioPais();
-        Response resultado = servicio.obtenerPais( (long)1);
+        Response resultado = servicio.obtenerPais("",1);
         Assert.assertEquals(
                 javax.ws.rs.core.Response.Status.OK.getStatusCode(),
                 resultado.getStatus()
@@ -56,7 +54,7 @@ public class ServicioPaisTest {
     @Test
     public void listarPaisesTest() throws Exception{
         ServicioPais servicio = new ServicioPais();
-        Response resultado = servicio.listar_paises();
+        Response resultado = servicio.listar_paises("");
         Assert.assertEquals(
                 javax.ws.rs.core.Response.Status.OK.getStatusCode(),
                 resultado.getStatus()

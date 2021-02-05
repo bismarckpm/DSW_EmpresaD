@@ -1,9 +1,6 @@
-import mercadeoucab.dtos.DtoEstudio;
 import mercadeoucab.dtos.DtoOpcion;
 import mercadeoucab.dtos.DtoPregunta;
 import mercadeoucab.dtos.DtoUsuario;
-import mercadeoucab.entidades.Opcion;
-import mercadeoucab.entidades.Pregunta;
 import mercadeoucab.servicio.ServicioPregunta;
 import org.junit.Assert;
 import org.junit.Test;
@@ -29,7 +26,7 @@ public class ServicioPreguntaTest {
         paraAgregar2.setNombre_opcion("poco");
         opciones.add( paraAgregar2);
         dtoPregunta.setOpciones( opciones);
-        Response resultado = servicio.registrarPregunta(dtoPregunta);
+        Response resultado = servicio.registrarPregunta("",dtoPregunta);
         Assert.assertEquals(resultado.getStatus(), 200);
     }
 
@@ -37,7 +34,7 @@ public class ServicioPreguntaTest {
     public void consultarPreguntaTest() throws Exception{
         ServicioPregunta servicio = new ServicioPregunta();
         DtoPregunta dtoPregunta = new DtoPregunta(1);
-        Response resultado = servicio.consultarPregunta(dtoPregunta.get_id());
+        Response resultado = servicio.consultarPregunta("",dtoPregunta.get_id());
         Assert.assertEquals(resultado.getStatus(), 200);
     }
 
@@ -45,14 +42,14 @@ public class ServicioPreguntaTest {
     public void eliminarPreguntaTest() throws  Exception{
         ServicioPregunta servicio = new ServicioPregunta();
         DtoPregunta dtoPregunta = new DtoPregunta(1);
-        Response resultado = servicio.eliminarPregunta(dtoPregunta.get_id());
+        Response resultado = servicio.eliminarPregunta("",dtoPregunta.get_id());
         Assert.assertEquals(resultado.getStatus(), 200);
     }
 
     @Test
     public void listarPreguntasTest() throws Exception{
         ServicioPregunta servicio = new ServicioPregunta();
-        Response resultado = servicio.listarPreguntas();
+        Response resultado = servicio.listarPreguntas("");
         Assert.assertEquals(resultado.getStatus(), 200);
     }
 
@@ -63,7 +60,7 @@ public class ServicioPreguntaTest {
         dtoPregunta.setNombre_pregunta("cambio");
         dtoPregunta.setRango("rango");
         dtoPregunta.setTipo("abierta");
-        Response resultado = servicio.actualizarPregunta(dtoPregunta.get_id(),dtoPregunta);
+        Response resultado = servicio.actualizarPregunta("",dtoPregunta.get_id(),dtoPregunta);
         Assert.assertEquals(resultado.getStatus(), 200);
     }
 }

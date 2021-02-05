@@ -1,15 +1,3 @@
-import mercadeoucab.dtos.*;
-import mercadeoucab.entidades.DatoEncuestado;
-import mercadeoucab.entidades.Hijo;
-import mercadeoucab.servicio.ServicioDatoEncuestado;
-import mercadeoucab.servicio.ServicioHijo;
-import mercadeoucab.servicio.ServicioUsuario;
-import org.junit.Assert;
-import org.junit.Test;
-
-import java.sql.Date;
-import java.util.List;
-
 public class ServicioHijoTest {
 
     /*@Test

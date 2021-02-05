@@ -3,7 +3,14 @@ package mercadeoucab.servicio;
 import mercadeoucab.accesodatos.DaoDatoEncuestado;
 import mercadeoucab.accesodatos.DaoEstudio;
 import mercadeoucab.accesodatos.DaoUsuario;
-import mercadeoucab.entidades.*;
+import mercadeoucab.comandos.Usuario.ComandoEstudiosAplicablesEncuestado;
+import mercadeoucab.dtos.DtoEstudio;
+import mercadeoucab.entidades.DatoEncuestado;
+import mercadeoucab.entidades.Estudio;
+import mercadeoucab.entidades.Usuario;
+import mercadeoucab.mappers.EstudioMapper;
+import mercadeoucab.responses.ResponseEstudio;
+import mercadeoucab.responses.ResponseGeneral;
 
 import javax.json.Json;
 import javax.json.JsonArrayBuilder;
@@ -13,95 +20,40 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import java.util.List;
 
+/**
+ *
+ * @author Daren Gonzalez
+ * @version 1.0
+ * @since 2020-12-18
+ */
 @Path( "/encuestados" )
 @Produces( MediaType.APPLICATION_JSON )
 @Consumes( MediaType.APPLICATION_JSON )
 public class ServicioEncuestado extends AplicacionBase{
 
+    /**
+     * Metodo para listar todos los estudios para los cuales aplica un usuario
+     * con rol encuestado
+     * @param id Identificador del usuario encuestado
+     * @return regresa la lista de estudios de un usuario encuestado
+     *       ,respuesta que no se encontro o mensaje que ha ocurido un error
+     */
     @GET
     @Path("/estudios/{id}")
-    public Response estudiosAplicables(@PathParam("id") long id){
-        JsonObject data;
-        JsonArrayBuilder estudiosList = Json.createArrayBuilder();
+    public Response estudiosAplicables(@HeaderParam("Authorization") String token,@PathParam("id") long id){
         Response resultado = null;
         try {
-            DaoEstudio dao = new DaoEstudio();
-            DaoUsuario daoUsuario = new DaoUsuario();
-            DaoDatoEncuestado daoDatoEncuestado = new DaoDatoEncuestado();
-            DatoEncuestado datoEncuestado = daoDatoEncuestado.datoEncuestado(daoUsuario.find(id, Usuario.class));
-            System.out.print(datoEncuestado.get_id() +" "
-                            + datoEncuestado.getCedula()+" "
-                            + datoEncuestado.getGenero()+" "
-                            + datoEncuestado.getNive_economico()+" "
-                            + datoEncuestado.getPersonasHogar()+" "
-                            + datoEncuestado.getNivelAcademico());
-
-            List<Estudio> estudios = dao.estudiosAplicanUsuario(datoEncuestado);
-            if(!(estudios.isEmpty())){
-                for(Estudio estudio: estudios){
-                    if(estudio.getActivo() == 1){
-                    /*JsonArrayBuilder tiposList = Json.createArrayBuilder();
-                    for(Tipo tipo: estudio.getSolicitud().getTipos()){
-                        JsonObject objecto = Json.createObjectBuilder()
-                                .add("_id", tipo.get_id())
-                                .add("nombre", tipo.getNombre())
-                                .build();
-                        tiposList.add(objecto);
-                    }*/
-
-                    /*JsonArrayBuilder presentacionlist = Json.createArrayBuilder();
-                    for(Presentacion presentacion: estudio.getSolicitud().getPresentaciones()){
-                        JsonObject objecto = Json.createObjectBuilder()
-                                .add("_id", presentacion.get_id())
-                                .add("tipo", presentacion.getTipo())
-                                .add("Cantidad",presentacion.getCantidad())
-                                .build();
-                        presentacionlist.add(objecto);
-                    }*/
-
-                    /*JsonArrayBuilder subCategoriaslist = Json.createArrayBuilder();
-                    for(SubCategoria subCategoria: estudio.getSolicitud().getSubCategorias()){
-                        JsonObject objecto = Json.createObjectBuilder()
-                                .add("_id", subCategoria.get_id())
-                                .add("nombre", subCategoria.getNombre())
-                                .add("categoria",Json.createObjectBuilder()
-                                        .add("_id", subCategoria.getCategoria().get_id())
-                                        .add("nombre", subCategoria.getCategoria().getNombre()))
-                                .build();
-                        subCategoriaslist.add(objecto);
-                    }*/
-
-                    JsonObject agregar = Json.createObjectBuilder()
-                            .add("_id",estudio.get_id())
-                            .build();
-                    estudiosList.add(agregar);
-                    }
-                }
-                data = Json.createObjectBuilder()
-                        .add("status", 200)
-                        .add("data", estudiosList)
-                        .build();
-            }
-            else{
-                data = Json.createObjectBuilder()
-                        .add("status", 204)
-                        .add("message", "Lamentablemente su perfil aun no aplica para ningun estudio")
-                        .build();
-            }
-
-            resultado = Response.status(Response.Status.OK)
-                    .entity(data)
-                    .build();
+            validateToken(token);
+            verifyParams( id);
+            ComandoEstudiosAplicablesEncuestado comandoEstudiosAplicablesEncuestado = new ComandoEstudiosAplicablesEncuestado();
+            comandoEstudiosAplicablesEncuestado.setId( id);
+            comandoEstudiosAplicablesEncuestado.execute();
+            resultado = comandoEstudiosAplicablesEncuestado.getResult();
         }
         catch (Exception e){
+            // CAMBIAR CUANDO SE MANEJEN LAS EXCEPCIONES PROPIAS
             String problema = e.getMessage();
-            data = Json.createObjectBuilder()
-                    .add("status", 400)
-                    .add("message", problema)
-                    .build();
-            resultado = Response.status(Response.Status.BAD_REQUEST)
-                    .entity(data)
-                    .build();
+            resultado = ResponseGeneral.Failure("Ha ocurrido un error");
         }
         return resultado;
     }

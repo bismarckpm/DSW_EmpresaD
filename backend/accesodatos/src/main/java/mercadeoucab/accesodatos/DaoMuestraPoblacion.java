@@ -4,6 +4,9 @@ import mercadeoucab.entidades.MuestraPoblacion;
 
 import javax.persistence.EntityManager;
 
+/**
+ * Name: DaoMuestraPoblacion
+ */
 public class DaoMuestraPoblacion extends Dao<MuestraPoblacion> {
 
     private EntityManager _em;

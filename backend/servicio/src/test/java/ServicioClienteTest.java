@@ -10,8 +10,8 @@ public class ServicioClienteTest {
     @Test
     public void solicitudesClienteTest() throws Exception{
         ServicioCliente servicio = new ServicioCliente();
-        DtoUsuario dtoUsuario = new DtoUsuario(1);
-        Response resultado = servicio.solicitudesCliente(dtoUsuario.get_id());
+        DtoUsuario dtoUsuario = new DtoUsuario(31);
+        Response resultado = servicio.solicitudesCliente("",dtoUsuario.get_id());
         Assert.assertEquals(200, resultado.getStatus());
     }
 }

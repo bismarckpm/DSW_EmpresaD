@@ -4,6 +4,9 @@ import mercadeoucab.entidades.SubCategoria;
 
 import javax.persistence.EntityManager;
 
+/**
+ * Name: DaoSubCategoria
+ */
 public class DaoSubCategoria extends Dao<SubCategoria> {
 
     private EntityManager _em;

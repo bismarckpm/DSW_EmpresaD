@@ -1,19 +1,10 @@
-import mercadeoucab.dtos.DtoEstado;
 import mercadeoucab.dtos.DtoMunicipio;
-import mercadeoucab.dtos.DtoPais;
 import mercadeoucab.dtos.DtoParroquia;
-import mercadeoucab.entidades.Estado;
-import mercadeoucab.entidades.Pais;
-import mercadeoucab.entidades.Parroquia;
-import mercadeoucab.servicio.ServicioEstado;
-import mercadeoucab.servicio.ServicioMunicipio;
-import mercadeoucab.servicio.ServicioPais;
-import javax.ws.rs.core.Response;
 import mercadeoucab.servicio.ServicioParroquia;
 import org.junit.Assert;
 import org.junit.Test;
 
-import java.util.List;
+import javax.ws.rs.core.Response;
 
 public class ServicioParroquiaTest {
 
@@ -24,7 +15,7 @@ public class ServicioParroquiaTest {
         dtoParroquia.setNombre("caucaguita");
         dtoParroquia.setValor_socio_economico(66666660);
         dtoParroquia.setFk_municipio(new DtoMunicipio(1));
-        Response resultado = servicio.registrarParroquia( dtoParroquia );
+        Response resultado = servicio.registrarParroquia( "",dtoParroquia );
         Assert.assertEquals(
                 javax.ws.rs.core.Response.Status.OK.getStatusCode(),
                 resultado.getStatus()
@@ -34,7 +25,7 @@ public class ServicioParroquiaTest {
     @Test
     public void consultarParroquiaTest() throws  Exception{
         ServicioParroquia servicio = new ServicioParroquia();
-        Response resultado = servicio.consultarParroquia(1);
+        Response resultado = servicio.consultarParroquia("",1);
         Assert.assertEquals(
                 javax.ws.rs.core.Response.Status.OK.getStatusCode(),
                 resultado.getStatus()
@@ -47,7 +38,7 @@ public class ServicioParroquiaTest {
         DtoParroquia dtoParroquia = new DtoParroquia();
         dtoParroquia.setNombre("petare");
         dtoParroquia.setValor_socio_economico(1000);
-        Response resultado = servicio.actualizarParroquia(1, dtoParroquia);
+        Response resultado = servicio.actualizarParroquia("",1, dtoParroquia);
         Assert.assertEquals(
                 javax.ws.rs.core.Response.Status.OK.getStatusCode(),
                 resultado.getStatus()
@@ -57,7 +48,7 @@ public class ServicioParroquiaTest {
     @Test
     public void eliminarParroquiaTest() throws Exception{
         ServicioParroquia servicio = new ServicioParroquia();
-        Response resultado = servicio.eliminarParroquia(1);
+        Response resultado = servicio.eliminarParroquia("",1);
         Assert.assertEquals(
                 javax.ws.rs.core.Response.Status.OK.getStatusCode(),
                 resultado.getStatus()
@@ -67,7 +58,7 @@ public class ServicioParroquiaTest {
     @Test
     public void listarParroquiasTest() throws Exception{
         ServicioParroquia servicio = new ServicioParroquia();
-        Response resultado = servicio.listarParroquias();
+        Response resultado = servicio.listarParroquias("");
         Assert.assertEquals(
                 javax.ws.rs.core.Response.Status.OK.getStatusCode(),
                 resultado.getStatus()

@@ -1,343 +1,147 @@
 package mercadeoucab.servicio;
 
-import mercadeoucab.accesodatos.DaoPregunta;
-import mercadeoucab.dtos.DtoOcupacion;
-import mercadeoucab.dtos.DtoOpcion;
+import mercadeoucab.comandos.Pregunta.*;
 import mercadeoucab.dtos.DtoPregunta;
-import mercadeoucab.entidades.*;
+import mercadeoucab.responses.ResponseGeneral;
 
-import javax.json.Json;
-import javax.json.JsonArrayBuilder;
-import javax.json.JsonObject;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
-import java.sql.Date;
-import java.util.Calendar;
-import java.util.List;
 
+/**
+ *
+ * @author Oscar Marquez
+ * @version 1.0
+ * @since 2020-12-18
+ */
 @Path( "/preguntas" )
 @Produces( MediaType.APPLICATION_JSON )
 @Consumes( MediaType.APPLICATION_JSON )
 public class ServicioPregunta extends AplicacionBase{
 
+    /**
+     * Metodo para listar todas las Preguntas registradas
+     * @return regresa la lista de las Preguntas, respuesta que no se encontro
+     *      o mensaje que ha ocurrido un error
+     */
     @GET
     @Path("/")
-    public Response listarPreguntas(){
-        JsonObject data;
+    public Response listarPreguntas(@HeaderParam("Authorization") String token){
         Response resultado = null;
         try {
-            DaoPregunta dao = new DaoPregunta();
-            List<Pregunta> preguntas = dao.findAll(Pregunta.class);
-            JsonArrayBuilder preguntaslist = Json.createArrayBuilder();
-
-            if(!(preguntas.isEmpty())) {
-                for (Pregunta pregunta : preguntas) {
-
-                    if(pregunta.getActivo() == 1) {
-                        String tipo = pregunta.getTipo();
-                        JsonObject objeto = null;
-                        JsonArrayBuilder opcionesList = null;
-
-                        switch (tipo) {
-                            case "abierta":
-                                objeto = Json.createObjectBuilder()
-                                        .add("pregunta", Json.createObjectBuilder()
-                                                .add("_id", pregunta.get_id())
-                                                .add("nombre", pregunta.getNombrePregunta())
-                                                .add("tipo", pregunta.getTipo()))
-                                        .add("usuario", Json.createObjectBuilder()
-                                                .add("_id", pregunta.getUsuario().get_id())
-                                                .add("nombre", pregunta.getUsuario().getNombre())
-                                                .add("apellido", pregunta.getUsuario().getApellido())
-                                                .add("correo", pregunta.getUsuario().getCorreo())
-                                                .add("rol", pregunta.getUsuario().getRol()))
-                                        .build();
-                                preguntaslist.add(objeto);
-                                break;
-
-                            case "multiple":
-                                opcionesList = Json.createArrayBuilder();
-                                for (Opcion opcion : pregunta.getOpciones()) {
-                                    JsonObject option = Json.createObjectBuilder()
-                                            .add("_id", opcion.get_id())
-                                            .add("nombre_opcion", opcion.getNombre_opcion())
-                                            .build();
-                                    opcionesList.add(option);
-                                }
-                                objeto = Json.createObjectBuilder()
-                                        .add("pregunta", Json.createObjectBuilder()
-                                                .add("_id", pregunta.get_id())
-                                                .add("nombre", pregunta.getNombrePregunta())
-                                                .add("tipo", pregunta.getTipo())
-                                                .add("opciones", opcionesList))
-                                        .add("usuario", Json.createObjectBuilder()
-                                                .add("_id", pregunta.getUsuario().get_id())
-                                                .add("nombre", pregunta.getUsuario().getNombre())
-                                                .add("apellido", pregunta.getUsuario().getApellido())
-                                                .add("correo", pregunta.getUsuario().getCorreo())
-                                                .add("rol", pregunta.getUsuario().getRol()))
-                                        .build();
-                                preguntaslist.add(objeto);
-                                break;
-                            case "simple":
-                                opcionesList = Json.createArrayBuilder();
-                                for (Opcion opcion : pregunta.getOpciones()) {
-                                    JsonObject option = Json.createObjectBuilder()
-                                            .add("_id", opcion.get_id())
-                                            .add("nombre_nombre", opcion.getNombre_opcion())
-                                            .build();
-                                    opcionesList.add(option);
-                                }
-                                objeto = Json.createObjectBuilder()
-                                        .add("pregunta", Json.createObjectBuilder()
-                                                .add("_id", pregunta.get_id())
-                                                .add("nombre", pregunta.getNombrePregunta())
-                                                .add("tipo", pregunta.getTipo())
-                                                .add("opciones", opcionesList))
-                                        .add("usuario", Json.createObjectBuilder()
-                                                .add("_id", pregunta.getUsuario().get_id())
-                                                .add("nombre", pregunta.getUsuario().getNombre())
-                                                .add("apellido", pregunta.getUsuario().getApellido())
-                                                .add("correo", pregunta.getUsuario().getCorreo())
-                                                .add("rol", pregunta.getUsuario().getRol()))
-                                        .build();
-                                preguntaslist.add(objeto);
-                                break;
-                            case "boolean":
-                                objeto = Json.createObjectBuilder()
-                                        .add("pregunta", Json.createObjectBuilder()
-                                                .add("_id", pregunta.get_id())
-                                                .add("nombre", pregunta.getNombrePregunta())
-                                                .add("tipo", pregunta.getTipo()))
-                                        .add("usuario", Json.createObjectBuilder()
-                                                .add("_id", pregunta.getUsuario().get_id())
-                                                .add("nombre", pregunta.getUsuario().getNombre())
-                                                .add("apellido", pregunta.getUsuario().getApellido())
-                                                .add("correo", pregunta.getUsuario().getCorreo())
-                                                .add("rol", pregunta.getUsuario().getRol()))
-                                        .build();
-                                preguntaslist.add(objeto);
-                                break;
-                            case "rango":
-                                objeto = Json.createObjectBuilder()
-                                        .add("pregunta", Json.createObjectBuilder()
-                                                .add("_id", pregunta.get_id())
-                                                .add("nombre", pregunta.getNombrePregunta())
-                                                .add("tipo", pregunta.getTipo())
-                                                .add("rango", pregunta.getRango()))
-                                        .add("usuario", Json.createObjectBuilder()
-                                                .add("_id", pregunta.getUsuario().get_id())
-                                                .add("nombre", pregunta.getUsuario().getNombre())
-                                                .add("apellido", pregunta.getUsuario().getApellido())
-                                                .add("correo", pregunta.getUsuario().getCorreo())
-                                                .add("rol", pregunta.getUsuario().getRol()))
-                                        .build();
-                                preguntaslist.add(objeto);
-                                break;
-                        }//final switch
-                    }
-                }//Final for
-
-                data = Json.createObjectBuilder()
-                        .add("status", 200)
-                        .add("data", preguntaslist)
-                        .build();
-                resultado = Response.status(Response.Status.OK)
-                        .entity(data)
-                        .build();
-            }//final if
-
-            else {
-                data = Json.createObjectBuilder()
-                        .add("status", 200)
-                        .add("message", "No posee preguntas registradas")
-                        .build();
-                resultado = Response.status(Response.Status.OK)
-                        .entity(data)
-                        .build();
-            }
+            validateToken(token);
+            ComandoListarPreguntas comandoListarPreguntas = new ComandoListarPreguntas();
+            comandoListarPreguntas.execute();
+            resultado = comandoListarPreguntas.getResult();
         }
         catch (Exception e){
+            // CAMBIAR CUANDO SE MANEJEN LAS EXCEPCIONES PROPIAS
             String problema = e.getMessage();
-            data = Json.createObjectBuilder()
-                    .add("status", 400)
-                    .add("message", problema)
-                    .build();
-            resultado = Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(data).build();
-
+            resultado = ResponseGeneral.Failure("Ha ocurrido un error");
         }
         return  resultado;
     }
 
+    /**
+     * Metodo para crear una Pregunta
+     * @param dtoPregunta Objeto que se desea crear
+     * @return regresa mensaje de exito en caso de agregarse exitosamente o
+     *   mensaje de error
+     */
     @POST
     @Path("/")
-    public Response registrarPregunta(DtoPregunta dtoPregunta){
-        JsonObject data;
+    public Response registrarPregunta(@HeaderParam("Authorization") String token, DtoPregunta dtoPregunta){
         Response resultado = null;
         try {
-            DaoPregunta dao = new DaoPregunta();
-            Pregunta pregunta = new Pregunta();
-            pregunta.setNombrePregunta(dtoPregunta.getNombre_pregunta());
-            pregunta.setTipo(dtoPregunta.getTipo());
-            pregunta.setRango(dtoPregunta.getRango());
-            Usuario usuario = new Usuario(dtoPregunta.getUsuarioDto().get_id());
-            pregunta.setUsuario(usuario);
-            pregunta.setActivo(1);
-            pregunta.setCreado_el(new Date(Calendar.getInstance().getTime().getTime()));
-            if ( dtoPregunta.getOpciones() != null) {
-                for (DtoOpcion opcion : dtoPregunta.getOpciones()) {
-                    Opcion paraInsertar = new Opcion();
-                    paraInsertar.setActivo(1);
-                    paraInsertar.setCreado_el(new Date(Calendar.getInstance().getTime().getTime()));
-                    paraInsertar.setNombre_opcion(opcion.getNombre_opcion());
-                    pregunta.addOpcion(paraInsertar);
-                }
-            }
-
-            Pregunta resul = dao.insert(pregunta);
-            data = Json.createObjectBuilder()
-                    .add("status", 200)
-                    .add("_id", resul.get_id())
-                    .add("mensaje", "pregunta creada con exito")
-                    .build();
-            resultado = Response.status(Response.Status.OK)
-                    .entity(data)
-                    .build();
+            validateToken(token);
+            verifyParams(dtoPregunta);
+            ComandoRegistrarPregunta comandoRegistrarPregunta = new ComandoRegistrarPregunta();
+            comandoRegistrarPregunta.setDtoPregunta(dtoPregunta);
+            comandoRegistrarPregunta.execute();
+            resultado = comandoRegistrarPregunta.getResult();
         }
         catch (Exception e){
+            // CAMBIAR CUANDO SE MANEJEN LAS EXCEPCIONES PROPIAS
             String problema = e.getMessage();
-            data = Json.createObjectBuilder()
-                    .add("status", 400)
-                    .add("message", problema)
-                    .build();
-            resultado = Response.status(Response.Status.BAD_REQUEST).entity(data).build();
+            resultado = ResponseGeneral.Failure("Ha ocurrido un error");
         }
         return resultado;
     }
 
+    /**
+     * Metodo para consultar una Pregunta dado un identificador
+     * @param id Identificador de la Pregunta que se desea consultar
+     * @return regresa la Pregunta consultada, tambien en caso de no existir
+     *      respuesta que no se encontro o mensaje que ha ocurrido un error
+     */
     @GET
     @Path("/{id}")
-    public Response consultarPregunta(@PathParam("id") long id){
-        JsonObject data;
-        JsonObject pregunta;
+    public Response consultarPregunta(@HeaderParam("Authorization") String token, @PathParam("id") long id){
         Response resultado = null;
         try {
-            DaoPregunta dao = new DaoPregunta();
-            Pregunta resul = dao.find(id, Pregunta.class);
-            if ( resul.getActivo() != 0) {
-                JsonArrayBuilder listaOpcion = Json.createArrayBuilder();
-                for ( Opcion opcion: resul.getOpciones()){
-                    if( opcion.getActivo() != 0 ) {
-                        JsonObject objetoOpcion = Json.createObjectBuilder()
-                                .add("_id", opcion.get_id())
-                                .add("nombre_opcion", opcion.getNombre_opcion())
-                                .build();
-                        listaOpcion.add(objetoOpcion);
-                    }
-                }
-                pregunta = Json.createObjectBuilder()
-                        .add("_id", resul.get_id())
-                        .add("pregunta", resul.getNombrePregunta())
-                        .add("tipo", resul.getTipo())
-                        .add("rango", resul.getRango())
-                        .add("opciones", listaOpcion)
-                        .add("usuario", Json.createObjectBuilder()
-                                .add("_id", resul.getUsuario().get_id())
-                                .add("nombre", resul.getUsuario().getNombre())
-                                .add("apellido", resul.getUsuario().getApellido())
-                                .add("correo", resul.getUsuario().getCorreo())
-                                .add("rol", resul.getUsuario().getRol()))
-                        .build();
-                data = Json.createObjectBuilder()
-                        .add("status", 200)
-                        .add("data", pregunta)
-                        .build();
-            }
-            else{
-                data = Json.createObjectBuilder()
-                        .add("status", 200)
-                        .add("message", "Pregunta no se encuentra activa")
-                        .build();
-            }
-            resultado = Response.status(Response.Status.OK)
-                    .entity(data)
-                    .build();
+            validateToken(token);
+            verifyParams(id);
+            ComandoConsultarPregunta comandoConsultarPregunta = new ComandoConsultarPregunta();
+            comandoConsultarPregunta.setId(id);
+            comandoConsultarPregunta.execute();
+            resultado = comandoConsultarPregunta.getResult();
         }catch (Exception e){
+            // CAMBIAR CUANDO SE MANEJEN LAS EXCEPCIONES PROPIAS
             String problema = e.getMessage();
-            data = Json.createObjectBuilder()
-                    .add("status", 400)
-                    .add("message", problema)
-                    .build();
-            resultado = Response.status(Response.Status.BAD_REQUEST)
-                    .entity(data)
-                    .build();
+            resultado = ResponseGeneral.Failure("Ha ocurrido un error");
         }
         return resultado;
     }
 
+    /**
+     * Metodo para eliminar una Pregunta dado un identificador
+     * @param id Identificador de la Pregunta que se desea eliminar
+     * @return regresa mensaje de exito o mensaje que ha ocurrido un error
+     */
     @PUT
     @Path("/{id}/eliminar")
-    public Response eliminarPregunta(@PathParam("id") long id){
-        JsonObject data;
+    public Response eliminarPregunta(@HeaderParam("Authorization") String token, @PathParam("id") long id){
         Response resultado = null;
         try {
-            DaoPregunta dao = new DaoPregunta();
-            Pregunta pregunta = dao.find(id, Pregunta.class);
-            pregunta.setActivo(0);
-            pregunta.setModificado_el(new Date(Calendar.getInstance().getTime().getTime()));
-            Pregunta resul = dao.update(pregunta);
-            data = Json.createObjectBuilder()
-                    .add("status", 200)
-                    .add("mensaje", "Pregunta eliminada con exito")
-                    .build();
-            resultado = Response.status(Response.Status.OK)
-                    .entity(data)
-                    .build();
+            validateToken(token);
+            verifyParams(id);
+            ComandoEliminarPregunta comandoEliminarPregunta = new ComandoEliminarPregunta();
+            comandoEliminarPregunta.setId(id);
+            comandoEliminarPregunta.execute();
+            resultado = comandoEliminarPregunta.getResult();
         }
         catch (Exception e){
+            // CAMBIAR CUANDO SE MANEJEN LAS EXCEPCIONES PROPIAS
             String problema = e.getMessage();
-            data = Json.createObjectBuilder()
-                    .add("status", 400)
-                    .add("message", problema)
-                    .build();
-            resultado = Response.status(Response.Status.BAD_REQUEST)
-                    .entity(data)
-                    .build();
+            resultado = ResponseGeneral.Failure("Ha ocurrido un error");
         }
         return resultado;
     }
 
+    /**
+     * Metodo para actualizar una Pregunta dado un identificador
+     * @param id Identificador de la Pregunta que se desea actualizar
+     * @param dtoPregunta Objeto que se desea actualizar
+     * @return regresa mensaje de exito o mensaje que ha ocurrido un error
+     */
     @PUT
     @Path("/{id}")
-    public Response actualizarPregunta(@PathParam("id") long id, DtoPregunta dtoPregunta){
-        JsonObject data;
+    public Response actualizarPregunta(@HeaderParam("Authorization") String token, @PathParam("id") long id, DtoPregunta dtoPregunta){
         Response resultado = null;
         try {
-            DaoPregunta dao = new DaoPregunta();
-            Pregunta pregunta = dao.find(id, Pregunta.class);
-            pregunta.setNombrePregunta(dtoPregunta.getNombre_pregunta());
-            pregunta.setTipo(dtoPregunta.getTipo());
-            pregunta.setRango(dtoPregunta.getRango());
-            pregunta.setModificado_el(new Date(Calendar.getInstance().getTime().getTime()));
-            Pregunta resul = dao.update( pregunta );
-            data = Json.createObjectBuilder()
-                    .add("status", 200)
-                    .add("mensaje", "pregunta actualizada con exito")
-                    .build();
-            resultado = Response.status(Response.Status.OK)
-                    .entity(data)
-                    .build();
+            validateToken(token);
+            verifyParams(id);
+            verifyParams(dtoPregunta);
+            ComandoActualizarPregunta comandoActualizarPregunta = new ComandoActualizarPregunta();
+            comandoActualizarPregunta.setDtoPregunta(dtoPregunta);
+            comandoActualizarPregunta.setId(id);
+            comandoActualizarPregunta.execute();
+            resultado = comandoActualizarPregunta.getResult();
         }
         catch (Exception e){
+            // CAMBIAR CUANDO SE MANEJEN LAS EXCEPCIONES PROPIAS
             String problema = e.getMessage();
-            data = Json.createObjectBuilder()
-                    .add("status", 400)
-                    .add("message", problema)
-                    .build();
-            resultado = Response.status(Response.Status.BAD_REQUEST)
-                    .entity(data)
-                    .build();
+            resultado = ResponseGeneral.Failure("Ha ocurrido un error");
         }
         return resultado;
     }

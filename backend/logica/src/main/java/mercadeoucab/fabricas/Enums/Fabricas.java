@@ -1,0 +1,26 @@
+package mercadeoucab.fabricas.Enums;
+
+public enum Fabricas {
+    CATEGORIA,
+    DATOENCUESTADO,
+    ENCUESTAESTUDIO,
+    ESTADO,
+    ESTUDIO,
+    HIJO,
+    MUESTRAPOBLACION,
+    MUNICIPIO,
+    OCUPACION,
+    OPCION,
+    PAIS,
+    PARROQUIA,
+    PREGUNTA,
+    PRESENTACION,
+    RESPUESTA,
+    SOLICITUD,
+    SUBCATEGORIA,
+    TELEFONO,
+    TIPO,
+    USUARIO,
+    MAIL,
+    DIRECTORIOACTIVO
+}

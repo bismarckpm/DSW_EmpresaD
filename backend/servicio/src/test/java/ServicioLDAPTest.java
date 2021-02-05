@@ -1,6 +1,4 @@
-import mercadeoucab.directorioactivo.DirectorioActivo;
 import mercadeoucab.dtos.DtoDirectorioAUser;
-import mercadeoucab.dtos.DtoUsuario;
 import mercadeoucab.servicio.ServicioLDAP;
 import mercadeoucab.servicio.ServicioUsuario;
 import org.junit.Assert;

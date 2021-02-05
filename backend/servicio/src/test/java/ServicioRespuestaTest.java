@@ -2,7 +2,6 @@ import mercadeoucab.dtos.DtoEncuestaEstudio;
 import mercadeoucab.dtos.DtoOpcion;
 import mercadeoucab.dtos.DtoRespuesta;
 import mercadeoucab.dtos.DtoUsuario;
-import mercadeoucab.entidades.Respuesta;
 import mercadeoucab.servicio.ServicioRespuesta;
 import org.junit.Assert;
 import org.junit.Test;
@@ -25,7 +24,7 @@ public class ServicioRespuestaTest {
         DtoUsuario usuario = new DtoUsuario(1);
         dtoRespuesta.setDtousuario(usuario);
 
-        Response resultado = servicio.registrarRespuesta( dtoRespuesta );
+        Response resultado = servicio.registrarRespuesta( "",dtoRespuesta );
         Assert.assertEquals(200, resultado.getStatus());
     }
 
@@ -33,14 +32,14 @@ public class ServicioRespuestaTest {
     public void obtenerRespuestaTest() throws Exception {
         ServicioRespuesta servicio = new ServicioRespuesta();
         DtoRespuesta dtoRespuesta = new DtoRespuesta(4);
-        Response resultado = servicio.obtenerRespuesta(dtoRespuesta.get_id());
+        Response resultado = servicio.obtenerRespuesta("",dtoRespuesta.get_id());
         Assert.assertEquals(200, resultado.getStatus());
     }
 
     @Test
     public void obtenerListaRespuestaTest(){
         ServicioRespuesta servicio = new ServicioRespuesta();
-        Response LDTOO= servicio.listarRespuesta();
+        Response LDTOO= servicio.listarRespuesta("");
         Assert.assertEquals(200, LDTOO.getStatus());
     }
 
@@ -49,7 +48,7 @@ public class ServicioRespuestaTest {
         ServicioRespuesta servicio = new ServicioRespuesta();
         DtoRespuesta dtoRespuesta = new DtoRespuesta(46);
         dtoRespuesta.setRespuesta("deberia ser mas grande");
-        Response resultado = servicio.actualizarRespuesta( dtoRespuesta.get_id(), dtoRespuesta);
+        Response resultado = servicio.actualizarRespuesta( "",dtoRespuesta.get_id(), dtoRespuesta);
         Assert.assertEquals(200, resultado.getStatus());
     }
 
@@ -57,7 +56,7 @@ public class ServicioRespuestaTest {
     public void eliminarRespuestaTest() throws Exception {
         ServicioRespuesta servicio = new ServicioRespuesta();
         DtoRespuesta dtoRespuesta = new DtoRespuesta(13);
-        Response resultado = servicio.eliminarRespuesta(dtoRespuesta.get_id());
+        Response resultado = servicio.eliminarRespuesta("",dtoRespuesta.get_id());
         Assert.assertEquals(200, resultado.getStatus());
     }
 
@@ -98,7 +97,7 @@ public class ServicioRespuestaTest {
 
         DtoEncuestaEstudio dtoEncuestaEstudio = new DtoEncuestaEstudio();
         dtoEncuestaEstudio.setRespuestas(respuestas);
-        Response resultado = servicio.registarEncuestaRespondida(dtoEncuestaEstudio);
+        Response resultado = servicio.registarEncuestaRespondida("",dtoEncuestaEstudio);
         Assert.assertEquals(200, resultado.getStatus());
 
     }

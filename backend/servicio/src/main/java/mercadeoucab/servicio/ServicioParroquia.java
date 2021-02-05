@@ -1,241 +1,147 @@
 package mercadeoucab.servicio;
 
-import mercadeoucab.accesodatos.DaoMunicipio;
-import mercadeoucab.accesodatos.DaoParroquia;
-import mercadeoucab.dtos.DtoMunicipio;
+import mercadeoucab.comandos.Parroquia.*;
 import mercadeoucab.dtos.DtoParroquia;
-import mercadeoucab.entidades.Estado;
-import mercadeoucab.entidades.Municipio;
-import mercadeoucab.entidades.Parroquia;
+import mercadeoucab.responses.ResponseGeneral;
 
-import javax.json.Json;
-import javax.json.JsonArrayBuilder;
-import javax.json.JsonObject;
-import javax.lang.model.util.ElementScanner6;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
-import java.sql.Date;
-import java.util.Calendar;
-import java.util.List;
 
+/**
+ *
+ * @author Daren Gonzalez
+ * @version 1.0
+ * @since 2020-12-18
+ */
 @Path( "/parroquias" )
 @Produces( MediaType.APPLICATION_JSON )
 @Consumes( MediaType.APPLICATION_JSON )
-public class ServicioParroquia {
+public class ServicioParroquia extends AplicacionBase {
 
+    /**
+     * Metodo para listar todas las Parroquias registradas
+     * @return regresa la lista de las categorias, respuesta que no se encontro
+     *      o mensaje que ha ocurrido un error
+     */
     @GET
     @Path("/")
-    public Response listarParroquias(){
-        JsonObject data;
-        JsonArrayBuilder parroquias = Json.createArrayBuilder();
+    public Response listarParroquias(@HeaderParam("Authorization") String token){
         Response resultado = null;
         try{
-            DaoParroquia dao = new DaoParroquia();
-            List<Parroquia> parroquiasObtenidas = dao.findAll( Parroquia.class);
-
-            for( Parroquia parroquia: parroquiasObtenidas){
-                if ( parroquia.getActivo() != 0 ){
-                    Municipio municipio = parroquia.getFk_municipio();
-                    Estado estado = municipio.getFk_estado();
-                    JsonObject objetoPais = Json.createObjectBuilder()
-                            .add("_id", estado.getFk_pais().get_id())
-                            .add("nombre", estado.getFk_pais().getNombre())
-                            .build();
-                    JsonObject objetoEstado = Json.createObjectBuilder()
-                            .add("_id", estado.get_id())
-                            .add("nombre", estado.getNombre())
-                            .add("pais", objetoPais)
-                            .build();
-                    JsonObject objetoMunicipio = Json.createObjectBuilder()
-                            .add("_id", municipio.get_id())
-                            .add("nombre",municipio.getNombre())
-                            .add("estado", objetoEstado)
-                            .build();
-                    JsonObject objeto = Json.createObjectBuilder()
-                            .add("_id", parroquia.get_id())
-                            .add("nombre",parroquia.getNombre())
-                            .add("valorSocioEconomico", parroquia.getValor_socio_economico())
-                            .add("municipio", objetoMunicipio)
-                            .build();
-                    parroquias.add( objeto);
-                }
-            }
-            data = Json.createObjectBuilder()
-                    .add("status", 200)
-                    .add("data", parroquias)
-                    .build();
-            resultado = Response.status(Response.Status.OK)
-                    .entity(data)
-                    .build();
+            validateToken(token);
+            ComandoListarParroquias comandoListarParroquias = new ComandoListarParroquias();
+            comandoListarParroquias.execute();
+            resultado = comandoListarParroquias.getResult();
         }catch (Exception e) {
+            // CAMBIAR CUANDO SE MANEJEN LAS EXCEPCIONES PROPIAS
             String problema = e.getMessage();
-            data = Json.createObjectBuilder()
-                    .add("status", 400)
-                    .add("message", problema)
-                    .build();
-            resultado = Response.status(Response.Status.BAD_REQUEST)
-                    .entity(data)
-                    .build();
+            resultado = ResponseGeneral.Failure("Ha ocurrido un error");
         }
         return  resultado;
     }
 
+    /**
+     * Metodo para crear una Parroquia
+     * @param dtoParroquia Objeto que se desea crear
+     * @return regresa mensaje de exito en caso de agregarse exitosamente o
+     *   mensaje de error
+     */
     @POST
     @Path("/")
-    public Response registrarParroquia(DtoParroquia dtoParroquia){
-        JsonObject data;
+    public Response registrarParroquia(@HeaderParam("Authorization") String token, DtoParroquia dtoParroquia){
         Response resultado = null;
         try {
-            DaoParroquia dao = new DaoParroquia();
-            Parroquia parroquia = new Parroquia();
-            parroquia.setNombre(dtoParroquia.getNombre());
-            parroquia.setActivo(1);
-            parroquia.setCreado_el(new Date(Calendar.getInstance().getTime().getTime()));
-            parroquia.setValor_socio_economico(dtoParroquia.getValor_socio_economico());
-            parroquia.setFk_municipio(new Municipio(dtoParroquia.getFk_municipio().get_id()));
-            Parroquia resul = dao.insert( parroquia );
-            data = Json.createObjectBuilder()
-                    .add("status", 200)
-                    .add("message", "Agregado exitosamente")
-                    .build();
-            resultado = Response.status(Response.Status.OK)
-                    .entity(data)
-                    .build();
+            validateToken(token);
+            verifyParams( dtoParroquia);
+            ComandoRegistrarParroquia comandoRegistrarParroquia = new ComandoRegistrarParroquia();
+            comandoRegistrarParroquia.setDtoParroquia( dtoParroquia);
+            comandoRegistrarParroquia.execute();
+            resultado = comandoRegistrarParroquia.getResult();
         }
         catch (Exception e) {
+            // CAMBIAR CUANDO SE MANEJEN LAS EXCEPCIONES PROPIAS
             String problema = e.getMessage();
-            data = Json.createObjectBuilder()
-                    .add("status", 400)
-                    .add("message", problema)
-                    .build();
-            resultado = Response.status(Response.Status.BAD_REQUEST)
-                    .entity(data)
-                    .build();
+            resultado = ResponseGeneral.Failure("Ha ocurrido un error");
         }
         return resultado;
         }
 
+    /**
+     * Metodo para consultar una Parroquia dado un identificador
+     * @param id Identificador de la Parroquia que se desea consultar
+     * @return regresa la categoria Parroquia, tambien en caso de no existir
+     *      respuesta que no se encontro o mensaje que ha ocurrido un error
+     */
     @GET
     @Path("/{id}")
-    public Response consultarParroquia(@PathParam("id") long id){
-        JsonObject data;
-        JsonObject parroquia;
+    public Response consultarParroquia(@HeaderParam("Authorization") String token, @PathParam("id") long id){
         Response resultado = null;
         try {
-            DaoParroquia dao = new DaoParroquia();
-            Parroquia resul = dao.find(id ,Parroquia.class);
-            if ( resul.getActivo()!= 0 ){
-                Municipio municipio = resul.getFk_municipio();
-                Estado estado = municipio.getFk_estado();
-                JsonObject objetoPais = Json.createObjectBuilder()
-                        .add("_id", estado.getFk_pais().get_id())
-                        .add("nombre", estado.getFk_pais().getNombre())
-                        .build();
-                JsonObject objetoEstado = Json.createObjectBuilder()
-                        .add("_id", estado.get_id())
-                        .add("nombre", estado.getNombre())
-                        .add("pais", objetoPais)
-                        .build();
-                JsonObject objetoMunicipio = Json.createObjectBuilder()
-                        .add("_id", municipio.get_id())
-                        .add("nombre",municipio.getNombre())
-                        .add("estado", objetoEstado)
-                        .build();
-                parroquia = Json.createObjectBuilder()
-                        .add("_id", resul.get_id())
-                        .add("nombre",resul.getNombre())
-                        .add("valorSocioEconomico", resul.getValor_socio_economico())
-                        .add("municipio", objetoMunicipio)
-                        .build();
-                data = Json.createObjectBuilder()
-                        .add("status", 200)
-                        .add("data", parroquia)
-                        .build();
-            }else{
-                data = Json.createObjectBuilder()
-                        .add("status", 200)
-                        .add("message", "Parroquia no se encuentra activo")
-                        .build();
-            }
-            resultado = Response.status(Response.Status.OK)
-                    .entity(data)
-                    .build();
+            validateToken(token);
+            verifyParams( id);
+            ComandoConsultarParroquia comandoConsultarParroquia = new ComandoConsultarParroquia();
+            comandoConsultarParroquia.setId( id);
+            comandoConsultarParroquia.execute();
+            resultado = comandoConsultarParroquia.getResult();
         }
         catch (Exception e) {
+            // CAMBIAR CUANDO SE MANEJEN LAS EXCEPCIONES PROPIAS
             String problema = e.getMessage();
-            data = Json.createObjectBuilder()
-                    .add("status", 400)
-                    .add("message", problema)
-                    .build();
-            resultado = Response.status(Response.Status.BAD_REQUEST)
-                    .entity(data)
-                    .build();
+            resultado = ResponseGeneral.Failure("Ha ocurrido un error");
         }
         return resultado;
     }
 
+    /**
+     * Metodo para eliminar una Parroquia dado un identificador
+     * @param id Identificador de la Parroquia que se desea eliminar
+     * @return regresa mensaje de exito o mensaje que ha ocurrido un error
+     */
     @PUT
     @Path("/{id}/eliminar")
-    public Response eliminarParroquia(@PathParam("id") long id){
-        JsonObject data;
+    public Response eliminarParroquia(@HeaderParam("Authorization") String token, @PathParam("id") long id){
         Response resultado = null;
         try {
-            DaoParroquia dao = new DaoParroquia();
-            Parroquia parroquia = dao.find(id , Parroquia.class);
-            parroquia.setActivo(0);
-            parroquia.setModificado_el(new Date(Calendar.getInstance().getTime().getTime()));
-            Parroquia resul = dao.update( parroquia );
-            data = Json.createObjectBuilder()
-                    .add("status", 200)
-                    .add("message", "Eliminado exitosamente")
-                    .build();
-            resultado = Response.status(Response.Status.OK)
-                    .entity(data)
-                    .build();
+            validateToken(token);
+            verifyParams( id);
+            ComandoEliminarParroquia comandoEliminarParroquia = new ComandoEliminarParroquia();
+            comandoEliminarParroquia.setId( id);
+            comandoEliminarParroquia.execute();
+            resultado = comandoEliminarParroquia.getResult();
         }
         catch (Exception e) {
+            // CAMBIAR CUANDO SE MANEJEN LAS EXCEPCIONES PROPIAS
             String problema = e.getMessage();
-            data = Json.createObjectBuilder()
-                    .add("status", 400)
-                    .add("message", problema)
-                    .build();
-            resultado = Response.status(Response.Status.BAD_REQUEST)
-                    .entity(data)
-                    .build();
+            resultado = ResponseGeneral.Failure("Ha ocurrido un error");
         }
         return resultado;
     }
 
+    /**
+     * Metodo para actualizar una Parroquia dado un identificador
+     * @param id Identificador de la Parroquia que se desea actualizar
+     * @param dtoParroquia Objeto que se desea actualizar
+     * @return regresa mensaje de exito o mensaje que ha ocurrido un error
+     */
     @PUT
     @Path("/{id}")
-    public Response actualizarParroquia(@PathParam("id") long id, DtoParroquia dtoParroquia){
-        JsonObject data;
+    public Response actualizarParroquia(@HeaderParam("Authorization") String token, @PathParam("id") long id, DtoParroquia dtoParroquia){
         Response resultado = null;
         try{
-            DaoParroquia dao = new DaoParroquia();
-            Parroquia parroquia = dao.find(id , Parroquia.class);
-            parroquia.setModificado_el(new Date(Calendar.getInstance().getTime().getTime()));
-            parroquia.setNombre(dtoParroquia.getNombre());
-            parroquia.setValor_socio_economico(dtoParroquia.getValor_socio_economico());
-            Parroquia resul = dao.update( parroquia );
-            data = Json.createObjectBuilder()
-                    .add("status", 200)
-                    .add("message", "Actualizado exitosamente")
-                    .build();
-            resultado = Response.status(Response.Status.OK)
-                    .entity(data)
-                    .build();
+            validateToken(token);
+            verifyParams( id);
+            verifyParams( dtoParroquia);
+            ComandoActualizarParroquia comandoActualizarParroquia = new ComandoActualizarParroquia();
+            comandoActualizarParroquia.setDtoParroquia( dtoParroquia);
+            comandoActualizarParroquia.setId( id);
+            comandoActualizarParroquia.execute();
+            resultado = comandoActualizarParroquia.getResult();
         }
         catch (Exception e){
+            // CAMBIAR CUANDO SE MANEJEN LAS EXCEPCIONES PROPIAS
             String problema = e.getMessage();
-            data = Json.createObjectBuilder()
-                    .add("status", 400)
-                    .add("message", problema)
-                    .build();
-            resultado = Response.status(Response.Status.BAD_REQUEST)
-                    .entity(data)
-                    .build();
+            resultado = ResponseGeneral.Failure("Ha ocurrido un error");
         }
         return resultado;
     }

@@ -1,225 +1,147 @@
 package mercadeoucab.servicio;
 
-import mercadeoucab.accesodatos.Dao;
-import mercadeoucab.accesodatos.DaoMunicipio;
+import mercadeoucab.comandos.Municipio.*;
 import mercadeoucab.dtos.DtoMunicipio;
-import mercadeoucab.entidades.Estado;
-import mercadeoucab.entidades.Municipio;
+import mercadeoucab.responses.ResponseGeneral;
 
-import javax.json.Json;
-import javax.json.JsonArrayBuilder;
-import javax.json.JsonObject;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
-import java.sql.Date;
-import java.util.Calendar;
-import java.util.List;
 
+/**
+ *
+ * @author Daren Gonzalez
+ * @version 1.0
+ * @since 2020-12-18
+ */
 @Path( "/municipios" )
 @Produces( MediaType.APPLICATION_JSON )
 @Consumes( MediaType.APPLICATION_JSON )
 public class ServicioMunicipio extends AplicacionBase{
 
+    /**
+     * Metodo para listar todos los Municipios registrados
+     * @return regresa la lista de los Municipios registrados, respuesta que no se encontro
+     *      o mensaje que ha ocurrido un error
+     */
     @GET
     @Path("/")
-    public Response listarMunicipios(){
-        JsonObject data;
-        JsonArrayBuilder municipios = Json.createArrayBuilder();
+    public Response listarMunicipios(@HeaderParam("Authorization") String token){
         Response resultado = null;
-
         try{
-            DaoMunicipio dao = new DaoMunicipio();
-            List<Municipio> municipiosObtenidos = dao.findAll( Municipio.class);
-
-            for(Municipio municipio: municipiosObtenidos){
-                if( municipio.getActivo() != 0 ){
-                    Estado estado = municipio.getFk_estado();
-                    JsonObject objetoPais = Json.createObjectBuilder()
-                            .add("_id", estado.getFk_pais().get_id())
-                            .add("nombre", estado.getFk_pais().getNombre())
-                            .build();
-                    JsonObject objetoEstado = Json.createObjectBuilder()
-                            .add("_id", estado.get_id())
-                            .add("nombre", estado.getNombre())
-                            .add("pais", objetoPais)
-                            .build();
-                    JsonObject objeto = Json.createObjectBuilder()
-                                            .add("_id", municipio.get_id())
-                                            .add("nombre",municipio.getNombre())
-                                            .add("estado", objetoEstado)
-                                            .build();
-                    municipios.add(objeto);
-                }
-            }
-            data = Json.createObjectBuilder()
-                    .add("status", 200)
-                    .add("data", municipios)
-                    .build();
-            resultado = Response.status(Response.Status.OK)
-                    .entity(data)
-                    .build();
+            validateToken(token);
+            ComandoListarMunicipios comandoListarMunicipios = new ComandoListarMunicipios();
+            comandoListarMunicipios.execute();
+            resultado = comandoListarMunicipios.getResult();
         }catch (Exception e) {
+            // CAMBIAR CUANDO SE MANEJEN LAS EXCEPCIONES PROPIAS
             String problema = e.getMessage();
-            data = Json.createObjectBuilder()
-                    .add("status", 400)
-                    .add("message", problema)
-                    .build();
-            resultado = Response.status(Response.Status.BAD_REQUEST)
-                    .entity(data)
-                    .build();
+            resultado = ResponseGeneral.Failure("Ha ocurrido un error");
         }
         return  resultado;
     }
 
+    /**
+     * Metodo para consultar un Municipio dado un identificador
+     * @param id Identificador del Municipio que se desea consultar
+     * @return regresa el Municipio consultado, tambien en caso de no existir
+     *      respuesta que no se encontro o mensaje que ha ocurrido un error
+     */
     @GET
     @Path("/{id}")
-    public Response obtenerMunicipio(@PathParam("id") long id){
-        JsonObject data;
-        JsonObject municipio;
+    public Response obtenerMunicipio(@HeaderParam("Authorization") String token, @PathParam("id") long id){
         Response resultado = null;
         try {
-            DaoMunicipio dao = new DaoMunicipio();
-            Municipio resul = dao.find(id , Municipio.class);
-            if ( resul.getActivo()!=0 ){
-                Estado estado = resul.getFk_estado();
-                JsonObject objetoPais = Json.createObjectBuilder()
-                        .add("_id", estado.getFk_pais().get_id())
-                        .add("nombre", estado.getFk_pais().getNombre())
-                        .build();
-                JsonObject objetoEstado = Json.createObjectBuilder()
-                        .add("_id", estado.get_id())
-                        .add("nombre", estado.getNombre())
-                        .add("pais", objetoPais)
-                        .build();
-                municipio = Json.createObjectBuilder()
-                        .add("_id", resul.get_id())
-                        .add("nombre",resul.getNombre())
-                        .add("estado", objetoEstado)
-                        .build();
-                data = Json.createObjectBuilder()
-                        .add("status", 200)
-                        .add("data", municipio)
-                        .build();
-            }else{
-                data = Json.createObjectBuilder()
-                        .add("status", 200)
-                        .add("message", "Municipio no se encuentra activo")
-                        .build();
-            }
-            resultado = Response.status(Response.Status.OK)
-                    .entity(data)
-                    .build();
+            validateToken(token);
+            verifyParams( id);
+            ComandoObtenerMunicipio comandoObtenerMunicipio = new ComandoObtenerMunicipio();
+            comandoObtenerMunicipio.setId( id);
+            comandoObtenerMunicipio.execute();
+            resultado = comandoObtenerMunicipio.getResult();
         }
         catch (Exception e) {
+            // CAMBIAR CUANDO SE MANEJEN LAS EXCEPCIONES PROPIAS
             String problema = e.getMessage();
-            data = Json.createObjectBuilder()
-                    .add("status", 400)
-                    .add("message", problema)
-                    .build();
-            resultado = Response.status(Response.Status.BAD_REQUEST)
-                    .entity(data)
-                    .build();
+            resultado = ResponseGeneral.Failure("Ha ocurrido un error");
         }
         return resultado;
         }
 
+    /**
+     * Metodo para crear un Municipio
+     * @param dtoMunicipio Objeto que se desea crear
+     * @return regresa mensaje de exito en caso de agregarse exitosamente o
+     *   mensaje de error
+     */
     @POST
     @Path("/")
-    public Response registrarMunicipio(DtoMunicipio dtoMunicipio){
-        JsonObject data;
+    public Response registrarMunicipio(@HeaderParam("Authorization") String token, DtoMunicipio dtoMunicipio){
         Response resultado = null;
         try {
-            DaoMunicipio dao = new DaoMunicipio();
-            Municipio municipio = new Municipio();
-            municipio.setActivo(1);
-            municipio.setCreado_el(new Date(Calendar.getInstance().getTime().getTime()));
-            municipio.setNombre(dtoMunicipio.getNombre());
-            Estado estado = new Estado(dtoMunicipio.getFk_estado().get_id());
-            municipio.setFk_estado( estado );
-            Municipio resul = dao.insert(municipio);
-            data = Json.createObjectBuilder()
-                    .add("status", 200)
-                    .add("message", "Agregado exitosamente")
-                    .build();
-            resultado = Response.status(Response.Status.OK)
-                    .entity(data)
-                    .build();
+            validateToken(token);
+            verifyParams( dtoMunicipio);
+            ComandoRegistrarMunicipio comandoRegistrarMunicipio = new ComandoRegistrarMunicipio();
+            comandoRegistrarMunicipio.setDtoMunicipio( dtoMunicipio);
+            comandoRegistrarMunicipio.execute();
+            resultado = comandoRegistrarMunicipio.getResult();
         }
         catch (Exception e) {
+            // CAMBIAR CUANDO SE MANEJEN LAS EXCEPCIONES PROPIAS
             String problema = e.getMessage();
-            System.out.println(problema);
-            data = Json.createObjectBuilder()
-                    .add("status", 400)
-                    .add("message", problema)
-                    .build();
-            resultado = Response.status(Response.Status.BAD_REQUEST)
-                    .entity(data)
-                    .build();
+            resultado = ResponseGeneral.Failure("Ha ocurrido un error");
         }
         return resultado;
     }
 
+    /**
+     * Metodo para actualizar un Municipio dado un identificador
+     * @param id Identificador del Municipio que se desea actualizar
+     * @param dtoMunicipio Objeto que se desea actualizar
+     * @return regresa mensaje de exito o mensaje que ha ocurrido un error
+     */
     @PUT
     @Path("/{id}")
-    public Response actualizarMunicipio(@PathParam("id") long id, DtoMunicipio dtoMunicipio){
-        JsonObject data;
+    public Response actualizarMunicipio(@HeaderParam("Authorization") String token, @PathParam("id") long id, DtoMunicipio dtoMunicipio){
         Response resultado = null;
         try {
-            DaoMunicipio dao = new DaoMunicipio();
-            Municipio municipio = dao.find(id, Municipio.class);
-            municipio.setNombre(dtoMunicipio.getNombre());
-            municipio.setModificado_el(new Date(Calendar.getInstance().getTime().getTime()));
-            Municipio resul = dao.update(municipio);
-            data = Json.createObjectBuilder()
-                    .add("status", 200)
-                    .add("message", "Actualizado exitosamente")
-                    .build();
-            resultado = Response.status(Response.Status.OK)
-                    .entity(data)
-                    .build();
+            validateToken(token);
+            verifyParams( id);
+            verifyParams( dtoMunicipio);
+            ComandoActualizarMunicipio comandoActualizarMunicipio = new ComandoActualizarMunicipio();
+            comandoActualizarMunicipio.setDtoMunicipio( dtoMunicipio);
+            comandoActualizarMunicipio.setId( id);
+            comandoActualizarMunicipio.execute();
+            resultado = comandoActualizarMunicipio.getResult();
         }
         catch (Exception e) {
+            // CAMBIAR CUANDO SE MANEJEN LAS EXCEPCIONES PROPIAS
             String problema = e.getMessage();
-            data = Json.createObjectBuilder()
-                    .add("status", 400)
-                    .add("message", problema)
-                    .build();
-            resultado = Response.status(Response.Status.BAD_REQUEST)
-                    .entity(data)
-                    .build();
+            resultado = ResponseGeneral.Failure("Ha ocurrido un error");
         }
         return resultado;
     }
 
+    /**
+     * Metodo para eliminar un Municipio dado un identificador
+     * @param id Identificador del Municipio que se desea eliminar
+     * @return regresa mensaje de exito o mensaje que ha ocurrido un error
+     */
     @PUT
     @Path("/{id}/eliminar")
-    public Response eliminarMunicipio(@PathParam("id") long id){
-        JsonObject data;
+    public Response eliminarMunicipio(@HeaderParam("Authorization") String token, @PathParam("id") long id){
         Response resultado = null;
         try {
-            DaoMunicipio dao = new DaoMunicipio();
-            Municipio municipio = dao.find(id, Municipio.class);
-            municipio.setActivo(0);
-            municipio.setModificado_el(new Date(Calendar.getInstance().getTime().getTime()));
-            Municipio resul = dao.update(municipio);
-            data = Json.createObjectBuilder()
-                    .add("status", 200)
-                    .add("message", "Eliminado exitosamente")
-                    .build();
-            resultado = Response.status(Response.Status.OK)
-                    .entity(data)
-                    .build();
+            validateToken(token);
+            verifyParams( id);
+            ComandoEliminarMunicipio comandoEliminarMunicipio = new ComandoEliminarMunicipio();
+            comandoEliminarMunicipio.setId( id);
+            comandoEliminarMunicipio.execute();
+            resultado = comandoEliminarMunicipio.getResult();
         }
         catch (Exception e) {
+            // CAMBIAR CUANDO SE MANEJEN LAS EXCEPCIONES PROPIAS
             String problema = e.getMessage();
-            data = Json.createObjectBuilder()
-                    .add("status", 400)
-                    .add("message", problema)
-                    .build();
-            resultado = Response.status(Response.Status.BAD_REQUEST)
-                    .entity(data)
-                    .build();
+            resultado = ResponseGeneral.Failure("Ha ocurrido un error");
         }
         return resultado;
     }

@@ -4,6 +4,9 @@ import mercadeoucab.entidades.Hijo;
 
 import javax.persistence.EntityManager;
 
+/**
+ * Name: DaoHijo
+ */
 public class DaoHijo extends Dao<Hijo> {
 
     private EntityManager _em;

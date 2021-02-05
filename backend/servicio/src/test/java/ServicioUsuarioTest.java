@@ -1,12 +1,10 @@
 import mercadeoucab.dtos.DtoDirectorioAUser;
 import mercadeoucab.dtos.DtoUsuario;
-import mercadeoucab.entidades.Usuario;
 import mercadeoucab.servicio.ServicioUsuario;
 import org.junit.Assert;
 import org.junit.Test;
 
 import javax.ws.rs.core.Response;
-import java.util.List;
 
 public class ServicioUsuarioTest {
 
@@ -14,13 +12,13 @@ public class ServicioUsuarioTest {
     public void registrarUsuarioTest(){
         ServicioUsuario servicio = new ServicioUsuario();
         DtoUsuario dtoUsuario = new DtoUsuario();
-        dtoUsuario.setNombre( "Steven");
-        dtoUsuario.setApellido( "Ross");
+        dtoUsuario.setNombre( "Black");
+        dtoUsuario.setApellido( "Jack");
         dtoUsuario.setEstado( "activo");
-        dtoUsuario.setRol( "cliente");
-        dtoUsuario.setCorreo( "srs@gmail.com");
+        dtoUsuario.setRol( "encuestado");
+        dtoUsuario.setCorreo( "BlackJaack@gmail.com");
         dtoUsuario.setPassword("123");
-        Response resultado = servicio.registrarUsuario( dtoUsuario);
+        Response resultado = servicio.registrarUsuario( "",dtoUsuario);
         Assert.assertEquals(
                 Response.Status.OK.getStatusCode(),
                 resultado.getStatus()
@@ -37,7 +35,7 @@ public class ServicioUsuarioTest {
         dtoUsuario.setEstado( "activo");
         dtoUsuario.setRol( "encuestado");
         dtoUsuario.setCorreo( "atag102@gmail.com");
-        Response resultado = servicio.actualizarUsuario(
+        Response resultado = servicio.actualizarUsuario("",
                 dtoUsuario.get_id(),
                 dtoUsuario
         );
@@ -50,7 +48,7 @@ public class ServicioUsuarioTest {
     @Test
     public void eliminarUsuarioTest(){
         ServicioUsuario servicio = new ServicioUsuario();
-        Response resultado = servicio.eliminarUsuario( (long)1);
+        Response resultado = servicio.eliminarUsuario( "",(long)1);
         Assert.assertEquals(
                 Response.Status.OK.getStatusCode(),
                 resultado.getStatus()
@@ -60,7 +58,7 @@ public class ServicioUsuarioTest {
     @Test
     public void obtenerUsuarioTest(){
         ServicioUsuario servicio = new ServicioUsuario();
-        Response resultado = servicio.obtenerUsuario( (long)1);
+        Response resultado = servicio.obtenerUsuario( "",(long)1);
         Assert.assertEquals(
                 Response.Status.OK.getStatusCode(),
                 resultado.getStatus()
@@ -70,7 +68,7 @@ public class ServicioUsuarioTest {
     @Test
     public void listarUsuarioTest(){
         ServicioUsuario servicio = new ServicioUsuario();
-        Response resultado = servicio.listarUsuarios();
+        Response resultado = servicio.listarUsuarios("");
         Assert.assertEquals(
                 Response.Status.OK.getStatusCode(),
                 resultado.getStatus()

@@ -1,7 +1,7 @@
-import mercadeoucab.dtos.*;
-import mercadeoucab.entidades.Marca;
-import mercadeoucab.entidades.Solicitud;
-import mercadeoucab.servicio.ServicioMarca;
+import mercadeoucab.dtos.DtoMuestraPoblacion;
+import mercadeoucab.dtos.DtoPresentacion;
+import mercadeoucab.dtos.DtoSolicitud;
+import mercadeoucab.dtos.DtoUsuario;
 import mercadeoucab.servicio.ServicioSolicitud;
 import org.junit.Assert;
 import org.junit.Test;
@@ -18,18 +18,15 @@ public class ServicioSolicitudTest {
         ServicioSolicitud servicio = new ServicioSolicitud();
         DtoSolicitud dtoSolicitud = new DtoSolicitud();
         dtoSolicitud.setEstado("solicitada");
-        dtoSolicitud.setMarca( new DtoMarca(1));
+        dtoSolicitud.setComentarios("Comentario");
+        dtoSolicitud.setMarca("marca");
         dtoSolicitud.setUsuario( new DtoUsuario( 1));
-        List<DtoTipo> tipos = new ArrayList<>();
-        tipos.add(new DtoTipo(1));
-        dtoSolicitud.setTipos(tipos);
-        List<DtoSubCategoria> subCategorias = new ArrayList<>();
-        subCategorias.add(new DtoSubCategoria(1));
-        dtoSolicitud.setSubCategorias(subCategorias);
+        dtoSolicitud.setMuestraPoblacion(new DtoMuestraPoblacion(1));
         List<DtoPresentacion> presentacions = new ArrayList<>();
         presentacions.add(new DtoPresentacion(1));
+
         dtoSolicitud.setPresentaciones(presentacions);
-        Response resultado = servicio.registrarSolicitud( dtoSolicitud);
+        Response resultado = servicio.registrarSolicitud("", dtoSolicitud);
         Assert.assertEquals(resultado.getStatus(), 200);
     }
 
@@ -38,7 +35,7 @@ public class ServicioSolicitudTest {
         ServicioSolicitud servicio = new ServicioSolicitud();
         DtoSolicitud dtoSolicitud = new DtoSolicitud(1);
         dtoSolicitud.setEstado("aceptada");
-        Response resultado = servicio.actualizarSolicitud( dtoSolicitud.get_id(), dtoSolicitud);
+        Response resultado = servicio.actualizarSolicitud("", dtoSolicitud.get_id(), dtoSolicitud);
         Assert.assertEquals(resultado.getStatus(), 200);
     }
 
@@ -46,7 +43,7 @@ public class ServicioSolicitudTest {
     public void eliminarSolicitudTest() throws Exception {
         ServicioSolicitud servicio = new ServicioSolicitud();
         DtoSolicitud dtoSolicitud = new DtoSolicitud(1);
-        Response resultado = servicio.eliminarSolicitud( dtoSolicitud.get_id());
+        Response resultado = servicio.eliminarSolicitud( "",dtoSolicitud.get_id());
         Assert.assertEquals(resultado.getStatus(), 200);
     }
 
@@ -54,35 +51,35 @@ public class ServicioSolicitudTest {
     public void obtenerSolicitudTest() throws Exception {
         ServicioSolicitud servicio = new ServicioSolicitud();
         DtoSolicitud dtoSolicitud = new DtoSolicitud(1);
-        Response resultado = servicio.obtenerSolicitud( dtoSolicitud.get_id());
+        Response resultado = servicio.obtenerSolicitud( "",dtoSolicitud.get_id());
         Assert.assertEquals(resultado.getStatus(), 200);
     }
 
     @Test
     public void listarSolicitudTest() throws Exception {
         ServicioSolicitud servicio = new ServicioSolicitud();
-        Response resultado = servicio.listarSolicitud();
+        Response resultado = servicio.listarSolicitud("");
         Assert.assertEquals(resultado.getStatus(), 200);
     }
 
     @Test
     public void listarSolicitudEstadoTest() throws Exception{
         ServicioSolicitud servicio = new ServicioSolicitud();
-        Response resultado = servicio.listarSolicitudEstado("solicitada");
+        Response resultado = servicio.listarSolicitudEstado("","solicitada");
         Assert.assertEquals(200, resultado.getStatus());
     }
 
     @Test
     public void preguntasRecomendadasTest() throws Exception{
         ServicioSolicitud servicio = new ServicioSolicitud();
-        Response resultado = servicio.preguntasRecomendadas(1);
+        Response resultado = servicio.preguntasRecomendadas("",1);
         Assert.assertEquals(200, resultado.getStatus());
     }
 
     @Test
     public void muestrasRecomendadasTest() throws Exception{
         ServicioSolicitud servicio = new ServicioSolicitud();
-        Response resultado = servicio.preguntasRecomendadas(1);
+        Response resultado = servicio.preguntasRecomendadas("",1);
         Assert.assertEquals(200, resultado.getStatus());
     }
 }

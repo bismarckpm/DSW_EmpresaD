@@ -1,210 +1,148 @@
 package mercadeoucab.servicio;
 
-import mercadeoucab.accesodatos.DaoSubCategoria;
+import mercadeoucab.comandos.SubCategoria.*;
 import mercadeoucab.dtos.DtoSubCategoria;
-import mercadeoucab.entidades.Categoria;
-import mercadeoucab.entidades.SubCategoria;
+import mercadeoucab.responses.ResponseGeneral;
 
-import javax.json.Json;
-import javax.json.JsonArrayBuilder;
-import javax.json.JsonObject;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
-import java.sql.Date;
-import java.util.Calendar;
-import java.util.List;
 
+/**
+ *
+ * @author Oscar Marquez
+ * @version 1.0
+ * @since 2020-12-18
+ */
 @Path( "/subcategorias" )
 @Produces( MediaType.APPLICATION_JSON )
 @Consumes( MediaType.APPLICATION_JSON )
 public class ServicioSubCategoria extends AplicacionBase{
 
+    /**
+     * Metodo para consultar una Subcategoria dado un identificador
+     * @param id Identificador de la Subcategoria que se desea consultar
+     * @return regresa la Subcategoria consultada, tambien en caso de no existir
+     *      respuesta que no se encontro o mensaje que ha ocurrido un error
+     */
     @GET
     @Path("/{id}")
-    public Response obtenerSubCategoria(@PathParam("id") Long id){
-        JsonObject data;
-        JsonObject subcategoria;
+    public Response obtenerSubCategoria(@HeaderParam("Authorization") String token, @PathParam("id") Long id){
         Response resultado = null;
         try{
-            DaoSubCategoria dao = new DaoSubCategoria();
-            SubCategoria resul = dao.find( id, SubCategoria.class);
-            subcategoria = Json.createObjectBuilder()
-                                .add("_id", resul.get_id())
-                                .add("nombre", resul.getNombre())
-                                .add("categoria", Json.createObjectBuilder()
-                                                         .add("_id",resul.getCategoria().get_id())
-                                                         .add("nombre", resul.getCategoria().getNombre()))
-                                .build();
-            data = Json.createObjectBuilder()
-                    .add("status", 200)
-                    .add("data", subcategoria)
-                    .build();
-            resultado = Response.status(Response.Status.OK)
-                    .entity(data)
-                    .build();
+            validateToken(token);
+            verifyParams(id);
+            ComandoConsultarSubcategoria comandoConsultarSubcategoria = new ComandoConsultarSubcategoria();
+            comandoConsultarSubcategoria.setId(id);
+            comandoConsultarSubcategoria.execute();
+            resultado = comandoConsultarSubcategoria.getResult();
 
-        }catch (Exception e) {
+        }
+        catch (Exception e)
+        {
+            // CAMBIAR CUANDO SE MANEJEN LAS EXCEPCIONES PROPIAS
             String problema = e.getMessage();
-            data = Json.createObjectBuilder()
-                    .add("status", 400)
-                    .add("message", problema)
-                    .build();
-            resultado = Response.status(Response.Status.BAD_REQUEST)
-                    .entity(data)
-                    .build();
+            resultado = ResponseGeneral.Failure("Ha ocurrido un error");
         }
         return resultado;
     }
 
+    /**
+     * Metodo para listar todas las Subcategorias registradas
+     * @return regresa la lista de las Subcategorias, respuesta que no se encontro
+     *      o mensaje que ha ocurrido un error
+     */
     @GET
     @Path("/")
-    public Response listarSubCategoria(){
-        JsonObject data;
-        JsonArrayBuilder subcategoriasList = Json.createArrayBuilder();
+    public Response listarSubCategoria(@HeaderParam("Authorization") String token){
         Response resultado = null;
         try {
-            DaoSubCategoria dao = new DaoSubCategoria();
-            List<SubCategoria> subCategorias = dao.findAll(SubCategoria.class);
-            for(SubCategoria subCategoria: subCategorias){
-                if(subCategoria.getActivo() == 1){
-                    JsonObject objeto = Json.createObjectBuilder()
-                                            .add("_id", subCategoria.get_id())
-                                            .add("nombre", subCategoria.getNombre())
-                                            .add("categoria", Json.createObjectBuilder()
-                                                    .add("_id",subCategoria.getCategoria().get_id())
-                                                    .add("nombre", subCategoria.getCategoria().getNombre()))
-                                            .build();
-                    subcategoriasList.add(objeto);
-                }
-            }
-            data = Json.createObjectBuilder()
-                    .add("status", 200)
-                    .add("data", subcategoriasList)
-                    .build();
-            resultado = Response.status(Response.Status.OK)
-                    .entity(data)
-                    .build();
+            validateToken(token);
+            ComandoListarSubcategorias comandoListarSubcategorias = new ComandoListarSubcategorias();
+            comandoListarSubcategorias.execute();
+            resultado = comandoListarSubcategorias.getResult();
         }
         catch (Exception e){
+            // CAMBIAR CUANDO SE MANEJEN LAS EXCEPCIONES PROPIAS
             String problema = e.getMessage();
-            data = Json.createObjectBuilder()
-                    .add("status", 400)
-                    .add("message",problema)
-                    .build();
-            resultado = Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(data).build();
+            resultado = ResponseGeneral.Failure("Ha ocurrido un error");
         }
         return  resultado;
     }
 
+    /**
+     * Metodo para crear una Subcategoria
+     * @param dtoSubCategoria Objeto que se desea crear
+     * @return regresa mensaje de exito en caso de agregarse exitosamente o
+     *   mensaje de error
+     */
     @POST
     @Path("/")
-    public Response  registrarSubCategoria(DtoSubCategoria dtoSubCategoria){
-        JsonObject data;
+    public Response  registrarSubCategoria(@HeaderParam("Authorization") String token, DtoSubCategoria dtoSubCategoria){
         Response resultado = null;
         try{
-            DaoSubCategoria dao = new DaoSubCategoria();
-            SubCategoria subCategoria = new SubCategoria();
-            subCategoria.setNombre( dtoSubCategoria.getNombre());
-            Categoria categoria = new Categoria(
-                    dtoSubCategoria.getCategoria().get_id()
-            );
-            subCategoria.setCategoria( categoria);
-            subCategoria.setActivo( 1);
-            subCategoria.setCreado_el(
-                    new Date(Calendar
-                            .getInstance()
-                            .getTime()
-                            .getTime())
-            );
-            SubCategoria resul = dao.insert( subCategoria);
-            data = Json.createObjectBuilder()
-                    .add("status", 200)
-                    .add("mensaje", "SUbcategoria creado con exito")
-                    .build();
-            resultado = Response.status(Response.Status.OK)
-                                .entity(data)
-                                .build();
+            validateToken(token);
+            verifyParams(dtoSubCategoria);
+            ComandoRegistrarSubCategoria comandoRegistrarSubCategoria = new ComandoRegistrarSubCategoria();
+            comandoRegistrarSubCategoria.setDtoSubCategoria(dtoSubCategoria);
+            comandoRegistrarSubCategoria.execute();
+            resultado = comandoRegistrarSubCategoria.getResult();
         }catch (Exception e) {
+            // CAMBIAR CUANDO SE MANEJEN LAS EXCEPCIONES PROPIAS
             String problema = e.getMessage();
-            data = Json.createObjectBuilder()
-                    .add("status", 400)
-                    .add("message",problema)
-                    .build();
-            resultado = Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(data).build();
+            resultado = ResponseGeneral.Failure("Ha ocurrido un error");
         }
         return resultado;
     }
 
+    /**
+     * Metodo para actualizar una Subcategoria dado un identificador
+     * @param id Identificador de la Subcategoria que se desea actualizar
+     * @param dtoSubCategoria Objeto que se desea actualizar
+     * @return regresa mensaje de exito o mensaje que ha ocurrido un error
+     */
     @PUT
     @Path("/{id}")
-    public Response  actualizarSubCategoria(@PathParam("id") Long id,DtoSubCategoria dtoSubCategoria){
-        JsonObject data;
+    public Response actualizarSubCategoria(@HeaderParam("Authorization") String token, @PathParam("id") Long id,DtoSubCategoria dtoSubCategoria){
         Response resultado = null;
         try{
-            DaoSubCategoria dao = new DaoSubCategoria();
-            SubCategoria subCategoria = dao.find( id, SubCategoria.class);
-            subCategoria.setNombre( dtoSubCategoria.getNombre());
-            subCategoria.setModificado_el(
-                    new Date(Calendar
-                            .getInstance()
-                            .getTime()
-                            .getTime())
-            );
-            SubCategoria resul = dao.update( subCategoria);
-            data = Json.createObjectBuilder()
-                    .add("status", 200)
-                    .add("mensaje", "Subcategoria actualizado con exito")
-                    .build();
-            resultado = Response.status(Response.Status.OK)
-                    .entity(data)
-                    .build();
+            validateToken(token);
+            verifyParams(id);
+            verifyParams(dtoSubCategoria);
+            ComandoActualizarSubCategoria comandoActualizarSubCategoria = new ComandoActualizarSubCategoria();
+            comandoActualizarSubCategoria.setId(id);
+            comandoActualizarSubCategoria.setDtoSubCategoria(dtoSubCategoria);
+            comandoActualizarSubCategoria.execute();
+            resultado = comandoActualizarSubCategoria.getResult();
         }
         catch (Exception e) {
+            // CAMBIAR CUANDO SE MANEJEN LAS EXCEPCIONES PROPIAS
             String problema = e.getMessage();
-            data = Json.createObjectBuilder()
-                    .add("status", 400)
-                    .add("message", problema)
-                    .build();
-            resultado = Response.status(Response.Status.BAD_REQUEST)
-                    .entity(data)
-                    .build();
+            resultado = ResponseGeneral.Failure("Ha ocurrido un error");
         }
         return resultado;
     }
 
+    /**
+     * Metodo para eliminar una Subcategoria dado un identificador
+     * @param id Identificador de la Subcategoria que se desea eliminar
+     * @return regresa mensaje de exito o mensaje que ha ocurrido un error
+     */
     @PUT
     @Path("/{id}/eliminar")
-    public Response  eliminarSubCategoria(@PathParam("id") Long id){
-        JsonObject data;
+    public Response  eliminarSubCategoria(@HeaderParam("Authorization") String token, @PathParam("id") Long id){
         Response resultado = null;
         try{
-            DaoSubCategoria dao = new DaoSubCategoria();
-            SubCategoria subCategoria = dao.find( id, SubCategoria.class);
-            subCategoria.setActivo( 0);
-            subCategoria.setModificado_el(
-                    new Date(Calendar
-                            .getInstance()
-                            .getTime()
-                            .getTime())
-            );
-            SubCategoria resul = dao.update( subCategoria);
-            data = Json.createObjectBuilder()
-                    .add("status", 200)
-                    .add("mensaje", "Subcategoria eliminada con exito")
-                    .build();
-            resultado = Response.status(Response.Status.OK)
-                    .entity(data)
-                    .build();
+            validateToken(token);
+            verifyParams(id);
+            ComandoEliminarSubCategoria comandoEliminarSubCategoria = new ComandoEliminarSubCategoria();
+            comandoEliminarSubCategoria.setId(id);
+            comandoEliminarSubCategoria.execute();
+            resultado = comandoEliminarSubCategoria.getResult();
         }catch (Exception e) {
+            // CAMBIAR CUANDO SE MANEJEN LAS EXCEPCIONES PROPIAS
             String problema = e.getMessage();
-            data = Json.createObjectBuilder()
-                    .add("status", 400)
-                    .add("message", problema)
-                    .build();
-            resultado = Response.status(Response.Status.BAD_REQUEST)
-                    .entity(data)
-                    .build();
+            resultado = ResponseGeneral.Failure("Ha ocurrido un error");
         }
         return resultado;
     }

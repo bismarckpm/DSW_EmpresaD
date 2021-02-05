@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Entity
-@Table(name="Pregunta")
+@Table(name="pregunta")
 @NamedQueries({
         @NamedQuery(
                 name = "preguntas_de_un_administrador",
@@ -77,7 +77,7 @@ public class Pregunta extends EntidadBase{
     }
 
     public void addOpcion(Opcion opcion){
-        this.opciones.add( opcion);
         opcion.setFk_pregunta( this);
+        this.opciones.add( opcion);
     }
 }

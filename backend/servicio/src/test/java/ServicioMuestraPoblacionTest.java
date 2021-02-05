@@ -3,11 +3,11 @@ import mercadeoucab.dtos.DtoOcupacion;
 import mercadeoucab.dtos.DtoParroquia;
 import mercadeoucab.entidades.MuestraPoblacion;
 import mercadeoucab.servicio.ServicioMuestraPoblacion;
-import mercadeoucab.servicio.ServicioOcupacion;
 import org.junit.Assert;
 import org.junit.Test;
 
 import javax.ws.rs.core.Response;
+import java.sql.Date;
 import java.util.List;
 
 public class ServicioMuestraPoblacionTest {
@@ -17,10 +17,10 @@ public class ServicioMuestraPoblacionTest {
         ServicioMuestraPoblacion servicio = new ServicioMuestraPoblacion();
         DtoParroquia dtoParroquia = new DtoParroquia(1);
         DtoMuestraPoblacion dtoMuestraPoblacion = new DtoMuestraPoblacion("masculino",
-                                                                          10,
+                                                                          "Alto",
                                                                           "universitario",
-                                                                20,
-                                                                30,
+                                                                            Date.valueOf("1997-02-28"),
+                                                                            Date.valueOf("2010-02-28"),
                                                                 2);
         dtoMuestraPoblacion.setFk_lugar(dtoParroquia);
 
@@ -70,8 +70,8 @@ public class ServicioMuestraPoblacionTest {
     public void actualizarMuestraPoblacion() throws Exception{
         ServicioMuestraPoblacion servicio = new ServicioMuestraPoblacion();
         DtoMuestraPoblacion dtoMuestraPoblacion = new DtoMuestraPoblacion(1);
-        dtoMuestraPoblacion.setRangoEdadInicio(30);
-        dtoMuestraPoblacion.setRangoEdadFin(40);
+        dtoMuestraPoblacion.setRangoEdadInicio(Date.valueOf("1997-02-28"));
+        dtoMuestraPoblacion.setRangoEdadFin(Date.valueOf("2010-02-28"));
         dtoMuestraPoblacion.setCantidadHijos(3);
         dtoMuestraPoblacion.setNivelAcademico("universitario");
         dtoMuestraPoblacion.setGenero("femenino");
