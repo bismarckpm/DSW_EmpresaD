@@ -80,7 +80,7 @@ export class TiposComponent implements OnInit {
       },
       (error) => {
         console.log(error);
-        this.tipos = [{ _id: 1, nombre: 'testTipo' }];
+        //this.tipos = [{ _id: 1, nombre: 'testTipo' }];
         this.dataSource = new MatTableDataSource<Tipo>(
           this.dataFilter(this.tipos)
         );
@@ -101,7 +101,7 @@ export class TiposComponent implements OnInit {
         // Obtener el tipo con response.data
       },
       (error) => {
-        this.tipos = [{ _id: 1, nombre: 'testTipo' }];
+        //this.tipos = [{ _id: 1, nombre: 'testTipo' }];
         this.dataSource = new MatTableDataSource<Tipo>(
           this.dataFilter(this.tipos)
         );

@@ -35,7 +35,7 @@ export class AnalistaTasksComponent implements OnInit {
     return await this.infoComponent.open();
   }
   //DATA DUMMY
-  testPais: Pais = {
+  /*testPais: Pais = {
     _id: 1,
     nombre: 'Test pais',
   };
@@ -180,7 +180,7 @@ export class AnalistaTasksComponent implements OnInit {
         },
       ],
     },
-  };
+  };*/
 
   ngOnInit(): void {
     //SERVICE INVOKE
@@ -209,7 +209,7 @@ export class AnalistaTasksComponent implements OnInit {
       },
       (err) => {
         console.log(err.message);
-        this.estudios = [this.testRes['data']];
+        //this.estudios = [this.testRes['data']];
         this.dataSource = new MatTableDataSource<Estudio>(
           this.dataFilter(this.estudios)
         );

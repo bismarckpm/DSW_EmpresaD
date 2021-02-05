@@ -62,7 +62,7 @@ export class EstudiosComponent implements OnInit {
   targetEstudio: any = null;
   targetPoblacion: any = null;
 
-  displayedColumns: string[] = [ 'estado', 'asignado', 'selector', 'ops'];
+  displayedColumns: string[] = ['estado', 'asignado', 'selector', 'ops'];
   columnsToDisplay: string[] = this.displayedColumns.slice();
   poblacionSuggests: any[] = [];
   preguntaSuggests: any[] = [];
@@ -194,25 +194,32 @@ export class EstudiosComponent implements OnInit {
     this.setOperation('');
     this.getAnalistasDisp();
   }
-  getYearDiff(t:string): number{   
+  getYearDiff(t: string): number {
     let _t = new Date(t);
-    let _n : Date = new Date(Date.now()); 
+    let _n: Date = new Date(Date.now());
     return _n.getFullYear() - _t.getFullYear();
   }
-  ageEdit(min,max){
-    let _auxDate: Date = new Date (Date.now());
+  ageEdit(min, max) {
+    let _auxDate: Date = new Date(Date.now());
 
-    if(min !== null){
+    if (min !== null) {
       //console.log('Edad minima ',min);
       this.minAge = min;
-      let newMin: Date = new Date(_auxDate.getFullYear()-min,_auxDate.getMonth(),_auxDate.getDay());
+      let newMin: Date = new Date(
+        _auxDate.getFullYear() - min,
+        _auxDate.getMonth(),
+        _auxDate.getDay()
+      );
       console.log(newMin);
       this.poblacionForm.get('rangoEdadInicio').setValue(newMin);
-    }
-    else {
+    } else {
       //console.log('Edad máxima ',max);
       this.maxAge = max;
-      let newMax: Date = new Date(_auxDate.getFullYear()-max,_auxDate.getMonth(),_auxDate.getDay());
+      let newMax: Date = new Date(
+        _auxDate.getFullYear() - max,
+        _auxDate.getMonth(),
+        _auxDate.getDay()
+      );
       console.log(newMax);
       this.poblacionForm.get('rangoEdadFin').setValue(newMax);
     }
@@ -394,8 +401,7 @@ export class EstudiosComponent implements OnInit {
               _id: 24,
               pregunta: {
                 _id: 4,
-                nombre:
-                  'Pregunta 4: Que problemas encontro en nuestro mueble?',
+                nombre: 'Pregunta 4: Que problemas encontro en nuestro mueble?',
                 tipo: 'abierta',
               },
             },
@@ -453,8 +459,8 @@ export class EstudiosComponent implements OnInit {
     if (data !== null) {
       console.log(data);
       //SETEAR CAMPOS DE FORMULARIO
-      let _auxDate: Date = new Date (Date.now());
-      
+      let _auxDate: Date = new Date(Date.now());
+
       let _Min: Date = new Date(data.rango_edad_inicio);
       let _Max: Date = new Date(data.rango_edad_fin);
 
@@ -642,7 +648,7 @@ export class EstudiosComponent implements OnInit {
               },
             ],
           },
-           {
+          {
             _id: 3,
             estado: 'En ejecucion',
             tipo: 'En linea',
@@ -780,14 +786,14 @@ export class EstudiosComponent implements OnInit {
       },
       (error) => {
         console.log(error);
-        this.solicitudes = [
+        /*this.solicitudes = [
           {
             _id: 13,
             estado: 'activo',
             usuario: this.testUser,
             marca: { _id: 1, nombre: 'TEST MARCA' },
             tipos: [{ _id: 1, nombre: 'test Tipo' }],
-            presentaciones: [{ _id: 1, tipo: 'volumen', cantidad: '800ml' }],
+            presentaciones: [{ _id: 1, tipo: 'volumen'}],
             subcategorias: [
               {
                 _id: 1,
@@ -826,7 +832,7 @@ export class EstudiosComponent implements OnInit {
               },
             ],
           },
-        ];
+        ];*/
       }
     );
   }
@@ -951,7 +957,7 @@ export class EstudiosComponent implements OnInit {
           document.getElementById('addStepper').classList.remove('rightSlider');
           document.getElementById('addStepper').classList.add('initLeft');
           this.currentStep = 3;
-        },2000);
+        }, 2000);
         stepper.next();
         break;
       case 3:
