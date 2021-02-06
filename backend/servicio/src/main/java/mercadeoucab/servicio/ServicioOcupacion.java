@@ -2,6 +2,9 @@ package mercadeoucab.servicio;
 
 import mercadeoucab.comandos.Ocupacion.*;
 import mercadeoucab.dtos.DtoOcupacion;
+import mercadeoucab.fabricas.Enums.Comandos;
+import mercadeoucab.fabricas.FabricaComandosAbstractos;
+import mercadeoucab.fabricas.fabricasComandoConcretos.FabricaComandosOcupacion;
 import mercadeoucab.responses.ResponseGeneral;
 
 import javax.ws.rs.*;
@@ -19,6 +22,7 @@ import javax.ws.rs.core.Response;
 @Consumes( MediaType.APPLICATION_JSON )
 public class ServicioOcupacion extends AplicacionBase{
 
+    private final FabricaComandosOcupacion fabricaComandosOcupacion = (FabricaComandosOcupacion) FabricaComandosAbstractos.getFactory(Comandos.OCUPACION);
     /**
      * Metodo para consultar una Ocupacion dado un identificador
      * @param id Identificador de la Ocupacion que se desea consultar
@@ -32,7 +36,7 @@ public class ServicioOcupacion extends AplicacionBase{
         try{
             validateToken(token);
             verifyParams( id);
-            ComandoObtenerOcupacion comandoObtenerOcupacion = new ComandoObtenerOcupacion();
+            ComandoObtenerOcupacion comandoObtenerOcupacion = (ComandoObtenerOcupacion) fabricaComandosOcupacion.comandoConsultar();
             comandoObtenerOcupacion.setId( id);
             comandoObtenerOcupacion.execute();
             resultado = comandoObtenerOcupacion.getResult();
@@ -56,7 +60,7 @@ public class ServicioOcupacion extends AplicacionBase{
         Response resultado = null;
         try {
             validateToken(token);
-            ComandoListarOcupaciones comandoListarOcupaciones = new ComandoListarOcupaciones();
+            ComandoListarOcupaciones comandoListarOcupaciones = (ComandoListarOcupaciones) fabricaComandosOcupacion.comandoListar();
             comandoListarOcupaciones.execute();
             resultado = comandoListarOcupaciones.getResult();
         }
@@ -81,7 +85,7 @@ public class ServicioOcupacion extends AplicacionBase{
         try{
             validateToken(token);
             verifyParams( dtoOcupacion);
-            ComandoRegistrarOcupacion comandoRegistrarOcupacion = new ComandoRegistrarOcupacion();
+            ComandoRegistrarOcupacion comandoRegistrarOcupacion = (ComandoRegistrarOcupacion) fabricaComandosOcupacion.comandoCrear();
             comandoRegistrarOcupacion.setDtoOcupacion( dtoOcupacion);
             comandoRegistrarOcupacion.execute();
             resultado = comandoRegistrarOcupacion.getResult();
@@ -108,7 +112,7 @@ public class ServicioOcupacion extends AplicacionBase{
             validateToken(token);
             verifyParams( id);
             verifyParams( dtoOcupacion);
-            ComandoActualizarOcupacion comandoActualizarOcupacion = new ComandoActualizarOcupacion();
+            ComandoActualizarOcupacion comandoActualizarOcupacion = (ComandoActualizarOcupacion) fabricaComandosOcupacion.comandoModificar();
             comandoActualizarOcupacion.setDtoOcupacion( dtoOcupacion);
             comandoActualizarOcupacion.setId( id);
             comandoActualizarOcupacion.execute();
@@ -134,7 +138,7 @@ public class ServicioOcupacion extends AplicacionBase{
         try{
             validateToken(token);
             verifyParams( id);
-            ComandoEliminarOcupacion comandoEliminarOcupacion = new ComandoEliminarOcupacion();
+            ComandoEliminarOcupacion comandoEliminarOcupacion = (ComandoEliminarOcupacion) fabricaComandosOcupacion.comandoEliminar();
             comandoEliminarOcupacion.setId( id);
             comandoEliminarOcupacion.execute();
             resultado = comandoEliminarOcupacion.getResult();

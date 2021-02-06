@@ -2,6 +2,9 @@ package mercadeoucab.servicio;
 
 import mercadeoucab.comandos.Estado.*;
 import mercadeoucab.dtos.DtoEstado;
+import mercadeoucab.fabricas.Enums.Comandos;
+import mercadeoucab.fabricas.FabricaComandosAbstractos;
+import mercadeoucab.fabricas.fabricasComandoConcretos.FabricaComandosEstado;
 import mercadeoucab.responses.ResponseGeneral;
 
 import javax.ws.rs.*;
@@ -19,6 +22,8 @@ import javax.ws.rs.core.Response;
 @Consumes( MediaType.APPLICATION_JSON )
 public class ServicioEstado extends AplicacionBase {
 
+    private final FabricaComandosAbstractos fabricaComandosEstado = FabricaComandosEstado.getFactory(Comandos.ESTADO);
+
     /**
      * Metodo para listar todos los estados registrados
      * @return regresa la lista de los estados, respuesta que no se encontro
@@ -30,7 +35,7 @@ public class ServicioEstado extends AplicacionBase {
         Response resultado = null;
         try{
             validateToken(token);
-            ComandoListarEstados comandoListarEstados = new ComandoListarEstados();
+            ComandoListarEstados comandoListarEstados = (ComandoListarEstados) fabricaComandosEstado.comandoListar();
             comandoListarEstados.execute();
             resultado = comandoListarEstados.getResult();
         }catch (Exception e) {
@@ -54,7 +59,7 @@ public class ServicioEstado extends AplicacionBase {
         try{
             validateToken(token);
             verifyParams( dtoEstado);
-            ComandoAgregarEstado comandoAgregarEstado = new ComandoAgregarEstado();
+            ComandoAgregarEstado comandoAgregarEstado = (ComandoAgregarEstado) fabricaComandosEstado.comandoCrear();
             comandoAgregarEstado.setDtoEstado( dtoEstado);
             comandoAgregarEstado.execute();
             resultado = comandoAgregarEstado.getResult();
@@ -81,7 +86,7 @@ public class ServicioEstado extends AplicacionBase {
             validateToken(token);
             verifyParams( id);
             verifyParams( dtoEstado);
-            ComandoActualizarEstado comandoActualizarEstado = new ComandoActualizarEstado();
+            ComandoActualizarEstado comandoActualizarEstado = (ComandoActualizarEstado) fabricaComandosEstado.comandoModificar();
             comandoActualizarEstado.setDtoEstado( dtoEstado);
             comandoActualizarEstado.setId( id);
             comandoActualizarEstado.execute();
@@ -107,7 +112,7 @@ public class ServicioEstado extends AplicacionBase {
         try{
             validateToken(token);
             verifyParams( id);
-            ComandoEliminarEstado comandoEliminarEstado = new ComandoEliminarEstado();
+            ComandoEliminarEstado comandoEliminarEstado = (ComandoEliminarEstado) fabricaComandosEstado.comandoEliminar();
             comandoEliminarEstado.setId( id);
             comandoEliminarEstado.execute();
             resultado = comandoEliminarEstado.getResult();
@@ -133,7 +138,7 @@ public class ServicioEstado extends AplicacionBase {
         try{
             validateToken(token);
             verifyParams( id);
-            ComandoConsultarEstado comandoConsultarEstado = new ComandoConsultarEstado();
+            ComandoConsultarEstado comandoConsultarEstado = (ComandoConsultarEstado) fabricaComandosEstado.comandoConsultar();
             comandoConsultarEstado.setId( id);
             comandoConsultarEstado.execute();
             resultado = comandoConsultarEstado.getResult();

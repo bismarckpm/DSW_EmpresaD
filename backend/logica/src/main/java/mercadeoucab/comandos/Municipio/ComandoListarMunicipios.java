@@ -1,6 +1,7 @@
 package mercadeoucab.comandos.Municipio;
 
 import mercadeoucab.accesodatos.DaoMunicipio;
+import mercadeoucab.comandos.ComandoAbstracto;
 import mercadeoucab.comandos.ComandoBase;
 import mercadeoucab.dtos.DtoMunicipio;
 import mercadeoucab.entidades.Municipio;
@@ -23,7 +24,7 @@ import java.util.Objects;
  * @version 1.0
  * @since 2021-01-29
  */
-public class ComandoListarMunicipios implements ComandoBase {
+public class ComandoListarMunicipios extends ComandoAbstracto implements ComandoBase {
     private Response result;
 
     /**

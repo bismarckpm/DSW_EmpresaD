@@ -1,6 +1,7 @@
 package mercadeoucab.comandos.Estado;
 
 import mercadeoucab.accesodatos.DaoEstado;
+import mercadeoucab.comandos.ComandoAbstracto;
 import mercadeoucab.comandos.ComandoBase;
 import mercadeoucab.dtos.DtoEstado;
 import mercadeoucab.entidades.Estado;
@@ -20,7 +21,7 @@ import java.util.Calendar;
  * @version 1.0
  * @since 2021-01-29
  */
-public class ComandoAgregarEstado implements ComandoBase {
+public class ComandoAgregarEstado extends ComandoAbstracto implements ComandoBase {
     private Response result;
     private DtoEstado dtoEstado;
 

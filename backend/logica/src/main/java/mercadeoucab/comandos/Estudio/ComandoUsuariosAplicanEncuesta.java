@@ -1,6 +1,7 @@
 package mercadeoucab.comandos.Estudio;
 
 import mercadeoucab.accesodatos.DaoEstudio;
+import mercadeoucab.comandos.ComandoAbstracto;
 import mercadeoucab.comandos.ComandoBase;
 import mercadeoucab.dtos.DtoUsuario;
 import mercadeoucab.entidades.Estudio;
@@ -18,7 +19,7 @@ import javax.ws.rs.core.Response;
 import java.util.List;
 import java.util.Objects;
 
-public class ComandoUsuariosAplicanEncuesta implements ComandoBase {
+public class ComandoUsuariosAplicanEncuesta extends ComandoAbstracto implements ComandoBase {
 
     private Response result;
     private long id;

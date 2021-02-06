@@ -2,6 +2,9 @@ package mercadeoucab.servicio;
 
 import mercadeoucab.comandos.Estudio.*;
 import mercadeoucab.dtos.DtoEstudio;
+import mercadeoucab.fabricas.Enums.Comandos;
+import mercadeoucab.fabricas.FabricaComandosAbstractos;
+import mercadeoucab.fabricas.fabricasComandoConcretos.FabricaComandosEstudio;
 import mercadeoucab.responses.ResponseGeneral;
 
 import javax.ws.rs.*;
@@ -19,6 +22,8 @@ import javax.ws.rs.core.Response;
 @Consumes( MediaType.APPLICATION_JSON )
 public class ServicioEstudio extends AplicacionBase{
 
+    private final FabricaComandosEstudio fabricaComandosEstudio = (FabricaComandosEstudio) FabricaComandosAbstractos.getFactory(Comandos.ESTUDIO);
+
     /**
      * Metodo para listar todos los Estudios registrados
      * @return regresa la lista de los Estudios, respuesta que no se encontro
@@ -30,7 +35,7 @@ public class ServicioEstudio extends AplicacionBase{
         Response resultado = null;
         try {
             validateToken(token);
-            ComandoListarEstudios comandoListarEstudios = new ComandoListarEstudios();
+            ComandoListarEstudios comandoListarEstudios = (ComandoListarEstudios) fabricaComandosEstudio.comandoListar();
             comandoListarEstudios.execute();
             resultado = comandoListarEstudios.getResult();
         }
@@ -55,7 +60,7 @@ public class ServicioEstudio extends AplicacionBase{
         try {
             validateToken(token);
             verifyParams(dtoEstudio);
-            ComandoAgregarEstudio comandoAgregarEstudio = new ComandoAgregarEstudio();
+            ComandoAgregarEstudio comandoAgregarEstudio = (ComandoAgregarEstudio) fabricaComandosEstudio.comandoCrear();
             comandoAgregarEstudio.setDtoEstudio(dtoEstudio);
             comandoAgregarEstudio.execute();
             resultado = comandoAgregarEstudio.getResult();
@@ -81,7 +86,7 @@ public class ServicioEstudio extends AplicacionBase{
         try {
             validateToken(token);
             verifyParams( id );
-            ComandoConsultarEstudio comandoConsultarEstudio = new ComandoConsultarEstudio();
+            ComandoConsultarEstudio comandoConsultarEstudio = (ComandoConsultarEstudio) fabricaComandosEstudio.comandoConsultar();
             comandoConsultarEstudio.setId( id );
             comandoConsultarEstudio.execute();
             resultado = comandoConsultarEstudio.getResult();
@@ -106,7 +111,7 @@ public class ServicioEstudio extends AplicacionBase{
         try {
             validateToken(token);
             verifyParams(id);
-            ComandoEliminarEstudio comandoEliminarEstudio = new ComandoEliminarEstudio();
+            ComandoEliminarEstudio comandoEliminarEstudio = (ComandoEliminarEstudio) fabricaComandosEstudio.comandoEliminar();
             comandoEliminarEstudio.setId(id);
             comandoEliminarEstudio.execute();
             resultado = comandoEliminarEstudio.getResult();
@@ -133,7 +138,7 @@ public class ServicioEstudio extends AplicacionBase{
             validateToken(token);
             verifyParams(id);
             verifyParams(dtoEstudio);
-            ComandoActualizarEstudio comandoActualizarEstudio = new ComandoActualizarEstudio();
+            ComandoActualizarEstudio comandoActualizarEstudio = (ComandoActualizarEstudio) fabricaComandosEstudio.comandoModificar();
             comandoActualizarEstudio.setDtoEstudio(dtoEstudio);
             comandoActualizarEstudio.setId(id);
             comandoActualizarEstudio.execute();
@@ -161,7 +166,7 @@ public class ServicioEstudio extends AplicacionBase{
         try {
             validateToken(token);
             verifyParams(id);
-            ComandoUsuariosRespondieronEncuesta comandoUsuariosRespondieronEncuesta = new ComandoUsuariosRespondieronEncuesta();
+            ComandoUsuariosRespondieronEncuesta comandoUsuariosRespondieronEncuesta = (ComandoUsuariosRespondieronEncuesta) fabricaComandosEstudio.ComandoUsuariosRespondieron();
             comandoUsuariosRespondieronEncuesta.setId(id);
             comandoUsuariosRespondieronEncuesta.execute();
             resultado = comandoUsuariosRespondieronEncuesta.getResult();
@@ -188,7 +193,7 @@ public class ServicioEstudio extends AplicacionBase{
         try {
             validateToken(token);
             verifyParams(id);
-            ComandoUsuariosAplicanEncuesta comandoUsuariosAplicanEncuesta = new ComandoUsuariosAplicanEncuesta();
+            ComandoUsuariosAplicanEncuesta comandoUsuariosAplicanEncuesta = (ComandoUsuariosAplicanEncuesta) fabricaComandosEstudio.comandoUsuariosAplicanEncuesta();
             comandoUsuariosAplicanEncuesta.setId(id);
             comandoUsuariosAplicanEncuesta.execute();
             resultado = comandoUsuariosAplicanEncuesta.getResult();

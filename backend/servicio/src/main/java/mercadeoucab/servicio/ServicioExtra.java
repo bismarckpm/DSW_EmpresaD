@@ -21,7 +21,7 @@ import javax.ws.rs.core.Response;
 @Consumes( MediaType.APPLICATION_JSON )
 public class ServicioExtra extends AplicacionBase{
 
-    private final FabricaComandosCategoria fabricaComandosCategoria = new FabricaComandosCategoria();
+    private final FabricaComandosCategoria fabricaComandosCategoria = (FabricaComandosCategoria) FabricaComandosAbstractos.getFactory(Comandos.CATEGORIA);
     /**
      * Metodo para listar de manera reversa las catgorias
      * @param token

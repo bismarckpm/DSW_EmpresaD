@@ -2,6 +2,8 @@ package mercadeoucab.servicio;
 
 import mercadeoucab.comandos.DatoEncuestado.*;
 import mercadeoucab.dtos.DtoDatoEncuestado;
+import mercadeoucab.fabricas.Enums.Comandos;
+import mercadeoucab.fabricas.FabricaComandosAbstractos;
 import mercadeoucab.responses.ResponseGeneral;
 
 import javax.ws.rs.*;
@@ -19,6 +21,8 @@ import javax.ws.rs.core.Response;
 @Consumes( MediaType.APPLICATION_JSON )
 public class ServicioDatoEncuestado extends AplicacionBase{
 
+    private final FabricaComandosAbstractos fabricaComandos = FabricaComandosAbstractos.getFactory(Comandos.DATOENCUESTADO);
+
     /**
      * Metodo para listar todos los Datos Encuestados registrados
      * @return regresa la lista de las Datos Encuestados o respuesta que no se encontro
@@ -29,7 +33,7 @@ public class ServicioDatoEncuestado extends AplicacionBase{
         Response resultado = null;
         try {
             validateToken(token);
-            ComandoListarDatoEncuestados comandoListarDatoEncuestados = new ComandoListarDatoEncuestados();
+            ComandoListarDatoEncuestados comandoListarDatoEncuestados = (ComandoListarDatoEncuestados) fabricaComandos.comandoListar();
             comandoListarDatoEncuestados.execute();
             resultado = comandoListarDatoEncuestados.getResult();
         }catch (Exception e) {
@@ -54,7 +58,7 @@ public class ServicioDatoEncuestado extends AplicacionBase{
         try {
             validateToken(token);
             verifyParams( dtoDatoEncuestado);
-            ComandoRegistrarDatoEncuestado comandoRegistrarDatoEncuestado = new ComandoRegistrarDatoEncuestado();
+            ComandoRegistrarDatoEncuestado comandoRegistrarDatoEncuestado = (ComandoRegistrarDatoEncuestado) fabricaComandos.comandoCrear();
             comandoRegistrarDatoEncuestado.setDtoDatoEncuestado( dtoDatoEncuestado);
             comandoRegistrarDatoEncuestado.execute();
             resultado = comandoRegistrarDatoEncuestado.getResult();
@@ -80,7 +84,7 @@ public class ServicioDatoEncuestado extends AplicacionBase{
         try{
             verifyParams( id);
             validateToken(token);
-            ComandoConsultarDatoEncuestado comandoConsultarDatoEncuestado = new ComandoConsultarDatoEncuestado();
+            ComandoConsultarDatoEncuestado comandoConsultarDatoEncuestado = (ComandoConsultarDatoEncuestado) fabricaComandos.comandoConsultar();
             comandoConsultarDatoEncuestado.setId( id);
             comandoConsultarDatoEncuestado.execute();
             resultado = comandoConsultarDatoEncuestado.getResult();
@@ -106,7 +110,7 @@ public class ServicioDatoEncuestado extends AplicacionBase{
             validateToken(token);
             verifyParams( id);
             verifyParams( dtoDatoEncuestado);
-            ComandoActualizarDatoEncuestado comandoActualizarDatoEncuestado = new ComandoActualizarDatoEncuestado();
+            ComandoActualizarDatoEncuestado comandoActualizarDatoEncuestado = (ComandoActualizarDatoEncuestado) fabricaComandos.comandoModificar();
             comandoActualizarDatoEncuestado.setDtoDatoEncuestado( dtoDatoEncuestado);
             comandoActualizarDatoEncuestado.setId( id);
             comandoActualizarDatoEncuestado.execute();
@@ -132,7 +136,7 @@ public class ServicioDatoEncuestado extends AplicacionBase{
         try {
             validateToken(token);
             verifyParams( id);
-            ComandoEliminarDatoEncuestado comandoEliminarDatoEncuestado = new ComandoEliminarDatoEncuestado();
+            ComandoEliminarDatoEncuestado comandoEliminarDatoEncuestado = (ComandoEliminarDatoEncuestado) fabricaComandos.comandoEliminar();
             comandoEliminarDatoEncuestado.setId( id);
             comandoEliminarDatoEncuestado.execute();
             resultado = comandoEliminarDatoEncuestado.getResult();

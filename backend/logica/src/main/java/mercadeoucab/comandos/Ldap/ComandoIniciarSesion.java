@@ -2,6 +2,7 @@ package mercadeoucab.comandos.Ldap;
 
 import mercadeoucab.JWT.JWT;
 import mercadeoucab.accesodatos.DaoUsuario;
+import mercadeoucab.comandos.ComandoAbstracto;
 import mercadeoucab.comandos.ComandoBase;
 import mercadeoucab.directorioactivo.DirectorioActivo;
 import mercadeoucab.dtos.DtoDirectorioAUser;
@@ -23,7 +24,7 @@ import javax.ws.rs.core.Response;
  * @version 1.0
  * @since 2021-02-1
  */
-public class ComandoIniciarSesion implements ComandoBase {
+public class ComandoIniciarSesion extends ComandoAbstracto implements ComandoBase {
     private Response result;
     private DtoDirectorioAUser dtoUsuario;
 

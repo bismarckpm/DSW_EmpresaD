@@ -2,6 +2,9 @@ package mercadeoucab.servicio;
 
 import mercadeoucab.comandos.Municipio.*;
 import mercadeoucab.dtos.DtoMunicipio;
+import mercadeoucab.fabricas.Enums.Comandos;
+import mercadeoucab.fabricas.FabricaComandosAbstractos;
+import mercadeoucab.fabricas.fabricasComandoConcretos.FabricaComandosMunicipio;
 import mercadeoucab.responses.ResponseGeneral;
 
 import javax.ws.rs.*;
@@ -19,6 +22,7 @@ import javax.ws.rs.core.Response;
 @Consumes( MediaType.APPLICATION_JSON )
 public class ServicioMunicipio extends AplicacionBase{
 
+    private final FabricaComandosMunicipio fabricaComandosMunicipio = (FabricaComandosMunicipio) FabricaComandosAbstractos.getFactory(Comandos.MUNICIPIO);
     /**
      * Metodo para listar todos los Municipios registrados
      * @return regresa la lista de los Municipios registrados, respuesta que no se encontro
@@ -30,7 +34,7 @@ public class ServicioMunicipio extends AplicacionBase{
         Response resultado = null;
         try{
             validateToken(token);
-            ComandoListarMunicipios comandoListarMunicipios = new ComandoListarMunicipios();
+            ComandoListarMunicipios comandoListarMunicipios = (ComandoListarMunicipios) fabricaComandosMunicipio.comandoListar();
             comandoListarMunicipios.execute();
             resultado = comandoListarMunicipios.getResult();
         }catch (Exception e) {
@@ -54,7 +58,7 @@ public class ServicioMunicipio extends AplicacionBase{
         try {
             validateToken(token);
             verifyParams( id);
-            ComandoObtenerMunicipio comandoObtenerMunicipio = new ComandoObtenerMunicipio();
+            ComandoObtenerMunicipio comandoObtenerMunicipio = (ComandoObtenerMunicipio) fabricaComandosMunicipio.comandoConsultar();
             comandoObtenerMunicipio.setId( id);
             comandoObtenerMunicipio.execute();
             resultado = comandoObtenerMunicipio.getResult();
@@ -80,7 +84,7 @@ public class ServicioMunicipio extends AplicacionBase{
         try {
             validateToken(token);
             verifyParams( dtoMunicipio);
-            ComandoRegistrarMunicipio comandoRegistrarMunicipio = new ComandoRegistrarMunicipio();
+            ComandoRegistrarMunicipio comandoRegistrarMunicipio = (ComandoRegistrarMunicipio) fabricaComandosMunicipio.comandoCrear();
             comandoRegistrarMunicipio.setDtoMunicipio( dtoMunicipio);
             comandoRegistrarMunicipio.execute();
             resultado = comandoRegistrarMunicipio.getResult();
@@ -107,7 +111,7 @@ public class ServicioMunicipio extends AplicacionBase{
             validateToken(token);
             verifyParams( id);
             verifyParams( dtoMunicipio);
-            ComandoActualizarMunicipio comandoActualizarMunicipio = new ComandoActualizarMunicipio();
+            ComandoActualizarMunicipio comandoActualizarMunicipio = (ComandoActualizarMunicipio) fabricaComandosMunicipio.comandoModificar();
             comandoActualizarMunicipio.setDtoMunicipio( dtoMunicipio);
             comandoActualizarMunicipio.setId( id);
             comandoActualizarMunicipio.execute();
@@ -133,7 +137,7 @@ public class ServicioMunicipio extends AplicacionBase{
         try {
             validateToken(token);
             verifyParams( id);
-            ComandoEliminarMunicipio comandoEliminarMunicipio = new ComandoEliminarMunicipio();
+            ComandoEliminarMunicipio comandoEliminarMunicipio = (ComandoEliminarMunicipio) fabricaComandosMunicipio.comandoEliminar();
             comandoEliminarMunicipio.setId( id);
             comandoEliminarMunicipio.execute();
             resultado = comandoEliminarMunicipio.getResult();
