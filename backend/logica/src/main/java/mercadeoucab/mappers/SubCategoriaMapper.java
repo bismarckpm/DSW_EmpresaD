@@ -1,7 +1,9 @@
 package mercadeoucab.mappers;
 
 import mercadeoucab.dtos.DtoSubCategoria;
+import mercadeoucab.dtos.DtoTipo;
 import mercadeoucab.entidades.SubCategoria;
+import mercadeoucab.entidades.Tipo;
 import mercadeoucab.fabricas.Enums.Fabricas;
 import mercadeoucab.fabricas.FabricaAbstracta;
 
@@ -24,6 +26,14 @@ public class SubCategoriaMapper {
             );
         }
 
+        if (Objects.nonNull(dtoSubCategoria.getTipoList()) && dtoSubCategoria.getTipoList().size() > 0){
+            for (DtoTipo dtoTipo : dtoSubCategoria.getTipoList()){
+                subCategoria.addTipo(
+                        TipoMapper.mapDtoToEntity(dtoTipo)
+                );
+            }
+        }
+
         return subCategoria;
     }
 
@@ -34,12 +44,22 @@ public class SubCategoriaMapper {
         dtoSubCategoria.setNombre( subCategoria.getNombre());
         dtoSubCategoria.setActivo( subCategoria.getActivo());
         dtoSubCategoria.setModificado_el( subCategoria.getModificado_el());
+        dtoSubCategoria.setCreado_el( subCategoria.getCreado_el());
+
         if (Objects.nonNull(subCategoria.getCategoria())) {
             dtoSubCategoria.setCategoria(
                     CategoriaMapper.mapEntitytoDto(subCategoria.getCategoria())
             );
         }
-        dtoSubCategoria.setCreado_el( subCategoria.getCreado_el());
+
+        if (Objects.nonNull(subCategoria.getTipoList()) && subCategoria.getTipoList().size() > 0){
+            for (Tipo tipo : subCategoria.getTipoList()){
+                dtoSubCategoria.addTipo(
+                        TipoMapper.mapEntityToDto(tipo)
+                );
+            }
+        }
+
 
         return dtoSubCategoria;
     }

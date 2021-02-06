@@ -25,4 +25,17 @@ public class ResponsePresentacion implements ResponseBase<DtoPresentacion> {
                    .add("fk_tipo", tipo)
                    .build();
     }
+
+    /**
+     * Metodo para generar una presentacion sin el tipo
+     * @param dtoPresentacion
+     * @return
+     */
+    public JsonObject generateReverse(DtoPresentacion dtoPresentacion){
+        return Json.createObjectBuilder()
+                .add("_id", dtoPresentacion.get_id())
+                .add("tipo", dtoPresentacion.getTipo())
+                .add("Cantidad",dtoPresentacion.getCantidad())
+                .build();
+    }
 }

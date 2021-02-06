@@ -1,5 +1,8 @@
 package mercadeoucab.dtos;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * Name: DtoTipo
  */
@@ -7,6 +10,7 @@ public class DtoTipo extends DtoBase{
 
     private String nombre;
     private DtoSubCategoria subCategoria;
+    private List<DtoPresentacion> presentacionList;
 
     /**
      * Name: DtoTipo
@@ -41,11 +45,37 @@ public class DtoTipo extends DtoBase{
         this.nombre = nombre;
     }
 
-    public DtoSubCategoria getSubCategoria() {
-        return subCategoria;
-    }
+    /**
+     * Name: DtoSubCategoria
+     * @return
+     */
+    public DtoSubCategoria getSubCategoria() { return subCategoria; }
 
-    public void setSubCategoria(DtoSubCategoria subCategoria) {
-        this.subCategoria = subCategoria;
+    /**
+     * Name: setSubCategoria
+     * @param subCategoria
+     */
+    public void setSubCategoria(DtoSubCategoria subCategoria) { this.subCategoria = subCategoria; }
+
+    /**
+     * Name:getPresentacionList
+     * @return
+     */
+    public List<DtoPresentacion> getPresentacionList() { return presentacionList; }
+
+    /**
+     * Name: setPresentacionList
+     * @param presentacionList
+     */
+    public void setPresentacionList(List<DtoPresentacion> presentacionList) { this.presentacionList = presentacionList; }
+
+    /**
+     * Name: addPresentacion
+     * @param dtoPresentacion
+     */
+    public void addPresentacion(DtoPresentacion dtoPresentacion){
+        if (this.presentacionList == null)
+            this.presentacionList = new ArrayList<>();
+        this.presentacionList.add(dtoPresentacion);
     }
 }

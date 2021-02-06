@@ -25,6 +25,7 @@ public class ResponseEstudio implements ResponseBase<DtoEstudio> {
 
         ResponsePregunta responsePregunta = (ResponsePregunta) fabricaPregunta.generarResponse();
         ResponseRespuesta responseRespuesta = (ResponseRespuesta) fabricaRespuesta.generarResponse();
+
         if(Objects.nonNull(dtoEstudio.getEncuestaEstudio()) && dtoEstudio.getEncuestaEstudio().size() > 0){
             for(DtoEncuestaEstudio encuestaEstudio: dtoEstudio.getEncuestaEstudio()){
                 String tipo = encuestaEstudio.getFk_pregunta().getTipo();
@@ -41,7 +42,7 @@ public class ResponseEstudio implements ResponseBase<DtoEstudio> {
                         }
                         objeto = Json.createObjectBuilder()
                                 .add("_id", encuestaEstudio.get_id())
-                                .add("pregunta", responsePregunta.generate( encuestaEstudio.getFk_pregunta()))
+                                .add("pregunta", responsePregunta.generate( encuestaEstudio.getFk_pregunta() ))
                                 .add("respuestas", respuestasList)
                                 .build();
                         preguntaslist.add(objeto);

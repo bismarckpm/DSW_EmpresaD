@@ -1,9 +1,13 @@
 package mercadeoucab.mappers;
 
 import mercadeoucab.dtos.DtoCategoria;
+import mercadeoucab.dtos.DtoSubCategoria;
 import mercadeoucab.entidades.Categoria;
+import mercadeoucab.entidades.SubCategoria;
 import mercadeoucab.fabricas.Enums.Fabricas;
 import mercadeoucab.fabricas.FabricaAbstracta;
+
+import java.util.Objects;
 
 
 public class CategoriaMapper {
@@ -16,10 +20,18 @@ public class CategoriaMapper {
         entity.setActivo( dto.getActivo() );
         entity.setCreado_el( dto.getCreado_el() );
         entity.setModificado_el( dto.getModificado_el() );
+
+        if (Objects.nonNull(dto.getSubCategorias()) && dto.getSubCategorias().size() > 0){
+            for (DtoSubCategoria dtoSubCategoria : dto.getSubCategorias()){
+                entity.addSubCategoria(
+                        SubCategoriaMapper.mapDtoToEntity(dtoSubCategoria)
+                );
+            }
+        }
         return entity;
     }
 
-    public static DtoCategoria mapEntitytoDto(Categoria entity){
+    public static DtoCategoria mapEntitytoDto(Categoria entity) throws Exception {
         FabricaAbstracta fabrica = FabricaAbstracta.getFactory(Fabricas.CATEGORIA);
         DtoCategoria dto = (DtoCategoria) fabrica.generarDto();
         dto.set_id( entity.get_id() );
@@ -27,6 +39,15 @@ public class CategoriaMapper {
         dto.setActivo( entity.getActivo() );
         dto.setCreado_el( entity.getCreado_el() );
         dto.setModificado_el( entity.getModificado_el() );
+
+        if (Objects.nonNull(entity.getSubCategorias()) && entity.getSubCategorias().size() > 0){
+            for (SubCategoria subCategoria : entity.getSubCategorias()){
+                dto.addSubCategoria(
+                        SubCategoriaMapper.mapEntityToDto(subCategoria)
+                );
+            }
+        }
         return dto;
     }
+
 }

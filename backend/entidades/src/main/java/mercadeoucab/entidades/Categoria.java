@@ -1,8 +1,8 @@
 package mercadeoucab.entidades;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Table;
+import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table( name = "categoria" )
@@ -12,11 +12,13 @@ public class Categoria extends EntidadBase{
         super(id);
     }
 
-    public Categoria() {
-    }
+    public Categoria() { }
 
     @Column(name = "nombre")
     private String nombre;
+
+    @OneToMany( mappedBy = "fk_categoria", fetch = FetchType.LAZY, cascade = CascadeType.PERSIST )
+    private List<SubCategoria> subCategorias;
 
     public String getNombre() {
         return nombre;
@@ -24,5 +26,15 @@ public class Categoria extends EntidadBase{
 
     public void setNombre(String nombre) {
         this.nombre = nombre;
+    }
+
+    public List<SubCategoria> getSubCategorias() { return subCategorias; }
+
+    public void setSubCategorias(List<SubCategoria> subCategorias) { this.subCategorias = subCategorias; }
+
+    public void addSubCategoria(SubCategoria subCategoria){
+        if(this.subCategorias == null)
+            this.subCategorias = new ArrayList<>();
+        this.subCategorias.add(subCategoria);
     }
 }
