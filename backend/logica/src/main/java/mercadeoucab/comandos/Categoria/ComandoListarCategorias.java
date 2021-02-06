@@ -1,6 +1,7 @@
 package mercadeoucab.comandos.Categoria;
 
 import mercadeoucab.accesodatos.DaoCategoria;
+import mercadeoucab.comandos.ComandoAbstracto;
 import mercadeoucab.comandos.ComandoBase;
 import mercadeoucab.dtos.DtoCategoria;
 import mercadeoucab.entidades.Categoria;
@@ -17,7 +18,7 @@ import javax.ws.rs.core.Response;
 import java.util.List;
 import java.util.Objects;
 
-public class ComandoListarCategorias implements ComandoBase {
+public class ComandoListarCategorias extends ComandoAbstracto implements ComandoBase {
 
     private Response result;
 

@@ -2,6 +2,8 @@ package mercadeoucab.servicio;
 
 import mercadeoucab.comandos.Categoria.*;
 import mercadeoucab.dtos.DtoCategoria;
+import mercadeoucab.fabricas.Enums.Comandos;
+import mercadeoucab.fabricas.FabricaComandosAbstractos;
 import mercadeoucab.responses.ResponseGeneral;
 
 import javax.ws.rs.*;
@@ -19,6 +21,7 @@ import javax.ws.rs.core.Response;
 @Consumes( MediaType.APPLICATION_JSON )
 public class ServicioCategoria extends AplicacionBase{
 
+    private final FabricaComandosAbstractos fabricaComandosCategoria = FabricaComandosAbstractos.getFactory(Comandos.CATEGORIA);
     /**
      * Metodo para listar todas las Categorias registradas
      * @return regresa la lista de las Categorias, respuesta que no se encontro
@@ -30,7 +33,7 @@ public class ServicioCategoria extends AplicacionBase{
         Response resultado = null;
         try {
             validateToken(token);
-            ComandoListarCategorias comandoListarCategorias = new ComandoListarCategorias();
+            ComandoListarCategorias comandoListarCategorias = (ComandoListarCategorias) fabricaComandosCategoria.comandoListar();
             comandoListarCategorias.execute();
             resultado = comandoListarCategorias.getResult();
         }catch (Exception e) {
@@ -54,7 +57,7 @@ public class ServicioCategoria extends AplicacionBase{
         try{
             validateToken(token);
             verifyParams( dtoCategoria );
-            ComandoAgregarCategoria comandoAgregarCategoria = new ComandoAgregarCategoria();
+            ComandoAgregarCategoria comandoAgregarCategoria = (ComandoAgregarCategoria) fabricaComandosCategoria.comandoCrear();
             comandoAgregarCategoria.setDtoCategoria(dtoCategoria);
             comandoAgregarCategoria.execute();
             resultado = comandoAgregarCategoria.getResult();
@@ -80,7 +83,7 @@ public class ServicioCategoria extends AplicacionBase{
         try{
             validateToken(token);
             verifyParams( id );
-            ComandoConsultarCategoria comandoConsultarCategoria = new ComandoConsultarCategoria();
+            ComandoConsultarCategoria comandoConsultarCategoria = (ComandoConsultarCategoria) fabricaComandosCategoria.comandoConsultar();
             comandoConsultarCategoria.setId( id );
             comandoConsultarCategoria.execute();
             resultado = comandoConsultarCategoria.getResult();
@@ -106,7 +109,7 @@ public class ServicioCategoria extends AplicacionBase{
             validateToken(token);
             verifyParams(id);
             verifyParams(dtoCategoria);
-            ComandoActualizarCategoria comandoActualizarCategoria = new ComandoActualizarCategoria();
+            ComandoActualizarCategoria comandoActualizarCategoria = (ComandoActualizarCategoria) fabricaComandosCategoria.comandoModificar();
             comandoActualizarCategoria.setDtoCategoria(dtoCategoria);
             comandoActualizarCategoria.setId(id);
             comandoActualizarCategoria.execute();
@@ -132,7 +135,7 @@ public class ServicioCategoria extends AplicacionBase{
         try {
             validateToken(token);
             verifyParams(id);
-            ComandoEliminarCategoria comandoEliminarCategoria = new ComandoEliminarCategoria();
+            ComandoEliminarCategoria comandoEliminarCategoria = (ComandoEliminarCategoria) fabricaComandosCategoria.comandoEliminar();
             comandoEliminarCategoria.setId(id);
             comandoEliminarCategoria.execute();
             resultado = comandoEliminarCategoria.getResult();

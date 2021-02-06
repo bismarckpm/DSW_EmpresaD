@@ -1,6 +1,9 @@
 package mercadeoucab.servicio;
 
 import mercadeoucab.comandos.Categoria.ComandoListaReversa;
+import mercadeoucab.fabricas.Enums.Comandos;
+import mercadeoucab.fabricas.FabricaComandosAbstractos;
+import mercadeoucab.fabricas.fabricasComandoConcretos.FabricaComandosCategoria;
 import mercadeoucab.responses.ResponseGeneral;
 
 import javax.ws.rs.*;
@@ -18,6 +21,7 @@ import javax.ws.rs.core.Response;
 @Consumes( MediaType.APPLICATION_JSON )
 public class ServicioExtra extends AplicacionBase{
 
+    private final FabricaComandosCategoria fabricaComandosCategoria = new FabricaComandosCategoria();
     /**
      * Metodo para listar de manera reversa las catgorias
      * @param token
@@ -30,7 +34,7 @@ public class ServicioExtra extends AplicacionBase{
         try
         {
             validateToken(token);
-            ComandoListaReversa comandoListaReversa = new ComandoListaReversa();
+            ComandoListaReversa comandoListaReversa = (ComandoListaReversa) fabricaComandosCategoria.comandoListaReversa();
             comandoListaReversa.execute();
             resultado = comandoListaReversa.getResult();
         }
