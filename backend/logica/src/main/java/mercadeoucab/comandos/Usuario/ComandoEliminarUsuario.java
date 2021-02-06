@@ -1,6 +1,7 @@
 package mercadeoucab.comandos.Usuario;
 
 import mercadeoucab.accesodatos.DaoUsuario;
+import mercadeoucab.comandos.ComandoAbstracto;
 import mercadeoucab.comandos.ComandoBase;
 import mercadeoucab.entidades.Usuario;
 import mercadeoucab.fabricas.Enums.Fabricas;
@@ -17,7 +18,7 @@ import java.util.Calendar;
  * @version 1.0
  * @since 2021-01-29
  */
-public class ComandoEliminarUsuario implements ComandoBase {
+public class ComandoEliminarUsuario extends ComandoAbstracto implements ComandoBase {
     private Response result;
     private long id;
 

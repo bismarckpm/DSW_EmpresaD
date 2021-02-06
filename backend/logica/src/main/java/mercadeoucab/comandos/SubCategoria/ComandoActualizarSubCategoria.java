@@ -1,6 +1,7 @@
 package mercadeoucab.comandos.SubCategoria;
 
 import mercadeoucab.accesodatos.DaoSubCategoria;
+import mercadeoucab.comandos.ComandoAbstracto;
 import mercadeoucab.comandos.ComandoBase;
 import mercadeoucab.dtos.DtoSubCategoria;
 import mercadeoucab.entidades.SubCategoria;
@@ -12,7 +13,7 @@ import javax.ws.rs.core.Response;
 import java.sql.Date;
 import java.util.Calendar;
 
-public class ComandoActualizarSubCategoria implements ComandoBase {
+public class ComandoActualizarSubCategoria extends ComandoAbstracto implements ComandoBase {
     private Response result;
     private long id;
     private DtoSubCategoria dtoSubCategoria;

@@ -13,29 +13,49 @@ public abstract class FabricaComandosAbstractos {
     private static final FabricaComandosLDAP COMANDOS_LDAP = new FabricaComandosLDAP();
     private static final FabricaComandosMunicipio COMANDOS_MUNICIPIO = new FabricaComandosMunicipio();
     private static final FabricaComandosOcupacion COMANDOS_OCUPACION = new FabricaComandosOcupacion();
+    private static final FabricaComandosOpcion COMANDOS_OPCION = new FabricaComandosOpcion();
+    private static final FabricaComandosPais COMANDOS_PAIS = new FabricaComandosPais();
+    private static final FabricaComandoParroquia COMANDO_PARROQUIA = new FabricaComandoParroquia();
+    private static final FabricaComandosPregunta COMANDOS_PREGUNTA = new FabricaComandosPregunta();
+    private static final FabricaComandosPresentacion COMANDOS_PRESENTACION = new FabricaComandosPresentacion();
+    private static final FabricaComandoRespuesta COMANDO_RESPUESTA = new FabricaComandoRespuesta();
+    private static final FabricaComandosSolicitud COMANDOS_SOLICITUD = new FabricaComandosSolicitud();
+    private static final FabricaComandosSubCategoria COMANDOS_SUB_CATEGORIA = new FabricaComandosSubCategoria();
+    private static final FabricaComandoTipo COMANDO_TIPO = new FabricaComandoTipo();
+    private static final FabricaComandosUsuario COMANDOS_USUARIO = new FabricaComandosUsuario();
 
     public static FabricaComandosAbstractos getFactory(Comandos tipo){
         FabricaComandosAbstractos fabricaComandosAbstractos = null;
         switch (tipo){
             case USUARIO:
+                fabricaComandosAbstractos = COMANDOS_USUARIO;
                 break;
             case TIPO:
+                fabricaComandosAbstractos = COMANDO_TIPO;
                 break;
             case SUBCATEGORIA:
+                fabricaComandosAbstractos = COMANDOS_SUB_CATEGORIA;
                 break;
             case SOLICITUD:
+                fabricaComandosAbstractos = COMANDOS_SOLICITUD;
                 break;
             case RESPUESTA:
+                fabricaComandosAbstractos = COMANDO_RESPUESTA;
                 break;
             case PRESENTACION:
+                fabricaComandosAbstractos = COMANDOS_PRESENTACION;
                 break;
             case PREGUNTA:
+                fabricaComandosAbstractos = COMANDOS_PREGUNTA;
                 break;
             case PARROQUIA:
+                fabricaComandosAbstractos = COMANDO_PARROQUIA;
                 break;
             case PAIS:
+                fabricaComandosAbstractos = COMANDOS_PAIS;
                 break;
             case OPCION:
+                fabricaComandosAbstractos = COMANDOS_OPCION;
                 break;
             case OCUPACION:
                 fabricaComandosAbstractos = COMANDOS_OCUPACION;

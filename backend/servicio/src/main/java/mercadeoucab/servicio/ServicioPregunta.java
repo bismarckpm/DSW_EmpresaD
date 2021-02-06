@@ -2,6 +2,9 @@ package mercadeoucab.servicio;
 
 import mercadeoucab.comandos.Pregunta.*;
 import mercadeoucab.dtos.DtoPregunta;
+import mercadeoucab.fabricas.Enums.Comandos;
+import mercadeoucab.fabricas.FabricaComandosAbstractos;
+import mercadeoucab.fabricas.fabricasComandoConcretos.FabricaComandosPregunta;
 import mercadeoucab.responses.ResponseGeneral;
 
 import javax.ws.rs.*;
@@ -19,6 +22,7 @@ import javax.ws.rs.core.Response;
 @Consumes( MediaType.APPLICATION_JSON )
 public class ServicioPregunta extends AplicacionBase{
 
+    private final FabricaComandosPregunta fabricaComandosPregunta = (FabricaComandosPregunta) FabricaComandosAbstractos.getFactory(Comandos.PREGUNTA);
     /**
      * Metodo para listar todas las Preguntas registradas
      * @return regresa la lista de las Preguntas, respuesta que no se encontro
@@ -30,7 +34,7 @@ public class ServicioPregunta extends AplicacionBase{
         Response resultado = null;
         try {
             validateToken(token);
-            ComandoListarPreguntas comandoListarPreguntas = new ComandoListarPreguntas();
+            ComandoListarPreguntas comandoListarPreguntas = (ComandoListarPreguntas) fabricaComandosPregunta.comandoListar();
             comandoListarPreguntas.execute();
             resultado = comandoListarPreguntas.getResult();
         }
@@ -55,7 +59,7 @@ public class ServicioPregunta extends AplicacionBase{
         try {
             validateToken(token);
             verifyParams(dtoPregunta);
-            ComandoRegistrarPregunta comandoRegistrarPregunta = new ComandoRegistrarPregunta();
+            ComandoRegistrarPregunta comandoRegistrarPregunta = (ComandoRegistrarPregunta) fabricaComandosPregunta.comandoCrear();
             comandoRegistrarPregunta.setDtoPregunta(dtoPregunta);
             comandoRegistrarPregunta.execute();
             resultado = comandoRegistrarPregunta.getResult();
@@ -81,7 +85,7 @@ public class ServicioPregunta extends AplicacionBase{
         try {
             validateToken(token);
             verifyParams(id);
-            ComandoConsultarPregunta comandoConsultarPregunta = new ComandoConsultarPregunta();
+            ComandoConsultarPregunta comandoConsultarPregunta = (ComandoConsultarPregunta) fabricaComandosPregunta.comandoConsultar();
             comandoConsultarPregunta.setId(id);
             comandoConsultarPregunta.execute();
             resultado = comandoConsultarPregunta.getResult();
@@ -105,7 +109,7 @@ public class ServicioPregunta extends AplicacionBase{
         try {
             validateToken(token);
             verifyParams(id);
-            ComandoEliminarPregunta comandoEliminarPregunta = new ComandoEliminarPregunta();
+            ComandoEliminarPregunta comandoEliminarPregunta = (ComandoEliminarPregunta) fabricaComandosPregunta.comandoEliminar();
             comandoEliminarPregunta.setId(id);
             comandoEliminarPregunta.execute();
             resultado = comandoEliminarPregunta.getResult();
@@ -132,7 +136,7 @@ public class ServicioPregunta extends AplicacionBase{
             validateToken(token);
             verifyParams(id);
             verifyParams(dtoPregunta);
-            ComandoActualizarPregunta comandoActualizarPregunta = new ComandoActualizarPregunta();
+            ComandoActualizarPregunta comandoActualizarPregunta = (ComandoActualizarPregunta) fabricaComandosPregunta.comandoModificar();
             comandoActualizarPregunta.setDtoPregunta(dtoPregunta);
             comandoActualizarPregunta.setId(id);
             comandoActualizarPregunta.execute();

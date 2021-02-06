@@ -1,6 +1,7 @@
 package mercadeoucab.comandos.Pais;
 
 import mercadeoucab.accesodatos.DaoPais;
+import mercadeoucab.comandos.ComandoAbstracto;
 import mercadeoucab.comandos.ComandoBase;
 import mercadeoucab.entidades.Pais;
 import mercadeoucab.fabricas.Enums.Fabricas;
@@ -17,7 +18,7 @@ import java.util.Calendar;
  * @version 1.0
  * @since 2021-01-29
  */
-public class ComandoEliminarPais implements ComandoBase {
+public class ComandoEliminarPais extends ComandoAbstracto implements ComandoBase {
     private Response result;
     private long id;
 

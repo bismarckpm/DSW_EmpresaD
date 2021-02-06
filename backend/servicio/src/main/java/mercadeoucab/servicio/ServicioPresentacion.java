@@ -2,6 +2,9 @@ package mercadeoucab.servicio;
 
 import mercadeoucab.comandos.Presentacion.*;
 import mercadeoucab.dtos.DtoPresentacion;
+import mercadeoucab.fabricas.Enums.Comandos;
+import mercadeoucab.fabricas.FabricaComandosAbstractos;
+import mercadeoucab.fabricas.fabricasComandoConcretos.FabricaComandosPresentacion;
 import mercadeoucab.responses.ResponseGeneral;
 
 import javax.ws.rs.*;
@@ -19,6 +22,7 @@ import javax.ws.rs.core.Response;
 @Consumes( MediaType.APPLICATION_JSON )
 public class ServicioPresentacion extends AplicacionBase{
 
+    private final FabricaComandosPresentacion fabricaComandosPresentacion = (FabricaComandosPresentacion) FabricaComandosAbstractos.getFactory(Comandos.PRESENTACION);
     /**
      * Metodo para consultar una Presentacion dado un identificador
      * @param id Identificador de la Presentacion que se desea consultar
@@ -32,7 +36,7 @@ public class ServicioPresentacion extends AplicacionBase{
         try{
             validateToken(token);
             verifyParams(id);
-            ComandoObtenerPresentacion comandoObtenerPresentacion = new ComandoObtenerPresentacion();
+            ComandoObtenerPresentacion comandoObtenerPresentacion = (ComandoObtenerPresentacion) fabricaComandosPresentacion.comandoConsultar();
             comandoObtenerPresentacion.setId(id);
             comandoObtenerPresentacion.execute();
             resultado = comandoObtenerPresentacion.getResult();
@@ -55,7 +59,7 @@ public class ServicioPresentacion extends AplicacionBase{
         Response resultado = null;
         try {
             validateToken(token);
-            ComandoListarPresentacion comandoListarPresentacion = new ComandoListarPresentacion();
+            ComandoListarPresentacion comandoListarPresentacion = (ComandoListarPresentacion) fabricaComandosPresentacion.comandoListar();
             comandoListarPresentacion.execute();
             resultado = comandoListarPresentacion.getResult();
         }
@@ -80,7 +84,7 @@ public class ServicioPresentacion extends AplicacionBase{
         try{
             validateToken(token);
             verifyParams(dtoPresentacion);
-            ComandoRegistrarPresentacion comandoRegistrarPresentacion = new ComandoRegistrarPresentacion();
+            ComandoRegistrarPresentacion comandoRegistrarPresentacion = (ComandoRegistrarPresentacion) fabricaComandosPresentacion.comandoCrear();
             comandoRegistrarPresentacion.setDtoPresentacion(dtoPresentacion);
             comandoRegistrarPresentacion.execute();
             resultado = comandoRegistrarPresentacion.getResult();
@@ -107,7 +111,7 @@ public class ServicioPresentacion extends AplicacionBase{
             validateToken(token);
             verifyParams( id );
             verifyParams( dtoPresentacion );
-            ComandoActualizarPresentacion comandoActualizarPresentacion = new ComandoActualizarPresentacion();
+            ComandoActualizarPresentacion comandoActualizarPresentacion = (ComandoActualizarPresentacion) fabricaComandosPresentacion.comandoModificar();
             comandoActualizarPresentacion.setId( id );
             comandoActualizarPresentacion.setDtoPresentacion( dtoPresentacion );
             comandoActualizarPresentacion.execute();
@@ -132,7 +136,7 @@ public class ServicioPresentacion extends AplicacionBase{
         try{
             validateToken(token);
             verifyParams(id);
-            ComandoEliminarPresentacion comandoEliminarPresentacion = new ComandoEliminarPresentacion();
+            ComandoEliminarPresentacion comandoEliminarPresentacion = (ComandoEliminarPresentacion) fabricaComandosPresentacion.comandoEliminar();
             comandoEliminarPresentacion.setId(id);
             comandoEliminarPresentacion.execute();
             resultado = comandoEliminarPresentacion.getResult();

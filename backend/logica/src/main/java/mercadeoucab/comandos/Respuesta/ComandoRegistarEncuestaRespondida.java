@@ -1,6 +1,7 @@
 package mercadeoucab.comandos.Respuesta;
 
 import mercadeoucab.accesodatos.DaoRespuesta;
+import mercadeoucab.comandos.ComandoAbstracto;
 import mercadeoucab.comandos.ComandoBase;
 import mercadeoucab.dtos.DtoEncuestaEstudio;
 import mercadeoucab.dtos.DtoRespuesta;
@@ -16,7 +17,7 @@ import javax.ws.rs.core.Response;
 import java.sql.Date;
 import java.util.Calendar;
 
-public class ComandoRegistarEncuestaRespondida implements ComandoBase {
+public class ComandoRegistarEncuestaRespondida extends ComandoAbstracto implements ComandoBase {
 
     private Response result;
     private DtoEncuestaEstudio dtoEncuestaEstudio;

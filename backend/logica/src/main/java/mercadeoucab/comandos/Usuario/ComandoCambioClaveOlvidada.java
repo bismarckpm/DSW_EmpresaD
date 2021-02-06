@@ -1,6 +1,7 @@
 package mercadeoucab.comandos.Usuario;
 
 import mercadeoucab.accesodatos.DaoUsuario;
+import mercadeoucab.comandos.ComandoAbstracto;
 import mercadeoucab.comandos.ComandoBase;
 import mercadeoucab.directorioactivo.DirectorioActivo;
 import mercadeoucab.dtos.DtoDirectorioAUser;
@@ -17,7 +18,7 @@ import javax.ws.rs.core.Response;
  * @version 1.0
  * @since 2021-01-29
  */
-public class ComandoCambioClaveOlvidada implements ComandoBase {
+public class ComandoCambioClaveOlvidada extends ComandoAbstracto implements ComandoBase {
 
     private Response result;
     private DtoDirectorioAUser dtoDirectorioAUser;

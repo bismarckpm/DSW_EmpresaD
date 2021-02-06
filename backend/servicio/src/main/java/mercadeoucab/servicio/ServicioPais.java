@@ -2,6 +2,9 @@ package mercadeoucab.servicio;
 
 import mercadeoucab.comandos.Pais.*;
 import mercadeoucab.dtos.DtoPais;
+import mercadeoucab.fabricas.Enums.Comandos;
+import mercadeoucab.fabricas.FabricaComandosAbstractos;
+import mercadeoucab.fabricas.fabricasComandoConcretos.FabricaComandosPais;
 import mercadeoucab.responses.ResponseGeneral;
 
 import javax.ws.rs.*;
@@ -19,6 +22,8 @@ import javax.ws.rs.core.Response;
 @Consumes( MediaType.APPLICATION_JSON )
 public class ServicioPais extends AplicacionBase{
 
+    private final FabricaComandosPais fabricaComandosPais = (FabricaComandosPais) FabricaComandosAbstractos.getFactory(Comandos.PAIS);
+
     /**
      * Metodo para listar todos los Paises registrados
      * @return regresa la lista de los estudios, respuesta que no se encontro
@@ -30,7 +35,7 @@ public class ServicioPais extends AplicacionBase{
         Response resultado = null;
         try{
             validateToken(token);
-            ComandoListarPaises comandoListarPaises = new ComandoListarPaises();
+            ComandoListarPaises comandoListarPaises = (ComandoListarPaises) fabricaComandosPais.comandoListar();
             comandoListarPaises.execute();
             resultado = comandoListarPaises.getResult();
         }catch (Exception e) {
@@ -54,7 +59,7 @@ public class ServicioPais extends AplicacionBase{
         try{
             validateToken(token);
             verifyParams( id);
-            ComandoObtenerPais comandoObtenerPais = new ComandoObtenerPais();
+            ComandoObtenerPais comandoObtenerPais = (ComandoObtenerPais) fabricaComandosPais.comandoConsultar();
             comandoObtenerPais.setId( id);
             comandoObtenerPais.execute();
             resultado = comandoObtenerPais.getResult();
@@ -80,7 +85,7 @@ public class ServicioPais extends AplicacionBase{
         try{
             validateToken(token);
             verifyParams( dtoPais);
-            ComandoAgregarPais comandoAgregarPais = new ComandoAgregarPais();
+            ComandoAgregarPais comandoAgregarPais = (ComandoAgregarPais) fabricaComandosPais.comandoCrear();
             comandoAgregarPais.setDtoPais( dtoPais);
             comandoAgregarPais.execute();
             resultado = comandoAgregarPais.getResult();
@@ -107,7 +112,7 @@ public class ServicioPais extends AplicacionBase{
             validateToken(token);
             verifyParams( id);
             verifyParams( dtoPais);
-            ComandoActualizarPais comandoActualizarPais = new ComandoActualizarPais();
+            ComandoActualizarPais comandoActualizarPais = (ComandoActualizarPais) fabricaComandosPais.comandoModificar();
             comandoActualizarPais.setDtoPais( dtoPais);
             comandoActualizarPais.setId( id);
             comandoActualizarPais.execute();
@@ -133,7 +138,7 @@ public class ServicioPais extends AplicacionBase{
         try {
             validateToken(token);
             verifyParams( id);
-            ComandoEliminarPais comandoEliminarPais = new ComandoEliminarPais();
+            ComandoEliminarPais comandoEliminarPais = (ComandoEliminarPais) fabricaComandosPais.comandoEliminar();
             comandoEliminarPais.setId( id);
             comandoEliminarPais.execute();
             resultado = comandoEliminarPais.getResult();

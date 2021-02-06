@@ -1,6 +1,7 @@
 package mercadeoucab.comandos.Usuario;
 
 import mercadeoucab.accesodatos.DaoUsuario;
+import mercadeoucab.comandos.ComandoAbstracto;
 import mercadeoucab.comandos.ComandoBase;
 import mercadeoucab.dtos.DtoMail;
 import mercadeoucab.dtos.DtoUsuario;
@@ -19,7 +20,7 @@ import javax.ws.rs.core.Response;
  * @version 1.0
  * @since 2021-01-29
  */
-public class ComandoPeticionClaveOlvidada implements ComandoBase {
+public class ComandoPeticionClaveOlvidada extends ComandoAbstracto implements ComandoBase {
 
     private Response result;
     private DtoUsuario dtoUsuario;

@@ -1,6 +1,7 @@
 package mercadeoucab.comandos.Presentacion;
 
 import mercadeoucab.accesodatos.DaoPresentacion;
+import mercadeoucab.comandos.ComandoAbstracto;
 import mercadeoucab.comandos.ComandoBase;
 import mercadeoucab.dtos.DtoPresentacion;
 import mercadeoucab.entidades.Presentacion;
@@ -13,7 +14,7 @@ import javax.ws.rs.core.Response;
 import java.sql.Date;
 import java.util.Calendar;
 
-public class ComandoRegistrarPresentacion implements ComandoBase {
+public class ComandoRegistrarPresentacion extends ComandoAbstracto implements ComandoBase {
 
     private Response result;
     private DtoPresentacion dtoPresentacion;

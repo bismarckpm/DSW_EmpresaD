@@ -1,6 +1,7 @@
 package mercadeoucab.comandos.Opcion;
 
 import mercadeoucab.accesodatos.DaoOpcion;
+import mercadeoucab.comandos.ComandoAbstracto;
 import mercadeoucab.comandos.ComandoBase;
 import mercadeoucab.dtos.DtoOpcion;
 import mercadeoucab.entidades.Opcion;
@@ -17,7 +18,7 @@ import javax.ws.rs.core.Response;
 import java.util.List;
 import java.util.Objects;
 
-public class ComandoListarOpcion implements ComandoBase {
+public class ComandoListarOpcion extends ComandoAbstracto implements ComandoBase {
 
     private Response result;
     /**

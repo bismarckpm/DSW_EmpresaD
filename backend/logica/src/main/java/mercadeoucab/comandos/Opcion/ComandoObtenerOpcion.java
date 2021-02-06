@@ -1,6 +1,7 @@
 package mercadeoucab.comandos.Opcion;
 
 import mercadeoucab.accesodatos.DaoOpcion;
+import mercadeoucab.comandos.ComandoAbstracto;
 import mercadeoucab.comandos.ComandoBase;
 import mercadeoucab.dtos.DtoOpcion;
 import mercadeoucab.entidades.Opcion;
@@ -14,7 +15,7 @@ import javax.json.JsonObject;
 import javax.ws.rs.core.Response;
 import java.util.Objects;
 
-public class ComandoObtenerOpcion implements ComandoBase {
+public class ComandoObtenerOpcion extends ComandoAbstracto implements ComandoBase {
 
     private Response result;
     private long id;

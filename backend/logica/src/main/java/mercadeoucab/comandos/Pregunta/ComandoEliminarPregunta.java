@@ -1,6 +1,7 @@
 package mercadeoucab.comandos.Pregunta;
 
 import mercadeoucab.accesodatos.DaoPregunta;
+import mercadeoucab.comandos.ComandoAbstracto;
 import mercadeoucab.comandos.ComandoBase;
 import mercadeoucab.entidades.Pregunta;
 import mercadeoucab.fabricas.Enums.Fabricas;
@@ -11,7 +12,7 @@ import javax.ws.rs.core.Response;
 import java.sql.Date;
 import java.util.Calendar;
 
-public class ComandoEliminarPregunta implements ComandoBase {
+public class ComandoEliminarPregunta extends ComandoAbstracto implements ComandoBase {
 
     private Response result;
     private long id;

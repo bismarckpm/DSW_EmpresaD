@@ -1,6 +1,7 @@
 package mercadeoucab.comandos.Pregunta;
 
 import mercadeoucab.accesodatos.DaoPregunta;
+import mercadeoucab.comandos.ComandoAbstracto;
 import mercadeoucab.comandos.ComandoBase;
 import mercadeoucab.dtos.DtoPregunta;
 import mercadeoucab.entidades.Pregunta;
@@ -13,7 +14,7 @@ import mercadeoucab.responses.ResponsePregunta;
 import javax.json.JsonObject;
 import javax.ws.rs.core.Response;
 
-public class ComandoConsultarPregunta implements ComandoBase {
+public class ComandoConsultarPregunta extends ComandoAbstracto implements ComandoBase {
 
     private Response result;
     private long id;

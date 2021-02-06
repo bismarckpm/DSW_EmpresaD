@@ -1,6 +1,7 @@
 package mercadeoucab.comandos.Usuario;
 
 import mercadeoucab.accesodatos.DaoPregunta;
+import mercadeoucab.comandos.ComandoAbstracto;
 import mercadeoucab.comandos.ComandoBase;
 import mercadeoucab.dtos.DtoPregunta;
 import mercadeoucab.entidades.Pregunta;
@@ -23,7 +24,7 @@ import java.util.List;
  * @version 1.0
  * @since 2021-01-29
  */
-public class ComandoPreguntasAdministrador implements ComandoBase {
+public class ComandoPreguntasAdministrador extends ComandoAbstracto implements ComandoBase {
 
     private Response result;
     private long id;

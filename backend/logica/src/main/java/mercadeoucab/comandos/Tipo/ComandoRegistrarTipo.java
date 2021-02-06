@@ -1,6 +1,7 @@
 package mercadeoucab.comandos.Tipo;
 
 import mercadeoucab.accesodatos.DaoTipo;
+import mercadeoucab.comandos.ComandoAbstracto;
 import mercadeoucab.comandos.ComandoBase;
 import mercadeoucab.dtos.DtoTipo;
 import mercadeoucab.entidades.Tipo;
@@ -13,7 +14,7 @@ import javax.ws.rs.core.Response;
 import java.sql.Date;
 import java.util.Calendar;
 
-public class ComandoRegistrarTipo implements ComandoBase {
+public class ComandoRegistrarTipo extends ComandoAbstracto implements ComandoBase {
 
     private Response result;
     private DtoTipo dtoTipo;

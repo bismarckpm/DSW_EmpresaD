@@ -1,6 +1,7 @@
 package mercadeoucab.comandos.Usuario;
 
 import mercadeoucab.accesodatos.DaoEstudio;
+import mercadeoucab.comandos.ComandoAbstracto;
 import mercadeoucab.comandos.ComandoBase;
 import mercadeoucab.dtos.DtoEstudio;
 import mercadeoucab.entidades.Estudio;
@@ -23,7 +24,7 @@ import java.util.List;
  * @version 1.0
  * @since 2021-01-29
  */
-public class ComandoEstudiosAnalista implements ComandoBase {
+public class ComandoEstudiosAnalista extends ComandoAbstracto implements ComandoBase {
     private Response result;
     private long id;
 

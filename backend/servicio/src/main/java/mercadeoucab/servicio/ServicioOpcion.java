@@ -2,6 +2,9 @@ package mercadeoucab.servicio;
 
 import mercadeoucab.comandos.Opcion.*;
 import mercadeoucab.dtos.DtoOpcion;
+import mercadeoucab.fabricas.Enums.Comandos;
+import mercadeoucab.fabricas.FabricaComandosAbstractos;
+import mercadeoucab.fabricas.fabricasComandoConcretos.FabricaComandosOpcion;
 import mercadeoucab.responses.ResponseGeneral;
 
 import javax.ws.rs.*;
@@ -19,6 +22,8 @@ import javax.ws.rs.core.Response;
 @Consumes( MediaType.APPLICATION_JSON )
 public class ServicioOpcion extends AplicacionBase{
 
+    private final FabricaComandosOpcion fabricaComandosOpcion = (FabricaComandosOpcion) FabricaComandosAbstractos.getFactory(Comandos.OPCION);
+
     @GET
     @Path("/{id}")
     public Response obtenerOpcion(@HeaderParam("Authorization") String token, @PathParam("id") Long id){
@@ -26,7 +31,7 @@ public class ServicioOpcion extends AplicacionBase{
         try{
             validateToken(token);
             verifyParams(id);
-            ComandoObtenerOpcion comandoObtenerOpcion = new ComandoObtenerOpcion();
+            ComandoObtenerOpcion comandoObtenerOpcion = (ComandoObtenerOpcion) fabricaComandosOpcion.comandoConsultar();
             comandoObtenerOpcion.setId(id);
             comandoObtenerOpcion.execute();
             resultado = comandoObtenerOpcion.getResult();
@@ -44,7 +49,7 @@ public class ServicioOpcion extends AplicacionBase{
         Response resultado = null;
         try {
             validateToken(token);
-            ComandoListarOpcion comandoListarOpcion = new ComandoListarOpcion();
+            ComandoListarOpcion comandoListarOpcion = (ComandoListarOpcion) fabricaComandosOpcion.comandoListar();
             comandoListarOpcion.execute();
             resultado = comandoListarOpcion.getResult();
         }
@@ -69,7 +74,7 @@ public class ServicioOpcion extends AplicacionBase{
         try{
             validateToken(token);
             verifyParams(dtoOpcion);
-            ComandoRegistrarOpcion comandoRegistrarOpcion = new ComandoRegistrarOpcion();
+            ComandoRegistrarOpcion comandoRegistrarOpcion = (ComandoRegistrarOpcion) fabricaComandosOpcion.comandoCrear();
             comandoRegistrarOpcion.setDtoOpcion(dtoOpcion);
             comandoRegistrarOpcion.execute();
             resultado = comandoRegistrarOpcion.getResult();
@@ -96,7 +101,7 @@ public class ServicioOpcion extends AplicacionBase{
             validateToken(token);
             verifyParams(id);
             verifyParams(dtoOpcion);
-            ComandoActualizarOpcion comandoActualizarOpcion = new ComandoActualizarOpcion();
+            ComandoActualizarOpcion comandoActualizarOpcion = (ComandoActualizarOpcion) fabricaComandosOpcion.comandoModificar();
             comandoActualizarOpcion.setDtoOpcion(dtoOpcion);
             comandoActualizarOpcion.setId(id);
             comandoActualizarOpcion.execute();
@@ -121,7 +126,7 @@ public class ServicioOpcion extends AplicacionBase{
         try{
             validateToken(token);
             verifyParams(id);
-            ComandoEliminarOpcion comandoEliminarOpcion = new ComandoEliminarOpcion();
+            ComandoEliminarOpcion comandoEliminarOpcion = (ComandoEliminarOpcion) fabricaComandosOpcion.comandoEliminar();
             comandoEliminarOpcion.setId(id);
             comandoEliminarOpcion.execute();
             resultado = comandoEliminarOpcion.getResult();
