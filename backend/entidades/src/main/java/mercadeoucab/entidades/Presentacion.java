@@ -26,11 +26,7 @@ public class Presentacion extends EntidadBase {
     public String getTipo() { return tipo; }
     public void setTipo(String tipo) { this.tipo = tipo; }
 
-    public Tipo getFk_tipo() {
-        return fk_tipo;
-    }
+    public Tipo getFk_tipo() { return fk_tipo; }
 
-    public void setFk_tipo(Tipo fk_tipo) {
-        this.fk_tipo = fk_tipo;
-    }
+    public void setFk_tipo(Tipo fk_tipo) { this.fk_tipo = fk_tipo;}
 }

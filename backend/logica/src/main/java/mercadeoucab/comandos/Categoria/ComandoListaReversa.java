@@ -35,7 +35,7 @@ public class ComandoListaReversa extends ComandoAbstracto implements ComandoBase
                 for (Categoria categoria : categorias) {
                     ResponseCategoria responseCategoria = (ResponseCategoria) fabrica.generarResponse();
                     if (categoria.getActivo() == 1) {
-                        DtoCategoria dtoCategoria = CategoriaMapper.mapEntitytoDto(categoria);
+                        DtoCategoria dtoCategoria = CategoriaMapper.mapEntitytoDto2(categoria);
                         JsonObject objeto = responseCategoria.generateReverse(dtoCategoria);
                         categoriasList.add(objeto);
                     }

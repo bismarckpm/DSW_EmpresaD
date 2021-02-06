@@ -15,31 +15,20 @@ public class Tipo extends EntidadBase{
     @JoinColumn(name = "sub_categoria_id")
     private SubCategoria subCategoria;
 
-    @OneToMany( mappedBy = "tipo_id", fetch = FetchType.LAZY, cascade = CascadeType.PERSIST )
+    @OneToMany( mappedBy = "fk_tipo", fetch = FetchType.LAZY, cascade = CascadeType.PERSIST )
     private List<Presentacion> presentacionList;
 
-    public Tipo(long id) {
-        super(id);
-    }
+    public Tipo(long id) {super(id);}
 
-    public Tipo() {
-    }
+    public Tipo() {}
 
-    public String getNombre() {
-        return nombre;
-    }
+    public String getNombre() { return nombre; }
 
-    public void setNombre(String nombre) {
-        this.nombre = nombre;
-    }
+    public void setNombre(String nombre) { this.nombre = nombre;}
 
-    public SubCategoria getSubCategoria() {
-        return subCategoria;
-    }
+    public SubCategoria getSubCategoria() { return subCategoria; }
 
-    public void setSubCategoria(SubCategoria subCategoria) {
-        this.subCategoria = subCategoria;
-    }
+    public void setSubCategoria(SubCategoria subCategoria) { this.subCategoria = subCategoria; }
 
     public List<Presentacion> getPresentacionList() { return presentacionList; }
 

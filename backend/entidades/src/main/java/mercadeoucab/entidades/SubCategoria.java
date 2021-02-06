@@ -15,7 +15,7 @@ public class SubCategoria extends EntidadBase {
     @JoinColumn(name = "fk_categoria")
     private Categoria categoria;
 
-    @OneToMany( mappedBy = "sub_categoria_id", fetch = FetchType.LAZY, cascade = CascadeType.PERSIST )
+    @OneToMany( mappedBy = "subCategoria", fetch = FetchType.LAZY, cascade = CascadeType.PERSIST )
     private List<Tipo> tipoList;
 
     public SubCategoria(long id) {

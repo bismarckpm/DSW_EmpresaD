@@ -17,7 +17,7 @@ public class Categoria extends EntidadBase{
     @Column(name = "nombre")
     private String nombre;
 
-    @OneToMany( mappedBy = "fk_categoria", fetch = FetchType.LAZY, cascade = CascadeType.PERSIST )
+    @OneToMany( mappedBy = "categoria", fetch = FetchType.LAZY, cascade = CascadeType.PERSIST )
     private List<SubCategoria> subCategorias;
 
     public String getNombre() {
