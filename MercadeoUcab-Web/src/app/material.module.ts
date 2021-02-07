@@ -16,6 +16,7 @@ import { MatNativeDateModule } from '@angular/material/core';
 import { MatStepperModule } from '@angular/material/stepper';
 import { MatRadioModule } from '@angular/material/radio';
 import { MatToolbarModule } from '@angular/material/toolbar';
+import {MatSidenavModule} from '@angular/material/sidenav';
 @NgModule({
   declarations: [],
   imports: [
@@ -36,6 +37,7 @@ import { MatToolbarModule } from '@angular/material/toolbar';
     MatStepperModule,
     MatRadioModule,
     MatToolbarModule,
+    MatSidenavModule
   ],
   exports: [
     //BrowserAnimationsModule,
@@ -54,6 +56,7 @@ import { MatToolbarModule } from '@angular/material/toolbar';
     MatStepperModule,
     MatRadioModule,
     MatToolbarModule,
+    MatSidenavModule
   ],
 })
 export class MaterialModule {}

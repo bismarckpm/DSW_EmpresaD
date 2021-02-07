@@ -6,11 +6,10 @@ import { MuestraPoblacion } from '@models/muestraPoblacion';
 import { RespuestaService } from '@core/services/respuesta/respuesta.service';
 import { PreguntaService } from '@core/services/pregunta/pregunta.service';
 import { EstudioService } from '@core/services/estudio/estudio.service';
-import { surveyEstudio } from '@core/models/surveyEstudio';
-import { surveyPregunta } from '@core/models/surveyPregunta';
-import { surveySolicitud } from '@core/models/surveySolicitud';
-import { surveyEncuesta } from '@core/models/surveyEncuesta';
 import { toBackendAnswer } from '@core/models/toBackendAnswer';
+import { Pregunta } from '@core/models/pregunta';
+import { Estudio } from '@core/models/estudio';
+import { Solicitud } from '@core/models/solicitud';
 
 //MODELO DE RESPUESTA CONTROLADA
 //los valores *_val corresponden al campo alterable SEGUN EL TIPO DE PREGUNTA
@@ -32,10 +31,10 @@ interface RespuestaModel {
 export class ResponderEncuestaComponent implements OnInit {
   public userLogged: number;
   _Id: number;
-  _preguntas: surveyPregunta[] = [];
-  _estudio: surveyEstudio = null;
+  _preguntas: Pregunta[] = [];
+  _estudio: Estudio = null;
   _respuestas: RespuestaModel[] = [];
-  _sampleOption: Opcion = { _id: 0, nombre_opcion: '' };
+  _sampleOption: Opcion = { _id: 0, nombre: '' };
   opStatus: string;
   toAdd: toBackendAnswer[] = [];
   searchState: string = '';
@@ -47,7 +46,7 @@ export class ResponderEncuestaComponent implements OnInit {
     private _preguntaService: PreguntaService,
     private _estudioService: EstudioService
   ) {}
-  testPais = {
+  /*testPais = {
     _id: 1,
     nombre: 'Test pais',
   };
@@ -86,7 +85,7 @@ export class ResponderEncuestaComponent implements OnInit {
     parroquia: this.testParroquia,
     Fk_ocupacion: { _id: 1, nombre: 'test ocupacion' },
   };
-  sampleSolicitud: surveySolicitud = {
+  sampleSolicitud: Solicitud = {
     _id: 1,
     estado: 'solicitada',
   };
@@ -153,6 +152,7 @@ export class ResponderEncuestaComponent implements OnInit {
       pregunta: this.samplePregunta5,
     },
   ];
+  */
   getPreguntas() {}
   setRespuestas(pregInd, tipoPreg, data) {
     //let _respuesta: Respuesta;
@@ -238,7 +238,7 @@ export class ResponderEncuestaComponent implements OnInit {
           analista: this.sampleUsuario,
           encuesta: this.sampleEncuesta,
         };*/
-        this._estudio = testRes.data;
+        //this._estudio = testRes.data;
         //console.log(this._estudio);
         this._estudio.encuesta.forEach((preg, ind) => {
           //INSTANCIAR PREPARACION DE Respuesta

@@ -6,14 +6,15 @@ import {
   FormControl,
 } from '@angular/forms';
 import { MatTableDataSource } from '@angular/material/table';
-import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { Usuario } from '@models/usuario';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { UpdateUserDialogComponent } from '../../components/dialogs/update-user-dialog/update-user-dialog.component';
 import { DeleteUserDialogComponent } from '../../components/dialogs/delete-user-dialog/delete-user-dialog.component';
+import { BasicInfoDialogComponent } from '../../components/dialogs/basic-info-dialog/basic-info-dialog.component';
 import { UsuarioService } from '@core/services/usuario/usuario.service';
-import { SubCategoria } from '@core/models/subcategoria';
-import { Categoria } from '@core/models/categoria';
+/*import { SubCategoria } from '@core/models/subcategoria';
+import { Categoria } from '@core/models/categoria';*/
+
 @Component({
   selector: 'app-usuarios',
   templateUrl: './usuarios.component.html',
@@ -35,7 +36,7 @@ export class UsuariosComponent implements OnInit {
 
   //LISTA DE USUARIOS DEVUELTOS EN BÚSQUEDA
   dataSource: MatTableDataSource<Usuario>;
-  userTarget: Usuario;
+  userTarget: Usuario = null;
   //FORMULARIOS
   searchForm: FormGroup;
   searchModel: Usuario;
@@ -88,7 +89,20 @@ export class UsuariosComponent implements OnInit {
         this.searchState = 'D';
       },
       (error) => {
-        console.log(error);
+        //console.log(error);
+        this.users = [
+        {
+          _id: Math.floor(Math.random() * (1000 - 1) + 1),
+          nombre: Math.random().toString(36).substr(2, 5),
+          apellido: Math.random().toString(36).substr(2, 5),
+          rol: 'Administrador',
+          correo: Math.random().toString(36).substr(2, 5),
+          estado: 'Activo',
+        }
+        ];
+        this.dataSource = new MatTableDataSource<Usuario>(
+          this.dataFilter(this.users)
+        );
         this.searchState = 'D';
       }
     );
@@ -152,6 +166,10 @@ export class UsuariosComponent implements OnInit {
   @ViewChild('delUser') private delComponent: DeleteUserDialogComponent;
   async openDelModal() {
     return await this.delComponent.open();
+  }
+  @ViewChild('info') private infoComponent: BasicInfoDialogComponent;
+  async openInfoModal() {
+    return await this.infoComponent.open();
   }
   //METODO ENCARGADO DE DISPARAR PETICION DE REGISTRO
   serviceInvoke(role: string) {

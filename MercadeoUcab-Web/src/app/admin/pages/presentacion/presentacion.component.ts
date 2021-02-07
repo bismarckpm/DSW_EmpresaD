@@ -6,6 +6,7 @@ import { MatTableDataSource } from '@angular/material/table';
 import { Presentacion } from '@core/models/presentacion';
 import { DelPresentacionDialogComponent } from '../../components/dialogs/del-presentacion-dialog/del-presentacion-dialog.component';
 import { UpdPresentacionDialogComponent } from '../../components/dialogs/upd-presentacion-dialog/upd-presentacion-dialog.component';
+import { BasicInfoDialogComponent } from '../../components/dialogs/basic-info-dialog/basic-info-dialog.component';
 
 @Component({
   selector: 'app-presentacion',
@@ -52,6 +53,10 @@ export class PresentacionComponent implements OnInit {
   async openDelModal() {
     return await this.delComponent.open();
   }
+  @ViewChild('info') private infoComponent: BasicInfoDialogComponent;
+  async openInfoModal() {
+    return await this.infoComponent.open();
+  }
 
   ngOnInit(): void {
     this.setOperation('');
@@ -78,7 +83,7 @@ export class PresentacionComponent implements OnInit {
       },
       (error) => {
         console.log(error);
-        this.presentaciones = [{ _id: 1, cantidad: '1x2', tipo: 'vestimenta' }];
+        //this.presentaciones = [{ _id: 1, cantidad: '1x2', tipo: 'vestimenta' }];
         this.dataSource = new MatTableDataSource<Presentacion>(
           this.dataFilter(this.presentaciones)
         );
@@ -160,7 +165,7 @@ export class PresentacionComponent implements OnInit {
     //Campos que se deben enviar
     //toAdd.cantidad
     //toAdd.tipo
-    let toAdd: any = {...this.addForm.value};
+    let toAdd: any = { ...this.addForm.value };
     this.opStatus = 'P';
     /*toAdd.cantidad = this.addForm.value.cantidad;
     toAdd.tipo = this.addForm.value.tipo;*/

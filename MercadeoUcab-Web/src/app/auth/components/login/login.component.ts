@@ -36,6 +36,7 @@ export class LoginComponent implements OnInit {
       (response: any) => {
         console.log(response);
         //Guardar credenciales en el local Storage
+        localStorage.setItem('user_data',JSON.stringify(response.data));
         localStorage.setItem('_id', response.data._id);
         localStorage.setItem('rol', response.data.rol);
         // Agregar codigo para ir a la ruta dependiendo del rol

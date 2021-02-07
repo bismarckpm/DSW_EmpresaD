@@ -6,6 +6,7 @@ import { Marca } from '@models/marca';
 import { MarcaService } from '@core/services/marca/marca.service';
 import { DelMarcaDialogComponent } from '../../components/dialogs/del-marca-dialog/del-marca-dialog.component';
 import { UpdMarcaDialogComponent } from '../../components/dialogs/upd-marca-dialog/upd-marca-dialog.component';
+import { BasicInfoDialogComponent } from '../../components/dialogs/basic-info-dialog/basic-info-dialog.component';
 
 @Component({
   selector: 'app-marca',

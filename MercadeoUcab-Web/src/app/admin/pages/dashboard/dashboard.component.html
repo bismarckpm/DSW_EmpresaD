@@ -1,3 +1,82 @@
+<mat-drawer-container style="width: 100vw;height: 100vh;background-color: #E5FFF7;">
+  <mat-drawer #dashDrawer style="width:12.5vw;height: 100%" mode="side">
+    <div style="height: 100%;width: 100%;display: flex;flex-direction: column;background-color:#5C9D8B;overflow-y: auto;"
+    class="dash-scroll">
+       <div class="dashboard-item" *ngFor="let sect of sections;">
+            <button mat-mini-fab
+            style="background-color: #00d8b4; color:white" class="shadow-sm"
+            (click)="onDir(sect.dir)">
+                <mat-icon>{{sect.icon}}</mat-icon>
+            </button>
+            <label style="color:white">{{ sect.title }}</label>
+       </div>
+    </div>
+  </mat-drawer>
+
+  <div style="width: 85vw;height: 100%; display: flex;flex-direction: column;">
+    <div style="display: flex;flex-direction: row;height: 10%; width: 100%">
+        <div style="width: 50%;height: 100%; display: flex;flex-direction: row;align-items: center; justify-content: center;">
+            <mat-card class="user-info elementToFadeInAndOut" *ngIf="openNote === true">                          
+            </mat-card>
+        </div>
+        <div style="width: 50%;height: 100%; display: flex;flex-direction: row; align-items: center; justify-content: flex-end;">
+            <button style="background-color: #00d8b4; color:white;" class="shadow-sm btn"
+            (click)="openInfoModal()"
+                type="button">
+                <mat-icon>account_circle</mat-icon>
+            </button>
+            <mat-card class="user-info">
+            </mat-card>
+        </div>
+    </div>
+    <div style="display: flex;flex-direction: row;height: 90%; width: 100%">
+        <div style="
+        display: flex;flex-direction: column;
+        height: 100%; 
+        width: fit-content;
+        padding: 0px 5px 0px 5px;
+        justify-content: center;
+        align-items: center;">
+            <button 
+                type="button"
+                mat-mini-fab
+                style="background-color: #00d8b4; color:white" class="shadow-sm"
+                (click)="dashDrawer.toggle()">
+                <mat-icon>navigate_next</mat-icon>
+            </button>
+        </div>
+        <div style="display: flex;flex-direction: column;height: 100%; width:85%">
+             <router-outlet></router-outlet>
+        </div>
+    </div>
+  </div>
+</mat-drawer-container>
+<app-basic-info-dialog #uInfo [_tipo]="'Sesión'">
+    <div class="cForm-field-row" *ngIf="userSession !== null">
+        <div class="cForm-field-col">
+          <div class="form-group">
+          <label><h4>Nombre</h4></label>
+          <span><p>{{userSession.nombre}}</p></span>
+          </div>
+          <div class="form-group">
+            <label><h4>Apellido</h4></label>
+            <span><p>{{userSession.apellido}}</p></span>
+            </div>
+        </div>
+        <div class="cForm-field-col">
+          <div class="form-group">
+            <label><h4>Rol de usuario</h4></label>
+            <span><p>{{userSession.rol}}</p></span>
+          </div>
+          <div class="form-group">
+            <label><h4>Correo de usuario</h4></label>
+            <span><p>{{userSession.correo}}</p></span>
+          </div>
+        </div>
+      </div>
+</app-basic-info-dialog>
+
+<!--
 <mat-grid-list cols="16" rowHeight="10vh" style="background-color: #E5FFF7;">
     <mat-grid-tile [colspan]="1" [rowspan]="10" style="background-color:#5C9D8B;">
         <div class="dashboard-nav" style="
@@ -5,69 +84,92 @@
         flex-direction: column !important;
         width: 100% !important;
         justify-self: center;">
-            <mat-grid-list cols="1" rowHeight="55px">
+        
+            <mat-grid-list cols="1" rowHeight="75px">
                 <mat-grid-tile [colspan]="1" [rowspan]="1">
-                    <button mat-mini-fab color="primary" aria-label="Example icon button with a delete icon"
+                    <div class="dashboard-item">
+                        <button mat-mini-fab color="primary" aria-label="Example icon button with a delete icon"
                         style="background-color: #00d8b4; color:white" class="shadow-sm"
                         (click)="onDir('administrador/usuarios')">
                         <mat-icon>supervisor_account</mat-icon>
-                    </button>
+                        </button>
+                        <label>Usuarios</label>
+                    </div>
                 </mat-grid-tile>
+         
                 <mat-grid-tile [colspan]="1" [rowspan]="1">
+                    <div class="dashboard-item">
                     <button mat-mini-fab color="primary" aria-label="Example icon button with a delete icon"
                         style="background-color: #00d8b4; color:white" (click)="onDir('administrador/estudios')">
                         <mat-icon>work</mat-icon>
                     </button>
+                    <label>Estudios</label>
+                    </div>
                 </mat-grid-tile>
                 <mat-grid-tile [colspan]="1" [rowspan]="1">
+                    <div class="dashboard-item">
                     <button mat-mini-fab color="primary" aria-label="Example icon button with a delete icon"
                         style="background-color: #00d8b4; color:white" (click)="onDir('administrador/home')">
                         <mat-icon>home</mat-icon>
                     </button>
+                    <label>Home</label>
+                    </div>
                 </mat-grid-tile>
                 <mat-grid-tile [colspan]="1" [rowspan]="1">
+                    <div class="dashboard-item">
                     <button mat-mini-fab color="primary" aria-label="Example icon button with a delete icon"
                         style="background-color: #00d8b4; color:white" (click)="onDir('administrador/lugares')">
                         <mat-icon>location_on</mat-icon>
                     </button>
+                    <label>Locaciones</label>
+                    </div>
                 </mat-grid-tile>
                 <mat-grid-tile [colspan]="1" [rowspan]="1">
+                    <div class="dashboard-item">
                     <button mat-mini-fab color="primary" aria-label="Example icon button with a delete icon"
                         style="background-color: #00d8b4; color:white" (click)="onDir('administrador/preguntas')">
                         <mat-icon>help_center</mat-icon>
                     </button>
+                    <label>Preguntas</label>
+                    </div>
                 </mat-grid-tile>
                 <mat-grid-tile [colspan]="1" [rowspan]="1">
+                    <div class="dashboard-item">
                     <button mat-mini-fab color="primary" aria-label="Example icon button with a delete icon"
                         style="background-color: #00d8b4; color:white" (click)="onDir('administrador/categorias')">
                         <mat-icon>turned_in</mat-icon>
                     </button>
+                    <label>Categorias</label>
+                    </div>
                 </mat-grid-tile>
                 <mat-grid-tile [colspan]="1" [rowspan]="1">
-                    <button mat-mini-fab color="primary" aria-label="Example icon button with a delete icon"
-                        style="background-color: #00d8b4; color:white" (click)="onDir('administrador/presentaciones')">
-                        <mat-icon>category</mat-icon>
-                    </button>
-                </mat-grid-tile>
-                <mat-grid-tile [colspan]="1" [rowspan]="1">
+                    <div class="dashboard-item">
                     <button mat-mini-fab color="primary" aria-label="Example icon button with a delete icon"
                         style="background-color: #00d8b4; color:white" (click)="onDir('administrador/subcategorias')">
                         <mat-icon>class</mat-icon>
                     </button>
+                    <label>SubCategorias</label>
+                    </div>
                 </mat-grid-tile>
-                <mat-grid-tile [colspan]="1" [rowspan]="1">
+                 <mat-grid-tile [colspan]="1" [rowspan]="1">
+                    <div class="dashboard-item">
                     <button mat-mini-fab color="primary" aria-label="Example icon button with a delete icon"
-                        style="background-color: #00d8b4; color:white" (click)="onDir('administrador/marcas')">
-                        <mat-icon>local_offer</mat-icon>
+                        style="background-color: #00d8b4; color:white" (click)="onDir('administrador/presentaciones')">
+                        <mat-icon>category</mat-icon>
                     </button>
+                    <label>Presentaciones</label>
+                    </div>
                 </mat-grid-tile>
+            
                 <mat-grid-tile [colspan]="1" [rowspan]="1">
+                    <div class="dashboard-item">
                     <button mat-mini-fab color="primary" aria-label="Example icon button with a delete icon"
                         style="background-color: #00d8b4; color:white" (click)="onDir('administrador/tipos')">
                         <mat-icon>list</mat-icon>
                     </button>
+                    <label>Tipos</label>
+                    </div>
                 </mat-grid-tile>
-
             </mat-grid-list>
         </div>
     </mat-grid-tile>
@@ -79,7 +181,7 @@
                         <mat-grid-list cols="8" rowHeight="10vh">
                             <mat-grid-tile [colspan]="5" [rowspan]="1">
                                 <mat-card class="user-info elementToFadeInAndOut" *ngIf="openNote === true">
-                                    <!--CONTENIDO CAMBIANTE DE LA NOTIFICACION-->
+                                  
                                 </mat-card>
                             </mat-grid-tile>
                             <mat-grid-tile [colspan]="1" [rowspan]="1">
@@ -107,3 +209,4 @@
         <router-outlet></router-outlet>
     </mat-grid-tile>
 </mat-grid-list>
+-->

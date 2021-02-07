@@ -1,6 +1,3 @@
-export class Opcion{
-    constructor(
-        public _id:number,
-        public nombre_opcion:string
-    ){}
+export class Opcion {
+  constructor(public _id: number, public nombre: string) {}
 }

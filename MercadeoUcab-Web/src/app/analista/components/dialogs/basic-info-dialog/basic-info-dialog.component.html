@@ -1,0 +1,13 @@
+<ng-template #info>
+	<div class="modal-header">
+		<h5>Detalles de {{_tipo}}</h5>
+	</div>
+	<div class="modal-body">
+		<div class="cForm" >
+			<ng-content></ng-content>
+			<div class="cForm-actions">
+                <button type="button" class="btn btn-outline-dark" (click)="close()">Cerrar</button>
+            </div>
+		</div>
+	</div>
+</ng-template>

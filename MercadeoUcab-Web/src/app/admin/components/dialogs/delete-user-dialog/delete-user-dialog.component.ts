@@ -27,6 +27,7 @@ export class DeleteUserDialogComponent implements OnInit {
   ) {}
   //ID DE REGISTRO A ELIMINAR
   @Input() _userSelection: number;
+  @Input() _user: any;
 
   ngOnInit(): void {
     this.opStatus = 'S';

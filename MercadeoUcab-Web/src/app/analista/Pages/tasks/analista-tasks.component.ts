@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { EstudioService } from '@core/services/estudio/estudio.service';
 import { MatTableDataSource } from '@angular/material/table';
@@ -10,11 +10,7 @@ import { Pais } from '@core/models/pais';
 import { Usuario } from '@core/models/usuario';
 import { Solicitud } from '@core/models/solicitud';
 import { UtilService } from '@core/services/utils/util.service';
-
-export interface PeriodicElement {
-  name: string;
-  state: string;
-}
+import { BasicInfoDialogComponent } from '../../components/dialogs/basic-info-dialog/basic-info-dialog.component';
 
 @Component({
   selector: 'app-analista-tasks',
@@ -22,7 +18,7 @@ export interface PeriodicElement {
   styleUrls: ['./analista-tasks.component.css'],
 })
 export class AnalistaTasksComponent implements OnInit {
-  displayedColumns: string[] = ['id', 'expect', 'estado'];
+  displayedColumns: string[] = ['id', 'expect','t_est','estado'];
   columnsToDisplay: string[] = this.displayedColumns.slice();
   estudios: any[] = [];
   dataSource: MatTableDataSource<Estudio>;
@@ -34,8 +30,12 @@ export class AnalistaTasksComponent implements OnInit {
     private _utilService: UtilService,
     private _estudioService: EstudioService
   ) {}
+  @ViewChild('info') private infoComponent: BasicInfoDialogComponent;
+  async openInfoModal() {
+    return await this.infoComponent.open();
+  }
   //DATA DUMMY
-  testPais: Pais = {
+  /*testPais: Pais = {
     _id: 1,
     nombre: 'Test pais',
   };
@@ -180,7 +180,7 @@ export class AnalistaTasksComponent implements OnInit {
         },
       ],
     },
-  };
+  };*/
 
   ngOnInit(): void {
     //SERVICE INVOKE
@@ -209,7 +209,7 @@ export class AnalistaTasksComponent implements OnInit {
       },
       (err) => {
         console.log(err.message);
-        this.estudios = [this.testRes['data']];
+        //this.estudios = [this.testRes['data']];
         this.dataSource = new MatTableDataSource<Estudio>(
           this.dataFilter(this.estudios)
         );
