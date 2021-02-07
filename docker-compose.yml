@@ -4,7 +4,6 @@ services:
   mercadeoucab:
     build:
       context: ./backend/
-    domainname: empresad
     restart: always
     ports:
       - '8080:8080'
@@ -14,17 +13,6 @@ services:
     depends_on:
       docker-mysql:
         condition: service_healthy
-
-  angular:
-    build:
-      context: ./MercadeoUcab-Web
-    restart: always
-    command: >
-      bash -c "npm install && ng serve --host 0.0.0.0 --port 4200"
-    ports:
-      - '4200:4200'
-    networks:
-      - frontend
 
   docker-mysql:
     image: mysql:8.0.23

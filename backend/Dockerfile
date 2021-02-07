@@ -5,3 +5,4 @@ RUN mvn clean package
 
 FROM jboss/wildfly:21.0.0.Final
 COPY --from=build app/servicio/target/mercadeoucab-1.0-SNAPSHOT.war /opt/jboss/wildfly/standalone/deployments/
+EXPOSE 8080
