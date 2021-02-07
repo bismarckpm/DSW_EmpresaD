@@ -2,6 +2,9 @@ package mercadeoucab.servicio;
 
 
 import mercadeoucab.comandos.Usuario.ComandoPreguntasAdministrador;
+import mercadeoucab.fabricas.Enums.Comandos;
+import mercadeoucab.fabricas.FabricaComandosAbstractos;
+import mercadeoucab.fabricas.fabricasComandoConcretos.FabricaComandosUsuario;
 import mercadeoucab.responses.ResponseGeneral;
 
 import javax.ws.rs.*;
@@ -19,6 +22,8 @@ import javax.ws.rs.core.Response;
 @Consumes( MediaType.APPLICATION_JSON )
 public class ServicioAdministrador extends AplicacionBase{
 
+    private final FabricaComandosUsuario fabricaComandosUsuario = (FabricaComandosUsuario) FabricaComandosAbstractos.getFactory(Comandos.USUARIO);
+
     /**
      * Metodo para listar todas las preguntas que un usuario administrador ha
      * creado
@@ -33,7 +38,7 @@ public class ServicioAdministrador extends AplicacionBase{
         try {
             validateToken(token);
             verifyParams( id);
-            ComandoPreguntasAdministrador comandoPreguntasAdministrador = new ComandoPreguntasAdministrador();
+            ComandoPreguntasAdministrador comandoPreguntasAdministrador = (ComandoPreguntasAdministrador) fabricaComandosUsuario.comandoPreguntasAdmin();
             comandoPreguntasAdministrador.setId( id);
             comandoPreguntasAdministrador.execute();
             resultado = comandoPreguntasAdministrador.getResult();
