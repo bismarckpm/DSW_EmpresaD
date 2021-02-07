@@ -1,6 +1,9 @@
 package mercadeoucab.servicio;
 
 import mercadeoucab.comandos.Usuario.ComandoSolicitudesCliente;
+import mercadeoucab.fabricas.Enums.Comandos;
+import mercadeoucab.fabricas.FabricaComandosAbstractos;
+import mercadeoucab.fabricas.fabricasComandoConcretos.FabricaComandosUsuario;
 import mercadeoucab.responses.ResponseGeneral;
 
 import javax.ws.rs.*;
@@ -18,6 +21,7 @@ import javax.ws.rs.core.Response;
 @Consumes( MediaType.APPLICATION_JSON )
 public class ServicioCliente extends AplicacionBase{
 
+    private final FabricaComandosUsuario fabricaComandosUsuario = (FabricaComandosUsuario) FabricaComandosAbstractos.getFactory(Comandos.USUARIO);
     /**
      * Metodo para consultar las solicitudes creadar por algun cliente
      * @param id Identificador del cliente
@@ -32,7 +36,7 @@ public class ServicioCliente extends AplicacionBase{
         try {
             validateToken(token);
             verifyParams( id);
-            ComandoSolicitudesCliente comandoSolicitudesCliente = new ComandoSolicitudesCliente();
+            ComandoSolicitudesCliente comandoSolicitudesCliente = (ComandoSolicitudesCliente) fabricaComandosUsuario.comandoSolicitudesCliente();
             comandoSolicitudesCliente.setId( id);
             comandoSolicitudesCliente.execute();
             resultado = comandoSolicitudesCliente.getResult();

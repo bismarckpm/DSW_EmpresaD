@@ -2,6 +2,9 @@ package mercadeoucab.servicio;
 
 import mercadeoucab.comandos.Usuario.ComandoEstudiosAnalista;
 import mercadeoucab.comandos.Usuario.ComandoListarAnalistas;
+import mercadeoucab.fabricas.Enums.Comandos;
+import mercadeoucab.fabricas.FabricaComandosAbstractos;
+import mercadeoucab.fabricas.fabricasComandoConcretos.FabricaComandosUsuario;
 import mercadeoucab.responses.ResponseGeneral;
 
 import javax.ws.rs.*;
@@ -20,6 +23,8 @@ import javax.ws.rs.core.Response;
 @Consumes( MediaType.APPLICATION_JSON )
 public class ServicioAnalista extends AplicacionBase{
 
+    private final FabricaComandosUsuario fabricaComandosUsuario = (FabricaComandosUsuario) FabricaComandosAbstractos.getFactory(Comandos.USUARIO);
+
     /**
      * Metodo para listar todos los usuarios con rol analista de la base de datos
      * @return regresa la lista de los usuarios analistas o
@@ -31,7 +36,7 @@ public class ServicioAnalista extends AplicacionBase{
         Response resultado = null;
         try {
             validateToken(token);
-            ComandoListarAnalistas comandoListarAnalistas = new ComandoListarAnalistas();
+            ComandoListarAnalistas comandoListarAnalistas = (ComandoListarAnalistas) fabricaComandosUsuario.comandoListarAnalistas();
             comandoListarAnalistas.execute();
             resultado = comandoListarAnalistas.getResult();
         }
@@ -56,7 +61,7 @@ public class ServicioAnalista extends AplicacionBase{
         try {
             validateToken(token);
             verifyParams( id);
-            ComandoEstudiosAnalista comandoEstudiosAnalista = new ComandoEstudiosAnalista();
+            ComandoEstudiosAnalista comandoEstudiosAnalista = (ComandoEstudiosAnalista) fabricaComandosUsuario.comandoEstudiosAnalista();
             comandoEstudiosAnalista.setId( id);
             comandoEstudiosAnalista.execute();
             resultado = comandoEstudiosAnalista.getResult();
