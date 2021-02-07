@@ -4,6 +4,7 @@ import { MatTableDataSource } from '@angular/material/table';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { DelLugarDialogComponent } from '../../components/dialogs/del-lugar-dialog/del-lugar-dialog.component';
 import { UpdLugarDialogComponent } from '../../components/dialogs/upd-lugar-dialog/upd-lugar-dialog.component';
+import { BasicInfoDialogComponent } from '../../components/dialogs/basic-info-dialog/basic-info-dialog.component';
 import { EstadoService } from '@core/services/estado/estado.service';
 import { PaisService } from '@core/services/pais/pais.service';
 import { MunicipioService } from '@core/services/municipio/municipio.service';
@@ -66,6 +67,10 @@ export class LugaresComponent implements OnInit {
   @ViewChild('delLugar') private delComponent: DelLugarDialogComponent;
   async openDelModal(id: number, tipo: string, data: any) {
     return await this.delComponent.open(id, tipo, data);
+  }
+  @ViewChild('info') private infoComponent: BasicInfoDialogComponent;
+  async openInfoModal() {
+    return await this.infoComponent.open();
   }
   //dataSource : MatTableDataSource<Lugar>;
   //CHEQUEO DE OPERACION

@@ -28,7 +28,7 @@ const routes: Routes = [
         component: SubcategoriaComponent,
         pathMatch: 'prefix',
       },
-      { path: 'marcas', component: MarcaComponent, pathMatch: 'prefix' },
+      //{ path: 'marcas', component: MarcaComponent, pathMatch: 'prefix' },
       { path: 'lugares', component: LugaresComponent, pathMatch: 'prefix' },
       { path: 'tipos', component: TiposComponent, pathMatch: 'prefix' },
       { path: 'preguntas', component: PreguntasComponent, pathMatch: 'prefix' },

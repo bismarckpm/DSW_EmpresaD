@@ -88,59 +88,65 @@
 }
 
 @-webkit-keyframes slide {
-    100% { right: calc((3.75%) * -1); }
+    100% { left: calc((3.75%)); }
 }
 
 @keyframes slide {
-    100% { right: calc((3.75%) * -1); }
+    100% { left: calc((3.75%)); }
 }
 
 @-webkit-keyframes slideOut {
-    100% { right: -600px; }
+    0%{ left: calc(3.75%)}
+    100% { left: -33.75%; }
 }
 
 @keyframes slideOut {
-    100% { right: -600px; }
+    0%{ left: calc(3.75%)}
+    100% { left: -33.75%; }
 }
 
 @-webkit-keyframes slideLeft {
-    100% { left:calc((1.875%)); }
+     0% {left: calc((-18.75%));}
+   100% { left: calc((6.5%)); }
 }
 
 @keyframes slideLeft {
-   100% { left: calc((1.875%)); }
+    0% {left: calc((-18.75%));}
+   100% { left: calc((6.5%)); }
 }
 
 @-webkit-keyframes slideRight {
-    100% { left: calc((18.75%) ); }
+    /*0%  { left: calc((40.25%) ); }*/
+    100% { left: calc((-13.15%) ); }
 }
 
 @keyframes slideRight {
-    100% { left: calc((18.75%)); }
+    /*0% { left: calc((40.25%) ); }*/
+    100% { left: calc((-13.15%)); }
 }
 
 .SlideIn {
     position: relative;
-    right: -600px;
+    left: -600px;
     -webkit-animation: slide 1.5s forwards;
     animation: slide 1.5s forwards;
 }
 .SlideOut {
     position: relative;
-    right: 0px;
+    /*left: calc(3.75%);*/
     -webkit-animation: slideOut 1.5s forwards;
     animation: slideOut 1.5s forwards;
 }
 
 .leftSlider {
     position: relative;
-    left: calc(18.75%);
+    left: calc(6.5%);
     -webkit-animation: slideLeft 1.5s forwards;
     animation: slideLeft 1.5s forwards; 
 }
 
 .rightSlider {
-    left:calc((1.875%));
+    left:calc((18.75%));
     -webkit-animation: slideRight 1.5s forwards;
     animation: slideRight  1.5s forwards; 
 }

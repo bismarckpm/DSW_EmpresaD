@@ -5,27 +5,27 @@ import { CanPassGuard } from '@core/guards/can-pass.guard';
 const routes: Routes = [
   {
     path: '',
-    //loadChildren: './auth/auth.module#AuthModule',
+    loadChildren: './auth/auth.module#AuthModule',
   },
   {
     path: 'encuestado',
-    canLoad: [CanPassGuard],
-    //loadChildren: './encuestado/encuestado.module#EncuestadoModule',
+    //canLoad: [CanPassGuard],
+    loadChildren: './encuestado/encuestado.module#EncuestadoModule',
   },
   {
     path: 'administrador',
-    canLoad: [CanPassGuard],
-    //loadChildren: './admin/admin.module#AdminModule',
+    //canLoad: [CanPassGuard],
+    loadChildren: './admin/admin.module#AdminModule',
   },
   {
     path: 'cliente',
-    canLoad: [CanPassGuard],
-    //loadChildren: './cliente/cliente.module#ClienteModule',
+    //canLoad: [CanPassGuard],
+    loadChildren: './cliente/cliente.module#ClienteModule',
   },
   {
     path: 'analista',
-    canLoad: [CanPassGuard],
-    //loadChildren: './analista/analista.module#AnalistaModule',
+    //canLoad: [CanPassGuard],
+    loadChildren: './analista/analista.module#AnalistaModule',
   },
   {
     path: '**',

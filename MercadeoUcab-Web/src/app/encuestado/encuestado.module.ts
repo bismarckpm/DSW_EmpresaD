@@ -11,6 +11,7 @@ import { EncuestasPendientesComponent } from './pages/encuestas-pendientes/encue
 import { DashboardComponent } from './pages/dashboard/dashboard.component';
 import { LocalNgbModule } from '../ngbootstrap.module';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { BasicInfoDialogComponent } from './components/basic-info-dialog/basic-info-dialog.component';
 
 @NgModule({
   declarations: [
@@ -21,6 +22,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
     ResponderEncuestaComponent,
     EncuestasPendientesComponent,
     DashboardComponent,
+    BasicInfoDialogComponent,
   ],
   imports: [
     CommonModule,

@@ -10,6 +10,21 @@
   "
 >
   <div *ngIf="op === ''" class="container" style="height: 100%; width: 100%">
+    <div class="row align-items-center" style="height:100%">
+      <div class="col-6" style="height: 65%">
+        <mat-card class="menu-card" (click)="setOperation('add')">
+          <mat-icon class="menu-card-icon"> add_box </mat-icon>
+          <h3>Registrar nuevo usuario</h3>
+        </mat-card>
+      </div>
+      <div class="col-6" style="height: 65%">
+        <mat-card class="menu-card" (click)="setOperation('del')">
+          <mat-icon class="menu-card-icon"> update </mat-icon>
+          <h3>Gestionar usuarios existentes</h3>
+        </mat-card>
+      </div>
+    </div>
+    <!--
     <div class="row" style="height: 50%">
       <div class="col-8">
         <mat-card class="menu-card" (click)="setOperation('add')">
@@ -38,6 +53,7 @@
         </mat-card>
       </div>
     </div>
+    -->
   </div>
   <div *ngIf="op === 'add'" style="height: 75%; width: 85%">
     <mat-card
@@ -348,7 +364,6 @@
             </div>
           </div>
         </div>
-        <!--RESTO DE CAMPOS-->
         <div class="cForm-actions">
           <button
             type="button"
@@ -407,11 +422,11 @@
                 mat-mini-fab
                 aria-label="Example icon button with a filter list icon"
                 class="shadow-sm"
+                (click)="openInfoModal()"
               >
                 <mat-icon>info</mat-icon>
               </button>
               <button
-                *ngIf="op === 'upd'"
                 style="background-color: #00d8b4; color: white; margin: 0px 5px"
                 mat-mini-fab
                 aria-label="Example icon button with a filter list icon"
@@ -421,7 +436,6 @@
                 <mat-icon>autorenew</mat-icon>
               </button>
               <button
-                *ngIf="op === 'del'"
                 style="background-color: #00d8b4; color: white"
                 mat-mini-fab
                 aria-label="Example icon button with a filter list icon"
@@ -433,7 +447,6 @@
             </div>
           </td>
         </ng-container>
-        <!--DEMÁS COLUMNAS REQUERIDAS-->
         <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
         <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
       </table>
@@ -487,6 +500,19 @@
       >
         Ir a menu principal
       </button>
+       <mat-divider
+        [vertical]="true"
+        [inset]="true"
+        style="color: transparent"
+      ></mat-divider>
+       <button
+        mat-raised-button
+        class="shadow-sm"
+        (click)="setOperation('add')"
+        style="color: white; background-color: #00d8b4"
+      >
+        Crear nuevo usuario
+      </button>
     </div>
   </div>
 </div>
@@ -498,4 +524,33 @@
 <app-delete-user-dialog
   #delUser
   [_userSelection]="userSelection"
+  [_user]="userTarget"
 ></app-delete-user-dialog>
+<app-basic-info-dialog #info [_tipo]="'Usuario'">
+  <div class="cForm-field-row" *ngIf="userTarget !== null">
+    <div class="cForm-field-col">
+      <div class="form-group">
+      <label><h4>Nombre</h4></label>
+      <span><p>{{userTarget.nombre}}</p></span>
+      </div>
+      <div class="form-group">
+        <label><h4>Apellido</h4></label>
+        <span><p>{{userTarget.apellido}}</p></span>
+        </div>
+    </div>
+    <div class="cForm-field-col">
+      <div class="form-group">
+        <label><h4>Rol de usuario</h4></label>
+        <span><p>{{userTarget.rol}}</p></span>
+      </div>
+      <div class="form-group">
+        <label><h4>Correo de usuario</h4></label>
+        <span><p>{{userTarget.correo}}</p></span>
+      </div>
+      <div class="form-group">
+        <label><h4>Estado</h4></label>
+        <span><p>{{userTarget.estado}}</p></span>
+      </div>
+    </div>
+  </div>
+</app-basic-info-dialog>

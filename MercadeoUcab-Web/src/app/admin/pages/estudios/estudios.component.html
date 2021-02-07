@@ -1,8 +1,29 @@
 <div
-  class="menu-container"
-  style="width: 91.5vw !important; justify-content: unset; flex-direction: row"
+  class="container"
+  style="
+  height: 90vh;
+  width: 85vw;
+  justify-content: unset; flex-direction: row;
+  display: flex;
+  overflow-x: hidden;
+  "
 >
   <div *ngIf="op === ''" class="container" style="height: 100%; width: 100%">
+    <div class="row align-items-center" style="height:100%">
+      <div class="col-6" style="height: 65%">
+        <mat-card class="menu-card" (click)="setOperation('add')">
+          <mat-icon class="menu-card-icon"> add_box </mat-icon>
+          <h3>Registrar nuevo estudio</h3>
+        </mat-card>
+      </div>
+      <div class="col-6" style="height: 65%">
+        <mat-card class="menu-card" (click)="setOperation('del')">
+          <mat-icon class="menu-card-icon"> update </mat-icon>
+          <h3>Gestionar estudios existentes</h3>
+        </mat-card>
+      </div>
+    </div>
+    <!--
     <div class="row" style="height: 50%">
       <div class="col-8">
         <mat-card class="menu-card" (click)="setOperation('add')">
@@ -31,6 +52,244 @@
         </mat-card>
       </div>
     </div>
+    -->
+  </div>
+  <div
+    *ngIf="op === 'add' && currentStep > 0 && currentStep < 3"
+    style="height: 90%; width: 30%"
+    class="SlideIn"
+    id="suggests"
+  >
+    <mat-card
+      style="
+        height: 100%;
+        width: 100%;
+        display: flex;
+        text-align: center;
+        flex-direction: column;
+      "
+      *ngIf="currentStep !== 0 && suggestLoading === 'P'"
+    >
+      <div
+        class="text-center"
+        style="
+          flex: 1;
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          justify-content: center;
+        "
+      >
+        <div
+          class="spinner-border"
+          style="width: 7.5rem; height: 7.5rem"
+          role="status"
+        >
+          <span class="sr-only">Loading...</span>
+        </div>
+      </div>
+    </mat-card>
+    <mat-card
+      style="
+        height: 100%;
+        width: 100%;
+        display: flex;
+        text-align: center;
+        flex-direction: column;
+      "
+      *ngIf="currentStep === 1 && suggestLoading === 'D'"
+    >
+      <div style="height: 15%; width: 100%">
+        <h5 style="text-align: center">Muestras de población sugeridas</h5>
+      </div>
+      <div
+        style="
+          height: 85%;
+          width: 100%;
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          overflow-y: auto;
+        "
+      >
+        <div
+          *ngFor="let pobSug of poblacionSuggests; let s = index"
+          class="border rounded suggestionP sliderTop"
+        >
+          <div
+            style="
+              width: 80%;
+              height: 100%;
+              display: flex;
+              flex-direction: column;
+              align-items: center;
+              justify-content: center;
+            "
+          >
+            <div style="width: 100%; display: flex; flex-direction: column">
+              <label>
+                <h6>Género</h6>
+              </label>
+              <p>
+                {{ pobSug.genero }}
+              </p>
+            </div>
+            <div style="width: 100%; display: flex; flex-direction: column">
+              <label>
+                <h6>Rango de edad</h6>
+              </label>
+              <p>
+                {{ getYearDiff(pobSug.rango_edad_inicio) + "-" + getYearDiff(pobSug.rango_edad_fin) }}
+              </p>
+            </div>
+            <div style="width: 100%; display: flex; flex-direction: column">
+              <label>
+                <h6>Nivel económico</h6>
+              </label>
+              <p>
+                {{ pobSug.nivel_economico }}
+              </p>
+            </div>
+            <div style="width: 100%; display: flex; flex-direction: column">
+              <label>
+                <h6>Nivel Académico</h6>
+              </label>
+              <p>
+                {{ pobSug.nivel_academico }}
+              </p>
+            </div>
+            <div style="width: 100%; display: flex; flex-direction: column">
+              <label>
+                <h6>Ocupación</h6>
+              </label>
+              <p>
+                {{ pobSug.ocupacion.nombre }}
+              </p>
+            </div>
+      </div>
+          <div
+            style="
+              width: 20%;
+              height: 100%;
+              display: flex;
+              flex-direction: column;
+              align-items: center;
+              justify-content: center;
+            "
+          >
+            <button
+              type="button"
+              class="btn btn-outline-dark"
+              style="padding: 0.15rem; justify-content: center; display: flex"
+              (click)="setPoblacion(null)"
+              *ngIf="
+                targetPoblacion !== null && targetPoblacion._id === pobSug._id;
+                else elseSPB
+              "
+            >
+              <mat-icon style="height: 30px; width: 30px; font-size: 30px">
+                check_circle_outline
+              </mat-icon>
+            </button>
+            <ng-template #elseSPB>
+              <button
+                type="button"
+                class="btn btn-outline-dark"
+                style="padding: 0.15rem; justify-content: center; display: flex"
+                (click)="setPoblacion(pobSug)"
+              >
+                <mat-icon
+                  style="
+                    height: 30px;
+                    width: 30px;
+                    font-size: 30px;
+                  "
+                >
+                  label_important
+                </mat-icon>
+              </button>
+            </ng-template>
+          </div>
+        </div>
+      </div>
+    </mat-card>
+    <mat-card
+      style="
+        height: 100%;
+        width: 100%;
+        display: flex;
+        text-align: center;
+        flex-direction: column;
+      "
+      *ngIf="currentStep === 2 && suggestLoading === 'D'"
+    >
+      <div style="height: 15%; width: 100%">
+        <h5 style="text-align: center">Preguntas sugeridas</h5>
+      </div>
+      <div
+        style="
+          height: 85%;
+          width: 100%;
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          overflow-y: auto;
+        "
+      >
+        <div
+          *ngFor="let pregSug of preguntaSuggests; let s = index"
+          class="border rounded suggestionQ sliderTop"
+        >
+          <div style="width: 80%">
+            <h6 style="text-align: center">
+              {{ pregSug.pregunta.nombre }}
+            </h6>
+          </div>
+          <div
+            style="
+              width: 20%;
+              display: flex;
+              flex-direction: row;
+              align-items: center;
+              justify-content: center;
+            "
+          >
+            <button
+              type="button"
+              class="btn btn-outline-dark"
+              style="padding: 0.15rem; justify-content: center; display: flex"
+              (click)="addPregAsoc(pregSug.pregunta)"
+              *ngIf="
+                checkPregAsoc(pregSug.pregunta._id) === false;
+                else elsePreg
+              "
+            >
+              <mat-icon
+                style="
+                  height: 30px;
+                  width: 30px;
+                  font-size: 30px;
+                "
+              >
+                label_important
+              </mat-icon>
+            </button>
+            <ng-template #elsePreg>
+              <button
+                type="button"
+                class="btn btn-outline-dark"
+                style="padding: 0.15rem; justify-content: center; display: flex"
+                disabled
+              >
+                <mat-icon style="height: 30px; width: 30px; font-size: 30px">
+                  check_circle_outline
+                </mat-icon>
+              </button>
+            </ng-template>
+          </div>
+        </div>
+      </div>
+    </mat-card>
   </div>
   <div *ngIf="op === 'add'" class="estudio-section initLeft" id="addStepper">
     <mat-card
@@ -134,25 +393,55 @@
                       <option [ngValue]="'masculino'">Masculino</option>
                     </select>
                   </div>
+                  <!--
+                  <div class="form-group">
+                    <label>Edad de participantes</label>
+                    <div style="display: flex; flex-direction: row">
+                      <input
+                        type="date"
+                        formControlName="rangoEdadInicio"
+                        class="form-control"
+                        id="edadI"
+                        aria-describedby="edadIHelp"
+                        
+                        style="width: 45%; margin-right: 5%"
+                      />
+                      <input
+                        type="date"
+                        formControlName="rangoEdadFin"
+                        class="form-control"
+                        id="edadF"
+                        aria-describedby="edadFHelp"
+          
+                        style="width: 45%"
+                      />
+                    </div>
+                    <div style="display: flex; flex-direction: row">
+                     
+                    </div>
+                  </div>-->
                   <div class="form-group">
                     <label>Edad de participantes</label>
                     <div style="display: flex; flex-direction: row">
                       <input
                         type="number"
-                        formControlName="rangoEdadInicio"
+                        (change)="ageEdit($event.target.value,null)"
                         class="form-control"
                         id="edadI"
                         aria-describedby="edadIHelp"
                         min="0"
+                        value="{{minAge}}"
                         style="width: 45%; margin-right: 5%"
+
                       />
                       <input
                         type="number"
-                        formControlName="rangoEdadFin"
+                        (change)="ageEdit(null,$event.target.value)"
                         class="form-control"
+                        value="{{maxAge}}"
                         id="edadF"
                         aria-describedby="edadFHelp"
-                        min="0"
+                        min="{{minAge}}"
                         style="width: 45%"
                       />
                     </div>
@@ -174,14 +463,16 @@
                   </div>
                   <div class="form-group">
                     <label>Nivel económico</label>
-                    <input
-                      type="number"
-                      formControlName="nivelEconomico"
+                    <select
                       class="form-control"
                       id="neQTY"
-                      aria-describedby="neQTYHelp"
-                      min="0"
-                    />
+                      formControlName="nivelEconomico"
+                    >
+                      <option [ngValue]="null">Sin seleccionar...</option>
+                      <option [ngValue]="'bajo'">Bajo</option>
+                      <option [ngValue]="'medio'">Medio</option>
+                      <option [ngValue]="'alto'">Alto</option>
+                    </select>
                   </div>
                 </div>
                 <div class="cForm-field-col">
@@ -193,10 +484,10 @@
                       formControlName="nivelAcademico"
                     >
                       <option [ngValue]="null">Sin seleccionar...</option>
-                      <option [ngValue]="'Magister'">Magíster</option>
                       <option [ngValue]="'Bachiller'">Bachiller</option>
-                      <option [ngValue]="'Doctorado'">Doctorado</option>
                       <option [ngValue]="'Licenciado'">Licenciado/a</option>
+                      <option [ngValue]="'Doctorado'">Doctorado</option>
+                      <option [ngValue]="'Magister'">Magíster</option>
                     </select>
                   </div>
                   <div class="form-group">
@@ -392,11 +683,11 @@
               class="cForm"
               [formGroup]="addForm"
               (submit)="stepCheck(3, estudio_stepper)"
-              style="height: 100%; flex: unset"
+              style="height: 100%; flex: unse"
             >
               <h4>Datos de estudio</h4>
               <div class="cForm-field-row">
-                <div class="cForm-field-col" style="width: 95%">
+                <div class="cForm-field-col">
                   <div class="form-group">
                     <label for="estSelect">Tipo de estudio</label>
                     <select
@@ -410,7 +701,7 @@
                     </select>
                   </div>
                 </div>
-                <div class="cForm-field-col" style="width: 95%">
+                <div class="cForm-field-col">
                   <div class="form-group">
                     <label for="encQTY">Nº de encuestas esperadas</label>
                     <input
@@ -545,6 +836,7 @@
       </div>
     </mat-card>
   </div>
+<!--
   <div
     *ngIf="op === 'add' && currentStep > 0 && currentStep < 3"
     style="height: 90%; width: 30%"
@@ -759,7 +1051,7 @@
         </div>
       </div>
     </mat-card>
-  </div>
+  </div>-->
   <div
     *ngIf="op !== 'add' && searchState === 'I'"
     style="height: 75%; width: 100%; display: flex; justify-content: center"
@@ -854,12 +1146,6 @@
         style="flex: 1; overflow-y: auto"
         *ngIf="searchState === 'D'"
       >
-        <!--
-        <ng-container matColumnDef="id">
-          <th mat-header-cell *matHeaderCellDef>Id</th>
-          <td mat-cell *matCellDef="let element">{{ element._id }}</td>
-        </ng-container>
-      -->
         <ng-container matColumnDef="estado">
           <th mat-header-cell *matHeaderCellDef>Estado</th>
           <td mat-cell *matCellDef="let element">{{ element.estado }}</td>
@@ -887,11 +1173,11 @@
                 mat-mini-fab
                 aria-label="Example icon button with a filter list icon"
                 class="shadow-sm"
+                (click)="openInfoModal()"
               >
                 <mat-icon>info</mat-icon>
               </button>
               <button
-                *ngIf="op === 'upd'"
                 style="background-color: #00d8b4; color: white; margin: 0px 5px"
                 mat-mini-fab
                 aria-label="Example icon button with a filter list icon"
@@ -901,7 +1187,6 @@
                 <mat-icon>autorenew</mat-icon>
               </button>
               <button
-                *ngIf="op === 'del'"
                 style="background-color: #00d8b4; color: white"
                 mat-mini-fab
                 aria-label="Example icon button with a filter list icon"
@@ -966,6 +1251,19 @@
       >
         Ir a menu principal
       </button>
+      <mat-divider
+        [vertical]="true"
+        [inset]="true"
+        style="color: transparent"
+      ></mat-divider>
+       <button
+        mat-raised-button
+        class="shadow-sm"
+        (click)="setOperation('add')"
+        style="color: white; background-color: #00d8b4"
+      >
+        Crear nuevo estudio
+      </button>
     </div>
   </div>
 </div>
@@ -984,3 +1282,122 @@
   style="height: 75vh"
   (sharePregunta)="addCreatedPreg($event)"
 ></app-add-pregunta-dialog>
+<app-basic-info-dialog #info [_tipo]="'Estudio'">
+  <div class="cForm-field-row" *ngIf="targetEstudio !== null">
+    <div class="cForm-field-col">
+      <div class="form-group">
+        <label><h4>Analista asignado</h4></label>
+        <p>{{ targetEstudio.analista.nombre + ' ' +  targetEstudio.analista.apellido }}</p>
+      </div>
+      <div class="form-group">
+        <label><h4>Tipo de estudio</h4></label>
+        <p>{{ targetEstudio.tipo}}</p>
+      </div>
+      <div class="form-group">
+        <label><h4>Encuestas esperadas</h4></label>
+        <p>{{ targetEstudio.encuestas_esperadas}}</p>
+      </div>
+    </div>
+    <div class="cForm-field-col">
+      <div class="form-group">
+        <label><h4>Género de participantes</h4></label>
+        <p>{{ targetEstudio.muestra_poblacion.genero }}</p>
+      </div>
+      <div class="form-group">
+        <label><h4>Rango de edad de participantes</h4></label>
+        <p>{{targetEstudio.muestra_poblacion.rango_edad_inicio+' - '+targetEstudio.muestra_poblacion.rango_edad_fin+' Años'}}</p>
+      </div>
+      <div class="form-group">
+        <label><h4>Ocupación de participantes</h4></label>
+        <p>{{ targetEstudio.muestra_poblacion.Fk_ocupacion.nombre}}</p>
+      </div>
+    </div>
+  </div>
+</app-basic-info-dialog>
+<!--
+ {
+            _id: 1,
+            estado: 'En ejecucion',
+            tipo: 'En linea',
+            encuestas_esperadas: 1,
+            solicitud: {
+              _id: 1,
+              estado: 'solicitada',
+            },
+            analista: {
+              _id: 6,
+              nombre: 'Macon',
+              apellido: 'Mcleod',
+              correo: 'MM10@gmail.com',
+              rol: 'administrador',
+              estado: 'test',
+            },
+            muestra_poblacion: {
+              _id: 1,
+              genero: 'masculino',
+              nivel_academico: 'Bachiller',
+              nivel_economico: 3,
+              rango_edad_inicio: 10,
+              rango_edad_fin: 50,
+              cantidad_hijos: 2,
+              Fk_ocupacion: { _id: 1, nombre: 'test Ocupacion' },
+              parroquia: {
+                _id: 6,
+                nombre: 'Eglise Notre Dame De Rumengol',
+                // "valor_socioeconomico": 1,
+                valorSocioEconomico: 3,
+                nivel_economico: 3,
+                municipio: {
+                  _id: 7,
+                  nombre: 'Le Faou',
+                  estado: {
+                    _id: 7,
+                    nombre: 'Breteña',
+                    pais: {
+                      _id: 4,
+                      nombre: 'Francia',
+                    },
+                  },
+                },
+              },
+            },
+            encuesta: [
+              {
+                _id: 1,
+                pregunta: {
+                  _id: 1,
+                  nombre: 'Pregunta 1: Le parecio comodo el mueble? ',
+                  tipo: 'abierta',
+                },
+              },
+              {
+                _id: 7,
+                pregunta: {
+                  _id: 2,
+                  nombre:
+                    'Pregunta 2: Recomendaria este mueble a otras personas?',
+                  tipo: 'boolean',
+                },
+              },
+              {
+                _id: 3,
+                pregunta: {
+                  _id: 3,
+                  nombre:
+                    'Pregunta 3: El precio del mueble le parece que esta bien justificado?',
+                  tipo: 'abierta',
+                  rango: '',
+                },
+              },
+              {
+                _id: 24,
+                pregunta: {
+                  _id: 4,
+                  nombre:
+                    'Pregunta 4: Que problemas encontro en nuestro mueble?',
+                  tipo: 'abierta',
+                },
+              },
+            ],
+          },
+-->

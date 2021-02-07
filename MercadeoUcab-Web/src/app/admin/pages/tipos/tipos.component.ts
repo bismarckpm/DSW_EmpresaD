@@ -6,6 +6,8 @@ import { Tipo } from '@models/tipo';
 import { TipoService } from '@core/services/tipo/tipo.service';
 import { UpdateTipoDialogComponent } from '../../components/dialogs/update-tipo-dialog/update-tipo-dialog.component';
 import { DeleteTipoDialogComponent } from '../../components/dialogs/delete-tipo-dialog/delete-tipo-dialog.component';
+import { BasicInfoDialogComponent } from '../../components/dialogs/basic-info-dialog/basic-info-dialog.component';
+
 @Component({
   selector: 'app-tipos',
   templateUrl: './tipos.component.html',
@@ -49,6 +51,10 @@ export class TiposComponent implements OnInit {
   async openDelModal() {
     return await this.delComponent.open();
   }
+  @ViewChild('info') private infoComponent: BasicInfoDialogComponent;
+  async openInfoModal() {
+    return await this.infoComponent.open();
+  }
 
   ngOnInit(): void {
     this.setOperation('');
@@ -74,7 +80,7 @@ export class TiposComponent implements OnInit {
       },
       (error) => {
         console.log(error);
-        this.tipos = [{ _id: 1, nombre: 'testTipo' }];
+        //this.tipos = [{ _id: 1, nombre: 'testTipo' }];
         this.dataSource = new MatTableDataSource<Tipo>(
           this.dataFilter(this.tipos)
         );
@@ -95,7 +101,7 @@ export class TiposComponent implements OnInit {
         // Obtener el tipo con response.data
       },
       (error) => {
-        this.tipos = [{ _id: 1, nombre: 'testTipo' }];
+        //this.tipos = [{ _id: 1, nombre: 'testTipo' }];
         this.dataSource = new MatTableDataSource<Tipo>(
           this.dataFilter(this.tipos)
         );

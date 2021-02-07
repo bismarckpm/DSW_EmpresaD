@@ -1,6 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
-import { EstudioService } from '../../../shared/Services/estudio/estudio.service';
+import { BasicInfoDialogComponent } from '../../components/dialogs/basic-info-dialog/basic-info-dialog.component';
 
 @Component({
   selector: 'app-analista',
@@ -10,9 +10,36 @@ import { EstudioService } from '../../../shared/Services/estudio/estudio.service
 export class AnalistaComponent implements OnInit {
   constructor(private route: ActivatedRoute, private router: Router) {}
   
+  sections: any[] = [
+  { title:'Estudios asignados',dir:'tasks',icon:'text_snippet'},
+  { title:'Home',dir:'overview',icon:'home'},
+  ];
   openNote: boolean=false;
-
+  showFiller = false;
+  userSession = null;
+  @ViewChild('uInfo') private infoComponent: BasicInfoDialogComponent;
+  async openInfoModal() {
+    return await this.infoComponent.open();
+  }
+  checkUser(){
+    if(localStorage.getItem('user_data') === null){
+      localStorage.setItem('user_data',JSON.stringify({
+        _id: Math.floor(Math.random() * (1000 - 1) + 1),
+        nombre: Math.random().toString(36).substr(2, 5),
+        apellido: Math.random().toString(36).substr(2, 5),
+        rol: 'Administrador',
+        correo: Math.random().toString(36).substr(2, 5),
+        estado: 'Activo',
+      }));
+      this.userSession = JSON.parse(localStorage.getItem('user_data'));
+    }
+    else {
+      this.userSession = JSON.parse(localStorage.getItem('user_data'));
+    }
+  }
   ngOnInit(): void {
+    this.onDir('overview');
+    this.checkUser();
     setTimeout(()=>{
       this.openNote=true;
       setTimeout(() => {
@@ -20,11 +47,10 @@ export class AnalistaComponent implements OnInit {
       },10000)
     },2000);
   }
-
   onDir(_route: string): void {
     try {
-      //console.log(_route);
-      this.router.navigate([_route]);
+     
+      this.router.navigate(['analista/',_route]);
     } catch (e) {
       console.log(e.message);
     }
