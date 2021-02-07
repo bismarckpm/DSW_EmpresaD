@@ -1,6 +1,7 @@
 package mercadeoucab.comandos.Estudio;
 
 import mercadeoucab.accesodatos.DaoEstudio;
+import mercadeoucab.comandos.ComandoAbstracto;
 import mercadeoucab.comandos.ComandoBase;
 import mercadeoucab.dtos.DtoEstudio;
 import mercadeoucab.entidades.Estudio;
@@ -13,7 +14,7 @@ import mercadeoucab.responses.ResponseGeneral;
 import javax.json.JsonObject;
 import javax.ws.rs.core.Response;
 
-public class ComandoConsultarEstudio implements ComandoBase {
+public class ComandoConsultarEstudio extends ComandoAbstracto implements ComandoBase {
 
     private Response result;
     private long id;

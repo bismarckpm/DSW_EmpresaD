@@ -1,6 +1,7 @@
 package mercadeoucab.comandos.Parroquia;
 
 import mercadeoucab.accesodatos.DaoParroquia;
+import mercadeoucab.comandos.ComandoAbstracto;
 import mercadeoucab.comandos.ComandoBase;
 import mercadeoucab.dtos.DtoParroquia;
 import mercadeoucab.entidades.Parroquia;
@@ -19,7 +20,7 @@ import java.util.Calendar;
  * @version 1.0
  * @since 2021-01-29
  */
-public class ComandoRegistrarParroquia implements ComandoBase {
+public class ComandoRegistrarParroquia extends ComandoAbstracto implements ComandoBase {
     private Response result;
     private DtoParroquia dtoParroquia;
 

@@ -1,6 +1,7 @@
 package mercadeoucab.comandos.Usuario;
 
 import mercadeoucab.accesodatos.DaoUsuario;
+import mercadeoucab.comandos.ComandoAbstracto;
 import mercadeoucab.comandos.ComandoBase;
 import mercadeoucab.directorioactivo.DirectorioActivo;
 import mercadeoucab.dtos.DtoDirectorioAUser;
@@ -21,7 +22,7 @@ import java.util.Calendar;
  * @version 1.0
  * @since 2021-01-29
  */
-public class ComandoRegistrarUsuario implements ComandoBase {
+public class ComandoRegistrarUsuario extends ComandoAbstracto implements ComandoBase {
     private Response result;
     private DtoUsuario dtoUsuario;
 

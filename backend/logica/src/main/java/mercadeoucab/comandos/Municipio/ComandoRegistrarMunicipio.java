@@ -1,6 +1,7 @@
 package mercadeoucab.comandos.Municipio;
 
 import mercadeoucab.accesodatos.DaoMunicipio;
+import mercadeoucab.comandos.ComandoAbstracto;
 import mercadeoucab.comandos.ComandoBase;
 import mercadeoucab.dtos.DtoMunicipio;
 import mercadeoucab.entidades.Municipio;
@@ -19,7 +20,7 @@ import java.util.Calendar;
  * @version 1.0
  * @since 2021-01-29
  */
-public class ComandoRegistrarMunicipio implements ComandoBase {
+public class ComandoRegistrarMunicipio extends ComandoAbstracto implements ComandoBase {
     private Response result;
     private DtoMunicipio dtoMunicipio;
 

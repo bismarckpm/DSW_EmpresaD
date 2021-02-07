@@ -2,6 +2,9 @@ package mercadeoucab.servicio;
 
 import mercadeoucab.comandos.SubCategoria.*;
 import mercadeoucab.dtos.DtoSubCategoria;
+import mercadeoucab.fabricas.Enums.Comandos;
+import mercadeoucab.fabricas.FabricaComandosAbstractos;
+import mercadeoucab.fabricas.fabricasComandoConcretos.FabricaComandosSubCategoria;
 import mercadeoucab.responses.ResponseGeneral;
 
 import javax.ws.rs.*;
@@ -19,6 +22,8 @@ import javax.ws.rs.core.Response;
 @Consumes( MediaType.APPLICATION_JSON )
 public class ServicioSubCategoria extends AplicacionBase{
 
+    private final FabricaComandosSubCategoria fabricaComandosSubCategoria = (FabricaComandosSubCategoria) FabricaComandosAbstractos.getFactory(Comandos.SUBCATEGORIA);
+
     /**
      * Metodo para consultar una Subcategoria dado un identificador
      * @param id Identificador de la Subcategoria que se desea consultar
@@ -32,7 +37,7 @@ public class ServicioSubCategoria extends AplicacionBase{
         try{
             validateToken(token);
             verifyParams(id);
-            ComandoConsultarSubcategoria comandoConsultarSubcategoria = new ComandoConsultarSubcategoria();
+            ComandoConsultarSubcategoria comandoConsultarSubcategoria = (ComandoConsultarSubcategoria) fabricaComandosSubCategoria.comandoConsultar();
             comandoConsultarSubcategoria.setId(id);
             comandoConsultarSubcategoria.execute();
             resultado = comandoConsultarSubcategoria.getResult();
@@ -58,7 +63,7 @@ public class ServicioSubCategoria extends AplicacionBase{
         Response resultado = null;
         try {
             validateToken(token);
-            ComandoListarSubcategorias comandoListarSubcategorias = new ComandoListarSubcategorias();
+            ComandoListarSubcategorias comandoListarSubcategorias = (ComandoListarSubcategorias) fabricaComandosSubCategoria.comandoListar();
             comandoListarSubcategorias.execute();
             resultado = comandoListarSubcategorias.getResult();
         }
@@ -83,7 +88,7 @@ public class ServicioSubCategoria extends AplicacionBase{
         try{
             validateToken(token);
             verifyParams(dtoSubCategoria);
-            ComandoRegistrarSubCategoria comandoRegistrarSubCategoria = new ComandoRegistrarSubCategoria();
+            ComandoRegistrarSubCategoria comandoRegistrarSubCategoria = (ComandoRegistrarSubCategoria) fabricaComandosSubCategoria.comandoCrear();
             comandoRegistrarSubCategoria.setDtoSubCategoria(dtoSubCategoria);
             comandoRegistrarSubCategoria.execute();
             resultado = comandoRegistrarSubCategoria.getResult();
@@ -109,7 +114,7 @@ public class ServicioSubCategoria extends AplicacionBase{
             validateToken(token);
             verifyParams(id);
             verifyParams(dtoSubCategoria);
-            ComandoActualizarSubCategoria comandoActualizarSubCategoria = new ComandoActualizarSubCategoria();
+            ComandoActualizarSubCategoria comandoActualizarSubCategoria = (ComandoActualizarSubCategoria) fabricaComandosSubCategoria.comandoModificar();
             comandoActualizarSubCategoria.setId(id);
             comandoActualizarSubCategoria.setDtoSubCategoria(dtoSubCategoria);
             comandoActualizarSubCategoria.execute();
@@ -135,7 +140,7 @@ public class ServicioSubCategoria extends AplicacionBase{
         try{
             validateToken(token);
             verifyParams(id);
-            ComandoEliminarSubCategoria comandoEliminarSubCategoria = new ComandoEliminarSubCategoria();
+            ComandoEliminarSubCategoria comandoEliminarSubCategoria = (ComandoEliminarSubCategoria) fabricaComandosSubCategoria.comandoEliminar();
             comandoEliminarSubCategoria.setId(id);
             comandoEliminarSubCategoria.execute();
             resultado = comandoEliminarSubCategoria.getResult();

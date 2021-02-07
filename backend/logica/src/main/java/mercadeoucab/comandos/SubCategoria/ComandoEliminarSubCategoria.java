@@ -1,6 +1,7 @@
 package mercadeoucab.comandos.SubCategoria;
 
 import mercadeoucab.accesodatos.DaoSubCategoria;
+import mercadeoucab.comandos.ComandoAbstracto;
 import mercadeoucab.comandos.ComandoBase;
 import mercadeoucab.entidades.SubCategoria;
 import mercadeoucab.fabricas.Enums.Fabricas;
@@ -11,7 +12,7 @@ import javax.ws.rs.core.Response;
 import java.sql.Date;
 import java.util.Calendar;
 
-public class ComandoEliminarSubCategoria implements ComandoBase {
+public class ComandoEliminarSubCategoria extends ComandoAbstracto implements ComandoBase {
     private Response result;
     private long id;
 

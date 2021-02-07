@@ -1,6 +1,7 @@
 package mercadeoucab.comandos.Estudio;
 
 import mercadeoucab.accesodatos.DaoEstudio;
+import mercadeoucab.comandos.ComandoAbstracto;
 import mercadeoucab.comandos.ComandoBase;
 import mercadeoucab.dtos.DtoEstudio;
 import mercadeoucab.entidades.Estudio;
@@ -12,7 +13,7 @@ import javax.ws.rs.core.Response;
 import java.sql.Date;
 import java.util.Calendar;
 
-public class ComandoActualizarEstudio implements ComandoBase {
+public class ComandoActualizarEstudio extends ComandoAbstracto implements ComandoBase {
 
     private Response result;
     private DtoEstudio dtoEstudio;

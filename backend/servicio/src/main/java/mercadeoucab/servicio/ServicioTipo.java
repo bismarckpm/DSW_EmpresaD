@@ -1,6 +1,10 @@
 package mercadeoucab.servicio;
 
+import mercadeoucab.comandos.Tipo.*;
 import mercadeoucab.dtos.DtoTipo;
+import mercadeoucab.fabricas.Enums.Comandos;
+import mercadeoucab.fabricas.FabricaComandosAbstractos;
+import mercadeoucab.fabricas.fabricasComandoConcretos.FabricaComandoTipo;
 import mercadeoucab.responses.ResponseGeneral;
 
 import javax.ws.rs.*;
@@ -18,6 +22,7 @@ import javax.ws.rs.core.Response;
 @Consumes( MediaType.APPLICATION_JSON )
 public class ServicioTipo extends AplicacionBase {
 
+    private final FabricaComandoTipo fabricaComandoTipo = (FabricaComandoTipo) FabricaComandosAbstractos.getFactory(Comandos.TIPO);
     /**
      * Metodo para listar todos los Tipos registrados
      * @return regresa la lista de los Tipos, respuesta que no se encontro
@@ -29,7 +34,7 @@ public class ServicioTipo extends AplicacionBase {
         Response resultado = null;
         try {
             validateToken(token);
-            mercadeoucab.comandos.Tipo.ComandoListarTipos comandoListarTipos = new mercadeoucab.comandos.Tipo.ComandoListarTipos();
+            mercadeoucab.comandos.Tipo.ComandoListarTipos comandoListarTipos = (ComandoListarTipos) fabricaComandoTipo.comandoListar();
             comandoListarTipos.execute();
             resultado = comandoListarTipos.getResult();
         }
@@ -54,7 +59,7 @@ public class ServicioTipo extends AplicacionBase {
         try {
             validateToken(token);
             verifyParams(id);
-            mercadeoucab.comandos.Tipo.ComandoObtenerTipo comandoObtenerTipo = new mercadeoucab.comandos.Tipo.ComandoObtenerTipo();
+            mercadeoucab.comandos.Tipo.ComandoObtenerTipo comandoObtenerTipo = (ComandoObtenerTipo) fabricaComandoTipo.comandoConsultar();
             comandoObtenerTipo.setId(id);
             comandoObtenerTipo.execute();
             resultado = comandoObtenerTipo.getResult();
@@ -81,7 +86,7 @@ public class ServicioTipo extends AplicacionBase {
         {
             validateToken(token);
             verifyParams(dtoTipo);
-            mercadeoucab.comandos.Tipo.ComandoRegistrarTipo comandoRegistrarTipo = new mercadeoucab.comandos.Tipo.ComandoRegistrarTipo();
+            mercadeoucab.comandos.Tipo.ComandoRegistrarTipo comandoRegistrarTipo = (ComandoRegistrarTipo) fabricaComandoTipo.comandoCrear();
             comandoRegistrarTipo.setDtoTipo(dtoTipo);
             comandoRegistrarTipo.execute();
             resultado = comandoRegistrarTipo.getResult();
@@ -109,7 +114,7 @@ public class ServicioTipo extends AplicacionBase {
             validateToken(token);
             verifyParams(id);
             verifyParams(dtoTipo);
-            mercadeoucab.comandos.Tipo.ComandoActualizarTipo comandoActualizarTipo = new mercadeoucab.comandos.Tipo.ComandoActualizarTipo();
+            mercadeoucab.comandos.Tipo.ComandoActualizarTipo comandoActualizarTipo = (ComandoActualizarTipo) fabricaComandoTipo.comandoModificar();
             comandoActualizarTipo.setId(id);
             comandoActualizarTipo.setDtoTipo(dtoTipo);
             comandoActualizarTipo.execute();
@@ -135,7 +140,7 @@ public class ServicioTipo extends AplicacionBase {
         try {
             validateToken(token);
             verifyParams(id);
-            mercadeoucab.comandos.Tipo.ComandoEliminarTipo comandoEliminarTipo = new mercadeoucab.comandos.Tipo.ComandoEliminarTipo();
+            mercadeoucab.comandos.Tipo.ComandoEliminarTipo comandoEliminarTipo = (ComandoEliminarTipo) fabricaComandoTipo.comandoEliminar();
             comandoEliminarTipo.setId(id);
             comandoEliminarTipo.execute();
             resultado = comandoEliminarTipo.getResult();

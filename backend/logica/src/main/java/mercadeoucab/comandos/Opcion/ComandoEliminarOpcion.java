@@ -1,6 +1,7 @@
 package mercadeoucab.comandos.Opcion;
 
 import mercadeoucab.accesodatos.DaoOpcion;
+import mercadeoucab.comandos.ComandoAbstracto;
 import mercadeoucab.comandos.ComandoBase;
 import mercadeoucab.entidades.Opcion;
 import mercadeoucab.fabricas.Enums.Fabricas;
@@ -11,7 +12,7 @@ import javax.ws.rs.core.Response;
 import java.sql.Date;
 import java.util.Calendar;
 
-public class ComandoEliminarOpcion implements ComandoBase {
+public class ComandoEliminarOpcion extends ComandoAbstracto implements ComandoBase {
 
     private Response result;
     private long id;

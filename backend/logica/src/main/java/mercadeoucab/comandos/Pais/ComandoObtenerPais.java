@@ -1,6 +1,7 @@
 package mercadeoucab.comandos.Pais;
 
 import mercadeoucab.accesodatos.DaoPais;
+import mercadeoucab.comandos.ComandoAbstracto;
 import mercadeoucab.comandos.ComandoBase;
 import mercadeoucab.dtos.DtoPais;
 import mercadeoucab.entidades.Pais;
@@ -20,7 +21,7 @@ import java.util.Objects;
  * @version 1.0
  * @since 2021-01-29
  */
-public class ComandoObtenerPais implements ComandoBase {
+public class ComandoObtenerPais extends ComandoAbstracto implements ComandoBase {
     private Response result;
     private long id;
 

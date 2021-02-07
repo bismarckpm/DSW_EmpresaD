@@ -1,6 +1,7 @@
 package mercadeoucab.comandos.Ocupacion;
 
 import mercadeoucab.accesodatos.DaoOcupacion;
+import mercadeoucab.comandos.ComandoAbstracto;
 import mercadeoucab.comandos.ComandoBase;
 import mercadeoucab.dtos.DtoOcupacion;
 import mercadeoucab.entidades.Ocupacion;
@@ -18,7 +19,7 @@ import java.util.Calendar;
  * @version 1.0
  * @since 2021-01-29
  */
-public class ComandoActualizarOcupacion implements ComandoBase {
+public class ComandoActualizarOcupacion extends ComandoAbstracto implements ComandoBase {
     private Response result;
     private DtoOcupacion dtoOcupacion;
     private long id;

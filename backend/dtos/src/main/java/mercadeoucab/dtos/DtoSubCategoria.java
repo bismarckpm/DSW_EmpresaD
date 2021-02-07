@@ -1,5 +1,8 @@
 package mercadeoucab.dtos;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * Name: DtoSubCategoria
  */
@@ -7,6 +10,7 @@ public class DtoSubCategoria extends DtoBase{
 
     private String nombre;
     private DtoCategoria categoria;
+    private List<DtoTipo> tipoList;
 
     /**
      * Name: DtoSubCategoria
@@ -55,5 +59,27 @@ public class DtoSubCategoria extends DtoBase{
      */
     public void setCategoria(DtoCategoria categoria) {
         this.categoria = categoria;
+    }
+
+    /**
+     * Name: getTipoList
+     * @return
+     */
+    public List<DtoTipo> getTipoList() { return tipoList; }
+
+    /**
+     * Name: setTipoList
+     * @param tipoList
+     */
+    public void setTipoList(List<DtoTipo> tipoList) { this.tipoList = tipoList; }
+
+    /**
+     * Name: addTipo
+     * @param dtoTipo
+     */
+    public void addTipo(DtoTipo dtoTipo){
+        if (this.tipoList == null)
+            this.tipoList = new ArrayList<>();
+        this.tipoList.add(dtoTipo);
     }
 }

@@ -1,6 +1,7 @@
 package mercadeoucab.comandos.Opcion;
 
 import mercadeoucab.accesodatos.DaoOpcion;
+import mercadeoucab.comandos.ComandoAbstracto;
 import mercadeoucab.comandos.ComandoBase;
 import mercadeoucab.dtos.DtoOpcion;
 import mercadeoucab.entidades.Opcion;
@@ -12,7 +13,7 @@ import javax.ws.rs.core.Response;
 import java.sql.Date;
 import java.util.Calendar;
 
-public class ComandoRegistrarOpcion implements ComandoBase {
+public class ComandoRegistrarOpcion extends ComandoAbstracto implements ComandoBase {
 
     private Response result;
     private DtoOpcion dtoOpcion;

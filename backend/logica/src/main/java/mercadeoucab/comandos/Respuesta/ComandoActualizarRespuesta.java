@@ -1,6 +1,7 @@
 package mercadeoucab.comandos.Respuesta;
 
 import mercadeoucab.accesodatos.DaoRespuesta;
+import mercadeoucab.comandos.ComandoAbstracto;
 import mercadeoucab.comandos.ComandoBase;
 import mercadeoucab.dtos.DtoRespuesta;
 import mercadeoucab.entidades.Respuesta;
@@ -12,7 +13,7 @@ import javax.ws.rs.core.Response;
 import java.sql.Date;
 import java.util.Calendar;
 
-public class ComandoActualizarRespuesta implements ComandoBase {
+public class ComandoActualizarRespuesta extends ComandoAbstracto implements ComandoBase {
 
     private Response result;
     private long id;

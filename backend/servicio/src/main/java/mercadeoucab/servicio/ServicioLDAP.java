@@ -6,6 +6,9 @@ import mercadeoucab.directorioactivo.DirectorioActivo;
 import mercadeoucab.dtos.DtoDirectorioAUser;
 import mercadeoucab.dtos.DtoUsuario;
 import mercadeoucab.entidades.Usuario;
+import mercadeoucab.fabricas.Enums.Comandos;
+import mercadeoucab.fabricas.FabricaComandosAbstractos;
+import mercadeoucab.fabricas.fabricasComandoConcretos.FabricaComandosLDAP;
 import mercadeoucab.mappers.UsuarioMapper;
 import mercadeoucab.responses.ResponseGeneral;
 import mercadeoucab.responses.ResponseUsuario;
@@ -29,6 +32,8 @@ import javax.ws.rs.core.Response;
 @Consumes( MediaType.APPLICATION_JSON )
 public class ServicioLDAP extends AplicacionBase {
 
+    private static FabricaComandosLDAP fabricaComandosLDAP = (FabricaComandosLDAP) FabricaComandosAbstractos.getFactory(Comandos.LDAP);
+
     /**
      * Metodo para iniciar sesion en el sistema
      * @param dtoUsuario usuario que desea iniciar sesion
@@ -40,7 +45,7 @@ public class ServicioLDAP extends AplicacionBase {
         Response resultado = null;
         try{
             verifyParams( dtoUsuario);
-            ComandoIniciarSesion comandoIniciarSesion = new ComandoIniciarSesion();
+            ComandoIniciarSesion comandoIniciarSesion = (ComandoIniciarSesion) fabricaComandosLDAP.comandoIniciarSesion();
             comandoIniciarSesion.setDtoUsuario( dtoUsuario);
             comandoIniciarSesion.execute();
             resultado = comandoIniciarSesion.getResult();

@@ -1,6 +1,7 @@
 package mercadeoucab.comandos.Categoria;
 
 import mercadeoucab.accesodatos.DaoCategoria;
+import mercadeoucab.comandos.ComandoAbstracto;
 import mercadeoucab.comandos.ComandoBase;
 import mercadeoucab.dtos.DtoCategoria;
 import mercadeoucab.entidades.Categoria;
@@ -13,7 +14,7 @@ import javax.ws.rs.core.Response;
 import java.sql.Date;
 import java.util.Calendar;
 
-public class ComandoAgregarCategoria implements ComandoBase {
+public class ComandoAgregarCategoria extends ComandoAbstracto implements ComandoBase {
     private Response result;
     private DtoCategoria dtoCategoria;
 

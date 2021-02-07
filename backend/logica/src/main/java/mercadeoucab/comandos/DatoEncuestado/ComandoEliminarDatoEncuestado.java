@@ -1,6 +1,7 @@
 package mercadeoucab.comandos.DatoEncuestado;
 
 import mercadeoucab.accesodatos.DaoDatoEncuestado;
+import mercadeoucab.comandos.ComandoAbstracto;
 import mercadeoucab.comandos.ComandoBase;
 import mercadeoucab.entidades.DatoEncuestado;
 import mercadeoucab.fabricas.Enums.Fabricas;
@@ -17,7 +18,7 @@ import java.util.Calendar;
  * @version 1.0
  * @since 2021-01-29
  */
-public class ComandoEliminarDatoEncuestado implements ComandoBase {
+public class ComandoEliminarDatoEncuestado extends ComandoAbstracto implements ComandoBase {
     private Response result;
     private long id;
 

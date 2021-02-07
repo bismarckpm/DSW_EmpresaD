@@ -2,6 +2,9 @@ package mercadeoucab.servicio;
 
 import mercadeoucab.comandos.Solicitud.*;
 import mercadeoucab.dtos.DtoSolicitud;
+import mercadeoucab.fabricas.Enums.Comandos;
+import mercadeoucab.fabricas.FabricaComandosAbstractos;
+import mercadeoucab.fabricas.fabricasComandoConcretos.FabricaComandosSolicitud;
 import mercadeoucab.responses.ResponseGeneral;
 
 import javax.json.Json;
@@ -21,6 +24,7 @@ import javax.ws.rs.core.Response;
 @Consumes( MediaType.APPLICATION_JSON )
 public class ServicioSolicitud extends AplicacionBase{
 
+    private final FabricaComandosSolicitud fabricaComandosSolicitud = (FabricaComandosSolicitud) FabricaComandosAbstractos.getFactory(Comandos.SOLICITUD);
     /**
      * Metodo para consultar una Solicitud dado un identificador
      * @param id Identificador de la Solicitud que se desea consultar
@@ -34,7 +38,7 @@ public class ServicioSolicitud extends AplicacionBase{
         try{
             validateToken(token);
             verifyParams(id);
-            ComandoObtenerSolicitud comandoObtenerSolicitud = new ComandoObtenerSolicitud();
+            ComandoObtenerSolicitud comandoObtenerSolicitud = (ComandoObtenerSolicitud) fabricaComandosSolicitud.comandoConsultar();
             comandoObtenerSolicitud.setId(id);
             comandoObtenerSolicitud.execute();
             resultado = comandoObtenerSolicitud.getResult();
@@ -57,7 +61,7 @@ public class ServicioSolicitud extends AplicacionBase{
         Response resultado = null;
         try {
             validateToken(token);
-            ComandoListarSolicitud comandoListarSolicitud = new ComandoListarSolicitud();
+            ComandoListarSolicitud comandoListarSolicitud = (ComandoListarSolicitud) fabricaComandosSolicitud.comandoListar();
             comandoListarSolicitud.execute();
             resultado = comandoListarSolicitud.getResult();
         }
@@ -83,7 +87,7 @@ public class ServicioSolicitud extends AplicacionBase{
         try{
             validateToken(token);
             verifyParams(dtoSolicitud);
-            ComandoRegistrarSolicitud comandoRegistrarSolicitud = new ComandoRegistrarSolicitud();
+            ComandoRegistrarSolicitud comandoRegistrarSolicitud = (ComandoRegistrarSolicitud) fabricaComandosSolicitud.comandoCrear();
             comandoRegistrarSolicitud.setDtoSolicitud(dtoSolicitud);
             comandoRegistrarSolicitud.execute();
             resultado = comandoRegistrarSolicitud.getResult();
@@ -109,7 +113,7 @@ public class ServicioSolicitud extends AplicacionBase{
             validateToken(token);
             verifyParams(id);
             verifyParams(dtoSolicitud);
-            ComandoActualizarSolicitud comandoActualizarSolicitud = new ComandoActualizarSolicitud();
+            ComandoActualizarSolicitud comandoActualizarSolicitud = (ComandoActualizarSolicitud) fabricaComandosSolicitud.comandoModificar();
             comandoActualizarSolicitud.setId(id);
             comandoActualizarSolicitud.setDtoSolicitud(dtoSolicitud);
             comandoActualizarSolicitud.execute();
@@ -134,7 +138,7 @@ public class ServicioSolicitud extends AplicacionBase{
         try{
             validateToken(token);
             verifyParams(id);
-            ComandoEliminarSolicitud comandoEliminarSolicitud = new ComandoEliminarSolicitud();
+            ComandoEliminarSolicitud comandoEliminarSolicitud = (ComandoEliminarSolicitud) fabricaComandosSolicitud.comandoEliminar();
             comandoEliminarSolicitud.setId(id);
             comandoEliminarSolicitud.execute();
             resultado = comandoEliminarSolicitud.getResult();
@@ -159,7 +163,7 @@ public class ServicioSolicitud extends AplicacionBase{
         try {
             validateToken(token);
             verifyParams(estado);
-            ComandoListarSolicitudEstado comandoListarSolicitudEstado = new ComandoListarSolicitudEstado();
+            ComandoListarSolicitudEstado comandoListarSolicitudEstado = (ComandoListarSolicitudEstado) fabricaComandosSolicitud.comandoListarPorEstado();
             comandoListarSolicitudEstado.setEstado(estado);
             comandoListarSolicitudEstado.execute();
             resultado = comandoListarSolicitudEstado.getResult();
@@ -186,7 +190,7 @@ public class ServicioSolicitud extends AplicacionBase{
         try {
             validateToken(token);
             verifyParams(id);
-            ComandoPreguntasRecomendadas comandoPreguntasRecomendadas = new ComandoPreguntasRecomendadas();
+            ComandoPreguntasRecomendadas comandoPreguntasRecomendadas = (ComandoPreguntasRecomendadas) fabricaComandosSolicitud.comandoPreguntasRecomendadas();
             comandoPreguntasRecomendadas.setId(id);
             comandoPreguntasRecomendadas.execute();
             resultado = comandoPreguntasRecomendadas.getResult();
@@ -212,7 +216,7 @@ public class ServicioSolicitud extends AplicacionBase{
         try {
             validateToken(token);
             verifyParams(id);
-            ComandoPoblacionesRecomendadas comandoPoblacionesRecomendadas = new ComandoPoblacionesRecomendadas();
+            ComandoPoblacionesRecomendadas comandoPoblacionesRecomendadas = (ComandoPoblacionesRecomendadas) fabricaComandosSolicitud.comandoPoblacionesRecomendadas();
             comandoPoblacionesRecomendadas.setId(id);
             comandoPoblacionesRecomendadas.execute();
             resultado = comandoPoblacionesRecomendadas.getResult();

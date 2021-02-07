@@ -1,6 +1,7 @@
 package mercadeoucab.comandos.Parroquia;
 
 import mercadeoucab.accesodatos.DaoParroquia;
+import mercadeoucab.comandos.ComandoAbstracto;
 import mercadeoucab.comandos.ComandoBase;
 import mercadeoucab.dtos.DtoParroquia;
 import mercadeoucab.entidades.Parroquia;
@@ -23,7 +24,7 @@ import java.util.Objects;
  * @version 1.0
  * @since 2021-01-29
  */
-public class ComandoListarParroquias implements ComandoBase {
+public class ComandoListarParroquias extends ComandoAbstracto implements ComandoBase {
     private Response result;
 
     /**

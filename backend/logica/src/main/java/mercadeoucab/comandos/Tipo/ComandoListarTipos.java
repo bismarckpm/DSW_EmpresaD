@@ -1,6 +1,7 @@
 package mercadeoucab.comandos.Tipo;
 
 import mercadeoucab.accesodatos.DaoTipo;
+import mercadeoucab.comandos.ComandoAbstracto;
 import mercadeoucab.comandos.ComandoBase;
 import mercadeoucab.dtos.DtoTipo;
 import mercadeoucab.entidades.Tipo;
@@ -16,7 +17,7 @@ import javax.json.JsonObject;
 import javax.ws.rs.core.Response;
 import java.util.List;
 
-public class ComandoListarTipos implements ComandoBase {
+public class ComandoListarTipos extends ComandoAbstracto implements ComandoBase {
 
     private Response result;
     /**

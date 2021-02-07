@@ -3,6 +3,7 @@ package mercadeoucab.comandos.Usuario;
 import mercadeoucab.accesodatos.DaoDatoEncuestado;
 import mercadeoucab.accesodatos.DaoEstudio;
 import mercadeoucab.accesodatos.DaoUsuario;
+import mercadeoucab.comandos.ComandoAbstracto;
 import mercadeoucab.comandos.ComandoBase;
 import mercadeoucab.dtos.DtoEstudio;
 import mercadeoucab.entidades.DatoEncuestado;
@@ -23,7 +24,7 @@ import javax.json.JsonObject;
 import javax.ws.rs.core.Response;
 import java.util.List;
 
-public class ComandoEstudiosAplicablesEncuestado implements ComandoBase {
+public class ComandoEstudiosAplicablesEncuestado extends ComandoAbstracto implements ComandoBase {
 
     private Response result;
     private long id;

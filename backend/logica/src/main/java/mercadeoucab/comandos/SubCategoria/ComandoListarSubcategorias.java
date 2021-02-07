@@ -1,6 +1,7 @@
 package mercadeoucab.comandos.SubCategoria;
 
 import mercadeoucab.accesodatos.DaoSubCategoria;
+import mercadeoucab.comandos.ComandoAbstracto;
 import mercadeoucab.comandos.ComandoBase;
 import mercadeoucab.dtos.DtoSubCategoria;
 import mercadeoucab.entidades.SubCategoria;
@@ -16,7 +17,7 @@ import javax.json.JsonObject;
 import javax.ws.rs.core.Response;
 import java.util.List;
 
-public class ComandoListarSubcategorias implements ComandoBase {
+public class ComandoListarSubcategorias extends ComandoAbstracto implements ComandoBase {
     private Response result;
 
     /**

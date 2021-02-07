@@ -1,6 +1,7 @@
 package mercadeoucab.comandos.Ocupacion;
 
 import mercadeoucab.accesodatos.DaoOcupacion;
+import mercadeoucab.comandos.ComandoAbstracto;
 import mercadeoucab.comandos.ComandoBase;
 import mercadeoucab.dtos.DtoOcupacion;
 import mercadeoucab.entidades.Ocupacion;
@@ -23,7 +24,7 @@ import java.util.Objects;
  * @version 1.0
  * @since 2021-01-29
  */
-public class ComandoListarOcupaciones implements ComandoBase {
+public class ComandoListarOcupaciones extends ComandoAbstracto implements ComandoBase {
     private Response result;
 
     /**

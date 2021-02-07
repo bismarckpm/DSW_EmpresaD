@@ -1,6 +1,7 @@
 package mercadeoucab.comandos.Estado;
 
 import mercadeoucab.accesodatos.DaoEstado;
+import mercadeoucab.comandos.ComandoAbstracto;
 import mercadeoucab.comandos.ComandoBase;
 import mercadeoucab.dtos.DtoEstado;
 import mercadeoucab.entidades.Estado;
@@ -19,7 +20,7 @@ import javax.ws.rs.core.Response;
  * @version 1.0
  * @since 2021-01-29
  */
-public class ComandoConsultarEstado implements ComandoBase {
+public class ComandoConsultarEstado extends ComandoAbstracto implements ComandoBase {
     private Response result;
     private long id;
 

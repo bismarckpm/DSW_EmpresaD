@@ -1,6 +1,7 @@
 package mercadeoucab.comandos.DatoEncuestado;
 
 import mercadeoucab.accesodatos.DaoDatoEncuestado;
+import mercadeoucab.comandos.ComandoAbstracto;
 import mercadeoucab.comandos.ComandoBase;
 import mercadeoucab.dtos.DtoDatoEncuestado;
 import mercadeoucab.entidades.DatoEncuestado;
@@ -23,7 +24,7 @@ import java.util.Objects;
  * @version 1.0
  * @since 2021-01-29
  */
-public class ComandoListarDatoEncuestados implements ComandoBase {
+public class ComandoListarDatoEncuestados extends ComandoAbstracto implements ComandoBase {
     private Response result;
 
     /**

@@ -3,6 +3,9 @@ package mercadeoucab.servicio;
 import mercadeoucab.comandos.Respuesta.*;
 import mercadeoucab.dtos.DtoEncuestaEstudio;
 import mercadeoucab.dtos.DtoRespuesta;
+import mercadeoucab.fabricas.Enums.Comandos;
+import mercadeoucab.fabricas.FabricaComandosAbstractos;
+import mercadeoucab.fabricas.fabricasComandoConcretos.FabricaComandoRespuesta;
 import mercadeoucab.responses.ResponseGeneral;
 
 import javax.ws.rs.*;
@@ -20,6 +23,7 @@ import javax.ws.rs.core.Response;
 @Consumes( MediaType.APPLICATION_JSON )
 public class ServicioRespuesta extends AplicacionBase{
 
+    private final FabricaComandoRespuesta fabricaComandoRespuesta = (FabricaComandoRespuesta) FabricaComandosAbstractos.getFactory(Comandos.RESPUESTA);
     /**
      * Metodo para consultar una Respuesta dado un identificador
      * @param id Identificador de la Respuesta que se desea consultar
@@ -33,7 +37,7 @@ public class ServicioRespuesta extends AplicacionBase{
         try{
             validateToken(token);
             verifyParams(id);
-            ComandoObtenerRespuesta comandoObtenerRespuesta = new ComandoObtenerRespuesta();
+            ComandoObtenerRespuesta comandoObtenerRespuesta = (ComandoObtenerRespuesta) fabricaComandoRespuesta.comandoConsultar();
             comandoObtenerRespuesta.setId(id);
             comandoObtenerRespuesta.execute();
             resultado = comandoObtenerRespuesta.getResult();
@@ -57,7 +61,7 @@ public class ServicioRespuesta extends AplicacionBase{
         Response resultado = null;
         try {
             validateToken(token);
-            ComandoListarRespuesta comandoListarRespuesta = new ComandoListarRespuesta();
+            ComandoListarRespuesta comandoListarRespuesta = (ComandoListarRespuesta) fabricaComandoRespuesta.comandoListar();
             comandoListarRespuesta.execute();
             resultado = comandoListarRespuesta.getResult();
         }
@@ -82,7 +86,7 @@ public class ServicioRespuesta extends AplicacionBase{
         try{
             validateToken(token);
             verifyParams(dtoRespuesta);
-            ComandoRegistrarRespuesta comandoRegistrarRespuesta = new ComandoRegistrarRespuesta();
+            ComandoRegistrarRespuesta comandoRegistrarRespuesta = (ComandoRegistrarRespuesta) fabricaComandoRespuesta.comandoCrear();
             comandoRegistrarRespuesta.setDtoRespuesta(dtoRespuesta);
             comandoRegistrarRespuesta.execute();
             resultado = comandoRegistrarRespuesta.getResult();
@@ -108,7 +112,7 @@ public class ServicioRespuesta extends AplicacionBase{
             validateToken(token);
             verifyParams(id);
             verifyParams(dtoRespuesta);
-            ComandoActualizarRespuesta comandoActualizarRespuesta = new ComandoActualizarRespuesta();
+            ComandoActualizarRespuesta comandoActualizarRespuesta = (ComandoActualizarRespuesta) fabricaComandoRespuesta.comandoModificar();
             comandoActualizarRespuesta.setId(id);
             comandoActualizarRespuesta.setDtoRespuesta(dtoRespuesta);
             comandoActualizarRespuesta.execute();
@@ -133,7 +137,7 @@ public class ServicioRespuesta extends AplicacionBase{
         try{
             validateToken(token);
             verifyParams(id);
-            ComandoEliminarRespuesta comandoEliminarRespuesta = new ComandoEliminarRespuesta();
+            ComandoEliminarRespuesta comandoEliminarRespuesta = (ComandoEliminarRespuesta) fabricaComandoRespuesta.comandoEliminar();
             comandoEliminarRespuesta.setId(id);
             comandoEliminarRespuesta.execute();
             resultado = comandoEliminarRespuesta.getResult();
@@ -160,7 +164,7 @@ public class ServicioRespuesta extends AplicacionBase{
         try {
             validateToken(token);
             verifyParams(dtoEncuestaEstudio);
-            ComandoRegistarEncuestaRespondida comandoRegistarEncuestaRespondida = new ComandoRegistarEncuestaRespondida();
+            ComandoRegistarEncuestaRespondida comandoRegistarEncuestaRespondida = (ComandoRegistarEncuestaRespondida) fabricaComandoRespuesta.comandoResponderEncuesta();
             comandoRegistarEncuestaRespondida.setDtoEncuestaEstudio(dtoEncuestaEstudio);
             comandoRegistarEncuestaRespondida.execute();
             resultado = comandoRegistarEncuestaRespondida.getResult();

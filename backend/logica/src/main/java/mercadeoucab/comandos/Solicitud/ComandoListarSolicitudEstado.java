@@ -1,6 +1,7 @@
 package mercadeoucab.comandos.Solicitud;
 
 import mercadeoucab.accesodatos.DaoSolicitud;
+import mercadeoucab.comandos.ComandoAbstracto;
 import mercadeoucab.comandos.ComandoBase;
 import mercadeoucab.dtos.DtoSolicitud;
 import mercadeoucab.entidades.Solicitud;
@@ -16,7 +17,7 @@ import javax.json.JsonObject;
 import javax.ws.rs.core.Response;
 import java.util.List;
 
-public class ComandoListarSolicitudEstado implements ComandoBase {
+public class ComandoListarSolicitudEstado extends ComandoAbstracto implements ComandoBase {
 
     private Response result;
     private String estado;

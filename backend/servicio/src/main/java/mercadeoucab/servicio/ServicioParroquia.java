@@ -2,6 +2,9 @@ package mercadeoucab.servicio;
 
 import mercadeoucab.comandos.Parroquia.*;
 import mercadeoucab.dtos.DtoParroquia;
+import mercadeoucab.fabricas.Enums.Comandos;
+import mercadeoucab.fabricas.FabricaComandosAbstractos;
+import mercadeoucab.fabricas.fabricasComandoConcretos.FabricaComandoParroquia;
 import mercadeoucab.responses.ResponseGeneral;
 
 import javax.ws.rs.*;
@@ -19,6 +22,8 @@ import javax.ws.rs.core.Response;
 @Consumes( MediaType.APPLICATION_JSON )
 public class ServicioParroquia extends AplicacionBase {
 
+    private final FabricaComandoParroquia fabricaComandoParroquia = (FabricaComandoParroquia) FabricaComandosAbstractos.getFactory(Comandos.PARROQUIA);
+
     /**
      * Metodo para listar todas las Parroquias registradas
      * @return regresa la lista de las categorias, respuesta que no se encontro
@@ -30,7 +35,7 @@ public class ServicioParroquia extends AplicacionBase {
         Response resultado = null;
         try{
             validateToken(token);
-            ComandoListarParroquias comandoListarParroquias = new ComandoListarParroquias();
+            ComandoListarParroquias comandoListarParroquias = (ComandoListarParroquias) fabricaComandoParroquia.comandoListar();
             comandoListarParroquias.execute();
             resultado = comandoListarParroquias.getResult();
         }catch (Exception e) {
@@ -54,7 +59,7 @@ public class ServicioParroquia extends AplicacionBase {
         try {
             validateToken(token);
             verifyParams( dtoParroquia);
-            ComandoRegistrarParroquia comandoRegistrarParroquia = new ComandoRegistrarParroquia();
+            ComandoRegistrarParroquia comandoRegistrarParroquia = (ComandoRegistrarParroquia) fabricaComandoParroquia.comandoCrear();
             comandoRegistrarParroquia.setDtoParroquia( dtoParroquia);
             comandoRegistrarParroquia.execute();
             resultado = comandoRegistrarParroquia.getResult();
@@ -80,7 +85,7 @@ public class ServicioParroquia extends AplicacionBase {
         try {
             validateToken(token);
             verifyParams( id);
-            ComandoConsultarParroquia comandoConsultarParroquia = new ComandoConsultarParroquia();
+            ComandoConsultarParroquia comandoConsultarParroquia = (ComandoConsultarParroquia) fabricaComandoParroquia.comandoConsultar();
             comandoConsultarParroquia.setId( id);
             comandoConsultarParroquia.execute();
             resultado = comandoConsultarParroquia.getResult();
@@ -105,7 +110,7 @@ public class ServicioParroquia extends AplicacionBase {
         try {
             validateToken(token);
             verifyParams( id);
-            ComandoEliminarParroquia comandoEliminarParroquia = new ComandoEliminarParroquia();
+            ComandoEliminarParroquia comandoEliminarParroquia = (ComandoEliminarParroquia) fabricaComandoParroquia.comandoEliminar();
             comandoEliminarParroquia.setId( id);
             comandoEliminarParroquia.execute();
             resultado = comandoEliminarParroquia.getResult();
@@ -132,7 +137,7 @@ public class ServicioParroquia extends AplicacionBase {
             validateToken(token);
             verifyParams( id);
             verifyParams( dtoParroquia);
-            ComandoActualizarParroquia comandoActualizarParroquia = new ComandoActualizarParroquia();
+            ComandoActualizarParroquia comandoActualizarParroquia = (ComandoActualizarParroquia) fabricaComandoParroquia.comandoModificar();
             comandoActualizarParroquia.setDtoParroquia( dtoParroquia);
             comandoActualizarParroquia.setId( id);
             comandoActualizarParroquia.execute();

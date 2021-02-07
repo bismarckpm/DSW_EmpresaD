@@ -1,6 +1,7 @@
 package mercadeoucab.comandos.Presentacion;
 
 import mercadeoucab.accesodatos.DaoPresentacion;
+import mercadeoucab.comandos.ComandoAbstracto;
 import mercadeoucab.comandos.ComandoBase;
 import mercadeoucab.dtos.DtoPresentacion;
 import mercadeoucab.entidades.Presentacion;
@@ -17,7 +18,7 @@ import javax.ws.rs.core.Response;
 import java.util.List;
 import java.util.Objects;
 
-public class ComandoListarPresentacion implements ComandoBase {
+public class ComandoListarPresentacion extends ComandoAbstracto implements ComandoBase {
 
     private Response result;
     /**

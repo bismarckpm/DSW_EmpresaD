@@ -1,6 +1,7 @@
 package mercadeoucab.comandos.Usuario;
 
 import mercadeoucab.accesodatos.DaoSolicitud;
+import mercadeoucab.comandos.ComandoAbstracto;
 import mercadeoucab.comandos.ComandoBase;
 import mercadeoucab.dtos.DtoSolicitud;
 import mercadeoucab.entidades.Solicitud;
@@ -23,7 +24,7 @@ import java.util.List;
  * @version 1.0
  * @since 2021-01-29
  */
-public class ComandoSolicitudesCliente implements ComandoBase {
+public class ComandoSolicitudesCliente extends ComandoAbstracto implements ComandoBase {
     private Response result;
     private long id;
 

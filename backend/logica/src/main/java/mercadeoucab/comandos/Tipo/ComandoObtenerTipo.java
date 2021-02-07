@@ -1,6 +1,7 @@
 package mercadeoucab.comandos.Tipo;
 
 import mercadeoucab.accesodatos.DaoTipo;
+import mercadeoucab.comandos.ComandoAbstracto;
 import mercadeoucab.comandos.ComandoBase;
 import mercadeoucab.dtos.DtoTipo;
 import mercadeoucab.entidades.Tipo;
@@ -13,7 +14,7 @@ import mercadeoucab.responses.ResponseTipo;
 import javax.json.JsonObject;
 import javax.ws.rs.core.Response;
 
-public class ComandoObtenerTipo implements ComandoBase {
+public class ComandoObtenerTipo extends ComandoAbstracto implements ComandoBase {
 
     private Response result;
     private long id;
