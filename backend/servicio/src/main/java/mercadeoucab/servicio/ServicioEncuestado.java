@@ -8,6 +8,9 @@ import mercadeoucab.dtos.DtoEstudio;
 import mercadeoucab.entidades.DatoEncuestado;
 import mercadeoucab.entidades.Estudio;
 import mercadeoucab.entidades.Usuario;
+import mercadeoucab.fabricas.Enums.Comandos;
+import mercadeoucab.fabricas.FabricaComandosAbstractos;
+import mercadeoucab.fabricas.fabricasComandoConcretos.FabricaComandosUsuario;
 import mercadeoucab.mappers.EstudioMapper;
 import mercadeoucab.responses.ResponseEstudio;
 import mercadeoucab.responses.ResponseGeneral;
@@ -31,6 +34,8 @@ import java.util.List;
 @Consumes( MediaType.APPLICATION_JSON )
 public class ServicioEncuestado extends AplicacionBase{
 
+    private final FabricaComandosUsuario fabricaComandosUsuario = (FabricaComandosUsuario) FabricaComandosAbstractos.getFactory(Comandos.USUARIO);
+
     /**
      * Metodo para listar todos los estudios para los cuales aplica un usuario
      * con rol encuestado
@@ -45,7 +50,7 @@ public class ServicioEncuestado extends AplicacionBase{
         try {
             validateToken(token);
             verifyParams( id);
-            ComandoEstudiosAplicablesEncuestado comandoEstudiosAplicablesEncuestado = new ComandoEstudiosAplicablesEncuestado();
+            ComandoEstudiosAplicablesEncuestado comandoEstudiosAplicablesEncuestado = (ComandoEstudiosAplicablesEncuestado) fabricaComandosUsuario.comandoEstudiosAplicablesEncuestado();
             comandoEstudiosAplicablesEncuestado.setId( id);
             comandoEstudiosAplicablesEncuestado.execute();
             resultado = comandoEstudiosAplicablesEncuestado.getResult();

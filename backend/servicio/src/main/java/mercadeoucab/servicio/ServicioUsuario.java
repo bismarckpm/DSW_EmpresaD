@@ -3,6 +3,9 @@ package mercadeoucab.servicio;
 import mercadeoucab.comandos.Usuario.*;
 import mercadeoucab.dtos.DtoDirectorioAUser;
 import mercadeoucab.dtos.DtoUsuario;
+import mercadeoucab.fabricas.Enums.Comandos;
+import mercadeoucab.fabricas.FabricaComandosAbstractos;
+import mercadeoucab.fabricas.fabricasComandoConcretos.FabricaComandosUsuario;
 import mercadeoucab.responses.ResponseGeneral;
 
 import javax.ws.rs.*;
@@ -21,6 +24,8 @@ import javax.ws.rs.core.Response;
 @Consumes( MediaType.APPLICATION_JSON )
 public class ServicioUsuario extends AplicacionBase{
 
+    private final FabricaComandosUsuario fabricaComandosUsuario = (FabricaComandosUsuario) FabricaComandosAbstractos.getFactory(Comandos.USUARIO);
+
     /**
      * Metodo para consultar un Usuario dado un identificador
      * @param id Identificador del Usuario que se desea consultar
@@ -34,7 +39,7 @@ public class ServicioUsuario extends AplicacionBase{
         try{
             validateToken(token);
             verifyParams( id);
-            ComandoObtenerUsuario comandoObtenerUsuario = new ComandoObtenerUsuario();
+            ComandoObtenerUsuario comandoObtenerUsuario = (ComandoObtenerUsuario) fabricaComandosUsuario.comandoConsultar();
             comandoObtenerUsuario.setId( id);
             comandoObtenerUsuario.execute();
             resultado = comandoObtenerUsuario.getResult();
@@ -57,7 +62,7 @@ public class ServicioUsuario extends AplicacionBase{
         Response resultado = null;
         try {
             validateToken(token);
-            ComandoListarUsuarios comandoListarUsuarios = new ComandoListarUsuarios();
+            ComandoListarUsuarios comandoListarUsuarios = (ComandoListarUsuarios) fabricaComandosUsuario.comandoListar();
             comandoListarUsuarios.execute();
             resultado = comandoListarUsuarios.getResult();
         }catch (Exception e) {
@@ -81,7 +86,7 @@ public class ServicioUsuario extends AplicacionBase{
         try{
             validateToken(token);
             verifyParams( dtoUsuario);
-            ComandoRegistrarUsuario comandoRegistrarUsuario = new ComandoRegistrarUsuario();
+            ComandoRegistrarUsuario comandoRegistrarUsuario = (ComandoRegistrarUsuario) fabricaComandosUsuario.comandoCrear();
             comandoRegistrarUsuario.setDtoUsuario( dtoUsuario);
             comandoRegistrarUsuario.execute();
             resultado = comandoRegistrarUsuario.getResult();
@@ -107,7 +112,7 @@ public class ServicioUsuario extends AplicacionBase{
             validateToken(token);
             verifyParams( id);
             verifyParams( dtoUsuario);
-            ComandoActualizarUsuario comandoActualizarUsuario = new ComandoActualizarUsuario();
+            ComandoActualizarUsuario comandoActualizarUsuario = (ComandoActualizarUsuario) fabricaComandosUsuario.comandoModificar();
             comandoActualizarUsuario.setDtoUsuario( dtoUsuario);
             comandoActualizarUsuario.setId( id);
             comandoActualizarUsuario.execute();
@@ -132,7 +137,7 @@ public class ServicioUsuario extends AplicacionBase{
         try{
             validateToken(token);
             verifyParams( id);
-            ComandoEliminarUsuario comandoEliminarUsuario = new ComandoEliminarUsuario();
+            ComandoEliminarUsuario comandoEliminarUsuario = (ComandoEliminarUsuario) fabricaComandosUsuario.comandoEliminar();
             comandoEliminarUsuario.setId( id);
             comandoEliminarUsuario.execute();
             resultado = comandoEliminarUsuario.getResult();
@@ -155,7 +160,7 @@ public class ServicioUsuario extends AplicacionBase{
         Response resultado = null;
         try{
             verifyParams( dtoUsuario);
-            ComandoPeticionClaveOlvidada comandoPeticionClaveOlvidada = new ComandoPeticionClaveOlvidada();
+            ComandoPeticionClaveOlvidada comandoPeticionClaveOlvidada = (ComandoPeticionClaveOlvidada) fabricaComandosUsuario.comandoPeticionClaveOlvidada();
             comandoPeticionClaveOlvidada.setDtoUsuario( dtoUsuario);
             comandoPeticionClaveOlvidada.execute();
             resultado = comandoPeticionClaveOlvidada.getResult();
@@ -178,7 +183,7 @@ public class ServicioUsuario extends AplicacionBase{
         Response resultado = null;
         try{
             verifyParams( dtoDirectorioAUser);
-            ComandoCambioClaveOlvidada comandoCambioClaveOlvidada = new ComandoCambioClaveOlvidada();
+            ComandoCambioClaveOlvidada comandoCambioClaveOlvidada = (ComandoCambioClaveOlvidada) fabricaComandosUsuario.cambioClaveOlvidada();
             comandoCambioClaveOlvidada.setDtoDirectorioAUser( dtoDirectorioAUser);
             comandoCambioClaveOlvidada.execute();
             resultado = comandoCambioClaveOlvidada.getResult();
