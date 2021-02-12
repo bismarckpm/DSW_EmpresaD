@@ -42,7 +42,9 @@ export class EstudioRealizarComponent implements OnInit {
   async openEncuestaModal() {
     return await this.encuestaComponent.open();
   }
-
+  alterAnswersState(user:any,answer:any) { 
+    console.log(user,answer);
+  }
   testRes: any = {
     "status": 200,
     "data":{

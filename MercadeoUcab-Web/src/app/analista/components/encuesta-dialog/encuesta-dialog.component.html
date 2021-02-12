@@ -102,7 +102,8 @@
         					style="color: transparent"
 							*ngIf="i>0"
 							></mat-divider>
-							<button type="button" class="btn btn-outline-dark">Continuar</button>
+							<button type="button" class="btn btn-outline-dark"
+							(click)="alterAnswers(_usuario,pregunta.pregunta)">Continuar</button>
 						</div>
 					</div>
 				  </mat-step>

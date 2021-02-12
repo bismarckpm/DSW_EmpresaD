@@ -29,6 +29,7 @@ export class EncuestaDialogComponent implements OnInit {
  private modalContent: TemplateRef<EncuestaDialogComponent>;
  private modalRef: NgbModalRef;
 
+ @Input() public alterAnswers: (user:any,answer:any) => void;
  @Input() _usuario: any;
  @Input() _encuesta: any;
  @Input() _answers:any;
