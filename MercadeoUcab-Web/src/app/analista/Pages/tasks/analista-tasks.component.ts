@@ -1270,106 +1270,156 @@ export class AnalistaTasksComponent implements OnInit {
   */
   testRes = {
     status: 200,
-    data: {
-      _id: 2,
-      estado: 'Culminado',
-      tipo: 'En linea',
-      encuestas_esperadas: 20,
-      solicitud: {
-        _id: 2,
-        estado: 'solicitada',
+    "data":{
+      "_id":5,
+      "estado":"En ejecucion",
+      "tipo":"Via telefonica",
+      "encuestas_esperadas":1,
+      "solicitud":{
+         "_id":5,
+         "estado":"solicitada",
+         "usuario":{
+            "_id":35,
+            "nombre":"Solomon",
+            "apellido":"Bentley",
+            "rol":"cliente",
+            "estado":"activo",
+            "correo":"B123@gmail.com"
+         },
+         "marca":"Sin especificar",
+         "comentarios":"Sin comentarios",
+         "presentaciones":[
+            {
+               "_id":5,
+               "tipo":"Talla",
+               "Cantidad":"S",
+               "fk_tipo":{
+                  "_id":5,
+                  "nombre":"Sacos",
+                  "subCategoria":{
+                     "_id":5,
+                     "nombre":"Formal",
+                     "categoria":{
+                        "_id":5,
+                        "nombre":"Vestimenta"
+                     }
+                  }
+               }
+            }
+         ],
+         "muestraPoblacion":{
+            "_id":5,
+            "genero":"femenino",
+            "nivel_economico":"Alto",
+            "nivel_academico":"Doctorado",
+            "rango_edad_inicio":"1940-01-01",
+            "rango_edad_fin":"2015-01-01",
+            "cantidad_hijos":1,
+            "parroquia":{
+               "_id":1,
+               "nombre":"San Camilo",
+               "valorSocioEconomico":1,
+               "municipio":{
+                  "_id":1,
+                  "nombre":"Manaos",
+                  "estado":{
+                     "_id":1,
+                     "nombre":"Amazonas",
+                     "pais":{
+                        "_id":1,
+                        "nombre":"Venezuela"
+                     }
+                  }
+               }
+            }
+         }
       },
-      analista: {
-        _id: 37,
-        nombre: 'Harrison',
-        apellido: 'Dorsey',
-        correo: 'HARRI@gmail.com',
-        rol: 'analista',
+      "analista":{
+         "_id":40,
+         "nombre":"Hammett",
+         "apellido":"Schneider",
+         "rol":"analista",
+         "estado":"activo",
+         "correo":"HMLETSCH456@gmail.com"
       },
-      muestra_poblacion: {
-        _id: 2,
-        genero: 'masculino',
-        nivel_academico: 'licenciado',
-        rango_edad_inicio: 15,
-        rango_edad_fin: 80,
-        cantidad_hijos: 1,
-        parroquia: {
-          _id: 1,
-          nombre: 'petare',
-          valorSocioEconomico: 1000,
-          municipio: {
-            _id: 1,
-            nombre: 'Libertador',
-            estado: {
-              _id: 1,
-              nombre: 'Guarico',
-              pais: {
-                _id: 1,
-                nombre: 'Venezuela',
-              },
+      "encuesta":[
+         {
+            "_id":13,
+            "pregunta":{
+               "_id":14,
+               "nombre":"a quienes lo recomendaria",
+               "tipo":"multiple",
+               "usuario":{
+                  "_id":28,
+                  "nombre":"Jonas",
+                  "apellido":"Mccray",
+                  "rol":"administrador",
+                  "estado":"activo",
+                  "correo":"JON_M@gmail.com"
+               },
+               "opciones":[
+                  {
+                     "_id":16,
+                     "nombre":"amigos"
+                  },
+                  {
+                     "_id":17,
+                     "nombre":"familiares"
+                  },
+                  {
+                     "_id":18,
+                     "nombre":"pareja"
+                  },
+                  {
+                     "_id":19,
+                     "nombre":"conocidos"
+                  }
+               ]
             },
-          },
-        },
-      },
-      encuesta: [
-        {
-          _id: 4,
-          pregunta: {
-            _id: 4,
-            nombre: 'Como se entero del producto?',
-            tipo: 'simple',
-            opciones: [
-              {
-                _id: 1,
-                nombre_opcion: 'opcion 2: No la comprendo muy bien',
-              },
-              {
-                _id: 2,
-                nombre_opcion: 'radio',
-              },
-              {
-                _id: 3,
-                nombre_opcion: 'TV',
-              },
-              {
-                _id: 4,
-                nombre_opcion: 'conocidos',
-              },
-            ],
-          },
-        },
-        {
-          _id: 5,
-          pregunta: {
-            _id: 5,
-            nombre: 'cuanto uso el producto?',
-            tipo: 'simple',
-            opciones: [
-              {
-                _id: 5,
-                nombre_opcion: 'Mucho',
-              },
-              {
-                _id: 6,
-                nombre_opcion: 'Poco',
-              },
-              {
-                _id: 7,
-                nombre_opcion: 'Nada',
-              },
-            ],
-          },
-        },
-        {
-          _id: 6,
-          pregunta: {
-            _id: 7,
-            nombre: 'Recomendaria el producto?',
-            tipo: 'boolean',
-          },
-        },
-      ],
-    },
+            "respuestas":[
+               
+            ]
+         },
+         {
+            "_id":14,
+            "pregunta":{
+               "_id":1,
+               "nombre":"Que opina del producto? ",
+               "tipo":"abierta",
+               "usuario":{
+                  "_id":26,
+                  "nombre":"Macon",
+                  "apellido":"Mcleod",
+                  "rol":"administrador",
+                  "estado":"activo",
+                  "correo":"MM10@gmail.com"
+               }
+            },
+            "respuestas":[
+               
+            ]
+         },
+         {
+            "_id":15,
+            "pregunta":{
+               "_id":2,
+               "nombre":"Cuentenos, tuvo algun problema con el producto?",
+               "tipo":"abierta",
+               "usuario":{
+                  "_id":26,
+                  "nombre":"Macon",
+                  "apellido":"Mcleod",
+                  "rol":"administrador",
+                  "estado":"activo",
+                  "correo":"MM10@gmail.com"
+               }
+            },
+            "respuestas":[
+               
+            ]
+         }
+      ]
+   },
   };
 
   ngOnInit(): void {
