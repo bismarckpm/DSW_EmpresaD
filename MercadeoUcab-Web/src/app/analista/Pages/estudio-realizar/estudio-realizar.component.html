@@ -19,7 +19,7 @@
                 </mat-card-header>
                 <mat-card-content class="card-content">
                     <div class="encuestado-content" *ngFor="let person of _encuestados">
-                        <div style="display: flex;flex-direction:row;width: 20%;height: 100%;justify-content: space-around;align-items:center;">
+                        <div style="display: flex;flex-direction:row;width: 30%;height: 100%;justify-content: flex-start;align-items:center;">
                             <mat-icon style="color: #00d8b4;">
                                 account_box
                             </mat-icon>
@@ -34,14 +34,14 @@
                             <button class="btn btn-outline-dark shadow-sm" 
                             style="padding: 0.15rem 0.15rem;
                             height: fit-content;
-                            display: flex;" *ngIf="_Estudio.tipo === 'Via telefonica'"
+                            display: flex;" *ngIf="_Estudio.tipo === 'Via telefonica' && person.done===false"
                             (click)="setUsuarioEncuesta(person,_Estudio)">
                                 <mat-icon>
                                     call
                                 </mat-icon>
                             </button>
                         </div>
-                        <div style="display: flex;flex-direction: column;width: 80%;height: 100%;justify-content: space-around;align-items:center;">
+                        <div style="display: flex;flex-direction: column;width: 70%;height: 100%;justify-content: space-around;align-items:center;">
                             <label>{{person.nombre}}</label>
                             <label>{{person.apellido}}</label>
                         </div>
@@ -151,6 +151,6 @@
     </div>
   </app-basic-info-dialog>
   <app-encuesta-dialog #encuesta
-  [_encuesta]="_Estudio" [_usuario]="_targetEncuestado">
+  [_encuesta]="_Estudio" [_usuario]="_targetEncuestado" style="height: 80vh;width: 75vw;">
 
   </app-encuesta-dialog>

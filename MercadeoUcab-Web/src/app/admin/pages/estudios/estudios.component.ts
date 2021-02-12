@@ -94,7 +94,6 @@ export class EstudiosComponent implements OnInit {
     valorSocioEconomico: 8000,
   };
   constructor(
-    private modalService: NgbModal,
     private formBuilder: FormBuilder,
     private _estudioService: EstudioService,
     private _solicitudService: SolicitudService,
@@ -170,16 +169,6 @@ export class EstudiosComponent implements OnInit {
       preguntas: [],
     });
     this.poblacionForm = this.formBuilder.group({
-      /*{
-        "genero":"genero",
-        "nivelEconomico":int,
-        "nivelAcademico":String,
-        "rangoEdadInicio":int,
-        "rangoEdadFin":int,
-        "cantidadHijos":int,
-        "fk_lugar": int,
-        "fk_ocupacion":int
-      }*/
       genero: null,
       nivelEconomico: null,
       nivelAcademico: null,
@@ -786,6 +775,30 @@ export class EstudiosComponent implements OnInit {
       },
       (error) => {
         console.log(error);
+        this.solicitudes = [
+          { "_id": 1, 
+          "estado": "solicitada",
+          "usuario": { 
+          "_id": 31, 
+          "nombre": "Caesar", 
+          "apellido": "Mosley", 
+          "rol": "cliente", 
+          "estado": "activo", 
+          "correo": "CM10@gmail.com" }, 
+          //"marca": "Sin especificar", 
+          "comentarios": "Sin comentarios", 
+          "presentaciones": [{ "_id": 1, "tipo": "Madera", "Cantidad": "30x50", "fk_tipo": { "_id": 1, "nombre": "Camas", "subCategoria": { "_id": 1, "nombre": "Dormitorios", "categoria": { "_id": 1, "nombre": "Muebles" } } } }],
+          "muestraPoblacion": { "_id": 1, "genero": "masculino",
+          Fk_ocupacion: { _id: 1, nombre: 'test Ocupacion' },
+          "nivel_economico": "Alto", 
+          "nivel_academico": "Licenciado", 
+          "rango_edad_inicio": "1940-01-01", 
+          "rango_edad_fin": "2015-01-01", 
+          "cantidad_hijos": 1, 
+          "parroquia": { "_id": 1, "nombre": "San Camilo", "valorSocioEconomico": 1, 
+          "municipio": { "_id": 1, "nombre": "Manaos", "estado": { "_id": 1, "nombre": "Amazonas", "pais": { "_id": 1, "nombre": "Venezuela" } } } } } },
+          
+        ]
         /*this.solicitudes = [
           {
             _id: 13,
@@ -926,24 +939,20 @@ export class EstudiosComponent implements OnInit {
   stepCheck(ind, stepper) {
     switch (ind) {
       case 0:
+        let auxFkPob = this.solicitudes.filter((s,ind) => s._id === this.addForm.get('solicitud').value);
+        this.addForm.get('fk_muestra_poblacion').setValue(auxFkPob[0].muestraPoblacion._id);
         document.getElementById('addStepper').classList.add('leftSlider');
         document.getElementById('addStepper').classList.remove('initLeft');
-        this.getSuggestPoblacion();
-        this.currentStep = 1;
-        stepper.next();
-        break;
-      case 1:
-        //document.getElementById('addStepper').classList.add('rightSlider');
-        //document.getElementById('suggests').classList.add('SlideOut');
-        /*setTimeout(() => {
-          //this.currentStep = 0;
-          document.getElementById('addStepper').classList.add('initleft');
-          document.getElementById('addStepper').classList.remove('rightSlider');
-        },1500);*/
         this.getPreguntasSugeridas();
         this.currentStep = 2;
         stepper.next();
         break;
+      /*  
+      case 1:
+        this.getPreguntasSugeridas();
+        this.currentStep = 2;
+        stepper.next();
+        break; */
       case 2:
         this.addForm.get('preguntas').setValue(
           this.pregAsoc.map((p, ind) => {

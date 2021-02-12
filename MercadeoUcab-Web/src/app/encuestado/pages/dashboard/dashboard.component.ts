@@ -27,13 +27,12 @@ export class DashboardComponent implements OnInit {
   checkUser(){
     if(localStorage.getItem('user_data') === null){
       localStorage.setItem('user_data',JSON.stringify({
-        _id: Math.floor(Math.random() * (1000 - 1) + 1),
-        nombre: Math.random().toString(36).substr(2, 5),
-        apellido: Math.random().toString(36).substr(2, 5),
-        rol: 'Administrador',
-        correo: Math.random().toString(36).substr(2, 5),
-        estado: 'Activo',
-      }));
+        "_id":2,
+        "nombre":"Zeus",
+        "apellido":"Berg",
+        "rol":"encuestado",
+        "estado":"activo",
+        "correo":"ZB@gmail.com"}));
       this.userSession = JSON.parse(localStorage.getItem('user_data'));
     }
     else {
@@ -48,6 +47,12 @@ export class DashboardComponent implements OnInit {
         this.openNote=false;
       },10000)
     },2000);
+  }
+  /*ngOnDestroy(){
+    localStorage.clear();
+  }*/
+  logOut(){
+    localStorage.clear();
   }
   onDir(_route: string): void {
     try {

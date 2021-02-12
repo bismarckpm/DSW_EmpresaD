@@ -10,28 +10,51 @@
   "
 >
   <div *ngIf="op === ''" class="container" style="height: 100%; width: 100%">
-    <div class="row" style="height: 50%">
-      <div class="col-8">
+    <div class="row align-items-center" style="height:100%">
+      <div class="col-6" style="height: 65%">
         <mat-card class="menu-card" (click)="setOperation('add')">
           <mat-icon class="menu-card-icon"> add_box </mat-icon>
-          <h3>Solicitar estudio</h3>
+          <h3>Registrar nueva Solicitud</h3>
         </mat-card>
       </div>
-    </div>
-    <div class="row" style="height: 50%">
-      <div class="col">
-        <mat-card class="menu-card" (click)="setOperation('upd')">
+      <div class="col-6" style="height: 65%">
+        <mat-card class="menu-card" (click)="setOperation('del')">
           <mat-icon class="menu-card-icon"> update </mat-icon>
-          <h3>Consulta/Modificar solicitudes</h3>
+          <h3>Gestionar Solicitudes existentes</h3>
         </mat-card>
       </div>
     </div>
   </div>
-  <div *ngIf="op === 'add'" style="height: 75%; width: 85%">
+  <div *ngIf="op === 'add'" style="height: 100%; width: 100%; display: flex;flex-direction: row; align-items: center;justify-content: space-around;">
     <mat-card
       style="
-        height: 100%;
-        width: 100%;
+        height: 75%;
+        width: 25%;
+        text-align:center;
+        display: flex;
+        flex-direction: column;
+      "
+      *ngIf="opStatus === 'S'"
+    >
+      <div *ngIf="sec==='SOL'" style="display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      flex: 1;">
+        <h5>En esta etapa usted debe indicar las características del producto al cual se le realzará el estudio de mercado</h5>
+      </div>
+      <div *ngIf="sec==='POB'" style="display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      flex: 1;">
+        <h5>En esta etapa usted debe indicar las características de los participantes del estudio de mercado</h5>
+      </div>
+    </mat-card>
+    <mat-card
+      style="
+        height: 75%;
+        width: 72.5%;
         text-align: center;
         display: flex;
         flex-direction: column;
@@ -40,82 +63,92 @@
       <form
         class="cForm"
         [formGroup]="addForm"
-        *ngIf="opStatus === 'S'"
-        (ngSubmit)="serviceInvoke()"
+        *ngIf="opStatus === 'S' && sec==='SOL'"
+        (ngSubmit)="verifySolicitud()"
         novalidate
+        style="height: 100%;"
       >
-        <h4 style="height: fit-content; width: 100%">Nuevo</h4>
-        <div class="cForm-field-row" style="flex: 1">
-          <div class="cForm-field-col">
+        <h4 style="width: 100%">Información de solicitud</h4>
+        <div class="cForm-field-row" style="height: 80%;">
+          <div class="cForm-field-col" style="overflow-y: auto;">
             <div class="form-group">
               <label for="marcaSelect">Marca del producto</label>
-              <select
+              <input
+                type="text"
                 class="form-control"
                 id="marcaSelect"
                 formControlName="marca"
                 required
               >
-                <option *ngFor="let Marca of marcas" [ngValue]="Marca._id">
-                  {{ Marca.nombre }}
+            </div>
+          </div>
+          <div class="cForm-field-col" style="overflow-y: auto;">
+            <div class="form-group">
+              <label for="categoriaADD">Categoría del producto:</label>
+              <select
+                class="form-control"
+                id="categoriaADD"
+                formControlName="categoria"
+                (click)="setSubCategorias($event.target.value)"
+                required
+              >
+                <option
+                  *ngFor="let cate of this.categorias; let i = index"
+                  [ngValue]="i"
+                >
+                  {{ cate.nombre }}
                 </option>
               </select>
             </div>
-
+            <div class="form-group">
+              <label for="subCategoriaADD">Subcategoría del producto:</label>
+              <select
+                class="form-control"
+                id="subCategoriaADD"
+                formControlName="subCategoria"
+                (click)="setTipos($event.target.value)"
+                required
+              >
+                <option
+                  *ngFor="let sub of this.subcategorias;let s = index;"
+                  [ngValue]="sub._id"
+                >
+                  {{ sub.nombre }}
+                </option>
+              </select>
+            </div>
             <div class="form-group">
               <label for="tipoADD">Tipo de producto</label>
               <select
                 class="form-control"
                 id="tipoADD"
                 formControlName="tipo"
-                multiple
                 required
+                (click)="setPresentaciones($event.target.value)"
               >
-                <option *ngFor="let Tipo of tipos" [ngValue]="Tipo._id">
+                <option *ngFor="let Tipo of tipos;" [ngValue]="Tipo._id">
                   {{ Tipo.nombre }}
                 </option>
               </select>
             </div>
-          </div>
-
-          <div class="cForm-field-col">
-            <div class="form-group">
-              <label for="subcategoriaADD">Subcategoria del producto:</label>
-              <select
-                class="form-control"
-                id="subcategoriaADD"
-                formControlName="subCategoria"
-                multiple
-                required
-              >
-                <option
-                  *ngFor="let SubCategoria of this.subcategorias"
-                  [ngValue]="SubCategoria._id"
-                >
-                  {{ SubCategoria.nombre }}
-                </option>
-              </select>
-            </div>
-
             <div class="form-group">
               <label for="presentacionADD">Presentacion del producto:</label>
               <select
                 class="form-control"
                 id="presentacionADD"
                 formControlName="presentacion"
-                multiple
                 required
               >
                 <option
                   *ngFor="let presentacion of presentaciones"
-                  [ngValue]="presentacion._id"
+                  [ngValue]="presentacion"
                 >
-                  {{ presentacion.tipo + " " + presentacion.cantidad }}
+                  {{ presentacion.tipo + " " + presentacion.Cantidad }}
                 </option>
               </select>
             </div>
           </div>
         </div>
-
         <div class="cForm-actions">
           <button
             type="button"
@@ -125,8 +158,155 @@
             Cancelar
           </button>
           <mat-divider [vertical]="true" [inset]="true"></mat-divider>
-          <button type="submit" class="btn btn-primary" style="color: white">
-            Buscar
+          <button type="submit" class="btn btn-primary" style="color: white" *ngIf="addForm.valid===true">
+            Siguiente
+          </button>
+        </div>
+      </form>
+      <form
+        class="cForm"
+        [formGroup]="poblacionForm"
+        *ngIf="opStatus === 'S' && sec==='POB'"
+        (ngSubmit)="verifyPoblacion()"
+        novalidate
+        style="height: 100%;"
+      >
+        <h4 style="width: 100%">Información de Población de estudio</h4>
+        <div class="cForm-field-row" style="height: 80%;">
+          <div class="cForm-field-col" style="overflow-y: auto;">
+            <div class="form-group">
+              <label for="generoSelect">Género a participar</label>
+              <select
+                class="form-control"
+                id="generoSelect"
+                formControlName="genero"
+                required
+              >
+                <option [ngValue]="null">Sin seleccionar...</option>
+                <option [ngValue]="'femenino'">Femenino</option>
+                <option [ngValue]="'masculino'">Masculino</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label>Edad de participantes</label>
+              <div style="display: flex; flex-direction: row">
+                <input
+                  type="number"
+                  (change)="ageEdit($event.target.value,null)"
+                  class="form-control"
+                  id="edadI"
+                  aria-describedby="edadIHelp"
+                  min="0"
+                  value="{{minAge}}"
+                  style="width: 45%; margin-right: 5%"
+                  required
+
+                />
+                <input
+                  type="number"
+                  (change)="ageEdit(null,$event.target.value)"
+                  class="form-control"
+                  value="{{maxAge}}"
+                  id="edadF"
+                  aria-describedby="edadFHelp"
+                  min="{{minAge}}"
+                  style="width: 45%"
+                  required
+                />
+              </div>
+              <div style="display: flex; flex-direction: row">
+                <h6 style="width: 50%; text-align: start">Edad minima</h6>
+                <h6 style="width: 50%; text-align: start">Edad máxima</h6>
+              </div>
+            </div>
+            <div class="form-group">
+              <label>Cantidad de hijos</label>
+              <input
+                type="number"
+                formControlName="cantidadHijos"
+                class="form-control"
+                id="hijosQTY"
+                aria-describedby="hijosQTYHelp"
+                min="0"
+                required
+              />
+            </div>
+            <div class="form-group">
+              <label>Nivel económico</label>
+              <select
+                class="form-control"
+                id="neQTY"
+                formControlName="nivelEconomico"
+                required
+              >
+                <option [ngValue]="null">Sin seleccionar...</option>
+                <option [ngValue]="'bajo'">Bajo</option>
+                <option [ngValue]="'medio'">Medio</option>
+                <option [ngValue]="'alto'">Alto</option>
+              </select>
+            </div>
+          </div>
+          <div class="cForm-field-col" style="overflow-y: auto;">
+            <div class="form-group">
+              <label for="naSelect">Nivel Académico</label>
+              <select
+                class="form-control"
+                id="naSelect"
+                formControlName="nivelAcademico"
+                required
+              >
+                <option [ngValue]="null">Sin seleccionar...</option>
+                <option [ngValue]="'Bachiller'">Bachiller</option>
+                <option [ngValue]="'Licenciado'">Licenciado/a</option>
+                <option [ngValue]="'Doctorado'">Doctorado</option>
+                <option [ngValue]="'Magister'">Magíster</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label for="ocupacionSelect">Ocupación</label>
+              <select
+                class="form-control"
+                id="ocupacionSelect"
+                formControlName="fk_ocupacion"
+                required
+              >
+                <option [ngValue]="null">Sin seleccionar...</option>
+                <option
+                  *ngFor="let ocup of ocupaciones"
+                  [ngValue]="ocup._id"
+                  required
+                >
+                  {{ ocup.nombre }}
+                </option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label for="lugarSelect">Parroquia de estudio</label>
+              <select
+                class="form-control"
+                id="lugarSelect"
+                formControlName="fk_lugar"
+                required
+              >
+                <option [ngValue]="null">Sin seleccionar...</option>
+                <option *ngFor="let el of parroquias" [ngValue]="el._id">
+                  {{ el.nombre }}
+                </option>
+              </select>
+            </div>
+          </div>
+        </div>
+        <div class="cForm-actions">
+          <button
+            type="button"
+            class="btn btn-outline-dark"
+            (click)="setOperation('')"
+          >
+            Cancelar
+          </button>
+          <mat-divider [vertical]="true" [inset]="true"></mat-divider>
+          <button type="submit" class="btn btn-primary" style="color: white" *ngIf="poblacionForm.valid===true">
+            Finalizar registro
           </button>
         </div>
       </form>
@@ -177,6 +357,29 @@
           </button>
         </div>
       </div>
+      <div class="cForm" *ngIf="opStatus === 'E'">
+        <div class="cForm-field-row">
+          <div
+            class="cForm-field-col"
+            style="justify-content: center; align-items: center"
+          >
+            <h3>Ha ocurrido un error</h3>
+            <mat-icon style="width: 7.5rem; height: 7.5rem; font-size: 7.5rem">
+              report_problem
+            </mat-icon>
+            <h5>Su operación no pudo ser procesada</h5>
+          </div>
+        </div>
+        <div class="cForm-actions">
+          <button
+            type="button"
+            class="btn btn-outline-dark"
+            (click)="setOperation('')"
+          >
+            Volver a menú principal
+          </button>
+        </div>
+      </div>
     </mat-card>
   </div>
   <div
@@ -185,7 +388,7 @@
   >
     <mat-card
       style="
-        height: 120%;
+        height: 100%;
         width: 100%;
         text-align: center;
         display: flex;
@@ -193,7 +396,7 @@
       "
     >
       <h4>Asistente de búsqueda de solicitudes</h4>
-      <form [formGroup]="searchForm" (submit)="invokeSearch()" class="cForm">
+      <form [formGroup]="searchForm" (submit)="invokeSearch()" class="cForm" style="height: 80%;">
         <div
           style="
             width: 100%;
@@ -230,7 +433,7 @@
               </select>
             </div>
           </div>
-          <div style="width: 45%; height: 100%">
+          <div style="width: 45%; height: 100%; overflow-y: auto;">
             <div class="form-group">
               <label for="marcaSelectUPD">Marca del producto</label>
               <select
@@ -317,10 +520,12 @@
         style="flex: 1; overflow-y: auto"
         *ngIf="searchState === 'D'"
       >
+        <!--
         <ng-container matColumnDef="id">
           <th mat-header-cell *matHeaderCellDef>Id</th>
           <td mat-cell *matCellDef="let _ID">{{ _ID._id }}</td>
         </ng-container>
+        -->
         <ng-container matColumnDef="selector">
           <th mat-header-cell *matHeaderCellDef>Selección</th>
           <td mat-cell *matCellDef="let element">
@@ -332,15 +537,17 @@
           </td>
         </ng-container>
         <ng-container matColumnDef="estado">
-          <th mat-header-cell *matHeaderCellDef>estado</th>
+          <th mat-header-cell *matHeaderCellDef>Estado</th>
           <td mat-cell *matCellDef="let _ESTADO">{{ _ESTADO.estado }}</td>
         </ng-container>
         <ng-container matColumnDef="Marca">
-          <th mat-header-cell *matHeaderCellDef>marca</th>
-          <td mat-cell *matCellDef="let _marca">{{ _marca.marca.nombre }}</td>
+          <th mat-header-cell *matHeaderCellDef>Marca</th>
+          <td mat-cell *matCellDef="let element">
+            {{ element.marca }}
+          </td>
         </ng-container>
         <ng-container matColumnDef="presentacion">
-          <th mat-header-cell *matHeaderCellDef>Presentacion</th>
+          <th mat-header-cell *matHeaderCellDef>Presentación</th>
           <td mat-cell *matCellDef="let _presentaciones">
             {{
               _presentaciones.presentaciones[0].Cantidad +
@@ -351,13 +558,15 @@
         </ng-container>
         <ng-container matColumnDef="subcategoria">
           <th mat-header-cell *matHeaderCellDef>Sub-categoria</th>
-          <td mat-cell *matCellDef="let _subcategorias">
-            {{ _subcategorias.subcategorias[0].nombre }}
+          <td mat-cell *matCellDef="let element">
+            {{ element.presentaciones[0].fk_tipo.subCategoria.nombre }}
           </td>
         </ng-container>
         <ng-container matColumnDef="tipos">
-          <th mat-header-cell *matHeaderCellDef>Tipos</th>
-          <td mat-cell *matCellDef="let _tipo">{{ _tipo.tipos[0].nombre }}</td>
+          <th mat-header-cell *matHeaderCellDef>Tipo</th>
+          <td mat-cell *matCellDef="let element">
+            {{ element.presentaciones[0].fk_tipo.nombre }}
+          </td>
         </ng-container>
         <ng-container matColumnDef="ops">
           <th mat-header-cell *matHeaderCellDef>Operación</th>

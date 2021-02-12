@@ -1,13 +1,13 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { Solicitud } from '@models/solicitud';
+//import { Solicitud } from '@models/solicitud';
 import { MatTableDataSource } from '@angular/material/table';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { SolicitudService } from '@core/services/solicitud/solicitud.service';
-import { UpdateSolicitudDialogComponent } from '../../components/dialogs/upd-solicitud-dialog/update-solicitud-dialog.component';
+//import { UpdateSolicitudDialogComponent } from '../../components/dialogs/upd-solicitud-dialog/update-solicitud-dialog.component';
 import { Estudio } from '@models/estudio';
 import { EstudioService } from '@core/services/estudio/estudio.service';
 import { EstudioCliente } from '@core/models/estudioCliente';
-
+import { BasicInfoDialogComponent } from '../../components/basic-info-dialog/basic-info-dialog.component';
 @Component({
   selector: 'app-estudio',
   templateUrl: './estudio.component.html',
@@ -17,15 +17,15 @@ export class EstudioComponent implements OnInit {
   //CONTROL DE ESTADO DEL COMPONENTE
   op: string;
   searchState: string; //U.I,D
-  estudios: EstudioCliente[] = [];
+  estudios: any[] = [];
 
   //COLUMNAS DE TABLA DE RESULTADOS
-  displayedColumns: string[] = ['id', 'selector'];
+  displayedColumns: string[] = ['selector'];
   columnsToDisplay: string[] = this.displayedColumns.slice();
 
   //INDICE DE SOLICITUD SELECCIONADO
   estudioSelection: number = 0;
-
+  clienteUser: any = JSON.parse(localStorage.getItem('user_data'));
   //LISTA DE SOLICITUDES DEVUELTOS EN BÚSQUEDA
   dataSource: MatTableDataSource<EstudioCliente>;
   estudioTarget: Estudio;
@@ -34,7 +34,10 @@ export class EstudioComponent implements OnInit {
   searchModel: Estudio;
   addForm: FormGroup;
   opStatus: string; //S,P,D
-
+  @ViewChild('estInfo') private infoEstComponent: BasicInfoDialogComponent;
+    async openEstInfoModal() {
+      return await this.infoEstComponent.open();
+  }
   constructor(
     //private modalService: NgbModal,
     private formBuilder: FormBuilder,
@@ -50,13 +53,9 @@ export class EstudioComponent implements OnInit {
       modificado_el: null,
     });
   }
-  /*getTarget(id:number){
-    this.users.forEach((user,ind) => {
-      if(user._id === id){
-
-      }
-    });
-  };*/
+  displayEstudioInfo(estudio){
+    this.infoEstComponent.open();
+  }
   getEstudios() {
     this._estudioService.getEstudioss().subscribe(
       (response) => {
@@ -65,6 +64,7 @@ export class EstudioComponent implements OnInit {
       },
       (error) => {
         console.log(error);
+        this.estudios = [1,2,3,4,5,6,7,8,9,10];
       }
     );
   }
@@ -233,7 +233,7 @@ export class EstudioComponent implements OnInit {
   invokeSearch() {
     this.estudios = [];
     this.estudioSelection = 0;
-    if (this.searchForm.value['creado_el'] !== null) {
+    /*if (this.searchForm.value['creado_el'] !== null) {
       this.searchForm
         .get('creado_el')
         .setValue(new Date(this.searchForm.value['creado_el']));
@@ -242,13 +242,12 @@ export class EstudioComponent implements OnInit {
       this.searchForm
         .get('modificado_el')
         .setValue(new Date(this.searchForm.value['modificado_el']));
-    }
+    }*/
     //this.searchForm.get('');
     this.searchState = 'P';
-    console.log(this.searchState);
-    setTimeout(() => {
+    /*setTimeout(() => {
       for (let i = 0; i < Math.floor(Math.random() * (100 - 1) + 1); i++) {
-        /*this.estudios.push({
+        this.estudios.push({
           _id:Math.floor(Math.random()*(100-1)+1),
           estado:"Procesando",
           tipo:"encuesta",
@@ -256,13 +255,13 @@ export class EstudioComponent implements OnInit {
           activo:true,
           creado_el:new Date(),
           modificado_el:new Date(),
-        });*/
+        });
       }
       this.dataSource = new MatTableDataSource<EstudioCliente>(
         this.dataFilter(this.estudios)
       );
       this.searchState = 'D';
-    }, 3000);
+    }, 3000);*/
   }
   setOperation(chOp: string) {
     this.op = chOp;

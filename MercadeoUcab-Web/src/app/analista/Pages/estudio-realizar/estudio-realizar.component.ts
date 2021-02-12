@@ -86,6 +86,9 @@ export class EstudioRealizarComponent implements OnInit {
       "encuesta": [
         {
           "_id": 4,
+          respuestas:[
+              
+          ],
           "pregunta": {
             "_id": 4,
             "nombre": "Como se entero del producto?",
@@ -112,6 +115,9 @@ export class EstudioRealizarComponent implements OnInit {
         },
         {
           "_id": 5,
+          respuestas:[
+
+          ],
           "pregunta": {
             "_id": 5,
             "nombre": "cuanto uso el producto?",
@@ -134,6 +140,9 @@ export class EstudioRealizarComponent implements OnInit {
         },
         {
           "_id": 6,
+          respuestas:[
+              
+          ],
           "pregunta": {
             "_id": 7,
             "nombre": "Recomendaria el producto?",
@@ -158,8 +167,11 @@ export class EstudioRealizarComponent implements OnInit {
     this._utilsService.getUsuariosCanApplyToEstudio(id).subscribe(
       (response) => {
         console.log(response.data);
-        if(response.data !== undefined){
+        if(response.status === 200){
           this._encuestados = [...this._encuestados,...response.data.map((p,ind) => { return {...p,done:false} })];
+        }
+        else {
+          this._encuestados = [];
         }
       },
       (error) => {
@@ -208,9 +220,14 @@ export class EstudioRealizarComponent implements OnInit {
   getEncuestados(id: number) {
     this._utilsService.getUsuariosOfEncuesta(id).subscribe(
       (res) => {
-        if(res.data !== undefined){
+        console.log(res);
+        if(res.status === 200){
           this._encuestados = res.data.map((p,ind) => { return {...p,done:true} });
           console.log(res.data);
+          this.getEncuestadosCanAnswerEstudio(id);
+        }
+        else{
+          this._encuestados= [];
           this.getEncuestadosCanAnswerEstudio(id);
         }
       },

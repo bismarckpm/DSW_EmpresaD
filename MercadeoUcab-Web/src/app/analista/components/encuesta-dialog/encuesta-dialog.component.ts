@@ -30,13 +30,24 @@ export class EncuestaDialogComponent implements OnInit {
 
  @Input() _usuario: any;
  @Input() _encuesta: any;
+ @Input() _answers:any;
+ 
+ currentQuestion : any = null;
 
  ngOnInit(): void {
+ }
+
+ setQuestion(){
+  
+ }
+ sendAnswer(){
+   //ENVIO DE RESPUESTA SINGULAR
  }
 
  open() {
    this.modalRef = this.modalService.open(this.modalContent);
    this.modalRef.result.then();
+   console.log(this._encuesta,this._usuario);
  }
  close() {
    this.modalRef.close();

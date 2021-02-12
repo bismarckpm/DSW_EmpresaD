@@ -17,6 +17,7 @@
     <div style="display: flex;flex-direction: row;height: 10%; width: 100%">
         <div style="width: 50%;height: 100%; display: flex;flex-direction: row;align-items: center; justify-content: center;">
             <mat-card class="user-info elementToFadeInAndOut" *ngIf="openNote === true">                          
+              <h5 *ngIf="userSession !== null"> {{'Bienvenido '+userSession.nombre}} </h5>
             </mat-card>
         </div>
         <div style="width: 50%;height: 100%; display: flex;flex-direction: row; align-items: center; justify-content: flex-end;">
@@ -26,6 +27,7 @@
                 <mat-icon>account_circle</mat-icon>
             </button>
             <mat-card class="user-info">
+              <h4 *ngIf="userSession !== null"> {{userSession.nombre+' '+userSession.apellido}} </h4>
             </mat-card>
         </div>
     </div>
@@ -62,6 +64,7 @@
         <label><h4>Apellido</h4></label>
         <span><p>{{userSession.apellido}}</p></span>
         </div>
+        <h6 (click)="logOut()">LOGOUT</h6>
     </div>
     <div class="cForm-field-col">
       <div class="form-group">

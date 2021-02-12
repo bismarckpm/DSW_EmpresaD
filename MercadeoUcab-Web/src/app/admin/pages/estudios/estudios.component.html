@@ -23,36 +23,6 @@
         </mat-card>
       </div>
     </div>
-    <!--
-    <div class="row" style="height: 50%">
-      <div class="col-8">
-        <mat-card class="menu-card" (click)="setOperation('add')">
-          <mat-icon class="menu-card-icon"> add_box </mat-icon>
-          <h3>Registrar estudios</h3>
-        </mat-card>
-      </div>
-      <div class="col">
-        <mat-card class="menu-card" (click)="setOperation('del')">
-          <mat-icon class="menu-card-icon"> delete_outline </mat-icon>
-          <h3>Eliminar estudios</h3>
-        </mat-card>
-      </div>
-    </div>
-    <div class="row" style="height: 50%">
-      <div class="col">
-        <mat-card class="menu-card" (click)="setOperation('upd')">
-          <mat-icon class="menu-card-icon"> update </mat-icon>
-          <h3>Modificar estudios</h3>
-        </mat-card>
-      </div>
-      <div class="col">
-        <mat-card class="menu-card" (click)="setOperation('list')">
-          <mat-icon class="menu-card-icon"> zoom_in </mat-icon>
-          <h3>Consultar estudios</h3>
-        </mat-card>
-      </div>
-    </div>
-    -->
   </div>
   <div
     *ngIf="op === 'add' && currentStep > 0 && currentStep < 3"
@@ -371,6 +341,7 @@
             </form>
           </div>
         </mat-step>
+        <!--
         <mat-step state="review" style="background-color: aqua">
           <div class="step-container" style="overflow-y: scroll">
             <h4>Población de estudio</h4>
@@ -393,33 +364,6 @@
                       <option [ngValue]="'masculino'">Masculino</option>
                     </select>
                   </div>
-                  <!--
-                  <div class="form-group">
-                    <label>Edad de participantes</label>
-                    <div style="display: flex; flex-direction: row">
-                      <input
-                        type="date"
-                        formControlName="rangoEdadInicio"
-                        class="form-control"
-                        id="edadI"
-                        aria-describedby="edadIHelp"
-                        
-                        style="width: 45%; margin-right: 5%"
-                      />
-                      <input
-                        type="date"
-                        formControlName="rangoEdadFin"
-                        class="form-control"
-                        id="edadF"
-                        aria-describedby="edadFHelp"
-          
-                        style="width: 45%"
-                      />
-                    </div>
-                    <div style="display: flex; flex-direction: row">
-                     
-                    </div>
-                  </div>-->
                   <div class="form-group">
                     <label>Edad de participantes</label>
                     <div style="display: flex; flex-direction: row">
@@ -544,6 +488,7 @@
             </form>
           </div>
         </mat-step>
+      -->
         <mat-step state="preguntas">
           <div class="step-container">
             <form
@@ -697,7 +642,7 @@
                     >
                       <option [ngValue]="null">Sin seleccionar...</option>
                       <option [ngValue]="'En linea'">En línea</option>
-                      <option [ngValue]="'encuesta'">Encuesta</option>
+                      <option [ngValue]="'Via telefonica'">Vía telefónica</option>
                     </select>
                   </div>
                 </div>
