@@ -42,8 +42,11 @@ export class EstudioRealizarComponent implements OnInit {
   async openEncuestaModal() {
     return await this.encuestaComponent.open();
   }
-  alterAnswersState(user:any,answer:any) { 
-    console.log(user,answer);
+  alterAnswersState(event:{user:any,data:toBackendAnswer,_pregId:number}) { 
+    console.log(event);
+    console.log(this._AnswersMap[`${this._Id}-${event._pregId}`].respuestas,' :B');
+    this._AnswersMap[`${this._Id}-${event._pregId}`].respuestas.push(event.data);
+    console.log(this._AnswersMap[`${this._Id}-${event._pregId}`].respuestas,' :A');
   }
   testRes: any = {
     "status": 200,
@@ -211,7 +214,7 @@ export class EstudioRealizarComponent implements OnInit {
   mapEncuesta(){
     this._Estudio.encuesta.forEach((preg,ind) => {
       const {respuestas} = preg;
-      console.log(preg.pregunta);
+      //console.log(preg.pregunta);
       this._AnswersMap[`${this._Id}-${preg._id}`]={
         _id:preg._id,
         tipo:preg.pregunta.tipo,
@@ -233,7 +236,7 @@ export class EstudioRealizarComponent implements OnInit {
     Object.keys(this._AnswersMap).forEach((key,ind)=> {
       let auxPreg: any = this._AnswersMap[key];
       const {_id,respuestas} = auxPreg;
-      console.log(auxPreg);
+      //console.log(auxPreg);
       this._userAnswers[`${_id}`]=[...respuestas.filter((p:toBackendAnswer,i) => p.dtousuario._id === this._targetEncuestado._id)];
       //this._userAnswers[`${_id}`]= {}; 
     })
