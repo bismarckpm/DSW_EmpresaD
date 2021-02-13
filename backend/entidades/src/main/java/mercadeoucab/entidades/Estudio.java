@@ -54,6 +54,9 @@ public class Estudio extends EntidadBase{
     @Column(name = "encuestas_esperadas")
     private int encuestasEsperadas;
 
+    @Column(name = "comentarios")
+    private String comentarios;
+
     @ManyToOne
     @JoinColumn(name = "fk_solicitud")
     private Solicitud solicitud;
@@ -118,6 +121,10 @@ public class Estudio extends EntidadBase{
     public void setFk_usuario(Usuario fk_usuario) {
         this.fk_usuario = fk_usuario;
     }
+
+    public String getComentarios() { return comentarios; }
+
+    public void setComentarios(String comentarios) { this.comentarios = comentarios; }
 
     public void addpregunta(Pregunta pregunta){
         if(this.preguntas == null)

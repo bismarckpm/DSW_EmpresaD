@@ -662,7 +662,7 @@ insert parroquia values(20,"Christ",1,1,'2019-07-23',null,20);
 -- Table `mercadeoucab`.`usuario`
 -- -----------------------------------------------------
 -- Encuestados
-  insert usuario values (1,"Antonio","Nohra","atag102@gmail.com","encuestado","activo",1,'2019-07-23',null);
+  insert usuario values (1,"Daren","Gonzalez","daren1997gonzalez@gmail.com","encuestado","activo",1,'2019-07-23',null);
   insert usuario values (2,"Zeus","Berg","ZB@gmail.com","encuestado","activo",1,"2019-07-23",null);
   insert usuario values (3,"Addison","Gomez","ADDG@gmail.com","encuestado","activo",1,"2019-07-23",null);
   insert usuario values (4,"Jamal","Stevenson","jamal_Stevenson@gmail.com","encuestado","activo",1,"2019-07-23",null);
@@ -880,8 +880,8 @@ insert encuesta_estudio values(6,7,2);
 
  -- 3
 insert encuesta_estudio values(7,8,3);
-insert encuesta_estudio values(8,9,4);
-insert encuesta_estudio values(9,10,4);
+insert encuesta_estudio values(8,9,3);
+insert encuesta_estudio values(9,10,3);
 
  -- 4
 insert encuesta_estudio values(10,11,4);

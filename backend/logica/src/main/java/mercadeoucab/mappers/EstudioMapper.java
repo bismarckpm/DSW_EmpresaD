@@ -24,6 +24,7 @@ public class EstudioMapper {
         entity.setEstado(dto.getEstado());
         entity.setTipo(dto.getTipo());
         entity.setEncuestasEsperadas(dto.getEncuestasEsperadas());
+        entity.setComentarios(dto.getComentarios());
 
         if(Objects.nonNull(dto.getFk_usuario()))
             entity.setFk_usuario(UsuarioMapper.mapDtoToEntity(dto.getFk_usuario()));
@@ -57,6 +58,7 @@ public class EstudioMapper {
         dto.setEstado(entity.getEstado());
         dto.setTipo(entity.getTipo());
         dto.setEncuestasEsperadas(entity.getEncuestasEsperadas());
+        dto.setComentarios(entity.getComentarios());
 
         if(Objects.nonNull(entity.getFk_usuario())) {
             dto.setFk_usuario(UsuarioMapper.mapEntityToDto(entity.getFk_usuario()));

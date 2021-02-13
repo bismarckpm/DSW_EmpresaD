@@ -8,6 +8,8 @@ import mercadeoucab.fabricas.Enums.Fabricas;
 import mercadeoucab.fabricas.FabricaAbstracta;
 import mercadeoucab.fabricas.FabricasConcretas.FabricaEncuestaEstudio;
 
+import java.util.Objects;
+
 
 public class EncuestaEstudioMapper {
 
@@ -22,7 +24,7 @@ public class EncuestaEstudioMapper {
             );
         }
 
-        if(dto.getRespuestas().size() > 0){
+        if(Objects.nonNull(dto.getRespuestas()) && dto.getRespuestas().size() > 0){
             for (DtoRespuesta dtoRespuesta : dto.getRespuestas())
                 entity.addRespuesta(
                         RespuestaMapper.mapDtoToEntity(dtoRespuesta)
@@ -44,9 +46,8 @@ public class EncuestaEstudioMapper {
             );
         }
 
-        if(entity.getRespuestas().size() > 0){
+        if(Objects.nonNull(entity.getRespuestas()) && entity.getRespuestas().size() > 0){
             for(Respuesta respuesta: entity.getRespuestas()) {
-                System.out.println("RESPUESTASSSSSSS");
                 dto.addRespuesta(
                         RespuestaMapper.mapEntityToDto(respuesta)
                 );
