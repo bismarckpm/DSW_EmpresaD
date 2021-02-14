@@ -15,6 +15,7 @@ import { PreguntaService } from '@core/services/pregunta/pregunta.service';
 import { RespuestaService } from '@core/services/respuesta/respuesta.service';
 import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 
+/*
 interface RespuestaModel {
   tipo: string;
   a_val: string | null;
@@ -23,7 +24,7 @@ interface RespuestaModel {
   b_val: boolean | null;
   r_val: number | null;
   done: boolean;
-}
+}*/
 
 @Component({
   selector: 'app-encuesta-dialog',
@@ -51,7 +52,7 @@ export class EncuestaDialogComponent implements OnInit {
  alteredEstudio: any = null;
  openAnswer:string = '';
  multiOption:any = [];
- singleOption:any = [];
+ singleOption:any = {};
  boolOption: boolean;
  opStatus:string = 'S';
  rangeOption:any = '';
@@ -65,27 +66,7 @@ export class EncuestaDialogComponent implements OnInit {
  setQuestion(){
   
  }
- /*
- setMultOption(pregId, op) {
-  let ILength: number = this._respuestas[pregId].m_val.length;
-  this._respuestas[pregId].m_val = this._respuestas[pregId].m_val.filter(
-    (regOp) => regOp._id !== op._id
-  );
-  if (ILength === this._respuestas[pregId].m_val.length) {
-    this._respuestas[pregId].m_val.push(op);
-  }
-  //console.log(this._respuestas[pregId].m_val);
-}
-checkMultiple(pregInd: number, opInd: number) {
-  let res: boolean = false;
-  this._respuestas[pregInd].m_val.forEach((opc, ind) => {
-    if (opc._id === opInd) {
-      res = true;
-    }
-  });
-  //console.log(res,` for ${opInd}`);
-  return res;
-}*/
+ 
 prepAnswer(content,_type){
   console.log(content);
   switch(_type){
@@ -104,6 +85,16 @@ prepAnswer(content,_type){
       break;
    }
 }
+setSimpleOption(pregInd,opInd){
+  let _op = parseInt(opInd,10);
+  if(opInd - 1 !== -1){
+    this.singleOption = this._encuesta.encuesta[pregInd].opciones[opInd];
+    console.log(this.singleOption);
+  }
+  else {
+    this.singleOption = null;
+  }
+} 
 setMultOption(pregId, op) {
   let ILength: number = this.multiOption.length;
   this.multiOption = this.multiOption.filter(
@@ -126,26 +117,38 @@ checkMultiple(pregInd: number, opInd: number) {
 }
  postAnswer(user,_type,stepper,_pregId){
   let Answer : toBackendAnswer;
-  Answer = new toBackendAnswer({ _id: this._encuesta._id }, { _id: this._usuario._id });
+  Answer = new toBackendAnswer({ _id: _pregId }, { _id: this._usuario._id });
   Answer.dtoopcion = null;
   switch(_type){
     case 'simple':
+      Answer.dtoopcion._id = this.singleOption._id;
+      Answer.respuesta=null;
+      this.sendAnswer(user,_type,[Answer],_pregId);
       break;
     case 'multiple':
-      let multiAnswers: any[] = [];
+      Answer.respuesta=null;
+      let multiAnswers: toBackendAnswer[] = [];
+      const userId = this._usuario._id;
+      this.multiOption.forEach((op,ind) =>{
+        let nAnswer:  = new toBackendAnswer({ _id: _pregId }, { _id: userId });
+        Answer.respuesta=null;
+        Answer.dtoopcion._id;
+        multiAnswers.push(nAnswer);
+      });
+      this.sendAnswer(user,_type,[...multiAnswers],_pregId);
       break;
     case 'boolean':
       //extraer
       Answer.respuesta = this.boolOption.toString();
-      this.sendAnswer(user,_type,Answer,_pregId);
+      this.sendAnswer(user,_type,[Answer],_pregId);
       break;  
     case 'abierta':
       Answer.respuesta = this.openAnswer;
-      this.sendAnswer(user,_type,Answer,_pregId);
+      this.sendAnswer(user,_type,[Answer],_pregId);
       break;
     case 'rango':
       Answer.respuesta = this.rangeOption.toString();
-      this.sendAnswer(user,_type,Answer,_pregId);
+      this.sendAnswer(user,_type,[Answer],_pregId);
       break;
    }
    stepper.next();
@@ -178,20 +181,23 @@ addRespuesta(user,data,_pregId){
     }
   );
 }
-/*
-saveSurvey(data) {
+saveSurvey(user,data,_pregId) {
   this.opStatus = 'P';
   this._respuestaService.saveSurvey(data).subscribe(
     (response: any) => {
       console.log(response);
-      this.opStatus = 'D';
+      this.alterAnswers.emit({user,data,_pregId});
+      this._answers[`${_pregId}`].push(data); 
+     
     },
     (error) => {
       console.log(error);
-      this.opStatus = 'E';
+      this.alterAnswers.emit({user,data,_pregId});
+      this._answers[`${_pregId}`].push(data); 
+      
     }
   );
-}*/
+}
  sendAnswer(user,preg,resp,_pregId){
    //ENVIO DE RESPUESTA SINGULAR
   /*
@@ -253,7 +259,7 @@ saveSurvey(data) {
     case 'multiple':
       break;
      default:
-      this.addRespuesta(user,resp,_pregId);
+      this.saveSurvey(user,resp,_pregId);
       break;  
    }
  }

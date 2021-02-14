@@ -9,22 +9,22 @@ const routes: Routes = [
   },
   {
     path: 'encuestado',
-    //canLoad: [CanPassGuard],
+    canLoad: [CanPassGuard],
     loadChildren: './encuestado/encuestado.module#EncuestadoModule',
   },
   {
     path: 'administrador',
-    //canLoad: [CanPassGuard],
+    canLoad: [CanPassGuard],
     loadChildren: './admin/admin.module#AdminModule',
   },
   {
     path: 'cliente',
-    //canLoad: [CanPassGuard],
+    canLoad: [CanPassGuard],
     loadChildren: './cliente/cliente.module#ClienteModule',
   },
   {
     path: 'analista',
-    //canLoad: [CanPassGuard],
+    canLoad: [CanPassGuard],
     loadChildren: './analista/analista.module#AnalistaModule',
   },
   {

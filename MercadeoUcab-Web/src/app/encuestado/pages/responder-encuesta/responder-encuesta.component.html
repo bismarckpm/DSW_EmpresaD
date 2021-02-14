@@ -33,7 +33,9 @@
           </div>
         </div>
       </div>
+     
       <div *ngIf="searchState === 'D'" class="preguntas-scroll">
+
         <div
           class="pregunta-container border rounded"
           *ngFor="let pregunta of _estudio.encuesta; let i = index"
@@ -162,6 +164,7 @@
           </ng-container>
         </div>
       </div>
+      
     </div>
     <div class="cForm-actions">
       <button
