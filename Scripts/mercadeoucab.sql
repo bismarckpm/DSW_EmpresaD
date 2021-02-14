@@ -256,6 +256,7 @@ CREATE TABLE IF NOT EXISTS `mercadeoucab`.`estudio` (
   `estado` ENUM('En ejecucion', 'Culminado', 'Procesando') NOT NULL,
   `tipo` ENUM('En linea', 'encuesta') NOT NULL,
   `encuestas_esperadas` INT NULL DEFAULT NULL,
+  `comentarios` VARCHAR(256) NULL DEFAULT NULL,
   `activo` TINYINT NOT NULL,
   `creado_el` TIMESTAMP NOT NULL,
   `modificado_el` TIMESTAMP NULL DEFAULT NULL,
@@ -661,7 +662,7 @@ insert parroquia values(20,"Christ",1,1,'2019-07-23',null,20);
 -- Table `mercadeoucab`.`usuario`
 -- -----------------------------------------------------
 -- Encuestados
-  insert usuario values (1,"Antonio","Nohra","atag102@gmail.com","encuestado","activo",1,'2019-07-23',null);
+  insert usuario values (1,"Daren","Gonzalez","daren1997gonzalez@gmail.com","encuestado","activo",1,'2019-07-23',null);
   insert usuario values (2,"Zeus","Berg","ZB@gmail.com","encuestado","activo",1,"2019-07-23",null);
   insert usuario values (3,"Addison","Gomez","ADDG@gmail.com","encuestado","activo",1,"2019-07-23",null);
   insert usuario values (4,"Jamal","Stevenson","jamal_Stevenson@gmail.com","encuestado","activo",1,"2019-07-23",null);
@@ -805,14 +806,14 @@ INSERT INTO `mercadeoucab`.`solicitudcaracteristicas`(`solicitud_id`,`presentaci
 -- -----------------------------------------------------
 -- Table `mercadeoucab`.`estudio`
 -- -----------------------------------------------------
-insert estudio values(1,"En ejecucion","En linea",1,1,"2021-08-10",null,1,36);
-insert estudio values(2,"En ejecucion","En linea",1,1,"2021-08-10",null,2,37);
-insert estudio values(3,"En ejecucion","En linea",1,1,"2021-08-10",null,3,38);
-insert estudio values(4,"En ejecucion","En linea",1,1,"2021-08-10",null,4,39);
-insert estudio values(5,"En ejecucion","En linea",1,1,"2021-08-10",null,5,40);
-insert estudio values(6,"En ejecucion","En linea",1,1,"2021-08-10",null,6,36);
-insert estudio values(7,"En ejecucion","En linea",1,1,"2021-08-10",null,7,37);
-insert estudio values(8,"En ejecucion","En linea",1,1,"2021-08-10",null,8,38);
+insert estudio values(1,"En ejecucion","En linea",1,null,1,"2021-08-10",null,1,36);
+insert estudio values(2,"En ejecucion","En linea",1,null,1,"2021-08-10",null,2,37);
+insert estudio values(3,"En ejecucion","En linea",1,null,1,"2021-08-10",null,3,38);
+insert estudio values(4,"En ejecucion","En linea",1,null,1,"2021-08-10",null,4,39);
+insert estudio values(5,"En ejecucion","En linea",1,null,1,"2021-08-10",null,5,40);
+insert estudio values(6,"En ejecucion","En linea",1,null,1,"2021-08-10",null,6,36);
+insert estudio values(7,"En ejecucion","En linea",1,null,1,"2021-08-10",null,7,37);
+insert estudio values(8,"En ejecucion","En linea",1,null,1,"2021-08-10",null,8,38);
 
 -- -----------------------------------------------------
 -- Table `mercadeoucab`.`pregunta`
@@ -879,8 +880,8 @@ insert encuesta_estudio values(6,7,2);
 
  -- 3
 insert encuesta_estudio values(7,8,3);
-insert encuesta_estudio values(8,9,4);
-insert encuesta_estudio values(9,10,4);
+insert encuesta_estudio values(8,9,3);
+insert encuesta_estudio values(9,10,3);
 
  -- 4
 insert encuesta_estudio values(10,11,4);

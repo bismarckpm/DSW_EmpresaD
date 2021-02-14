@@ -12,6 +12,7 @@ public class DtoEstudio extends DtoBase{
     private String estado;
     private String tipo;
     private int encuestasEsperadas;
+    private String comentarios;
     private DtoUsuario fk_usuario;
     private List<DtoPregunta> preguntas;
     private DtoSolicitud solicitud;
@@ -145,12 +146,32 @@ public class DtoEstudio extends DtoBase{
         this.encuestaEstudio = encuestaEstudio;
     }
 
+    /**
+     * Name: getComentarios
+     * @return
+     */
+    public String getComentarios() { return comentarios; }
+
+    /**
+     * Name: setComentarios
+     * @param comentarios
+     */
+    public void setComentarios(String comentarios) { this.comentarios = comentarios; }
+
+    /**
+     * Name: addEncuestaEstudio
+     * @param dtoEncuestaEstudio
+     */
     public void addEncuestaEstudio( DtoEncuestaEstudio dtoEncuestaEstudio){
         if ( this.encuestaEstudio == null)
                 this.encuestaEstudio = new ArrayList<>();
         this.encuestaEstudio.add( dtoEncuestaEstudio);
     }
 
+    /**
+     * Name: addPregunta
+     * @param dtoPregunta
+     */
     public void addPregunta( DtoPregunta dtoPregunta){
         if ( this.preguntas == null)
             this.preguntas = new ArrayList<>();

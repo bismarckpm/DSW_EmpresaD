@@ -82,6 +82,11 @@ public class ResponseEstudio implements ResponseBase<DtoEstudio> {
                 }//final switch
             }//Final for
         }//IF de la encuesta
+        String comentarios;
+        if(dtoEstudio.getComentarios() == null)
+            comentarios = "Sin comentarios";
+        else
+            comentarios = dtoEstudio.getComentarios();
         FabricaAbstracta fabricaUsuario = FabricaAbstracta.getFactory(Fabricas.USUARIO);
         FabricaAbstracta fabricaSolicitud = FabricaAbstracta.getFactory(Fabricas.SOLICITUD);
         ResponseUsuario responseUsuario = (ResponseUsuario) fabricaUsuario.generarResponse();
@@ -93,6 +98,7 @@ public class ResponseEstudio implements ResponseBase<DtoEstudio> {
                 .add("estado", dtoEstudio.getEstado())
                 .add("tipo", dtoEstudio.getTipo())
                 .add("encuestas_esperadas", dtoEstudio.getEncuestasEsperadas())
+                .add("comentarios", comentarios)
                 .add("solicitud", solicitud)
                 .add("analista", objetoUsuario)
                 .add("encuesta", preguntaslist)

@@ -1,5 +1,6 @@
 package mercadeoucab.servicio;
 
+import mercadeoucab.comandos.Estudio.ComandoEstudiosCliente;
 import mercadeoucab.comandos.Usuario.ComandoSolicitudesCliente;
 import mercadeoucab.fabricas.Enums.Comandos;
 import mercadeoucab.fabricas.FabricaComandosAbstractos;
@@ -40,6 +41,26 @@ public class ServicioCliente extends AplicacionBase{
             comandoSolicitudesCliente.setId( id);
             comandoSolicitudesCliente.execute();
             resultado = comandoSolicitudesCliente.getResult();
+        }
+        catch (Exception e){
+            // CAMBIAR CUANDO SE MANEJEN LAS EXCEPCIONES PROPIAS
+            String problema = e.getMessage();
+            resultado = ResponseGeneral.Failure("Ha ocurrido un error");
+        }
+        return resultado;
+    }
+
+    @GET
+    @Path("/{id}/estudios")
+    public Response estudiosCliente(@HeaderParam("Authorization") String token, @PathParam("id") long id){
+        Response resultado = null;
+        try {
+            validateToken(token);
+            verifyParams( id);
+            ComandoEstudiosCliente comandoEstudiosCliente = (ComandoEstudiosCliente) fabricaComandosUsuario.comandoEstudiosCliente();
+            comandoEstudiosCliente.setId(id);
+            comandoEstudiosCliente.execute();
+            resultado = comandoEstudiosCliente.getResult();
         }
         catch (Exception e){
             // CAMBIAR CUANDO SE MANEJEN LAS EXCEPCIONES PROPIAS
