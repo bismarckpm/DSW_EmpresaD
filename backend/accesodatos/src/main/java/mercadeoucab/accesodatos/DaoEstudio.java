@@ -155,4 +155,28 @@ public class DaoEstudio extends Dao<Estudio>{
         }
         return  resultado;
     }
+
+    /**
+     * Name: estudiosCliente
+     * Description: Lista los estudios de un cliente
+     * @param usuario
+     * @return
+     */
+    public List<Estudio> estudiosCliente(Usuario usuario){
+        _em = _handler.getSession();
+        List<Estudio> resultado = null;
+        try {
+            _handler.beginTransaction();
+            TypedQuery<Estudio> estudios = this._em.createNamedQuery("estudios_cliente",Estudio.class);
+            estudios.setParameter("usuario", usuario);
+            resultado = estudios.getResultList();
+            _em.flush();
+            _em.clear();
+            _handler.finishTransaction();
+        }
+        catch (Exception e){
+            String problema = e.getMessage();
+        }
+        return resultado;
+    }
 }

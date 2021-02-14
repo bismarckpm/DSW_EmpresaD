@@ -41,6 +41,11 @@ import java.util.List;
                         "  and  (e.nivelAcademico = :nivelAcademico or e.ocupacion = :ocupacion or e.nive_economico = :nivelEcon) " + //Puede no ser estricto
                         "  and  e.fk_lugar = :lugar " + //estricto
                         "  and  e.edad between :edadInicial and :edadFinal" //estricto
+        ),
+        @NamedQuery(
+                name = "estudios_cliente",
+                query = "select e from Estudio e " +
+                        "where e.solicitud.usuario = :usuario"
         )
 })
 public class Estudio extends EntidadBase{

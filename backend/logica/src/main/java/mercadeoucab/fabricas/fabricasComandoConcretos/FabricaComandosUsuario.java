@@ -1,6 +1,7 @@
 package mercadeoucab.fabricas.fabricasComandoConcretos;
 
 import mercadeoucab.comandos.ComandoAbstracto;
+import mercadeoucab.comandos.Estudio.ComandoEstudiosCliente;
 import mercadeoucab.comandos.Usuario.*;
 import mercadeoucab.fabricas.FabricaComandosAbstractos;
 
@@ -11,9 +12,7 @@ public class FabricaComandosUsuario extends FabricaComandosAbstractos {
     }
 
     @Override
-    public ComandoAbstracto comandoConsultar() {
-        return new ComandoObtenerUsuario();
-    }
+    public ComandoAbstracto comandoConsultar() { return new ComandoObtenerUsuario(); }
 
     @Override
     public ComandoAbstracto comandoListar() {
@@ -50,11 +49,12 @@ public class FabricaComandosUsuario extends FabricaComandosAbstractos {
         return new ComandoPeticionClaveOlvidada();
     }
 
-    public ComandoAbstracto comandoPreguntasAdmin(){
-        return new ComandoPreguntasAdministrador();
-    }
+    public ComandoAbstracto comandoPreguntasAdmin(){ return new ComandoPreguntasAdministrador(); }
 
     public ComandoAbstracto comandoSolicitudesCliente(){
         return new ComandoSolicitudesCliente();
     }
+
+    public ComandoAbstracto comandoEstudiosCliente() { return new ComandoEstudiosCliente(); }
+
 }
