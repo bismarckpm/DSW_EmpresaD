@@ -17,7 +17,7 @@ import { LocalNgbModule } from '../ngbootstrap.module';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AnalistaComponent } from './Pages/dashboard/analista.component';
 import { BasicInfoDialogComponent } from './components/dialogs/basic-info-dialog/basic-info-dialog.component';
-import { EncuestaDialogComponent } from './Components/encuesta-dialog/encuesta-dialog.component';
+import { EncuestaDialogComponent } from './components/encuesta-dialog/encuesta-dialog.component';
 import { EstudioResultadoDialogComponent } from './components/estudio-resultado-dialog/estudio-resultado-dialog.component';
 
 @NgModule({
