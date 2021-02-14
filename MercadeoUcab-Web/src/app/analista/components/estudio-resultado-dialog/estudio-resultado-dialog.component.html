@@ -1,0 +1,35 @@
+<ng-template #respDiag>
+	<div class="modal-header" style="height: 12.5%;">
+		<h5>Registro de resultado</h5>
+	</div>
+	<div class="modal-body"  style="height: 87.5%;">
+		<form 
+		class="cForm"
+		[formGroup]="resForm"
+        (submit)="sendRes()"
+        >
+			<div class="cForm-row-field">
+				<div class="cForm-col-field">
+					<div class="form-group">
+                    <label>Resultado</label>
+                    <input
+                      rows={3}
+                      type="text"
+                      formControlName="result"
+                      class="form-control"
+                    />
+                  </div>
+				</div>	
+			</div>
+			<div class="cForm-actions">
+				<button type="button" class="btn btn-outline-warning" (click)="close()">Cerrar</button>
+				<mat-divider
+        		[vertical]="true"
+        		[inset]="true"
+        		style="color: transparent"
+      			></mat-divider>
+				<button type="submit" class="btn btn-outline-primary">Enviar respuesta</button>
+			</div>
+		</form>
+	</div>
+</ng-template>

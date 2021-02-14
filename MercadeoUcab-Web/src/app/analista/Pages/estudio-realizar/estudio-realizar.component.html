@@ -78,7 +78,8 @@
                         class="btn btn-outline-dark shadow-sm" 
                         style="padding: 0.15rem 0.15rem;
                         height: fit-content;
-                        display: flex;">
+                        display: flex;"
+                        (click)="openRespDiagModal()">
                             Dar resultado
                         </button>
                     </div>
@@ -171,6 +172,14 @@
                 }}
             </p></span>
         </div>
+        <div class="form-group">
+            <label><h4>Edad de participantes</h4></label>
+            <span><p>
+                {{ getYearDiff(_Estudio.solicitud.muestraPoblacion.rango_edad_fin)+' - '
+                + getYearDiff(_Estudio.solicitud.muestraPoblacion.rango_edad_inicio)+'  Años'
+                }}
+            </p></span>
+        </div>
       </div>
     </div>
   </app-basic-info-dialog>
@@ -181,6 +190,9 @@
   style="height: 80vh;width: 75vw;">
 
   </app-encuesta-dialog>
+  <app-estudio-resultado-dialog [_estId]="_Id" #respDiag>
+      
+  </app-estudio-resultado-dialog>
 <!--
     "muestraPoblacion":{
             "_id":5,

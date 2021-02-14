@@ -7,6 +7,7 @@ import { UtilService } from '@core/services/utils/util.service';
 import { Estudio } from '@models/estudio';
 import { BasicInfoDialogComponent } from '../../components/dialogs/basic-info-dialog/basic-info-dialog.component';
 import { EncuestaDialogComponent } from '../../Components/encuesta-dialog/encuesta-dialog.component';
+import { EstudioResultadoDialogComponent } from '../../Components/estudio-resultado-dialog/estudio-resultado-dialog.component';
 import { toBackendAnswer } from '@core/models/toBackendAnswer';
 
 @Component({
@@ -42,6 +43,11 @@ export class EstudioRealizarComponent implements OnInit {
   async openEncuestaModal() {
     return await this.encuestaComponent.open();
   }
+  @ViewChild('respDiag') private respDiagComponent: EstudioResultadoDialogComponent;
+  async openRespDiagModal() {
+    return await this.respDiagComponent.open();
+  }
+
   alterAnswersState(event:{user:any,data:toBackendAnswer,_pregId:number}) { 
     console.log(event);
     console.log(this._AnswersMap[`${this._Id}-${event._pregId}`].respuestas,' :B');
@@ -211,6 +217,11 @@ export class EstudioRealizarComponent implements OnInit {
       ]
    },
 }
+getYearDiff(t: string): number {
+    let _t = new Date(t);
+    let _n: Date = new Date(Date.now());
+    return _n.getFullYear() - _t.getFullYear();
+  }
   mapEncuesta(){
     this._Estudio.encuesta.forEach((preg,ind) => {
       const {respuestas} = preg;

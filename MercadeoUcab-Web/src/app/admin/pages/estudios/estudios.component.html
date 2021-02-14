@@ -212,7 +212,7 @@
         >
           <div style="width: 80%">
             <h6 style="text-align: center">
-              {{ pregSug.pregunta.nombre }}
+              {{ pregSug.nombre }}
             </h6>
           </div>
           <div
@@ -228,9 +228,9 @@
               type="button"
               class="btn btn-outline-dark"
               style="padding: 0.15rem; justify-content: center; display: flex"
-              (click)="addPregAsoc(pregSug.pregunta)"
+              (click)="addPregAsoc(pregSug)"
               *ngIf="
-                checkPregAsoc(pregSug.pregunta._id) === false;
+                checkPregAsoc(pregSug._id) === false;
                 else elsePreg
               "
             >
@@ -323,7 +323,7 @@
                   class="btn btn-outline-dark"
                   (click)="setOperation('')"
                 >
-                  Cancelar
+                  Paso anterior
                 </button>
                 <mat-divider
                   [vertical]="true"
@@ -604,7 +604,7 @@
               </div>
               <div class="cForm-actions" style="height: 12.5%">
                 <button type="button" class="btn btn-outline-dark">
-                  Cancelar
+                  Paso anterior
                 </button>
                 <mat-divider
                   [vertical]="true"
@@ -678,7 +678,7 @@
               </div>
               <div class="cForm-actions" style="height: 12.5%">
                 <button type="button" class="btn btn-outline-dark">
-                  Cancelar
+                  Paso anterior
                 </button>
                 <mat-divider
                   [vertical]="true"
@@ -1097,7 +1097,7 @@
         </ng-container>
         <ng-container matColumnDef="asignado">
           <th mat-header-cell *matHeaderCellDef>Analista asignado</th>
-          <td mat-cell *matCellDef="let element">{{ element.analista._id }}</td>
+          <td mat-cell *matCellDef="let element">{{ element.analista.nombre+' '+element.analista.apellido }}</td>
         </ng-container>
         <ng-container matColumnDef="selector">
           <th mat-header-cell *matHeaderCellDef>Selección</th>
@@ -1246,16 +1246,19 @@
     <div class="cForm-field-col">
       <div class="form-group">
         <label><h4>Género de participantes</h4></label>
-        <p>{{ targetEstudio.muestra_poblacion.genero }}</p>
+        <p>{{ targetEstudio.solicitud.muestraPoblacion.genero }}</p>
       </div>
       <div class="form-group">
         <label><h4>Rango de edad de participantes</h4></label>
-        <p>{{targetEstudio.muestra_poblacion.rango_edad_inicio+' - '+targetEstudio.muestra_poblacion.rango_edad_fin+' Años'}}</p>
+        <p>
+        {{getYearDiff(targetEstudio.solicitud.muestraPoblacion.rango_edad_fin)+' - '+getYearDiff(targetEstudio.solicitud.muestraPoblacion.rango_edad_inicio)+' Años'}}</p>
       </div>
+      <!--
       <div class="form-group">
         <label><h4>Ocupación de participantes</h4></label>
-        <p>{{ targetEstudio.muestra_poblacion.Fk_ocupacion.nombre}}</p>
+        <p>{{ targetEstudio.solicitud.muestraPoblacion.Fk_ocupacion.nombre}}</p>
       </div>
+      -->
     </div>
   </div>
 </app-basic-info-dialog>

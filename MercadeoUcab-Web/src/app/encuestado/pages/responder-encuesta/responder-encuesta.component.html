@@ -1,5 +1,178 @@
 <div class="container menu-container">
   <mat-card
+    style="height: 90%; width: 75%; display: flex; flex-direction: column"
+    *ngIf="opStatus === 'S'"
+  > 
+    <div class="cForm" *ngIf="_encuesta === null">
+      <div class="cForm-field-row">
+        <div class="cForm-field-col">
+          <div
+            class="text-center"
+            style="
+              flex: 1;
+              display: flex;
+              flex-direction: column;
+              align-items: center;
+              justify-content: center;
+            "
+          >
+            <div
+              class="spinner-border"
+              style="width: 7.5rem; height: 7.5rem"
+              role="status"
+            >
+              <span class="sr-only">Loading...</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div *ngIf="doneSurvey() === true" style="display: flex;flex-direction: column;height: 100%;width: 100%;align-items: center; justify-content: space-around;">
+      <div>
+      <h2>
+        Estudio culminado con éxito
+      </h2>
+      <mat-icon
+      style="
+      height: 30px;
+      width: 30px;
+      font-size: 30px;">
+        done_all
+      </mat-icon>     
+      <h3>
+        Muchas gracias por participar.
+      </h3>
+      </div>
+      <button type="button" class="btn btn-outline-primary"
+                (click)="onDir('home')">Volver a encuestas</button>
+    </div>
+    <h4 *ngIf="_encuesta!==null && doneSurvey() === false">
+      Encuesta de estudio
+    </h4>
+    <mat-horizontal-stepper
+        *ngIf="_encuesta!==null && doneSurvey() === false"
+        [linear]="true"
+        #encuesta_stepper
+        id="encuesta_stepper"
+        labelPosition="right">
+          <mat-step *ngFor="let pregunta of _encuesta.encuesta; let i = index" state="question">
+          <ng-template matStepLabel>
+            <h6>Pregunta nº {{i+1}}</h6>
+          </ng-template>
+          <div class="step-container" style="height: calc(45vh);">
+            <div class="pregunta-container border rounded" style="min-width: 90%;">
+              <ng-container [ngSwitch]="pregunta.pregunta.tipo">
+                <div class="form-group pregunta-content" *ngSwitchCase="'abierta'">
+                  <label for="{{ 'pregunta-' + i }}" class="pregunta-title">
+                    <h5>
+                      {{ pregunta.pregunta.nombre }}
+                    </h5>
+                  </label>
+                  <input type="text" class="form-control" id="{{ 'pregunta-' + i }}"
+                    aria-describedby="newNameHelp" rows="3" 
+                    (change)="prepAnswer($event.target.value,'abierta')"/>
+                </div>
+                <div class="pregunta-content" *ngSwitchCase="'simple'">
+                  <label for="{{ 'pregunta-' + i }}" class="pregunta-title">
+                    <h5>
+                      {{ pregunta.pregunta.nombre }}
+                    </h5>
+                  </label>
+                  <select class="form-control" id="{{ 'pregunta-' + i }}"
+                  (change)="setSimpleOption(i, $event.target.value)">
+                    <option [ngValue]="null">Sin seleccionar...</option>
+                    <ng-container *ngFor="let op of pregunta.pregunta.opciones; let s = index">
+                      <option [ngValue]="s">{{ op.nombre }}</option>
+                    </ng-container>
+                  </select>
+                </div>
+                <div class="pregunta-content" *ngSwitchCase="'multiple'">
+                  <label for="{{ 'pregunta-' + i }}" class="pregunta-title">
+                    <h5>
+                      {{ pregunta.pregunta.nombre }}
+                    </h5>
+                  </label>
+                  <ul>
+                    <li *ngFor="let op of pregunta.pregunta.opciones; let j = index">
+                      <mat-checkbox 
+                      [checked]="checkMultiple(i, op._id)"
+                                (change)="setMultOption(i, op)"
+                      id="{{ 'radio-' + i + '-op-' + j }}">
+                        {{ op.nombre }}
+                      </mat-checkbox>
+                    </li>
+                  </ul>
+                </div>
+                <div class="pregunta-content" *ngSwitchCase="'boolean'">
+                  <div class="pregunta-title">
+                    <h5>
+                      {{ pregunta.pregunta.nombre }}
+                    </h5>
+                  </div>
+                  <div class="form-check">
+                    <input class="form-check-input" type="radio" name="{{ 'op-' + i + '-rbt' }}"
+                      id="{{ 'op-' + i + '-rbtrue' }}" value="true" checked
+                      (click)="prepAnswer(true, pregunta.pregunta.tipo)"/>
+                    <label class="form-check-label" for="{{ 'op-' + i + '-rbtrue' }}">
+                      Verdadero
+                    </label>
+                  </div>
+                  <div class="form-check">
+                    <input class="form-check-input" type="radio" name="{{ 'op-' + i + '-rbt' }}"
+                      id="{{ 'op-' + i + '-rbtfalse' }}" value="false"
+                      (click)="prepAnswer(false, pregunta.pregunta.tipo)" />
+                    <label class="form-check-label" for="{{ 'op-' + i + '-rbtfalse' }}">
+                      Falso
+                    </label>
+                  </div>
+                </div>
+                <div class="pregunta-content" *ngSwitchCase="'rango'">
+                  <label for="{{ 'pregunta-' + i }}" class="pregunta-title">
+                    <h5>
+                      {{ pregunta.pregunta.nombre }}
+                    </h5>
+                  </label>
+                  <input type="number" name="{{ 'pregunta-' + i }}" class="form-control"
+                    id="{{ 'pregunta-' + i }}" min="{{ pregunta.pregunta.rango.split('&')[0] }}"
+                    max="{{ pregunta.pregunta.rango.split('&')[1] }}" 
+                    />
+                  <span>
+                    Rango requerido: {{ pregunta.pregunta.rango.split("&")[0] }}-{{
+                    pregunta.pregunta.rango.split("&")[1]
+                    }}
+                  </span>
+                </div>
+              </ng-container>
+            </div>
+            <div style="display:flex;flex-direction: row;width: 100%;align-items: center;justify-content: center;">
+              <button type="button" class="btn btn-outline-warning" *ngIf="i>0">
+                <mat-icon
+                style="transform: scale(-1, 1);">
+                  forward
+                </mat-icon>
+              </button>
+              <button type="button" class="btn btn-outline-primary"
+              style="margin-left: 1.5rem;"
+              (click)="postAnswer(_usuario,pregunta.pregunta.tipo,encuesta_stepper,pregunta._id)"
+              *ngIf="_answers[pregunta._id.toString()].length === 0">Enviar respuesta</button>
+              <button type="button" class="btn btn-outline-primary"
+              (click)="encuesta_stepper.next()"
+              *ngIf="_answers[pregunta._id.toString()].length > 0">
+                <mat-icon>
+                  forward
+                </mat-icon>
+              </button>
+            </div>
+          </div>
+          </mat-step>
+          <ng-template matStepperIcon="question">
+            <mat-icon>help_center</mat-icon>
+          </ng-template>
+        </mat-horizontal-stepper>
+  </mat-card>
+  <!--ANTIGUA IMPLEMENTACION -->
+  <!--
+  <mat-card
     style="height: 90%; width: 50%; display: flex; flex-direction: column"
     *ngIf="opStatus === 'S'"
   >
@@ -201,6 +374,7 @@
       </ng-container>
     </div>
   </mat-card>
+-->
   <mat-card
     style="height: 90%; width: 50%; display: flex; flex-direction: column"
     *ngIf="opStatus === 'P'"

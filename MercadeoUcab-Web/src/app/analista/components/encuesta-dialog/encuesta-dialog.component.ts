@@ -7,7 +7,7 @@ import {
   Output,
   EventEmitter
 } from '@angular/core';
-import {  } from '@angular-devkit/build-angular';
+import { STEPPER_GLOBAL_OPTIONS } from '@angular/cdk/stepper';
 import { Opcion } from '@core/models/opcion';
 import { toBackendAnswer } from '@core/models/toBackendAnswer';
 import { EstudioService } from '@core/services/estudio/estudio.service';
@@ -15,21 +15,16 @@ import { PreguntaService } from '@core/services/pregunta/pregunta.service';
 import { RespuestaService } from '@core/services/respuesta/respuesta.service';
 import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 
-/*
-interface RespuestaModel {
-  tipo: string;
-  a_val: string | null;
-  s_val: Opcion | null;
-  m_val: Opcion[];
-  b_val: boolean | null;
-  r_val: number | null;
-  done: boolean;
-}*/
-
 @Component({
   selector: 'app-encuesta-dialog',
   templateUrl: './encuesta-dialog.component.html',
-  styleUrls: ['./encuesta-dialog.component.css']
+  styleUrls: ['./encuesta-dialog.component.css'],
+  providers: [
+    {
+      provide: STEPPER_GLOBAL_OPTIONS,
+      useValue: { displayDefaultIndicatorType: false },
+    },
+  ],
 })
 export class EncuestaDialogComponent implements OnInit {
 
@@ -60,13 +55,16 @@ export class EncuestaDialogComponent implements OnInit {
 
  currentQuestion : any = null;
 
- ngOnInit(): void {
- }
+ ngOnInit(): void {}
 
- setQuestion(){
-  
- }
- 
+clearFields(){
+ this.openAnswer = '';
+ this.multiOption = [];
+ this.singleOption = {};
+ this.boolOption= false;
+ this.rangeOption = '';
+}
+
 prepAnswer(content,_type){
   console.log(content);
   switch(_type){
@@ -112,7 +110,6 @@ checkMultiple(pregInd: number, opInd: number) {
       res = true;
     }
   });
-  //console.log(res,` for ${opInd}`);
   return res;
 }
  postAnswer(user,_type,stepper,_pregId){
@@ -130,7 +127,7 @@ checkMultiple(pregInd: number, opInd: number) {
       let multiAnswers: toBackendAnswer[] = [];
       const userId = this._usuario._id;
       this.multiOption.forEach((op,ind) =>{
-        let nAnswer:  = new toBackendAnswer({ _id: _pregId }, { _id: userId });
+        let nAnswer: toBackendAnswer = new toBackendAnswer({ _id: _pregId }, { _id: userId });
         Answer.respuesta=null;
         Answer.dtoopcion._id;
         multiAnswers.push(nAnswer);
@@ -151,6 +148,7 @@ checkMultiple(pregInd: number, opInd: number) {
       this.sendAnswer(user,_type,[Answer],_pregId);
       break;
    }
+   this.clearFields();
    stepper.next();
  }
  setBackendAnswer(simple, respuesta, encuestaEstudio, usuario, opcion) {

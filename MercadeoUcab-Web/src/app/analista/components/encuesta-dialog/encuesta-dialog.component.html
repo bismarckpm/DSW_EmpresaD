@@ -103,24 +103,12 @@
 							</ng-container>
 						</div>
 						<div style="display:flex;flex-direction: row;width: 100%;align-items: center;justify-content: center;">
-							<button type="button" class="btn btn-outline-dark" *ngIf="i>0">
+							<button type="button" class="btn btn-outline-warning" *ngIf="i>0">
 								<mat-icon
-								style="
-                    			height: 30px;
-                    			width: 30px;
-                    			font-size: 30px;
-                    			transform: scale(-1, 1);
-                  				">
+								style="transform: scale(-1, 1);">
 									forward
 								</mat-icon>
 							</button>
-							<!--<mat-divider
-							[vertical]="true"
-        					[inset]="true"
-        					style="color: transparent"
-							*ngIf="i>0"
-							></mat-divider>
-							-->
 							<button type="button" class="btn btn-outline-primary"
 							style="margin-left: 1.5rem;"
 							(click)="postAnswer(_usuario,pregunta.pregunta.tipo,encuesta_stepper,pregunta._id)"
