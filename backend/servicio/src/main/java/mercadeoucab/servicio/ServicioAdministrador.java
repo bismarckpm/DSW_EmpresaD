@@ -1,135 +1,52 @@
 package mercadeoucab.servicio;
 
 
-import mercadeoucab.accesodatos.DaoPregunta;
-import mercadeoucab.entidades.Opcion;
-import mercadeoucab.entidades.Pregunta;
-import mercadeoucab.entidades.Usuario;
+import mercadeoucab.comandos.Usuario.ComandoPreguntasAdministrador;
+import mercadeoucab.fabricas.Enums.Comandos;
+import mercadeoucab.fabricas.FabricaComandosAbstractos;
+import mercadeoucab.fabricas.fabricasComandoConcretos.FabricaComandosUsuario;
+import mercadeoucab.responses.ResponseGeneral;
 
-import javax.json.Json;
-import javax.json.JsonArrayBuilder;
-import javax.json.JsonObject;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
-import java.util.List;
 
+/**
+ *
+ * @author Daren Gonzalez
+ * @version 1.0
+ * @since 2020-12-18
+ */
 @Path( "/administrador" )
 @Produces( MediaType.APPLICATION_JSON )
 @Consumes( MediaType.APPLICATION_JSON )
 public class ServicioAdministrador extends AplicacionBase{
 
+    private final FabricaComandosUsuario fabricaComandosUsuario = (FabricaComandosUsuario) FabricaComandosAbstractos.getFactory(Comandos.USUARIO);
+
+    /**
+     * Metodo para listar todas las preguntas que un usuario administrador ha
+     * creado
+     * @param id Identificador del usuario administrador
+     * @return regresa la lista de las preguntas de un usuario
+     *  administrador o respuesta que no se encontro
+     */
     @GET
     @Path("/{id}/preguntas")
-    public Response preguntasAdministrador(@PathParam("id") long id){
-        JsonObject data;
+    public Response preguntasAdministrador(@HeaderParam("Authorization") String token,@PathParam("id") long id){
         Response resultado = null;
         try {
-            DaoPregunta dao = new DaoPregunta();
-            List<Pregunta> preguntas = dao.obtenerPreguntasAdministrador(new Usuario(id));
-            JsonArrayBuilder preguntaslist = Json.createArrayBuilder();
-            if(!(preguntas.isEmpty())) {
-                for (Pregunta pregunta : preguntas) {
-
-                    if(pregunta.getActivo() == 1) {
-                        String tipo = pregunta.getTipo();
-                        JsonObject objeto = null;
-                        JsonArrayBuilder opcionesList = null;
-                        switch (tipo) {
-                            case "abierta":
-                                objeto = Json.createObjectBuilder()
-                                        .add("pregunta", Json.createObjectBuilder()
-                                                .add("_id", pregunta.get_id())
-                                                .add("nombre", pregunta.getNombrePregunta())
-                                                .add("tipo", pregunta.getTipo()))
-                                        .build();
-                                preguntaslist.add(objeto);
-                                break;
-
-                            case "multiple":
-                                opcionesList = Json.createArrayBuilder();
-                                for (Opcion opcion : pregunta.getOpciones()) {
-                                    JsonObject option = Json.createObjectBuilder()
-                                            .add("_id", opcion.get_id())
-                                            .add("nombre", opcion.getNombre_opcion())
-                                            .build();
-                                    opcionesList.add(option);
-                                }
-                                objeto = Json.createObjectBuilder()
-                                        .add("pregunta", Json.createObjectBuilder()
-                                                .add("_id", pregunta.get_id())
-                                                .add("nombre", pregunta.getNombrePregunta())
-                                                .add("tipo", pregunta.getTipo())
-                                                .add("opciones", opcionesList))
-                                        .build();
-                                preguntaslist.add(objeto);
-                                break;
-                            case "simple":
-                                opcionesList = Json.createArrayBuilder();
-                                for (Opcion opcion : pregunta.getOpciones()) {
-                                    JsonObject option = Json.createObjectBuilder()
-                                            .add("_id", opcion.get_id())
-                                            .add("nombre", opcion.getNombre_opcion())
-                                            .build();
-                                    opcionesList.add(option);
-                                }
-                                objeto = Json.createObjectBuilder()
-                                        .add("pregunta", Json.createObjectBuilder()
-                                                .add("_id", pregunta.get_id())
-                                                .add("nombre", pregunta.getNombrePregunta())
-                                                .add("tipo", pregunta.getTipo())
-                                                .add("opciones", opcionesList))
-                                        .build();
-                                preguntaslist.add(objeto);
-                                break;
-                            case "boolean":
-                                objeto = Json.createObjectBuilder()
-                                        .add("pregunta", Json.createObjectBuilder()
-                                                .add("_id", pregunta.get_id())
-                                                .add("nombre", pregunta.getNombrePregunta())
-                                                .add("tipo", pregunta.getTipo()))
-                                        .build();
-                                preguntaslist.add(objeto);
-                                break;
-                            case "rango":
-                                objeto = Json.createObjectBuilder()
-                                        .add("pregunta", Json.createObjectBuilder()
-                                                .add("_id", pregunta.get_id())
-                                                .add("nombre", pregunta.getNombrePregunta())
-                                                .add("tipo", pregunta.getTipo())
-                                                .add("rango", pregunta.getRango()))
-                                        .build();
-                                preguntaslist.add(objeto);
-                                break;
-                        }//final switch
-                    }
-
-                }//Final for
-
-                data = Json.createObjectBuilder()
-                        .add("status", 200)
-                        .add("data", preguntaslist)
-                        .build();
-            }//final if
-            else{
-            data = Json.createObjectBuilder()
-                    .add("status", 204)
-                    .add("message", "No posee preguntas asociadas")
-                    .build();
-            }
-            resultado = Response.status(Response.Status.OK)
-                    .entity(data)
-                    .build();
+            validateToken(token);
+            verifyParams( id);
+            ComandoPreguntasAdministrador comandoPreguntasAdministrador = (ComandoPreguntasAdministrador) fabricaComandosUsuario.comandoPreguntasAdmin();
+            comandoPreguntasAdministrador.setId( id);
+            comandoPreguntasAdministrador.execute();
+            resultado = comandoPreguntasAdministrador.getResult();
         }
         catch (Exception e){
+            // CAMBIAR CUANDO SE MANEJEN LAS EXCEPCIONES PROPIAS
             String problema = e.getMessage();
-            data = Json.createObjectBuilder()
-                    .add("status", 400)
-                    .add("message", problema)
-                    .build();
-            resultado = Response.status(Response.Status.BAD_REQUEST)
-                    .entity(data)
-                    .build();
+            resultado = ResponseGeneral.Failure("Ha ocurrido un error");
         }
         return resultado;
     }

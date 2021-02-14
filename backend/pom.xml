@@ -12,6 +12,8 @@
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <property name="hibernate.validator.apply_to_ddl">false</property>
+        <property name="hibernate.validator.autoregister_listeners">false</property>
         <maven.compiler.source>1.8</maven.compiler.source>
         <maven.compiler.target>1.8</maven.compiler.target>
     </properties>
@@ -20,9 +22,11 @@
         <module>accesodatos</module>
         <module>servicio</module>
         <module>entidades</module>
-        <module>dtos</module>
+        <module>logica</module>
         <module>excepciones</module>
         <module>directorioactivo</module>
+        <module>dtos</module>
+        <module>utilidades</module>
     </modules>
 
     <dependencies>
@@ -53,6 +57,11 @@
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
             <version>4.13-rc-1</version>
+        </dependency>
+        <dependency>
+            <groupId>org.glassfish</groupId>
+            <artifactId>javax.json</artifactId>
+            <version>1.0.4</version>
         </dependency>
     </dependencies>
 

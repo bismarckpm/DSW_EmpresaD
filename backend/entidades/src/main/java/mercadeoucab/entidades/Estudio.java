@@ -1,6 +1,5 @@
 package mercadeoucab.entidades;
 
-import javax.inject.Named;
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -15,42 +14,38 @@ import java.util.List;
         @NamedQuery(
                 name = "estudios_aplican_encuestado",
                 query = "select e from Estudio e " +
-                        "where e.fk_muestra_poblacion.cantidadHijos = :cantidadHijos " +
-                        "  and e.fk_muestra_poblacion.genero = :genero " +
-                        "  and e.fk_muestra_poblacion.nivelAcademico = :nivelAcademico " +
-                        "  and e.fk_muestra_poblacion.nivelEconomico = :nivelEconomico " +
-                        "  and e.fk_muestra_poblacion.rangoEdadInicio <= :edad " +
-                        "  and e.fk_muestra_poblacion.rangoEdadFin >= :edad " +
-                        "  and e.fk_muestra_poblacion.fk_lugar = :lugar " +
-                        "  and e.fk_muestra_poblacion.fk_ocupacion = :ocupacion"
+                        "where e.solicitud.fk_muestra_poblacion.genero = :genero " +
+                        "  and (e.solicitud.fk_muestra_poblacion.nivelAcademico = :nivelAcademico or e.solicitud.fk_muestra_poblacion.nivelEconomico = :nivelEconomico or e.solicitud.fk_muestra_poblacion.fk_ocupacion = :ocupacion) " +
+                        "  and :edad between e.solicitud.fk_muestra_poblacion.rangoEdadInicio and  e.solicitud.fk_muestra_poblacion.rangoEdadFin" +
+                        "  and e.solicitud.fk_muestra_poblacion.fk_lugar = :lugar " +
+                        "  and e.estado = 'En ejecucion'" +
+                        "  and e.activo = 1"
         ),
         @NamedQuery(
                 name = "preguntas_similares",
                 query = "select e from Estudio e " +
                         "join e.solicitud s " +
-                        "where s.presentaciones in :presentaciones " +
-                        "and s.tipos in :tipos " +
-                        "and s.subCategorias in :subcategorias"
+                        "where s.presentaciones in :presentaciones "
 
         ),
         @NamedQuery(
                 name = "poblaciones_similares",
-                query = "select e.fk_muestra_poblacion from Estudio e " +
+                query = "select e.solicitud.fk_muestra_poblacion from Estudio e " +
                         "join e.solicitud s " +
-                        "where s.presentaciones in :presentaciones " +
-                        "and s.tipos in :tipos " +
-                        "and s.subCategorias in :subcategorias"
+                        "where s.presentaciones in :presentaciones "
         ),
         @NamedQuery(
                 name = "personas_aplican",
                 query = "select e.usuario from DatoEncuestado e " +
-                        "where  e.nive_economico = :nivelEcon " +
-                        "  and  e.genero = :genero " +
-                        //"  and  e.hijos.size = :cantidadHijos " +
-                        "  and  e.nivelAcademico = :nivelAcademico " +
-                        "  and  e.fk_lugar = :lugar " +
-                        "  and  e.ocupacion = :ocupacion "
-                        //"  and  e.edad between :edadInicial and :edadFinal"
+                        "where  e.genero = :genero " + //estricto
+                        "  and  (e.nivelAcademico = :nivelAcademico or e.ocupacion = :ocupacion or e.nive_economico = :nivelEcon) " + //Puede no ser estricto
+                        "  and  e.fk_lugar = :lugar " + //estricto
+                        "  and  e.edad between :edadInicial and :edadFinal" //estricto
+        ),
+        @NamedQuery(
+                name = "estudios_cliente",
+                query = "select e from Estudio e " +
+                        "where e.solicitud.usuario = :usuario"
         )
 })
 public class Estudio extends EntidadBase{
@@ -64,6 +59,9 @@ public class Estudio extends EntidadBase{
     @Column(name = "encuestas_esperadas")
     private int encuestasEsperadas;
 
+    @Column(name = "comentarios")
+    private String comentarios;
+
     @ManyToOne
     @JoinColumn(name = "fk_solicitud")
     private Solicitud solicitud;
@@ -71,10 +69,6 @@ public class Estudio extends EntidadBase{
     @ManyToOne
     @JoinColumn(name = "fk_usuario")
     private Usuario fk_usuario;
-
-    @ManyToOne
-    @JoinColumn(name = "fk_muestra_poblacion")
-    private MuestraPoblacion fk_muestra_poblacion;
 
     @JoinTable(
             name = "encuesta_estudio",
@@ -133,13 +127,9 @@ public class Estudio extends EntidadBase{
         this.fk_usuario = fk_usuario;
     }
 
-    public MuestraPoblacion getFk_muestra_poblacion() {
-        return fk_muestra_poblacion;
-    }
+    public String getComentarios() { return comentarios; }
 
-    public void setFk_muestra_poblacion(MuestraPoblacion fk_muestra_poblacion) {
-        this.fk_muestra_poblacion = fk_muestra_poblacion;
-    }
+    public void setComentarios(String comentarios) { this.comentarios = comentarios; }
 
     public void addpregunta(Pregunta pregunta){
         if(this.preguntas == null)
@@ -153,6 +143,12 @@ public class Estudio extends EntidadBase{
 
     public void setPreguntas(List<Pregunta> preguntas) {
         this.preguntas = preguntas;
+    }
+
+    public void addEncuestaEstudio(EncuestaEstudio encuestaEstudio){
+        if(this.encuestaEstudio == null)
+            this.encuestaEstudio = new ArrayList<>();
+        this.encuestaEstudio.add(encuestaEstudio);
     }
 
     public List<EncuestaEstudio> getEncuestaEstudio() {

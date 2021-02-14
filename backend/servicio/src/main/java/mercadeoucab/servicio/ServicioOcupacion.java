@@ -1,197 +1,151 @@
 package mercadeoucab.servicio;
 
-import mercadeoucab.accesodatos.DaoOcupacion;
+import mercadeoucab.comandos.Ocupacion.*;
 import mercadeoucab.dtos.DtoOcupacion;
-import mercadeoucab.entidades.Ocupacion;
+import mercadeoucab.fabricas.Enums.Comandos;
+import mercadeoucab.fabricas.FabricaComandosAbstractos;
+import mercadeoucab.fabricas.fabricasComandoConcretos.FabricaComandosOcupacion;
+import mercadeoucab.responses.ResponseGeneral;
 
-import javax.json.Json;
-import javax.json.JsonArrayBuilder;
-import javax.json.JsonObject;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
-import java.sql.Date;
-import java.util.Calendar;
-import java.util.List;
 
+/**
+ *
+ * @author Antonio Nohra
+ * @version 1.0
+ * @since 2020-12-18
+ */
 @Path( "/ocupaciones" )
 @Produces( MediaType.APPLICATION_JSON )
 @Consumes( MediaType.APPLICATION_JSON )
 public class ServicioOcupacion extends AplicacionBase{
 
+    private final FabricaComandosOcupacion fabricaComandosOcupacion = (FabricaComandosOcupacion) FabricaComandosAbstractos.getFactory(Comandos.OCUPACION);
+    /**
+     * Metodo para consultar una Ocupacion dado un identificador
+     * @param id Identificador de la Ocupacion que se desea consultar
+     * @return regresa la Ocupacion consultada, tambien en caso de no existir
+     *      respuesta que no se encontro o mensaje que ha ocurrido un error
+     */
     @GET
     @Path("/{id}")
-    public Response obtenerOcupacion(@PathParam("id") Long id){
-        JsonObject data;
-        JsonObject ocupacion;
+    public Response obtenerOcupacion(@HeaderParam("Authorization") String token, @PathParam("id") Long id){
         Response resultado = null;
         try{
-            DaoOcupacion dao = new DaoOcupacion();
-            Ocupacion resul = dao.find( id, Ocupacion.class);
-            ocupacion = Json.createObjectBuilder()
-                            .add("_id", resul.get_id())
-                            .add("nombre",resul.getNombre())
-                            .build();
-            data = Json.createObjectBuilder()
-                    .add("status", 200)
-                    .add("data", ocupacion)
-                    .build();
-            resultado = Response.status(Response.Status.OK)
-                    .entity(data)
-                    .build();
+            validateToken(token);
+            verifyParams( id);
+            ComandoObtenerOcupacion comandoObtenerOcupacion = (ComandoObtenerOcupacion) fabricaComandosOcupacion.comandoConsultar();
+            comandoObtenerOcupacion.setId( id);
+            comandoObtenerOcupacion.execute();
+            resultado = comandoObtenerOcupacion.getResult();
         }
         catch (Exception e) {
+            // CAMBIAR CUANDO SE MANEJEN LAS EXCEPCIONES PROPIAS
             String problema = e.getMessage();
-            data = Json.createObjectBuilder()
-                    .add("status", 400)
-                    .add("message", problema)
-                    .build();
-            resultado = Response.status(Response.Status.BAD_REQUEST)
-                    .entity(data)
-                    .build();
+            resultado = ResponseGeneral.Failure("Ha ocurrido un error");
         }
         return resultado;
     }
 
+    /**
+     * Metodo para listar todas las ocupaciones registradas
+     * @return regresa la lista de las ocupaciones, respuesta que no se encontro
+     *      o mensaje que ha ocurrido un error
+     */
     @GET
     @Path("/")
-    public Response listarOcupacion(){
-        JsonObject data;
-        JsonArrayBuilder ocupacionesList = Json.createArrayBuilder();
+    public Response listarOcupacion(@HeaderParam("Authorization") String token){
         Response resultado = null;
         try {
-            DaoOcupacion dao = new DaoOcupacion();
-            List<Ocupacion> ocupaciones = dao.findAll(Ocupacion.class);
-            for(Ocupacion ocupacion: ocupaciones){
-                if(ocupacion.getActivo() == 1){
-                    JsonObject objeto = Json.createObjectBuilder()
-                            .add("_id", ocupacion.get_id())
-                            .add("nombre",ocupacion.getNombre())
-                            .build();
-                    ocupacionesList.add(objeto);
-                }
-            }
-            data = Json.createObjectBuilder()
-                    .add("status", 200)
-                    .add("data", ocupacionesList)
-                    .build();
-            resultado = Response.status(Response.Status.OK)
-                    .entity(data)
-                    .build();
+            validateToken(token);
+            ComandoListarOcupaciones comandoListarOcupaciones = (ComandoListarOcupaciones) fabricaComandosOcupacion.comandoListar();
+            comandoListarOcupaciones.execute();
+            resultado = comandoListarOcupaciones.getResult();
         }
         catch (Exception e){
+            // CAMBIAR CUANDO SE MANEJEN LAS EXCEPCIONES PROPIAS
             String problema = e.getMessage();
-            data = Json.createObjectBuilder()
-                    .add("status", 400)
-                    .add("message", problema)
-                    .build();
-            resultado = Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(data).build();
+            resultado = ResponseGeneral.Failure("Ha ocurrido un error");
         }
         return  resultado;
     }
 
+    /**
+     * Metodo para crear una Ocupacion
+     * @param dtoOcupacion Objeto que se desea crear
+     * @return regresa mensaje de exito en caso de agregarse exitosamente o
+     *   mensaje de error
+     */
     @POST
     @Path("/")
-    public Response registrarOcupacion(DtoOcupacion DTOO){
-        JsonObject data;
+    public Response registrarOcupacion(@HeaderParam("Authorization") String token, DtoOcupacion dtoOcupacion){
         Response resultado = null;
         try{
-            DaoOcupacion daoO = new DaoOcupacion();
-            Ocupacion O= new Ocupacion();
-            O.setNombre(DTOO.getNombre());
-            O.setActivo(1);
-            O.setCreado_el(new Date(Calendar.getInstance().getTime().getTime()));
-            Ocupacion resul = daoO.insert( O);
-            data = Json.createObjectBuilder()
-                    .add("status", 200)
-                    .add("mensaje","Ocupacion creada con exito")
-                    .build();
-            resultado = Response.status(Response.Status.OK)
-                                .entity(data)
-                                .build();
-
+            validateToken(token);
+            verifyParams( dtoOcupacion);
+            ComandoRegistrarOcupacion comandoRegistrarOcupacion = (ComandoRegistrarOcupacion) fabricaComandosOcupacion.comandoCrear();
+            comandoRegistrarOcupacion.setDtoOcupacion( dtoOcupacion);
+            comandoRegistrarOcupacion.execute();
+            resultado = comandoRegistrarOcupacion.getResult();
         }
         catch (Exception e) {
+            // CAMBIAR CUANDO SE MANEJEN LAS EXCEPCIONES PROPIAS
             String problema = e.getMessage();
-            data = Json.createObjectBuilder()
-                    .add("status", 400)
-                    .add("message", problema)
-                    .build();
-            resultado = Response.status(Response.Status.INTERNAL_SERVER_ERROR)
-                                .entity(data)
-                                .build();
+            resultado = ResponseGeneral.Failure("Ha ocurrido un error");
         }
         return resultado;
     }
 
+    /**
+     * Metodo para actualizar una Ocupacion dado un identificador
+     * @param id Identificador de la Ocupacion que se desea actualizar
+     * @param dtoOcupacion Objeto que se desea actualizar
+     * @return regresa mensaje de exito o mensaje que ha ocurrido un error
+     */
     @PUT
     @Path("/{id}")
-    // @PathParam("id") Long id
-    public Response actualizarOcupacion(@PathParam("id") long id,DtoOcupacion DTOO){
-        JsonObject data;
+    public Response actualizarOcupacion(@HeaderParam("Authorization") String token, @PathParam("id") long id,DtoOcupacion dtoOcupacion){
         Response resultado = null;
         try{
-            DaoOcupacion dao = new DaoOcupacion();
-            Ocupacion O = dao.find( id, Ocupacion.class);
-            O.setNombre(DTOO.getNombre());
-            O.setModificado_el(new Date(Calendar
-                                    .getInstance()
-                                    .getTime()
-                                    .getTime()));
-            Ocupacion resul = dao.update( O);
-            data = Json.createObjectBuilder()
-                    .add("status", 200)
-                    .add("mensaje","Ocupacion actualizada con exito")
-                    .build();
-            resultado = Response.status(Response.Status.OK)
-                    .entity(data)
-                    .build();
+            validateToken(token);
+            verifyParams( id);
+            verifyParams( dtoOcupacion);
+            ComandoActualizarOcupacion comandoActualizarOcupacion = (ComandoActualizarOcupacion) fabricaComandosOcupacion.comandoModificar();
+            comandoActualizarOcupacion.setDtoOcupacion( dtoOcupacion);
+            comandoActualizarOcupacion.setId( id);
+            comandoActualizarOcupacion.execute();
+            resultado = comandoActualizarOcupacion.getResult();
         }
         catch (Exception e) {
+            // CAMBIAR CUANDO SE MANEJEN LAS EXCEPCIONES PROPIAS
             String problema = e.getMessage();
-            data = Json.createObjectBuilder()
-                    .add("status", 400)
-                    .add("message", problema)
-                    .build();
-            resultado = Response.status(Response.Status.BAD_REQUEST)
-                    .entity(data)
-                    .build();
+            resultado = ResponseGeneral.Failure("Ha ocurrido un error");
         }
         return resultado;
     }
 
+    /**
+     * Metodo para eliminar una Ocupacion dado un identificador
+     * @param id Identificador de la Ocupacion que se desea eliminar
+     * @return regresa mensaje de exito o mensaje que ha ocurrido un error
+     */
     @PUT
     @Path("/{id}/eliminar")
-    // @PathParam("id") Long id
-    public Response eliminarOcupacion(@PathParam("id") long id){
-        JsonObject data;
+    public Response eliminarOcupacion(@HeaderParam("Authorization") String token, @PathParam("id") long id){
         Response resultado = null;
         try{
-            DaoOcupacion dao = new DaoOcupacion();
-            Ocupacion O = dao.find( id, Ocupacion.class);
-            O.setActivo( 0);
-            O.setModificado_el(
-                    new Date(Calendar
-                            .getInstance()
-                            .getTime()
-                            .getTime()));
-            Ocupacion resul = dao.update( O);
-            data = Json.createObjectBuilder()
-                    .add("status", 200)
-                    .add("mensaje","Ocupacion eliminada con exito")
-                    .build();
-            resultado = Response.status(Response.Status.OK)
-                    .entity(data)
-                    .build();
+            validateToken(token);
+            verifyParams( id);
+            ComandoEliminarOcupacion comandoEliminarOcupacion = (ComandoEliminarOcupacion) fabricaComandosOcupacion.comandoEliminar();
+            comandoEliminarOcupacion.setId( id);
+            comandoEliminarOcupacion.execute();
+            resultado = comandoEliminarOcupacion.getResult();
         }catch (Exception e) {
+            // CAMBIAR CUANDO SE MANEJEN LAS EXCEPCIONES PROPIAS
             String problema = e.getMessage();
-            data = Json.createObjectBuilder()
-                    .add("status", 400)
-                    .add("problema", problema)
-                    .build();
-            resultado = Response.status(Response.Status.BAD_REQUEST)
-                    .entity(data)
-                    .build();
+            resultado = ResponseGeneral.Failure("Ha ocurrido un error");
         }
         return resultado;
     }

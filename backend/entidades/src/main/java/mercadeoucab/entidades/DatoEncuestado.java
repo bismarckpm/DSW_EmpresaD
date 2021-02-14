@@ -34,7 +34,7 @@ public class DatoEncuestado extends EntidadBase{
     private String genero;
 
     @Column(name = "nivel_economico")
-    private  int nive_economico;
+    private  String nive_economico;
 
     @Column(name = "nivel_academico")
     private String nivelAcademico;
@@ -60,7 +60,7 @@ public class DatoEncuestado extends EntidadBase{
     @OneToMany( mappedBy = "datoEncuestado", fetch = FetchType.LAZY, cascade = CascadeType.PERSIST )
     private List<Hijo> hijos = new ArrayList<>();
 
-    public DatoEncuestado(String segundoNombre, String segundoapellido, String cedula, String medioConexion, Date edad, String genero, int nive_economico, String nivelAcademico, int personasHogar) {
+    public DatoEncuestado(String segundoNombre, String segundoapellido, String cedula, String medioConexion, Date edad, String genero, String nive_economico, String nivelAcademico, int personasHogar) {
         this.segundoNombre = segundoNombre;
         this.segundoapellido = segundoapellido;
         this.cedula = cedula;
@@ -127,11 +127,11 @@ public class DatoEncuestado extends EntidadBase{
         this.genero = genero;
     }
 
-    public int getNive_economico() {
+    public String getNive_economico() {
         return nive_economico;
     }
 
-    public void setNive_economico(int nive_economico) {
+    public void setNive_economico(String nive_economico) {
         this.nive_economico = nive_economico;
     }
 
