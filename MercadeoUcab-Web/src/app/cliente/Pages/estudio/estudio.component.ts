@@ -35,8 +35,8 @@ export class EstudioComponent implements OnInit {
   addForm: FormGroup;
   opStatus: string; //S,P,D
   @ViewChild('estInfo') private infoEstComponent: BasicInfoDialogComponent;
-    async openEstInfoModal() {
-      return await this.infoEstComponent.open();
+  async openEstInfoModal() {
+    return await this.infoEstComponent.open();
   }
   constructor(
     //private modalService: NgbModal,
@@ -53,33 +53,144 @@ export class EstudioComponent implements OnInit {
       modificado_el: null,
     });
   }
-  displayEstudioInfo(estudio){
+  displayEstudioInfo(estudio) {
     this.infoEstComponent.open();
   }
   getEstudios() {
     this._estudioService.getEstudios().subscribe(
       (response) => {
         console.log(response);
-        this.estudios = [...response.data.filter((est,ind) => est.solicitud.usuario._id === this.clienteUser._id && est.estado === 'Culminado')];
+        this.estudios = [
+          ...response.data.filter(
+            (est, ind) =>
+              est.solicitud.usuario._id === this.clienteUser._id &&
+              est.estado === 'Culminado'
+          ),
+        ];
       },
       (error) => {
         console.log(error);
         this.estudios = [
-        {"_id":1,"estado":"En ejecucion",
-        "tipo":"En linea","encuestas_esperadas":1,
-        "solicitud":{"_id":1,"estado":"solicitada","usuario":{"_id":31,"nombre":"Caesar","apellido":"Mosley","rol":"cliente","estado":"activo","correo":"CM10@gmail.com"},"marca":"Sin especificar","comentarios":"Sin comentarios",
-        "presentaciones":[{"_id":1,"tipo":"Madera","Cantidad":"30x50","fk_tipo":{"_id":1,"nombre":"Camas","subCategoria":{"_id":1,"nombre":"Dormitorios","categoria":{"_id":1,"nombre":"Muebles"}}}}],
-        "muestraPoblacion":{"_id":1,"genero":"masculino","nivel_economico":"Alto","nivel_academico":"Licenciado","rango_edad_inicio":"1940-01-01","rango_edad_fin":"2015-01-01",
-        "cantidad_hijos":1,"parroquia":{"_id":1,"nombre":"San Camilo","valorSocioEconomico":1,"municipio":{"_id":1,"nombre":"Manaos",
-        "estado":{"_id":1,"nombre":"Amazonas","pais":{"_id":1,"nombre":"Venezuela"}}}}}},
-        "analista":{"_id":36,"nombre":"Harper","apellido":"Vance",
-        "rol":"analista","estado":"activo","correo":"Harper20@gmail.com"},
-        "encuesta":[
-        {"_id":1,"pregunta":{"_id":1,"nombre":"Que opina del producto? ","tipo":"abierta","usuario":{"_id":26,"nombre":"Macon","apellido":"Mcleod","rol":"administrador","estado":"activo","correo":"MM10@gmail.com"}},"respuestas":[]},
-        {"_id":2,"pregunta":{"_id":2,"nombre":"Cuentenos, tuvo algun problema con el producto?","tipo":"abierta","usuario":{"_id":26,"nombre":"Macon","apellido":"Mcleod","rol":"administrador","estado":"activo","correo":"MM10@gmail.com"}},"respuestas":[]},
-        {"_id":3,"pregunta":{"_id":3,"nombre":"Como fue su experiencia con el producto?","tipo":"abierta","usuario":{"_id":26,"nombre":"Macon","apellido":"Mcleod","rol":"administrador","estado":"activo","correo":"MM10@gmail.com"}},"respuestas":[]}
-          ]
-        },
+          {
+            _id: 1,
+            estado: 'En ejecucion',
+            tipo: 'En linea',
+            encuestas_esperadas: 1,
+            solicitud: {
+              _id: 1,
+              estado: 'solicitada',
+              usuario: {
+                _id: 31,
+                nombre: 'Caesar',
+                apellido: 'Mosley',
+                rol: 'cliente',
+                estado: 'activo',
+                correo: 'CM10@gmail.com',
+              },
+              marca: 'Sin especificar',
+              comentarios: 'Sin comentarios',
+              presentaciones: [
+                {
+                  _id: 1,
+                  tipo: 'Madera',
+                  Cantidad: '30x50',
+                  fk_tipo: {
+                    _id: 1,
+                    nombre: 'Camas',
+                    subCategoria: {
+                      _id: 1,
+                      nombre: 'Dormitorios',
+                      categoria: { _id: 1, nombre: 'Muebles' },
+                    },
+                  },
+                },
+              ],
+              muestraPoblacion: {
+                _id: 1,
+                genero: 'masculino',
+                nivel_economico: 'Alto',
+                nivel_academico: 'Licenciado',
+                rango_edad_inicio: '1940-01-01',
+                rango_edad_fin: '2015-01-01',
+                cantidad_hijos: 1,
+                parroquia: {
+                  _id: 1,
+                  nombre: 'San Camilo',
+                  valorSocioEconomico: 1,
+                  municipio: {
+                    _id: 1,
+                    nombre: 'Manaos',
+                    estado: {
+                      _id: 1,
+                      nombre: 'Amazonas',
+                      pais: { _id: 1, nombre: 'Venezuela' },
+                    },
+                  },
+                },
+              },
+            },
+            analista: {
+              _id: 36,
+              nombre: 'Harper',
+              apellido: 'Vance',
+              rol: 'analista',
+              estado: 'activo',
+              correo: 'Harper20@gmail.com',
+            },
+            encuesta: [
+              {
+                _id: 1,
+                pregunta: {
+                  _id: 1,
+                  nombre: 'Que opina del producto? ',
+                  tipo: 'abierta',
+                  usuario: {
+                    _id: 26,
+                    nombre: 'Macon',
+                    apellido: 'Mcleod',
+                    rol: 'administrador',
+                    estado: 'activo',
+                    correo: 'MM10@gmail.com',
+                  },
+                },
+                respuestas: [],
+              },
+              {
+                _id: 2,
+                pregunta: {
+                  _id: 2,
+                  nombre: 'Cuentenos, tuvo algun problema con el producto?',
+                  tipo: 'abierta',
+                  usuario: {
+                    _id: 26,
+                    nombre: 'Macon',
+                    apellido: 'Mcleod',
+                    rol: 'administrador',
+                    estado: 'activo',
+                    correo: 'MM10@gmail.com',
+                  },
+                },
+                respuestas: [],
+              },
+              {
+                _id: 3,
+                pregunta: {
+                  _id: 3,
+                  nombre: 'Como fue su experiencia con el producto?',
+                  tipo: 'abierta',
+                  usuario: {
+                    _id: 26,
+                    nombre: 'Macon',
+                    apellido: 'Mcleod',
+                    rol: 'administrador',
+                    estado: 'activo',
+                    correo: 'MM10@gmail.com',
+                  },
+                },
+                respuestas: [],
+              },
+            ],
+          },
         ];
       }
     );
@@ -187,9 +298,9 @@ export class EstudioComponent implements OnInit {
     //FALTA VALIDACION
     //console.log(this.addForm.value);
     this.opStatus = 'P';
-    console.log(this.op);
-    console.log(this.opStatus);
-    console.log(this.opStatus);
+    //console.log(this.op);
+    //console.log(this.opStatus);
+    //console.log(this.opStatus);
     setTimeout(() => {
       this.addForm = this.formBuilder.group({
         marca: null,
