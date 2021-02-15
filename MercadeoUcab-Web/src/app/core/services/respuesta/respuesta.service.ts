@@ -25,7 +25,11 @@ export class RespuestaService {
     const headers = new HttpHeaders().set('Authorization', token);
     return this._http.get(this.url + '/respuestas/' + id, { headers: headers });
   }
-
+  /*
+  En ejecucion = se estan haciendo las encuestas 
+Procesando = Se completaron las encuestas esperadas, se esta esperando que el analista lo revise y ponga el resultado 
+Culminado = Ya el analista le puso el resultado
+  */
   /*
   {
     "respuesta":String,

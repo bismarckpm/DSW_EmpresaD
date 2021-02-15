@@ -971,19 +971,15 @@ export class EstudiosComponent implements OnInit {
   stepCheck(ind, stepper) {
     switch (ind) {
       case 0:
-        let auxFkPob = this.solicitudes.filter(
-          (s, ind) => s._id === this.addForm.get('solicitud').value
-        );
-        //this.addForm
-        //.get('fk_muestra_poblacion')
-        //.setValue(auxFkPob[0].muestraPoblacion._id);
+        let auxFkPob = this.solicitudes.filter((s,ind) => s._id === this.addForm.get('solicitud').value);
+        //this.addForm.get('fk_muestra_poblacion').setValue(auxFkPob[0].muestraPoblacion._id);
         document.getElementById('addStepper').classList.add('leftSlider');
         document.getElementById('addStepper').classList.remove('initLeft');
         this.getPreguntasSugeridas();
         this.currentStep = 2;
         stepper.next();
         break;
-      /*  
+      /*
       case 1:
         this.getPreguntasSugeridas();
         this.currentStep = 2;

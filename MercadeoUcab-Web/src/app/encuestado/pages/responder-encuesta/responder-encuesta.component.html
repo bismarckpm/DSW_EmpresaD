@@ -134,7 +134,8 @@
                   </label>
                   <input type="number" name="{{ 'pregunta-' + i }}" class="form-control"
                     id="{{ 'pregunta-' + i }}" min="{{ pregunta.pregunta.rango.split('&')[0] }}"
-                    max="{{ pregunta.pregunta.rango.split('&')[1] }}" 
+                    max="{{ pregunta.pregunta.rango.split('&')[1] }}"
+                    (change)="prepAnswer($event.target.value,'rango')" 
                     />
                   <span>
                     Rango requerido: {{ pregunta.pregunta.rango.split("&")[0] }}-{{

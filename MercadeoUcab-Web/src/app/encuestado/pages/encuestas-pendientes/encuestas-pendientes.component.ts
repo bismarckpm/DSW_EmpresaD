@@ -25,7 +25,7 @@ export class EncuestasPendientesComponent implements OnInit {
   encuestas: any[] = [];
   dataSource: MatTableDataSource<any>;
 
-  displayedColumns: string[] = ['marca', 'ops'];
+  displayedColumns: string[] = ['marca','pregs','subcat','cat','ops'];
   columnsToDisplay: string[] = this.displayedColumns.slice();
   ngOnInit(): void {
     this.getEncuestasOfEncuestado();
@@ -51,7 +51,7 @@ export class EncuestasPendientesComponent implements OnInit {
       (response: any) => {
         if (response.status === 200) {
           console.log(response);
-          this.encuestas = response.data;
+          this.encuestas = [...response.data.filter((est,ind) => est.solicitud.Tipo !== 'Via telefonica' && est.estado !=='Culminado')];
         } else {
           //alert(response.message);
         }
