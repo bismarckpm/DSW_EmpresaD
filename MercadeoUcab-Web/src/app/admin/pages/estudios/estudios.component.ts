@@ -164,7 +164,7 @@ export class EstudiosComponent implements OnInit {
       tipo: null,
       encuestasEsperadas: null,
       fk_usuario: null,
-      fk_muestra_poblacion: null,
+      //fk_muestra_poblacion: null,
       solicitud: null,
       preguntas: [],
     });
@@ -776,29 +776,61 @@ export class EstudiosComponent implements OnInit {
       (error) => {
         console.log(error);
         this.solicitudes = [
-          { "_id": 1, 
-          "estado": "solicitada",
-          "usuario": { 
-          "_id": 31, 
-          "nombre": "Caesar", 
-          "apellido": "Mosley", 
-          "rol": "cliente", 
-          "estado": "activo", 
-          "correo": "CM10@gmail.com" }, 
-          //"marca": "Sin especificar", 
-          "comentarios": "Sin comentarios", 
-          "presentaciones": [{ "_id": 1, "tipo": "Madera", "Cantidad": "30x50", "fk_tipo": { "_id": 1, "nombre": "Camas", "subCategoria": { "_id": 1, "nombre": "Dormitorios", "categoria": { "_id": 1, "nombre": "Muebles" } } } }],
-          "muestraPoblacion": { "_id": 1, "genero": "masculino",
-          Fk_ocupacion: { _id: 1, nombre: 'test Ocupacion' },
-          "nivel_economico": "Alto", 
-          "nivel_academico": "Licenciado", 
-          "rango_edad_inicio": "1940-01-01", 
-          "rango_edad_fin": "2015-01-01", 
-          "cantidad_hijos": 1, 
-          "parroquia": { "_id": 1, "nombre": "San Camilo", "valorSocioEconomico": 1, 
-          "municipio": { "_id": 1, "nombre": "Manaos", "estado": { "_id": 1, "nombre": "Amazonas", "pais": { "_id": 1, "nombre": "Venezuela" } } } } } },
-          
-        ]
+          {
+            _id: 1,
+            estado: 'solicitada',
+            usuario: {
+              _id: 31,
+              nombre: 'Caesar',
+              apellido: 'Mosley',
+              rol: 'cliente',
+              estado: 'activo',
+              correo: 'CM10@gmail.com',
+            },
+            //"marca": "Sin especificar",
+            comentarios: 'Sin comentarios',
+            presentaciones: [
+              {
+                _id: 1,
+                tipo: 'Madera',
+                Cantidad: '30x50',
+                fk_tipo: {
+                  _id: 1,
+                  nombre: 'Camas',
+                  subCategoria: {
+                    _id: 1,
+                    nombre: 'Dormitorios',
+                    categoria: { _id: 1, nombre: 'Muebles' },
+                  },
+                },
+              },
+            ],
+            muestraPoblacion: {
+              _id: 1,
+              genero: 'masculino',
+              Fk_ocupacion: { _id: 1, nombre: 'test Ocupacion' },
+              nivel_economico: 'Alto',
+              nivel_academico: 'Licenciado',
+              rango_edad_inicio: '1940-01-01',
+              rango_edad_fin: '2015-01-01',
+              cantidad_hijos: 1,
+              parroquia: {
+                _id: 1,
+                nombre: 'San Camilo',
+                valorSocioEconomico: 1,
+                municipio: {
+                  _id: 1,
+                  nombre: 'Manaos',
+                  estado: {
+                    _id: 1,
+                    nombre: 'Amazonas',
+                    pais: { _id: 1, nombre: 'Venezuela' },
+                  },
+                },
+              },
+            },
+          },
+        ];
         /*this.solicitudes = [
           {
             _id: 13,
@@ -939,8 +971,12 @@ export class EstudiosComponent implements OnInit {
   stepCheck(ind, stepper) {
     switch (ind) {
       case 0:
-        let auxFkPob = this.solicitudes.filter((s,ind) => s._id === this.addForm.get('solicitud').value);
-        this.addForm.get('fk_muestra_poblacion').setValue(auxFkPob[0].muestraPoblacion._id);
+        let auxFkPob = this.solicitudes.filter(
+          (s, ind) => s._id === this.addForm.get('solicitud').value
+        );
+        //this.addForm
+        //.get('fk_muestra_poblacion')
+        //.setValue(auxFkPob[0].muestraPoblacion._id);
         document.getElementById('addStepper').classList.add('leftSlider');
         document.getElementById('addStepper').classList.remove('initLeft');
         this.getPreguntasSugeridas();

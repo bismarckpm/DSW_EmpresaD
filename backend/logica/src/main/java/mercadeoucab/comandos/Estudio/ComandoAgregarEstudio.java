@@ -34,6 +34,8 @@ public class ComandoAgregarEstudio extends ComandoAbstracto implements ComandoBa
             result = ResponseGeneral.SuccesCreate( resul.get_id());
         }
         catch (Exception e){
+            System.out.println(e);
+            e.printStackTrace();
             result = ResponseGeneral.Failure("Ha ocurrido un error al agregar el estudio");
         }
     }

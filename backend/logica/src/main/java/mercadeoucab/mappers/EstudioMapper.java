@@ -32,14 +32,14 @@ public class EstudioMapper {
         if(Objects.nonNull(dto.getSolicitud()))
             entity.setSolicitud(SolicitudMapper.mapDtoToEntity(dto.getSolicitud()));
 
-        if(dto.getPreguntas().size() > 0){
+        if( Objects.nonNull( dto.getPreguntas())){
             for(DtoPregunta pregunta: dto.getPreguntas())
                 entity.addpregunta(
                         PreguntaMapper.mapDtoToEntity(pregunta)
                 );
         }
 
-        if (dto.getEncuestaEstudio().size() > 0){
+        if (Objects.nonNull( dto.getEncuestaEstudio())){
             for (DtoEncuestaEstudio encuestaEstudio : dto.getEncuestaEstudio()){
                entity.addEncuestaEstudio(
                        EncuestaEstudioMapper.mapDtotoEntity(encuestaEstudio)
@@ -68,7 +68,7 @@ public class EstudioMapper {
             dto.setSolicitud(SolicitudMapper.mapEntityToDto(entity.getSolicitud()));
         }
 
-        if(entity.getPreguntas().size() > 0)
+        if( Objects.nonNull( entity.getPreguntas()))
         {
             for(Pregunta pregunta: entity.getPreguntas()) {
                 dto.addPregunta(
@@ -77,7 +77,7 @@ public class EstudioMapper {
             }
         }
 
-        if ( entity.getEncuestaEstudio().size() > 0 && Objects.nonNull(entity.getEncuestaEstudio()))
+        if ( Objects.nonNull(entity.getEncuestaEstudio()) && entity.getEncuestaEstudio().size()> 0)
         {
             for (EncuestaEstudio encuestaEstudio: entity.getEncuestaEstudio()){
                 dto.addEncuestaEstudio(
