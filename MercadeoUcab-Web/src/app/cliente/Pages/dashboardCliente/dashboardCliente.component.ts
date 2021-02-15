@@ -9,50 +9,55 @@ import { BasicInfoDialogComponent } from '../../components/basic-info-dialog/bas
 export class dashboardClienteComponent implements OnInit {
   constructor(private route: ActivatedRoute, private router: Router) {}
   sections: any[] = [
-    { title:'Solicitudes de estudios',dir:'solicitudes',icon:'work'},
-    { title:'Estudios culminados',dir:'estudios',icon:'class'},
-    { title:'Home',dir:'home',icon:'home'},
-    ];
-    openNote: boolean=false;
-    showFiller = false;
-    userSession = null;
-    @ViewChild('uInfo') private infoComponent: BasicInfoDialogComponent;
-    async openInfoModal() {
-      return await this.infoComponent.open();
-    }
-  checkUser(){
-    if(localStorage.getItem('user_data') === null){
-      localStorage.setItem('user_data',JSON.stringify(
-        {"_id":31,"nombre":"Caesar",
-        "apellido":"Mosley",
-        "rol":"cliente",
-        "estado":"activo",
-        "correo":"CM10@gmail.com"}));
+    { title: 'Solicitudes de estudios', dir: 'solicitudes', icon: 'work' },
+    { title: 'Estudios culminados', dir: 'estudios', icon: 'class' },
+    { title: 'Home', dir: 'home', icon: 'home' },
+  ];
+  openNote: boolean = false;
+  showFiller = false;
+  userSession = null;
+  @ViewChild('uInfo') private infoComponent: BasicInfoDialogComponent;
+  async openInfoModal() {
+    return await this.infoComponent.open();
+  }
+  checkUser() {
+    if (localStorage.getItem('user_data') === null) {
+      localStorage.setItem(
+        'user_data',
+        JSON.stringify({
+          _id: 31,
+          nombre: 'Caesar',
+          apellido: 'Mosley',
+          rol: 'cliente',
+          estado: 'activo',
+          correo: 'CM10@gmail.com',
+        })
+      );
       this.userSession = JSON.parse(localStorage.getItem('user_data'));
-    }
-    else {
+    } else {
       this.userSession = JSON.parse(localStorage.getItem('user_data'));
     }
   }
   ngOnInit(): void {
     this.onDir('home');
     this.checkUser();
-    setTimeout(()=>{
-      this.openNote=true;
+    setTimeout(() => {
+      this.openNote = true;
       setTimeout(() => {
-        this.openNote=false;
-      },10000)
-    },2000);
+        this.openNote = false;
+      }, 10000);
+    }, 2000);
   }
   /*ngOnDestroy(){
     localStorage.clear();
   }*/
-  logOut(){
+  logOut() {
     localStorage.clear();
+    this.router.navigate(['login']);
   }
   onDir(_route: string): void {
     try {
-      this.router.navigate(['cliente/',_route]);
+      this.router.navigate(['cliente/', _route]);
     } catch (e) {
       console.log(e.message);
     }

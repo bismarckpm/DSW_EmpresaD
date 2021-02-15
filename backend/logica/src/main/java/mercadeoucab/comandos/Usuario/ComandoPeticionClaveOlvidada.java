@@ -42,7 +42,7 @@ public class ComandoPeticionClaveOlvidada extends ComandoAbstracto implements Co
                 Mail enviarCorreo = fabricaMail.generarMail();
                 DtoMail dtoMail = fabricaMail.generarDtoMail();
                 dtoMail.emailResetearContrasena(
-                        "http://localhost:4200/change-password?correo="+ usuario.getCorreo()
+                        "http://45.76.60.252:4444/change-password?correo="+ usuario.getCorreo()
                 );
                 enviarCorreo.enviarCorreo(
                         usuario.getCorreo(),

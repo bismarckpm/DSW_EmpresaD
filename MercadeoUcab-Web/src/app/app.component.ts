@@ -9,12 +9,4 @@ import { HostListener } from '@angular/core';
 export class AppComponent {
   constructor(private route: ActivatedRoute, private router: Router) {}
   title = 'MercadeoUcab-Web';
-
-  @HostListener('window:beforeunload', ['$event'])
-  public beforeunloadHandler($event) {
-    localStorage.removeItem('_id');
-    localStorage.removeItem('rol');
-    $event.preventDefault();
-    $event.returnValue = false;
-  }
 }
