@@ -1,17 +1,16 @@
 package mercadeoucab.servicio;
 
-import mercadeoucab.accesodatos.DaoMuestraPoblacion;
+import mercadeoucab.comandos.MuestraPoblacion.*;
 import mercadeoucab.dtos.DtoMuestraPoblacion;
 import mercadeoucab.entidades.MuestraPoblacion;
-import mercadeoucab.entidades.Ocupacion;
-import mercadeoucab.entidades.Parroquia;
+import mercadeoucab.fabricas.Enums.Comandos;
+import mercadeoucab.fabricas.FabricaComandosAbstractos;
+import mercadeoucab.fabricas.fabricasComandoConcretos.FabricaComandosMuestraPoblacion;
 import mercadeoucab.responses.ResponseGeneral;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
-import java.sql.Date;
-import java.util.Calendar;
 import java.util.List;
 
 /**
@@ -25,11 +24,23 @@ import java.util.List;
 @Consumes( MediaType.APPLICATION_JSON )
 public class ServicioMuestraPoblacion extends AplicacionBase{
 
+    private final FabricaComandosMuestraPoblacion fabricaComandosMuestraPoblacion = (FabricaComandosMuestraPoblacion) FabricaComandosAbstractos.getFactory(Comandos.MUESTRAPOBLACION);
+
     @GET
     @Path("/")
-    public List<MuestraPoblacion> listarMuestrasPoblaciones(){
-        DaoMuestraPoblacion dao = new DaoMuestraPoblacion();
-        return dao.findAll(MuestraPoblacion.class);
+    public List<MuestraPoblacion> listarMuestrasPoblaciones(@HeaderParam("Authorization") String token){
+        List<MuestraPoblacion> muestraPoblacions = null;
+        try {
+            validateToken(token);
+            ComandoListarMuestraPoblacion comandoListarMuestraPoblacion = (ComandoListarMuestraPoblacion) fabricaComandosMuestraPoblacion.comandoListar();
+            comandoListarMuestraPoblacion.execute();
+            muestraPoblacions = comandoListarMuestraPoblacion.getMuestraPoblacionList();
+        }
+        catch (Exception e){
+            // CAMBIAR CUANDO SE MANEJEN LAS EXCEPCIONES PROPIAS
+            String problema = e.getMessage();
+        }
+        return muestraPoblacions;
     }
 
     /**
@@ -40,25 +51,15 @@ public class ServicioMuestraPoblacion extends AplicacionBase{
      */
     @POST
     @Path("/")
-    public  Response registrarMuestraPoblacion(DtoMuestraPoblacion dtoMuestraPoblacion){
+    public  Response registrarMuestraPoblacion(@HeaderParam("Authorization") String token, DtoMuestraPoblacion dtoMuestraPoblacion){
         Response resultado = null;
         try {
-            DaoMuestraPoblacion dao = new DaoMuestraPoblacion();
-            MuestraPoblacion muestraPoblacion = new MuestraPoblacion();
-            muestraPoblacion.setCantidadHijos(dtoMuestraPoblacion.getCantidadHijos());
-            muestraPoblacion.setCreado_el(new Date(Calendar.getInstance().getTime().getTime()));
-            muestraPoblacion.setActivo(1);
-            muestraPoblacion.setGenero(dtoMuestraPoblacion.getGenero());
-            muestraPoblacion.setNivelAcademico(dtoMuestraPoblacion.getNivelAcademico());
-            muestraPoblacion.setNivelEconomico(dtoMuestraPoblacion.getNivelEconomico());
-            muestraPoblacion.setRangoEdadInicio(dtoMuestraPoblacion.getRangoEdadInicio());
-            muestraPoblacion.setRangoEdadFin(dtoMuestraPoblacion.getRangoEdadFin());
-            Parroquia parroquia = new Parroquia(dtoMuestraPoblacion.getFk_lugar().get_id());
-            muestraPoblacion.setFk_lugar(parroquia);
-            Ocupacion ocupacion = new Ocupacion(dtoMuestraPoblacion.getDtoOcupacion().get_id());
-            muestraPoblacion.setFk_ocupacion(ocupacion);
-            MuestraPoblacion resul = dao.insert(muestraPoblacion);
-            resultado = ResponseGeneral.SuccesCreate( resul.get_id());
+            validateToken(token);
+            verifyParams(dtoMuestraPoblacion);
+            ComandoRegistrarMuestraPoblacion comandoRegistrarMuestraPoblacion = (ComandoRegistrarMuestraPoblacion) fabricaComandosMuestraPoblacion.comandoCrear();
+            comandoRegistrarMuestraPoblacion.setDtoMuestraPoblacion(dtoMuestraPoblacion);
+            comandoRegistrarMuestraPoblacion.execute();
+            resultado = comandoRegistrarMuestraPoblacion.getResult();
         }
         catch (Exception e){
             // CAMBIAR CUANDO SE MANEJEN LAS EXCEPCIONES PROPIAS
@@ -70,9 +71,21 @@ public class ServicioMuestraPoblacion extends AplicacionBase{
 
     @GET
     @Path("/{id}")
-    public MuestraPoblacion consultarMuestraPoblacion(@PathParam("id") long id){
-        DaoMuestraPoblacion dao = new DaoMuestraPoblacion();
-        return dao.find(id, MuestraPoblacion.class);
+    public MuestraPoblacion consultarMuestraPoblacion(@HeaderParam("Authorization") String token, @PathParam("id") long id){
+        MuestraPoblacion muestraPoblacion = null;
+        try {
+            validateToken(token);
+            verifyParams(id);
+            ComandoConsultarMuestraPoblacion comandoConsultarMuestraPoblacion = (ComandoConsultarMuestraPoblacion) fabricaComandosMuestraPoblacion.comandoConsultar();
+            comandoConsultarMuestraPoblacion.setId(id);
+            comandoConsultarMuestraPoblacion.execute();
+            muestraPoblacion = comandoConsultarMuestraPoblacion.getMuestraPoblacion();
+        }
+        catch (Exception e){
+            // CAMBIAR CUANDO SE MANEJEN LAS EXCEPCIONES PROPIAS
+            String problema = e.getMessage();
+        }
+        return muestraPoblacion;
     }
 
     /**
@@ -82,15 +95,15 @@ public class ServicioMuestraPoblacion extends AplicacionBase{
      */
     @PUT
     @Path("/eliminar/{id}")
-    public Response eliminarMuestraPoblacion(@PathParam("id") long id){
+    public Response eliminarMuestraPoblacion(@HeaderParam("Authorization") String token, @PathParam("id") long id){
         Response resultado = null;
         try {
-            DaoMuestraPoblacion dao = new DaoMuestraPoblacion();
-            MuestraPoblacion muestraPoblacion = dao.find(id, MuestraPoblacion.class);
-            muestraPoblacion.setActivo(0);
-            muestraPoblacion.setModificado_el(new Date(Calendar.getInstance().getTime().getTime()));
-            MuestraPoblacion resul = dao.update(muestraPoblacion);
-            resultado = ResponseGeneral.SuccesMessage();
+            verifyParams(id);
+            validateToken(token);
+            ComandoEliminarMuestraPoblacion comandoEliminarMuestraPoblacion = (ComandoEliminarMuestraPoblacion) fabricaComandosMuestraPoblacion.comandoEliminar();
+            comandoEliminarMuestraPoblacion.setId(id);
+            comandoEliminarMuestraPoblacion.execute();
+            resultado = comandoEliminarMuestraPoblacion.getResult();
         }
         catch (Exception e){
             // CAMBIAR CUANDO SE MANEJEN LAS EXCEPCIONES PROPIAS
@@ -108,20 +121,17 @@ public class ServicioMuestraPoblacion extends AplicacionBase{
      */
     @PUT
     @Path("/{id}")
-    public Response actualizarMuestraPoblacion(@PathParam("id") long id, DtoMuestraPoblacion dtoMuestraPoblacion){
+    public Response actualizarMuestraPoblacion(@HeaderParam("Authorization") String token, @PathParam("id") long id, DtoMuestraPoblacion dtoMuestraPoblacion){
         Response resultado = null;
         try {
-            DaoMuestraPoblacion dao = new DaoMuestraPoblacion();
-            MuestraPoblacion muestraPoblacion = dao.find(id, MuestraPoblacion.class);
-            muestraPoblacion.setCantidadHijos(dtoMuestraPoblacion.getCantidadHijos());
-            muestraPoblacion.setModificado_el(new Date(Calendar.getInstance().getTime().getTime()));
-            muestraPoblacion.setGenero(dtoMuestraPoblacion.getGenero());
-            muestraPoblacion.setNivelAcademico(dtoMuestraPoblacion.getNivelAcademico());
-            muestraPoblacion.setNivelEconomico(dtoMuestraPoblacion.getNivelEconomico());
-            muestraPoblacion.setRangoEdadInicio(dtoMuestraPoblacion.getRangoEdadInicio());
-            muestraPoblacion.setRangoEdadFin(dtoMuestraPoblacion.getRangoEdadFin());
-            MuestraPoblacion resul = dao.update(muestraPoblacion);
-            resultado = ResponseGeneral.SuccesMessage();
+            validateToken(token);
+            verifyParams(id);
+            verifyParams(dtoMuestraPoblacion);
+            ComandoActualizarMuestraPoblacion comandoActualizarMuestraPoblacion = (ComandoActualizarMuestraPoblacion) fabricaComandosMuestraPoblacion.comandoModificar();
+            comandoActualizarMuestraPoblacion.setId(id);
+            comandoActualizarMuestraPoblacion.setDtoMuestraPoblacion(dtoMuestraPoblacion);
+            comandoActualizarMuestraPoblacion.execute();
+            resultado = comandoActualizarMuestraPoblacion.getResult();
         }
         catch (Exception e){
             // CAMBIAR CUANDO SE MANEJEN LAS EXCEPCIONES PROPIAS
