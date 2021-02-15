@@ -14,16 +14,28 @@ export class SolicitudService {
   }
 
   getSolicitudByEstado(estado) {
-    return this._http.get(this.url + '/solicitudes/estado/' + estado);
+    let token = localStorage.getItem('token');
+    const headers = new HttpHeaders().set('Authorization', token);
+    return this._http.get(this.url + '/solicitudes/estado/' + estado, {
+      headers: headers,
+    });
   }
 
   getSolicitudes(): Observable<any> {
-    return this._http.get(this.url + '/solicitudes');
+    let token = localStorage.getItem('token');
+    const headers = new HttpHeaders().set('Authorization', token);
+    return this._http.get(this.url + '/solicitudes', {
+      headers: headers,
+    });
   }
 
   //id en el path
   getSolicitud(id): Observable<any> {
-    return this._http.get(this.url + '/solicitudes/' + id);
+    let token = localStorage.getItem('token');
+    const headers = new HttpHeaders().set('Authorization', token);
+    return this._http.get(this.url + '/solicitudes/' + id, {
+      headers: headers,
+    });
   }
 
   /*
@@ -37,9 +49,12 @@ export class SolicitudService {
   }
   */
   createSolicitud(data) {
-    const headers = new HttpHeaders().set('Content-Type', 'application/json');
+    let token = localStorage.getItem('token');
+    const headers = new HttpHeaders()
+      .set('Content-Type', 'application/json')
+      .set('Authorization', token);
     return this._http.post(this.url + '/solicitudes/', JSON.stringify(data), {
-      headers
+      headers,
     });
   }
 
@@ -50,7 +65,10 @@ export class SolicitudService {
   }
   */
   updateSolicitud(id, data) {
-    const headers = new HttpHeaders().set('Content-Type', 'application/json');
+    let token = localStorage.getItem('token');
+    const headers = new HttpHeaders()
+      .set('Content-Type', 'application/json')
+      .set('Authorization', token);
     return this._http.put(
       this.url + '/solicitudes/' + id,
       JSON.stringify(data),
@@ -60,7 +78,10 @@ export class SolicitudService {
 
   //id en el path
   deleteSolicitud(id, data) {
-    const headers = new HttpHeaders().set('Content-Type', 'application/json');
+    let token = localStorage.getItem('token');
+    const headers = new HttpHeaders()
+      .set('Content-Type', 'application/json')
+      .set('Authorization', token);
     // Ignorar data por los momentos
     return this._http.put(
       this.url + '/solicitudes/' + id + '/eliminar',

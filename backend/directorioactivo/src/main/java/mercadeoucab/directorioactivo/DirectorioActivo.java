@@ -27,13 +27,13 @@ public class DirectorioActivo {
      */
     public DirectorioActivo(String rol){
         if(rol.equals("administrador")){
-            this._directory="ou=Administradores,o=mercadeoucab";
+            this._directory="ou=Administradores,o=empresad";
         }else if(rol.equals("cliente")){
-            this._directory="ou=Clientes,o=mercadeoucab";
+            this._directory="ou=Clientes,o=empresad";
         }else if(rol.equals("encuestado")){
-            this._directory="ou=Encuestados,o=mercadeoucab";
+            this._directory="ou=Encuestados,o=empresad";
         }else if(rol.equals("analista")){
-            this._directory="ou=Analistas,o=mercadeoucab";
+            this._directory="ou=Analistas,o=empresad";
         }
     }
 

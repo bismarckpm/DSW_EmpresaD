@@ -18,5 +18,6 @@ public enum Comandos {
     SOLICITUD,
     SUBCATEGORIA,
     TIPO,
-    USUARIO
+    USUARIO,
+    MUESTRAPOBLACION
 }

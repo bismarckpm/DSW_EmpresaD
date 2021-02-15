@@ -14,12 +14,16 @@ export class PreguntaService {
   }
 
   getPreguntas(): Observable<any> {
-    return this._http.get(this.url + '/preguntas');
+    let token = localStorage.getItem('token');
+    const headers = new HttpHeaders().set('Authorization', token);
+    return this._http.get(this.url + '/preguntas', { headers: headers });
   }
 
   //id en path
   getPregunta(id): Observable<any> {
-    return this._http.get(this.url + '/preguntas/' + id);
+    let token = localStorage.getItem('token');
+    const headers = new HttpHeaders().set('Authorization', token);
+    return this._http.get(this.url + '/preguntas/' + id, { headers: headers });
   }
 
   /*las opciones pueden estar vacias tho 
@@ -42,7 +46,10 @@ export class PreguntaService {
   }
   */
   createPregunta(data) {
-    const headers = new HttpHeaders().set('Content-Type', 'application/json');
+    let token = localStorage.getItem('token');
+    const headers = new HttpHeaders()
+      .set('Content-Type', 'application/json')
+      .set('Authorization', token);
     return this._http.post(this.url + '/preguntas/', JSON.stringify(data), {
       headers: headers,
     });
@@ -56,7 +63,10 @@ export class PreguntaService {
   }
   */
   updatePregunta(id, data) {
-    const headers = new HttpHeaders().set('Content-Type', 'application/json');
+    let token = localStorage.getItem('token');
+    const headers = new HttpHeaders()
+      .set('Content-Type', 'application/json')
+      .set('Authorization', token);
     return this._http.put(this.url + '/preguntas/' + id, JSON.stringify(data), {
       headers: headers,
     });
@@ -65,7 +75,10 @@ export class PreguntaService {
   //id en el path
   deletePregunta(id, data) {
     // Ignorar data por los momentos
-    const headers = new HttpHeaders().set('Content-Type', 'application/json');
+    let token = localStorage.getItem('token');
+    const headers = new HttpHeaders()
+      .set('Content-Type', 'application/json')
+      .set('Authorization', token);
     return this._http.put(this.url + '/preguntas/' + id + '/eliminar', data);
   }
 }

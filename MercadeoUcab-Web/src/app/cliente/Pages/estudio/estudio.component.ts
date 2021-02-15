@@ -1,13 +1,13 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { Solicitud } from '@models/solicitud';
+//import { Solicitud } from '@models/solicitud';
 import { MatTableDataSource } from '@angular/material/table';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { SolicitudService } from '@core/services/solicitud/solicitud.service';
-import { UpdateSolicitudDialogComponent } from '../../components/dialogs/upd-solicitud-dialog/update-solicitud-dialog.component';
+//import { UpdateSolicitudDialogComponent } from '../../components/dialogs/upd-solicitud-dialog/update-solicitud-dialog.component';
 import { Estudio } from '@models/estudio';
 import { EstudioService } from '@core/services/estudio/estudio.service';
 import { EstudioCliente } from '@core/models/estudioCliente';
-
+import { BasicInfoDialogComponent } from '../../components/basic-info-dialog/basic-info-dialog.component';
 @Component({
   selector: 'app-estudio',
   templateUrl: './estudio.component.html',
@@ -17,24 +17,28 @@ export class EstudioComponent implements OnInit {
   //CONTROL DE ESTADO DEL COMPONENTE
   op: string;
   searchState: string; //U.I,D
-  estudios: EstudioCliente[] = [];
+  estudios: any[] = [];
 
   //COLUMNAS DE TABLA DE RESULTADOS
-  displayedColumns: string[] = ['id', 'selector'];
+  displayedColumns: string[] = ['selector'];
   columnsToDisplay: string[] = this.displayedColumns.slice();
 
   //INDICE DE SOLICITUD SELECCIONADO
   estudioSelection: number = 0;
-
+  clienteUser: any = JSON.parse(localStorage.getItem('user_data'));
   //LISTA DE SOLICITUDES DEVUELTOS EN BÚSQUEDA
   dataSource: MatTableDataSource<EstudioCliente>;
-  estudioTarget: Estudio;
+  estudioTarget: any = null;
+  estudioDet:any = null;
   //FORMULARIOS
   searchForm: FormGroup;
   searchModel: Estudio;
   addForm: FormGroup;
   opStatus: string; //S,P,D
-
+  @ViewChild('estInfo') private infoEstComponent: BasicInfoDialogComponent;
+    async openEstInfoModal() {
+      return await this.infoEstComponent.open();
+  }
   constructor(
     //private modalService: NgbModal,
     private formBuilder: FormBuilder,
@@ -50,21 +54,42 @@ export class EstudioComponent implements OnInit {
       modificado_el: null,
     });
   }
-  /*getTarget(id:number){
-    this.users.forEach((user,ind) => {
-      if(user._id === id){
-
-      }
-    });
-  };*/
+  displayEstudioInfo(estudio){
+    this.estudioDet = estudio;
+    this.infoEstComponent.open();
+  }
+   getYearDiff(t: string): number {
+    let _t = new Date(t);
+    let _n: Date = new Date(Date.now());
+    return _n.getFullYear() - _t.getFullYear();
+  }
   getEstudios() {
-    this._estudioService.getEstudioss().subscribe(
+    this._estudioService.getEstudios().subscribe(
       (response) => {
         console.log(response);
-        this.estudios = response.data;
+        this.estudios = [
+          ...response.data.filter(
+            (est, ind) =>
+              est.solicitud.usuario._id === this.clienteUser._id &&
+              est.estado === 'Culminado'
+          ),
+        ];
       },
       (error) => {
         console.log(error);
+        this.estudios = [
+        {"_id":5,"estado":"Culminado","tipo":"En linea",
+        "encuestas_esperadas":1,
+        "comentarios":"Sin comentarios",
+        "solicitud":{"_id":5,"estado":"solicitada",
+        "usuario":{"_id":35,"nombre":"Solomon","apellido":"Bentley","rol":"cliente","estado":"activo","correo":"B123@gmail.com"},
+        "marca":"Sin especificar","comentarios":"Sin comentarios",
+        "presentaciones":[{"_id":5,"tipo":"Talla","Cantidad":"S","fk_tipo":{"_id":5,"nombre":"Sacos","subCategoria":{"_id":5,"nombre":"Formal","categoria":{"_id":5,"nombre":"Vestimenta"}}}}],
+        "muestraPoblacion":{"_id":5,"genero":"femenino",
+          "nivel_economico":"Alto","nivel_academico":"Doctorado",
+          "rango_edad_inicio":"1940-01-01","rango_edad_fin":"2015-01-01","cantidad_hijos":1,"ocupacion":{"_id":3,"nombre":"Cocinero"},"parroquia":{"_id":1,"nombre":"San Camilo","valorSocioEconomico":1,"municipio":{"_id":1,"nombre":"Manaos","estado":{"_id":1,"nombre":"Amazonas","pais":{"_id":1,"nombre":"Venezuela"}}}}}},"analista":{"_id":40,"nombre":"Hammett","apellido":"Schneider","rol":"analista","estado":"activo","correo":"HMLETSCH456@gmail.com"},"encuesta":[{"_id":13,"pregunta":{"_id":14,"nombre":"a quienes lo recomendaria","tipo":"multiple","usuario":{"_id":28,"nombre":"Jonas","apellido":"Mccray","rol":"administrador","estado":"activo","correo":"JON_M@gmail.com"},"opciones":[{"_id":16,"nombre":"amigos"},{"_id":17,"nombre":"familiares"},{"_id":18,"nombre":"pareja"},{"_id":19,"nombre":"conocidos"}]},"respuestas":[]},{"_id":14,"pregunta":{"_id":1,"nombre":"Que opina del producto? ","tipo":"abierta","usuario":{"_id":26,"nombre":"Macon","apellido":"Mcleod","rol":"administrador","estado":"activo","correo":"MM10@gmail.com"}},"respuestas":[]},{"_id":15,"pregunta":{"_id":2,"nombre":"Cuentenos, tuvo algun problema con el producto?","tipo":"abierta","usuario":{"_id":26,"nombre":"Macon","apellido":"Mcleod","rol":"administrador","estado":"activo","correo":"MM10@gmail.com"}},"respuestas":[]}]
+      }
+        ];
       }
     );
   }
@@ -171,9 +196,9 @@ export class EstudioComponent implements OnInit {
     //FALTA VALIDACION
     //console.log(this.addForm.value);
     this.opStatus = 'P';
-    console.log(this.op);
-    console.log(this.opStatus);
-    console.log(this.opStatus);
+    //console.log(this.op);
+    //console.log(this.opStatus);
+    //console.log(this.opStatus);
     setTimeout(() => {
       this.addForm = this.formBuilder.group({
         marca: null,
@@ -233,7 +258,7 @@ export class EstudioComponent implements OnInit {
   invokeSearch() {
     this.estudios = [];
     this.estudioSelection = 0;
-    if (this.searchForm.value['creado_el'] !== null) {
+    /*if (this.searchForm.value['creado_el'] !== null) {
       this.searchForm
         .get('creado_el')
         .setValue(new Date(this.searchForm.value['creado_el']));
@@ -242,13 +267,12 @@ export class EstudioComponent implements OnInit {
       this.searchForm
         .get('modificado_el')
         .setValue(new Date(this.searchForm.value['modificado_el']));
-    }
+    }*/
     //this.searchForm.get('');
     this.searchState = 'P';
-    console.log(this.searchState);
-    setTimeout(() => {
+    /*setTimeout(() => {
       for (let i = 0; i < Math.floor(Math.random() * (100 - 1) + 1); i++) {
-        /*this.estudios.push({
+        this.estudios.push({
           _id:Math.floor(Math.random()*(100-1)+1),
           estado:"Procesando",
           tipo:"encuesta",
@@ -256,13 +280,13 @@ export class EstudioComponent implements OnInit {
           activo:true,
           creado_el:new Date(),
           modificado_el:new Date(),
-        });*/
+        });
       }
       this.dataSource = new MatTableDataSource<EstudioCliente>(
         this.dataFilter(this.estudios)
       );
       this.searchState = 'D';
-    }, 3000);
+    }, 3000);*/
   }
   setOperation(chOp: string) {
     this.op = chOp;

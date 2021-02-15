@@ -14,12 +14,16 @@ export class PaisService {
   }
 
   getPaises(): Observable<any> {
-    return this._http.get(this.url + '/paises');
+    let token = localStorage.getItem('token');
+    const headers = new HttpHeaders().set('Authorization', token);
+    return this._http.get(this.url + '/paises', { headers: headers });
   }
 
   //id en path
   getPais(id): Observable<any> {
-    return this._http.get(this.url + '/paises/' + id);
+    let token = localStorage.getItem('token');
+    const headers = new HttpHeaders().set('Authorization', token);
+    return this._http.get(this.url + '/paises/' + id, { headers: headers });
   }
 
   /*
@@ -28,7 +32,8 @@ export class PaisService {
   }
   */
   createPais(data) {
-    const headers = new HttpHeaders().set('Content-Type', 'application/json');
+    let token = localStorage.getItem('token');
+    const headers = new HttpHeaders().set('Authorization', token);
     return this._http.post(this.url + '/paises/', JSON.stringify(data), {
       headers: headers,
     });
@@ -41,7 +46,8 @@ export class PaisService {
   }
   */
   updatePais(id, data) {
-    const headers = new HttpHeaders().set('Content-Type', 'application/json');
+    let token = localStorage.getItem('token');
+    const headers = new HttpHeaders().set('Authorization', token);
     return this._http.put(this.url + '/paises/' + id, JSON.stringify(data), {
       headers: headers,
     });
@@ -49,7 +55,8 @@ export class PaisService {
 
   //id en path
   deletePais(id, data) {
-    const headers = new HttpHeaders().set('Content-Type', 'application/json');
+    let token = localStorage.getItem('token');
+    const headers = new HttpHeaders().set('Authorization', token);
     // Ignorar data por los momentos
     return this._http.put(
       this.url + '/paises/' + id + '/eliminar',

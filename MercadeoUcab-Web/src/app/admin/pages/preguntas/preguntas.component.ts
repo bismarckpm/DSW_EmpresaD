@@ -37,7 +37,7 @@ export class PreguntasComponent implements OnInit {
   dataSource: MatTableDataSource<any>;
   minF: number = 0;
   maxF: number = 0;
-  displayedColumns: string[] = ['id', 'desc', 'tipo', 'selector', 'ops'];
+  displayedColumns: string[] = ['desc', 'tipo', 'selector', 'ops'];
   columnsToDisplay: string[] = this.displayedColumns.slice();
 
   optionList: OptionItem[] = [];
@@ -185,52 +185,7 @@ export class PreguntasComponent implements OnInit {
           {_id:17,tipo:'boolean',rango:null,opciones:null,pregunta:'V O F',usuario:this.testUser},
         ];*/
         this.preguntas = [
-          {
-            pregunta: {
-              _id: 3,
-              nombre: 'Como fue su experiencia con el producto?',
-              tipo: 'abierta',
-            },
-            usuario: {
-              _id: 26,
-              nombre: 'Macon',
-              apellido: 'Mcleod',
-              correo: 'MM10@gmail.com',
-              rol: 'administrador',
-            },
-          },
-          {
-            pregunta: {
-              _id: 4,
-              nombre: 'Como se entero del producto?',
-              tipo: 'simple',
-              opciones: [
-                {
-                  _id: 1,
-                  nombre_nombre: 'opcion 2: No la comprendo muy bien',
-                },
-                {
-                  _id: 2,
-                  nombre_nombre: 'radio',
-                },
-                {
-                  _id: 3,
-                  nombre_nombre: 'TV',
-                },
-                {
-                  _id: 4,
-                  nombre_nombre: 'conocidos',
-                },
-              ],
-            },
-            usuario: {
-              _id: 27,
-              nombre: 'Warren',
-              apellido: 'Torres',
-              correo: 'WARREN@gmail.com',
-              rol: 'administrador',
-            },
-          },
+          {"_id":1,"nombre":"Que opina del producto? ","tipo":"abierta","usuario":{"_id":26,"nombre":"Macon","apellido":"Mcleod","rol":"administrador","estado":"activo","correo":"MM10@gmail.com"}},{"_id":2,"nombre":"Cuentenos, tuvo algun problema con el producto?","tipo":"abierta","usuario":{"_id":26,"nombre":"Macon","apellido":"Mcleod","rol":"administrador","estado":"activo","correo":"MM10@gmail.com"}},{"_id":3,"nombre":"Como fue su experiencia con el producto?","tipo":"abierta","usuario":{"_id":26,"nombre":"Macon","apellido":"Mcleod","rol":"administrador","estado":"activo","correo":"MM10@gmail.com"}},{"_id":4,"nombre":"Como se entero del producto?","tipo":"simple","usuario":{"_id":27,"nombre":"Warren","apellido":"Torres","rol":"administrador","estado":"activo","correo":"WARREN@gmail.com"},"opciones":[{"_id":1,"nombre":"redes sociales"},{"_id":2,"nombre":"radio"},{"_id":3,"nombre":"TV"},{"_id":4,"nombre":"conocidos"}]},{"_id":5,"nombre":"cuanto uso el producto?","tipo":"simple","usuario":{"_id":28,"nombre":"Jonas","apellido":"Mccray","rol":"administrador","estado":"activo","correo":"JON_M@gmail.com"},"opciones":[{"_id":5,"nombre":"Mucho"},{"_id":6,"nombre":"Poco"},{"_id":7,"nombre":"Nada"}]},{"_id":6,"nombre":"Como describiria el producto?","tipo":"simple","usuario":{"_id":29,"nombre":"Barclay","apellido":"Holt","rol":"administrador","estado":"activo","correo":"HOLT10@gmail.com"},"opciones":[{"_id":8,"nombre":"Muy util"},{"_id":9,"nombre":"Util"},{"_id":10,"nombre":"Poco util"},{"_id":11,"nombre":"Nada util"}]},{"_id":7,"nombre":"Recomendaria el producto?","tipo":"boolean","usuario":{"_id":29,"nombre":"Barclay","apellido":"Holt","rol":"administrador","estado":"activo","correo":"HOLT10@gmail.com"}},{"_id":8,"nombre":"Le gusto el producto?","tipo":"boolean","usuario":{"_id":29,"nombre":"Barclay","apellido":"Holt","rol":"administrador","estado":"activo","correo":"HOLT10@gmail.com"}},{"_id":9,"nombre":"Lo volveria a comprar","tipo":"boolean","usuario":{"_id":29,"nombre":"Barclay","apellido":"Holt","rol":"administrador","estado":"activo","correo":"HOLT10@gmail.com"}},{"_id":10,"nombre":"Cuanta calidad le da al producto?","tipo":"rango","rango":"1&10","usuario":{"_id":30,"nombre":"Wyatt","apellido":"Jackson","rol":"administrador","estado":"activo","correo":"Wtt@gmail.com"}},{"_id":11,"nombre":"Cuanto le da al acabado del producto?","tipo":"rango","rango":"1&10","usuario":{"_id":30,"nombre":"Wyatt","apellido":"Jackson","rol":"administrador","estado":"activo","correo":"Wtt@gmail.com"}},{"_id":12,"nombre":"En que grado recomendaria el producto?","tipo":"rango","rango":"1&10","usuario":{"_id":30,"nombre":"Wyatt","apellido":"Jackson","rol":"administrador","estado":"activo","correo":"Wtt@gmail.com"}},{"_id":13,"nombre":"Como se entero del producto?","tipo":"multiple","usuario":{"_id":28,"nombre":"Jonas","apellido":"Mccray","rol":"administrador","estado":"activo","correo":"JON_M@gmail.com"},"opciones":[{"_id":12,"nombre":"redes sociales"},{"_id":13,"nombre":"radio"},{"_id":14,"nombre":"TV"},{"_id":15,"nombre":"conocidos"}]},{"_id":14,"nombre":"a quienes lo recomendaria","tipo":"multiple","usuario":{"_id":28,"nombre":"Jonas","apellido":"Mccray","rol":"administrador","estado":"activo","correo":"JON_M@gmail.com"},"opciones":[{"_id":16,"nombre":"amigos"},{"_id":17,"nombre":"familiares"},{"_id":18,"nombre":"pareja"},{"_id":19,"nombre":"conocidos"}]},{"_id":15,"nombre":"si o no?","tipo":"boolean","usuario":{"_id":1,"nombre":"Daren","apellido":"Gonzalez","rol":"encuestado","estado":"activo","correo":"daren1997gonzalez@gmail.com"}}
         ];
         this.dataSource = new MatTableDataSource<Pregunta>(
           this.dataFilter(this.preguntas)

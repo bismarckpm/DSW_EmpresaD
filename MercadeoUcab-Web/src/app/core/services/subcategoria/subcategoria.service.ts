@@ -14,12 +14,18 @@ export class SubcategoriaService {
   }
 
   getSubCategorias(): Observable<any> {
-    return this._http.get(this.url + '/subcategorias');
+    let token = localStorage.getItem('token');
+    const headers = new HttpHeaders().set('Authorization', token);
+    return this._http.get(this.url + '/subcategorias', { headers: headers });
   }
 
   //id en el path
   getSubCategoria(id): Observable<any> {
-    return this._http.get(this.url + '/subcategorias/' + id);
+    let token = localStorage.getItem('token');
+    const headers = new HttpHeaders().set('Authorization', token);
+    return this._http.get(this.url + '/subcategorias/' + id, {
+      headers: headers,
+    });
   }
 
   /*
@@ -29,7 +35,10 @@ export class SubcategoriaService {
   }
   */
   createSubCategoria(data) {
-    const headers = new HttpHeaders().set('Content-Type', 'application/json');
+    let token = localStorage.getItem('token');
+    const headers = new HttpHeaders()
+      .set('Content-Type', 'application/json')
+      .set('Authorization', token);
     // Posible error verificar que la categoria la cargue bien
     return this._http.post(this.url + '/subcategorias/', JSON.stringify(data), {
       headers: headers,
@@ -43,7 +52,10 @@ export class SubcategoriaService {
   }
   */
   updateSubCategoria(id, data) {
-    const headers = new HttpHeaders().set('Content-Type', 'application/json');
+    let token = localStorage.getItem('token');
+    const headers = new HttpHeaders()
+      .set('Content-Type', 'application/json')
+      .set('Authorization', token);
     // Posible error verificar que la categoria la cargue bien
     return this._http.put(
       this.url + '/subcategorias/' + id,
@@ -54,7 +66,10 @@ export class SubcategoriaService {
 
   //id en el path
   deleteSubCategoria(id, data) {
-    const headers = new HttpHeaders().set('Content-Type', 'application/json');
+    let token = localStorage.getItem('token');
+    const headers = new HttpHeaders()
+      .set('Content-Type', 'application/json')
+      .set('Authorization', token);
     // Ignorar data por los momentos
     return this._http.put(
       this.url + '/subcategorias/' + id + '/eliminar',

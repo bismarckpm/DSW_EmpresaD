@@ -14,12 +14,16 @@ export class CategoriaService {
   }
 
   getCategorias(): Observable<any> {
-    return this._http.get(this.url + '/categorias');
+    let token = localStorage.getItem('token');
+    const headers = new HttpHeaders().set('Authorization', token);
+    return this._http.get(this.url + '/extra', { headers: headers });
   }
 
   //id en el path
   getCategoria(id): Observable<any> {
-    return this._http.get(this.url + '/categorias/' + id);
+    let token = localStorage.getItem('token');
+    const headers = new HttpHeaders().set('Authorization', token);
+    return this._http.get(this.url + '/categorias/' + id, { headers: headers });
   }
 
   /*{
@@ -27,7 +31,10 @@ export class CategoriaService {
     }
   */
   createCategoria(data) {
-    const headers = new HttpHeaders().set('Content-Type', 'application/json');
+    let token = localStorage.getItem('token');
+    const headers = new HttpHeaders()
+      .set('Content-Type', 'application/json')
+      .set('Authorization', token);
     let json = JSON.stringify({
       nombre: data.nombre,
     });
@@ -42,7 +49,10 @@ export class CategoriaService {
     }
   */
   updateCategoria(id, data) {
-    const headers = new HttpHeaders().set('Content-Type', 'application/json');
+    let token = localStorage.getItem('token');
+    const headers = new HttpHeaders()
+      .set('Content-Type', 'application/json')
+      .set('Authorization', token);
     let json = JSON.stringify({
       _id: data._id,
       nombre: data.nombre,
@@ -57,7 +67,10 @@ export class CategoriaService {
 
   //id en el path
   deleteCategoria(id, data) {
-    const headers = new HttpHeaders().set('Content-Type', 'application/json');
+    let token = localStorage.getItem('token');
+    const headers = new HttpHeaders()
+      .set('Content-Type', 'application/json')
+      .set('Authorization', token);
     // Ignorar data por los momentos
     return this._http.put(
       this.url + '/categorias/' + id + '/eliminar',

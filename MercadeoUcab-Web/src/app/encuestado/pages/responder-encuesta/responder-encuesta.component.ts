@@ -10,6 +10,7 @@ import { toBackendAnswer } from '@core/models/toBackendAnswer';
 import { Pregunta } from '@core/models/pregunta';
 import { Estudio } from '@core/models/estudio';
 import { Solicitud } from '@core/models/solicitud';
+import { STEPPER_GLOBAL_OPTIONS } from '@angular/cdk/stepper';
 
 //MODELO DE RESPUESTA CONTROLADA
 //los valores *_val corresponden al campo alterable SEGUN EL TIPO DE PREGUNTA
@@ -27,18 +28,15 @@ interface RespuestaModel {
   selector: 'app-responder-encuesta',
   templateUrl: './responder-encuesta.component.html',
   styleUrls: ['./responder-encuesta.component.css'],
+  providers: [
+    {
+      provide: STEPPER_GLOBAL_OPTIONS,
+      useValue: { displayDefaultIndicatorType: false },
+    },
+  ],
 })
 export class ResponderEncuestaComponent implements OnInit {
-  public userLogged: number;
-  _Id: number;
-  _preguntas: Pregunta[] = [];
-  _estudio: Estudio = null;
-  _respuestas: RespuestaModel[] = [];
-  _sampleOption: Opcion = { _id: 0, nombre: '' };
-  opStatus: string;
-  toAdd: toBackendAnswer[] = [];
-  searchState: string = '';
-  surveyReady: boolean = false;
+
   constructor(
     private route: ActivatedRoute,
     private router: Router,
@@ -46,115 +44,210 @@ export class ResponderEncuestaComponent implements OnInit {
     private _preguntaService: PreguntaService,
     private _estudioService: EstudioService
   ) {}
-  /*testPais = {
-    _id: 1,
-    nombre: 'Test pais',
+
+  public userLogged: number;
+  _Id: number;
+  _preguntas: any[] = [];
+  _respuestas: RespuestaModel[] = [];
+  _sampleOption: Opcion = { _id: 0, nombre: '' };
+  opStatus: string;
+  toAdd: toBackendAnswer[] = [];
+  searchState: string = '';
+  surveyReady: boolean = false;
+  _usuario: any =  JSON.parse(localStorage.getItem('user_data'));
+  alteredEstudio: any = null;
+  openAnswer:string = '';
+  multiOption:any = [];
+  singleOption:any = {};
+  boolOption: boolean;
+  rangeOption:any = '';
+  _encuesta: any = null;
+  _answers:any = {};
+
+  testRes = {
+  status: 200,
+  data: {"_id":1,"estado":"En ejecucion",
+        "tipo":"En linea","encuestas_esperadas":1,
+        "solicitud":{"_id":1,"estado":"solicitada","usuario":{"_id":31,"nombre":"Caesar","apellido":"Mosley","rol":"cliente","estado":"activo","correo":"CM10@gmail.com"},"marca":"Sin especificar","comentarios":"Sin comentarios",
+        "presentaciones":[{"_id":1,"tipo":"Madera","Cantidad":"30x50","fk_tipo":{"_id":1,"nombre":"Camas","subCategoria":{"_id":1,"nombre":"Dormitorios","categoria":{"_id":1,"nombre":"Muebles"}}}}],
+        "muestraPoblacion":{"_id":1,"genero":"masculino","nivel_economico":"Alto","nivel_academico":"Licenciado","rango_edad_inicio":"1940-01-01","rango_edad_fin":"2015-01-01",
+        "cantidad_hijos":1,"parroquia":{"_id":1,"nombre":"San Camilo","valorSocioEconomico":1,"municipio":{"_id":1,"nombre":"Manaos",
+        "estado":{"_id":1,"nombre":"Amazonas","pais":{"_id":1,"nombre":"Venezuela"}}}}}},
+        "analista":{"_id":36,"nombre":"Harper","apellido":"Vance",
+        "rol":"analista","estado":"activo","correo":"Harper20@gmail.com"},
+        "encuesta":[
+        {"_id":1,"pregunta":{"_id":1,"nombre":"Que opina del producto? ","tipo":"abierta","usuario":{"_id":26,"nombre":"Macon","apellido":"Mcleod","rol":"administrador","estado":"activo","correo":"MM10@gmail.com"}},
+        "respuestas":[
+        {
+                "respuesta":"respuesta",
+                "dtoEncuestaEstudio": 
+                    {
+                    "_id":22
+                    },
+                "dtousuario": 
+                    {
+                    "_id":2
+                    }
+              },
+        ]},
+        {"_id":2,"pregunta":{"_id":2,"nombre":"Cuentenos, tuvo algun problema con el producto?","tipo":"abierta","usuario":{"_id":26,"nombre":"Macon","apellido":"Mcleod","rol":"administrador","estado":"activo","correo":"MM10@gmail.com"}},"respuestas":[]},
+        {"_id":3,"pregunta":{"_id":3,"nombre":"Como fue su experiencia con el producto?","tipo":"abierta","usuario":{"_id":26,"nombre":"Macon","apellido":"Mcleod","rol":"administrador","estado":"activo","correo":"MM10@gmail.com"}},"respuestas":[]}]},
   };
-  testEstado = {
-    _id: 1,
-    nombre: 'Test estado',
-    pais: this.testPais,
-  };
-  testMunicipio = {
-    _id: 1,
-    nombre: 'Test  municipio',
-    estado: this.testEstado,
-  };
-  testParroquia = {
-    _id: 1,
-    nombre: 'Test  parrroquia',
-    municipio: this.testMunicipio,
-    valorSocioEconomico: 8000,
-  };
-  sampleUsuario: Usuario = {
-    _id: Math.floor(Math.random() * (1000 - 1) + 1),
-    nombre: Math.random().toString(36).substr(2, 5),
-    apellido: Math.random().toString(36).substr(2, 5),
-    rol: 'Administrador',
-    correo: Math.random().toString(36).substr(2, 5),
-    estado: 'Activo',
-  };
-  samplePoblacion: MuestraPoblacion = {
-    _id: 1,
-    genero: 'U',
-    nivel_economico: 999,
-    nivel_academico: 'ABCD',
-    rango_edad_inicio: 25,
-    rango_edad_fin: 50,
-    cantidad_hijos: 0,
-    parroquia: this.testParroquia,
-    Fk_ocupacion: { _id: 1, nombre: 'test ocupacion' },
-  };
-  sampleSolicitud: Solicitud = {
-    _id: 1,
-    estado: 'solicitada',
-  };
-  samplePregunta1: surveyPregunta = {
-    _id: 1,
-    pregunta: 'preg abierta',
-    tipo: 'abierta',
-    rango: '',
-    opciones: [],
-  };
-  samplePregunta2: surveyPregunta = {
-    _id: 2,
-    pregunta: 'preg multiple',
-    tipo: 'multiple',
-    rango: '',
-    opciones: [
-      { _id: 1, nombre_opcion: 'test mult 1' },
-      { _id: 2, nombre_opcion: 'test mult 2' },
-    ],
-  };
-  samplePregunta3: surveyPregunta = {
-    _id: 3,
-    pregunta: 'preg simple',
-    tipo: 'simple',
-    rango: '',
-    opciones: [
-      { _id: 1, nombre_opcion: 'test simple 1' },
-      { _id: 2, nombre_opcion: 'test simple 2' },
-    ],
-  };
-  samplePregunta4: surveyPregunta = {
-    _id: 4,
-    pregunta: 'preg boolean',
-    tipo: 'boolean',
-    rango: '',
-    opciones: [],
-  };
-  samplePregunta5: surveyPregunta = {
-    _id: 5,
-    pregunta: 'preg rango',
-    tipo: 'rango',
-    rango: '1&100',
-    opciones: [],
-  };
-  sampleEncuesta: surveyEncuesta[] = [
-    {
-      _id: 2,
-      pregunta: this.samplePregunta1,
+  doneSurvey(){
+    if(Object.keys(this._answers).length !== 0){
+      let _done = true;
+      Object.entries(this._answers).forEach(([key,value],ind)=> {
+        if(this._answers[key].length === 0){
+         _done = false;
+        }
+      });
+      return _done;
+    }
+    return false;
+  }
+  clearFields(){
+    this.openAnswer = '';
+    this.multiOption = [];
+    this.singleOption = {};
+    this.boolOption= false;
+    this.rangeOption = '';
+  } 
+
+prepAnswer(content,_type){
+  console.log(content);
+  switch(_type){
+    case 'simple':
+      break;
+    case 'multiple':
+      break;
+    case 'boolean':
+      this.boolOption = content;
+      break;  
+    case 'abierta':
+      this.openAnswer = content;
+      break;
+    case 'rango':
+      this.rangeOption = content;
+      break;
+   }
+}
+setSimpleOption(pregInd,opInd){
+  let _op = parseInt(opInd,10);
+  if(_op - 1 !== -1){
+    this.singleOption = this._encuesta.encuesta[pregInd].pregunta.opciones[_op - 1];
+    console.log(this.singleOption);
+  }
+  else {
+    this.singleOption = null;
+  }
+} 
+
+setMultOption(pregId, op) {
+  let ILength: number = this.multiOption.length;
+  this.multiOption = this.multiOption.filter(
+    (regOp) => regOp._id !== op._id
+  );
+  if (ILength === this.multiOption.length) {
+    this.multiOption.push(op);
+  }
+  console.log(this.multiOption);
+}
+checkMultiple(pregInd: number, opInd: number) {
+  let res: boolean = false;
+  this.multiOption.forEach((opc, ind) => {
+    if (opc._id === opInd) {
+      res = true;
+    }
+  });
+  return res;
+}
+ postAnswer(user,_type,stepper,_pregId){
+  let Answer : toBackendAnswer;
+  Answer = new toBackendAnswer({ _id: _pregId }, { _id: this.userLogged });
+  Answer.dtoopcion = null;
+  switch(_type){
+    case 'simple':
+      Answer.dtoopcion = {_id:this.singleOption._id};
+      Answer.respuesta=null;
+      this.sendAnswer(user,_type,[Answer],_pregId);
+      break;
+    case 'multiple':
+      Answer.respuesta=null;
+      let multiAnswers: toBackendAnswer[] = [];
+      const userId = this.userLogged;
+      this.multiOption.forEach((op,ind) =>{
+        let nAnswer: toBackendAnswer = new toBackendAnswer({ _id: _pregId }, { _id: userId });
+        Answer.respuesta=null;
+        Answer.dtoopcion={_id:op._id};
+        multiAnswers.push(nAnswer);
+      });
+      this.sendAnswer(user,_type,[...multiAnswers],_pregId);
+      break;
+    case 'boolean':
+      //extraer
+      Answer.respuesta = this.boolOption.toString();
+      this.sendAnswer(user,_type,[Answer],_pregId);
+      break;  
+    case 'abierta':
+      Answer.respuesta = this.openAnswer;
+      this.sendAnswer(user,_type,[Answer],_pregId);
+      break;
+    case 'rango':
+      Answer.respuesta = this.rangeOption.toString();
+      this.sendAnswer(user,_type,[Answer],_pregId);
+      break;
+   }
+   this.clearFields();
+   stepper.next();
+ }
+ /*setBackendAnswer(simple, respuesta, encuestaEstudio, usuario, opcion) {
+  let singleAnswer = new toBackendAnswer({ _id: this._encuesta._id }, { _id: this._usuario._id });
+  //singleAnswer.dtoEncuestaEstudio._id = encuestaEstudio;
+  //singleAnswer.dtousuario._id = usuario;
+  if (simple === true) {
+    singleAnswer.dtoopcion = opcion;
+  } else {
+    singleAnswer.respuesta = respuesta;
+  }
+  //this.toAdd.push(singleAnswer);
+}*/
+saveSurvey(user,data,_pregId) {
+  //this.opStatus = 'P';
+  this._respuestaService.saveSurvey({respuestas:data}).subscribe(
+    (response: any) => {
+      console.log(response);
+      /*this.alterAnswers.emit({user,data,_pregId});
+      this._answers[`${_pregId}`].push(data);*/
+        for(const ans of data){
+         this._answers[`${_pregId}`].push(ans); 
+        }
     },
-    {
-      _id: 3,
-      pregunta: this.samplePregunta2,
-    },
-    {
-      _id: 4,
-      pregunta: this.samplePregunta3,
-    },
-    {
-      _id: 5,
-      pregunta: this.samplePregunta4,
-    },
-    {
-      _id: 6,
-      pregunta: this.samplePregunta5,
-    },
-  ];
-  */
-  getPreguntas() {}
-  setRespuestas(pregInd, tipoPreg, data) {
+    (error) => {
+      console.log(error);
+      /*this.alterAnswers.emit({user,data,_pregId});
+      this._answers[`${_pregId}`].push(data);*/
+      for(const ans of data){
+         this._answers[`${_pregId}`].push(ans); 
+      }
+      
+    }
+  );
+}
+ sendAnswer(user,preg,resp,_pregId){
+  console.log(resp);
+   switch(preg){
+    case 'simple':
+      this.saveSurvey(user,resp,_pregId);
+      break;
+    case 'multiple':
+      this.saveSurvey(user,resp,_pregId);
+      break;
+     default:
+      this.saveSurvey(user,resp,_pregId);
+      break;  
+   }
+ }
+  /*setRespuestas(pregInd, tipoPreg, data) {
     //let _respuesta: Respuesta;
     switch (tipoPreg) {
       case 'abierta':
@@ -180,8 +273,8 @@ export class ResponderEncuestaComponent implements OnInit {
         break;
     }
     //console.log(this._respuestas[pregInd]);
-  }
-  setMultOption(pregId, op) {
+  }*/
+  /*setMultOption(pregId, op) {
     let ILength: number = this._respuestas[pregId].m_val.length;
     this._respuestas[pregId].m_val = this._respuestas[pregId].m_val.filter(
       (regOp) => regOp._id !== op._id
@@ -200,7 +293,7 @@ export class ResponderEncuestaComponent implements OnInit {
     });
     //console.log(res,` for ${opInd}`);
     return res;
-  }
+  }*/
   //NT: NO FUE POSIBLE EL PASO DEL ESTUDIO A RESPONDER DESDE LA TABLA DE ESTUDIO ASIGNADOS
   //POR LO QUE SE USA UN ID EXTRAIDO DE LA URL EMPLEADA PARA BUSCAR LA INFO DEL ESTUDIO A RESPONDER
   //EN BSD
@@ -210,37 +303,33 @@ export class ResponderEncuestaComponent implements OnInit {
     this._estudioService.getEstudio(estudioId).subscribe(
       (response) => {
         console.log(response);
-        this._estudio = response.data;
-        this.searchState = 'D';
-        //console.log(this._estudio);
-        this._estudio.encuesta.forEach((preg, ind) => {
-          //INSTANCIAR PREPARACION DE Respuesta
-          this._respuestas.push({
-            tipo: preg.pregunta.tipo,
-            a_val: null,
-            s_val: null,
-            m_val: [],
-            b_val: true,
-            r_val: null,
-            done: false,
-          });
+        this._encuesta = response.data;
+        this._encuesta.encuesta.forEach((preg,ind)=> {
+          //let auxPreg: any = this._AnswersMap[key];
+          const {_id,respuestas} = preg;
+          //console.log(auxPreg);
+          this._answers[`${_id}`]=[...respuestas.filter((p:toBackendAnswer,i) => p.dtousuario._id === this.userLogged)];
+          //this._userAnswers[`${_id}`]= {}; 
         });
+        this._encuesta.encuesta = [...this._encuesta.encuesta.filter((preg,ind) => this._answers[`${preg._id}`].length === 0)];
+        console.log(this._answers);
+        this.searchState = 'D';
       },
       (error) => {
         console.log(error);
-        /*this._estudio = {
-          _id: 666,
-          estado: 'activo',
-          tipo: 'WEB',
-          encuestas_esperadas: 333,
-          solicitud: this.sampleSolicitud,
-          muestra_poblacion: this.samplePoblacion,
-          analista: this.sampleUsuario,
-          encuesta: this.sampleEncuesta,
-        };*/
+        this._encuesta = this.testRes.data;
+        this._encuesta.encuesta.forEach((preg,ind)=> {
+          //let auxPreg: any = this._AnswersMap[key];
+          const {_id,respuestas} = preg;
+          //console.log(auxPreg);
+          this._answers[`${_id}`]=[...respuestas.filter((p:toBackendAnswer,i) => p.dtousuario._id === this.userLogged)];
+          //this._userAnswers[`${_id}`]= {}; 
+        });
+        console.log(this._answers);
+        this._encuesta.encuesta = [...this._encuesta.encuesta.filter((preg,ind) => this._answers[`${preg._id}`].length === 0)];
         //this._estudio = testRes.data;
         //console.log(this._estudio);
-        this._estudio.encuesta.forEach((preg, ind) => {
+        /*this._estudio.encuesta.forEach((preg, ind) => {
           //INSTANCIAR PREPARACION DE Respuesta
           this._respuestas.push({
             tipo: preg.pregunta.tipo,
@@ -251,22 +340,19 @@ export class ResponderEncuestaComponent implements OnInit {
             r_val: null,
             done: false,
           });
-        });
+        });*/
         this.searchState = 'D';
       }
     );
   }
   ngOnInit(): void {
-    //console.log(this.route.snapshot.paramMap.get('id'));
-    // this.userLogged = Number(localStorage.getItem('_id'));
-    this.userLogged = parseInt(localStorage.getItem('_id'));
+    this.userLogged = parseInt(JSON.parse(localStorage.getItem('user_data'))['_id'],10);
     this._Id = parseInt(this.route.snapshot.paramMap.get('id'), 10);
     this.searchState = '';
     this.opStatus = 'S';
-    this.getData(this._Id);
-    //this.getData(4);
+    this.getData(this._Id)
   }
-
+  
   onDir(_route: string): void {
     try {
       //console.log(_route);
@@ -275,7 +361,7 @@ export class ResponderEncuestaComponent implements OnInit {
       console.log(e.message);
     }
   }
-
+  /*
   checkResp(pregInd, preg) {
     let resp: RespuestaModel = this._respuestas[pregInd];
     let _done = false;
@@ -314,7 +400,8 @@ export class ResponderEncuestaComponent implements OnInit {
         break;
     }
     this._respuestas[pregInd].done = _done;
-  }
+  }*/
+  /*
   checkSurvey(): boolean {
     let res: boolean = false;
     //console.log('Checking answers...');
@@ -329,7 +416,7 @@ export class ResponderEncuestaComponent implements OnInit {
       }
     }
     return res;
-  }
+  }*/
   /* 
   //VERSION AUXILIAR
   postRespuestas(pregPos:number,tipoPreg:string,resp:any){
@@ -351,7 +438,7 @@ export class ResponderEncuestaComponent implements OnInit {
         break;
     }
   }*/
-
+  /*
   saveSurvey(data) {
     this.opStatus = 'P';
     this._respuestaService.saveSurvey(data).subscribe(
@@ -364,8 +451,8 @@ export class ResponderEncuestaComponent implements OnInit {
         this.opStatus = 'E';
       }
     );
-  }
-  setBackendAnswer(simple, respuesta, encuestaEstudio, usuario, opcion) {
+  }*/
+  /*setBackendAnswer(simple, respuesta, encuestaEstudio, usuario, opcion) {
     let singleAnswer = new toBackendAnswer({ _id: 0 }, { _id: 0 });
     singleAnswer.dtoEncuestaEstudio._id = encuestaEstudio;
     singleAnswer.dtousuario._id = usuario;
@@ -375,9 +462,9 @@ export class ResponderEncuestaComponent implements OnInit {
       singleAnswer.respuesta = respuesta;
     }
     this.toAdd.push(singleAnswer);
-  }
+  }*/
   //NT: ESTE METODO SOLO SE HABILITA UNA VEZ COMPLETADAS LAS PREGUNTAS EN LA ENCUESTA CON SUS RESPUESTAS
-  postRespuestas() {
+  /*postRespuestas() {
     //ARRAY DE RESPUESTAS ESPERADAS Y VALIDADAS
     //this._respuestas
     //PREGUNTAS DEL ESTUDIO CON CARACTERISTICAS ESPECIFICADAS
@@ -450,182 +537,5 @@ export class ResponderEncuestaComponent implements OnInit {
     backendStyle.respuestas = this.toAdd;
     this.saveSurvey(backendStyle);
     this.router.navigate(['']);
-  }
+  }*/
 }
-
-let testRes = {
-  status: 200,
-  data: {
-    _id: 1,
-    estado: 'En ejecucion',
-    tipo: 'En linea',
-    encuestas_esperadas: 1,
-    solicitud: {
-      _id: 1,
-      estado: 'solicitada',
-    },
-    analista: {
-      _id: 6,
-      nombre: 'Macon',
-      apellido: 'Mcleod',
-      correo: 'MM10@gmail.com',
-      rol: 'administrador',
-      estado: 'test',
-    },
-    muestra_poblacion: {
-      _id: 1,
-      genero: 'masculino',
-      nivel_academico: 'Bachiller',
-      nivel_economico: 3,
-      rango_edad_inicio: 10,
-      rango_edad_fin: 50,
-      cantidad_hijos: 2,
-      Fk_ocupacion: { _id: 1, nombre: 'test Ocupacion' },
-      parroquia: {
-        _id: 6,
-        nombre: 'Eglise Notre Dame De Rumengol',
-        // "valor_socioeconomico": 1,
-        valorSocioEconomico: 3,
-        nivel_economico: 3,
-        municipio: {
-          _id: 7,
-          nombre: 'Le Faou',
-          estado: {
-            _id: 7,
-            nombre: 'Breteña',
-            pais: {
-              _id: 4,
-              nombre: 'Francia',
-            },
-          },
-        },
-      },
-    },
-    encuesta: [
-      {
-        _id: 1,
-        pregunta: {
-          _id: 1,
-          pregunta: 'Pregunta 1: Le parecio comodo el mueble? ',
-          tipo: 'abierta',
-        },
-      },
-      {
-        _id: 7,
-        pregunta: {
-          _id: 2,
-          pregunta: 'Pregunta 2: Recomendaria este mueble a otras personas?',
-          tipo: 'boolean',
-        },
-      },
-      {
-        _id: 3,
-        pregunta: {
-          _id: 3,
-          pregunta:
-            'Pregunta 3: El precio del mueble le parece que esta bien justificado?',
-          tipo: 'abierta',
-          rango: '',
-        },
-      },
-      {
-        _id: 24,
-        pregunta: {
-          _id: 4,
-          pregunta: 'Pregunta 4: Que problemas encontro en nuestro mueble?',
-          tipo: 'abierta',
-        },
-      },
-    ],
-  },
-};
-
-/* 
-  CAMBIOS RELEVANTES
-    Se cambiaron los modelos a los survey<Modelo>, ya que el json no contiene 
-    todos los modelos iguales a los que se tienen, ejemplo en solicitud ni en 
-    pregunta tienen usuario (Json de abajo), se cambie las variables segun los 
-    cambios que hice, en eso debe estar el error.
-
-  FORMATO DEL JSON
-  {
-    "status": 200,
-    "data": {
-        "_id": 1,
-        "estado": "En ejecucion",
-        "tipo": "En linea",
-        "encuestas_esperadas": 1,
-        "solicitud": {
-            "_id": 1,
-            "estado": "solicitada"
-        },
-        "analista": {
-            "_id": 6,
-            "nombre": "Macon",
-            "apellido": "Mcleod",
-            "correo": "MM10@gmail.com",
-            "rol": "administrador"
-        },
-        "muestra_poblacion": {
-            "_id": 1,
-            "genero": "masculino",
-            "nivel_academico": "Bachiller",
-            "rango_edad_inicio": 10,
-            "rango_edad_fin": 50,
-            "cantidad_hijos": 2,
-            "parroquia": {
-                "_id": 6,
-                "nombre": "Eglise Notre Dame De Rumengol",
-                "valor_socioeconomico": 1,
-                "municipio": {
-                    "_id": 7,
-                    "nombre": "Le Faou",
-                    "estado": {
-                        "_id": 7,
-                        "nombre": "Breteña",
-                        "pais": {
-                            "_id": 4,
-                            "nombre": "Francia"
-                        }
-                    }
-                }
-            }
-        },
-        "encuesta": [
-            {
-                "_id": 1,
-                "pregunta": {
-                    "_id": 1,
-                    "pregunta": "Pregunta 1: Le parecio comodo el mueble? ",
-                    "tipo": "abierta"
-                }
-            },
-            {
-                "_id": 2,
-                "pregunta": {
-                    "_id": 2,
-                    "pregunta": "Pregunta 2: Recomendaria este mueble a otras personas?",
-                    "tipo": "boolean"
-                }
-            },
-            {
-                "_id": 3,
-                "pregunta": {
-                    "_id": 3,
-                    "pregunta": "Pregunta 3: El precio del mueble le parece que esta bien justificado?",
-                    "tipo": "abierta"
-                }
-            },
-            {
-                "_id": 4,
-                "pregunta": {
-                    "_id": 4,
-                    "pregunta": "Pregunta 4: Que problemas encontro en nuestro mueble?",
-                    "tipo": "abierta"
-                }
-            }
-        ]
-    }
-}
-
-*/

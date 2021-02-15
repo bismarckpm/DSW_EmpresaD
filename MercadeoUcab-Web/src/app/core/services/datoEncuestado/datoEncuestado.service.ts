@@ -14,12 +14,20 @@ export class DatoEncuestadoService {
   }
 
   getDatosEncuestados(): Observable<any> {
-    return this._http.get(this.url + '/datos_encuestados');
+    let token = localStorage.getItem('token');
+    const headers = new HttpHeaders().set('Authorization', token);
+    return this._http.get(this.url + '/datos_encuestados', {
+      headers: headers,
+    });
   }
 
   //id en el path
   getDatoEncuestado(id): Observable<any> {
-    return this._http.get(this.url + '/datos_encuestados/' + id);
+    let token = localStorage.getItem('token');
+    const headers = new HttpHeaders().set('Authorization', token);
+    return this._http.get(this.url + '/datos_encuestados/' + id, {
+      headers: headers,
+    });
   }
 
   /*
@@ -56,7 +64,10 @@ export class DatoEncuestadoService {
   }
   */
   createDatoEncuestado(data) {
-    const headers = new HttpHeaders().set('Content-Type', 'application/json');
+    let token = localStorage.getItem('token');
+    const headers = new HttpHeaders()
+      .set('Content-Type', 'application/json')
+      .set('Authorization', token);
     return this._http.post(
       this.url + '/datos_encuestados/',
       JSON.stringify(data),
@@ -79,7 +90,10 @@ export class DatoEncuestadoService {
   }
   */
   updateDatoEncuestado(id, data) {
-    const headers = new HttpHeaders().set('Content-Type', 'application/json');
+    let token = localStorage.getItem('token');
+    const headers = new HttpHeaders()
+      .set('Content-Type', 'application/json')
+      .set('Authorization', token);
     return this._http.put(
       this.url + '/datos_encuestados/' + id,
       JSON.stringify(data),
@@ -89,7 +103,10 @@ export class DatoEncuestadoService {
 
   //id en path
   deleteDatoEncuestado(id, data) {
-    const headers = new HttpHeaders().set('Content-Type', 'application/json');
+    let token = localStorage.getItem('token');
+    const headers = new HttpHeaders()
+      .set('Content-Type', 'application/json')
+      .set('Authorization', token);
     // Ignorar data por los momentos
     return this._http.put(
       this.url + '/datos_encuestados/' + id + '/eliminar',

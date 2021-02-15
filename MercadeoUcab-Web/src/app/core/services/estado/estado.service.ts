@@ -14,12 +14,16 @@ export class EstadoService {
   }
 
   getEstados(): Observable<any> {
-    return this._http.get(this.url + '/estados');
+    let token = localStorage.getItem('token');
+    const headers = new HttpHeaders().set('Authorization', token);
+    return this._http.get(this.url + '/estados', { headers: headers });
   }
 
   //id en el path
   getEstado(id): Observable<any> {
-    return this._http.get(this.url + '/estados/' + id);
+    let token = localStorage.getItem('token');
+    const headers = new HttpHeaders().set('Authorization', token);
+    return this._http.get(this.url + '/estados/' + id, { headers: headers });
   }
 
   /*
@@ -29,19 +33,25 @@ export class EstadoService {
   }
   */
   createEstado(data) {
-    const headers = new HttpHeaders().set('Content-Type', 'application/json');
+    let token = localStorage.getItem('token');
+    const headers = new HttpHeaders()
+      .set('Content-Type', 'application/json')
+      .set('Authorization', token);
     return this._http.post(this.url + '/estados/', JSON.stringify(data), {
       headers: headers,
     });
   }
 
-    /*id en path
+  /*id en path
   {
     "nombre":"nombre"
   }
   */
   updateEstado(id, data) {
-    const headers = new HttpHeaders().set('Content-Type', 'application/json');
+    let token = localStorage.getItem('token');
+    const headers = new HttpHeaders()
+      .set('Content-Type', 'application/json')
+      .set('Authorization', token);
     return this._http.put(this.url + '/estados/' + id, JSON.stringify(data), {
       headers: headers,
     });
@@ -49,7 +59,10 @@ export class EstadoService {
 
   //id en el path
   deleteEstado(id, data) {
-    const headers = new HttpHeaders().set('Content-Type', 'application/json');
+    let token = localStorage.getItem('token');
+    const headers = new HttpHeaders()
+      .set('Content-Type', 'application/json')
+      .set('Authorization', token);
     // Ignorar data por los momentos
     return this._http.put(
       this.url + '/estados/' + id + '/eliminar',

@@ -13,22 +13,30 @@ export class OcupacionService {
   }
 
   getOcupaciones(): Observable<any> {
-    return this._http.get(this.url + '/ocupaciones');
+    let token = localStorage.getItem('token');
+    const headers = new HttpHeaders().set('Authorization', token);
+    return this._http.get(this.url + '/ocupaciones', { headers: headers });
   }
 
   getOcupacion(id): Observable<any> {
-    return this._http.get(this.url + '/ocupaciones/' + id);
+    let token = localStorage.getItem('token');
+    const headers = new HttpHeaders().set('Authorization', token);
+    return this._http.get(this.url + '/ocupaciones/' + id, {
+      headers: headers,
+    });
   }
 
   createOcupacion(data) {
-    const headers = new HttpHeaders().set('Content-Type', 'application/json');
+    let token = localStorage.getItem('token');
+    const headers = new HttpHeaders().set('Authorization', token);
     return this._http.post(this.url + '/ocupaciones/', JSON.stringify(data), {
       headers,
     });
   }
 
   updateOcupacion(id, data) {
-    const headers = new HttpHeaders().set('Content-Type', 'application/json');
+    let token = localStorage.getItem('token');
+    const headers = new HttpHeaders().set('Authorization', token);
     return this._http.put(
       this.url + '/ocupaciones/' + id,
       JSON.stringify(data),
@@ -40,7 +48,8 @@ export class OcupacionService {
 
   deleteOcupacion(id, data) {
     // Ignorar data por los momentos
-    const headers = new HttpHeaders().set('Content-Type', 'application/json');
+    let token = localStorage.getItem('token');
+    const headers = new HttpHeaders().set('Authorization', token);
     return this._http.put(
       this.url + '/ocupaciones/' + id + '/eliminar',
       JSON.stringify(data),

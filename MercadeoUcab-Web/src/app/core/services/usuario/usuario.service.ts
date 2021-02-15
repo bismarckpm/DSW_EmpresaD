@@ -14,22 +14,32 @@ export class UsuarioService {
   }
 
   getUsers(): Observable<any> {
-    return this._http.get(this.url + '/usuarios');
+    let token = localStorage.getItem('token');
+    const headers = new HttpHeaders().set('Authorization', token);
+    return this._http.get(this.url + '/usuarios', { headers: headers });
   }
 
   getUser(id): Observable<any> {
-    return this._http.get(this.url + '/usuarios/' + id);
+    let token = localStorage.getItem('token');
+    const headers = new HttpHeaders().set('Authorization', token);
+    return this._http.get(this.url + '/usuarios/' + id, { headers: headers });
   }
 
   createUser(data) {
-    const headers = new HttpHeaders().set('Content-Type', 'application/json');
+    let token = localStorage.getItem('token');
+    const headers = new HttpHeaders()
+      .set('Content-Type', 'application/json')
+      .set('Authorization', token);
     return this._http.post(this.url + '/usuarios/', JSON.stringify(data), {
       headers,
     });
   }
 
   updateUser(id, data) {
-    const headers = new HttpHeaders().set('Content-Type', 'application/json');
+    let token = localStorage.getItem('token');
+    const headers = new HttpHeaders()
+      .set('Content-Type', 'application/json')
+      .set('Authorization', token);
     return this._http.put(this.url + '/usuarios/' + id, JSON.stringify(data), {
       headers: headers,
     });
@@ -37,7 +47,10 @@ export class UsuarioService {
 
   deleteUser(id, data) {
     // Ignorar data por los momentos
-    const headers = new HttpHeaders().set('Content-Type', 'application/json');
+    let token = localStorage.getItem('token');
+    const headers = new HttpHeaders()
+      .set('Content-Type', 'application/json')
+      .set('Authorization', token);
     return this._http.put(
       this.url + '/usuarios/' + id + '/eliminar',
       JSON.stringify(data),

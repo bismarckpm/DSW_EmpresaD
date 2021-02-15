@@ -10,6 +10,8 @@ import { EstudioComponent } from './Pages/estudio/estudio.component';
 import { MaterialModule } from '../material.module';
 import { LocalNgbModule } from '../ngbootstrap.module';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { BasicInfoDialogComponent } from './components/basic-info-dialog/basic-info-dialog.component';
+import { ClienteHomeComponent } from './Pages/ClienteHome/ClienteHome.component';
 
 @NgModule({
   declarations: [
@@ -18,6 +20,8 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
     UpdateSolicitudDialogComponent,
     DataTableClienteComponent,
     EstudioComponent,
+    BasicInfoDialogComponent,
+    ClienteHomeComponent,
   ],
   imports: [
     CommonModule,

@@ -19,13 +19,16 @@ export class EncuestasPendientesComponent implements OnInit {
     private _utilService: UtilService
   ) {}
   // public idUserLogged: number = 2;
-  public idUserLogged: number = parseInt(localStorage.getItem('_id'));
+  public idUserLogged: number = parseInt(
+    JSON.parse(localStorage.getItem('user_data'))['_id'],
+    10
+  );
   enc: string = '';
   searchState: string = '';
-  encuestas: Encuesta[] = [];
-  dataSource: MatTableDataSource<Encuesta>;
+  encuestas: any[] = [];
+  dataSource: MatTableDataSource<any>;
 
-  displayedColumns: string[] = ['id', 'selector', 'ops'];
+  displayedColumns: string[] = ['marca', 'pregs', 'subcat', 'cat', 'ops'];
   columnsToDisplay: string[] = this.displayedColumns.slice();
   ngOnInit(): void {
     this.getEncuestasOfEncuestado();
@@ -51,13 +54,140 @@ export class EncuestasPendientesComponent implements OnInit {
       (response: any) => {
         if (response.status === 200) {
           console.log(response);
-          this.encuestas = response.data;
+          this.encuestas = [
+            ...response.data.filter(
+              (est, ind) =>
+                est.solicitud.Tipo !== 'encuesta' && est.estado !== 'Culminado'
+            ),
+          ];
         } else {
           //alert(response.message);
         }
       },
       (error) => {
         console.log(error);
+        this.encuestas = [
+          {
+            _id: 1,
+            estado: 'En ejecucion',
+            tipo: 'En linea',
+            encuestas_esperadas: 1,
+            solicitud: {
+              _id: 1,
+              estado: 'solicitada',
+              usuario: {
+                _id: 31,
+                nombre: 'Caesar',
+                apellido: 'Mosley',
+                rol: 'cliente',
+                estado: 'activo',
+                correo: 'CM10@gmail.com',
+              },
+              marca: 'Sin especificar',
+              comentarios: 'Sin comentarios',
+              presentaciones: [
+                {
+                  _id: 1,
+                  tipo: 'Madera',
+                  Cantidad: '30x50',
+                  fk_tipo: {
+                    _id: 1,
+                    nombre: 'Camas',
+                    subCategoria: {
+                      _id: 1,
+                      nombre: 'Dormitorios',
+                      categoria: { _id: 1, nombre: 'Muebles' },
+                    },
+                  },
+                },
+              ],
+              muestraPoblacion: {
+                _id: 1,
+                genero: 'masculino',
+                nivel_economico: 'Alto',
+                nivel_academico: 'Licenciado',
+                rango_edad_inicio: '1940-01-01',
+                rango_edad_fin: '2015-01-01',
+                cantidad_hijos: 1,
+                parroquia: {
+                  _id: 1,
+                  nombre: 'San Camilo',
+                  valorSocioEconomico: 1,
+                  municipio: {
+                    _id: 1,
+                    nombre: 'Manaos',
+                    estado: {
+                      _id: 1,
+                      nombre: 'Amazonas',
+                      pais: { _id: 1, nombre: 'Venezuela' },
+                    },
+                  },
+                },
+              },
+            },
+            analista: {
+              _id: 36,
+              nombre: 'Harper',
+              apellido: 'Vance',
+              rol: 'analista',
+              estado: 'activo',
+              correo: 'Harper20@gmail.com',
+            },
+            encuesta: [
+              {
+                _id: 1,
+                pregunta: {
+                  _id: 1,
+                  nombre: 'Que opina del producto? ',
+                  tipo: 'abierta',
+                  usuario: {
+                    _id: 26,
+                    nombre: 'Macon',
+                    apellido: 'Mcleod',
+                    rol: 'administrador',
+                    estado: 'activo',
+                    correo: 'MM10@gmail.com',
+                  },
+                },
+                respuestas: [],
+              },
+              {
+                _id: 2,
+                pregunta: {
+                  _id: 2,
+                  nombre: 'Cuentenos, tuvo algun problema con el producto?',
+                  tipo: 'abierta',
+                  usuario: {
+                    _id: 26,
+                    nombre: 'Macon',
+                    apellido: 'Mcleod',
+                    rol: 'administrador',
+                    estado: 'activo',
+                    correo: 'MM10@gmail.com',
+                  },
+                },
+                respuestas: [],
+              },
+              {
+                _id: 3,
+                pregunta: {
+                  _id: 3,
+                  nombre: 'Como fue su experiencia con el producto?',
+                  tipo: 'abierta',
+                  usuario: {
+                    _id: 26,
+                    nombre: 'Macon',
+                    apellido: 'Mcleod',
+                    rol: 'administrador',
+                    estado: 'activo',
+                    correo: 'MM10@gmail.com',
+                  },
+                },
+                respuestas: [],
+              },
+            ],
+          },
+        ];
       }
     );
   }
@@ -70,7 +200,7 @@ export class EncuestasPendientesComponent implements OnInit {
           _id: 1,
         },
       ];*/
-      this.dataSource = new MatTableDataSource<Encuesta>(this.encuestas);
+      this.dataSource = new MatTableDataSource<any>(this.encuestas);
       this.searchState = 'D';
     }, 3000);
   }

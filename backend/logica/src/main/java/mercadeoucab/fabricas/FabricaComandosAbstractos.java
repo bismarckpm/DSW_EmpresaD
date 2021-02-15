@@ -23,6 +23,7 @@ public abstract class FabricaComandosAbstractos {
     private static final FabricaComandosSubCategoria COMANDOS_SUB_CATEGORIA = new FabricaComandosSubCategoria();
     private static final FabricaComandoTipo COMANDO_TIPO = new FabricaComandoTipo();
     private static final FabricaComandosUsuario COMANDOS_USUARIO = new FabricaComandosUsuario();
+    private static final FabricaComandosMuestraPoblacion COMANDOS_MUESTRA_POBLACION = new FabricaComandosMuestraPoblacion();
 
     public static FabricaComandosAbstractos getFactory(Comandos tipo){
         FabricaComandosAbstractos fabricaComandosAbstractos = null;
@@ -77,6 +78,9 @@ public abstract class FabricaComandosAbstractos {
                 break;
             case CATEGORIA:
                 fabricaComandosAbstractos = COMANDOS_CATEGORIA;
+                break;
+            case MUESTRAPOBLACION:
+                fabricaComandosAbstractos = COMANDOS_MUESTRA_POBLACION;
                 break;
         }
         return fabricaComandosAbstractos;

@@ -34,7 +34,7 @@ public class SolicitudMapper {
             );
         }
 
-        if (dtoSolicitud.getPresentaciones().size() > 0){
+        if (Objects.nonNull( dtoSolicitud.getPresentaciones() )){
             for(DtoPresentacion presentacion: dtoSolicitud.getPresentaciones())
             {
                 solicitud.addPresentacion(
@@ -68,7 +68,7 @@ public class SolicitudMapper {
             );
         }
 
-        if ( solicitud.getPresentaciones().size() > 0){
+        if ( Objects.nonNull( solicitud.getPresentaciones())){
             for (Presentacion presentacion: solicitud.getPresentaciones()){
                 dtoSolicitud.addPresentacion(
                         PresentacionMapper.mapEntityToDto( presentacion)

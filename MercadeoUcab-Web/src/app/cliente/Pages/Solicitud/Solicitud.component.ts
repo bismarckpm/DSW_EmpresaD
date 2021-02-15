@@ -3,76 +3,85 @@ import { Solicitud } from '@models/solicitud';
 import { MatTableDataSource } from '@angular/material/table';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { SolicitudService } from '@core/services/solicitud/solicitud.service';
-import { MarcaService } from '@core/services/marca/marca.service';
-import { SubcategoriaService } from '@core/services/subcategoria/subcategoria.service';
-import { PresentacionService } from '@core/services/presentacion/presentacion.service';
-import { TipoService } from '@core/services/tipo/tipo.service';
 import { UpdateSolicitudDialogComponent } from '../../../cliente/components/dialogs/upd-solicitud-dialog/update-solicitud-dialog.component';
-import { DeleteUserDialogComponent } from '../../../admin/components/dialogs/delete-user-dialog/delete-user-dialog.component';
-import { Usuario } from '@models/usuario';
 import { UtilService } from '@core/services/utils/util.service';
 import { Marca } from '@models/marca';
-import { SubCategoria } from '@models/subcategoria';
-import { Presentacion } from '@models/presentacion';
-import { Tipo } from '@models/tipo';
+import { CategoriaService } from '@core/services/categoria/categoria.service';
+import { Ocupacion } from '@core/models/ocupacion';
+import { ParroquiaService } from '@core/services/parroquia/parroquia.service';
+import { OcupacionService } from '@core/services/ocupacion/ocupacion.service';
+import { Parroquia } from '@core/models/parroquia';
+import { Pais } from '@core/models/pais';
+import { Estado } from '@core/models/estado';
+import { Municipio } from '@core/models/municipio';
+import { MuestraPoblacion } from '@core/models/muestraPoblacion';
+import { Muestra_poblacionService } from '@core/services/muestra_poblacion/muestra_poblacion.service';
+
+interface ResCat {
+  _id:number,
+  nombre:string,
+  subcategorias:any[]
+}
 
 @Component({
-  // tslint:disable-next-line:component-selector
   selector: 'app-Solicitud',
   templateUrl: './Solicitud.component.html',
   styleUrls: ['./Solicitud.component.css'],
 })
 export class SolicitudComponent implements OnInit {
   constructor(
-    // private modalService: NgbModal,
     private formBuilder: FormBuilder,
-    // tslint:disable-next-line:variable-name
     private _solicitudService: SolicitudService,
-    // tslint:disable-next-line:variable-name
     private _solicitudUtilService: UtilService,
-    private marcaServices: MarcaService,
-    private subcategoriaService: SubcategoriaService,
-    private presentacionService: PresentacionService,
-    private tipoService: TipoService
+    private categoriaService: CategoriaService,
+    private _parroquiaService: ParroquiaService,
+    private _poblacionService: Muestra_poblacionService,
+    private _ocupacionService: OcupacionService
   ) {
-    this.addForm = this.formBuilder.group({
-      marca: null,
-      presentacion: null,
-      usuario: null,
-      tipo: null,
-      subCategoria: null,
-      estado: 'solicitada',
-    });
-    this.searchForm = this.formBuilder.group({
-      usuario: null, // SELECT
-      presentacion: null,
-      subCategoria: null,
-      tipo: null,
-      marca: null, // SELECT
-      estado: null, // SELECT
-      activo: null, // CHECKBOX O SELECT
-      creado_el: null, // DATE TO STRING
-      modificado_el: null, // DATE TO STRING
-    });
   }
-
+  sec: string = 'SOL';
   // CONTROL DE ESTADO DEL COMPONENTE
   op: string;
   searchState: string; // U.I,D
   toSearch2: any = {};
   solicitudes: Solicitud[] = [];
   solicitudes2: Solicitud[] = [];
-  // tslint:disable-next-line:radix
+  poblacionForm: FormGroup;
+  ocupaciones: Ocupacion[] = [];
+  parroquias: Parroquia[] = [];
+  testPais: Pais = {
+    _id: 1,
+    nombre: 'Test pais',
+  };
+  testEstado: Estado = {
+    _id: 1,
+    nombre: 'Test estado',
+    pais: this.testPais,
+  };
+  testMunicipio: Municipio = {
+    _id: 1,
+    nombre: 'Test  municipio',
+    estado: this.testEstado,
+  };
+  testParroquia: Parroquia = {
+    _id: 1,
+    nombre: 'Test  parrroquia',
+    municipio: this.testMunicipio,
+    valorSocioEconomico: 8000,
+  };
   ID = parseInt(localStorage.getItem('_id'));
   //ID = 5;
   marcas: Marca[] = [];
-  subcategorias: SubCategoria[] = [];
-  presentaciones: Presentacion[] = [];
-  tipos: Tipo[] = [];
+  presentaciones: any[] = [];
+  tipos: any[] = [];
+  subcategorias: any[] = [];
+  categorias: ResCat[] = [];
+  minAge: number = 0;
+  maxAge: number = 0;
+  
 
   // COLUMNAS DE TABLA DE RESULTADOS
   displayedColumns: string[] = [
-    'id',
     'selector',
     'estado',
     'Marca',
@@ -90,70 +99,274 @@ export class SolicitudComponent implements OnInit {
   dataSource: MatTableDataSource<Solicitud>;
   solicitudTarget: Solicitud;
   // FORMULARIOS
+  clienteUser: any = JSON.parse(localStorage.getItem('user_data'));
   searchForm: FormGroup;
   searchModel: Solicitud;
   addForm: FormGroup;
   opStatus: string; // S,P,D
   userSolicitud: number;
-  @ViewChild('updSolicitud')
-  private updComponent: UpdateSolicitudDialogComponent;
+  @ViewChild('updSolicitud') private updComponent: UpdateSolicitudDialogComponent;
 
   setUsuarioSolicitud(U: number) {
     this.userSolicitud = U;
   }
 
-  /*getTarget(id:number){
-    this.users.forEach((user,ind) => {
-      if(user._id === id){
-
-      }
-    });
-  };*/
-
-  getPresentacion() {
-    this.presentacionService.getPresentaciones().subscribe(
+  getCategorias() {
+    this.categoriaService.getCategorias().subscribe(
       (response) => {
         console.log(response);
-        this.presentaciones = response.data;
+        this.categorias = response.data;
       },
       (error) => {
         console.log(error);
+        let testCategorias: any = {
+          "status": 200,
+          "data": [
+            {
+              "_id": 1,
+              "nombre": "Muebles de dormitorio",
+              subcategorias: []
+            },
+            {
+              "_id": 2,
+              "nombre": "Maquillaje",
+              subcategorias: []
+            },
+            {
+              "_id": 3,
+              "nombre": "Electronicos",
+              subcategorias: [
+                {
+                  "_id": 3,
+                  "nombre": "Computadoras de escritorio",
+                  "tipos": [
+                    {
+                      "_id": 3,
+                      "nombre": "Liquido",
+                      "presentaciones": [
+                        {
+                          "_id": 3,
+                          "tipo": "peso",
+                          "Cantidad": "1000 g"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "_id": 4,
+                  "nombre": "TVs",
+                  "tipos": [
+                    {
+                      "_id": 4,
+                      "nombre": "Polvo",
+                      "presentaciones": [
+                        {
+                          "_id": 4,
+                          "tipo": "volumen",
+                          "Cantidad": "2 l"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "_id": 4,
+              "nombre": "Utiles escolares",
+              subcategorias: []
+            },
+            {
+              "_id": 5,
+              "nombre": "Vestimenta",
+              subcategorias: [
+                {
+                  "_id": 9,
+                  "nombre": "Vestidos",
+                  "tipos": []
+                }
+              ]
+            },
+            {
+              "_id": 6,
+              "nombre": "Libros",
+              subcategorias: [
+                {
+                  "_id": 5,
+                  "nombre": "Libros de fantasia",
+                  "tipos": [
+                    {
+                      "_id": 5,
+                      "nombre": "Solvente",
+                      "presentaciones": [
+                        {
+                          "_id": 5,
+                          "tipo": "peso",
+                          "Cantidad": "2000 g"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "_id": 6,
+                  "nombre": "Poesia",
+                  "tipos": [
+                    {
+                      "_id": 6,
+                      "nombre": "Spray",
+                      "presentaciones": [
+                        {
+                          "_id": 6,
+                          "tipo": "vestimenta",
+                          "Cantidad": "M"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "_id": 7,
+                  "nombre": "Politica",
+                  "tipos": [
+                    {
+                      "_id": 7,
+                      "nombre": "formal",
+                      "presentaciones": [
+                        {
+                          "_id": 7,
+                          "tipo": "volumen",
+                          "Cantidad": "1.5 ml"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "_id": 8,
+                  "nombre": "Politica",
+                  "tipos": [
+                    {
+                      "_id": 8,
+                      "nombre": "Informal",
+                      "presentaciones": [
+                        {
+                          "_id": 8,
+                          "tipo": "peso",
+                          "Cantidad": "200 kg"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "_id": 7,
+              "nombre": "Salud",
+              subcategorias: []
+            },
+            {
+              "_id": 8,
+              "nombre": "Limpieza",
+              subcategorias: [
+                {
+                  "_id": 1,
+                  "nombre": "Para dormitorios",
+                  "tipos": [
+                    {
+                      "_id": 1,
+                      "nombre": "Barra",
+                      "presentaciones": [
+                        {
+                          "_id": 1,
+                          "tipo": "volumen",
+                          "Cantidad": "2 l"
+                        },
+                        {
+                          "_id": 9,
+                          "tipo": "vestimenta",
+                          "Cantidad": "XL"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "_id": 2,
+                  "nombre": "Para salas",
+                  "tipos": [
+                    {
+                      "_id": 2,
+                      "nombre": "Eerosol",
+                      "presentaciones": [
+                        {
+                          "_id": 2,
+                          "tipo": "vestimenta",
+                          "Cantidad": "SS"
+                        },
+                        {
+                          "_id": 10,
+                          "tipo": "vestimenta",
+                          "Cantidad": "L"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+        //
+        this.categorias = testCategorias.data;
+        /*testCategorias.data.forEach((p,ind) => {
+          this.categorias.push(p);
+        })
+        this.nVar = testCategorias.data;*/
       }
     );
   }
-
-  getTipos() {
-    this.tipoService.getTipos().subscribe(
+  getParroquias() {
+    //OBTENCION DE PARROQUIAS REGISTRADAS
+    this._parroquiaService.getParroquias().subscribe(
       (response) => {
-        console.log(response);
-        this.tipos = response.data;
+        this.parroquias = response.data;
       },
       (error) => {
-        console.log(error);
+        this.parroquias = [
+          this.testParroquia,
+          {
+            _id: 6,
+            nombre: 'Eglise Notre Dame De Rumengol',
+            valorSocioEconomico: 3,
+            municipio: {
+              _id: 7,
+              nombre: 'Le Faou',
+              estado: {
+                _id: 7,
+                nombre: 'Breteña',
+                pais: {
+                  _id: 4,
+                  nombre: 'Francia',
+                },
+              },
+            },
+          },
+        ];
       }
     );
   }
-
-  getSubcategoria() {
-    this.subcategoriaService.getSubCategorias().subscribe(
+  getOcupaciones() {
+    //OBTENCION DE OCUPACIONES REGISTRADAS
+    this._ocupacionService.getOcupaciones().subscribe(
       (response) => {
-        console.log(response);
-        this.subcategorias = response.data;
+        this.ocupaciones = response.data;
       },
       (error) => {
-        console.log(error);
-      }
-    );
-  }
-
-  getMarcas() {
-    this.marcaServices.getMarcas().subscribe(
-      (response) => {
-        console.log(response.data.nombre);
-        this.marcas = response.data;
-      },
-      (error) => {
-        console.log(error);
+        console.log(<any>error);
+        this.ocupaciones = [{ _id: 1, nombre: 'Ocupacion Test' }];
       }
     );
   }
@@ -163,12 +376,15 @@ export class SolicitudComponent implements OnInit {
       (response: any) => {
         console.log(response);
         if (response.status === 200) {
+          this.opStatus = 'D';
           // Se hace lo que se quiera en exito
           //alert(response.message);
         }
       },
       (error) => {
         console.log(error);
+        this.opStatus = 'E';
+        console.log(data);
       }
     );
   }
@@ -196,35 +412,181 @@ export class SolicitudComponent implements OnInit {
       }
     );
   }
-
+  setTipos(_t){
+    console.log(_t);
+    if(_t !== ''){
+      let parsedInd = parseInt(_t,10);
+      console.log(parsedInd);
+      this.tipos = this.subcategorias[parsedInd].tipos;
+      this.addForm.get('subCategoria').setValue(this.subcategorias[parsedInd]._id);
+      //console.log(this.tipos,parsedInd,_t,this.subcategorias[parsedInd]);
+      this.presentaciones = [];
+      this.addForm.get('tipo').setValue(null);
+      this.addForm.get('presentacion').setValue(null);
+    }
+    else{
+      console.log('Null catcher... PreTipos');
+    }
+  }
+  setPresentaciones(_sc){
+    console.log(_sc);
+    if(_sc !== ''){
+      let parsedInd = parseInt(_sc,10);
+      console.log(parsedInd);
+      this.presentaciones = this.tipos[parsedInd].presentaciones;
+      this.addForm.get('presentacion').setValue(null);
+      //console.log(this.presentaciones,parsedInd,_sc,this.tipos[parsedInd]);
+    }
+    else{
+      console.log('Null catcher...PrePresentaciones');
+    }
+  }
+  setSubCategorias(_c){
+    //this.subcategorias = categoria.subcategorias;
+    console.log(_c);
+    if(_c !== ''){
+      let parsedInd = parseInt(_c,10);
+      console.log(parsedInd);
+      this.subcategorias = this.categorias[parsedInd].subcategorias;
+      console.log(this.subcategorias,_c,this.categorias[parsedInd]);
+      this.tipos = [];
+      this.presentaciones = [];
+      this.addForm.get('subCategoria').setValue(null);
+      this.addForm.get('tipo').setValue(null);
+      this.addForm.get('presentacion').setValue(null);
+    }
+    else{
+      console.log('Null catcher...PreSubCat');
+    }
+  }
   ngOnInit(): void {
+    this.poblacionForm = this.formBuilder.group({
+      genero: null,
+      nivelEconomico: null,
+      nivelAcademico: null,
+      rangoEdadInicio: null,
+      rangoEdadFin: null,
+      cantidadHijos: null,
+      fk_lugar: null,
+      dtoOcupacion: null,
+    });
+    this.addForm = this.formBuilder.group({
+      marca: null,
+      presentacion: null,
+      usuario:JSON.parse(localStorage.getItem('user_data'))['_id'],
+      tipo: null,
+      categoria:null,
+      subCategoria: null,
+      estado: 'solicitada',
+      comentarios:null,
+      muestraPoblacion:null,
+    });
+    this.searchForm = this.formBuilder.group({
+      usuario: null, // SELECT
+      presentacion: null,
+      subCategoria: null,
+      tipo: null,
+      marca: null, // SELECT
+      estado: null, // SELECT
+      activo: null, // CHECKBOX O SELECT
+      creado_el: null, // DATE TO STRING
+      modificado_el: null, // DATE TO STRING
+    });
     this.setOperation('');
     this.searchState = 'U';
-    this.getMarcas();
-    this.getSubcategoria();
-    this.getPresentacion();
-    this.getTipos();
+    this.getCategorias();
+    this.getOcupaciones();
+    this.getParroquias();
   }
 
   async openUpdModal() {
     return await this.updComponent.open();
   }
 
-  serviceInvoke() {
+  getYearDiff(t: string): number {
+    let _t = new Date(t);
+    let _n: Date = new Date(Date.now());
+    return _n.getFullYear() - _t.getFullYear();
+  }
+  ageEdit(min, max) {
+    let _auxDate: Date = new Date(Date.now());
+
+    if (min !== null) {
+      //console.log('Edad minima ',min);
+      this.minAge = min;
+      let newMin: Date = new Date(
+        _auxDate.getFullYear() - min,
+        _auxDate.getMonth(),
+        _auxDate.getDay()
+      );
+      console.log(newMin);
+      //this.poblacionForm.get('rangoEdadInicio').setValue(`${newMin.getFullYear()}-${newMin.getMonth()+1}-${newMin.getDate()}`);
+      this.poblacionForm.get('rangoEdadInicio').setValue(newMin);
+    } else {
+      //console.log('Edad máxima ',max);
+      this.maxAge = max;
+      let newMax: Date = new Date(
+        _auxDate.getFullYear() - max,
+        _auxDate.getMonth(),
+        _auxDate.getDay()
+      );
+      console.log(newMax);
+      //this.poblacionForm.get('rangoEdadFin').setValue(`${newMax.getFullYear()}-${newMax.getMonth()+1}-${newMax.getDate()}`);
+      this.poblacionForm.get('rangoEdadFin').setValue(newMax);
+    }
+  }
+
+  verifySolicitud(){
     if (this.addForm.valid) {
-      /*
-{
-   "estado":"solicitada",
-   "usuario":12,
-   "marca":1,
-   "tipo":1,
-   "subCategoria":1,
-   "presentacion":2
-}    */
+      console.log(this.addForm.value);
+      this.sec='POB';
+    }
+    else{
+
+    }
+  }
+  verifyPoblacion(){
+    if(this.poblacionForm.valid){
+      this.opStatus = 'P';
+      const {presentacion,estado,_id,usuario,comentarios,...rest} = this.addForm.value;
+      const {genero, nivelEconomico, nivelAcademico, rangoEdadInicio,rangoEdadFin,cantidadHijos,...restP} = this.poblacionForm.value
+      let toAddPoblacion:any = {
+        ...this.poblacionForm.value,
+        fk_lugar:{_id:restP.fk_lugar},
+        dtoOcupacion:{_id:restP.dtoOcupacion}
+      };
+      console.log(toAddPoblacion, this.poblacionForm.value);
+      let toAddSolicitud: any = {
+        estado:estado,
+        usuario:usuario,
+        comentarios:comentarios,
+        presentaciones:[{cantidad:presentacion.Cantidad,_id:presentacion._id,tipo:presentacion.tipo}],
+        muestraPoblacion:null
+      };
+      this._poblacionService.createMuestraPoblacion(toAddPoblacion).subscribe(
+      (res:any)=> {
+        console.log(res);
+        toAddSolicitud.muestraPoblacion = res._id;
+        console.log(toAddSolicitud);
+        this.addSolicitud(toAddSolicitud);
+      },
+      (err)=>{
+        toAddSolicitud.muestraPoblacion = 1;
+        console.log(toAddSolicitud);
+        console.log(err);
+        this.addSolicitud(toAddSolicitud);
+      })
+    }
+    else {
+
+    }
+  }
+  serviceInvoke() {
+    /*if (this.addForm.valid) {
       // FALTA VALIDACION
       // console.log(this.addForm.value);
 
-      const toAdd = {
+      /*const toAdd = {
         usuario: { _id: undefined },
         estado: undefined,
         marca: { _id: undefined },
@@ -245,16 +607,13 @@ export class SolicitudComponent implements OnInit {
       values.presentacion.forEach(function (item) {
         toAdd.presentaciones.push({ _id: item });
       });
+      const toAdd = {
+        ...this.addForm.value
+      };
       console.log(toAdd);
-      this.addSolicitud(toAdd);
+      //this.addSolicitud(toAdd);
       this.opStatus = 'P';
-      // console.log(this.op);
-      // console.log(this.opStatus);
-      // console.log(this.addForm.get('marca').value);
-      // console.log(this.addForm.get('tipo').value);
-      // console.log(this.addForm.get('subCategoria').value);
-      // console.log(this.addForm.get('presentacion').value);
-      setTimeout(() => {
+      /*setTimeout(() => {
         this.addForm = this.formBuilder.group({
           marca: 1,
           presentacion: 1,
@@ -266,10 +625,8 @@ export class SolicitudComponent implements OnInit {
         this.opStatus = 'D';
       }, 3000);
     } else {
-      alert(
-        'Se equivoco a la hora de registrar los campos(Marca del producto, Subcategoria del producto, Tipo de producto y presentacion de producto son campos obligatorios no pueden estar vacios)'
-      );
-    }
+      
+    }*/
   }
 
   selectSolicitud(id: number, data: Solicitud) {
@@ -321,7 +678,7 @@ export class SolicitudComponent implements OnInit {
   }
 
   getSolicitudes(data) {
-    this._solicitudUtilService.getSolicitudesOfCliente(this.ID).subscribe(
+    this._solicitudUtilService.getSolicitudesOfCliente(this.clienteUser._id).subscribe(
       (response: any) => {
         console.log(response);
         this.solicitudes = response.data;
@@ -358,7 +715,6 @@ export class SolicitudComponent implements OnInit {
     toSearch.marca = values.marca;
     toSearch.presentacion = values.presentacion;
     this.getSolicitudes(toSearch);
-    // tslint:disable-next-line:only-arrow-functions
   }
 
   setOperation(chOp: string) {
@@ -369,6 +725,7 @@ export class SolicitudComponent implements OnInit {
       this.opStatus = 'S';
       this.setUsuarioSolicitud(null);
     } else {
+      this.sec = 'SOL';
       this.searchState = 'U';
     }
   }

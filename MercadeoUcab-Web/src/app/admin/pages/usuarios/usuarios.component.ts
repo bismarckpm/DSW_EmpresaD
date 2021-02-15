@@ -28,7 +28,7 @@ export class UsuariosComponent implements OnInit {
   users: Usuario[] = [];
 
   //COLUMNAS DE TABLA DE RESULTADOS
-  displayedColumns: string[] = ['id', 'selector', 'ops'];
+  displayedColumns: string[] = ['name','role', 'selector', 'ops'];
   columnsToDisplay: string[] = this.displayedColumns.slice();
 
   //INDICE DE USUARIO SELECCIONADO

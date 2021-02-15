@@ -1,15 +1,16 @@
 <div
   class="container"
   style="
-  height: 90vh;
-  width: 85vw;
-  justify-content: unset; flex-direction: row;
-  display: flex;
-  overflow-x: hidden;
+    height: 90vh;
+    width: 85vw;
+    justify-content: unset;
+    flex-direction: row;
+    display: flex;
+    overflow-x: hidden;
   "
 >
   <div *ngIf="op === ''" class="container" style="height: 100%; width: 100%">
-    <div class="row align-items-center" style="height:100%">
+    <div class="row align-items-center" style="height: 100%">
       <div class="col-6" style="height: 65%">
         <mat-card class="menu-card" (click)="setOperation('add')">
           <mat-icon class="menu-card-icon"> add_box </mat-icon>
@@ -23,36 +24,6 @@
         </mat-card>
       </div>
     </div>
-    <!--
-    <div class="row" style="height: 50%">
-      <div class="col-8">
-        <mat-card class="menu-card" (click)="setOperation('add')">
-          <mat-icon class="menu-card-icon"> add_box </mat-icon>
-          <h3>Registrar estudios</h3>
-        </mat-card>
-      </div>
-      <div class="col">
-        <mat-card class="menu-card" (click)="setOperation('del')">
-          <mat-icon class="menu-card-icon"> delete_outline </mat-icon>
-          <h3>Eliminar estudios</h3>
-        </mat-card>
-      </div>
-    </div>
-    <div class="row" style="height: 50%">
-      <div class="col">
-        <mat-card class="menu-card" (click)="setOperation('upd')">
-          <mat-icon class="menu-card-icon"> update </mat-icon>
-          <h3>Modificar estudios</h3>
-        </mat-card>
-      </div>
-      <div class="col">
-        <mat-card class="menu-card" (click)="setOperation('list')">
-          <mat-icon class="menu-card-icon"> zoom_in </mat-icon>
-          <h3>Consultar estudios</h3>
-        </mat-card>
-      </div>
-    </div>
-    -->
   </div>
   <div
     *ngIf="op === 'add' && currentStep > 0 && currentStep < 3"
@@ -139,7 +110,11 @@
                 <h6>Rango de edad</h6>
               </label>
               <p>
-                {{ getYearDiff(pobSug.rango_edad_inicio) + "-" + getYearDiff(pobSug.rango_edad_fin) }}
+                {{
+                  getYearDiff(pobSug.rango_edad_inicio) +
+                    "-" +
+                    getYearDiff(pobSug.rango_edad_fin)
+                }}
               </p>
             </div>
             <div style="width: 100%; display: flex; flex-direction: column">
@@ -166,7 +141,7 @@
                 {{ pobSug.ocupacion.nombre }}
               </p>
             </div>
-      </div>
+          </div>
           <div
             style="
               width: 20%;
@@ -198,13 +173,7 @@
                 style="padding: 0.15rem; justify-content: center; display: flex"
                 (click)="setPoblacion(pobSug)"
               >
-                <mat-icon
-                  style="
-                    height: 30px;
-                    width: 30px;
-                    font-size: 30px;
-                  "
-                >
+                <mat-icon style="height: 30px; width: 30px; font-size: 30px">
                   label_important
                 </mat-icon>
               </button>
@@ -242,7 +211,7 @@
         >
           <div style="width: 80%">
             <h6 style="text-align: center">
-              {{ pregSug.pregunta.nombre }}
+              {{ pregSug.nombre }}
             </h6>
           </div>
           <div
@@ -258,19 +227,10 @@
               type="button"
               class="btn btn-outline-dark"
               style="padding: 0.15rem; justify-content: center; display: flex"
-              (click)="addPregAsoc(pregSug.pregunta)"
-              *ngIf="
-                checkPregAsoc(pregSug.pregunta._id) === false;
-                else elsePreg
-              "
+              (click)="addPregAsoc(pregSug)"
+              *ngIf="checkPregAsoc(pregSug._id) === false; else elsePreg"
             >
-              <mat-icon
-                style="
-                  height: 30px;
-                  width: 30px;
-                  font-size: 30px;
-                "
-              >
+              <mat-icon style="height: 30px; width: 30px; font-size: 30px">
                 label_important
               </mat-icon>
             </button>
@@ -350,7 +310,7 @@
               <div class="cForm-actions" style="height: 12.5%">
                 <button
                   type="button"
-                  class="btn btn-outline-dark"
+                  class="btn btn-outline-warning"
                   (click)="setOperation('')"
                 >
                   Cancelar
@@ -371,6 +331,7 @@
             </form>
           </div>
         </mat-step>
+        <!--
         <mat-step state="review" style="background-color: aqua">
           <div class="step-container" style="overflow-y: scroll">
             <h4>Población de estudio</h4>
@@ -393,33 +354,6 @@
                       <option [ngValue]="'masculino'">Masculino</option>
                     </select>
                   </div>
-                  <!--
-                  <div class="form-group">
-                    <label>Edad de participantes</label>
-                    <div style="display: flex; flex-direction: row">
-                      <input
-                        type="date"
-                        formControlName="rangoEdadInicio"
-                        class="form-control"
-                        id="edadI"
-                        aria-describedby="edadIHelp"
-                        
-                        style="width: 45%; margin-right: 5%"
-                      />
-                      <input
-                        type="date"
-                        formControlName="rangoEdadFin"
-                        class="form-control"
-                        id="edadF"
-                        aria-describedby="edadFHelp"
-          
-                        style="width: 45%"
-                      />
-                    </div>
-                    <div style="display: flex; flex-direction: row">
-                     
-                    </div>
-                  </div>-->
                   <div class="form-group">
                     <label>Edad de participantes</label>
                     <div style="display: flex; flex-direction: row">
@@ -544,6 +478,7 @@
             </form>
           </div>
         </mat-step>
+      -->
         <mat-step state="preguntas">
           <div class="step-container">
             <form
@@ -659,13 +594,16 @@
               </div>
               <div class="cForm-actions" style="height: 12.5%">
                 <button type="button" class="btn btn-outline-dark">
-                  Cancelar
+                  Paso anterior
                 </button>
-                <mat-divider
-                  [vertical]="true"
-                  [inset]="true"
-                  style="color: transparent"
-                ></mat-divider>
+                <mat-divider [vertical]="true" [inset]="true"></mat-divider>
+                <button type="button" class="btn btn-primary"
+                (click)="openSolModal()" style="color: white">
+                <mat-icon>
+                info
+                </mat-icon>
+                </button>
+                <mat-divider [vertical]="true" [inset]="true"></mat-divider>
                 <button
                   type="submit"
                   class="btn btn-primary"
@@ -733,13 +671,16 @@
               </div>
               <div class="cForm-actions" style="height: 12.5%">
                 <button type="button" class="btn btn-outline-dark">
-                  Cancelar
+                  Paso anterior
                 </button>
-                <mat-divider
-                  [vertical]="true"
-                  [inset]="true"
-                  style="color: transparent"
-                ></mat-divider>
+                <mat-divider [vertical]="true" [inset]="true"></mat-divider>
+                <button type="button" class="btn btn-primary"
+                (click)="openSolModal()" style="color: white">
+                <mat-icon>
+                info
+                </mat-icon>
+                </button>
+                <mat-divider [vertical]="true" [inset]="true"></mat-divider>
                 <button
                   type="submit"
                   class="btn btn-primary"
@@ -836,7 +777,7 @@
       </div>
     </mat-card>
   </div>
-<!--
+  <!--
   <div
     *ngIf="op === 'add' && currentStep > 0 && currentStep < 3"
     style="height: 90%; width: 30%"
@@ -1152,7 +1093,9 @@
         </ng-container>
         <ng-container matColumnDef="asignado">
           <th mat-header-cell *matHeaderCellDef>Analista asignado</th>
-          <td mat-cell *matCellDef="let element">{{ element.analista._id }}</td>
+          <td mat-cell *matCellDef="let element">
+            {{ element.analista.nombre + " " + element.analista.apellido }}
+          </td>
         </ng-container>
         <ng-container matColumnDef="selector">
           <th mat-header-cell *matHeaderCellDef>Selección</th>
@@ -1256,7 +1199,7 @@
         [inset]="true"
         style="color: transparent"
       ></mat-divider>
-       <button
+      <button
         mat-raised-button
         class="shadow-sm"
         (click)="setOperation('add')"
@@ -1282,35 +1225,64 @@
   style="height: 75vh"
   (sharePregunta)="addCreatedPreg($event)"
 ></app-add-pregunta-dialog>
+<app-basic-info-dialog #infoSol [_tipo]="'Solicitud'">
+   <div class="cForm-field-row" *ngIf="targetSolicitud !== null">
+      <div class="cForm-field-col">
+        
+      </div>
+      <div class="cForm-field-col">
+        
+      </div>
+   </div>
+</app-basic-info-dialog>
 <app-basic-info-dialog #info [_tipo]="'Estudio'">
   <div class="cForm-field-row" *ngIf="targetEstudio !== null">
     <div class="cForm-field-col">
       <div class="form-group">
         <label><h4>Analista asignado</h4></label>
-        <p>{{ targetEstudio.analista.nombre + ' ' +  targetEstudio.analista.apellido }}</p>
+        <p>
+          {{
+            targetEstudio.analista.nombre +
+              " " +
+              targetEstudio.analista.apellido
+          }}
+        </p>
       </div>
       <div class="form-group">
         <label><h4>Tipo de estudio</h4></label>
-        <p>{{ targetEstudio.tipo}}</p>
+        <p>{{ targetEstudio.tipo }}</p>
       </div>
       <div class="form-group">
         <label><h4>Encuestas esperadas</h4></label>
-        <p>{{ targetEstudio.encuestas_esperadas}}</p>
+        <p>{{ targetEstudio.encuestas_esperadas }}</p>
       </div>
     </div>
     <div class="cForm-field-col">
       <div class="form-group">
         <label><h4>Género de participantes</h4></label>
-        <p>{{ targetEstudio.muestra_poblacion.genero }}</p>
+        <p>{{ targetEstudio.solicitud.muestraPoblacion.genero }}</p>
       </div>
       <div class="form-group">
         <label><h4>Rango de edad de participantes</h4></label>
-        <p>{{targetEstudio.muestra_poblacion.rango_edad_inicio+' - '+targetEstudio.muestra_poblacion.rango_edad_fin+' Años'}}</p>
+        <p>
+          {{
+            getYearDiff(
+              targetEstudio.solicitud.muestraPoblacion.rango_edad_fin
+            ) +
+              " - " +
+              getYearDiff(
+                targetEstudio.solicitud.muestraPoblacion.rango_edad_inicio
+              ) +
+              " Años"
+          }}
+        </p>
       </div>
+      <!--
       <div class="form-group">
         <label><h4>Ocupación de participantes</h4></label>
-        <p>{{ targetEstudio.muestra_poblacion.Fk_ocupacion.nombre}}</p>
+        <p>{{ targetEstudio.solicitud.muestraPoblacion.Fk_ocupacion.nombre}}</p>
       </div>
+      -->
     </div>
   </div>
 </app-basic-info-dialog>
