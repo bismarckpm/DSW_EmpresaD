@@ -20,7 +20,7 @@ public class Respuesta extends EntidadBase {
     @JoinColumn(name = "fk_opcion")
     private Opcion fk_opcion;
 
-    @ManyToOne
+    @ManyToOne()
     @JoinColumn(name = "fk_encuesta_estudio")
     private EncuestaEstudio encuesta_estudio;
 

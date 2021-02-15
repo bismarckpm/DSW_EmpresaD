@@ -35,9 +35,11 @@ public class ResponseEstudio implements ResponseBase<DtoEstudio> {
                     case "boolean":
                         JsonArrayBuilder respuestasList = Json.createArrayBuilder();
                         if (Objects.nonNull(encuestaEstudio.getRespuestas()) && encuestaEstudio.getRespuestas().size() > 0){
+                            System.out.println(encuestaEstudio.getRespuestas().size());
                             for (DtoRespuesta dtoRespuesta: encuestaEstudio.getRespuestas()){
                                 JsonObject respuesta = responseRespuesta.generate(dtoRespuesta);
                                 respuestasList.add( respuesta);
+                                System.out.println( respuesta);
                             }
                         }
                         objeto = Json.createObjectBuilder()
@@ -52,9 +54,11 @@ public class ResponseEstudio implements ResponseBase<DtoEstudio> {
                     case "simple":
                         JsonArrayBuilder respuestasListS = Json.createArrayBuilder();
                         if ( Objects.nonNull(encuestaEstudio.getRespuestas()) && encuestaEstudio.getRespuestas().size() > 0){
+                            System.out.println(encuestaEstudio.getRespuestas().size());
                             for (DtoRespuesta dtoRespuesta: encuestaEstudio.getRespuestas()){
                                 JsonObject respuesta = responseRespuesta.generate(dtoRespuesta);
                                 respuestasListS.add( respuesta);
+                                System.out.println( respuesta);
                             }
                         }
                         objeto = Json.createObjectBuilder()
@@ -67,9 +71,11 @@ public class ResponseEstudio implements ResponseBase<DtoEstudio> {
                     case "rango":
                         JsonArrayBuilder respuestasListR = Json.createArrayBuilder();
                         if (Objects.nonNull(encuestaEstudio.getRespuestas()) && encuestaEstudio.getRespuestas().size() > 0){
+                            System.out.println(encuestaEstudio.getRespuestas().size());
                             for (DtoRespuesta dtoRespuesta: encuestaEstudio.getRespuestas()){
                                 JsonObject respuesta = responseRespuesta.generate(dtoRespuesta);
                                 respuestasListR.add( respuesta);
+                                System.out.println( respuesta);
                             }
                         }
                         objeto = Json.createObjectBuilder()

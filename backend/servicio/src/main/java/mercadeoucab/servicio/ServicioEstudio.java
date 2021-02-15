@@ -41,6 +41,7 @@ public class ServicioEstudio extends AplicacionBase{
         }
         catch (Exception e){
             // CAMBIAR CUANDO SE MANEJEN LAS EXCEPCIONES PROPIAS
+            e.printStackTrace();
             String problema = e.getMessage();
             resultado = ResponseGeneral.Failure("Ha ocurrido un error");
         }
