@@ -85,8 +85,11 @@ prepAnswer(content,_type){
 }
 setSimpleOption(pregInd,opInd){
   let _op = parseInt(opInd,10);
-  if(opInd - 1 !== -1){
-    this.singleOption = this._encuesta.encuesta[pregInd].opciones[opInd];
+  if(_op - 1 !== -1){
+    //console.log(pregInd,opInd);
+   //console.log(this._encuesta.encuesta);
+    //console.log(this._encuesta.encuesta[pregInd], this._encuesta.encuesta[pregInd].pregunta.opciones[_op - 1]);
+    this.singleOption = this._encuesta.encuesta[pregInd].pregunta.opciones[_op - 1];
     console.log(this.singleOption);
   }
   else {
@@ -118,7 +121,7 @@ checkMultiple(pregInd: number, opInd: number) {
   Answer.dtoopcion = null;
   switch(_type){
     case 'simple':
-      Answer.dtoopcion._id = this.singleOption._id;
+      Answer.dtoopcion = {_id:this.singleOption._id};
       Answer.respuesta=null;
       this.sendAnswer(user,_type,[Answer],_pregId);
       break;
@@ -185,7 +188,7 @@ addRespuesta(user,data,_pregId){
 }
 saveSurvey(user,data,_pregId) {
   this.opStatus = 'P';
-  this._respuestaService.saveSurvey(data).subscribe(
+  this._respuestaService.saveSurvey({respuestas:data}).subscribe(
     (response: any) => {
       console.log(response);
       this.alterAnswers.emit({user,data,_pregId});
@@ -257,8 +260,10 @@ saveSurvey(user,data,_pregId) {
   */
    switch(preg){
     case 'simple':
+      this.saveSurvey(user,resp,_pregId);
       break;
     case 'multiple':
+      this.saveSurvey(user,resp,_pregId);
       break;
      default:
       this.saveSurvey(user,resp,_pregId);

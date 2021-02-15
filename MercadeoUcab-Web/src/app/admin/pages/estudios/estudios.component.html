@@ -310,10 +310,10 @@
               <div class="cForm-actions" style="height: 12.5%">
                 <button
                   type="button"
-                  class="btn btn-outline-dark"
+                  class="btn btn-outline-warning"
                   (click)="setOperation('')"
                 >
-                  Paso anterior
+                  Cancelar
                 </button>
                 <mat-divider
                   [vertical]="true"
@@ -596,11 +596,14 @@
                 <button type="button" class="btn btn-outline-dark">
                   Paso anterior
                 </button>
-                <mat-divider
-                  [vertical]="true"
-                  [inset]="true"
-                  style="color: transparent"
-                ></mat-divider>
+                <mat-divider [vertical]="true" [inset]="true"></mat-divider>
+                <button type="button" class="btn btn-primary"
+                (click)="openSolModal()" style="color: white">
+                <mat-icon>
+                info
+                </mat-icon>
+                </button>
+                <mat-divider [vertical]="true" [inset]="true"></mat-divider>
                 <button
                   type="submit"
                   class="btn btn-primary"
@@ -670,11 +673,14 @@
                 <button type="button" class="btn btn-outline-dark">
                   Paso anterior
                 </button>
-                <mat-divider
-                  [vertical]="true"
-                  [inset]="true"
-                  style="color: transparent"
-                ></mat-divider>
+                <mat-divider [vertical]="true" [inset]="true"></mat-divider>
+                <button type="button" class="btn btn-primary"
+                (click)="openSolModal()" style="color: white">
+                <mat-icon>
+                info
+                </mat-icon>
+                </button>
+                <mat-divider [vertical]="true" [inset]="true"></mat-divider>
                 <button
                   type="submit"
                   class="btn btn-primary"
@@ -1219,6 +1225,16 @@
   style="height: 75vh"
   (sharePregunta)="addCreatedPreg($event)"
 ></app-add-pregunta-dialog>
+<app-basic-info-dialog #infoSol [_tipo]="'Solicitud'">
+   <div class="cForm-field-row" *ngIf="targetSolicitud !== null">
+      <div class="cForm-field-col">
+        
+      </div>
+      <div class="cForm-field-col">
+        
+      </div>
+   </div>
+</app-basic-info-dialog>
 <app-basic-info-dialog #info [_tipo]="'Estudio'">
   <div class="cForm-field-row" *ngIf="targetEstudio !== null">
     <div class="cForm-field-col">

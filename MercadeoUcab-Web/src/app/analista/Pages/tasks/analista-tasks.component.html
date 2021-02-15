@@ -1,4 +1,29 @@
 <mat-card class="app-analista-tasks" style="overflow-y: scroll">
+  <div
+    class="container base-col"
+    style="
+      height: 100%;
+      width: 100%;
+      align-items: center;
+      justify-content: center;
+    "
+   *ngIf="searchState === 'U'"
+  >
+    <div class="row" style="height: 50%">
+      <div class="col-6">
+        <mat-card (click)="setFilter('encuesta')" class="menu-card">
+          <mat-icon class="menu-card-icon">perm_phone_msg</mat-icon>
+          <h3>Estudios por vía telefónica</h3>
+        </mat-card>
+      </div>
+      <div class="col-6">
+        <mat-card (click)="setFilter('En linea')" class="menu-card">
+          <mat-icon class="menu-card-icon">language</mat-icon>
+          <h3>Estudios en línea</h3>
+        </mat-card>
+      </div>
+    </div>
+  </div>
   <table
     mat-table
     [dataSource]="dataSource"
@@ -6,10 +31,12 @@
     *ngIf="searchState === 'D'"
   >
     <!-- Name Column -->
+    <!--
     <ng-container matColumnDef="id">
       <th mat-header-cell *matHeaderCellDef>ID</th>
       <td mat-cell *matCellDef="let element">#{{ element._id }}</td>
     </ng-container>
+    -->
     <!--fecha_asig-->
     <ng-container matColumnDef="expect">
       <th mat-header-cell *matHeaderCellDef>Encuestas esperadas</th>
@@ -26,7 +53,7 @@
     <ng-container matColumnDef="t_est">
       <th mat-header-cell *matHeaderCellDef>Tipo de estudio</th>
       <td mat-cell *matCellDef="let element">
-        {{ element.tipo }}
+        {{ (element.tipo === 'encuesta')?'Via telefónica':'En línea' }}
       </td>
     </ng-container>
     <!-- estado Column -->
@@ -44,7 +71,6 @@
           >
             <mat-icon>more_time</mat-icon>
           </button>
-          -->
         </div>
         <ng-template #message>
           <div class="estado-cell">

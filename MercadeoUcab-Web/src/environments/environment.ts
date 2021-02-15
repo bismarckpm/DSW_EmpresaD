@@ -7,8 +7,8 @@ export const environment = {
 };
 
 export const GLOBAL = {
-  urlOscar: 'http://localhost:8080/servicio-1.0-SNAPSHOT/api/v1',
-  //urlOscar: 'http://45.76.60.252:8080/mercadeoucab-1.0-SNAPSHOT/api/v1',
+  //urlOscar: 'http://localhost:8080/servicio-1.0-SNAPSHOT/api/v1',
+  urlOscar: 'http://45.76.60.252:8080/mercadeoucab-1.0-SNAPSHOT/api/v1',
   //urlOscar:
   //'http://ec2-3-137-187-50.us-east-2.compute.amazonaws.com:8080/mercadeoucab-1.0-SNAPSHOT/api/v1',
 };

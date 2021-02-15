@@ -18,13 +18,14 @@ import { BasicInfoDialogComponent } from '../../components/dialogs/basic-info-di
   styleUrls: ['./analista-tasks.component.css'],
 })
 export class AnalistaTasksComponent implements OnInit {
-  displayedColumns: string[] = ['id', 'expect','pregs','t_est','estado'];
+  displayedColumns: string[] = ['expect','pregs','t_est','estado'];
   columnsToDisplay: string[] = this.displayedColumns.slice();
   estudios: any[] = [];
   dataSource: MatTableDataSource<Estudio>;
   analistaId: number = parseInt(localStorage.getItem('_id'));
   analistaUser: any = JSON.parse(localStorage.getItem('user_data'));
   searchState: string = 'U';
+  _estFilter:string = '';
   constructor(
     private router: Router,
     private _utilService: UtilService,
@@ -1270,10 +1271,10 @@ export class AnalistaTasksComponent implements OnInit {
   */
   testRes = {
     status: 200,
-    "data":{
+    "data":[{
       "_id":5,
       "estado":"En ejecucion",
-      "tipo":"Via telefonica",
+      "tipo":"encuesta",
       "encuestas_esperadas":1,
       "solicitud":{
          "_id":5,
@@ -1419,11 +1420,15 @@ export class AnalistaTasksComponent implements OnInit {
             ]
          }
       ]
-   },
+   },]
   };
 
   ngOnInit(): void {
     //SERVICE INVOKE
+    //this.invokeService();
+  }
+  setFilter(_filter){
+    this._estFilter = _filter;
     this.invokeService();
   }
   dataFilter(dataArray: Estudio[]): Estudio[] {
@@ -1443,7 +1448,7 @@ export class AnalistaTasksComponent implements OnInit {
       (res) => {
         //console.log(res);
         if(res.status === 200){
-          this.estudios = res.data;
+          this.estudios = [...res.data.filter((est,ind) => est.tipo === this._estFilter)];
         }
         else {
           this.estudios = [];
@@ -1455,7 +1460,7 @@ export class AnalistaTasksComponent implements OnInit {
       },
       (err) => {
         console.log(err.message);
-        this.estudios = [this.testRes['data']];
+        this.estudios = [...this.testRes['data'].filter((est,ind) => est.tipo === this._estFilter)];
         this.dataSource = new MatTableDataSource<Estudio>(
           this.dataFilter(this.estudios)
         );
