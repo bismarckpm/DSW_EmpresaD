@@ -61,7 +61,7 @@ export class EstudiosComponent implements OnInit {
   maxAge: number = 0;
   targetEstudio: any = null;
   targetPoblacion: any = null;
-  targetSolicitud:any = null;
+  targetSolicitud: any = null;
   displayedColumns: string[] = ['estado', 'asignado', 'selector', 'ops'];
   columnsToDisplay: string[] = this.displayedColumns.slice();
   poblacionSuggests: any[] = [];
@@ -772,8 +772,8 @@ export class EstudiosComponent implements OnInit {
   }*/
 
   getSolicitudes() {
-    this._solicitudService.getSolicitudes().subscribe(
-      (response) => {
+    this._solicitudService.getSolicitudByEstado('solicitada').subscribe(
+      (response: any) => {
         console.log(response);
         this.solicitudes = response.data;
       },
@@ -975,7 +975,9 @@ export class EstudiosComponent implements OnInit {
   stepCheck(ind, stepper) {
     switch (ind) {
       case 0:
-        let auxFkPob = this.solicitudes.filter((s,ind) => s._id === this.addForm.get('solicitud').value);
+        let auxFkPob = this.solicitudes.filter(
+          (s, ind) => s._id === this.addForm.get('solicitud').value
+        );
         this.targetSolicitud = auxFkPob;
         //this.addForm.get('fk_muestra_poblacion').setValue(auxFkPob[0].muestraPoblacion._id);
         document.getElementById('addStepper').classList.add('leftSlider');

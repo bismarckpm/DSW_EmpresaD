@@ -43,19 +43,30 @@ public class ResponseSolicitud implements ResponseBase<DtoSolicitud> {
 
             ResponseMuestraPoblacion responseMuestraPoblacion = (ResponseMuestraPoblacion) fabrica2.generarResponse();
             muestraPoblacion = responseMuestraPoblacion.generate(dtoSolicitud.getMuestraPoblacion());
+            String comentarios;
+            if(dtoSolicitud.getComentarios() == null)
+                comentarios = "Sin comentarios";
+            else
+                comentarios = dtoSolicitud.getComentarios();
 
+            String marca;
+            if(dtoSolicitud.getComentarios() == null)
+                marca = "Sin Marca";
+            else
+                marca = dtoSolicitud.getComentarios();
 
             resultado = Json.createObjectBuilder()
                     .add("_id", dtoSolicitud.get_id())
                     .add("estado", dtoSolicitud.getEstado())
                     .add("usuario", usuario)
-                    .add("marca", dtoSolicitud.getMarca())
-                    .add("comentarios", dtoSolicitud.getComentarios())
+                    .add("marca", marca)
+                    .add("comentarios", comentarios)
                     .add("presentaciones", presentacionlist)
                     .add("muestraPoblacion", muestraPoblacion)
                     .build();
         }
         catch (Exception e){
+            e.printStackTrace();
             System.out.println(e.getMessage());
         }
         return resultado;
