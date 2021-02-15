@@ -61,7 +61,7 @@ export class EstudiosComponent implements OnInit {
   maxAge: number = 0;
   targetEstudio: any = null;
   targetPoblacion: any = null;
-
+  targetSolicitud:any = null;
   displayedColumns: string[] = ['estado', 'asignado', 'selector', 'ops'];
   columnsToDisplay: string[] = this.displayedColumns.slice();
   poblacionSuggests: any[] = [];
@@ -117,6 +117,10 @@ export class EstudiosComponent implements OnInit {
   @ViewChild('delEstudio') private delComponent: DelEstudioDialogComponent;
   async openDelModal() {
     return await this.delComponent.open();
+  }
+  @ViewChild('infoSol') private infoSolComponent: BasicInfoDialogComponent;
+  async openSolModal() {
+    return await this.infoSolComponent.open();
   }
   @ViewChild('addPreg') private addPregComponent: AddPreguntaDialogComponent;
   async openAddPregModal() {
@@ -940,6 +944,7 @@ export class EstudiosComponent implements OnInit {
     switch (ind) {
       case 0:
         let auxFkPob = this.solicitudes.filter((s,ind) => s._id === this.addForm.get('solicitud').value);
+        this.targetSolicitud = auxFkPob;
         //this.addForm.get('fk_muestra_poblacion').setValue(auxFkPob[0].muestraPoblacion._id);
         document.getElementById('addStepper').classList.add('leftSlider');
         document.getElementById('addStepper').classList.remove('initLeft');

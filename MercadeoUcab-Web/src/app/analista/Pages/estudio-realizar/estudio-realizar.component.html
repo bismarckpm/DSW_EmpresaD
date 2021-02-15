@@ -34,7 +34,7 @@
                             <button class="btn btn-outline-dark shadow-sm" 
                             style="padding: 0.15rem 0.15rem;
                             height: fit-content;
-                            display: flex;" *ngIf="_Estudio.tipo === 'Via telefonica' && person.done===false"
+                            display: flex;" *ngIf="_Estudio.tipo === 'encuesta' && person.done===false"
                             (click)="setUsuarioEncuesta(person,_Estudio)">
                                 <mat-icon>
                                     call
@@ -64,7 +64,7 @@
                         <label>Estudio en linea</label>
                         <mat-icon style="margin-left: 0.75rem;">language</mat-icon>
                     </div>
-                    <div style="display: flex;flex-direction: row;" *ngIf="_Estudio.tipo === 'Via telefonica'">
+                    <div style="display: flex;flex-direction: row;" *ngIf="_Estudio.tipo === 'encuesta'">
                         <label>Estudio via telefónica</label>
                         <mat-icon style="margin-left: 0.75rem;">perm_phone_msg</mat-icon>
                     </div>

@@ -133,8 +133,8 @@ prepAnswer(content,_type){
 }
 setSimpleOption(pregInd,opInd){
   let _op = parseInt(opInd,10);
-  if(opInd - 1 !== -1){
-    this.singleOption = this._encuesta.encuesta[pregInd].opciones[opInd];
+  if(_op - 1 !== -1){
+    this.singleOption = this._encuesta.encuesta[pregInd].pregunta.opciones[_op - 1];
     console.log(this.singleOption);
   }
   else {
@@ -167,7 +167,7 @@ checkMultiple(pregInd: number, opInd: number) {
   Answer.dtoopcion = null;
   switch(_type){
     case 'simple':
-      Answer.dtoopcion._id = this.singleOption._id;
+      Answer.dtoopcion = {_id:this.singleOption._id};
       Answer.respuesta=null;
       this.sendAnswer(user,_type,[Answer],_pregId);
       break;
