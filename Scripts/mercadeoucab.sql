@@ -14,45 +14,45 @@ SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,N
 -- -----------------------------------------------------
 -- Schema mercadeoucab
 -- -----------------------------------------------------
-CREATE SCHEMA IF NOT EXISTS `empresaD` DEFAULT CHARACTER SET utf8 ;
-USE `empresaD` ;
+CREATE SCHEMA IF NOT EXISTS `empresad` DEFAULT CHARACTER SET utf8 ;
+USE `empresad` ;
 
 -- -----------------------------------------------------
--- Table `empresaD`.`categoria`
+-- Table `empresad`.`categoria`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `empresaD`.`categoria` (
+CREATE TABLE `categoria` (
   `id` INT NOT NULL AUTO_INCREMENT,
   `nombre` VARCHAR(45) NOT NULL,
   `activo` TINYINT NOT NULL,
   `creado_el` TIMESTAMP NOT NULL,
   `modificado_el` TIMESTAMP NULL DEFAULT NULL,
   PRIMARY KEY (`id`),
-  UNIQUE INDEX `id_categoria_UNIQUE` (`id` ASC) VISIBLE)
+  UNIQUE INDEX `id_categoria_UNIQUE` (`id` ASC))
 ENGINE = InnoDB
 AUTO_INCREMENT = 9
 DEFAULT CHARACTER SET = utf8;
 
 
 -- -----------------------------------------------------
--- Table `empresaD`.`ocupacion`
+-- Table `empresad`.`ocupacion`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `empresaD`.`ocupacion` (
+CREATE TABLE `ocupacion` (
   `id` INT NOT NULL AUTO_INCREMENT,
   `nombre` VARCHAR(45) NOT NULL,
   `activo` TINYINT NOT NULL,
   `creado_el` TIMESTAMP NOT NULL,
   `modificado_el` TIMESTAMP NULL DEFAULT NULL,
   PRIMARY KEY (`id`),
-  UNIQUE INDEX `id_ocupacion_UNIQUE` (`id` ASC) VISIBLE)
+  UNIQUE INDEX `id_ocupacion_UNIQUE` (`id` ASC))
 ENGINE = InnoDB
 AUTO_INCREMENT = 14
 DEFAULT CHARACTER SET = utf8;
 
 
 -- -----------------------------------------------------
--- Table `empresaD`.`pais`
+-- Table `empresad`.`pais`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `empresaD`.`pais` (
+CREATE TABLE `pais` (
   `id` INT NOT NULL AUTO_INCREMENT,
   `nombre` VARCHAR(45) NOT NULL,
   `activo` TINYINT NOT NULL,
@@ -65,9 +65,9 @@ DEFAULT CHARACTER SET = utf8;
 
 
 -- -----------------------------------------------------
--- Table `empresaD`.`estado`
+-- Table `empresad`.`estado`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `empresaD`.`estado` (
+CREATE TABLE `estado` (
   `id` INT NOT NULL AUTO_INCREMENT,
   `nombre` VARCHAR(45) NOT NULL,
   `activo` TINYINT NOT NULL,
@@ -75,19 +75,19 @@ CREATE TABLE IF NOT EXISTS `empresaD`.`estado` (
   `modificado_el` TIMESTAMP NULL DEFAULT NULL,
   `fk_pais` INT NOT NULL,
   PRIMARY KEY (`id`),
-  INDEX `fk_Estado_Pais1_idx` (`fk_pais` ASC) VISIBLE,
+  INDEX `fk_Estado_Pais1_idx` (`fk_pais` ASC),
   CONSTRAINT `fk_Estado_Pais1`
     FOREIGN KEY (`fk_pais`)
-    REFERENCES `empresaD`.`pais` (`id`))
+    REFERENCES `empresad`.`pais` (`id`))
 ENGINE = InnoDB
 AUTO_INCREMENT = 21
 DEFAULT CHARACTER SET = utf8;
 
 
 -- -----------------------------------------------------
--- Table `empresaD`.`municipio`
+-- Table `empresad`.`municipio`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `empresaD`.`municipio` (
+CREATE TABLE `municipio` (
   `id` INT NOT NULL AUTO_INCREMENT,
   `nombre` VARCHAR(45) NOT NULL,
   `activo` TINYINT NOT NULL,
@@ -95,19 +95,19 @@ CREATE TABLE IF NOT EXISTS `empresaD`.`municipio` (
   `modificado_el` TIMESTAMP NULL DEFAULT NULL,
   `fk_estado` INT NOT NULL,
   PRIMARY KEY (`id`),
-  INDEX `fk_Municipio_Estado1_idx` (`fk_estado` ASC) VISIBLE,
+  INDEX `fk_Municipio_Estado1_idx` (`fk_estado` ASC),
   CONSTRAINT `fk_Municipio_Estado1`
     FOREIGN KEY (`fk_estado`)
-    REFERENCES `empresaD`.`estado` (`id`))
+    REFERENCES `empresad`.`estado` (`id`))
 ENGINE = InnoDB
 AUTO_INCREMENT = 21
 DEFAULT CHARACTER SET = utf8;
 
 
 -- -----------------------------------------------------
--- Table `empresaD`.`parroquia`
+-- Table `empresad`.`parroquia`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `empresaD`.`parroquia` (
+CREATE TABLE `parroquia` (
   `id` INT NOT NULL AUTO_INCREMENT,
   `nombre` VARCHAR(45) NOT NULL,
   `valor_socio_economico` INT NOT NULL,
@@ -116,20 +116,20 @@ CREATE TABLE IF NOT EXISTS `empresaD`.`parroquia` (
   `modificado_el` TIMESTAMP NULL DEFAULT NULL,
   `fk_municipio` INT NOT NULL,
   PRIMARY KEY (`id`),
-  UNIQUE INDEX `id_lugar_UNIQUE` (`id` ASC) VISIBLE,
-  INDEX `fk_Parroquia_Municipio1_idx` (`fk_municipio` ASC) VISIBLE,
+  UNIQUE INDEX `id_lugar_UNIQUE` (`id` ASC),
+  INDEX `fk_Parroquia_Municipio1_idx` (`fk_municipio` ASC),
   CONSTRAINT `fk_Parroquia_Municipio1`
     FOREIGN KEY (`fk_municipio`)
-    REFERENCES `empresaD`.`municipio` (`id`))
+    REFERENCES `empresad`.`municipio` (`id`))
 ENGINE = InnoDB
 AUTO_INCREMENT = 21
 DEFAULT CHARACTER SET = utf8;
 
 
 -- -----------------------------------------------------
--- Table `empresaD`.`usuario`
+-- Table `empresad`.`usuario`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `empresaD`.`usuario` (
+CREATE TABLE `usuario` (
   `id` INT NOT NULL AUTO_INCREMENT,
   `nombre` VARCHAR(20) NOT NULL,
   `apellido` VARCHAR(25) NOT NULL,
@@ -140,17 +140,17 @@ CREATE TABLE IF NOT EXISTS `empresaD`.`usuario` (
   `creado_el` TIMESTAMP NOT NULL,
   `modificado_el` TIMESTAMP NULL DEFAULT NULL,
   PRIMARY KEY (`id`),
-  UNIQUE INDEX `id_usuario_UNIQUE` (`id` ASC) VISIBLE,
-  UNIQUE INDEX `correo_UNIQUE` (`correo` ASC) VISIBLE)
+  UNIQUE INDEX `id_usuario_UNIQUE` (`id` ASC),
+  UNIQUE INDEX `correo_UNIQUE` (`correo` ASC))
 ENGINE = InnoDB
 AUTO_INCREMENT = 41
 DEFAULT CHARACTER SET = utf8;
 
 
 -- -----------------------------------------------------
--- Table `empresaD`.`dato_encuestado`
+-- Table `empresad`.`dato_encuestado`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `empresaD`.`dato_encuestado` (
+CREATE TABLE `dato_encuestado` (
   `id` INT NOT NULL AUTO_INCREMENT,
   `segundo_nombre` VARCHAR(45) NULL DEFAULT NULL,
   `segundo_apellido` VARCHAR(45) NULL DEFAULT NULL,
@@ -168,29 +168,29 @@ CREATE TABLE IF NOT EXISTS `empresaD`.`dato_encuestado` (
   `fk_lugar` INT NOT NULL,
   `fk_ocupacion` INT NOT NULL,
   PRIMARY KEY (`id`),
-  UNIQUE INDEX `cedula_UNIQUE` (`cedula` ASC) VISIBLE,
-  UNIQUE INDEX `fk_usuario_UNIQUE` (`fk_usuario` ASC) VISIBLE,
-  UNIQUE INDEX `id_dato_encuestado_UNIQUE` (`id` ASC) VISIBLE,
-  INDEX `fk_lugar_idx` (`fk_lugar` ASC) VISIBLE,
-  INDEX `fk_dato_encuestado_ocupacion1_idx` (`fk_ocupacion` ASC) VISIBLE,
+  UNIQUE INDEX `cedula_UNIQUE` (`cedula` ASC),
+  UNIQUE INDEX `fk_usuario_UNIQUE` (`fk_usuario` ASC),
+  UNIQUE INDEX `id_dato_encuestado_UNIQUE` (`id` ASC),
+  INDEX `fk_lugar_idx` (`fk_lugar` ASC),
+  INDEX `fk_dato_encuestado_ocupacion1_idx` (`fk_ocupacion` ASC),
   CONSTRAINT `fk_dato_encuestado_ocupacion1`
     FOREIGN KEY (`fk_ocupacion`)
-    REFERENCES `empresaD`.`ocupacion` (`id`),
+    REFERENCES `empresad`.`ocupacion` (`id`),
   CONSTRAINT `fk_lugar1`
     FOREIGN KEY (`fk_lugar`)
-    REFERENCES `empresaD`.`parroquia` (`id`),
+    REFERENCES `empresad`.`parroquia` (`id`),
   CONSTRAINT `fk_usuario4`
     FOREIGN KEY (`fk_usuario`)
-    REFERENCES `empresaD`.`usuario` (`id`))
+    REFERENCES `empresad`.`usuario` (`id`))
 ENGINE = InnoDB
 AUTO_INCREMENT = 26
 DEFAULT CHARACTER SET = utf8;
 
 
 -- -----------------------------------------------------
--- Table `empresaD`.`muestra_poblacion`
+-- Table `empresad`.`muestra_poblacion`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `empresaD`.`muestra_poblacion` (
+CREATE TABLE `muestra_poblacion` (
   `id` INT NOT NULL AUTO_INCREMENT,
   `genero` ENUM('masculino', 'femenino') NOT NULL,
   `nivel_economico` ENUM('Bajo', 'Medio', 'Alto') NOT NULL,
@@ -204,24 +204,24 @@ CREATE TABLE IF NOT EXISTS `empresaD`.`muestra_poblacion` (
   `fk_lugar` INT NOT NULL,
   `fk_ocupacion` INT NOT NULL,
   PRIMARY KEY (`id`),
-  UNIQUE INDEX `id_muestra_UNIQUE` (`id` ASC) VISIBLE,
-  INDEX `fk_lugar_idx` (`fk_lugar` ASC) VISIBLE,
-  INDEX `fk_muestra_poblacion_ocupacion1_idx` (`fk_ocupacion` ASC) VISIBLE,
+  UNIQUE INDEX `id_muestra_UNIQUE` (`id` ASC),
+  INDEX `fk_lugar_idx` (`fk_lugar` ASC),
+  INDEX `fk_muestra_poblacion_ocupacion1_idx` (`fk_ocupacion` ASC),
   CONSTRAINT `fk_lugar`
     FOREIGN KEY (`fk_lugar`)
-    REFERENCES `empresaD`.`parroquia` (`id`),
+    REFERENCES `empresad`.`parroquia` (`id`),
   CONSTRAINT `fk_muestra_poblacion_ocupacion1`
     FOREIGN KEY (`fk_ocupacion`)
-    REFERENCES `empresaD`.`ocupacion` (`id`))
+    REFERENCES `empresad`.`ocupacion` (`id`))
 ENGINE = InnoDB
 AUTO_INCREMENT = 9
 DEFAULT CHARACTER SET = utf8;
 
 
 -- -----------------------------------------------------
--- Table `empresaD`.`solicitud`
+-- Table `empresad`.`solicitud`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `empresaD`.`solicitud` (
+CREATE TABLE `solicitud` (
   `id` INT NOT NULL AUTO_INCREMENT,
   `estado` ENUM('solicitada', 'aceptada') NOT NULL,
   `activo` TINYINT NOT NULL,
@@ -232,15 +232,15 @@ CREATE TABLE IF NOT EXISTS `empresaD`.`solicitud` (
   `comentarios` VARCHAR(250) NULL DEFAULT 'Sin comentarios',
   `muestra_poblacion_id` INT NOT NULL,
   PRIMARY KEY (`id`),
-  UNIQUE INDEX `id_solicitud_UNIQUE` (`id` ASC) VISIBLE,
-  INDEX `fk_usuario_idx` (`fk_usuario` ASC) VISIBLE,
-  INDEX `fk_solicitud_muestra_poblacion1_idx` (`muestra_poblacion_id` ASC) VISIBLE,
+  UNIQUE INDEX `id_solicitud_UNIQUE` (`id` ASC),
+  INDEX `fk_usuario_idx` (`fk_usuario` ASC),
+  INDEX `fk_solicitud_muestra_poblacion1_idx` (`muestra_poblacion_id` ASC),
   CONSTRAINT `fk_usuario1`
     FOREIGN KEY (`fk_usuario`)
-    REFERENCES `empresaD`.`usuario` (`id`),
+    REFERENCES `empresad`.`usuario` (`id`),
   CONSTRAINT `fk_solicitud_muestra_poblacion1`
     FOREIGN KEY (`muestra_poblacion_id`)
-    REFERENCES `empresaD`.`muestra_poblacion` (`id`)
+    REFERENCES `empresad`.`muestra_poblacion` (`id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB
@@ -249,9 +249,9 @@ DEFAULT CHARACTER SET = utf8;
 
 
 -- -----------------------------------------------------
--- Table `empresaD`.`estudio`
+-- Table `empresad`.`estudio`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `empresaD`.`estudio` (
+CREATE TABLE `estudio` (
   `id` INT NOT NULL AUTO_INCREMENT,
   `estado` ENUM('En ejecucion', 'Culminado', 'Procesando') NOT NULL,
   `tipo` ENUM('En linea', 'encuesta') NOT NULL,
@@ -263,24 +263,24 @@ CREATE TABLE IF NOT EXISTS `empresaD`.`estudio` (
   `fk_solicitud` INT NOT NULL,
   `fk_usuario` INT NULL DEFAULT NULL,
   PRIMARY KEY (`id`),
-  UNIQUE INDEX `id_estudio_UNIQUE` (`id` ASC) VISIBLE,
-  INDEX `id_solicitud_idx` (`fk_solicitud` ASC) VISIBLE,
-  INDEX `fk_usuario_idx` (`fk_usuario` ASC) VISIBLE,
+  UNIQUE INDEX `id_estudio_UNIQUE` (`id` ASC),
+  INDEX `id_solicitud_idx` (`fk_solicitud` ASC),
+  INDEX `fk_usuario_idx` (`fk_usuario` ASC),
   CONSTRAINT `fk_solicitud`
     FOREIGN KEY (`fk_solicitud`)
-    REFERENCES `empresaD`.`solicitud` (`id`),
+    REFERENCES `empresad`.`solicitud` (`id`),
   CONSTRAINT `fk_usuario2`
     FOREIGN KEY (`fk_usuario`)
-    REFERENCES `empresaD`.`usuario` (`id`))
+    REFERENCES `empresad`.`usuario` (`id`))
 ENGINE = InnoDB
 AUTO_INCREMENT = 9
 DEFAULT CHARACTER SET = utf8;
 
 
 -- -----------------------------------------------------
--- Table `empresaD`.`pregunta`
+-- Table `empresad`.`pregunta`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `empresaD`.`pregunta` (
+CREATE TABLE `pregunta` (
   `id` INT NOT NULL AUTO_INCREMENT,
   `nombre_pregunta` VARCHAR(150) NULL DEFAULT NULL,
   `tipo` ENUM('abierta', 'multiple', 'simple', 'boolean', 'rango') NOT NULL,
@@ -290,64 +290,64 @@ CREATE TABLE IF NOT EXISTS `empresaD`.`pregunta` (
   `modificado_el` TIMESTAMP NULL DEFAULT NULL,
   `fk_usuario` INT NOT NULL,
   PRIMARY KEY (`id`),
-  UNIQUE INDEX `id_pregunta_UNIQUE` (`id` ASC) VISIBLE,
-  INDEX `fk_usuario_idx` (`fk_usuario` ASC) VISIBLE,
+  UNIQUE INDEX `id_pregunta_UNIQUE` (`id` ASC),
+  INDEX `fk_usuario_idx` (`fk_usuario` ASC),
   CONSTRAINT `fk_usuario`
     FOREIGN KEY (`fk_usuario`)
-    REFERENCES `empresaD`.`usuario` (`id`))
+    REFERENCES `empresad`.`usuario` (`id`))
 ENGINE = InnoDB
 AUTO_INCREMENT = 15
 DEFAULT CHARACTER SET = utf8;
 
 
 -- -----------------------------------------------------
--- Table `empresaD`.`encuesta_estudio`
+-- Table `empresad`.`encuesta_estudio`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `empresaD`.`encuesta_estudio` (
+CREATE TABLE `encuesta_estudio` (
   `id` INT NOT NULL AUTO_INCREMENT,
   `fk_pregunta` INT NOT NULL,
   `fk_estudio` INT NULL DEFAULT NULL,
   PRIMARY KEY (`id`),
-  UNIQUE INDEX `id_encuesta_UNIQUE` (`id` ASC) VISIBLE,
-  INDEX `fk_pregunta_idx` (`fk_pregunta` ASC) VISIBLE,
-  INDEX `fk_estudio_idx` (`fk_estudio` ASC) VISIBLE,
+  UNIQUE INDEX `id_encuesta_UNIQUE` (`id` ASC),
+  INDEX `fk_pregunta_idx` (`fk_pregunta` ASC),
+  INDEX `fk_estudio_idx` (`fk_estudio` ASC),
   CONSTRAINT `fk_estudio`
     FOREIGN KEY (`fk_estudio`)
-    REFERENCES `empresaD`.`estudio` (`id`),
+    REFERENCES `empresad`.`estudio` (`id`),
   CONSTRAINT `fk_pregunta1`
     FOREIGN KEY (`fk_pregunta`)
-    REFERENCES `empresaD`.`pregunta` (`id`))
+    REFERENCES `empresad`.`pregunta` (`id`))
 ENGINE = InnoDB
 AUTO_INCREMENT = 25
 DEFAULT CHARACTER SET = utf8;
 
 
 -- -----------------------------------------------------
--- Table `empresaD`.`hijo`
+-- Table `empresad`.`hijo`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `empresaD`.`hijo` (
+CREATE TABLE `hijo` (
   `id` INT NOT NULL AUTO_INCREMENT,
   `genero` ENUM('masculino', 'femenino') NOT NULL,
   `edad` TIMESTAMP NOT NULL,
   `activo` TINYINT NOT NULL,
-  `creado_el` TIMESTAMP NOT NULL,
+  `creado_el` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
   `modificado_el` TIMESTAMP NULL DEFAULT NULL,
   `fk_dato_encuestado` INT NOT NULL,
   PRIMARY KEY (`id`),
-  UNIQUE INDEX `id_hijo_UNIQUE` (`id` ASC) VISIBLE,
-  INDEX `fk_dato_encuestado_idx` (`fk_dato_encuestado` ASC) VISIBLE,
+  UNIQUE INDEX `id_hijo_UNIQUE` (`id` ASC),
+  INDEX `fk_dato_encuestado_idx` (`fk_dato_encuestado` ASC),
   CONSTRAINT `fk_dato_encuestado`
     FOREIGN KEY (`fk_dato_encuestado`)
-    REFERENCES `empresaD`.`dato_encuestado` (`id`))
+    REFERENCES `empresad`.`dato_encuestado` (`id`))
 ENGINE = InnoDB
 AUTO_INCREMENT = 26
 DEFAULT CHARACTER SET = utf8;
 
 
 -- -----------------------------------------------------
--- Table `empresaD`.`opcion`
+-- Table `empresad`.`opcion`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `empresaD`.`opcion` (
+CREATE TABLE `opcion` (
   `id` INT NOT NULL AUTO_INCREMENT,
   `nombre_opcion` VARCHAR(60) NOT NULL,
   `activo` TINYINT NOT NULL,
@@ -355,20 +355,20 @@ CREATE TABLE IF NOT EXISTS `empresaD`.`opcion` (
   `modificado_el` TIMESTAMP NULL DEFAULT NULL,
   `fk_pregunta` INT NOT NULL,
   PRIMARY KEY (`id`),
-  UNIQUE INDEX `id_opcion_UNIQUE` (`id` ASC) VISIBLE,
-  INDEX `fk_pregunta_idx` (`fk_pregunta` ASC) VISIBLE,
+  UNIQUE INDEX `id_opcion_UNIQUE` (`id` ASC),
+  INDEX `fk_pregunta_idx` (`fk_pregunta` ASC),
   CONSTRAINT `fk_pregunta`
     FOREIGN KEY (`fk_pregunta`)
-    REFERENCES `empresaD`.`pregunta` (`id`))
+    REFERENCES `empresad`.`pregunta` (`id`))
 ENGINE = InnoDB
 AUTO_INCREMENT = 20
 DEFAULT CHARACTER SET = utf8;
 
 
 -- -----------------------------------------------------
--- Table `empresaD`.`sub_categoria`
+-- Table `empresad`.`sub_categoria`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `empresaD`.`sub_categoria` (
+CREATE TABLE `sub_categoria` (
   `id` INT NOT NULL AUTO_INCREMENT,
   `nombre` VARCHAR(45) NOT NULL,
   `activo` TINYINT NOT NULL,
@@ -376,20 +376,20 @@ CREATE TABLE IF NOT EXISTS `empresaD`.`sub_categoria` (
   `modificado_el` TIMESTAMP NULL DEFAULT NULL,
   `fk_categoria` INT NOT NULL,
   PRIMARY KEY (`id`),
-  UNIQUE INDEX `id_sub_categoria_UNIQUE` (`id` ASC) VISIBLE,
-  INDEX `fk_categoria_idx` (`fk_categoria` ASC) VISIBLE,
+  UNIQUE INDEX `id_sub_categoria_UNIQUE` (`id` ASC),
+  INDEX `fk_categoria_idx` (`fk_categoria` ASC),
   CONSTRAINT `fk_categoria`
     FOREIGN KEY (`fk_categoria`)
-    REFERENCES `empresaD`.`categoria` (`id`))
+    REFERENCES `empresad`.`categoria` (`id`))
 ENGINE = InnoDB
 AUTO_INCREMENT = 10
 DEFAULT CHARACTER SET = utf8;
 
 
 -- -----------------------------------------------------
--- Table `empresaD`.`tipo`
+-- Table `empresad`.`tipo`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `empresaD`.`tipo` (
+CREATE TABLE `tipo` (
   `id` INT NOT NULL AUTO_INCREMENT,
   `nombre` VARCHAR(45) NOT NULL,
   `activo` TINYINT NOT NULL,
@@ -397,20 +397,20 @@ CREATE TABLE IF NOT EXISTS `empresaD`.`tipo` (
   `modificado_el` TIMESTAMP NULL DEFAULT NULL,
   `sub_categoria_id` INT NOT NULL,
   PRIMARY KEY (`id`),
-  UNIQUE INDEX `id_tipo_UNIQUE` (`id` ASC) VISIBLE,
-  INDEX `fk_tipo_sub_categoria1_idx` (`sub_categoria_id` ASC) VISIBLE,
+  UNIQUE INDEX `id_tipo_UNIQUE` (`id` ASC),
+  INDEX `fk_tipo_sub_categoria1_idx` (`sub_categoria_id` ASC),
   CONSTRAINT `fk_tipo_sub_categoria1`
     FOREIGN KEY (`sub_categoria_id`)
-    REFERENCES `empresaD`.`sub_categoria` (`id`))
+    REFERENCES `empresad`.`sub_categoria` (`id`))
 ENGINE = InnoDB
 AUTO_INCREMENT = 9
 DEFAULT CHARACTER SET = utf8;
 
 
 -- -----------------------------------------------------
--- Table `empresaD`.`presentacion`
+-- Table `empresad`.`presentacion`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `empresaD`.`presentacion` (
+CREATE TABLE `presentacion` (
   `id` INT NOT NULL AUTO_INCREMENT,
   `cantidad` VARCHAR(45) NOT NULL,
   `tipo` VARCHAR(45) NOT NULL,
@@ -419,20 +419,20 @@ CREATE TABLE IF NOT EXISTS `empresaD`.`presentacion` (
   `modificado_el` TIMESTAMP NULL DEFAULT NULL,
   `tipo_id` INT NOT NULL,
   PRIMARY KEY (`id`),
-  UNIQUE INDEX `id_presentacion_UNIQUE` (`id` ASC) VISIBLE,
-  INDEX `fk_presentacion_tipo1_idx` (`tipo_id` ASC) VISIBLE,
+  UNIQUE INDEX `id_presentacion_UNIQUE` (`id` ASC),
+  INDEX `fk_presentacion_tipo1_idx` (`tipo_id` ASC),
   CONSTRAINT `fk_presentacion_tipo1`
     FOREIGN KEY (`tipo_id`)
-    REFERENCES `empresaD`.`tipo` (`id`))
+    REFERENCES `empresad`.`tipo` (`id`))
 ENGINE = InnoDB
 AUTO_INCREMENT = 11
 DEFAULT CHARACTER SET = utf8;
 
 
 -- -----------------------------------------------------
--- Table `empresaD`.`respuesta`
+-- Table `empresad`.`respuesta`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `empresaD`.`respuesta` (
+CREATE TABLE `respuesta` (
   `id` INT NOT NULL AUTO_INCREMENT,
   `respuesta` VARCHAR(80) NULL DEFAULT NULL,
   `activo` TINYINT NOT NULL,
@@ -442,49 +442,49 @@ CREATE TABLE IF NOT EXISTS `empresaD`.`respuesta` (
   `fk_opcion` INT NULL DEFAULT NULL,
   `fk_encuesta_estudio` INT NULL DEFAULT NULL,
   PRIMARY KEY (`id`),
-  UNIQUE INDEX `id_respuesta_UNIQUE` (`id` ASC) VISIBLE,
-  INDEX `fk_opcion_idx` (`fk_opcion` ASC) VISIBLE,
-  INDEX `fk_encuesta_estudio_idx` (`fk_encuesta_estudio` ASC) VISIBLE,
-  INDEX `fk_usuario_idx` (`fk_usuario` ASC) VISIBLE,
+  UNIQUE INDEX `id_respuesta_UNIQUE` (`id` ASC),
+  INDEX `fk_opcion_idx` (`fk_opcion` ASC),
+  INDEX `fk_encuesta_estudio_idx` (`fk_encuesta_estudio` ASC),
+  INDEX `fk_usuario_idx` (`fk_usuario` ASC),
   CONSTRAINT `fk_encuesta_estudio`
     FOREIGN KEY (`fk_encuesta_estudio`)
-    REFERENCES `empresaD`.`encuesta_estudio` (`id`),
+    REFERENCES `empresad`.`encuesta_estudio` (`id`),
   CONSTRAINT `fk_opcion`
     FOREIGN KEY (`fk_opcion`)
-    REFERENCES `empresaD`.`opcion` (`id`),
+    REFERENCES `empresad`.`opcion` (`id`),
   CONSTRAINT `fk_usuario3`
     FOREIGN KEY (`fk_usuario`)
-    REFERENCES `empresaD`.`usuario` (`id`))
+    REFERENCES `empresad`.`usuario` (`id`))
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8;
 
 
 -- -----------------------------------------------------
--- Table `empresaD`.`solicitudcaracteristicas`
+-- Table `empresad`.`solicitudcaracteristicas`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `empresaD`.`solicitudcaracteristicas` (
+CREATE TABLE `solicitudcaracteristicas` (
   `solicitud_id` INT NOT NULL,
   `presentacion_id` INT NOT NULL,
   `id` INT NOT NULL AUTO_INCREMENT,
   PRIMARY KEY (`id`),
-  UNIQUE INDEX `id_UNIQUE` (`id` ASC) VISIBLE,
-  INDEX `fk_table1_solicitud1_idx` (`solicitud_id` ASC) VISIBLE,
-  INDEX `fk_table1_presentacion1_idx` (`presentacion_id` ASC) VISIBLE,
+  UNIQUE INDEX `id_UNIQUE` (`id` ASC),
+  INDEX `fk_table1_solicitud1_idx` (`solicitud_id` ASC),
+  INDEX `fk_table1_presentacion1_idx` (`presentacion_id` ASC),
   CONSTRAINT `fk_table1_presentacion1`
     FOREIGN KEY (`presentacion_id`)
-    REFERENCES `empresaD`.`presentacion` (`id`),
+    REFERENCES `empresad`.`presentacion` (`id`),
   CONSTRAINT `fk_table1_solicitud1`
     FOREIGN KEY (`solicitud_id`)
-    REFERENCES `empresaD`.`solicitud` (`id`))
+    REFERENCES `empresad`.`solicitud` (`id`))
 ENGINE = InnoDB
 AUTO_INCREMENT = 9
 DEFAULT CHARACTER SET = utf8;
 
 
 -- -----------------------------------------------------
--- Table `empresaD`.`telefono`
+-- Table `empresad`.`telefono`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `empresaD`.`telefono` (
+CREATE TABLE `telefono` (
   `id` INT NOT NULL AUTO_INCREMENT,
   `telefono` VARCHAR(15) NOT NULL,
   `activo` TINYINT NOT NULL,
@@ -492,11 +492,11 @@ CREATE TABLE IF NOT EXISTS `empresaD`.`telefono` (
   `modificado_el` TIMESTAMP NULL DEFAULT NULL,
   `fk_dato_encuestado` INT NOT NULL,
   PRIMARY KEY (`id`),
-  UNIQUE INDEX `id_telefono_UNIQUE` (`id` ASC) VISIBLE,
-  INDEX `fk_dato_encuestado1` (`fk_dato_encuestado` ASC) VISIBLE,
+  UNIQUE INDEX `id_telefono_UNIQUE` (`id` ASC),
+  INDEX `fk_dato_encuestado1` (`fk_dato_encuestado` ASC),
   CONSTRAINT `fk_dato_encuestado1`
     FOREIGN KEY (`fk_dato_encuestado`)
-    REFERENCES `empresaD`.`dato_encuestado` (`id`))
+    REFERENCES `empresad`.`dato_encuestado` (`id`))
 ENGINE = InnoDB
 AUTO_INCREMENT = 26
 DEFAULT CHARACTER SET = utf8;
@@ -510,7 +510,7 @@ SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS;
 --                 INSERTS
 -- -----------------------------------------------------
 -- -----------------------------------------------------
--- Table `empresaD`.`categoria`
+-- Table `empresad`.`categoria`
 -- -----------------------------------------------------
 
 insert categoria values(1,"Muebles",1,"2019-07-23",null);
@@ -559,16 +559,16 @@ INSERT INTO tipo VALUES (9,"Otros",1,now(),null,9);
 insert presentacion values(9,"Otros","Otros",1,"2020-01-01",null,9);
 
 -- -----------------------------------------------------
--- Table `empresaD`.`subcategoria`
+-- Table `empresad`.`subcategoria`
 -- -----------------------------------------------------
 -- -----------------------------------------------------
--- Table `empresaD`.`tipo`
+-- Table `empresad`.`tipo`
 -- -----------------------------------------------------
 -- -----------------------------------------------------
--- Table `empresaD`.`presentacion`
+-- Table `empresad`.`presentacion`
 -- -----------------------------------------------------
 -- -----------------------------------------------------
--- Table `empresaD`.`pais`
+-- Table `empresad`.`pais`
 -- -----------------------------------------------------
 
 insert pais values(1,"Venezuela",1,'2019-07-23',null);
@@ -584,7 +584,7 @@ insert pais values(10,"Uruguay",1,'2019-07-23',null);
 
 
 -- -----------------------------------------------------
--- Table `empresaD`.`estado`
+-- Table `empresad`.`estado`
 -- -----------------------------------------------------
 
 insert estado values(1,"Amazonas",1,'2019-07-23',null,1);
@@ -609,7 +609,7 @@ insert estado values(19,"Rocha",1,'2019-07-23',null,10);
 insert estado values(20,"Soriano",1,'2019-07-23',null,10);
 
 -- -----------------------------------------------------
--- Table `empresaD`.`municipio`
+-- Table `empresad`.`municipio`
 -- -----------------------------------------------------
 insert municipio values(1,"Manaos",1,'2019-07-23',null,1);
 insert municipio values(2,"La Nula",1,'2019-07-23',null,2);
@@ -634,7 +634,7 @@ insert municipio values(20,"Dolores",1,'2019-07-23',null,20);
 
 
 -- -----------------------------------------------------
--- Table `empresaD`.`parroquia`
+-- Table `empresad`.`parroquia`
 -- -----------------------------------------------------
 
 insert parroquia values(1,"San Camilo",1,1,'2019-07-23',null,1);
@@ -659,7 +659,7 @@ insert parroquia values(19,"Los palomares",1,1,'2019-07-23',null,19);
 insert parroquia values(20,"Christ",1,1,'2019-07-23',null,20);
 
 -- -----------------------------------------------------
--- Table `empresaD`.`usuario`
+-- Table `empresad`.`usuario`
 -- -----------------------------------------------------
 -- Encuestados
   insert usuario values (1,"Daren","Gonzalez","daren1997gonzalez@gmail.com","encuestado","activo",1,'2019-07-23',null);
@@ -710,7 +710,7 @@ insert parroquia values(20,"Christ",1,1,'2019-07-23',null,20);
   insert usuario values (40,"Hammett","Schneider","HMLETSCH456@gmail.com","analista","activo",1,"2020-07-23",null);
 
   -- -----------------------------------------------------
--- Table `empresaD`.`ocupacion`
+-- Table `empresad`.`ocupacion`
 -- -----------------------------------------------------
 
 insert ocupacion values(1,"Ingeniero informatico",1,"2019-05-23",null);
@@ -727,7 +727,7 @@ insert ocupacion values(11,"Doctor",1,"2019-05-23",null);
 insert ocupacion values(12,"Pescador",1,"2019-05-23",null);
 insert ocupacion values(13,"Abogado",1,"2019-05-23",null);
 -- -----------------------------------------------------
--- Table `empresaD`.`dato_encuestado`
+-- Table `empresad`.`dato_encuestado`
 -- -----------------------------------------------------
 
   insert dato_encuestado values (1,null,"Hooper","1","laptop","1997-02-23","masculino","Alto","Licenciado",1,1,'2019-07-23',null,1,1,1);
@@ -762,7 +762,7 @@ insert ocupacion values(13,"Abogado",1,"2019-05-23",null);
 
 
 -- -----------------------------------------------------
--- Table `empresaD`.`muestra_poblacion`
+-- Table `empresad`.`muestra_poblacion`
 -- -----------------------------------------------------
 
 insert muestra_poblacion values (1,"masculino","Alto","Licenciado","1940-01-01","2015-01-01",1,1,"2020-07-23",null,1,1);
@@ -778,7 +778,7 @@ insert muestra_poblacion values (7,"femenino","Alto","Bachiller","1940-01-01","2
 insert muestra_poblacion values (8,"femenino","Alto","Bachiller","1940-01-01","2015-01-01",1,1,"2020-07-23",null,1,4);
 
 -- -----------------------------------------------------
--- Table `empresaD`.`solicitud` --------------------
+-- Table `empresad`.`solicitud` --------------------
 -- -----------------------------------------------------
 
 insert solicitud values(1,"solicitada",1,"2020-08-10",null,31,"Sin especificar", "Sin comentarios",1);
@@ -791,20 +791,20 @@ insert solicitud values(7,"solicitada",1,"2020-08-11",null,32,"Sin especificar",
 insert solicitud values(8,"solicitada",1,"2020-08-11",null,33,"Sin especificar", "Sin comentarios",8);
 
 -- -----------------------------------------------------
--- Table `empresaD`.`solicitudcaracteristicas`
+-- Table `empresad`.`solicitudcaracteristicas`
 -- -----------------------------------------------------
 
-INSERT INTO `empresaD`.`solicitudcaracteristicas`(`solicitud_id`,`presentacion_id`,`id`) VALUES(1,1,1);
-INSERT INTO `empresaD`.`solicitudcaracteristicas`(`solicitud_id`,`presentacion_id`,`id`) VALUES(2,2,2);
-INSERT INTO `empresaD`.`solicitudcaracteristicas`(`solicitud_id`,`presentacion_id`,`id`) VALUES(3,3,3);
-INSERT INTO `empresaD`.`solicitudcaracteristicas`(`solicitud_id`,`presentacion_id`,`id`) VALUES(4,4,4);
-INSERT INTO `empresaD`.`solicitudcaracteristicas`(`solicitud_id`,`presentacion_id`,`id`) VALUES(5,5,5);
-INSERT INTO `empresaD`.`solicitudcaracteristicas`(`solicitud_id`,`presentacion_id`,`id`) VALUES(6,6,6);
-INSERT INTO `empresaD`.`solicitudcaracteristicas`(`solicitud_id`,`presentacion_id`,`id`) VALUES(7,7,7);
-INSERT INTO `empresaD`.`solicitudcaracteristicas`(`solicitud_id`,`presentacion_id`,`id`) VALUES(8,8,8);
+INSERT INTO `empresad`.`solicitudcaracteristicas`(`solicitud_id`,`presentacion_id`,`id`) VALUES(1,1,1);
+INSERT INTO `empresad`.`solicitudcaracteristicas`(`solicitud_id`,`presentacion_id`,`id`) VALUES(2,2,2);
+INSERT INTO `empresad`.`solicitudcaracteristicas`(`solicitud_id`,`presentacion_id`,`id`) VALUES(3,3,3);
+INSERT INTO `empresad`.`solicitudcaracteristicas`(`solicitud_id`,`presentacion_id`,`id`) VALUES(4,4,4);
+INSERT INTO `empresad`.`solicitudcaracteristicas`(`solicitud_id`,`presentacion_id`,`id`) VALUES(5,5,5);
+INSERT INTO `empresad`.`solicitudcaracteristicas`(`solicitud_id`,`presentacion_id`,`id`) VALUES(6,6,6);
+INSERT INTO `empresad`.`solicitudcaracteristicas`(`solicitud_id`,`presentacion_id`,`id`) VALUES(7,7,7);
+INSERT INTO `empresad`.`solicitudcaracteristicas`(`solicitud_id`,`presentacion_id`,`id`) VALUES(8,8,8);
 
 -- -----------------------------------------------------
--- Table `empresaD`.`estudio`
+-- Table `empresad`.`estudio`
 -- -----------------------------------------------------
 insert estudio values(1,"En ejecucion","En linea",1,null,1,"2021-08-10",null,1,36);
 insert estudio values(2,"En ejecucion","En linea",1,null,1,"2021-08-10",null,2,37);
@@ -816,7 +816,7 @@ insert estudio values(7,"En ejecucion","En linea",1,null,1,"2021-08-10",null,7,3
 insert estudio values(8,"En ejecucion","En linea",1,null,1,"2021-08-10",null,8,38);
 
 -- -----------------------------------------------------
--- Table `empresaD`.`pregunta`
+-- Table `empresad`.`pregunta`
 -- -----------------------------------------------------
 -- 26 30
 -- abiertas
@@ -867,7 +867,7 @@ insert opcion values(19,"conocidos",1,"2021-08-10",null,14);
 
 
 -- -----------------------------------------------------
--- Table `empresaD`.`encuesta_estudio`
+-- Table `empresad`.`encuesta_estudio`
 -- -----------------------------------------------------
 -- 1
 insert encuesta_estudio values(1,1,1);
@@ -909,7 +909,7 @@ insert encuesta_estudio values(23,10,7);
 insert encuesta_estudio values(24,11,7);
 
 -- -----------------------------------------------------
--- Table `empresaD`.`hijo`
+-- Table `empresad`.`hijo`
 -- -----------------------------------------------------
 
 insert hijo values(1,"masculino","2000-09-22",1,"2019-07-23",null,1);
@@ -939,7 +939,7 @@ insert hijo values(24,"femenino","2013-09-22",1,"2019-07-23",null,24);
 insert hijo values(25,"femenino","2013-09-22",1,"2019-07-23",null,25);
 
 -- -----------------------------------------------------
--- Table `empresaD`.`telefono`
+-- Table `empresad`.`telefono`
 -- -----------------------------------------------------
 
 insert into telefono (id, telefono, activo, creado_el, modificado_el, fk_dato_encuestado) values (1, '2912944114', 1, '2020-03-06', null, 1);
