@@ -807,12 +807,12 @@ INSERT INTO `empresad`.`solicitudcaracteristicas`(`solicitud_id`,`presentacion_i
 -- Table `empresad`.`estudio`
 -- -----------------------------------------------------
 insert estudio values(1,"En ejecucion","En linea",1,null,1,"2021-08-10",null,1,36);
-insert estudio values(2,"En ejecucion","En linea",1,null,1,"2021-08-10",null,2,37);
-insert estudio values(3,"En ejecucion","En linea",1,null,1,"2021-08-10",null,3,38);
+insert estudio values(2,"En ejecucion","encuesta",1,null,1,"2021-08-10",null,2,37);
+insert estudio values(3,"En ejecucion","encuesta",1,null,1,"2021-08-10",null,3,38);
 insert estudio values(4,"En ejecucion","En linea",1,null,1,"2021-08-10",null,4,39);
-insert estudio values(5,"En ejecucion","En linea",1,null,1,"2021-08-10",null,5,40);
+insert estudio values(5,"En ejecucion","encuesta",1,null,1,"2021-08-10",null,5,40);
 insert estudio values(6,"En ejecucion","En linea",1,null,1,"2021-08-10",null,6,36);
-insert estudio values(7,"En ejecucion","En linea",1,null,1,"2021-08-10",null,7,37);
+insert estudio values(7,"En ejecucion","encuesta",1,null,1,"2021-08-10",null,7,37);
 insert estudio values(8,"En ejecucion","En linea",1,null,1,"2021-08-10",null,8,38);
 
 -- -----------------------------------------------------

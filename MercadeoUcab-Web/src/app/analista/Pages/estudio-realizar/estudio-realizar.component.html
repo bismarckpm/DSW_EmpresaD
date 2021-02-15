@@ -1,198 +1,267 @@
 <div class="analista-estudio">
-    <mat-grid-list cols="10" rowHeight="25%" *ngIf="_Estudio !== null else elseEstudio">
-        <mat-grid-tile
-        [colspan]="4"
-        [rowspan]="4"
-        style="top: 0% !important;"
+  <mat-grid-list
+    cols="10"
+    rowHeight="25%"
+    *ngIf="_Estudio !== null; else elseEstudio"
+  >
+    <mat-grid-tile [colspan]="4" [rowspan]="4" style="top: 0% !important">
+      <mat-card class="estudio-poblacion">
+        <mat-card-header
+          style="padding: 5px 0px; justify-content: space-around"
         >
-            <mat-card class="estudio-poblacion">
-                <mat-card-header style="padding:5px 0px;justify-content: space-around;">
-                    <mat-card-title>
-                       <h6>Población de estudio</h6>
-                    </mat-card-title>
-                    <button class="btn btn-outline-dark shadow-sm" style="padding: 0.15rem 0.15rem;
-                    height: fit-content;
-                    display: flex;"
-                    (click)="openPobInfoModal()">
-                        Detalles
-                    </button>
-                </mat-card-header>
-                <mat-card-content class="card-content">
-                    <div class="encuestado-content" *ngFor="let person of _encuestados">
-                        <div style="display: flex;flex-direction:row;width: 30%;height: 100%;justify-content: flex-start;align-items:center;">
-                            <mat-icon style="color: #00d8b4;">
-                                account_box
-                            </mat-icon>
-                            <mat-icon  style="color: greenyellow;" *ngIf="person.done === true; else notdone">
-                                assignment_turned_in
-                            </mat-icon>
-                            <ng-template #notdone>
-                                <mat-icon style="color: orange">
-                                    assignment_late
-                                </mat-icon>
-                            </ng-template>
-                            <button class="btn btn-outline-dark shadow-sm" 
-                            style="padding: 0.15rem 0.15rem;
-                            height: fit-content;
-                            display: flex;" *ngIf="_Estudio.tipo === 'Via telefonica' && person.done===false"
-                            (click)="setUsuarioEncuesta(person,_Estudio)">
-                                <mat-icon>
-                                    call
-                                </mat-icon>
-                            </button>
-                        </div>
-                        <div style="display: flex;flex-direction: column;width: 70%;height: 100%;justify-content: space-around;align-items:center;">
-                            <label>{{person.nombre}}</label>
-                            <label>{{person.apellido}}</label>
-                        </div>
-                    </div>
-                </mat-card-content>
-            </mat-card>
-        </mat-grid-tile>
-        <mat-grid-tile
-        [colspan]="6"
-        [rowspan]="2"
-        >
-            <mat-card class="estudio-progreso">
-                <mat-card-header>
-                    <mat-card-title>
-                       <h6>Datos del estudio</h6>
-                    </mat-card-title>
-                </mat-card-header>
-                <mat-card-content>
-                    <div style="display: flex;flex-direction: row;" *ngIf="_Estudio.tipo === 'En linea'">
-                        <label>Estudio en linea</label>
-                        <mat-icon style="margin-left: 0.75rem;">language</mat-icon>
-                    </div>
-                    <div style="display: flex;flex-direction: row;" *ngIf="_Estudio.tipo === 'Via telefonica'">
-                        <label>Estudio via telefónica</label>
-                        <mat-icon style="margin-left: 0.75rem;">perm_phone_msg</mat-icon>
-                    </div>
-                    
-                    <div>
-                        <!--n encuestas, listos, pendientes-->
-                        <label>Progreso de estudio</label>
-                    </div>
-                    <div>
-                        <button 
-                        class="btn btn-outline-dark shadow-sm" 
-                        style="padding: 0.15rem 0.15rem;
-                        height: fit-content;
-                        display: flex;"
-                        (click)="openRespDiagModal()">
-                            Dar resultado
-                        </button>
-                    </div>
-                </mat-card-content>
-            </mat-card>
-        </mat-grid-tile>
-        <mat-grid-tile
-        [colspan]="6"
-        [rowspan]="2"
-        >
-            <mat-card class="estudio-preguntas">
-                <mat-card-header>
-                    <mat-card-title>
-                        <h6>Preguntas de estudio</h6>
-                    </mat-card-title>
-                </mat-card-header>
-                <mat-card-content class="card-content">
-                    <div class="pregunta-content" *ngFor="let pregunta of _Estudio.encuesta">
-                        <button disabled
-                        type="button"
-                        style="background-color: #00d8b4; color: white;
-                        padding: 0.15rem 0.15rem;
-                        height: fit-content;
-                        display: flex;"
-                        class="shadom-sm btn">
-                        <mat-icon style="font-size: 28px;height: 28px;width: 28px;">
-                            border_color
-                        </mat-icon>
-                        </button>
-                        <div class="pregunta-descripcion">
-                            <a>{{pregunta.pregunta.nombre}}</a> 
-                        </div>          
-                    </div>
-                </mat-card-content>
-            </mat-card>
-        </mat-grid-tile>    
-    </mat-grid-list>
-    <ng-template #elseEstudio>
-        <div class="text-center" style="
-            flex: 1;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-          ">
-            <div class="spinner-border" style="width: 7.5rem; height: 7.5rem" role="status">
-                <span class="sr-only">Loading...</span>
+          <mat-card-title>
+            <h6>Población de estudio</h6>
+          </mat-card-title>
+          <button
+            class="btn btn-outline-dark shadow-sm"
+            style="padding: 0.15rem 0.15rem; height: fit-content; display: flex"
+            (click)="openPobInfoModal()"
+          >
+            Detalles
+          </button>
+        </mat-card-header>
+        <mat-card-content class="card-content">
+          <div class="encuestado-content" *ngFor="let person of _encuestados">
+            <div
+              style="
+                display: flex;
+                flex-direction: row;
+                width: 30%;
+                height: 100%;
+                justify-content: flex-start;
+                align-items: center;
+              "
+            >
+              <mat-icon style="color: #00d8b4"> account_box </mat-icon>
+              <mat-icon
+                style="color: greenyellow"
+                *ngIf="person.done === true; else notdone"
+              >
+                assignment_turned_in
+              </mat-icon>
+              <ng-template #notdone>
+                <mat-icon style="color: orange"> assignment_late </mat-icon>
+              </ng-template>
+              <button
+                class="btn btn-outline-dark shadow-sm"
+                style="
+                  padding: 0.15rem 0.15rem;
+                  height: fit-content;
+                  display: flex;
+                "
+                *ngIf="_Estudio.tipo === 'encuesta' && person.done === false"
+                (click)="setUsuarioEncuesta(person, _Estudio)"
+              >
+                <mat-icon> call </mat-icon>
+              </button>
             </div>
-        </div>
-    </ng-template>
+            <div
+              style="
+                display: flex;
+                flex-direction: column;
+                width: 70%;
+                height: 100%;
+                justify-content: space-around;
+                align-items: center;
+              "
+            >
+              <label>{{ person.nombre }}</label>
+              <label>{{ person.apellido }}</label>
+            </div>
+          </div>
+        </mat-card-content>
+      </mat-card>
+    </mat-grid-tile>
+    <mat-grid-tile [colspan]="6" [rowspan]="2">
+      <mat-card class="estudio-progreso">
+        <mat-card-header>
+          <mat-card-title>
+            <h6>Datos del estudio</h6>
+          </mat-card-title>
+        </mat-card-header>
+        <mat-card-content>
+          <div
+            style="display: flex; flex-direction: row"
+            *ngIf="_Estudio.tipo === 'En linea'"
+          >
+            <label>Estudio en linea</label>
+            <mat-icon style="margin-left: 0.75rem">language</mat-icon>
+          </div>
+          <div
+            style="display: flex; flex-direction: row"
+            *ngIf="_Estudio.tipo === 'encuesta'"
+          >
+            <label>Estudio via telefónica</label>
+            <mat-icon style="margin-left: 0.75rem">perm_phone_msg</mat-icon>
+          </div>
+
+          <div>
+            <!--n encuestas, listos, pendientes-->
+            <label>Progreso de estudio</label>
+          </div>
+          <div>
+            <button
+              class="btn btn-outline-dark shadow-sm"
+              style="
+                padding: 0.15rem 0.15rem;
+                height: fit-content;
+                display: flex;
+              "
+              (click)="openRespDiagModal()"
+            >
+              Dar resultado
+            </button>
+          </div>
+        </mat-card-content>
+      </mat-card>
+    </mat-grid-tile>
+    <mat-grid-tile [colspan]="6" [rowspan]="2">
+      <mat-card class="estudio-preguntas">
+        <mat-card-header>
+          <mat-card-title>
+            <h6>Preguntas de estudio</h6>
+          </mat-card-title>
+        </mat-card-header>
+        <mat-card-content class="card-content">
+          <div
+            class="pregunta-content"
+            *ngFor="let pregunta of _Estudio.encuesta"
+          >
+            <button
+              disabled
+              type="button"
+              style="
+                background-color: #00d8b4;
+                color: white;
+                padding: 0.15rem 0.15rem;
+                height: fit-content;
+                display: flex;
+              "
+              class="shadom-sm btn"
+            >
+              <mat-icon style="font-size: 28px; height: 28px; width: 28px">
+                border_color
+              </mat-icon>
+            </button>
+            <div class="pregunta-descripcion">
+              <a>{{ pregunta.pregunta.nombre }}</a>
+            </div>
+          </div>
+        </mat-card-content>
+      </mat-card>
+    </mat-grid-tile>
+  </mat-grid-list>
+  <ng-template #elseEstudio>
+    <div
+      class="text-center"
+      style="
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+      "
+    >
+      <div
+        class="spinner-border"
+        style="width: 7.5rem; height: 7.5rem"
+        role="status"
+      >
+        <span class="sr-only">Loading...</span>
+      </div>
+    </div>
+  </ng-template>
 </div>
 <app-basic-info-dialog #info [_tipo]="'Estudio'">
   <div class="cForm-field-row">
-    <div class="cForm-field-col">
-        
-    </div>
-    <div class="cForm-field-col">
-    </div>
+    <div class="cForm-field-col"></div>
+    <div class="cForm-field-col"></div>
   </div>
 </app-basic-info-dialog>
 <app-basic-info-dialog #pobInfo [_tipo]="'Población'">
-    <div class="cForm-field-row" *ngIf="_Estudio !== null" style="overflow-y: auto;
-    height: 80%;">
-      <div class="cForm-field-col">
-        <div class="form-group">
-            <label><h4>Género</h4></label>
-            <span><p>{{_Estudio.solicitud.muestraPoblacion.genero}}</p></span>
-        </div>
-        <div class="form-group">
-            <label><h4>Nivel Económico</h4></label>
-            <span><p>{{_Estudio.solicitud.muestraPoblacion.nivel_economico}}</p></span>
-        </div>
-        <div class="form-group">
-            <label><h4>Nivel Académico</h4></label>
-            <span><p>{{_Estudio.solicitud.muestraPoblacion.nivel_academico}}</p></span>
-        </div>
-        <div class="form-group">
-            <label><h4>Cantidad de Hijos</h4></label>
-            <span><p>{{_Estudio.solicitud.muestraPoblacion.cantidad_hijos}}</p></span>
-        </div>
+  <div
+    class="cForm-field-row"
+    *ngIf="_Estudio !== null"
+    style="overflow-y: auto; height: 80%"
+  >
+    <div class="cForm-field-col">
+      <div class="form-group">
+        <label><h4>Género</h4></label>
+        <span
+          ><p>{{ _Estudio.solicitud.muestraPoblacion.genero }}</p></span
+        >
       </div>
-      <div class="cForm-field-col">
-        <div class="form-group">
-            <label><h4>Región de residencia</h4></label>
-            <span><p>
-                {{_Estudio.solicitud.muestraPoblacion.parroquia.nombre+' ,'
-                + _Estudio.solicitud.muestraPoblacion.parroquia.municipio.nombre+' ,'
-                + _Estudio.solicitud.muestraPoblacion.parroquia.municipio.estado.nombre+' ,'
-                + _Estudio.solicitud.muestraPoblacion.parroquia.municipio.estado.pais.nombre
-                }}
-            </p></span>
-        </div>
-        <div class="form-group">
-            <label><h4>Edad de participantes</h4></label>
-            <span><p>
-                {{ getYearDiff(_Estudio.solicitud.muestraPoblacion.rango_edad_fin)+' - '
-                + getYearDiff(_Estudio.solicitud.muestraPoblacion.rango_edad_inicio)+'  Años'
-                }}
-            </p></span>
-        </div>
+      <div class="form-group">
+        <label><h4>Nivel Económico</h4></label>
+        <span
+          ><p>
+            {{ _Estudio.solicitud.muestraPoblacion.nivel_economico }}
+          </p></span
+        >
+      </div>
+      <div class="form-group">
+        <label><h4>Nivel Académico</h4></label>
+        <span
+          ><p>
+            {{ _Estudio.solicitud.muestraPoblacion.nivel_academico }}
+          </p></span
+        >
+      </div>
+      <div class="form-group">
+        <label><h4>Cantidad de Hijos</h4></label>
+        <span
+          ><p>{{ _Estudio.solicitud.muestraPoblacion.cantidad_hijos }}</p></span
+        >
       </div>
     </div>
-  </app-basic-info-dialog>
-  <app-encuesta-dialog #encuesta
-  [_encuesta]="_Estudio" [_usuario]="_targetEncuestado" 
+    <div class="cForm-field-col">
+      <div class="form-group">
+        <label><h4>Región de residencia</h4></label>
+        <span
+          ><p>
+            {{
+              _Estudio.solicitud.muestraPoblacion.parroquia.nombre +
+                " ," +
+                _Estudio.solicitud.muestraPoblacion.parroquia.municipio.nombre +
+                " ," +
+                _Estudio.solicitud.muestraPoblacion.parroquia.municipio.estado
+                  .nombre +
+                " ," +
+                _Estudio.solicitud.muestraPoblacion.parroquia.municipio.estado
+                  .pais.nombre
+            }}
+          </p></span
+        >
+      </div>
+      <div class="form-group">
+        <label><h4>Edad de participantes</h4></label>
+        <span
+          ><p>
+            {{
+              getYearDiff(_Estudio.solicitud.muestraPoblacion.rango_edad_fin) +
+                " - " +
+                getYearDiff(
+                  _Estudio.solicitud.muestraPoblacion.rango_edad_inicio
+                ) +
+                "  Años"
+            }}
+          </p></span
+        >
+      </div>
+    </div>
+  </div>
+</app-basic-info-dialog>
+<app-encuesta-dialog
+  #encuesta
+  [_encuesta]="_Estudio"
+  [_usuario]="_targetEncuestado"
   [_answers]="_userAnswers"
-  (alterAnswers)='alterAnswersState($event)'
-  style="height: 80vh;width: 75vw;">
-
-  </app-encuesta-dialog>
-  <app-estudio-resultado-dialog [_estId]="_Id"  [_est]="_Estudio" #respDiag>
-      
-  </app-estudio-resultado-dialog>
+  (alterAnswers)="alterAnswersState($event)"
+  style="height: 80vh; width: 75vw"
+>
+</app-encuesta-dialog>
+<app-estudio-resultado-dialog [_estId]="_Id" [_est]="_Estudio" #respDiag>
+</app-estudio-resultado-dialog>
 <!--
     "muestraPoblacion":{
             "_id":5,

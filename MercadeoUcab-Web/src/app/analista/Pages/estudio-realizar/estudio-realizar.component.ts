@@ -72,7 +72,7 @@ export class EstudioRealizarComponent implements OnInit {
     data: {
       _id: 5,
       estado: 'En ejecucion',
-      tipo: 'Via telefonica',
+      tipo: 'En linea',
       encuestas_esperadas: 1,
       solicitud: {
         _id: 5,

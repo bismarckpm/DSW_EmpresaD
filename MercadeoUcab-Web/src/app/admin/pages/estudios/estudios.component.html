@@ -1,15 +1,16 @@
 <div
   class="container"
   style="
-  height: 90vh;
-  width: 85vw;
-  justify-content: unset; flex-direction: row;
-  display: flex;
-  overflow-x: hidden;
+    height: 90vh;
+    width: 85vw;
+    justify-content: unset;
+    flex-direction: row;
+    display: flex;
+    overflow-x: hidden;
   "
 >
   <div *ngIf="op === ''" class="container" style="height: 100%; width: 100%">
-    <div class="row align-items-center" style="height:100%">
+    <div class="row align-items-center" style="height: 100%">
       <div class="col-6" style="height: 65%">
         <mat-card class="menu-card" (click)="setOperation('add')">
           <mat-icon class="menu-card-icon"> add_box </mat-icon>
@@ -109,7 +110,11 @@
                 <h6>Rango de edad</h6>
               </label>
               <p>
-                {{ getYearDiff(pobSug.rango_edad_inicio) + "-" + getYearDiff(pobSug.rango_edad_fin) }}
+                {{
+                  getYearDiff(pobSug.rango_edad_inicio) +
+                    "-" +
+                    getYearDiff(pobSug.rango_edad_fin)
+                }}
               </p>
             </div>
             <div style="width: 100%; display: flex; flex-direction: column">
@@ -136,7 +141,7 @@
                 {{ pobSug.ocupacion.nombre }}
               </p>
             </div>
-      </div>
+          </div>
           <div
             style="
               width: 20%;
@@ -168,13 +173,7 @@
                 style="padding: 0.15rem; justify-content: center; display: flex"
                 (click)="setPoblacion(pobSug)"
               >
-                <mat-icon
-                  style="
-                    height: 30px;
-                    width: 30px;
-                    font-size: 30px;
-                  "
-                >
+                <mat-icon style="height: 30px; width: 30px; font-size: 30px">
                   label_important
                 </mat-icon>
               </button>
@@ -229,18 +228,9 @@
               class="btn btn-outline-dark"
               style="padding: 0.15rem; justify-content: center; display: flex"
               (click)="addPregAsoc(pregSug)"
-              *ngIf="
-                checkPregAsoc(pregSug._id) === false;
-                else elsePreg
-              "
+              *ngIf="checkPregAsoc(pregSug._id) === false; else elsePreg"
             >
-              <mat-icon
-                style="
-                  height: 30px;
-                  width: 30px;
-                  font-size: 30px;
-                "
-              >
+              <mat-icon style="height: 30px; width: 30px; font-size: 30px">
                 label_important
               </mat-icon>
             </button>
@@ -642,7 +632,7 @@
                     >
                       <option [ngValue]="null">Sin seleccionar...</option>
                       <option [ngValue]="'En linea'">En línea</option>
-                      <option [ngValue]="'Via telefonica'">Vía telefónica</option>
+                      <option [ngValue]="'encuesta'">Encuesta</option>
                     </select>
                   </div>
                 </div>
@@ -781,7 +771,7 @@
       </div>
     </mat-card>
   </div>
-<!--
+  <!--
   <div
     *ngIf="op === 'add' && currentStep > 0 && currentStep < 3"
     style="height: 90%; width: 30%"
@@ -1097,7 +1087,9 @@
         </ng-container>
         <ng-container matColumnDef="asignado">
           <th mat-header-cell *matHeaderCellDef>Analista asignado</th>
-          <td mat-cell *matCellDef="let element">{{ element.analista.nombre+' '+element.analista.apellido }}</td>
+          <td mat-cell *matCellDef="let element">
+            {{ element.analista.nombre + " " + element.analista.apellido }}
+          </td>
         </ng-container>
         <ng-container matColumnDef="selector">
           <th mat-header-cell *matHeaderCellDef>Selección</th>
@@ -1201,7 +1193,7 @@
         [inset]="true"
         style="color: transparent"
       ></mat-divider>
-       <button
+      <button
         mat-raised-button
         class="shadow-sm"
         (click)="setOperation('add')"
@@ -1232,15 +1224,21 @@
     <div class="cForm-field-col">
       <div class="form-group">
         <label><h4>Analista asignado</h4></label>
-        <p>{{ targetEstudio.analista.nombre + ' ' +  targetEstudio.analista.apellido }}</p>
+        <p>
+          {{
+            targetEstudio.analista.nombre +
+              " " +
+              targetEstudio.analista.apellido
+          }}
+        </p>
       </div>
       <div class="form-group">
         <label><h4>Tipo de estudio</h4></label>
-        <p>{{ targetEstudio.tipo}}</p>
+        <p>{{ targetEstudio.tipo }}</p>
       </div>
       <div class="form-group">
         <label><h4>Encuestas esperadas</h4></label>
-        <p>{{ targetEstudio.encuestas_esperadas}}</p>
+        <p>{{ targetEstudio.encuestas_esperadas }}</p>
       </div>
     </div>
     <div class="cForm-field-col">
@@ -1251,7 +1249,17 @@
       <div class="form-group">
         <label><h4>Rango de edad de participantes</h4></label>
         <p>
-        {{getYearDiff(targetEstudio.solicitud.muestraPoblacion.rango_edad_fin)+' - '+getYearDiff(targetEstudio.solicitud.muestraPoblacion.rango_edad_inicio)+' Años'}}</p>
+          {{
+            getYearDiff(
+              targetEstudio.solicitud.muestraPoblacion.rango_edad_fin
+            ) +
+              " - " +
+              getYearDiff(
+                targetEstudio.solicitud.muestraPoblacion.rango_edad_inicio
+              ) +
+              " Años"
+          }}
+        </p>
       </div>
       <!--
       <div class="form-group">
