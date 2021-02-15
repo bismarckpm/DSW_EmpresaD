@@ -41,7 +41,7 @@
       align-items: center;
       justify-content: center;
       flex: 1;">
-        <h5>En esta etapa usted debe indicar las características del producto al cual se le realzará el estudio de mercado</h5>
+        <h5>En esta etapa usted debe indicar las características del producto al cual se le realizará el estudio de mercado</h5>
       </div>
       <div *ngIf="sec==='POB'" style="display: flex;
       flex-direction: column;
@@ -81,6 +81,19 @@
                 required
               >
             </div>
+            <div class="form-group">
+              <label for="comentariosS">Comentarios</label>
+              <textarea
+                type="text"
+                class="form-control"
+                id="comentariosS"
+                maxlength="255"
+                rows="4"
+                formControlName="comentarios"
+                required
+              >
+              </textarea>
+            </div>
           </div>
           <div class="cForm-field-col" style="overflow-y: auto;">
             <div class="form-group">
@@ -110,7 +123,7 @@
                 required
               >
                 <option
-                  *ngFor="let sub of this.subcategorias;let s = index;"
+                  *ngFor="let sub of this.subcategorias;let sc = index;"
                   [ngValue]="sub._id"
                 >
                   {{ sub.nombre }}
@@ -126,7 +139,7 @@
                 required
                 (click)="setPresentaciones($event.target.value)"
               >
-                <option *ngFor="let Tipo of tipos;" [ngValue]="Tipo._id">
+                <option *ngFor="let Tipo of tipos;let t = index;" [ngValue]="Tipo._id">
                   {{ Tipo.nombre }}
                 </option>
               </select>
@@ -240,9 +253,9 @@
                 required
               >
                 <option [ngValue]="null">Sin seleccionar...</option>
-                <option [ngValue]="'bajo'">Bajo</option>
-                <option [ngValue]="'medio'">Medio</option>
-                <option [ngValue]="'alto'">Alto</option>
+                <option [ngValue]="'Bajo'">Bajo</option>
+                <option [ngValue]="'Medio'">Medio</option>
+                <option [ngValue]="'Alto'">Alto</option>
               </select>
             </div>
           </div>
@@ -267,7 +280,7 @@
               <select
                 class="form-control"
                 id="ocupacionSelect"
-                formControlName="fk_ocupacion"
+                formControlName="dtoOcupacion"
                 required
               >
                 <option [ngValue]="null">Sin seleccionar...</option>

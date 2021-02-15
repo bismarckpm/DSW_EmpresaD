@@ -413,22 +413,28 @@ export class SolicitudComponent implements OnInit {
     );
   }
   setTipos(_t){
+    console.log(_t);
     if(_t !== ''){
       let parsedInd = parseInt(_t,10);
+      console.log(parsedInd);
       this.tipos = this.subcategorias[parsedInd].tipos;
       this.addForm.get('subCategoria').setValue(this.subcategorias[parsedInd]._id);
       //console.log(this.tipos,parsedInd,_t,this.subcategorias[parsedInd]);
       this.presentaciones = [];
+      this.addForm.get('tipo').setValue(null);
+      this.addForm.get('presentacion').setValue(null);
     }
     else{
       console.log('Null catcher... PreTipos');
     }
   }
   setPresentaciones(_sc){
+    console.log(_sc);
     if(_sc !== ''){
       let parsedInd = parseInt(_sc,10);
+      console.log(parsedInd);
       this.presentaciones = this.tipos[parsedInd].presentaciones;
-      this.addForm.get('tipo').setValue(this.tipos[parsedInd]._id);
+      this.addForm.get('presentacion').setValue(null);
       //console.log(this.presentaciones,parsedInd,_sc,this.tipos[parsedInd]);
     }
     else{
@@ -437,12 +443,17 @@ export class SolicitudComponent implements OnInit {
   }
   setSubCategorias(_c){
     //this.subcategorias = categoria.subcategorias;
+    console.log(_c);
     if(_c !== ''){
       let parsedInd = parseInt(_c,10);
+      console.log(parsedInd);
       this.subcategorias = this.categorias[parsedInd].subcategorias;
       console.log(this.subcategorias,_c,this.categorias[parsedInd]);
       this.tipos = [];
       this.presentaciones = [];
+      this.addForm.get('subCategoria').setValue(null);
+      this.addForm.get('tipo').setValue(null);
+      this.addForm.get('presentacion').setValue(null);
     }
     else{
       console.log('Null catcher...PreSubCat');
@@ -457,7 +468,7 @@ export class SolicitudComponent implements OnInit {
       rangoEdadFin: null,
       cantidadHijos: null,
       fk_lugar: null,
-      fk_ocupacion: null,
+      dtoOcupacion: null,
     });
     this.addForm = this.formBuilder.group({
       marca: null,
@@ -509,6 +520,7 @@ export class SolicitudComponent implements OnInit {
         _auxDate.getDay()
       );
       console.log(newMin);
+      //this.poblacionForm.get('rangoEdadInicio').setValue(`${newMin.getFullYear()}-${newMin.getMonth()+1}-${newMin.getDate()}`);
       this.poblacionForm.get('rangoEdadInicio').setValue(newMin);
     } else {
       //console.log('Edad máxima ',max);
@@ -519,6 +531,7 @@ export class SolicitudComponent implements OnInit {
         _auxDate.getDay()
       );
       console.log(newMax);
+      //this.poblacionForm.get('rangoEdadFin').setValue(`${newMax.getFullYear()}-${newMax.getMonth()+1}-${newMax.getDate()}`);
       this.poblacionForm.get('rangoEdadFin').setValue(newMax);
     }
   }
@@ -535,20 +548,24 @@ export class SolicitudComponent implements OnInit {
   verifyPoblacion(){
     if(this.poblacionForm.valid){
       this.opStatus = 'P';
-      const {presentacion,estado,_id,usuario,...rest} = this.addForm.value;
+      const {presentacion,estado,_id,usuario,comentarios,...rest} = this.addForm.value;
+      const {genero, nivelEconomico, nivelAcademico, rangoEdadInicio,rangoEdadFin,cantidadHijos,...restP} = this.poblacionForm.value
       let toAddPoblacion:any = {
-        ...this.poblacionForm.value
+        ...this.poblacionForm.value,
+        fk_lugar:{_id:restP.fk_lugar},
+        dtoOcupacion:{_id:restP.dtoOcupacion}
       };
-      console.log(toAddPoblacion.value);
+      console.log(toAddPoblacion, this.poblacionForm.value);
       let toAddSolicitud: any = {
         estado:estado,
         usuario:usuario,
-        comentarios:null,
-        presentaciones:[presentacion],
+        comentarios:comentarios,
+        presentaciones:[{cantidad:presentacion.Cantidad,_id:presentacion._id,tipo:presentacion.tipo}],
         muestraPoblacion:null
       };
       this._poblacionService.createMuestraPoblacion(toAddPoblacion).subscribe(
-      (res:any)=>{
+      (res:any)=> {
+        console.log(res);
         toAddSolicitud.muestraPoblacion = res._id;
         console.log(toAddSolicitud);
         this.addSolicitud(toAddSolicitud);
@@ -708,6 +725,7 @@ export class SolicitudComponent implements OnInit {
       this.opStatus = 'S';
       this.setUsuarioSolicitud(null);
     } else {
+      this.sec = 'SOL';
       this.searchState = 'U';
     }
   }
