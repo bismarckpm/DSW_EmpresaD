@@ -10,17 +10,17 @@ export class DashboardComponent implements OnInit {
   constructor(private route: ActivatedRoute, private router: Router) {}
   //CONTROL DE MUESTRA DE NOTIFICACIONES
   sections: any[] = [
-  { title:'Usuarios',dir:'usuarios',icon:'supervisor_account'},
-  { title:'Estudios',dir:'estudios',icon:'work'},
-  { title:'Home',dir:'home',icon:'home'},
-  { title:'Locaciones',dir:'lugares',icon:'location_on'},
-  { title:'Preguntas',dir:'preguntas',icon:'help_center'},
-  { title:'Categorias',dir:'categorias',icon:'turned_in'},
-  { title:'SubCategorias',dir:'subcategorias',icon:'class'},
-  { title:'Tipos',dir:'tipos',icon:'list'},
-  { title:'Presentaciones',dir:'presentaciones',icon:'category'},
+    { title: 'Usuarios', dir: 'usuarios', icon: 'supervisor_account' },
+    { title: 'Estudios', dir: 'estudios', icon: 'work' },
+    { title: 'Home', dir: 'home', icon: 'home' },
+    { title: 'Locaciones', dir: 'lugares', icon: 'location_on' },
+    { title: 'Preguntas', dir: 'preguntas', icon: 'help_center' },
+    { title: 'Categorias', dir: 'categorias', icon: 'turned_in' },
+    { title: 'SubCategorias', dir: 'subcategorias', icon: 'class' },
+    { title: 'Tipos', dir: 'tipos', icon: 'list' },
+    { title: 'Presentaciones', dir: 'presentaciones', icon: 'category' },
   ];
-  openNote: boolean=false;
+  openNote: boolean = false;
   showFiller = false;
   userSession = null;
   @ViewChild('uInfo') private infoComponent: BasicInfoDialogComponent;
@@ -28,25 +28,29 @@ export class DashboardComponent implements OnInit {
     return await this.infoComponent.open();
   }
 
-  getOpenNote():boolean{
+  getOpenNote(): boolean {
     return this.openNote;
-  };
-  logOut(){
-    localStorage.clear();
   }
-  checkUser(){
-    if(localStorage.getItem('user_data') === null){
-      localStorage.setItem('user_data',JSON.stringify(
-        {"_id":26,
-        "nombre":"Macon",
-        "apellido":"Mcleod",
-        "rol":"administrador",
-        "estado":"activo",
-        "correo":"MM10@gmail.com"}));
+  logOut() {
+    localStorage.clear();
+    this.router.navigate(['login']);
+  }
+  checkUser() {
+    if (localStorage.getItem('user_data') === null) {
+      localStorage.setItem(
+        'user_data',
+        JSON.stringify({
+          _id: 26,
+          nombre: 'Macon',
+          apellido: 'Mcleod',
+          rol: 'administrador',
+          estado: 'activo',
+          correo: 'MM10@gmail.com',
+        })
+      );
       this.userSession = JSON.parse(localStorage.getItem('user_data'));
       console.log(this.userSession);
-    }
-    else {
+    } else {
       this.userSession = JSON.parse(localStorage.getItem('user_data'));
       console.log(this.userSession);
     }
@@ -54,19 +58,19 @@ export class DashboardComponent implements OnInit {
   ngOnInit(): void {
     this.onDir('home');
     this.checkUser();
-    setTimeout(()=>{
-      this.openNote=true;
+    setTimeout(() => {
+      this.openNote = true;
       setTimeout(() => {
-        this.openNote=false;
-      },10000)
-    },2000);
+        this.openNote = false;
+      }, 10000);
+    }, 2000);
   }
   /*ngOnDestroy(){
     localStorage.clear();
   }*/
   onDir(_route: string): void {
     try {
-      this.router.navigate(['administrador/',_route]);
+      this.router.navigate(['administrador/', _route]);
     } catch (e) {
       console.log(e.message);
     }
