@@ -1,27 +1,29 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { GLOBAL} from '@env/environment';
+import { GLOBAL } from '@env/environment';
 import { Observable } from 'rxjs';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class HijoService {
   public url: string;
 
-  constructor(
-    public _http:HttpClient
-  ) { 
+  constructor(public _http: HttpClient) {
     this.url = GLOBAL.urlOscar;
   }
 
-  getHijos(): Observable<any>{
-    return this._http.get( this.url + '/hijos');
+  getHijos(): Observable<any> {
+    let token = localStorage.getItem('token');
+    const headers = new HttpHeaders().set('Authorization', token);
+    return this._http.get(this.url + '/hijos', { headers: headers });
   }
 
   //id en path
-  getHijo(id): Observable<any>{
-    return this._http.get( this.url + '/hijos' + id);
+  getHijo(id): Observable<any> {
+    let token = localStorage.getItem('token');
+    const headers = new HttpHeaders().set('Authorization', token);
+    return this._http.get(this.url + '/hijos' + id, { headers: headers });
   }
 
   /*
@@ -31,48 +33,39 @@ export class HijoService {
     "datoEncuestado":int
   }
   */
-  createHijo( data){
+  createHijo(data) {
     let json = JSON.stringify({
-      "genero": data.genero,
-      "edad": data.edad,
-      "fk_dato_encuestado": {
-        "_id": data.fk_dato_encuestado._id
+      genero: data.genero,
+      edad: data.edad,
+      fk_dato_encuestado: {
+        _id: data.fk_dato_encuestado._id,
       },
-      "correo": data.correo
+      correo: data.correo,
     });
-    let params =json;
-    return this._http.post( 
-      this.url + '/hijos/', 
-      { params: params}
-    );
+    let params = json;
+    return this._http.post(this.url + '/hijos/', { params: params });
   }
 
-    /*
+  /*
     id en path
   {
     "genero":"genero",
     "edad":"yyyy-mm-dd"
   }
   */
-  updateHijo( id, data){
+  updateHijo(id, data) {
     let json = JSON.stringify({
-      "_id": data._id,
-      "genero": data.genero,
-      "edad": data.edad,
+      _id: data._id,
+      genero: data.genero,
+      edad: data.edad,
     });
-    let params =json;
-    return this._http.put( 
-      this.url + '/hijos/' + id, 
-      { params: params}
-    );
+    let params = json;
+    return this._http.put(this.url + '/hijos/' + id, { params: params });
   }
 
   //id en el path
-  deleteHijo( id, data){
+  deleteHijo(id, data) {
     // Ignorar data por los momentos
-    return this._http.put( 
-      this.url + '/hijos/' + id + '/eliminar', 
-      data
-    );
+    return this._http.put(this.url + '/hijos/' + id + '/eliminar', data);
   }
 }

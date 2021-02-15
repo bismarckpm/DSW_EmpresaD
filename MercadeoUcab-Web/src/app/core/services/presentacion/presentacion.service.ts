@@ -14,12 +14,18 @@ export class PresentacionService {
   }
 
   getPresentaciones(): Observable<any> {
-    return this._http.get(this.url + '/presentaciones');
+    let token = localStorage.getItem('token');
+    const headers = new HttpHeaders().set('Authorization', token);
+    return this._http.get(this.url + '/presentaciones', { headers: headers });
   }
 
   //id en el path
   getPresentacion(id): Observable<any> {
-    return this._http.get(this.url + '/presentaciones/' + id);
+    let token = localStorage.getItem('token');
+    const headers = new HttpHeaders().set('Authorization', token);
+    return this._http.get(this.url + '/presentaciones/' + id, {
+      headers: headers,
+    });
   }
 
   /*
@@ -29,7 +35,10 @@ export class PresentacionService {
   }
   */
   createPresentacion(data) {
-    const headers = new HttpHeaders().set('Content-Type', 'application/json');
+    let token = localStorage.getItem('token');
+    const headers = new HttpHeaders()
+      .set('Content-Type', 'application/json')
+      .set('Authorization', token);
     return this._http.post(
       this.url + '/presentaciones/',
       JSON.stringify(data),
@@ -45,7 +54,10 @@ export class PresentacionService {
   }
   */
   updatePresentacion(id, data) {
-    const headers = new HttpHeaders().set('Content-Type', 'application/json');
+    let token = localStorage.getItem('token');
+    const headers = new HttpHeaders()
+      .set('Content-Type', 'application/json')
+      .set('Authorization', token);
     return this._http.put(
       this.url + '/presentaciones/' + id,
       JSON.stringify(data),
@@ -56,7 +68,10 @@ export class PresentacionService {
   //id en el path
   deletePresentacion(id, data) {
     // Ignorar data por los momentos
-    const headers = new HttpHeaders().set('Content-Type', 'application/json');
+    let token = localStorage.getItem('token');
+    const headers = new HttpHeaders()
+      .set('Content-Type', 'application/json')
+      .set('Authorization', token);
     return this._http.put(
       this.url + '/presentaciones/' + id + '/eliminar',
       data

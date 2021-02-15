@@ -14,12 +14,16 @@ export class RespuestaService {
   }
 
   getRespuestas(): Observable<any> {
-    return this._http.get(this.url + '/respuestas');
+    let token = localStorage.getItem('token');
+    const headers = new HttpHeaders().set('Authorization', token);
+    return this._http.get(this.url + '/respuestas', { headers: headers });
   }
 
   //id en el path
   getRespuesta(id): Observable<any> {
-    return this._http.get(this.url + '/respuestas/' + id);
+    let token = localStorage.getItem('token');
+    const headers = new HttpHeaders().set('Authorization', token);
+    return this._http.get(this.url + '/respuestas/' + id, { headers: headers });
   }
 
   /*
@@ -31,7 +35,10 @@ export class RespuestaService {
   }
   */
   createRespuesta(data) {
-    const headers = new HttpHeaders().set('Content-Type', 'application/json');
+    let token = localStorage.getItem('token');
+    const headers = new HttpHeaders()
+      .set('Content-Type', 'application/json')
+      .set('Authorization', token);
     return this._http.post(this.url + '/respuestas/', JSON.stringify(data), {
       headers: headers,
     });
@@ -44,7 +51,10 @@ export class RespuestaService {
   }
   */
   updateRespuesta(id, data) {
-    const headers = new HttpHeaders().set('Content-Type', 'application/json');
+    let token = localStorage.getItem('token');
+    const headers = new HttpHeaders()
+      .set('Content-Type', 'application/json')
+      .set('Authorization', token);
     return this._http.put(
       this.url + '/respuestas/' + id,
       JSON.stringify(data),
@@ -55,12 +65,20 @@ export class RespuestaService {
   //id en el path
   deleteRespuesta(id, data) {
     // Ignorar data por los momentos
-    const headers = new HttpHeaders().set('Content-Type', 'application/json');
-    return this._http.put(this.url + '/respuestas/' + id + '/eliminar', data);
+    let token = localStorage.getItem('token');
+    const headers = new HttpHeaders()
+      .set('Content-Type', 'application/json')
+      .set('Authorization', token);
+    return this._http.put(this.url + '/respuestas/' + id + '/eliminar', data, {
+      headers: headers,
+    });
   }
 
   saveSurvey(data) {
-    const headers = new HttpHeaders().set('Content-Type', 'application/json');
+    let token = localStorage.getItem('token');
+    const headers = new HttpHeaders()
+      .set('Content-Type', 'application/json')
+      .set('Authorization', token);
     return this._http.post(
       this.url + '/respuestas/encuesta',
       JSON.stringify(data),

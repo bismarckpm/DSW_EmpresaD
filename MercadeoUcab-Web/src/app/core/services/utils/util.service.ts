@@ -13,46 +13,86 @@ export class UtilService {
   }
 
   getPreguntasOfAnAdministrador(id): Observable<any> {
-    return this._http.get(this.url + '/administrador/' + id + '/preguntas');
+    let token = localStorage.getItem('token');
+    const headers = new HttpHeaders().set('Authorization', token);
+    return this._http.get(this.url + '/administrador/' + id + '/preguntas', {
+      headers: headers,
+    });
   }
 
   getEstudiosOfEncuestado(id): Observable<any> {
-    return this._http.get(this.url + '/encuestados/estudios/' + id);
+    let token = localStorage.getItem('token');
+    const headers = new HttpHeaders().set('Authorization', token);
+    return this._http.get(this.url + '/encuestados/estudios/' + id, {
+      headers: headers,
+    });
   }
 
   getUsuariosAnalistas(): Observable<any> {
-    return this._http.get(this.url + '/analista');
+    let token = localStorage.getItem('token');
+    const headers = new HttpHeaders().set('Authorization', token);
+    return this._http.get(this.url + '/analista', {
+      headers: headers,
+    });
   }
 
   getEstudiosOfAnalista(id): Observable<any> {
-    return this._http.get(this.url + '/analista/' + id + '/estudios');
+    let token = localStorage.getItem('token');
+    const headers = new HttpHeaders().set('Authorization', token);
+    return this._http.get(this.url + '/analista/' + id + '/estudios', {
+      headers: headers,
+    });
   }
 
   getSolicitudesOfCliente(id): Observable<any> {
-    return this._http.get(this.url + '/cliente/' + id + '/solicitudes');
+    let token = localStorage.getItem('token');
+    const headers = new HttpHeaders().set('Authorization', token);
+    return this._http.get(this.url + '/cliente/' + id + '/solicitudes', {
+      headers: headers,
+    });
   }
 
   getPreguntasRecomendadasOfSolicitud(id): Observable<any> {
+    let token = localStorage.getItem('token');
+    const headers = new HttpHeaders().set('Authorization', token);
     return this._http.get(
-      this.url + '/solicitudes/' + id + '/preguntas_recomendadas'
+      this.url + '/solicitudes/' + id + '/preguntas_recomendadas',
+      {
+        headers: headers,
+      }
     );
   }
 
   getPoblacionRecomendadasOfSolicitud(id): Observable<any> {
+    let token = localStorage.getItem('token');
+    const headers = new HttpHeaders().set('Authorization', token);
     return this._http.get(
-      this.url + '/solicitudes/' + id + '/poblaciones_recomendadas'
+      this.url + '/solicitudes/' + id + '/poblaciones_recomendadas',
+      {
+        headers: headers,
+      }
     );
   }
 
   getUsuariosOfEncuesta(idEstudio): Observable<any> {
+    let token = localStorage.getItem('token');
+    const headers = new HttpHeaders().set('Authorization', token);
     return this._http.get(
-      this.url + '/estudios/' + idEstudio + '/usuarios_respondieron'
+      this.url + '/estudios/' + idEstudio + '/usuarios_respondieron',
+      {
+        headers: headers,
+      }
     );
   }
 
   getUsuariosCanApplyToEstudio(idEstudio): Observable<any> {
+    let token = localStorage.getItem('token');
+    const headers = new HttpHeaders().set('Authorization', token);
     return this._http.get(
-      this.url + '/estudios/' + idEstudio + '/usuarios_aplican'
+      this.url + '/estudios/' + idEstudio + '/usuarios_aplican',
+      {
+        headers: headers,
+      }
     );
   }
 }

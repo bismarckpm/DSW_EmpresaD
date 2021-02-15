@@ -36,7 +36,8 @@ export class LoginComponent implements OnInit {
       (response: any) => {
         console.log(response);
         //Guardar credenciales en el local Storage
-        localStorage.setItem('user_data',JSON.stringify(response.data));
+        localStorage.setItem('user_data', JSON.stringify(response.data));
+        localStorage.setItem('token', response.token);
         localStorage.setItem('_id', response.data._id);
         localStorage.setItem('rol', response.data.rol);
         // Agregar codigo para ir a la ruta dependiendo del rol
@@ -52,7 +53,6 @@ export class LoginComponent implements OnInit {
         if (response.data.rol === 'analista') {
           this._router.navigate(['analista']);
         }
-        console.log(response);
       },
       (error) => {
         console.log(<any>error);

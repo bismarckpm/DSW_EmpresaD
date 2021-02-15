@@ -53,8 +53,8 @@ public class JWT {
      */
     public static void parseJWT(String jwt) {
 
-        //Claims claims = Jwts.parser()
-                            //.setSigningKey(DatatypeConverter.parseBase64Binary(ApiKey.secretKey))
-                            //.parseClaimsJws(jwt).getBody();
+        Claims claims = Jwts.parser()
+                            .setSigningKey(DatatypeConverter.parseBase64Binary(ApiKey.secretKey))
+                            .parseClaimsJws(jwt).getBody();
     }
 }

@@ -14,15 +14,16 @@ export class EstudioService {
   }
 
   getEstudios(): Observable<any> {
-    return this._http.get(this.url + '/estudios');
+    let token = localStorage.getItem('token');
+    const headers = new HttpHeaders().set('Authorization', token);
+    return this._http.get(this.url + '/estudios', { headers: headers });
   }
 
-  getEstudioss(): Observable<any> {
-    return this._http.get(this.url + '/estudios/s');
-  }
   //id en path
   getEstudio(id): Observable<any> {
-    return this._http.get(this.url + '/estudios/' + id);
+    let token = localStorage.getItem('token');
+    const headers = new HttpHeaders().set('Authorization', token);
+    return this._http.get(this.url + '/estudios/' + id, { headers: headers });
   }
 
   /*
@@ -48,7 +49,10 @@ export class EstudioService {
   }
   */
   createEstudio(data) {
-    const headers = new HttpHeaders().set('Content-Type', 'application/json');
+    let token = localStorage.getItem('token');
+    const headers = new HttpHeaders()
+      .set('Content-Type', 'application/json')
+      .set('Authorization', token);
     return this._http.post(this.url + '/estudios/', JSON.stringify(data), {
       headers: headers,
     });
@@ -63,7 +67,10 @@ export class EstudioService {
   }
   */
   updateEstudio(id, data) {
-    const headers = new HttpHeaders().set('Content-Type', 'application/json');
+    let token = localStorage.getItem('token');
+    const headers = new HttpHeaders()
+      .set('Content-Type', 'application/json')
+      .set('Authorization', token);
     return this._http.put(this.url + '/estudios/' + id, JSON.stringify(data), {
       headers: headers,
     });
@@ -72,7 +79,10 @@ export class EstudioService {
   //id en el path
   deleteEstudio(id, data) {
     // Ignorar data por los momentos
-    const headers = new HttpHeaders().set('Content-Type', 'application/json');
+    let token = localStorage.getItem('token');
+    const headers = new HttpHeaders()
+      .set('Content-Type', 'application/json')
+      .set('Authorization', token);
     return this._http.put(this.url + '/estudios/' + id + '/eliminar', data);
   }
 }

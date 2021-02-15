@@ -14,12 +14,16 @@ export class ParroquiaService {
   }
 
   getParroquias(): Observable<any> {
-    return this._http.get(this.url + '/parroquias');
+    let token = localStorage.getItem('token');
+    const headers = new HttpHeaders().set('Authorization', token);
+    return this._http.get(this.url + '/parroquias', { headers: headers });
   }
 
   //id en path
   getParroquia(id): Observable<any> {
-    return this._http.get(this.url + '/parroquias/' + id);
+    let token = localStorage.getItem('token');
+    const headers = new HttpHeaders().set('Authorization', token);
+    return this._http.get(this.url + '/parroquias/' + id, { headers: headers });
   }
 
   /*
@@ -30,7 +34,10 @@ export class ParroquiaService {
   }
   */
   createParroquia(data) {
-    const headers = new HttpHeaders().set('Content-Type', 'application/json');
+    let token = localStorage.getItem('token');
+    const headers = new HttpHeaders()
+      .set('Content-Type', 'application/json')
+      .set('Authorization', token);
     return this._http.post(this.url + '/parroquias/', JSON.stringify(data), {
       headers: headers,
     });
@@ -44,7 +51,10 @@ export class ParroquiaService {
   }
   */
   updateParroquia(id, data) {
-    const headers = new HttpHeaders().set('Content-Type', 'application/json');
+    let token = localStorage.getItem('token');
+    const headers = new HttpHeaders()
+      .set('Content-Type', 'application/json')
+      .set('Authorization', token);
     return this._http.put(
       this.url + '/parroquias/' + id,
       JSON.stringify(data),
@@ -55,7 +65,10 @@ export class ParroquiaService {
   //id en path
   deleteParroquia(id, data) {
     // Ignorar data por los momentos
-    const headers = new HttpHeaders().set('Content-Type', 'application/json');
+    let token = localStorage.getItem('token');
+    const headers = new HttpHeaders()
+      .set('Content-Type', 'application/json')
+      .set('Authorization', token);
     return this._http.put(
       this.url + '/parroquias/' + id + '/eliminar',
       JSON.stringify(data),
