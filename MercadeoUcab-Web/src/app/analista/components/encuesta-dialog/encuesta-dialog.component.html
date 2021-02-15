@@ -38,9 +38,9 @@
 									</label>
 									<select class="form-control" id="{{ 'pregunta-' + i }}"
 									(change)="setSimpleOption(i, $event.target.value)">
-										<option [ngValue]="null">Sin seleccionar...</option>
+										<option [value]="null">Sin seleccionar...</option>
 										<ng-container *ngFor="let op of pregunta.pregunta.opciones; let s = index">
-											<option [ngValue]="s">{{ op.nombre }}</option>
+											<option [value]="s+1">{{ op.nombre }}</option>
 										</ng-container>
 									</select>
 								</div>

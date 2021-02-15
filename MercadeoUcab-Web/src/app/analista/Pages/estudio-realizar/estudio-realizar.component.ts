@@ -72,7 +72,7 @@ export class EstudioRealizarComponent implements OnInit {
     data: {
       _id: 5,
       estado: 'En ejecucion',
-      tipo: 'En linea',
+      tipo: 'encuesta',
       encuestas_esperadas: 1,
       solicitud: {
         _id: 5,
@@ -203,6 +203,25 @@ export class EstudioRealizarComponent implements OnInit {
               },
             },
           ],
+        },
+        {
+          _id: 18,
+          pregunta: {
+            _id: 7,
+            nombre: 'Cuentenos, tuvo algun problema con el producto?',
+            tipo: 'simple',
+            usuario: {
+              _id: 26,
+              nombre: 'Macon',
+              apellido: 'Mcleod',
+              rol: 'administrador',
+              estado: 'activo',
+              correo: 'MM10@gmail.com',
+
+            },
+            opciones:[{"_id":12,"nombre":"redes sociales"}],
+          },
+          respuestas: [],
         },
         {
           _id: 15,
