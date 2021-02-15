@@ -50,18 +50,19 @@ export class EstudioRealizarComponent implements OnInit {
   }
 
   alterAnswersState(event: {
-    user: any;
-    data: toBackendAnswer;
-    _pregId: number;
+    user: any,
+    data: toBackendAnswer[],
+    _pregId: number,
   }) {
     console.log(event);
     console.log(
       this._AnswersMap[`${this._Id}-${event._pregId}`].respuestas,
       ' :B'
     );
-    this._AnswersMap[`${this._Id}-${event._pregId}`].respuestas.push(
-      event.data
-    );
+    const auxResp: toBackendAnswer[] = event.data;
+    for(const ans of auxResp){
+      this._AnswersMap[`${this._Id}-${event._pregId}`].respuestas.push(ans);
+    }
     console.log(
       this._AnswersMap[`${this._Id}-${event._pregId}`].respuestas,
       ' :A'

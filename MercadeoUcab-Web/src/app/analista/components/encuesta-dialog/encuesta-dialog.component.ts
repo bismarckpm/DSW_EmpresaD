@@ -188,7 +188,7 @@ addRespuesta(user,data,_pregId){
 }
 saveSurvey(user,data,_pregId) {
   this.opStatus = 'P';
-  this._respuestaService.saveSurvey(data).subscribe(
+  this._respuestaService.saveSurvey({respuestas:data}).subscribe(
     (response: any) => {
       console.log(response);
       this.alterAnswers.emit({user,data,_pregId});
