@@ -28,7 +28,8 @@ export class EstudioComponent implements OnInit {
   clienteUser: any = JSON.parse(localStorage.getItem('user_data'));
   //LISTA DE SOLICITUDES DEVUELTOS EN BÚSQUEDA
   dataSource: MatTableDataSource<EstudioCliente>;
-  estudioTarget: Estudio;
+  estudioTarget: any = null;
+  estudioDet:any = null;
   //FORMULARIOS
   searchForm: FormGroup;
   searchModel: Estudio;
@@ -54,7 +55,13 @@ export class EstudioComponent implements OnInit {
     });
   }
   displayEstudioInfo(estudio){
+    this.estudioDet = estudio;
     this.infoEstComponent.open();
+  }
+   getYearDiff(t: string): number {
+    let _t = new Date(t);
+    let _n: Date = new Date(Date.now());
+    return _n.getFullYear() - _t.getFullYear();
   }
   getEstudios() {
     this._estudioService.getEstudios().subscribe(
@@ -65,21 +72,17 @@ export class EstudioComponent implements OnInit {
       (error) => {
         console.log(error);
         this.estudios = [
-        {"_id":1,"estado":"En ejecucion",
-        "tipo":"En linea","encuestas_esperadas":1,
-        "solicitud":{"_id":1,"estado":"solicitada","usuario":{"_id":31,"nombre":"Caesar","apellido":"Mosley","rol":"cliente","estado":"activo","correo":"CM10@gmail.com"},"marca":"Sin especificar","comentarios":"Sin comentarios",
-        "presentaciones":[{"_id":1,"tipo":"Madera","Cantidad":"30x50","fk_tipo":{"_id":1,"nombre":"Camas","subCategoria":{"_id":1,"nombre":"Dormitorios","categoria":{"_id":1,"nombre":"Muebles"}}}}],
-        "muestraPoblacion":{"_id":1,"genero":"masculino","nivel_economico":"Alto","nivel_academico":"Licenciado","rango_edad_inicio":"1940-01-01","rango_edad_fin":"2015-01-01",
-        "cantidad_hijos":1,"parroquia":{"_id":1,"nombre":"San Camilo","valorSocioEconomico":1,"municipio":{"_id":1,"nombre":"Manaos",
-        "estado":{"_id":1,"nombre":"Amazonas","pais":{"_id":1,"nombre":"Venezuela"}}}}}},
-        "analista":{"_id":36,"nombre":"Harper","apellido":"Vance",
-        "rol":"analista","estado":"activo","correo":"Harper20@gmail.com"},
-        "encuesta":[
-        {"_id":1,"pregunta":{"_id":1,"nombre":"Que opina del producto? ","tipo":"abierta","usuario":{"_id":26,"nombre":"Macon","apellido":"Mcleod","rol":"administrador","estado":"activo","correo":"MM10@gmail.com"}},"respuestas":[]},
-        {"_id":2,"pregunta":{"_id":2,"nombre":"Cuentenos, tuvo algun problema con el producto?","tipo":"abierta","usuario":{"_id":26,"nombre":"Macon","apellido":"Mcleod","rol":"administrador","estado":"activo","correo":"MM10@gmail.com"}},"respuestas":[]},
-        {"_id":3,"pregunta":{"_id":3,"nombre":"Como fue su experiencia con el producto?","tipo":"abierta","usuario":{"_id":26,"nombre":"Macon","apellido":"Mcleod","rol":"administrador","estado":"activo","correo":"MM10@gmail.com"}},"respuestas":[]}
-          ]
-        },
+        {"_id":5,"estado":"Culminado","tipo":"En linea",
+        "encuestas_esperadas":1,
+        "comentarios":"Sin comentarios",
+        "solicitud":{"_id":5,"estado":"solicitada",
+        "usuario":{"_id":35,"nombre":"Solomon","apellido":"Bentley","rol":"cliente","estado":"activo","correo":"B123@gmail.com"},
+        "marca":"Sin especificar","comentarios":"Sin comentarios",
+        "presentaciones":[{"_id":5,"tipo":"Talla","Cantidad":"S","fk_tipo":{"_id":5,"nombre":"Sacos","subCategoria":{"_id":5,"nombre":"Formal","categoria":{"_id":5,"nombre":"Vestimenta"}}}}],
+        "muestraPoblacion":{"_id":5,"genero":"femenino",
+          "nivel_economico":"Alto","nivel_academico":"Doctorado",
+          "rango_edad_inicio":"1940-01-01","rango_edad_fin":"2015-01-01","cantidad_hijos":1,"ocupacion":{"_id":3,"nombre":"Cocinero"},"parroquia":{"_id":1,"nombre":"San Camilo","valorSocioEconomico":1,"municipio":{"_id":1,"nombre":"Manaos","estado":{"_id":1,"nombre":"Amazonas","pais":{"_id":1,"nombre":"Venezuela"}}}}}},"analista":{"_id":40,"nombre":"Hammett","apellido":"Schneider","rol":"analista","estado":"activo","correo":"HMLETSCH456@gmail.com"},"encuesta":[{"_id":13,"pregunta":{"_id":14,"nombre":"a quienes lo recomendaria","tipo":"multiple","usuario":{"_id":28,"nombre":"Jonas","apellido":"Mccray","rol":"administrador","estado":"activo","correo":"JON_M@gmail.com"},"opciones":[{"_id":16,"nombre":"amigos"},{"_id":17,"nombre":"familiares"},{"_id":18,"nombre":"pareja"},{"_id":19,"nombre":"conocidos"}]},"respuestas":[]},{"_id":14,"pregunta":{"_id":1,"nombre":"Que opina del producto? ","tipo":"abierta","usuario":{"_id":26,"nombre":"Macon","apellido":"Mcleod","rol":"administrador","estado":"activo","correo":"MM10@gmail.com"}},"respuestas":[]},{"_id":15,"pregunta":{"_id":2,"nombre":"Cuentenos, tuvo algun problema con el producto?","tipo":"abierta","usuario":{"_id":26,"nombre":"Macon","apellido":"Mcleod","rol":"administrador","estado":"activo","correo":"MM10@gmail.com"}},"respuestas":[]}]
+      }
         ];
       }
     );

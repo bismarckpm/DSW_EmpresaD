@@ -164,7 +164,7 @@ export class EstudiosComponent implements OnInit {
       tipo: null,
       encuestasEsperadas: null,
       fk_usuario: null,
-      fk_muestra_poblacion: null,
+      //fk_muestra_poblacion: null,
       solicitud: null,
       preguntas: [],
     });
@@ -940,7 +940,7 @@ export class EstudiosComponent implements OnInit {
     switch (ind) {
       case 0:
         let auxFkPob = this.solicitudes.filter((s,ind) => s._id === this.addForm.get('solicitud').value);
-        this.addForm.get('fk_muestra_poblacion').setValue(auxFkPob[0].muestraPoblacion._id);
+        //this.addForm.get('fk_muestra_poblacion').setValue(auxFkPob[0].muestraPoblacion._id);
         document.getElementById('addStepper').classList.add('leftSlider');
         document.getElementById('addStepper').classList.remove('initLeft');
         this.getPreguntasSugeridas();

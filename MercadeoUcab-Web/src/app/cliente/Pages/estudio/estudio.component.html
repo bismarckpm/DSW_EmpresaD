@@ -28,7 +28,7 @@
           </mat-icon>
         </div>
         <div style="height: 25%;width: 100%;">
-
+          <h6>Estudio #{{est._id}}</h6>
         </div>
       </div>
     </div>
@@ -230,6 +230,127 @@
   </div>
 </div>
 <app-basic-info-dialog #estInfo [_tipo]="'Estudio'">
-  
-  
+  <div class="cForm-field-row" *ngIf="estudioDet !== null" style="
+    overflow-y: auto; 
+    flex-wrap: wrap;
+    height: 87.5%;">
+    <div style="width: 100%; text-align: center;">
+        <h4>Datos generales</h4>
+    </div>
+    <div class="cForm-field-col" style="margin-bottom: 5%">
+      <div class="form-group">
+        <label><h5>Tipo de estudio</h5></label>
+        <p>{{ estudioDet.tipo}}</p>
+      </div>
+      <div class="form-group">
+        <label><h5>Categoría de estudio</h5></label>
+        <p>{{ estudioDet.solicitud.presentaciones[0].fk_tipo.subCategoria.categoria.nombre }}</p>
+      </div>
+      <div class="form-group">
+        <label><h5>Subcategoría de estudio</h5></label>
+        <p>{{ estudioDet.solicitud.presentaciones[0].fk_tipo.subCategoria.nombre }}</p>
+      </div>
+      <div class="form-group">
+        <label><h5>Tipo de producto</h5></label>
+        <p>{{ estudioDet.solicitud.presentaciones[0].fk_tipo.nombre }}</p>
+      </div>
+    </div>
+    <div class="cForm-field-col" style="margin-bottom: 5%">
+      <div class="form-group">
+        <div class="form-group">
+        <label><h5>Marca</h5></label>
+        <p>{{ estudioDet.solicitud.marca}}</p>
+        </div>
+        <label><h5>Encuestas esperadas</h5></label>
+        <p>{{ estudioDet.encuestas_esperadas}}</p>
+      </div>
+    </div>
+    <div style="width: 100%; text-align: center;">
+        <h4>Datos de población</h4>
+    </div>
+     <div class="cForm-field-col" style="margin-bottom: 5%">
+       <div class="form-group">
+        <label><h5>Género de participantes</h5></label>
+        <p>{{ estudioDet.solicitud.muestraPoblacion.genero }}</p>
+      </div>
+       <div class="form-group">
+        <label><h5>Rango de edad de participantes</h5></label>
+        <p>
+        {{getYearDiff(estudioDet.solicitud.muestraPoblacion.rango_edad_fin)+' - '+getYearDiff(estudioDet.solicitud.muestraPoblacion.rango_edad_inicio)+' Años'}}</p>
+      </div>
+      <div class="form-group">
+            <label><h5>Región de residencia</h5></label>
+            <span><p>
+                {{estudioDet.solicitud.muestraPoblacion.parroquia.nombre+' ,'
+                + estudioDet.solicitud.muestraPoblacion.parroquia.municipio.nombre+' ,'
+                + estudioDet.solicitud.muestraPoblacion.parroquia.municipio.estado.nombre+' ,'
+                + estudioDet.solicitud.muestraPoblacion.parroquia.municipio.estado.pais.nombre
+                }}
+            </p></span>
+        </div>
+     </div>
+     <div class="cForm-field-col" style="margin-bottom: 5%">
+        <div class="form-group">
+        <label><h5>Nivel Académico</h5></label>
+        <p>{{estudioDet.solicitud.muestraPoblacion.nivel_academico}}</p>
+      </div>
+      <div class="form-group">
+        <label><h5>Nivel Económico</h5></label>
+        <p>{{estudioDet.solicitud.muestraPoblacion.nivel_economico}}</p>
+      </div>
+      <div class="form-group">
+        <label><h5>Ocupación</h5></label>
+        <p>{{estudioDet.solicitud.muestraPoblacion.ocupacion.nombre}}</p>
+      </div>
+     </div>
+     <div style="width: 100%; text-align: center;">
+        <h4>Preguntas de encuesta</h4>
+     </div>
+     <div class="cForm-field-col" style="width: 100%;margin-bottom: 5%">
+        <div
+                      *ngFor="let p of estudioDet.encuesta; let s = index"
+                      class="border rounded"
+                      style="display: flex;
+                      align-items: center;"
+                    >
+                      <div
+                        style="
+                          width: 20%;
+                          display: flex;
+                          flex-direction: row;
+                          align-items: center;
+                          justify-content: center;
+                        "
+                      >
+                        <mat-icon
+                          style="height: 30px; width: 30px; font-size: 30px"
+                        >
+                          help_center
+                        </mat-icon>
+                      </div>
+                      <div style="width: 60%">
+                        <h6 style="text-align: center">
+                          {{ p.pregunta.nombre }}
+                        </h6>
+                      </div>
+                      <div
+                        style="
+                          width: 20%;
+                          display: flex;
+                          flex-direction: row;
+                          align-items: center;
+                          justify-content: center;
+                        "
+                      >
+                      </div>
+                    </div>
+     </div>
+     <div style="width: 100%; text-align: center;">
+        <h4>Resultado de estudio</h4>
+     </div>
+     <div class="cForm-field-col" style="width: 100%;margin-bottom: 5%">
+        <p>
+        {{estudioDet.comentarios}}</p>
+      </div>
+    </div>  
 </app-basic-info-dialog>

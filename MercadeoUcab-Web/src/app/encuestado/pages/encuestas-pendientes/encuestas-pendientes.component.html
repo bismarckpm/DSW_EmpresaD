@@ -61,7 +61,15 @@
                 -->
         <ng-container matColumnDef="marca">
           <th mat-header-cell *matHeaderCellDef>Marca</th>
-          <td mat-cell *matCellDef="let element">#{{ element.solicitud.marca }}</td>
+          <td mat-cell *matCellDef="let element">{{ element.solicitud.marca }}</td>
+        </ng-container>
+         <ng-container matColumnDef="cat">
+          <th mat-header-cell *matHeaderCellDef>Categoría</th>
+          <td mat-cell *matCellDef="let element">{{ element.solicitud.presentaciones[0].fk_tipo.subCategoria.categoria.nombre }}</td>
+        </ng-container>
+         <ng-container matColumnDef="subcat">
+          <th mat-header-cell *matHeaderCellDef>Subcategoría</th>
+          <td mat-cell *matCellDef="let element">{{ element.solicitud.presentaciones[0].fk_tipo.subCategoria.nombre }}</td>
         </ng-container>
         <!--
         <ng-container matColumnDef="selector">
@@ -73,8 +81,14 @@
           </td>
         </ng-container>
         -->
+        <ng-container matColumnDef="pregs">
+        <th mat-header-cell *matHeaderCellDef>Nº Preguntas</th>
+        <td mat-cell *matCellDef="let element">
+          {{ element.encuesta.length }}
+        </td>
+        </ng-container>
         <ng-container matColumnDef="ops">
-          <th mat-header-cell *matHeaderCellDef>Operación</th>
+          <th mat-header-cell *matHeaderCellDef>Responder</th>
           <td mat-cell *matCellDef="let element">
             <div>
               <button

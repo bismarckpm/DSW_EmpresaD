@@ -21,7 +21,11 @@ export class RespuestaService {
   getRespuesta(id): Observable<any> {
     return this._http.get(this.url + '/respuestas/' + id);
   }
-
+  /*
+  En ejecucion = se estan haciendo las encuestas 
+Procesando = Se completaron las encuestas esperadas, se esta esperando que el analista lo revise y ponga el resultado 
+Culminado = Ya el analista le puso el resultado
+  */
   /*
   {
     "respuesta":String,

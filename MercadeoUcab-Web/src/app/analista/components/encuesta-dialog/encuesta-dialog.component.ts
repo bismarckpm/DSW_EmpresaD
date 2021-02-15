@@ -129,7 +129,7 @@ checkMultiple(pregInd: number, opInd: number) {
       this.multiOption.forEach((op,ind) =>{
         let nAnswer: toBackendAnswer = new toBackendAnswer({ _id: _pregId }, { _id: userId });
         Answer.respuesta=null;
-        Answer.dtoopcion._id;
+        Answer.dtoopcion={_id:op._id};
         multiAnswers.push(nAnswer);
       });
       this.sendAnswer(user,_type,[...multiAnswers],_pregId);
@@ -164,17 +164,21 @@ checkMultiple(pregInd: number, opInd: number) {
 }
 addRespuesta(user,data,_pregId){
   console.log('Sending answer...');
-  this._respuestaService.createRespuesta(data).subscribe(
+  this._respuestaService.createRespuesta({respuestas:data}).subscribe(
     (response: any) => {
       console.log(response);
       this.alterAnswers.emit({user,data,_pregId});
-      this._answers[`${_pregId}`].push(data); 
+      for(const ans of data){
+      this._answers[`${_pregId}`].push(ans); 
+      }
       //this.opStatus = 'D';
     },
     (error) => {
       console.log(error);
       this.alterAnswers.emit({user,data,_pregId});
-      this._answers[`${_pregId}`].push(data); 
+      for(const ans of data){
+      this._answers[`${_pregId}`].push(ans); 
+      }
       //this.opStatus = 'E';
     }
   );
