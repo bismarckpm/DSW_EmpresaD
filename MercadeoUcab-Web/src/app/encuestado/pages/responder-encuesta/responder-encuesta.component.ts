@@ -200,17 +200,6 @@ checkMultiple(pregInd: number, opInd: number) {
    this.clearFields();
    stepper.next();
  }
- /*setBackendAnswer(simple, respuesta, encuestaEstudio, usuario, opcion) {
-  let singleAnswer = new toBackendAnswer({ _id: this._encuesta._id }, { _id: this._usuario._id });
-  //singleAnswer.dtoEncuestaEstudio._id = encuestaEstudio;
-  //singleAnswer.dtousuario._id = usuario;
-  if (simple === true) {
-    singleAnswer.dtoopcion = opcion;
-  } else {
-    singleAnswer.respuesta = respuesta;
-  }
-  //this.toAdd.push(singleAnswer);
-}*/
 saveSurvey(user,data,_pregId) {
   //this.opStatus = 'P';
   this._respuestaService.saveSurvey({respuestas:data}).subscribe(
@@ -307,8 +296,9 @@ saveSurvey(user,data,_pregId) {
         this._encuesta.encuesta.forEach((preg,ind)=> {
           //let auxPreg: any = this._AnswersMap[key];
           const {_id,respuestas} = preg;
+          //console.log(_id,respuestas);
           //console.log(auxPreg);
-          this._answers[`${_id}`]=[...respuestas.filter((p:toBackendAnswer,i) => p.dtousuario._id === this.userLogged)];
+          this._answers[`${_id}`]=[...respuestas.filter((p,i) => p.usuario._id === this.userLogged)];
           //this._userAnswers[`${_id}`]= {}; 
         });
         this._encuesta.encuesta = [...this._encuesta.encuesta.filter((preg,ind) => this._answers[`${preg._id}`].length === 0)];
@@ -322,7 +312,7 @@ saveSurvey(user,data,_pregId) {
           //let auxPreg: any = this._AnswersMap[key];
           const {_id,respuestas} = preg;
           //console.log(auxPreg);
-          this._answers[`${_id}`]=[...respuestas.filter((p:toBackendAnswer,i) => p.dtousuario._id === this.userLogged)];
+          this._answers[`${_id}`]=[...respuestas.filter((p,i) => p.usuario._id === this.userLogged)];
           //this._userAnswers[`${_id}`]= {}; 
         });
         console.log(this._answers);
