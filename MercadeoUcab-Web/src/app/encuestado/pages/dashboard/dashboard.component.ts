@@ -30,7 +30,7 @@ export class DashboardComponent implements OnInit {
       localStorage.setItem(
         'user_data',
         JSON.stringify({
-          _id: 2,
+          _id: 3,
           nombre: 'Zeus',
           apellido: 'Berg',
           rol: 'encuestado',

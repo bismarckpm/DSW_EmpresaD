@@ -208,7 +208,7 @@ saveSurvey(user,data,_pregId) {
       /*this.alterAnswers.emit({user,data,_pregId});
       this._answers[`${_pregId}`].push(data);*/
         for(const ans of data){
-         this._answers[`${_pregId}`].push(ans); 
+         this._answers[`${_pregId}`].push({_id:0,usuario:user}); 
         }
     },
     (error) => {
@@ -216,7 +216,7 @@ saveSurvey(user,data,_pregId) {
       /*this.alterAnswers.emit({user,data,_pregId});
       this._answers[`${_pregId}`].push(data);*/
       for(const ans of data){
-         this._answers[`${_pregId}`].push(ans); 
+        this._answers[`${_pregId}`].push({_id:0,usuario:user}); 
       }
       
     }
