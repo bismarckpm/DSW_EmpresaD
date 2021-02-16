@@ -412,10 +412,23 @@ export class SolicitudComponent implements OnInit {
       }
     );
   }
+  setPresentaciones(_sc){
+    console.log(_sc);
+    if(_sc !== ''){
+      let parsedInd = parseInt(_sc,10) - 1;
+      console.log(this.tipos[parsedInd].presentaciones);
+      this.presentaciones = this.tipos[parsedInd].presentaciones;
+      this.addForm.get('presentacion').setValue(null);
+      //console.log(this.presentaciones,parsedInd,_sc,this.tipos[parsedInd]);
+    }
+    else{
+      console.log('Null catcher...PrePresentaciones');
+    }
+  }
   setTipos(_t){
     console.log(_t);
     if(_t !== ''){
-      let parsedInd = parseInt(_t,10);
+      let parsedInd = parseInt(_t,10) - 1;
       console.log(parsedInd);
       this.tipos = this.subcategorias[parsedInd].tipos;
       this.addForm.get('subCategoria').setValue(this.subcategorias[parsedInd]._id);
@@ -428,24 +441,11 @@ export class SolicitudComponent implements OnInit {
       console.log('Null catcher... PreTipos');
     }
   }
-  setPresentaciones(_sc){
-    console.log(_sc);
-    if(_sc !== ''){
-      let parsedInd = parseInt(_sc,10);
-      console.log(parsedInd);
-      this.presentaciones = this.tipos[parsedInd].presentaciones;
-      this.addForm.get('presentacion').setValue(null);
-      //console.log(this.presentaciones,parsedInd,_sc,this.tipos[parsedInd]);
-    }
-    else{
-      console.log('Null catcher...PrePresentaciones');
-    }
-  }
   setSubCategorias(_c){
     //this.subcategorias = categoria.subcategorias;
     console.log(_c);
     if(_c !== ''){
-      let parsedInd = parseInt(_c,10);
+      let parsedInd = parseInt(_c,10) - 1;
       console.log(parsedInd);
       this.subcategorias = this.categorias[parsedInd].subcategorias;
       console.log(this.subcategorias,_c,this.categorias[parsedInd]);

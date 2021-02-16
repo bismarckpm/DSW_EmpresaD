@@ -127,7 +127,7 @@ public class Dao<T>
     {
         _em = _daoHandler.getSession();
         Cache cache = _em.getEntityManagerFactory().getCache();
-        cache.evictAll();
+        cache.evict(type);
         final CriteriaBuilder criteriaBuilder = _em.getCriteriaBuilder();
         final CriteriaQuery<T> criteriaQuery = criteriaBuilder.createQuery( type );
         final Root<T> root = criteriaQuery.from( type );
@@ -163,7 +163,7 @@ public class Dao<T>
         _em = _daoHandler.getSession();
         final T entity;
         Cache cache = _em.getEntityManagerFactory().getCache();
-        cache.evictAll();
+        cache.evict(type);
         try
         {
             final EntidadBase base = ( EntidadBase ) _em.find( type, id );

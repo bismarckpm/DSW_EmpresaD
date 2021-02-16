@@ -49,7 +49,7 @@ export class EstudiosComponent implements OnInit {
   solicitudSelec: number;
   opStatus: string;
   currentStep: number = 0;
-  solicitudes: Solicitud[] = [];
+  solicitudes: any[] = [];
   ocupaciones: Ocupacion[] = [];
   estudios: any[] = [];
   dataSource: MatTableDataSource<any>;
@@ -163,7 +163,8 @@ export class EstudiosComponent implements OnInit {
     ]
   }
   */
-    this.addForm = this.formBuilder.group({
+    this.resetForms();
+    /*this.addForm = this.formBuilder.group({
       estado: 'en ejecución',
       tipo: null,
       encuestasEsperadas: null,
@@ -181,12 +182,35 @@ export class EstudiosComponent implements OnInit {
       cantidadHijos: null,
       fk_lugar: null,
       fk_ocupacion: null,
-    });
+    });*/
     this.getOcupaciones();
     this.getParroquias();
     this.setOperation('');
     this.getAnalistasDisp();
   }
+
+  resetForms(){
+    this.addForm = this.formBuilder.group({
+      estado: 'en ejecución',
+      tipo: null,
+      encuestasEsperadas: null,
+      fk_usuario: null,
+      solicitud: null,
+      preguntas: [],
+    });
+    this.poblacionForm = this.formBuilder.group({
+      genero: null,
+      nivelEconomico: null,
+      nivelAcademico: null,
+      rangoEdadInicio: null,
+      rangoEdadFin: null,
+      cantidadHijos: null,
+      fk_lugar: null,
+      fk_ocupacion: null,
+    });
+    this.pregAsoc = [];
+  }
+
   getYearDiff(t: string): number {
     let _t = new Date(t);
     let _n: Date = new Date(Date.now());
@@ -203,7 +227,7 @@ export class EstudiosComponent implements OnInit {
         _auxDate.getMonth(),
         _auxDate.getDay()
       );
-      console.log(newMin);
+      //console.log(newMin);
       this.poblacionForm.get('rangoEdadInicio').setValue(newMin);
     } else {
       //console.log('Edad máxima ',max);
@@ -213,14 +237,15 @@ export class EstudiosComponent implements OnInit {
         _auxDate.getMonth(),
         _auxDate.getDay()
       );
-      console.log(newMax);
+      //console.log(newMax);
       this.poblacionForm.get('rangoEdadFin').setValue(newMax);
     }
   }
 
   addCreatedPreg(newPreg: any) {
+    console.log(newPreg);
     this.preguntaSuggests.push(newPreg);
-    this.pregAsoc.push(newPreg.pregunta);
+    this.pregAsoc.push(newPreg);
     //console.log(newPreg);
   }
   removePregAsoc(toFilter: number) {
@@ -239,6 +264,7 @@ export class EstudiosComponent implements OnInit {
   }
   checkPregAsoc(checkId: number): boolean {
     let _in = false;
+    console.log(this.pregAsoc,this.preguntaSuggests);
     for (let preg of this.pregAsoc) {
       if (preg._id === checkId) {
         _in = true;
@@ -352,52 +378,43 @@ export class EstudiosComponent implements OnInit {
       .getPreguntasRecomendadasOfSolicitud(this.addForm.value.solicitud)
       .subscribe(
         (response: any) => {
-          if (response.status != 204) {
+          if (response.status === 200) {
             console.log(response);
-            this.preguntaSuggests = [...response.data];
-            this.suggestLoading = 'D';
+            if(response.data.length !== 0){
+              this.preguntaSuggests = [...response.data];
+              this.suggestLoading = 'D';
+            }
+            else {
+              this.suggestLoading = 'D';
+            }
+            
+            this._utilsService.getPreguntasOfAnAdministrador(JSON.parse(localStorage.getItem('user_data'))['_id']).subscribe(
+              (_res) =>{
+                if (_res.status === 200) {
+                  console.log(_res);
+                  if(_res.data.length !== 0){
+                    for(const p of _res.data){
+                      this.preguntaSuggests.push(p);
+                    }
+                  }
+                }
+                else {
+
+                }
+              },
+              (_err) =>{
+                
+              }
+            );
           } else {
             // Caso de que no existan preguntas sugeridas
+            this.suggestLoading = 'D';
           }
         },
         (error) => {
           console.log(<any>error);
           this.preguntaSuggests = [
-            {
-              _id: 1,
-              pregunta: {
-                _id: 1,
-                nombre: 'Pregunta 1: Le parecio comodo el mueble? ',
-                tipo: 'abierta',
-              },
-            },
-            {
-              _id: 7,
-              pregunta: {
-                _id: 2,
-                nombre:
-                  'Pregunta 2: Recomendaria este mueble a otras personas?',
-                tipo: 'boolean',
-              },
-            },
-            {
-              _id: 3,
-              pregunta: {
-                _id: 3,
-                nombre:
-                  'Pregunta 3: El precio del mueble le parece que esta bien justificado?',
-                tipo: 'abierta',
-                rango: '',
-              },
-            },
-            {
-              _id: 24,
-              pregunta: {
-                _id: 4,
-                nombre: 'Pregunta 4: Que problemas encontro en nuestro mueble?',
-                tipo: 'abierta',
-              },
-            },
+            { "_id": 1, "nombre": "Que opina del producto? ", "tipo": "abierta", "usuario": { "_id": 26, "nombre": "Macon", "apellido": "Mcleod", "rol": "administrador", "estado": "activo", "correo": "MM10@gmail.com" } }, { "_id": 2, "nombre": "Cuentenos, tuvo algun problema con el producto?", "tipo": "abierta", "usuario": { "_id": 26, "nombre": "Macon", "apellido": "Mcleod", "rol": "administrador", "estado": "activo", "correo": "MM10@gmail.com" } }, { "_id": 3, "nombre": "Como fue su experiencia con el producto?", "tipo": "abierta", "usuario": { "_id": 26, "nombre": "Macon", "apellido": "Mcleod", "rol": "administrador", "estado": "activo", "correo": "MM10@gmail.com" } }, { "_id": 4, "nombre": "Como se entero del producto?", "tipo": "simple", "usuario": { "_id": 27, "nombre": "Warren", "apellido": "Torres", "rol": "administrador", "estado": "activo", "correo": "WARREN@gmail.com" }, "opciones": [{ "_id": 1, "nombre": "redes sociales" }, { "_id": 2, "nombre": "radio" }, { "_id": 3, "nombre": "TV" }, { "_id": 4, "nombre": "conocidos" }] },
           ];
           this.suggestLoading = 'D';
         }
@@ -781,59 +798,68 @@ export class EstudiosComponent implements OnInit {
         console.log(error);
         this.solicitudes = [
           {
-            _id: 1,
-            estado: 'solicitada',
-            usuario: {
-              _id: 31,
-              nombre: 'Caesar',
-              apellido: 'Mosley',
-              rol: 'cliente',
-              estado: 'activo',
-              correo: 'CM10@gmail.com',
+            "_id": 1,
+            "estado": "solicitada",
+            "usuario": {
+              "_id": 31,
+              "nombre": "Caesar",
+              "apellido": "Mosley",
+              "rol": "cliente",
+              "estado": "activo",
+              "correo": "CM10@gmail.com"
             },
-            //"marca": "Sin especificar",
-            comentarios: 'Sin comentarios',
-            presentaciones: [
+            "marca": "Sin especificar",
+            "comentarios": "Sin comentarios",
+            "presentaciones": [
               {
-                _id: 1,
-                tipo: 'Madera',
-                Cantidad: '30x50',
-                fk_tipo: {
-                  _id: 1,
-                  nombre: 'Camas',
-                  subCategoria: {
-                    _id: 1,
-                    nombre: 'Dormitorios',
-                    categoria: { _id: 1, nombre: 'Muebles' },
-                  },
-                },
-              },
+                "_id": 1,
+                "tipo": "Madera",
+                "Cantidad": "30x50",
+                "fk_tipo": {
+                  "_id": 1,
+                  "nombre": "Camas",
+                  "subCategoria": {
+                    "_id": 1,
+                    "nombre": "Dormitorios",
+                    "categoria": {
+                      "_id": 1,
+                      "nombre": "Muebles"
+                    }
+                  }
+                }
+              }
             ],
-            muestraPoblacion: {
-              _id: 1,
-              genero: 'masculino',
-              Fk_ocupacion: { _id: 1, nombre: 'test Ocupacion' },
-              nivel_economico: 'Alto',
-              nivel_academico: 'Licenciado',
-              rango_edad_inicio: '1940-01-01',
-              rango_edad_fin: '2015-01-01',
-              cantidad_hijos: 1,
-              parroquia: {
-                _id: 1,
-                nombre: 'San Camilo',
-                valorSocioEconomico: 1,
-                municipio: {
-                  _id: 1,
-                  nombre: 'Manaos',
-                  estado: {
-                    _id: 1,
-                    nombre: 'Amazonas',
-                    pais: { _id: 1, nombre: 'Venezuela' },
-                  },
-                },
+            "muestraPoblacion": {
+              "_id": 1,
+              "genero": "masculino",
+              "nivel_economico": "Alto",
+              "nivel_academico": "Licenciado",
+              "rango_edad_inicio": "1939-12-31",
+              "rango_edad_fin": "2014-12-31",
+              "cantidad_hijos": 1,
+              "ocupacion": {
+                "_id": 1,
+                "nombre": "Ingeniero informatico"
               },
-            },
-          },
+              "parroquia": {
+                "_id": 1,
+                "nombre": "San Camilo",
+                "valorSocioEconomico": 1,
+                "municipio": {
+                  "_id": 1,
+                  "nombre": "Manaos",
+                  "estado": {
+                    "_id": 1,
+                    "nombre": "Amazonas",
+                    "pais": {
+                      "_id": 1,
+                      "nombre": "Venezuela"
+                    }
+                  }
+                }
+              }
+            }
+          }
         ];
         /*this.solicitudes = [
           {
@@ -925,8 +951,9 @@ export class EstudiosComponent implements OnInit {
   invokeService() {
     this.opStatus = 'P';
     let toAdd: any = { ...this.addForm.value };
+    this.resetForms();
     console.log(toAdd);
-    this._estudioService.createEstudio(this.addForm.value).subscribe(
+    this._estudioService.createEstudio(toAdd).subscribe(
       (response) => {
         console.log(response);
         this.opStatus = 'D';
@@ -978,7 +1005,8 @@ export class EstudiosComponent implements OnInit {
         let auxFkPob = this.solicitudes.filter(
           (s, ind) => s._id === this.addForm.get('solicitud').value
         );
-        this.targetSolicitud = auxFkPob;
+        this.targetSolicitud = auxFkPob[0];
+        console.log(this.targetSolicitud);
         //this.addForm.get('fk_muestra_poblacion').setValue(auxFkPob[0].muestraPoblacion._id);
         document.getElementById('addStepper').classList.add('leftSlider');
         document.getElementById('addStepper').classList.remove('initLeft');

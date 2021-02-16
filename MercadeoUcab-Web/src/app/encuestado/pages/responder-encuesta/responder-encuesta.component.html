@@ -27,7 +27,7 @@
         </div>
       </div>
     </div>
-    <div *ngIf="doneSurvey() === true" style="display: flex;flex-direction: column;height: 100%;width: 100%;align-items: center; justify-content: space-around;">
+    <div *ngIf="doneSurvey() === true" style="display: flex;flex-direction: column;height: 100%;width: 100%;align-items: center; justify-content: space-around;text-align: center;">
       <div>
       <h2>
         Estudio culminado con éxito
@@ -46,15 +46,16 @@
       <button type="button" class="btn btn-outline-primary"
                 (click)="onDir('home')">Volver a encuestas</button>
     </div>
-    <h4 *ngIf="_encuesta!==null && doneSurvey() === false">
+    <h4 *ngIf="_encuesta!==null && doneSurvey() === false" style="text-align: center;">
       Encuesta de estudio
     </h4>
     <mat-horizontal-stepper
-        *ngIf="_encuesta!==null && doneSurvey() === false"
+        *ngIf="_encuesta!==null && doneSurvey() === false && _answers !== {}"
         [linear]="true"
         #encuesta_stepper
         id="encuesta_stepper"
-        labelPosition="right">
+        labelPosition="right"
+        >
           <mat-step *ngFor="let pregunta of _encuesta.encuesta; let i = index" state="question">
           <ng-template matStepLabel>
             <h6>Pregunta nº {{i+1}}</h6>

@@ -101,13 +101,21 @@
               <select
                 class="form-control"
                 id="categoriaADD"
-                formControlName="categoria"
+                
                 (click)="setSubCategorias($event.target.value)"
                 required
               >
+              <!--
+                <option
+                *ngFor="let presentacion of presentaciones"
+                [value]="''"
+                >
+                Sin seleccionar...
+                </option>
+              -->
                 <option
                   *ngFor="let cate of this.categorias; let i = index"
-                  [ngValue]="i"
+                  [value]="i+1"
                 >
                   {{ cate.nombre }}
                 </option>
@@ -118,13 +126,21 @@
               <select
                 class="form-control"
                 id="subCategoriaADD"
-                formControlName="subCategoria"
+                
                 (click)="setTipos($event.target.value)"
                 required
               >
+              <!--
+              <option
+                *ngFor="let presentacion of presentaciones"
+                [value]="''"
+                >
+                Sin seleccionar...
+                </option>
+              -->
                 <option
                   *ngFor="let sub of this.subcategorias;let sc = index;"
-                  [ngValue]="sub._id"
+                  [value]="sc+1"
                 >
                   {{ sub.nombre }}
                 </option>
@@ -135,11 +151,19 @@
               <select
                 class="form-control"
                 id="tipoADD"
-                formControlName="tipo"
+                
                 required
                 (click)="setPresentaciones($event.target.value)"
               >
-                <option *ngFor="let Tipo of tipos;let t = index;" [ngValue]="Tipo._id">
+              <!--
+              <option
+              *ngFor="let presentacion of presentaciones"
+              [value]="''"
+              >
+              Sin seleccionar...
+              </option>
+              -->
+                <option *ngFor="let Tipo of tipos;let t = index;" [value]="t+1">
                   {{ Tipo.nombre }}
                 </option>
               </select>
@@ -152,6 +176,14 @@
                 formControlName="presentacion"
                 required
               >
+              <!--
+                <option
+                *ngFor="let presentacion of presentaciones"
+                [value]="''"
+                >
+                Sin seleccionar...
+                </option>
+              -->
                 <option
                   *ngFor="let presentacion of presentaciones"
                   [ngValue]="presentacion"

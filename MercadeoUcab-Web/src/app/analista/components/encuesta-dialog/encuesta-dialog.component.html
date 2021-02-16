@@ -1,5 +1,5 @@
 <ng-template #encuesta>
-	<div class="modal-header" style="height: 12.5%;">
+	<div class="modal-header" style="height: 12.5%;" >
 		<h5>Encuesta vía telefónica</h5>
 	</div>
 	<div class="modal-body"  style="height: 87.5%;">
@@ -7,7 +7,24 @@
 		height: 100%;
 		width: 100%;
 		flex-direction: column;">
-			<div class="cForm-field-row" *ngIf="_encuesta !== null && alteredEstudio !== null" style="height: 80%;">
+			<div *ngIf="doneSurvey() === true" style="display: flex;flex-direction: column;height: 100%;width: 100%;align-items: center; justify-content: space-around;text-align: center;">
+				<div>
+				<h2>
+				  Encuesta de telefónica culminada con éxito
+				</h2>
+				<mat-icon
+				style="
+				height: 30px;
+				width: 30px;
+				font-size: 30px;">
+				  done_all
+				</mat-icon>     
+				<h3>
+				  Puede continuar con las demás encuestas.
+				</h3>
+				</div>
+			</div>
+			<div class="cForm-field-row" *ngIf="_encuesta !== null && alteredEstudio !== null && doneSurvey() === false" style="height: 80%;">
 				<mat-horizontal-stepper
         		[linear]="true"
         		#encuesta_stepper

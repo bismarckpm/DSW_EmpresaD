@@ -26,10 +26,11 @@ export class DashboardComponent implements OnInit {
   }
   checkUser() {
     if (localStorage.getItem('user_data') === null) {
+      localStorage.setItem('token','WHATEVER');
       localStorage.setItem(
         'user_data',
         JSON.stringify({
-          _id: 2,
+          _id: 3,
           nombre: 'Zeus',
           apellido: 'Berg',
           rol: 'encuestado',
@@ -51,11 +52,9 @@ export class DashboardComponent implements OnInit {
       }, 10000);
     }, 2000);
   }
-  /*ngOnDestroy(){
-    localStorage.clear();
-  }*/
   logOut() {
     localStorage.clear();
+    this.infoComponent.close();
     this.router.navigate(['login']);
   }
   onDir(_route: string): void {

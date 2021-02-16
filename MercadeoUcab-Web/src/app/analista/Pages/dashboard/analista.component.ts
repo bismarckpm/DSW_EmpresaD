@@ -23,15 +23,16 @@ export class AnalistaComponent implements OnInit {
   }
   checkUser() {
     if (localStorage.getItem('user_data') === null) {
+      localStorage.setItem('token','WHATEVER');
       localStorage.setItem(
         'user_data',
         JSON.stringify({
-          _id: 40,
-          nombre: 'Hammett',
-          apellido: 'Schneider',
-          rol: 'analista',
-          estado: 'activo',
-          correo: 'HMLETSCH456@gmail.com',
+          "_id":37,
+          "nombre":"Harper",
+          "apellido":"Vance",
+          "rol":"analista",
+          "estado":"activo",
+          "correo":"Harper20@gmail.com"
         })
       );
       this.userSession = JSON.parse(localStorage.getItem('user_data'));
@@ -54,6 +55,7 @@ export class AnalistaComponent implements OnInit {
   }*/
   logOut() {
     localStorage.clear();
+    this.infoComponent.close();
     this.router.navigate(['login']);
   }
   onDir(_route: string): void {

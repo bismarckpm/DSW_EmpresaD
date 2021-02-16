@@ -22,6 +22,7 @@ export class dashboardClienteComponent implements OnInit {
   }
   checkUser() {
     if (localStorage.getItem('user_data') === null) {
+      localStorage.setItem('token','WHATEVER');
       localStorage.setItem(
         'user_data',
         JSON.stringify({
@@ -53,6 +54,7 @@ export class dashboardClienteComponent implements OnInit {
   }*/
   logOut() {
     localStorage.clear();
+    this.infoComponent.close();
     this.router.navigate(['login']);
   }
   onDir(_route: string): void {

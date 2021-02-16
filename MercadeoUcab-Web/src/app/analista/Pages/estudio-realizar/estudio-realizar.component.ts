@@ -9,6 +9,7 @@ import { BasicInfoDialogComponent } from '../../components/dialogs/basic-info-di
 import { EncuestaDialogComponent } from '../../components/encuesta-dialog/encuesta-dialog.component';
 import { EstudioResultadoDialogComponent } from '../../components/estudio-resultado-dialog/estudio-resultado-dialog.component';
 import { toBackendAnswer } from '@core/models/toBackendAnswer';
+import { DIR_DOCUMENT_FACTORY } from '@angular/cdk/bidi/dir-document-token';
 
 @Component({
   selector: 'app-estudio-realizar',
@@ -48,7 +49,25 @@ export class EstudioRealizarComponent implements OnInit {
   async openRespDiagModal() {
     return await this.respDiagComponent.open();
   }
-
+  userFinished(_userID):boolean{
+    let _d: boolean = false;
+    const pregAmt: number = this._Estudio.encuesta.length;
+    let userAns: number = 0;
+    Object.entries(this._AnswersMap).forEach(([key,value], ind) => {
+      const auxAns: any[] = this._AnswersMap[key];
+      //console.log(auxAns);
+      for(const ans of auxAns['respuestas']){
+        if(ans.usuario._id === _userID){
+          userAns++;
+          break;
+        }
+      }
+    })
+    if(userAns === pregAmt){
+      _d= true;
+    }
+    return _d;
+  }
   alterAnswersState(event: {
     user: any,
     data: toBackendAnswer[],
@@ -61,7 +80,10 @@ export class EstudioRealizarComponent implements OnInit {
     );
     const auxResp: toBackendAnswer[] = event.data;
     for(const ans of auxResp){
-      this._AnswersMap[`${this._Id}-${event._pregId}`].respuestas.push(ans);
+      this._AnswersMap[`${this._Id}-${event._pregId}`].respuestas.push({
+        _id:0,
+        usuario:event.user, 
+      });
     }
     console.log(
       this._AnswersMap[`${this._Id}-${event._pregId}`].respuestas,
@@ -270,15 +292,15 @@ export class EstudioRealizarComponent implements OnInit {
   setUsuarioEncuesta(_user, _encuesta) {
     this._targetEncuestado = _user;
     //console.log(this._AnswersMap);
-    //console.log(_user);
+    console.log(_user);
     Object.keys(this._AnswersMap).forEach((key, ind) => {
       let auxPreg: any = this._AnswersMap[key];
       const { _id, respuestas } = auxPreg;
-      //console.log(auxPreg);
+      console.log(respuestas);
       this._userAnswers[`${_id}`] = [
         ...respuestas.filter(
-          (p: toBackendAnswer, i) =>
-            p.dtousuario._id === this._targetEncuestado._id
+          (p, i) =>
+            p.usuario._id === this._targetEncuestado._id
         ),
       ];
       //this._userAnswers[`${_id}`]= {};
@@ -382,15 +404,16 @@ export class EstudioRealizarComponent implements OnInit {
     this._estudioService.getEstudio(this._Id).subscribe(
       (res) => {
         this._Estudio = res.data;
+        console.log(this._Estudio);
         this.searchState = 'D';
-        this.getEncuestados(this._Id);
+        this.getEncuestadosCanAnswerEstudio(this._Id);
         this.mapEncuesta();
       },
       (err) => {
         console.log(err.message);
         this._Estudio = this.testRes['data'];
         this.searchState = 'D';
-        this.getEncuestados(this._Id);
+        this.getEncuestadosCanAnswerEstudio(this._Id);
         this.mapEncuesta();
       }
     );
