@@ -10,7 +10,7 @@
   "
 >
   <div *ngIf="op === ''" class="container" style="height: 100%; width: 100%">
-    <div class="row align-items-center" style="height:100%">
+    <div class="row align-items-center" style="height: 100%">
       <div class="col-6" style="height: 65%">
         <mat-card class="menu-card" (click)="setOperation('add')">
           <mat-icon class="menu-card-icon"> add_box </mat-icon>
@@ -25,30 +25,56 @@
       </div>
     </div>
   </div>
-  <div *ngIf="op === 'add'" style="height: 100%; width: 100%; display: flex;flex-direction: row; align-items: center;justify-content: space-around;">
+  <div
+    *ngIf="op === 'add'"
+    style="
+      height: 100%;
+      width: 100%;
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      justify-content: space-around;
+    "
+  >
     <mat-card
       style="
         height: 75%;
         width: 25%;
-        text-align:center;
+        text-align: center;
         display: flex;
         flex-direction: column;
       "
       *ngIf="opStatus === 'S'"
     >
-      <div *ngIf="sec==='SOL'" style="display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      flex: 1;">
-        <h5>En esta etapa usted debe indicar las características del producto al cual se le realizará el estudio de mercado</h5>
+      <div
+        *ngIf="sec === 'SOL'"
+        style="
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          justify-content: center;
+          flex: 1;
+        "
+      >
+        <h5>
+          En esta etapa usted debe indicar las características del producto al
+          cual se le realizará el estudio de mercado
+        </h5>
       </div>
-      <div *ngIf="sec==='POB'" style="display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      flex: 1;">
-        <h5>En esta etapa usted debe indicar las características de los participantes del estudio de mercado</h5>
+      <div
+        *ngIf="sec === 'POB'"
+        style="
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          justify-content: center;
+          flex: 1;
+        "
+      >
+        <h5>
+          En esta etapa usted debe indicar las características de los
+          participantes del estudio de mercado
+        </h5>
       </div>
     </mat-card>
     <mat-card
@@ -63,14 +89,14 @@
       <form
         class="cForm"
         [formGroup]="addForm"
-        *ngIf="opStatus === 'S' && sec==='SOL'"
+        *ngIf="opStatus === 'S' && sec === 'SOL'"
         (ngSubmit)="verifySolicitud()"
         novalidate
-        style="height: 100%;"
+        style="height: 100%"
       >
         <h4 style="width: 100%">Información de solicitud</h4>
-        <div class="cForm-field-row" style="height: 80%;">
-          <div class="cForm-field-col" style="overflow-y: auto;">
+        <div class="cForm-field-row" style="height: 80%">
+          <div class="cForm-field-col" style="overflow-y: auto">
             <div class="form-group">
               <label for="marcaSelect">Marca del producto</label>
               <input
@@ -79,7 +105,7 @@
                 id="marcaSelect"
                 formControlName="marca"
                 required
-              >
+              />
             </div>
             <div class="form-group">
               <label for="comentariosS">Comentarios</label>
@@ -95,17 +121,16 @@
               </textarea>
             </div>
           </div>
-          <div class="cForm-field-col" style="overflow-y: auto;">
+          <div class="cForm-field-col" style="overflow-y: auto">
             <div class="form-group">
               <label for="categoriaADD">Categoría del producto:</label>
               <select
                 class="form-control"
                 id="categoriaADD"
-                
                 (click)="setSubCategorias($event.target.value)"
                 required
               >
-              <!--
+                <!--
                 <option
                 *ngFor="let presentacion of presentaciones"
                 [value]="''"
@@ -115,7 +140,7 @@
               -->
                 <option
                   *ngFor="let cate of this.categorias; let i = index"
-                  [value]="i+1"
+                  [value]="i + 1"
                 >
                   {{ cate.nombre }}
                 </option>
@@ -126,11 +151,10 @@
               <select
                 class="form-control"
                 id="subCategoriaADD"
-                
                 (click)="setTipos($event.target.value)"
                 required
               >
-              <!--
+                <!--
               <option
                 *ngFor="let presentacion of presentaciones"
                 [value]="''"
@@ -139,8 +163,8 @@
                 </option>
               -->
                 <option
-                  *ngFor="let sub of this.subcategorias;let sc = index;"
-                  [value]="sc+1"
+                  *ngFor="let sub of this.subcategorias; let sc = index"
+                  [value]="sc + 1"
                 >
                   {{ sub.nombre }}
                 </option>
@@ -151,11 +175,10 @@
               <select
                 class="form-control"
                 id="tipoADD"
-                
                 required
                 (click)="setPresentaciones($event.target.value)"
               >
-              <!--
+                <!--
               <option
               *ngFor="let presentacion of presentaciones"
               [value]="''"
@@ -163,7 +186,10 @@
               Sin seleccionar...
               </option>
               -->
-                <option *ngFor="let Tipo of tipos;let t = index;" [value]="t+1">
+                <option
+                  *ngFor="let Tipo of tipos; let t = index"
+                  [value]="t + 1"
+                >
                   {{ Tipo.nombre }}
                 </option>
               </select>
@@ -176,7 +202,7 @@
                 formControlName="presentacion"
                 required
               >
-              <!--
+                <!--
                 <option
                 *ngFor="let presentacion of presentaciones"
                 [value]="''"
@@ -203,7 +229,12 @@
             Cancelar
           </button>
           <mat-divider [vertical]="true" [inset]="true"></mat-divider>
-          <button type="submit" class="btn btn-primary" style="color: white" *ngIf="addForm.valid===true">
+          <button
+            type="submit"
+            class="btn btn-primary"
+            style="color: white"
+            *ngIf="addForm.valid === true"
+          >
             Siguiente
           </button>
         </div>
@@ -211,14 +242,14 @@
       <form
         class="cForm"
         [formGroup]="poblacionForm"
-        *ngIf="opStatus === 'S' && sec==='POB'"
+        *ngIf="opStatus === 'S' && sec === 'POB'"
         (ngSubmit)="verifyPoblacion()"
         novalidate
-        style="height: 100%;"
+        style="height: 100%"
       >
         <h4 style="width: 100%">Información de Población de estudio</h4>
-        <div class="cForm-field-row" style="height: 80%;">
-          <div class="cForm-field-col" style="overflow-y: auto;">
+        <div class="cForm-field-row" style="height: 80%">
+          <div class="cForm-field-col" style="overflow-y: auto">
             <div class="form-group">
               <label for="generoSelect">Género a participar</label>
               <select
@@ -237,31 +268,30 @@
               <div style="display: flex; flex-direction: row">
                 <input
                   type="number"
-                  (change)="ageEdit($event.target.value,null)"
+                  (change)="ageEdit($event.target.value, null)"
                   class="form-control"
                   id="edadI"
                   aria-describedby="edadIHelp"
                   min="0"
-                  value="{{minAge}}"
+                  value="{{ minAge }}"
                   style="width: 45%; margin-right: 5%"
                   required
-
                 />
                 <input
                   type="number"
-                  (change)="ageEdit(null,$event.target.value)"
+                  (change)="ageEdit(null, $event.target.value)"
                   class="form-control"
-                  value="{{maxAge}}"
+                  value="{{ maxAge }}"
                   id="edadF"
                   aria-describedby="edadFHelp"
-                  min="{{minAge}}"
+                  min="{{ minAge }}"
                   style="width: 45%"
                   required
                 />
               </div>
               <div style="display: flex; flex-direction: row">
-                <h6 style="width: 50%; text-align: start">Edad minima</h6>
                 <h6 style="width: 50%; text-align: start">Edad máxima</h6>
+                <h6 style="width: 50%; text-align: start">Edad minima</h6>
               </div>
             </div>
             <div class="form-group">
@@ -291,7 +321,7 @@
               </select>
             </div>
           </div>
-          <div class="cForm-field-col" style="overflow-y: auto;">
+          <div class="cForm-field-col" style="overflow-y: auto">
             <div class="form-group">
               <label for="naSelect">Nivel Académico</label>
               <select
@@ -350,7 +380,12 @@
             Cancelar
           </button>
           <mat-divider [vertical]="true" [inset]="true"></mat-divider>
-          <button type="submit" class="btn btn-primary" style="color: white" *ngIf="poblacionForm.valid===true">
+          <button
+            type="submit"
+            class="btn btn-primary"
+            style="color: white"
+            *ngIf="poblacionForm.valid === true"
+          >
             Finalizar registro
           </button>
         </div>
@@ -441,7 +476,12 @@
       "
     >
       <h4>Asistente de búsqueda de solicitudes</h4>
-      <form [formGroup]="searchForm" (submit)="invokeSearch()" class="cForm" style="height: 80%;">
+      <form
+        [formGroup]="searchForm"
+        (submit)="invokeSearch()"
+        class="cForm"
+        style="height: 80%"
+      >
         <div
           style="
             width: 100%;
@@ -478,7 +518,7 @@
               </select>
             </div>
           </div>
-          <div style="width: 45%; height: 100%; overflow-y: auto;">
+          <div style="width: 45%; height: 100%; overflow-y: auto">
             <div class="form-group">
               <label for="marcaSelectUPD">Marca del producto</label>
               <select
