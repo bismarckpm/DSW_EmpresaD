@@ -33,6 +33,7 @@ export class DashboardComponent implements OnInit {
   }
   logOut() {
     localStorage.clear();
+    this.infoComponent.close();
     this.router.navigate(['login']);
   }
   checkUser() {
@@ -65,9 +66,6 @@ export class DashboardComponent implements OnInit {
       }, 10000);
     }, 2000);
   }
-  /*ngOnDestroy(){
-    localStorage.clear();
-  }*/
   onDir(_route: string): void {
     try {
       this.router.navigate(['administrador/', _route]);

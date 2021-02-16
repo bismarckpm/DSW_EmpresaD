@@ -54,6 +54,7 @@ export class AnalistaComponent implements OnInit {
   }*/
   logOut() {
     localStorage.clear();
+    this.infoComponent.close();
     this.router.navigate(['login']);
   }
   onDir(_route: string): void {

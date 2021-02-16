@@ -1273,7 +1273,7 @@ export class AnalistaTasksComponent implements OnInit {
     status: 200,
     "data":[{
       "_id":5,
-      "estado":"En ejecucion",
+      "estado":"Culminado",
       "tipo":"encuesta",
       "encuestas_esperadas":1,
       "solicitud":{
@@ -1420,7 +1420,158 @@ export class AnalistaTasksComponent implements OnInit {
             ]
          }
       ]
-   },]
+   },
+   {
+      "_id":8,
+      "estado":"En ejecucion",
+      "tipo":"En linea",
+      "encuestas_esperadas":1,
+      "solicitud":{
+         "_id":8,
+         "estado":"solicitada",
+         "usuario":{
+            "_id":33,
+            "nombre":"Victor",
+            "apellido":"Paul",
+            "rol":"cliente",
+            "estado":"activo",
+            "correo":"V1@gmail.com"
+         },
+         "marca":"Sin especificar",
+         "comentarios":"Sin comentarios",
+         "presentaciones":[
+            {
+               "_id":8,
+               "tipo":"volumen",
+               "Cantidad":"2 l",
+               "fk_tipo":{
+                  "_id":8,
+                  "nombre":"Liquido",
+                  "subCategoria":{
+                     "_id":8,
+                     "nombre":"Cloro",
+                     "categoria":{
+                        "_id":8,
+                        "nombre":"Limpieza"
+                     }
+                  }
+               }
+            }
+         ],
+         "muestraPoblacion":{
+            "_id":8,
+            "genero":"femenino",
+            "nivel_economico":"Alto",
+            "nivel_academico":"Bachiller",
+            "rango_edad_inicio":"1940-01-01",
+            "rango_edad_fin":"2015-01-01",
+            "cantidad_hijos":1,
+            "parroquia":{
+               "_id":1,
+               "nombre":"San Camilo",
+               "valorSocioEconomico":1,
+               "municipio":{
+                  "_id":1,
+                  "nombre":"Manaos",
+                  "estado":{
+                     "_id":1,
+                     "nombre":"Amazonas",
+                     "pais":{
+                        "_id":1,
+                        "nombre":"Venezuela"
+                     }
+                  }
+               }
+            }
+         }
+      },
+      "analista":{
+         "_id":40,
+         "nombre":"Nehru",
+         "apellido":"Winters",
+         "rol":"analista",
+         "estado":"activo",
+         "correo":"NEHR@gmail.com"
+      },
+      "encuesta":[
+         {
+            "_id":19,
+            "pregunta":{
+               "_id":6,
+               "nombre":"Como describiria el producto?",
+               "tipo":"simple",
+               "usuario":{
+                  "_id":29,
+                  "nombre":"Barclay",
+                  "apellido":"Holt",
+                  "rol":"administrador",
+                  "estado":"activo",
+                  "correo":"HOLT10@gmail.com"
+               },
+               "opciones":[
+                  {
+                     "_id":8,
+                     "nombre":"Muy util"
+                  },
+                  {
+                     "_id":9,
+                     "nombre":"Util"
+                  },
+                  {
+                     "_id":10,
+                     "nombre":"Poco util"
+                  },
+                  {
+                     "_id":11,
+                     "nombre":"Nada util"
+                  }
+               ]
+            },
+            "respuestas":[
+               
+            ]
+         },
+         {
+            "_id":20,
+            "pregunta":{
+               "_id":7,
+               "nombre":"Recomendaria el producto?",
+               "tipo":"boolean",
+               "usuario":{
+                  "_id":29,
+                  "nombre":"Barclay",
+                  "apellido":"Holt",
+                  "rol":"administrador",
+                  "estado":"activo",
+                  "correo":"HOLT10@gmail.com"
+               }
+            },
+            "respuestas":[
+               
+            ]
+         },
+         {
+            "_id":21,
+            "pregunta":{
+               "_id":8,
+               "nombre":"Le gusto el producto?",
+               "tipo":"boolean",
+               "usuario":{
+                  "_id":29,
+                  "nombre":"Barclay",
+                  "apellido":"Holt",
+                  "rol":"administrador",
+                  "estado":"activo",
+                  "correo":"HOLT10@gmail.com"
+               }
+            },
+            "respuestas":[
+               
+            ]
+         }
+      ]
+   }
+   ]
   };
 
   ngOnInit(): void {
@@ -1439,16 +1590,17 @@ export class AnalistaTasksComponent implements OnInit {
       }*/
       filtered.push(res);
     });
-    console.log(dataArray, filtered);
+    //console.log(dataArray, filtered);
     return filtered;
   }
   invokeService() {
     this.searchState = 'I';
-    this._utilService.getEstudiosOfAnalista(this.analistaUser._id).subscribe(
+    console.log(this.analistaUser);
+    this._utilService.getEstudiosOfAnalista(this.analistaUser._id.toString()).subscribe(
       (res) => {
-        //console.log(res);
+        console.log(res);
         if(res.status === 200){
-          this.estudios = [...res.data.filter((est,ind) => est.tipo === this._estFilter)];
+          this.estudios = [...res.data.filter((est,ind) => est.tipo === this._estFilter && est.estado !=='Culminado')];
         }
         else {
           this.estudios = [];
@@ -1459,8 +1611,8 @@ export class AnalistaTasksComponent implements OnInit {
         this.searchState = 'D';
       },
       (err) => {
-        console.log(err.message);
-        this.estudios = [...this.testRes['data'].filter((est,ind) => est.tipo === this._estFilter)];
+        console.log(err);
+        this.estudios = [...this.testRes['data'].filter((est,ind) => est.tipo === this._estFilter && est.estado !=='Culminado')];
         this.dataSource = new MatTableDataSource<Estudio>(
           this.dataFilter(this.estudios)
         );

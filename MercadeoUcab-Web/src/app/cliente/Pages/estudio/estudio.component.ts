@@ -18,7 +18,7 @@ export class EstudioComponent implements OnInit {
   op: string;
   searchState: string; //U.I,D
   estudios: any[] = [];
-
+  toSearch: any = -1;
   //COLUMNAS DE TABLA DE RESULTADOS
   displayedColumns: string[] = ['selector'];
   columnsToDisplay: string[] = this.displayedColumns.slice();
@@ -64,6 +64,7 @@ export class EstudioComponent implements OnInit {
     return _n.getFullYear() - _t.getFullYear();
   }
   getEstudios() {
+    this.toSearch = 0;
     this._estudioService.getEstudios().subscribe(
       (response) => {
         console.log(response);
@@ -74,6 +75,7 @@ export class EstudioComponent implements OnInit {
               est.estado === 'Culminado'
           ),
         ];
+        this.toSearch = 1;
       },
       (error) => {
         console.log(error);
@@ -90,6 +92,7 @@ export class EstudioComponent implements OnInit {
           "rango_edad_inicio":"1940-01-01","rango_edad_fin":"2015-01-01","cantidad_hijos":1,"ocupacion":{"_id":3,"nombre":"Cocinero"},"parroquia":{"_id":1,"nombre":"San Camilo","valorSocioEconomico":1,"municipio":{"_id":1,"nombre":"Manaos","estado":{"_id":1,"nombre":"Amazonas","pais":{"_id":1,"nombre":"Venezuela"}}}}}},"analista":{"_id":40,"nombre":"Hammett","apellido":"Schneider","rol":"analista","estado":"activo","correo":"HMLETSCH456@gmail.com"},"encuesta":[{"_id":13,"pregunta":{"_id":14,"nombre":"a quienes lo recomendaria","tipo":"multiple","usuario":{"_id":28,"nombre":"Jonas","apellido":"Mccray","rol":"administrador","estado":"activo","correo":"JON_M@gmail.com"},"opciones":[{"_id":16,"nombre":"amigos"},{"_id":17,"nombre":"familiares"},{"_id":18,"nombre":"pareja"},{"_id":19,"nombre":"conocidos"}]},"respuestas":[]},{"_id":14,"pregunta":{"_id":1,"nombre":"Que opina del producto? ","tipo":"abierta","usuario":{"_id":26,"nombre":"Macon","apellido":"Mcleod","rol":"administrador","estado":"activo","correo":"MM10@gmail.com"}},"respuestas":[]},{"_id":15,"pregunta":{"_id":2,"nombre":"Cuentenos, tuvo algun problema con el producto?","tipo":"abierta","usuario":{"_id":26,"nombre":"Macon","apellido":"Mcleod","rol":"administrador","estado":"activo","correo":"MM10@gmail.com"}},"respuestas":[]}]
       }
         ];
+        this.toSearch = 1;
       }
     );
   }
