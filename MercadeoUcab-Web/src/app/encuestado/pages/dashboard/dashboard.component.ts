@@ -51,11 +51,9 @@ export class DashboardComponent implements OnInit {
       }, 10000);
     }, 2000);
   }
-  /*ngOnDestroy(){
-    localStorage.clear();
-  }*/
   logOut() {
     localStorage.clear();
+    this.infoComponent.close();
     this.router.navigate(['login']);
   }
   onDir(_route: string): void {
