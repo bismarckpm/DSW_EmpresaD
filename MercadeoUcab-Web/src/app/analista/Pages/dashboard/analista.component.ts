@@ -27,12 +27,12 @@ export class AnalistaComponent implements OnInit {
       localStorage.setItem(
         'user_data',
         JSON.stringify({
-          _id: 40,
-          nombre: 'Hammett',
-          apellido: 'Schneider',
-          rol: 'analista',
-          estado: 'activo',
-          correo: 'HMLETSCH456@gmail.com',
+          "_id":36,
+          "nombre":"Harper",
+          "apellido":"Vance",
+          "rol":"analista",
+          "estado":"activo",
+          "correo":"Harper20@gmail.com"
         })
       );
       this.userSession = JSON.parse(localStorage.getItem('user_data'));

@@ -227,7 +227,7 @@ export class EstudiosComponent implements OnInit {
         _auxDate.getMonth(),
         _auxDate.getDay()
       );
-      console.log(newMin);
+      //console.log(newMin);
       this.poblacionForm.get('rangoEdadInicio').setValue(newMin);
     } else {
       //console.log('Edad máxima ',max);
@@ -237,14 +237,15 @@ export class EstudiosComponent implements OnInit {
         _auxDate.getMonth(),
         _auxDate.getDay()
       );
-      console.log(newMax);
+      //console.log(newMax);
       this.poblacionForm.get('rangoEdadFin').setValue(newMax);
     }
   }
 
   addCreatedPreg(newPreg: any) {
+    console.log(newPreg);
     this.preguntaSuggests.push(newPreg);
-    this.pregAsoc.push(newPreg.pregunta);
+    this.pregAsoc.push(newPreg);
     //console.log(newPreg);
   }
   removePregAsoc(toFilter: number) {
@@ -263,6 +264,7 @@ export class EstudiosComponent implements OnInit {
   }
   checkPregAsoc(checkId: number): boolean {
     let _in = false;
+    console.log(this.pregAsoc,this.preguntaSuggests);
     for (let preg of this.pregAsoc) {
       if (preg._id === checkId) {
         _in = true;
@@ -376,12 +378,37 @@ export class EstudiosComponent implements OnInit {
       .getPreguntasRecomendadasOfSolicitud(this.addForm.value.solicitud)
       .subscribe(
         (response: any) => {
-          if (response.status != 204) {
+          if (response.status === 200) {
             console.log(response);
-            this.preguntaSuggests = [...response.data];
-            this.suggestLoading = 'D';
+            if(response.data.length !== 0){
+              this.preguntaSuggests = [...response.data];
+              this.suggestLoading = 'D';
+            }
+            else {
+              this.suggestLoading = 'D';
+            }
+            
+            this._utilsService.getPreguntasOfAnAdministrador(JSON.parse(localStorage.getItem('user_data'))['_id']).subscribe(
+              (_res) =>{
+                if (_res.status === 200) {
+                  console.log(_res);
+                  if(_res.data.length !== 0){
+                    for(const p of _res.data){
+                      this.preguntaSuggests.push(p);
+                    }
+                  }
+                }
+                else {
+
+                }
+              },
+              (_err) =>{
+                
+              }
+            );
           } else {
             // Caso de que no existan preguntas sugeridas
+            this.suggestLoading = 'D';
           }
         },
         (error) => {

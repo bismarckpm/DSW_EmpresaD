@@ -91,7 +91,7 @@ export class AddPreguntaDialogComponent implements OnInit {
       nombre_pregunta: null,
       tipo: null,
       rango: null,
-      fk_usuario: null,
+      fk_usuario: JSON.parse(localStorage.getItem('user_data'))['_id'],
       opciones: null,
     });
   }
@@ -107,8 +107,7 @@ export class AddPreguntaDialogComponent implements OnInit {
       nombre_pregunta: null,
       tipo: null,
       rango: null,
-      //EXTRAER ID DE USUARIO
-      fk_usuario: 1,
+      fk_usuario: JSON.parse(localStorage.getItem('user_data'))['_id'],
       opciones: null,
     });
   }
@@ -134,11 +133,8 @@ export class AddPreguntaDialogComponent implements OnInit {
         this.opStatus = 'E';
         this.sharePregunta.emit({
           _id: 101,
-          pregunta: {
-            _id: 101,
-            pregunta: data.nombre_pregunta,
-            tipo: data.tipo,
-          },
+          nombre: data.nombre_pregunta,
+          tipo: data.tipo,
         });
       }
     );
@@ -161,14 +157,14 @@ export class AddPreguntaDialogComponent implements OnInit {
     toAdd.opciones = values.opciones;
     //toAdd.usuarioDto = values.fk_usuario;
     // CAMBIAR A ID DEL ADMIN LOGEADO
-    toAdd.usuarioDto = 1;
-    console.log('PRUEBA');
+    toAdd.usuarioDto = values.fk_usuario;
+    //console.log('PRUEBA');
     this.addPregunta(toAdd);
     this.addForm = this.formBuilder.group({
       nombre_pregunta: null,
       tipo: null,
       rango: null,
-      fk_usuario: 1,
+      fk_usuario: values.fk_usuario,
       opciones: null,
     });
     this.optionList = [];
