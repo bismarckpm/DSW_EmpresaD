@@ -80,8 +80,12 @@ export class UsuarioService {
 
   signup(data) {
     const headers = new HttpHeaders().set('Content-Type', 'application/json');
-    return this._http.post(this.url + '/LDAP/login', JSON.stringify(data), {
-      headers,
-    });
+    return this._http.post(
+      'http://45.76.60.252:8080/mercadeoucab-1.0-SNAPSHOT/api/v1/LDAP/login',
+      JSON.stringify(data),
+      {
+        headers,
+      }
+    );
   }
 }
