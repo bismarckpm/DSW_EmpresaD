@@ -23,7 +23,7 @@
                             <mat-icon style="color: #00d8b4;">
                                 account_box
                             </mat-icon>
-                            <mat-icon  style="color: greenyellow;" *ngIf="person.done === true; else notdone">
+                            <mat-icon  style="color: greenyellow;" *ngIf="userFinished(person._id) === true; else notdone">
                                 assignment_turned_in
                             </mat-icon>
                             <ng-template #notdone>
@@ -34,7 +34,7 @@
                             <button class="btn btn-outline-dark shadow-sm"
                             style="padding: 0.15rem 0.15rem;
                             height: fit-content;
-                            display: flex;" *ngIf="_Estudio.tipo === 'encuesta' && person.done===false"
+                            display: flex;" *ngIf="_Estudio.tipo === 'encuesta' && userFinished(person._id) ===false"
                             (click)="setUsuarioEncuesta(person,_Estudio)">
                                 <mat-icon>
                                     call
