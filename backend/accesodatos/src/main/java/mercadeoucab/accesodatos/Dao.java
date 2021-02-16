@@ -2,6 +2,7 @@ package mercadeoucab.accesodatos;
 
 import mercadeoucab.entidades.EntidadBase;
 
+import javax.persistence.Cache;
 import javax.persistence.EntityManager;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
@@ -125,7 +126,8 @@ public class Dao<T>
     public List<T> findAll( Class<T> type )
     {
         _em = _daoHandler.getSession();
-
+        Cache cache = _em.getEntityManagerFactory().getCache();
+        cache.evictAll();
         final CriteriaBuilder criteriaBuilder = _em.getCriteriaBuilder();
         final CriteriaQuery<T> criteriaQuery = criteriaBuilder.createQuery( type );
         final Root<T> root = criteriaQuery.from( type );
@@ -160,7 +162,8 @@ public class Dao<T>
     {
         _em = _daoHandler.getSession();
         final T entity;
-
+        Cache cache = _em.getEntityManagerFactory().getCache();
+        cache.evictAll();
         try
         {
             final EntidadBase base = ( EntidadBase ) _em.find( type, id );

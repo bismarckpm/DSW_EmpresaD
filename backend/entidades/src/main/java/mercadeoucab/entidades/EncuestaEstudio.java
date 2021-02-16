@@ -24,7 +24,7 @@ public class EncuestaEstudio implements Serializable {
     @JoinColumn( name = "fk_estudio")
     private Estudio fk_estudio;
 
-    @OneToMany( mappedBy = "encuesta_estudio", fetch = FetchType.LAZY )
+    @OneToMany( mappedBy = "encuesta_estudio", fetch = FetchType.EAGER, cascade = CascadeType.PERSIST)
     private List<Respuesta> respuestas = new ArrayList<>();
 
 
