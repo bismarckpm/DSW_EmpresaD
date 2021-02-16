@@ -208,6 +208,7 @@ export class EstudiosComponent implements OnInit {
       fk_lugar: null,
       fk_ocupacion: null,
     });
+    this.pregAsoc = [];
   }
 
   getYearDiff(t: string): number {
