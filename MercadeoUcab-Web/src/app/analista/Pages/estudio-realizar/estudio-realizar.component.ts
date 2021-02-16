@@ -404,8 +404,9 @@ export class EstudioRealizarComponent implements OnInit {
     this._estudioService.getEstudio(this._Id).subscribe(
       (res) => {
         this._Estudio = res.data;
+        console.log(this._Estudio);
         this.searchState = 'D';
-        this.getEncuestados(this._Id);
+        this.getEncuestadosCanAnswerEstudio(this._Id);
         this.mapEncuesta();
       },
       (err) => {
