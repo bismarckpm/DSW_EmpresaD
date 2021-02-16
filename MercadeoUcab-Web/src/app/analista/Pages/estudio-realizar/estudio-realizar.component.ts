@@ -277,8 +277,8 @@ export class EstudioRealizarComponent implements OnInit {
       //console.log(auxPreg);
       this._userAnswers[`${_id}`] = [
         ...respuestas.filter(
-          (p: toBackendAnswer, i) =>
-            p.dtousuario._id === this._targetEncuestado._id
+          (p, i) =>
+            p.usuario._id === this._targetEncuestado._id
         ),
       ];
       //this._userAnswers[`${_id}`]= {};

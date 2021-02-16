@@ -115,6 +115,18 @@ checkMultiple(pregInd: number, opInd: number) {
   });
   return res;
 }
+doneSurvey(){
+  if(Object.keys(this._answers).length !== 0){
+    let _done = true;
+    Object.entries(this._answers).forEach(([key,value],ind)=> {
+      if(this._answers[key].length === 0){
+       _done = false;
+      }
+    });
+    return _done;
+  }
+  return false;
+}
  postAnswer(user,_type,stepper,_pregId){
   let Answer : toBackendAnswer;
   Answer = new toBackendAnswer({ _id: _pregId }, { _id: this._usuario._id });
