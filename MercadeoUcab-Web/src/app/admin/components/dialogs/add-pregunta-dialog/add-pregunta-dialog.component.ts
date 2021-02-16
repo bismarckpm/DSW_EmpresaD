@@ -120,11 +120,13 @@ export class AddPreguntaDialogComponent implements OnInit {
         this.opStatus = 'D';
         this.sharePregunta.emit({
           _id: response._id,
-          pregunta: {
+          nombre: data.nombre_pregunta,
+          tipo: data.tipo,
+          /*pregunta: {
             _id: response._id,
             nombre: data.nombre_pregunta,
             tipo: data.tipo,
-          },
+          },*/
         });
       },
       (error) => {

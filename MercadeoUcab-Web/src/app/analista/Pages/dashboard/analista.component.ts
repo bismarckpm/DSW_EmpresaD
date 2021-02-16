@@ -23,6 +23,7 @@ export class AnalistaComponent implements OnInit {
   }
   checkUser() {
     if (localStorage.getItem('user_data') === null) {
+      localStorage.setItem('token','WHATEVER');
       localStorage.setItem(
         'user_data',
         JSON.stringify({
