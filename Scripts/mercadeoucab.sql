@@ -840,14 +840,14 @@ INSERT INTO `empresad`.`solicitudcaracteristicas`(`solicitud_id`,`presentacion_i
 INSERT INTO `empresad`.`solicitudcaracteristicas`(`solicitud_id`,`presentacion_id`,`id`) VALUES(7,7,7);
 INSERT INTO `empresad`.`solicitudcaracteristicas`(`solicitud_id`,`presentacion_id`,`id`) VALUES(8,8,8);
 
-INSERT INTO `empresad`.`solicitudcaracteristicas`(`solicitud_id`,`presentacion_id`,`id`) VALUES(9,9,9);
-INSERT INTO `empresad`.`solicitudcaracteristicas`(`solicitud_id`,`presentacion_id`,`id`) VALUES(10,10,10);
-INSERT INTO `empresad`.`solicitudcaracteristicas`(`solicitud_id`,`presentacion_id`,`id`) VALUES(11,11,11);
-INSERT INTO `empresad`.`solicitudcaracteristicas`(`solicitud_id`,`presentacion_id`,`id`) VALUES(12,12,12);
-INSERT INTO `empresad`.`solicitudcaracteristicas`(`solicitud_id`,`presentacion_id`,`id`) VALUES(13,13,13);
-INSERT INTO `empresad`.`solicitudcaracteristicas`(`solicitud_id`,`presentacion_id`,`id`) VALUES(14,14,14);
-INSERT INTO `empresad`.`solicitudcaracteristicas`(`solicitud_id`,`presentacion_id`,`id`) VALUES(15,15,15);
-INSERT INTO `empresad`.`solicitudcaracteristicas`(`solicitud_id`,`presentacion_id`,`id`) VALUES(16,16,16);
+INSERT INTO `empresad`.`solicitudcaracteristicas`(`solicitud_id`,`presentacion_id`,`id`) VALUES(9,1,9);
+INSERT INTO `empresad`.`solicitudcaracteristicas`(`solicitud_id`,`presentacion_id`,`id`) VALUES(10,2,10);
+INSERT INTO `empresad`.`solicitudcaracteristicas`(`solicitud_id`,`presentacion_id`,`id`) VALUES(11,3,11);
+INSERT INTO `empresad`.`solicitudcaracteristicas`(`solicitud_id`,`presentacion_id`,`id`) VALUES(12,4,12);
+INSERT INTO `empresad`.`solicitudcaracteristicas`(`solicitud_id`,`presentacion_id`,`id`) VALUES(13,5,13);
+INSERT INTO `empresad`.`solicitudcaracteristicas`(`solicitud_id`,`presentacion_id`,`id`) VALUES(14,6,14);
+INSERT INTO `empresad`.`solicitudcaracteristicas`(`solicitud_id`,`presentacion_id`,`id`) VALUES(15,7,15);
+INSERT INTO `empresad`.`solicitudcaracteristicas`(`solicitud_id`,`presentacion_id`,`id`) VALUES(16,8,16);
 
 INSERT INTO `empresad`.`solicitudcaracteristicas`(`solicitud_id`,`presentacion_id`,`id`) VALUES(17,17,17);
 
