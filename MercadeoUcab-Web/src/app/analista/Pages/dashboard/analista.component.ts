@@ -27,7 +27,7 @@ export class AnalistaComponent implements OnInit {
       localStorage.setItem(
         'user_data',
         JSON.stringify({
-          "_id":37,
+          "_id":36,
           "nombre":"Harper",
           "apellido":"Vance",
           "rol":"analista",

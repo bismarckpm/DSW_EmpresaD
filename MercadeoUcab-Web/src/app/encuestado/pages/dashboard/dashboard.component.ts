@@ -30,12 +30,14 @@ export class DashboardComponent implements OnInit {
       localStorage.setItem(
         'user_data',
         JSON.stringify({
-          _id: 3,
+          /*_id: 3,
           nombre: 'Zeus',
           apellido: 'Berg',
           rol: 'encuestado',
           estado: 'activo',
           correo: 'ZB@gmail.com',
+          */
+         "_id":1,"nombre":"Daren","apellido":"Gonzalez","rol":"encuestado","estado":"activo","correo":"daren1997gonzalez@gmail.com"
         })
       );
       this.userSession = JSON.parse(localStorage.getItem('user_data'));

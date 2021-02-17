@@ -310,7 +310,7 @@ export class EstudioRealizarComponent implements OnInit {
   getEncuestadosCanAnswerEstudio(id) {
     this._utilsService.getUsuariosCanApplyToEstudio(id).subscribe(
       (response) => {
-        console.log(response.data);
+        console.log(response);
         if (response.status === 200) {
           this._encuestados = [
             ...this._encuestados,

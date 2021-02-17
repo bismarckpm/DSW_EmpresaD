@@ -26,7 +26,7 @@ export class dashboardClienteComponent implements OnInit {
       localStorage.setItem(
         'user_data',
         JSON.stringify({
-          _id: 31,
+          _id: 37,
           nombre: 'Caesar',
           apellido: 'Mosley',
           rol: 'cliente',
